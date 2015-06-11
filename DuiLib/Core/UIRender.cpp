@@ -1258,10 +1258,11 @@ void CRenderEngine::DrawText(HDC hDC, CPaintManagerUI* pManager, RECT& rc, LPCTS
 		else {
 			stringFormat.SetLineAlignment(Gdiplus::StringAlignmentNear);
 		}
-
+#ifdef UNICODE
 		if ((uStyle & DT_CALCRECT) != 0)
 		{
 			Gdiplus::RectF bounds;
+
 			graphics.MeasureString(pstrText, -1, &font, rectF, &stringFormat, &bounds);
 
 			// MeasureString存在计算误差，这里加一像素
@@ -1272,7 +1273,27 @@ void CRenderEngine::DrawText(HDC hDC, CPaintManagerUI* pManager, RECT& rc, LPCTS
 		{
 			graphics.DrawString(pstrText, -1, &font, rectF, &stringFormat, &brush);
 		}
-		
+#else
+		DWORD dwSize = MultiByteToWideChar(CP_ACP, 0, pstrText, -1, NULL, 0);
+		WCHAR * pcwszDest = new WCHAR[dwSize + 1];
+		memset(pcwszDest, 0, (dwSize + 1) * sizeof(WCHAR));
+		MultiByteToWideChar(CP_ACP, NULL, pstrText, -1, pcwszDest, dwSize);
+		if(pcwszDest != NULL)
+		{
+			if ((uStyle & DT_CALCRECT) != 0)
+			{
+				Gdiplus::RectF bounds;
+				graphics.MeasureString(pcwszDest, -1, &font, rectF, &stringFormat, &bounds);
+				rc.bottom = rc.top + (long)(bounds.Height * 1.06);
+				rc.right = rc.left + (long)(bounds.Width * 1.06);
+			}
+			else
+			{
+				graphics.DrawString(pcwszDest, -1, &font, rectF, &stringFormat, &brush);
+			}
+			delete []pcwszDest;
+		}
+#endif
 	}
 	else
 	{

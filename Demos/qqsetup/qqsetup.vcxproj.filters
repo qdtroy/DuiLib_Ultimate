@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{c75b9d7c-452a-4867-a585-e8aee4a05f51}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{249f81db-516d-4a60-9882-d3fd674e412c}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{5323114f-c462-496c-8a26-5f0586629382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\xmls">
+      <UniqueIdentifier>{495d8e73-881d-481f-83d1-3ca5ee46318e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\images">
+      <UniqueIdentifier>{d2f13808-77fd-462b-bab2-501843e85c61}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="qqsetup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ControlEx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\qqsetup.ico">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\bg.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\button_hover.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\button_normal.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\button_pushed.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\combo.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\header_bk.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\hor_line.bmp">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\icon.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\list_header_bg.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\list_header_hot.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\list_header_pushed.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\list_header_sep.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\logo.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\scrollbar.bmp">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\sys_dlg_close.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\sys_dlg_max.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\sys_dlg_menu.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\sys_dlg_min.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\sys_dlg_restore.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\tabbar_hover.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\tabbar_normal.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\tabbar_pushed.png">
+      <Filter>Resources\images</Filter>
+    </None>
+    <None Include="..\..\bin\skin\qqsetup\skin.xml">
+      <Filter>Resources\xmls</Filter>
+    </None>
+    <None Include="Res\qqsetup.zip">
+      <Filter>Resources</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="qqsetup.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

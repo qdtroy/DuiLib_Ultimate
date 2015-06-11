@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+  <ListContainerElement name="searchitem" height="30">
+    <HorizontalLayout name="searchitem_container" height="30">
+      <Label name="searchitem_icon" visible="false" height="16" width="16" bkimage="file='icon.png' source='0,0,64,64' dest='8,4,72,68'"/>
+      <Label name="searchitem_text" text="游戏" textpadding="3,0,0,0" align="left"/>
+    </HorizontalLayout>
+  </ListContainerElement>
+</Window>

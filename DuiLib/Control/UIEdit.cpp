@@ -373,6 +373,12 @@ namespace DuiLib
 		if( m_bPasswordMode == bPasswordMode ) return;
 		m_bPasswordMode = bPasswordMode;
 		Invalidate();
+		if( m_pWindow != NULL ) 
+		{
+			LONG styleValue = ::GetWindowLong(*m_pWindow, GWL_STYLE);
+			bPasswordMode ? styleValue |= ES_PASSWORD : styleValue &= ~ES_PASSWORD;
+			::SetWindowLong(*m_pWindow, GWL_STYLE, styleValue);
+		}
 	}
 
 	bool CEditUI::IsPasswordMode() const

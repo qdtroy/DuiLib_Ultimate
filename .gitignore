@@ -3,3 +3,13 @@
 *.map
 *.bsc
 *.sdf
+*.ipch
+*.obj
+*.sbr
+*.manifest
+*.pch
+*.tlog
+*.log
+*.idb
+*.opensdf
+*.lastbuildstate

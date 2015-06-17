@@ -24,9 +24,9 @@ namespace DuiLib
 		}
 
 	public:
-		void SetPos(RECT rc)
+		void SetPos(RECT rc, bool bNeedInvalidate)
 		{
-			CControlUI::SetPos(rc);
+			CControlUI::SetPos(rc, bNeedInvalidate);
 			RECT rcItem = m_rcItem;
 
 			rcItem.left += m_rcInset.left;

@@ -65,7 +65,7 @@ public:
 
     virtual int FindSelectable(int iIndex, bool bForward = true) const;
 
-    void SetPos(RECT rc);
+    void SetPos(RECT rc, bool bNeedInvalidate = true);
     void DoPaint(HDC hDC, const RECT& rcPaint);
 
     void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);

@@ -135,9 +135,9 @@ namespace DuiLib
 		return CContainerUI::SetAttribute(pstrName, pstrValue);
 	}
 
-	void CTabLayoutUI::SetPos(RECT rc)
+	void CTabLayoutUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
-		CControlUI::SetPos(rc);
+		CControlUI::SetPos(rc, bNeedInvalidate);
 		rc = m_rcItem;
 
 		// Adjust for inset

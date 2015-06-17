@@ -1794,7 +1794,7 @@ void CRichEditUI::OnTxNotify(DWORD iNotify, void *pv)
 
 // 多行非rich格式的richedit有一个滚动条bug，在最后一行是空行时，LineDown和SetScrollPos无法滚动到最后
 // 引入iPos就是为了修正这个bug
-void CRichEditUI::SetScrollPos(SIZE szPos)
+void CRichEditUI::SetScrollPos(SIZE szPos, bool bMsg)
 {
     int cx = 0;
     int cy = 0;
@@ -2093,13 +2093,12 @@ void CRichEditUI::PaintStatusImage(HDC hDC)
 
 SIZE CRichEditUI::EstimateSize(SIZE szAvailable)
 {
-    //return CDuiSize(m_rcItem); // 这种方式在第一次设置大小之后就大小不变了
     return CContainerUI::EstimateSize(szAvailable);
 }
 
-void CRichEditUI::SetPos(RECT rc)
+void CRichEditUI::SetPos(RECT rc, bool bNeedInvalidate)
 {
-    CControlUI::SetPos(rc);
+    CControlUI::SetPos(rc, bNeedInvalidate);
     rc = m_rcItem;
 
     rc.left += m_rcInset.left;
@@ -2223,13 +2222,12 @@ void CRichEditUI::SetPos(RECT rc)
 		if( sz.cy > pControl->GetMaxHeight() ) sz.cy = pControl->GetMaxHeight();
 
 		RECT rcCtrl = { iPosX + rcPadding.left, rc.top + rcPadding.top, iPosX + sz.cx + rcPadding.left , rc.top + rcPadding.top + sz.cy};
-		pControl->SetPos(rcCtrl);
+		pControl->SetPos(rcCtrl, true);
 		iPosX += sz.cx + m_iChildPadding + rcPadding.left + rcPadding.right;
         cxNeeded += sz.cx + rcPadding.left + rcPadding.right;
 		szRemaining.cx -= sz.cx + m_iChildPadding + rcPadding.right;
 	}
     cxNeeded += (nEstimateNum - 1) * m_iChildPadding;
-	//reddrain
 	if( m_pHorizontalScrollBar != NULL ) {
 		if( cxNeeded > rc.right - rc.left ) {
 			if( m_pHorizontalScrollBar->IsVisible() ) {
@@ -2240,14 +2238,6 @@ void CRichEditUI::SetPos(RECT rc)
 				m_pHorizontalScrollBar->SetScrollRange(cxNeeded - (rc.right - rc.left));
 				m_pHorizontalScrollBar->SetScrollPos(0);
 				rc.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
-			}
-		}
-		else {
-			if( m_pHorizontalScrollBar->IsVisible() ) {
-				m_pHorizontalScrollBar->SetVisible(false);
-				m_pHorizontalScrollBar->SetScrollRange(0);
-				m_pHorizontalScrollBar->SetScrollPos(0);
-				rc.bottom += m_pHorizontalScrollBar->GetFixedHeight();
 			}
 		}
 	}

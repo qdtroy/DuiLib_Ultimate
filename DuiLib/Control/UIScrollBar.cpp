@@ -369,9 +369,9 @@ namespace DuiLib
 		Invalidate();
 	}
 
-	void CScrollBarUI::SetPos(RECT rc)
+	void CScrollBarUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
-		CControlUI::SetPos(rc);
+		CControlUI::SetPos(rc, bNeedInvalidate);
 		rc = m_rcItem;
 
 		if( m_bHorizontal ) {

@@ -78,7 +78,7 @@ namespace DuiLib
 		LPCTSTR GetBkDisabledImage();
 		void SetBkDisabledImage(LPCTSTR pStrImage);
 
-		void SetPos(RECT rc);
+		void SetPos(RECT rc, bool bNeedInvalidate = true);
 		void DoEvent(TEventUI& event);
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 

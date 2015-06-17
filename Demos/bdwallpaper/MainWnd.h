@@ -152,6 +152,16 @@ public:
 		return 0;
 	}
 
+
+	bool OnNotify1(void* param)
+	{
+		return true;
+	}
+
+	bool OnNotify2(void* param)
+	{
+		return true;
+	}
 public:
 	virtual void Notify( TNotifyUI &msg );
 	DUI_DECLARE_MESSAGE_MAP()

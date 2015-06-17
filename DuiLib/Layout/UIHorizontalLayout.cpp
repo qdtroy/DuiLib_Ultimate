@@ -26,9 +26,9 @@ namespace DuiLib
 		else return 0;
 	}
 
-	void CHorizontalLayoutUI::SetPos(RECT rc)
+	void CHorizontalLayoutUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
-		CControlUI::SetPos(rc);
+		CControlUI::SetPos(rc, bNeedInvalidate);
 		rc = m_rcItem;
 
 		// Adjust for inset

@@ -106,7 +106,7 @@ public:
     virtual bool OnTxViewChanged();
     virtual void OnTxNotify(DWORD iNotify, void *pv);
 
-    void SetScrollPos(SIZE szPos);
+    void SetScrollPos(SIZE szPos, bool bMsg = true);
     void LineUp();
     void LineDown();
     void PageUp();
@@ -121,7 +121,7 @@ public:
     void EndRight();
 
     SIZE EstimateSize(SIZE szAvailable);
-    void SetPos(RECT rc);
+    void SetPos(RECT rc, bool bNeedInvalidate = true);
     void DoEvent(TEventUI& event);
     void DoPaint(HDC hDC, const RECT& rcPaint);
 

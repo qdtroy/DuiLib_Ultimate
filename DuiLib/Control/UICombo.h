@@ -91,7 +91,7 @@ public:
     void SetItemShowHtml(bool bShowHtml = true);
 
     SIZE EstimateSize(SIZE szAvailable);
-    void SetPos(RECT rc);
+    void SetPos(RECT rc, bool bNeedInvalidate = true);
     void DoEvent(TEventUI& event);
     void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
     

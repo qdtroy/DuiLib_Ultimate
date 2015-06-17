@@ -61,7 +61,7 @@ DuiLib::CDuiString CMainWnd::GetSkinFolder()
 #ifdef _DEBUG
 	return _T("skin\\BDWallPaper\\");
 #else
-	return _T("skin\\");
+	return _T("skin\\BDWallPaper\\");
 #endif
 }
 
@@ -143,6 +143,8 @@ void CMainWnd::InitWindow()
 			pOption->SetFixedWidth(65);
 			pOption->SetHotImage(_T("file='main/224.bmp' corner='4,4,4,4'"));
 			pOption->SetSelectedImage(_T("file='main/224.bmp' corner='4,4,4,4'"));
+			pOption->OnNotify += MakeDelegate(this, &CMainWnd::OnNotify1);
+			pOption->OnNotify += MakeDelegate(this, &CMainWnd::OnNotify2);
 			pTabBar->Add(pOption);
 			if(pFirst == NULL) pFirst = pOption;
 		}

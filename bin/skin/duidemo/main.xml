@@ -125,7 +125,7 @@
           <HorizontalLayout height="120" bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="RichEdit控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
-              <RichEdit name="wordedit" readonly="false" vscrollbar="true" autovscroll="true"/>
+              <RichEdit name="wordedit" width="130" text="阿斯顿发射点发射点发射点发射点啊手动阀手动阀手动阀是的啊是的发生大肥肥" readonly="false" hscrollbar="true" autohscroll="true"/>
             </VerticalLayout>
           </HorizontalLayout>
           <Label height="1" bkimage="hor_line.bmp"/>

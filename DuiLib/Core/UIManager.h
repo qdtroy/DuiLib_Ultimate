@@ -82,7 +82,7 @@ typedef enum EVENTTYPE_UI
 /////////////////////////////////////////////////////////////////////////////////////
 //
 
-typedef struct tagTFontInfo
+typedef struct UILIB_API tagTFontInfo
 {
     HFONT hFont;
     CDuiString sFontName;
@@ -93,19 +93,62 @@ typedef struct tagTFontInfo
     TEXTMETRIC tm;
 } TFontInfo;
 
-typedef struct tagTImageInfo
+typedef struct UILIB_API tagTImageInfo
 {
     HBITMAP hBitmap;
+    LPBYTE pBits;
+	LPBYTE pSrcBits;
     int nX;
     int nY;
     bool alphaChannel;
+    bool bUseHSL;
     CDuiString sResType;
     DWORD dwMask;
 } TImageInfo;
 
+typedef struct UILIB_API tagTDrawInfo
+{
+	tagTDrawInfo();
+	tagTDrawInfo(LPCTSTR lpsz);
+	void Clear();
+	CDuiString sDrawString;
+	bool bLoaded;
+	CDuiString sImageName;
+	const TImageInfo* pImageInfo;
+	RECT rcDestOffset;
+	RECT rcBmpPart;
+	RECT rcCorner;
+	BYTE uFade;
+	bool bHole;
+	bool bTiledX;
+	bool bTiledY;
+} TDrawInfo;
+
+typedef struct UILIB_API tagTPercentInfo
+{
+	double left;
+	double top;
+	double right;
+	double bottom;
+} TPercentInfo;
+
+typedef struct UILIB_API tagTResInfo
+{
+	DWORD m_dwDefaultDisabledColor;
+	DWORD m_dwDefaultFontColor;
+	DWORD m_dwDefaultLinkFontColor;
+	DWORD m_dwDefaultLinkHoverFontColor;
+	DWORD m_dwDefaultSelectedBkColor;
+	TFontInfo m_DefaultFontInfo;
+	CStdStringPtrMap m_CustomFonts;
+	CStdStringPtrMap m_ImageHash;
+	CStdStringPtrMap m_AttrHash;
+	CStdStringPtrMap m_MultiLanguageHash;
+} TResInfo;
+
 // Structure for notifications from the system
 // to the control implementation.
-typedef struct tagTEventUI
+typedef struct UILIB_API tagTEventUI
 {
     int Type;
     CControlUI* pSender;
@@ -117,16 +160,6 @@ typedef struct tagTEventUI
     LPARAM lParam;
 } TEventUI;
 
-// Structure for relative position to the parent
-typedef struct tagTRelativePosUI
-{
-	bool bRelative;
-	SIZE szParent;
-	int nMoveXPercent;
-	int nMoveYPercent;
-	int nZoomXPercent;
-	int nZoomYPercent;
-}TRelativePosUI;
 
 // Listener interface
 class INotifyUI

@@ -913,9 +913,9 @@ void CActiveXUI::SetInternVisible(bool bVisible)
         ::ShowWindow(m_hwndHost, IsVisible() ? SW_SHOW : SW_HIDE);
 }
 
-void CActiveXUI::SetPos(RECT rc)
+void CActiveXUI::SetPos(RECT rc, bool bNeedInvalidate)
 {
-    CControlUI::SetPos(rc);
+    CControlUI::SetPos(rc, bNeedInvalidate);
 
     if( !m_bCreated ) DoCreateControl();
 

@@ -168,7 +168,7 @@ public:
     int GetExpandedItem() const;
     bool ExpandItem(int iIndex, bool bExpand = true);
 
-    void SetPos(RECT rc);
+    void SetPos(RECT rc, bool bNeedInvalidate = true);
     void DoEvent(TEventUI& event);
     void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
@@ -216,7 +216,7 @@ public:
     CListBodyUI(CListUI* pOwner);
 
     void SetScrollPos(SIZE szPos);
-    void SetPos(RECT rc);
+    void SetPos(RECT rc, bool bNeedInvalidate = true);
     void DoEvent(TEventUI& event);
     BOOL SortItems(PULVCompareFunc pfnCompare, UINT_PTR dwData);
 protected:
@@ -240,7 +240,7 @@ public:
 	LPVOID GetInterface(LPCTSTR pstrName);
 
 	SIZE EstimateSize(SIZE szAvailable);
-	void SetPos(RECT rc);
+	void SetPos(RECT rc, bool bNeedInvalidate = true);
 	void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
 	void SetScaleHeader(bool bIsScale);
@@ -449,7 +449,7 @@ public:
     virtual void DrawItemText(HDC hDC, const RECT& rcItem);    
     virtual void DrawItemBk(HDC hDC, const RECT& rcItem);
 
-	void SetPos(RECT rc);
+	void SetPos(RECT rc, bool bNeedInvalidate = true);
 	
 protected:
     int m_iIndex;

@@ -37,7 +37,8 @@ m_nTooltipWidth(300)
     ::ZeroMemory(&m_rcItem, sizeof(RECT));
     ::ZeroMemory(&m_rcPaint, sizeof(RECT));
 	::ZeroMemory(&m_rcBorderSize,sizeof(RECT));
-    ::ZeroMemory(&m_tRelativePos, sizeof(TRelativePosUI));
+	m_piFloatPercent.left = m_piFloatPercent.top = m_piFloatPercent.right = m_piFloatPercent.bottom = 0.0f;
+
 }
 
 CControlUI::~CControlUI()
@@ -240,7 +241,7 @@ const RECT& CControlUI::GetPos() const
     return m_rcItem;
 }
 
-void CControlUI::SetPos(RECT rc)
+void CControlUI::SetPos(RECT rc, bool bNeedInvalidate)
 {
     if( rc.right < rc.left ) rc.right = rc.left;
     if( rc.bottom < rc.top ) rc.bottom = rc.top;
@@ -248,7 +249,27 @@ void CControlUI::SetPos(RECT rc)
     CDuiRect invalidateRc = m_rcItem;
     if( ::IsRectEmpty(&invalidateRc) ) invalidateRc = rc;
 
-    m_rcItem = rc;
+	if( m_bFloat ) {
+		CControlUI* pParent = GetParent();
+		if( pParent != NULL ) {
+			RECT rcParentPos = pParent->GetPos();
+			RECT rcCtrl = {rcParentPos.left + rc.left, rcParentPos.top + rc.top, 
+				rcParentPos.left + rc.right, rcParentPos.top + rc.bottom};
+			m_rcItem = rcCtrl;
+
+			LONG width = rcParentPos.right - rcParentPos.left;
+			LONG height = rcParentPos.bottom - rcParentPos.top;
+			RECT rcPercent = {(LONG)(width*m_piFloatPercent.left), (LONG)(height*m_piFloatPercent.top),
+				(LONG)(width*m_piFloatPercent.right), (LONG)(height*m_piFloatPercent.bottom)};
+			m_cXY.cx = rc.left - rcPercent.left;
+			m_cXY.cy = rc.top - rcPercent.top;
+			m_cxyFixed.cx = rc.right - rcPercent.right - m_cXY.cx;
+			m_cxyFixed.cy = rc.bottom - rcPercent.bottom - m_cXY.cy;
+		}
+	}
+	else {
+		m_rcItem = rc;
+	}
     if( m_pManager == NULL ) return;
 
     if( !m_bSetPos ) {
@@ -257,35 +278,21 @@ void CControlUI::SetPos(RECT rc)
         m_bSetPos = false;
     }
     
-    if( m_bFloat ) {
-        CControlUI* pParent = GetParent();
-        if( pParent != NULL ) {
-            RECT rcParentPos = pParent->GetPos();
-            if( m_cXY.cx >= 0 ) m_cXY.cx = m_rcItem.left - rcParentPos.left;
-            else m_cXY.cx = m_rcItem.right - rcParentPos.right;
-            if( m_cXY.cy >= 0 ) m_cXY.cy = m_rcItem.top - rcParentPos.top;
-            else m_cXY.cy = m_rcItem.bottom - rcParentPos.bottom;
-            m_cxyFixed.cx = m_rcItem.right - m_rcItem.left;
-            m_cxyFixed.cy = m_rcItem.bottom - m_rcItem.top;
-        }
-    }
-
     m_bUpdateNeeded = false;
-    invalidateRc.Join(m_rcItem);
 
-    CControlUI* pParent = this;
-    RECT rcTemp;
-    RECT rcParent;
-    while( pParent = pParent->GetParent() )
-    {
-        rcTemp = invalidateRc;
-        rcParent = pParent->GetPos();
-        if( !::IntersectRect(&invalidateRc, &rcTemp, &rcParent) ) 
-        {
-            return;
-        }
-    }
-    m_pManager->Invalidate(invalidateRc);
+	if( bNeedInvalidate && IsVisible() ) {
+		invalidateRc.Join(m_rcItem);
+		CControlUI* pParent = this;
+		RECT rcTemp;
+		RECT rcParent;
+		while( pParent = pParent->GetParent() ) {
+			if( !pParent->IsVisible() ) return;
+			rcTemp = invalidateRc;
+			rcParent = pParent->GetPos();
+			if( !::IntersectRect(&invalidateRc, &rcTemp, &rcParent) ) return;
+		}
+		m_pManager->Invalidate(invalidateRc);
+	}
 }
 
 int CControlUI::GetWidth() const
@@ -418,29 +425,17 @@ void CControlUI::SetMaxHeight(int cy)
     else NeedUpdate();
 }
 
-void CControlUI::SetRelativePos(SIZE szMove,SIZE szZoom)
+TPercentInfo CControlUI::GetFloatPercent() const
 {
-    m_tRelativePos.bRelative = TRUE;
-    m_tRelativePos.nMoveXPercent = szMove.cx;
-    m_tRelativePos.nMoveYPercent = szMove.cy;
-    m_tRelativePos.nZoomXPercent = szZoom.cx;
-    m_tRelativePos.nZoomYPercent = szZoom.cy;
+	return m_piFloatPercent;
 }
 
-void CControlUI::SetRelativeParentSize(SIZE sz)
+void CControlUI::SetFloatPercent(TPercentInfo piFloatPercent)
 {
-    m_tRelativePos.szParent = sz;
+	m_piFloatPercent = piFloatPercent;
+	NeedParentUpdate();
 }
 
-TRelativePosUI CControlUI::GetRelativePos() const
-{
-    return m_tRelativePos;
-}
-
-bool CControlUI::IsRelativePos() const
-{
-    return m_tRelativePos.bRelative;
-}
 
 CDuiString CControlUI::GetToolTip() const
 {
@@ -743,15 +738,22 @@ void CControlUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
         SetFixedWidth(rcPos.right - rcPos.left);
         SetFixedHeight(rcPos.bottom - rcPos.top);
     }
-    else if( _tcscmp(pstrName, _T("relativepos")) == 0 ) {
-        SIZE szMove,szZoom;
-        LPTSTR pstr = NULL;
-        szMove.cx = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);    
-        szMove.cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
-        szZoom.cx = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
-        szZoom.cy = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr); 
-        SetRelativePos(szMove,szZoom);
-    }
+   else if( _tcscmp(pstrName, _T("float")) == 0 ) {
+		CDuiString nValue = pstrValue;
+		if(nValue.Find(',') < 0) {
+			SetFloat(_tcscmp(pstrValue, _T("true")) == 0);
+		}
+		else {
+			TPercentInfo piFloatPercent = { 0 };
+			LPTSTR pstr = NULL;
+			piFloatPercent.left = _tcstod(pstrValue, &pstr);  ASSERT(pstr);
+			piFloatPercent.top = _tcstod(pstr + 1, &pstr);    ASSERT(pstr);
+			piFloatPercent.right = _tcstod(pstr + 1, &pstr);  ASSERT(pstr);
+			piFloatPercent.bottom = _tcstod(pstr + 1, &pstr); ASSERT(pstr);
+			SetFloatPercent(piFloatPercent);
+			SetFloat(true);
+		}
+	}
     else if( _tcscmp(pstrName, _T("padding")) == 0 ) {
         RECT rcPadding = { 0 };
         LPTSTR pstr = NULL;

@@ -249,35 +249,35 @@ namespace DuiLib
 			if( event.Type == UIEVENT_KEYDOWN ) 
 			{
 				switch( event.chKey ) {
-			case VK_DOWN:
-				LineDown();
-				return;
-			case VK_UP:
-				LineUp();
-				return;
-			case VK_NEXT:
-				PageDown();
-				return;
-			case VK_PRIOR:
-				PageUp();
-				return;
-			case VK_HOME:
-				HomeUp();
-				return;
-			case VK_END:
-				EndDown();
-				return;
+				case VK_DOWN:
+					LineDown();
+					return;
+				case VK_UP:
+					LineUp();
+					return;
+				case VK_NEXT:
+					PageDown();
+					return;
+				case VK_PRIOR:
+					PageUp();
+					return;
+				case VK_HOME:
+					HomeUp();
+					return;
+				case VK_END:
+					EndDown();
+					return;
 				}
 			}
 			else if( event.Type == UIEVENT_SCROLLWHEEL )
 			{
 				switch( LOWORD(event.wParam) ) {
-			case SB_LINEUP:
-				LineUp();
-				return;
-			case SB_LINEDOWN:
-				LineDown();
-				return;
+				case SB_LINEUP:
+					LineUp();
+					return;
+				case SB_LINEDOWN:
+					LineDown();
+					return;
 				}
 			}
 		}
@@ -285,35 +285,35 @@ namespace DuiLib
 			if( event.Type == UIEVENT_KEYDOWN ) 
 			{
 				switch( event.chKey ) {
-			case VK_DOWN:
-				LineRight();
-				return;
-			case VK_UP:
-				LineLeft();
-				return;
-			case VK_NEXT:
-				PageRight();
-				return;
-			case VK_PRIOR:
-				PageLeft();
-				return;
-			case VK_HOME:
-				HomeLeft();
-				return;
-			case VK_END:
-				EndRight();
-				return;
+				case VK_DOWN:
+					LineRight();
+					return;
+				case VK_UP:
+					LineLeft();
+					return;
+				case VK_NEXT:
+					PageRight();
+					return;
+				case VK_PRIOR:
+					PageLeft();
+					return;
+				case VK_HOME:
+					HomeLeft();
+					return;
+				case VK_END:
+					EndRight();
+					return;
 				}
 			}
 			else if( event.Type == UIEVENT_SCROLLWHEEL )
 			{
 				switch( LOWORD(event.wParam) ) {
-			case SB_LINEUP:
-				LineLeft();
-				return;
-			case SB_LINEDOWN:
-				LineRight();
-				return;
+				case SB_LINEUP:
+					LineLeft();
+					return;
+				case SB_LINEDOWN:
+					LineRight();
+					return;
 				}
 			}
 		}
@@ -370,10 +370,13 @@ namespace DuiLib
 
 		Invalidate();
 
-		// 发送滚动消息
-		if( m_pManager != NULL && bMsg ) {
-			int nPage = (m_pVerticalScrollBar->GetScrollPos() + m_pVerticalScrollBar->GetLineSize()) / m_pVerticalScrollBar->GetLineSize();
-			m_pManager->SendNotify(this, DUI_MSGTYPE_SCROLL, (WPARAM)nPage);
+		if(m_pVerticalScrollBar)
+		{
+			// 发送滚动消息
+			if( m_pManager != NULL && bMsg ) {
+				int nPage = (m_pVerticalScrollBar->GetScrollPos() + m_pVerticalScrollBar->GetLineSize()) / m_pVerticalScrollBar->GetLineSize();
+				m_pManager->SendNotify(this, DUI_MSGTYPE_SCROLL, (WPARAM)nPage);
+			}
 		}
 	}
 
@@ -396,7 +399,7 @@ namespace DuiLib
 			cyLine = 8;
 			if( m_pManager ) cyLine = m_pManager->GetDefaultFontInfo()->tm.tmHeight + 8;
 		}
-		
+
 		SIZE sz = GetScrollPos();
 		sz.cy -= cyLine;
 		SetScrollPos(sz);
@@ -571,9 +574,9 @@ namespace DuiLib
 		}
 	}
 
-	void CContainerUI::SetPos(RECT rc)
+	void CContainerUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
-		CControlUI::SetPos(rc);
+		CControlUI::SetPos(rc, bNeedInvalidate);
 		if( m_items.IsEmpty() ) return;
 		rc.left += m_rcInset.left;
 		rc.top += m_rcInset.top;
@@ -768,39 +771,15 @@ namespace DuiLib
 
 		SIZE szXY = pControl->GetFixedXY();
 		SIZE sz = {pControl->GetFixedWidth(), pControl->GetFixedHeight()};
+		TPercentInfo rcPercent = pControl->GetFloatPercent();
+		LONG width = m_rcItem.right - m_rcItem.left;
+		LONG height = m_rcItem.bottom - m_rcItem.top;
 		RECT rcCtrl = { 0 };
-		if( szXY.cx >= 0 ) {
-			rcCtrl.left = m_rcItem.left + szXY.cx;
-			rcCtrl.right = m_rcItem.left + szXY.cx + sz.cx;
-		}
-		else {
-			rcCtrl.left = m_rcItem.right + szXY.cx - sz.cx;
-			rcCtrl.right = m_rcItem.right + szXY.cx;
-		}
-		if( szXY.cy >= 0 ) {
-			rcCtrl.top = m_rcItem.top + szXY.cy;
-			rcCtrl.bottom = m_rcItem.top + szXY.cy + sz.cy;
-		}
-		else {
-			rcCtrl.top = m_rcItem.bottom + szXY.cy - sz.cy;
-			rcCtrl.bottom = m_rcItem.bottom + szXY.cy;
-		}
-		if( pControl->IsRelativePos() )
-		{
-			TRelativePosUI tRelativePos = pControl->GetRelativePos();
-			SIZE szParent = {m_rcItem.right-m_rcItem.left,m_rcItem.bottom-m_rcItem.top};
-			if(tRelativePos.szParent.cx != 0)
-			{
-				int nIncrementX = szParent.cx-tRelativePos.szParent.cx;
-				int nIncrementY = szParent.cy-tRelativePos.szParent.cy;
-				rcCtrl.left += (nIncrementX*tRelativePos.nMoveXPercent/100);
-				rcCtrl.top += (nIncrementY*tRelativePos.nMoveYPercent/100);
-				rcCtrl.right = rcCtrl.left+sz.cx+(nIncrementX*tRelativePos.nZoomXPercent/100);
-				rcCtrl.bottom = rcCtrl.top+sz.cy+(nIncrementY*tRelativePos.nZoomYPercent/100);
-			}
-			pControl->SetRelativeParentSize(szParent);
-		}
-		pControl->SetPos(rcCtrl);
+		rcCtrl.left = (LONG)(width*rcPercent.left) + szXY.cx;
+		rcCtrl.top = (LONG)(height*rcPercent.top) + szXY.cy;
+		rcCtrl.right = (LONG)(width*rcPercent.right) + szXY.cx + sz.cx;
+		rcCtrl.bottom = (LONG)(height*rcPercent.bottom) + szXY.cy + sz.cy;
+		pControl->SetPos(rcCtrl, false);
 	}
 
 	void CContainerUI::ProcessScrollBar(RECT rc, int cxRequired, int cyRequired)
@@ -814,7 +793,7 @@ namespace DuiLib
 
 		if( cyRequired > rc.bottom - rc.top && !m_pVerticalScrollBar->IsVisible() ) {
 			m_pVerticalScrollBar->SetVisible(true);
-		m_pVerticalScrollBar->SetScrollRange(cyRequired - (rc.bottom - rc.top));
+			m_pVerticalScrollBar->SetScrollRange(cyRequired - (rc.bottom - rc.top));
 			m_pVerticalScrollBar->SetScrollPos(0);
 			m_bScrollProcess = true;
 			SetPos(m_rcItem);

@@ -15,7 +15,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 
 	CMainWnd* pFrame = new CMainWnd();
 	if( pFrame == NULL ) return 0;
-	pFrame->Create(NULL, _T("迅雷游戏盒子"), UI_WNDSTYLE_FRAME, 0L, 0, 0, 884, 652);
+	pFrame->Create(NULL, _T("百度壁纸"), UI_WNDSTYLE_FRAME, 0L, 0, 0, 884, 652);
 	pFrame->CenterWindow();
 
 	CPaintManagerUI::MessageLoop();

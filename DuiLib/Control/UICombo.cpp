@@ -781,13 +781,13 @@ void CComboUI::SetItemShowHtml(bool bShowHtml)
     Invalidate();
 }
 
-void CComboUI::SetPos(RECT rc)
+void CComboUI::SetPos(RECT rc, bool bNeedInvalidate)
 {
     // Put all elements out of sight
     RECT rcNull = { 0 };
     for( int i = 0; i < m_items.GetSize(); i++ ) static_cast<CControlUI*>(m_items[i])->SetPos(rcNull);
     // Position this control
-    CControlUI::SetPos(rc);
+    CControlUI::SetPos(rc, bNeedInvalidate);
 }
 
 void CComboUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)

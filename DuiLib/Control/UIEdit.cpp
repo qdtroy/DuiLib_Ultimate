@@ -506,9 +506,9 @@ namespace DuiLib
 		return m_dwTipValueColor;
 	}
 
-	void CEditUI::SetPos(RECT rc)
+	void CEditUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
-		CControlUI::SetPos(rc);
+		CControlUI::SetPos(rc, bNeedInvalidate);
 		if( m_pWindow != NULL ) {
 			RECT rcPos = m_pWindow->CalPos();
 			::SetWindowPos(m_pWindow->GetHWND(), NULL, rcPos.left, rcPos.top, rcPos.right - rcPos.left, 

@@ -49,7 +49,7 @@ namespace DuiLib {
 
 		void SetVisible(bool bVisible = true);
 		void SetInternVisible(bool bVisible = true);
-		void SetPos(RECT rc);
+		void SetPos(RECT rc, bool bNeedInvalidate = true);
 		void DoPaint(HDC hDC, const RECT& rcPaint);
 
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);

@@ -218,9 +218,9 @@ void CListUI::RemoveAll()
     m_pList->RemoveAll();
 }
 
-void CListUI::SetPos(RECT rc)
+void CListUI::SetPos(RECT rc, bool bNeedInvalidate)
 {
-	CVerticalLayoutUI::SetPos(rc);
+	CVerticalLayoutUI::SetPos(rc, bNeedInvalidate);
 
     if( m_pHeader == NULL ) return;
     // Determine general list information and the size of header columns
@@ -1000,9 +1000,9 @@ void CListBodyUI::SetScrollPos(SIZE szPos)
 
 }
 
-void CListBodyUI::SetPos(RECT rc)
+void CListBodyUI::SetPos(RECT rc, bool bNeedInvalidate)
 {
-    CControlUI::SetPos(rc);
+    CControlUI::SetPos(rc, bNeedInvalidate);
     rc = m_rcItem;
 
     // Adjust for inset
@@ -1189,9 +1189,9 @@ SIZE CListHeaderUI::EstimateSize(SIZE szAvailable)
     return cXY;
 }
 
-void CListHeaderUI::SetPos(RECT rc)
+void CListHeaderUI::SetPos(RECT rc, bool bNeedInvalidate)
 {
-	CControlUI::SetPos(rc);
+	CControlUI::SetPos(rc, bNeedInvalidate);
 	rc = m_rcItem;
 
 	// Adjust for inset
@@ -2557,9 +2557,9 @@ void CListContainerElementUI::DrawItemBk(HDC hDC, const RECT& rcItem)
     }
 }
 
-void CListContainerElementUI::SetPos(RECT rc)
+void CListContainerElementUI::SetPos(RECT rc, bool bNeedInvalidate)
 {	
-	CHorizontalLayoutUI::SetPos(rc);
+	CHorizontalLayoutUI::SetPos(rc, bNeedInvalidate);
 	if( m_pOwner == NULL ) return;		
 
 	CListUI* pList = static_cast<CListUI*>(m_pOwner);

@@ -21,7 +21,7 @@ namespace DuiLib
 		virtual bool SelectItem(int iIndex);
 		virtual bool SelectItem(CControlUI* pControl);
 
-		void SetPos(RECT rc);
+		void SetPos(RECT rc, bool bNeedInvalidate = true);
 
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 

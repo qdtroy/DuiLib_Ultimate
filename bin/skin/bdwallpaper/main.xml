@@ -20,7 +20,7 @@
         <Button name="menubtn" width="34" height="30" normalimage="main/216.bmp" hotimage="main/217.bmp" pushedimage="main/215.bmp"/>
         <Button name="setbtn" width="34" height="30" normalimage="main/213.bmp" hotimage="main/214.bmp" pushedimage="main/212.bmp"/>
         <Button name="minbtn" width="34" height="30" normalimage="main/209.bmp" hotimage="main/210.bmp" pushedimage="main/211.bmp"/>
-        <Button name="closebtn" width="34" height="30" normalimage="main/206.bmp" hotimage="main/207.bmp" pushedimage="main/208.bmp"/>
+        <Button name="closebtn" width="34" height="30" normalimage="main/206.bmp" hotimage="main/207.bmp" pushedimage="main/208.bmp" tooltip="关闭"/>
       </HorizontalLayout>
     </HorizontalLayout>
     <HorizontalLayout name="tabbar" height="35" childpadding="5" inset="20,5,20,5" bkimage="file='main/240.bmp' corner='0,2,0,2'">

@@ -14,7 +14,7 @@
         <VerticalLayout>
           <Label text="Duilib 使用演示 v1.0" width="300" align="vcenter" align="left" textcolor="#FF000000" font="3" tooltip="官网"/>
           <Button name="homepage_btn" text="演示官网" width="60" align="vcenter" align="left" textcolor="#FF000000" hottextcolor="#FF0000FF" font="1" tooltip="官网"/>
-          <Label text="By Troy QQ：656067418" align="left" textcolor="#FFFF0000"/>
+          <Label text="duilib开源项目圈（261675375）- Troy(QQ：656067418)" align="left" textcolor="#FFFF0000"/>
         </VerticalLayout>
       </HorizontalLayout>
 
@@ -37,7 +37,7 @@
       <TabLayout name="tab_switch">
         <VerticalLayout name="basic_tab_panel" inset="2,2,2,2">
           <Label height="1" bkimage="hor_line.bmp"/>
-          <HorizontalLayout height="60">
+          <HorizontalLayout height="60" bordercolor="#FF00FF00" bordersize="1">
             <Label text="按钮控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout >
               <Control />

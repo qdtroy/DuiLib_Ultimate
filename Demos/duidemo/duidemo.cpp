@@ -125,7 +125,7 @@ public:
 		CDuiString sName = pControl->GetName();
 		if(sName.CompareNoCase(_T("homepage_btn")) == 0)
 		{
-			ShellExecute(NULL, _T("open"), _T("http://www.winradar.com/?f=duidemo"), NULL, NULL, SW_SHOW);
+			ShellExecute(NULL, _T("open"), _T("https://github.com/duisharp"), NULL, NULL, SW_SHOW);
 		}
 	}
 

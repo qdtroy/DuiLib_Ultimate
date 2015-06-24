@@ -138,7 +138,7 @@ void CMainWnd::OnFinalMessage( HWND hWnd)
 DuiLib::CDuiString CMainWnd::GetSkinFolder()
 {
 #ifdef _DEBUG
-	return _T("skin\\XLGameBox\\");
+	return _T("skin\\xlgamebox\\");
 #else
 	return _T("skin\\");
 #endif
@@ -153,17 +153,21 @@ DuiLib::CDuiString CMainWnd::GetSkinFile()
 UILIB_RESOURCETYPE CMainWnd::GetResourceType() const
 {
 #ifdef _DEBUG
-	return UILIB_ZIPRESOURCE;
+	return UILIB_FILE;
 #else
-	return UILIB_ZIP;
+	return UILIB_ZIPRESOURCE;
 #endif
+}
+
+LPCTSTR CMainWnd::GetResourceID() const
+{
+	return _T("IDR_RES_SKIN");
 }
 
 DuiLib::CDuiString CMainWnd::GetZIPFileName() const
 {
 	return _T("skin.zip");
 }
-
 LPCTSTR CMainWnd::GetWindowClassName( void ) const
 {
 	return _T("MainWnd");

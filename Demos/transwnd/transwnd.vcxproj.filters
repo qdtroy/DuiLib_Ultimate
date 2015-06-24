@@ -12,31 +12,13 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{057557f5-517e-47cf-a695-8b482beaf54a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MyControl">
-      <UniqueIdentifier>{effdb570-d6be-45fe-9ac5-7dedf6a14a93}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="XLGameBox.cpp">
+    <ClCompile Include="transwnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StdAfx.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ShortCutUI.cpp">
-      <Filter>MyControl</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimationHelper.cpp">
-      <Filter>MyControl</Filter>
-    </ClCompile>
-    <ClCompile Include="GameItemUI.cpp">
-      <Filter>MyControl</Filter>
-    </ClCompile>
-    <ClCompile Include="stb_image.c">
-      <Filter>MyControl</Filter>
-    </ClCompile>
-    <ClCompile Include="XUnzip.cpp">
-      <Filter>MyControl</Filter>
     </ClCompile>
     <ClCompile Include="MainWnd.cpp">
       <Filter>Source Files</Filter>
@@ -49,41 +31,20 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SearchWnd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ControlEx.h">
-      <Filter>MyControl</Filter>
-    </ClInclude>
-    <ClInclude Include="LableEx.h">
-      <Filter>MyControl</Filter>
-    </ClInclude>
-    <ClInclude Include="ShortCutUI.h">
-      <Filter>MyControl</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationHelper.h">
-      <Filter>MyControl</Filter>
-    </ClInclude>
-    <ClInclude Include="GameItemUI.h">
-      <Filter>MyControl</Filter>
-    </ClInclude>
     <ClInclude Include="MainWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Res\XLGameBox.ico">
+    <None Include="Res\transwnd.ico">
       <Filter>Resources</Filter>
     </None>
-    <None Include="..\..\bin\skin\XLGameBox\main.xml">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="Res\xlgamebox.zip">
+    <None Include="..\..\bin\skin\transwnd\skin.xml">
       <Filter>Resources</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="XLGameBox.rc">
+    <ResourceCompile Include="transwnd.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
   </ItemGroup>

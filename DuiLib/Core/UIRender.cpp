@@ -1210,10 +1210,14 @@ void CRenderEngine::DrawText(HDC hDC, CPaintManagerUI* pManager, RECT& rc, LPCTS
 	
 	if ( pManager->IsBackgroundTransparent() || pManager->IsUseGdiplusText())
 	{
+		HFONT hOldFont = (HFONT)::SelectObject(hDC, pManager->GetFont(iFont));
 		Gdiplus::Graphics graphics( hDC );
-		graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintAntiAlias);
+		Gdiplus::Font font(hDC);
+		
+		graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintSystemDefault);
+		graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality); 
+		graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQualityBicubic);
 
-		Gdiplus::Font font(hDC, pManager->GetFont(iFont));
 		Gdiplus::RectF rectF((Gdiplus::REAL)rc.left, (Gdiplus::REAL)rc.top, (Gdiplus::REAL)(rc.right - rc.left), (Gdiplus::REAL)(rc.bottom - rc.top));
 		Gdiplus::SolidBrush brush(Gdiplus::Color(254, GetBValue(dwTextColor), GetGValue(dwTextColor), GetRValue(dwTextColor)));
 
@@ -1294,6 +1298,7 @@ void CRenderEngine::DrawText(HDC hDC, CPaintManagerUI* pManager, RECT& rc, LPCTS
 			delete []pcwszDest;
 		}
 #endif
+		::SelectObject(hDC, hOldFont);
 	}
 	else
 	{

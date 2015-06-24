@@ -38,10 +38,7 @@ public:
 	virtual LRESULT OnMouseHover( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled );
 	virtual LRESULT OnChar( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled );
 	virtual UILIB_RESOURCETYPE GetResourceType() const;
-	virtual LPCTSTR GetResourceID() const
-	{
-		return _T("IDR_RES_SKIN1");
-	}
+	virtual LPCTSTR GetResourceID() const;
 	virtual CDuiString GetZIPFileName() const;
 
 	DUI_DECLARE_MESSAGE_MAP()

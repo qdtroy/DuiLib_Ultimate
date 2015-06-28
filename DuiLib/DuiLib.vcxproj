@@ -244,8 +244,10 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Control\UIAnimation.cpp" />
     <ClCompile Include="Control\UIGifAnim.cpp" />
     <ClCompile Include="Control\UIMenu.cpp" />
+    <ClCompile Include="Layout\UIAnimationTabLayout.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugA|Win32'">Create</PrecompiledHeader>
@@ -308,8 +310,10 @@
     <ClCompile Include="Control\UIWebBrowser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Control\UIAnimation.h" />
     <ClInclude Include="Control\UIGifAnim.h" />
     <ClInclude Include="Control\UIMenu.h" />
+    <ClInclude Include="Layout\UIAnimationTabLayout.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="UIlib.h" />
     <ClInclude Include="Utils\downloadmgr.h" />

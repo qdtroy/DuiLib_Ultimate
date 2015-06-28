@@ -13,3 +13,5 @@
 *.idb
 *.opensdf
 *.lastbuildstate
+*.exe
+*.dll

@@ -156,6 +156,12 @@
     <ClCompile Include="Control\UIMenu.cpp">
       <Filter>Source Files\Control</Filter>
     </ClCompile>
+    <ClCompile Include="Control\UIAnimation.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="Layout\UIAnimationTabLayout.cpp">
+      <Filter>Source Files\Layout</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h">
@@ -283,6 +289,12 @@
     </ClInclude>
     <ClInclude Include="Utils\observer_impl_base.h">
       <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Control\UIAnimation.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Layout\UIAnimationTabLayout.h">
+      <Filter>Header Files\Layout</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -51,17 +51,18 @@
               <Control />
             </VerticalLayout>
           </HorizontalLayout>
+          
           <Label height="1" bkimage="hor_line.bmp"/>
 
-          <HorizontalLayout height="60" bkcolor="#FFFFFFFF">
+          <HorizontalLayout height="60">
             <Label text="输入控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout >
               <Control />
-              <HorizontalLayout height="24" childpadding="12">
-                <Edit name="button1" hinttext="普通" bkimage="res='button_pushed.png' corner='6,6,6,6'" />
-                <Edit name="button1" hinttext="只读" text="只读控件" bkimage="res='button_pushed.png' corner='6,6,6,6'" readonly="true"/>
-                <Edit name="button1" hinttext="数字" bkimage="res='button_pushed.png' corner='6,6,6,6'" numberonly="true"/>
-                <Edit name="button1" hinttext="密码" bkimage="res='button_pushed.png' corner='6,6,6,6'" password="true"/>
+              <HorizontalLayout height="36" childpadding="12">
+                <Edit name="button1" hinttext="普通" textpadding="10,2,10,2" textcolor="#FFFFFFFF" bkcolor="#00000000" nativebkcolor="#FF000000" bkimage="res='edit.png' corner='6,6,6,6'" />
+                <Edit name="button1" hinttext="只读" text="只读控件" bkimage="res='edit_bk.png' corner='6,6,6,6'" readonly="true"/>
+                <Edit name="button1" hinttext="数字" bkimage="res='edit_bk.png' corner='6,6,6,6'" numberonly="true"/>
+                <Edit name="button1" hinttext="密码" bkimage="res='edit_bk.png' corner='6,6,6,6'" password="true"/>
 
               </HorizontalLayout>
               <Control />
@@ -105,7 +106,16 @@
             </VerticalLayout>
           </HorizontalLayout>
           <Label height="1" bkimage="hor_line.bmp"/>
-
+          <HorizontalLayout height="60" bordercolor="#FF00FF00" bordersize="1">
+            <Label text="窗口演示" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
+            <VerticalLayout >
+              <Control />
+              <HorizontalLayout height="30" childpadding="12">
+                <Button name="popwnd_btn" text="弹出透明窗口" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
+              </HorizontalLayout>
+              <Control />
+            </VerticalLayout>
+          </HorizontalLayout>
         </VerticalLayout>
         <VerticalLayout name="rich_tab_panel" inset="2,2,2,2" vscrollbar="true">
           <Label height="1" bkimage="hor_line.bmp"/>
@@ -126,7 +136,9 @@
           <HorizontalLayout height="120" bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="RichEdit控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
-              <RichEdit name="wordedit" width="130" text="阿斯顿发射点发射点发射点发射点啊手动阀手动阀手动阀是的啊是的发生大肥肥" readonly="false" hscrollbar="true" autohscroll="true"/>
+              <RichEdit name="wordedit" readonly="false" vscrollbar="true" autovscroll="true" text="割肉还是死扛，这是被套股民面临的一个艰难选择题。自6月12日以来，沪指下跌28.63%，创业板指数更是暴跌了33.2%。同花顺iFinD统计显示，最近15个交易日，已经有427只个股的股价被腰斩，还有954只股票跌幅为40%～50%。短短的三周时间，按照中登公司（截至6月26日）的期末持仓人数（5076.6万）计算，人均亏损近41.30万元。按照2014年全国人均年平均工资49969元计算，每人近三周约亏掉8年工资。
+　　对于很多自有资金的股民来说，紧握股票，等待援军或许是一种策略。但对于融资融券或场外配资客户来说，在账户被强平压力下，被迫割肉离场是最无奈的选择。
+　　“终于卖掉全信股份了，一年半的利润全亏光了。”昨天网友“无心逢春”趁着全信股份下午翻红，把手上的全信股份一股脑全割光了，收盘全信股份又牢牢封住跌停。“无心逢春”是5月25日，全信股份第一次打开涨停板时追进去的，成本在151元以上，后来全信股份一度涨到208.99元的历史高点。6月2日，公司停牌。6月17日，公司宣布终止收购赛治信息股权，复牌后股价连续三个无量跌停，6月25日到29日，又是连续三个跌停，7月1日到3日，再度三个跌停。股价昨天收报60.59元，比最高点的208.99元跌了71%。6月12日以来，该股股价暴跌了65.25%，成为本轮调整以来，股价跌得最惨的股票之一。" />
             </VerticalLayout>
           </HorizontalLayout>
           <Label height="1" bkimage="hor_line.bmp"/>

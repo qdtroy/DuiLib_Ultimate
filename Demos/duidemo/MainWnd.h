@@ -85,7 +85,7 @@ public:
 
 	LPCTSTR GetResourceID() const
 	{
-		return _T("IDR_RES_SKIN");
+		return _T("IDR_ZIPRES");
 	}
 
 	DuiLib::CDuiString GetZIPFileName() const

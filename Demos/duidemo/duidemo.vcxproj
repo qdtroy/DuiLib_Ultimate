@@ -294,7 +294,9 @@
     <None Include="..\..\bin\skin\duidemo\main.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\..\bin\skin\duidemo\popup.xml" />
+    <None Include="..\..\bin\skin\duidemo\popup.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\bin\skin\duidemo\scrollbar.bmp" />
     <None Include="..\..\bin\skin\duidemo\skin.xml" />
     <None Include="..\..\bin\skin\duidemo\sys_dlg_close.png" />

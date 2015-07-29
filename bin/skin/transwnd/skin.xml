@@ -18,5 +18,8 @@
       <Button name="closebtn" width="39" height="20" tooltip="关闭" normalimage="file='sysbtn/btn_close_normal.png'" hotimage="file='sysbtn/btn_close_highlight.png'" pushedimage="file='sysbtn/btn_close_down.png' "/>
     </HorizontalLayout>
 
+    <VerticalLayout>
+      
+    </VerticalLayout>
   </VerticalLayout>
 </Window>

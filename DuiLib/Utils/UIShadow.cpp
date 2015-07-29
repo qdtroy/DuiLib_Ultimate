@@ -122,18 +122,9 @@ LRESULT CALLBACK CShadowUI::ParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 		{
 			RECT WndRect;
 			GetWindowRect(hwnd, &WndRect);
-			if (pThis->m_bIsImageMode)
-			{
-				SetWindowPos(pThis->m_hWnd, 0,
-					WndRect.left - pThis->m_rcShadowCorner.left, WndRect.top - pThis->m_rcShadowCorner.top,
-					0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
-			}
-			else
-			{
-				SetWindowPos(pThis->m_hWnd, 0,
+			SetWindowPos(pThis->m_hWnd, 0,
 					WndRect.left + pThis->m_nxOffset - pThis->m_nSize, WndRect.top + pThis->m_nyOffset - pThis->m_nSize,
 					0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
-			}
 		}
 		break;
 
@@ -227,19 +218,8 @@ void CShadowUI::Update(HWND hParent)
 	GetWindowRect(hParent, &WndRect);
 	int nShadWndWid;
 	int nShadWndHei;
-	if (m_bIsImageMode)
-	{
-		if(m_sShadowImage.IsEmpty())
-			return;
-
-		nShadWndWid = WndRect.right - WndRect.left + m_rcShadowCorner.left + m_rcShadowCorner.right;
-		nShadWndHei = WndRect.bottom - WndRect.top + m_rcShadowCorner.top + m_rcShadowCorner.bottom;
-	}
-	else
-	{
-		nShadWndWid = WndRect.right - WndRect.left + m_nSize * 2;
-		nShadWndHei = WndRect.bottom - WndRect.top + m_nSize * 2;
-	}
+	nShadWndWid = WndRect.right - WndRect.left + m_nSize * 2;
+	nShadWndHei = WndRect.bottom - WndRect.top + m_nSize * 2;
 		
 	// Create the alpha blending bitmap
 	BITMAPINFO bmi;        // bitmap header
@@ -263,16 +243,12 @@ void CShadowUI::Update(HWND hParent)
 		RECT rcPaint = {0, 0, nShadWndWid, nShadWndHei};
 		
 		const TImageInfo* data = m_pManager->GetImageEx((LPCTSTR)m_sShadowImage, NULL, 0);
-
-		if( !data ) 
-			return;    
+		if( !data ) return;    
 
 		RECT rcBmpPart = {0};
 		rcBmpPart.right = data->nX;
 		rcBmpPart.bottom = data->nY;
-
 		CRenderEngine::DrawImage(hMemDC, data->hBitmap, rcPaint, rcPaint, rcBmpPart, m_rcShadowCorner, data->alphaChannel, 0xFF, true, false, false);
-
 	}
 	else
 	{
@@ -281,16 +257,8 @@ void CShadowUI::Update(HWND hParent)
 	}
 
 	POINT ptDst;
-	if (m_bIsImageMode)
-	{
-		ptDst.x = WndRect.left - m_rcShadowCorner.left;
-		ptDst.y = WndRect.top - m_rcShadowCorner.top;
-	}
-	else
-	{
-		ptDst.x = WndRect.left + m_nxOffset - m_nSize;
-		ptDst.y = WndRect.top + m_nyOffset - m_nSize;
-	}
+	ptDst.x = WndRect.left + m_nxOffset - m_nSize;
+	ptDst.y = WndRect.top + m_nyOffset - m_nSize;
 
 	POINT ptSrc = {0, 0};
 	SIZE WndSize = {nShadWndWid, nShadWndHei};

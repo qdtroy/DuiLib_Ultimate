@@ -23,14 +23,14 @@ public:
 		pBrowser1->SetWebBrowserEventHandler(this);
 		CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_PaintManager.FindControl(_T("oneclick_browser2")));
 		pBrowser2->SetWebBrowserEventHandler(this);
-		pBrowser1->NavigateUrl(_T("http://www.winradar.com/?f=duidemo"));
+		pBrowser1->NavigateUrl(_T("http://blog.csdn.net/duisharp"));
 		pBrowser2->NavigateUrl(_T("http://www.2345.com/?kms656067418"));
 
 		CComboUI* pFontSize = static_cast<CComboUI*>(m_PaintManager.FindControl(_T("font_size")));
 		if(pFontSize)
 		{
 			CListLabelElementUI * pElement = new CListLabelElementUI();
-			pElement->SetText(_T("aklsdjfajsdlkf"));
+			pElement->SetText(_T("²âÊÔ³¤ÎÄ×Ö"));
 			pElement->SetFixedHeight(30);
 			pElement->SetFixedWidth(120);
 			pFontSize->Add(pElement);

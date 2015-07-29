@@ -177,6 +177,10 @@ public:
 			m_pPopWnd->CenterWindow();
 			::ShowWindow(*m_pPopWnd, SW_SHOW);
 		}
+		else if(sName.CompareNoCase(_T("qq_btn")) == 0)
+		{
+			ShellExecute(NULL, _T("open"), NULL, _T("tencent://Message/?Uin=656067418&Menu=yes"), NULL, SW_SHOW);
+		}
 	}
 
 	LRESULT OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)

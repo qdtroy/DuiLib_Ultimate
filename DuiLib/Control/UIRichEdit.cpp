@@ -1068,8 +1068,8 @@ CRichEditUI::CRichEditUI() : m_pTwh(NULL), m_bVScrollBarFixing(false), m_bWantTa
 	m_fAccumulateDBC =true;
 #else
 	m_fAccumulateDBC= false;
-	::ZeroMemory(&m_rcTextPadding, sizeof(m_rcTextPadding));
 #endif
+	::ZeroMemory(&m_rcTextPadding, sizeof(m_rcTextPadding));
 }
 
 CRichEditUI::~CRichEditUI()

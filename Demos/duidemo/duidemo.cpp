@@ -50,9 +50,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	if( pFrame == NULL ) return 0;
 	pFrame->Create(NULL, _T("duilibÀý×ÓÑÝÊ¾"), UI_WNDSTYLE_FRAME, 0L, 0, 0, 800, 572);
 	pFrame->CenterWindow();
-	::ShowWindow(*pFrame, SW_SHOW);
-
-	CPaintManagerUI::MessageLoop();
+	pFrame->ShowModal();
+	//::ShowWindow(*pFrame, SW_SHOW);
+	//CPaintManagerUI::MessageLoop();
 
 	::CoUninitialize();
 	return 0;

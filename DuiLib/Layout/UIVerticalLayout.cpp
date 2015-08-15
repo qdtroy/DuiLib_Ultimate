@@ -28,6 +28,7 @@ namespace DuiLib
 
 	void CVerticalLayoutUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
+		// heliangbao
 		CControlUI::SetPos(rc, bNeedInvalidate);
 		rc = m_rcItem;
 
@@ -46,8 +47,8 @@ namespace DuiLib
 
 		// Determine the minimum size
 		SIZE szAvailable = { rc.right - rc.left, rc.bottom - rc.top };
-		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) 
-			szAvailable.cx += m_pHorizontalScrollBar->GetScrollRange();
+		//if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) 
+			//szAvailable.cx += m_pHorizontalScrollBar->GetScrollRange();
 
 		int nAdjustables = 0;
 		int cyFixed = 0;
@@ -70,6 +71,7 @@ namespace DuiLib
 		cyFixed += (nEstimateNum - 1) * m_iChildPadding;
 
 		// Place elements
+		int cxNeeded = 0;
 		int cyNeeded = 0;
 		int cyExpand = 0;
 		if( nAdjustables > 0 ) cyExpand = MAX(0, (szAvailable.cy - cyFixed) / nAdjustables);
@@ -120,17 +122,18 @@ namespace DuiLib
 			if( sz.cx < pControl->GetMinWidth() ) sz.cx = pControl->GetMinWidth();
 			if( sz.cx > pControl->GetMaxWidth() ) sz.cx = pControl->GetMaxWidth();
 
-			RECT rcCtrl = { iPosX + rcPadding.left, iPosY + rcPadding.top, iPosX + rcPadding.left + sz.cx, iPosY + sz.cy + rcPadding.top };
+			RECT rcCtrl = { iPosX + rcPadding.left, iPosY + rcPadding.top, iPosX + rcPadding.left + sz.cx, iPosY + rcPadding.top + sz.cy };
 			pControl->SetPos(rcCtrl);
 
 			iPosY += sz.cy + m_iChildPadding + rcPadding.top + rcPadding.bottom;
+			cxNeeded = ((sz.cx + rcPadding.left + rcPadding.right) > cxNeeded) ? (sz.cx + rcPadding.left + rcPadding.right) : cxNeeded;
 			cyNeeded += sz.cy + rcPadding.top + rcPadding.bottom;
 			szRemaining.cy -= sz.cy + m_iChildPadding + rcPadding.bottom;
 		}
 		cyNeeded += (nEstimateNum - 1) * m_iChildPadding;
 
 		// Process the scrollbar
-		ProcessScrollBar(rc, 0, cyNeeded);
+		ProcessScrollBar(rc, cxNeeded, cyNeeded);
 	}
 
 	void CVerticalLayoutUI::DoPostPaint(HDC hDC, const RECT& rcPaint)

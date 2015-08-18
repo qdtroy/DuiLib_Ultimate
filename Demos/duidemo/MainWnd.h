@@ -24,7 +24,7 @@ public:
 		CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_PaintManager.FindControl(_T("oneclick_browser2")));
 		pBrowser2->SetWebBrowserEventHandler(this);
 		pBrowser1->NavigateUrl(_T("http://blog.csdn.net/duisharp"));
-		pBrowser2->NavigateUrl(_T("http://www.2345.com/?kms656067418"));
+		pBrowser2->NavigateUrl(_T("https://github.com/duisharp/DuiLib_Ultimate"));
 
 		CComboUI* pFontSize = static_cast<CComboUI*>(m_PaintManager.FindControl(_T("font_size")));
 		if(pFontSize)
@@ -34,6 +34,17 @@ public:
 			pElement->SetFixedHeight(30);
 			pElement->SetFixedWidth(120);
 			pFontSize->Add(pElement);
+		}
+
+		CListUI* pList = static_cast<CListUI*>(m_PaintManager.FindControl(_T("listview")));
+		for(int i = 0; i < 20; i++)
+		{
+			CListTextElementUI* pItem  = new CListTextElementUI();
+			pItem->SetFixedHeight(30);
+			pList->Add(pItem);
+			pItem->SetText(0, _T("ÕÅÈý"));
+			pItem->SetText(1, _T("1000"));
+			pItem->SetText(2, _T("100"));
 		}
 	}
 

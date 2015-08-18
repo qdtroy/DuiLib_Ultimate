@@ -740,6 +740,7 @@ void CControlUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
     }
    else if( _tcscmp(pstrName, _T("float")) == 0 ) {
 		CDuiString nValue = pstrValue;
+		// 动态计算相对比例
 		if(nValue.Find(',') < 0) {
 			SetFloat(_tcscmp(pstrValue, _T("true")) == 0);
 		}

@@ -116,8 +116,6 @@ protected:
     bool m_bAutoDestroy;
     bool m_bDelayedDestroy;
     bool m_bMouseChildEnabled;
-    bool m_bHScrollProcess; // 防止SetPos循环调用
-	bool m_bVScrollProcess; // 防止SetPos循环调用
 	int	 m_nScrollStepSize;
 
     CScrollBarUI* m_pVerticalScrollBar;

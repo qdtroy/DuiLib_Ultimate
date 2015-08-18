@@ -177,7 +177,7 @@ public:
 
     SIZE GetScrollPos() const;
     SIZE GetScrollRange() const;
-    void SetScrollPos(SIZE szPos);
+    void SetScrollPos(SIZE szPos, bool bMsg = true);
     void LineUp();
     void LineDown();
     void PageUp();
@@ -215,7 +215,7 @@ class UILIB_API CListBodyUI : public CVerticalLayoutUI
 public:
     CListBodyUI(CListUI* pOwner);
 
-    void SetScrollPos(SIZE szPos);
+    void SetScrollPos(SIZE szPos, bool bMsg = true);
     void SetPos(RECT rc, bool bNeedInvalidate = true);
     void DoEvent(TEventUI& event);
     BOOL SortItems(PULVCompareFunc pfnCompare, UINT_PTR dwData);

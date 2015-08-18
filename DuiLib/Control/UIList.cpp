@@ -796,9 +796,9 @@ SIZE CListUI::GetScrollRange() const
     return m_pList->GetScrollRange();
 }
 
-void CListUI::SetScrollPos(SIZE szPos)
+void CListUI::SetScrollPos(SIZE szPos, bool bMsg)
 {
-    m_pList->SetScrollPos(szPos);
+    m_pList->SetScrollPos(szPos, bMsg);
 }
 
 void CListUI::LineUp()
@@ -934,7 +934,7 @@ int __cdecl CListBodyUI::ItemComareFunc(const void *item1, const void *item2)
 	return m_pCompareFunc((UINT_PTR)pControl1, (UINT_PTR)pControl2, m_compareData);
 }
 
-void CListBodyUI::SetScrollPos(SIZE szPos)
+void CListBodyUI::SetScrollPos(SIZE szPos, bool bMsg)
 {
     int cx = 0;
     int cy = 0;
@@ -951,6 +951,22 @@ void CListBodyUI::SetScrollPos(SIZE szPos)
     }
 
     if( cx == 0 && cy == 0 ) return;
+	
+    RECT rcPos;
+    for( int it2 = 0; it2 < m_items.GetSize(); it2++ ) {
+        CControlUI* pControl = static_cast<CControlUI*>(m_items[it2]);
+        if( !pControl->IsVisible() ) continue;
+        if( pControl->IsFloat() ) continue;
+
+        rcPos = pControl->GetPos();
+        rcPos.left -= cx;
+        rcPos.right -= cx;
+        rcPos.top -= cy;
+        rcPos.bottom -= cy;
+        pControl->SetPos(rcPos);
+    }
+
+    Invalidate();
 
 	if( cx != 0 && m_pOwner ) {
 		CListHeaderUI* pHeader = m_pOwner->GetHeader();
@@ -980,23 +996,6 @@ void CListBodyUI::SetScrollPos(SIZE szPos)
 			}
 		}
 	}
-
-    RECT rcPos;
-    for( int it2 = 0; it2 < m_items.GetSize(); it2++ ) {
-        CControlUI* pControl = static_cast<CControlUI*>(m_items[it2]);
-        if( !pControl->IsVisible() ) continue;
-        if( pControl->IsFloat() ) continue;
-
-        rcPos = pControl->GetPos();
-        rcPos.left -= cx;
-        rcPos.right -= cx;
-        rcPos.top -= cy;
-        rcPos.bottom -= cy;
-        pControl->SetPos(rcPos);
-    }
-
-    Invalidate();
-
 
 }
 
@@ -1144,11 +1143,11 @@ void CListBodyUI::DoEvent(TEventUI& event)
 {
     if( !IsMouseEnabled() && event.Type > UIEVENT__MOUSEBEGIN && event.Type < UIEVENT__MOUSEEND ) {
         if( m_pOwner != NULL ) m_pOwner->DoEvent(event);
-        else CControlUI::DoEvent(event);
+        else CVerticalLayoutUI::DoEvent(event);
         return;
     }
 
-    if( m_pOwner != NULL ) m_pOwner->DoEvent(event); else CControlUI::DoEvent(event);
+    CVerticalLayoutUI::DoEvent(event);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////

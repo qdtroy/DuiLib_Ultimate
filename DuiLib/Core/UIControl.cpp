@@ -97,6 +97,20 @@ CControlUI* CControlUI::GetParent() const
     return m_pParent;
 }
 
+bool CControlUI::SetTimer(UINT nTimerID, UINT nElapse)
+{
+	if(m_pManager == NULL) return false;
+
+	return m_pManager->SetTimer(this, nTimerID, nElapse);
+}
+
+void CControlUI::KillTimer(UINT nTimerID)
+{
+	if(m_pManager == NULL) return;
+
+	m_pManager->KillTimer(this, nTimerID);
+}
+
 CDuiString CControlUI::GetText() const
 {
     return m_sText;

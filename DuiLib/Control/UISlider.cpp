@@ -116,7 +116,6 @@ namespace DuiLib
 				m_uButtonState |= UISTATE_CAPTURED;
 
 				int nValue;
-
 				if( m_bHorizontal ) {
 					if( event.ptMouse.x >= m_rcItem.right - m_szThumb.cx / 2 ) nValue = m_nMax;
 					else if( event.ptMouse.x <= m_rcItem.left + m_szThumb.cx / 2 ) nValue = m_nMin;
@@ -127,16 +126,16 @@ namespace DuiLib
 					else if( event.ptMouse.y <= m_rcItem.top + m_szThumb.cy / 2  ) nValue = m_nMax;
 					else nValue = m_nMin + (m_nMax - m_nMin) * (m_rcItem.bottom - event.ptMouse.y - m_szThumb.cy / 2 ) / (m_rcItem.bottom - m_rcItem.top - m_szThumb.cy);
 				}
-				if(m_nValue !=nValue && nValue>=m_nMin && nValue<=m_nMax)
+				if(m_nValue != nValue && nValue >= m_nMin && nValue <= m_nMax)
 				{
-					m_nValue =nValue;
+					m_nValue = nValue;
 					Invalidate();
 				}
 			}
 				return;
 		}
 
-		if( event.Type == UIEVENT_BUTTONUP )
+		if( event.Type == UIEVENT_BUTTONUP || event.Type == UIEVENT_RBUTTONUP)
 		{
 			int nValue;
 			if( (m_uButtonState & UISTATE_CAPTURED) != 0 ) {
@@ -152,7 +151,7 @@ namespace DuiLib
 				else if( event.ptMouse.y <= m_rcItem.top + m_szThumb.cy / 2  ) nValue = m_nMax;
 				else nValue = m_nMin + (m_nMax - m_nMin) * (m_rcItem.bottom - event.ptMouse.y - m_szThumb.cy / 2 ) / (m_rcItem.bottom - m_rcItem.top - m_szThumb.cy);
 			}
-			if(nValue>=m_nMin && nValue<=m_nMax)
+			if(nValue >= m_nMin && nValue <= m_nMax)
 			{
 				m_nValue =nValue;
 				m_pManager->SendNotify(this, DUI_MSGTYPE_VALUECHANGED);
@@ -190,20 +189,19 @@ namespace DuiLib
 					else if( event.ptMouse.y <= m_rcItem.top + m_szThumb.cy / 2  ) m_nValue = m_nMax;
 					else m_nValue = m_nMin + (m_nMax - m_nMin) * (m_rcItem.bottom - event.ptMouse.y - m_szThumb.cy / 2 ) / (m_rcItem.bottom - m_rcItem.top - m_szThumb.cy);
 				}
-				if (m_bSendMove)
+				if (m_bSendMove) {
 					m_pManager->SendNotify(this, DUI_MSGTYPE_VALUECHANGED_MOVE);
+				}
 				Invalidate();
 			}
 
-			// Generate the appropriate mouse messages
 			POINT pt = event.ptMouse;
 			RECT rcThumb = GetThumbRect();
 			if( IsEnabled() && ::PtInRect(&rcThumb, event.ptMouse) ) {
-
 				m_uButtonState |= UISTATE_HOT;
 				Invalidate();
-			}else
-			{
+			}
+			else {
 				m_uButtonState &= ~UISTATE_HOT;
 				Invalidate();
 			}
@@ -217,7 +215,6 @@ namespace DuiLib
 				return;
 			}
 		}
-
 		if( event.Type == UIEVENT_MOUSELEAVE )
 		{
 			if( IsEnabled() ) {

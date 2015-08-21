@@ -28,6 +28,10 @@ public:
     virtual void SetManager(CPaintManagerUI* pManager, CControlUI* pParent, bool bInit = true);
     virtual CControlUI* GetParent() const;
 
+	// 定时器
+	bool SetTimer(UINT nTimerID, UINT nElapse);
+	void KillTimer(UINT nTimerID);
+
     // 文本相关
     virtual CDuiString GetText() const;
     virtual void SetText(LPCTSTR pstrText);

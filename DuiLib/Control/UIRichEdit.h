@@ -19,6 +19,8 @@ public:
     LPVOID GetInterface(LPCTSTR pstrName);
     UINT GetControlFlags() const;
 
+	bool IsMultiLine();
+	void SetMultiLine(bool bMultiLine);
     bool IsWantTab();
     void SetWantTab(bool bWantTab = true);
     bool IsWantReturn();

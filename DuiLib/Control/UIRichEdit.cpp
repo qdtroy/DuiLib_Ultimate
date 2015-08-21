@@ -1098,6 +1098,17 @@ UINT CRichEditUI::GetControlFlags() const
     return UIFLAG_SETCURSOR | UIFLAG_TABSTOP;
 }
 
+bool CRichEditUI::IsMultiLine()
+{
+	return (m_lTwhStyle & ES_MULTILINE) == ES_MULTILINE;
+}
+
+void CRichEditUI::SetMultiLine(bool bMultiLine)
+{
+	if(!bMultiLine) m_lTwhStyle &= ~ES_MULTILINE;
+	else  m_lTwhStyle |= ES_MULTILINE;
+}
+
 bool CRichEditUI::IsWantTab()
 {
     return m_bWantTab;

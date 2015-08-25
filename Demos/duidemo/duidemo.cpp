@@ -11,14 +11,14 @@
 
 static LPBYTE resource_zip_buffer_ = NULL;
 
-//#define USE_EMBEDED_RESOURCE
+#define USE_EMBEDED_RESOURCE
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
 	CPaintManagerUI::SetInstance(hInstance);
 	
 #ifdef USE_EMBEDED_RESOURCE
-	HRSRC hResource = ::FindResource(CPaintManagerUI::GetResourceDll(), MAKEINTRESOURCE(IDR_ZIPRES), _T("ZIPRES"));
+	HRSRC hResource = ::FindResource(CPaintManagerUI::GetResourceDll(), _T("IDR_ZIPRES"), _T("ZIPRES"));
 	if( hResource == NULL )
 		return 0L;
 	DWORD dwSize = 0;

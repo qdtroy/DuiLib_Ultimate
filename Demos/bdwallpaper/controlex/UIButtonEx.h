@@ -232,7 +232,9 @@ namespace DuiLib
 			hr = CoCreateInstance(CLSID_ActiveDesktop, NULL, CLSCTX_INPROC_SERVER, IID_IActiveDesktop, (void**)&pIAD);
 			if( !SUCCEEDED(hr) ) return;
 
+#ifdef UNICODE
 			hr = pIAD->SetWallpaper(sWPImage, 0);
+#endif
 			if( !SUCCEEDED(hr) ) return;
 
 			WALLPAPEROPT wp = {0};

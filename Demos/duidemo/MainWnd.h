@@ -1,5 +1,6 @@
 #pragma once
 #include "PopWnd.h"
+#include "ShlObj.h"
 
 class CDemoFrame : public WindowImplBase, public CWebBrowserEventHandler, public SkinChangedReceiver
 {
@@ -23,7 +24,7 @@ public:
 		pBrowser1->SetWebBrowserEventHandler(this);
 		CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_PaintManager.FindControl(_T("oneclick_browser2")));
 		pBrowser2->SetWebBrowserEventHandler(this);
-		pBrowser1->NavigateUrl(_T("http://blog.csdn.net/duisharp"));
+		pBrowser1->NavigateUrl(_T("http://member.yw26.com/c_register.aspx"));
 		pBrowser2->NavigateUrl(_T("https://github.com/duisharp/DuiLib_Ultimate"));
 
 		CComboUI* pFontSize = static_cast<CComboUI*>(m_PaintManager.FindControl(_T("font_size")));
@@ -188,9 +189,21 @@ public:
 			m_pPopWnd->CenterWindow();
 			::ShowWindow(*m_pPopWnd, SW_SHOW);
 		}
+		else if(sName.CompareNoCase(_T("qqgroup_btn")) == 0)
+		{
+			TCHAR szPath[MAX_PATH] ={0};
+			SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES | CSIDL_FLAG_CREATE, NULL, 0, szPath);
+			CDuiString sIEPath;
+			sIEPath.Format(_T("%s\\Internet Explorer\\iexplore.exe"), szPath);
+			ShellExecute(NULL, _T("open"), sIEPath, _T("http://jq.qq.com/?_wv=1027&k=cDTUzr"), NULL, SW_SHOW);
+		}
 		else if(sName.CompareNoCase(_T("qq_btn")) == 0)
 		{
-			ShellExecute(NULL, _T("open"), NULL, _T("tencent://Message/?Uin=656067418&Menu=yes"), NULL, SW_SHOW);
+			TCHAR szPath[MAX_PATH] ={0};
+			SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES | CSIDL_FLAG_CREATE, NULL, 0, szPath);
+			CDuiString sIEPath;
+			sIEPath.Format(_T("%s\\Internet Explorer\\iexplore.exe"), szPath);
+			ShellExecute(NULL, _T("open"), sIEPath, _T("tencent://Message/?Uin=656067418&Menu=yes"), NULL, SW_SHOW);
 		}
 	}
 

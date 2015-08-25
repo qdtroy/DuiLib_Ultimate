@@ -13,9 +13,10 @@
         <Container width="64" height="64" bkimage="logo.jpg" />
         <VerticalLayout inset="0,10,0,0" childpadding="5">
           <Label text="Duilib 使用演示 v1.1" width="300" align="vcenter" align="left" textcolor="#FFEEEEEE" font="3" tooltip="官网"/>
-          <HorizontalLayout height="20" >
-            <Button name="homepage_btn" text="演示官网" width="60" align="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="官网"/>
-            <Label text="duilib开源项目圈（261675375）- Troy(QQ：656067418)" align="left" wordbreak="true" />
+          <HorizontalLayout height="20" childpadding="20">
+            <Button name="homepage_btn" text="演示官网" width="60" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="官网"/>
+            <Button name="qqgroup_btn" text="duilib开源项目圈（261675375）" width="200" autocalcwidth="true" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="加入duilib大家庭" />
+            <Button name="qq_btn" text="Troy(QQ：656067418)" width="150" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="添加Troy为好友" />
           </HorizontalLayout>
         </VerticalLayout>
       </HorizontalLayout>

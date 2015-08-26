@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window >
+<Font name="微软雅黑" size="12" bold="false" default="true" />
+<Font name="微软雅黑" size="12" bold="true"/>
+
+<!-- Menu样式 -->
+<Default name="Menu" value="bordersize=&quot;1&quot; borderround=&quot;2,2&quot; bordercolor=&quot;0x303132&quot; inset=&quot;2,2,2,2&quot; itemtextpadding=&quot;30,0,0,0&quot; bkimage=&quot;file='menu/menu_bk.png' corner='26,2,2,2' source='6,6,44,24'&quot; itemselectedbkcolor=&quot;0xFF338ACA&quot;" />
+<!-- ExplandIcon样式 -->
+<Default name="ExplandIcon" value="menu/menu_expand.png" />
+
+<Menu>
+    <MenuElement text="精品服务" expland="true" >
+     	<MenuElement name="qianting" text="修潜艇" icon="menu/menu_check.png" iconsize="9,9" checkitem="true" ischeck="true"/>
+      <MenuElement name="yuanzidan" text="保养原子弹" icon="menu/icon.png"/>
+      <MenuElement name="huojian" text="火箭太空加油" />
+    </MenuElement>
+
+    <MenuElement height="30" >
+    	<VerticalLayout bkcolor="#FFFFFFFE">
+            <Button name="menuitembtn" height="30" text="菜单按钮" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'"/>
+        </VerticalLayout>
+    </MenuElement>
+
+</Menu>
+</Window>

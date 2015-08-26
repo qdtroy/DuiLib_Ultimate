@@ -15,13 +15,14 @@
           <Label text="Duilib 使用演示 v1.1" width="300" align="vcenter" align="left" textcolor="#FFEEEEEE" font="3" tooltip="官网"/>
           <HorizontalLayout height="20" childpadding="20">
             <Button name="homepage_btn" text="演示官网" width="60" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="官网"/>
-            <Button name="qqgroup_btn" text="duilib开源项目圈（261675375）" width="200" autocalcwidth="true" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="加入duilib大家庭" />
-            <Button name="qq_btn" text="Troy(QQ：656067418)" width="150" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="添加Troy为好友" />
+            <Button name="qqgroup_btn" text="加入duilib开源项目圈（261675375）" width="220" autocalcwidth="true" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="加入duilib大家庭" />
+            <Button name="qq_btn" text="Troy(QQ：656067418)" width="170" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="添加Troy为QQ好友" />
           </HorizontalLayout>
         </VerticalLayout>
       </HorizontalLayout>
 
-      <HorizontalLayout inset="0，-1,0,0" width="123">
+      <HorizontalLayout inset="0,-1,0,0" width="151">
+        <Button name="menubtn" width="28" height="20" tooltip="菜单" normalimage="file='sysbtn/btn_menu_normal.png'" hotimage="file='sysbtn/btn_menu_highlight.png'" pushedimage="file='sysbtn/btn_menu_down.png' "/>
         <Button name="skinbtn" width="28" height="20" tooltip="皮肤" normalimage="file='sysbtn/btn_skin_normal.png'" hotimage="file='sysbtn/btn_skin_highlight.png'" pushedimage="file='sysbtn/btn_skin_down.png' "/>
         <Button name="minbtn" width="28" height="20" tooltip="最小化" normalimage="file='sysbtn/btn_mini_normal.png'" hotimage="file='sysbtn/btn_mini_highlight.png'" pushedimage="file='sysbtn/btn_mini_down.png' "/>
         <Button name="maxbtn" width="28" height="20" tooltip="最大化" normalimage="file='sysbtn/btn_max_normal.png'" hotimage="file='sysbtn/btn_max_highlight.png'" pushedimage="file='sysbtn/btn_max_down.png' "/>

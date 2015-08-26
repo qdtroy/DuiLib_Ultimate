@@ -11,10 +11,6 @@
 // Windows Header Files:
 #include <windows.h>
 
-// C RunTime Header Files
-//#include <stdlib.h>
-//#include <malloc.h>
-//#include <memory.h>
 #include <tchar.h>
 
 #include "..\..\DuiLib\UIlib.h"
@@ -22,9 +18,17 @@
 using namespace DuiLib;
 
 #ifdef _DEBUG
-#	pragma comment(lib, "..\\..\\Lib\\DuiLib_d.lib")
+#   ifdef _UNICODE
+#       pragma comment(lib, "..\\..\\lib\\DuiLib_d.lib")
+#   else
+#       pragma comment(lib, "..\\..\\lib\\DuiLibA_d.lib")
+#   endif
 #else
-#	pragma comment(lib, "..\\..\\Lib\\DuiLib.lib")
+#   ifdef _UNICODE
+#       pragma comment(lib, "..\\..\\lib\\DuiLib.lib")
+#   else
+#       pragma comment(lib, "..\\..\\lib\\DuiLibA.lib")
+#   endif
 #endif
 
 

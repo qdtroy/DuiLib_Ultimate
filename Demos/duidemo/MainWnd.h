@@ -205,6 +205,39 @@ public:
 			sIEPath.Format(_T("%s\\Internet Explorer\\iexplore.exe"), szPath);
 			ShellExecute(NULL, _T("open"), sIEPath, _T("tencent://Message/?Uin=656067418&Menu=yes"), NULL, SW_SHOW);
 		}
+		else if(sName.CompareNoCase(_T("menubtn")) == 0)
+		{
+			CMenuWnd* pMenu = new CMenuWnd();
+			CDuiPoint point;
+			::GetCursorPos(&point);
+			
+			pMenu->Init(NULL, _T("menu.xml"), point, &m_PaintManager);
+			CMenuUI* rootMenu = pMenu->GetMenuUI();
+			if (rootMenu != NULL)
+			{
+				CMenuElementUI* pNew = new CMenuElementUI;
+				pNew->SetName(_T("Menu_Dynamic"));
+				pNew->SetText(_T("动态一级菜单"));
+				pNew->SetShowExplandIcon(true);
+				pNew->SetIcon(_T("WebSit.png"));
+				pNew->SetIconSize(16,16);
+
+				CMenuElementUI* pSubNew = new CMenuElementUI;
+				pSubNew->SetText(_T("动态二级菜单"));
+				pSubNew->SetName(_T("Menu_Dynamic"));
+				pSubNew->SetIcon(_T("Virus.png"));
+				pSubNew->SetIconSize(16,16);
+				pNew->Add(pSubNew);
+				rootMenu->Add(pNew);
+				CMenuElementUI* pNew2 = new CMenuElementUI;
+				pNew2->SetName(_T("Menu_Dynamic"));
+				pNew2->SetText(_T("动态一级菜单2"));
+				rootMenu->AddAt(pNew2,2);
+			}
+
+			// 动态添加后重新设置菜单的大小
+			pMenu->ResizeMenu();
+		}
 	}
 
 	LRESULT OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
@@ -243,6 +276,37 @@ public:
 			bHandled = TRUE;
 			return 0;
 		}
+		else if (uMsg == WM_MENUCLICK)
+		{
+			MenuCmd* pMenuCmd = (MenuCmd*)wParam;
+			if(pMenuCmd != NULL)
+			{
+				BOOL bChecked = pMenuCmd->bChecked;
+				CDuiString sMenuName = pMenuCmd->szName;
+				CDuiString sUserData = pMenuCmd->szUserData;
+				CDuiString sText = pMenuCmd->szText;
+				delete pMenuCmd;
+				pMenuCmd = NULL;
+
+				if ( sMenuName == _T("qianting")) 
+				{
+					if (bChecked)
+					{
+						MessageBox(m_hWnd, _T("你预定修潜艇服务"), _T(""), 0);
+					} 
+					else
+					{
+						MessageBox(m_hWnd, _T("你取消修潜艇服务"), NULL, 0);
+					}			 
+				}
+				else
+				{
+					MessageBox(m_hWnd, sText, NULL, 0);
+				}
+			}
+			bHandled = TRUE;
+			return 0;
+		}
 		bHandled = FALSE;
 		return 0;
 	}
@@ -254,4 +318,5 @@ private:
 	CButtonUI* m_pRestoreBtn;
 	CButtonUI* m_pMinBtn;
 	CButtonUI* m_pSkinBtn;
+	std::map<CDuiString, bool> m_MenuInfos;
 };

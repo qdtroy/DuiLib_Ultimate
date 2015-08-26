@@ -234,7 +234,7 @@ void CMenuWnd::OnFinalMessage(HWND hWnd)
 		m_pOwner->m_uButtonState &= ~ UISTATE_PUSHED;
 		m_pOwner->Invalidate();
 	}
-    delete this;
+    //delete this;
 }
 
 LRESULT CMenuWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
@@ -716,7 +716,6 @@ SIZE CMenuElementUI::EstimateSize(SIZE szAvailable)
 
 void CMenuElementUI::DoEvent(TEventUI& event)
 {
-
 	if( event.Type == UIEVENT_MOUSEENTER )
 	{
 		CListContainerElementUI::DoEvent(event);
@@ -773,9 +772,16 @@ void CMenuElementUI::DoEvent(TEventUI& event)
 				SetChecked(!GetChecked());
 				if (CMenuWnd::GetGlobalContextMenuObserver().GetManager() != NULL)
 				{
-					CDuiString* strPost = new CDuiString(GetName().GetData());
-					if (!PostMessage(CMenuWnd::GetGlobalContextMenuObserver().GetManager()->GetPaintWindow(), WM_MENUCLICK, (WPARAM)(strPost), (LPARAM)(GetChecked() == TRUE)))
-						delete strPost;
+					MenuCmd* pMenuCmd = new MenuCmd();
+					lstrcpy(pMenuCmd->szName, GetName().GetData());
+					lstrcpy(pMenuCmd->szUserData, GetUserData().GetData());
+					lstrcpy(pMenuCmd->szText, GetText().GetData());
+					pMenuCmd->bChecked = GetChecked();
+					if (!PostMessage(CMenuWnd::GetGlobalContextMenuObserver().GetManager()->GetPaintWindow(), WM_MENUCLICK, (WPARAM)pMenuCmd, NULL))
+					{
+						delete pMenuCmd;
+						pMenuCmd = NULL;
+					}
 				}
 				ContextMenuParam param;
 				param.hWnd = m_pManager->GetPaintWindow();

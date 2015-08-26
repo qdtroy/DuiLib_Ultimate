@@ -1,3 +1,6 @@
+#ifdef UILIB_STATIC
+#define UILIB_API 
+#else
 #if defined(UILIB_EXPORTS)
 #	if defined(_MSC_VER)
 #		define UILIB_API __declspec(dllexport)
@@ -11,7 +14,7 @@
 #		define UILIB_API 
 #	endif
 #endif
-
+#endif
 #define UILIB_COMDAT __declspec(selectany)
 
 #if defined _M_IX86
@@ -85,4 +88,6 @@
 #include "Control/UIMenu.h"
 
 
-#pragma comment(lib,"gdiplus.lib")
+#pragma comment( lib, "comctl32.lib" )
+#pragma comment( lib, "GdiPlus.lib" )
+#pragma comment( lib, "Imm32.lib" )

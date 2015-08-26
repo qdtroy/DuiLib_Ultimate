@@ -1048,9 +1048,11 @@ void CListBodyUI::SetPos(RECT rc, bool bNeedInvalidate)
         CListHeaderUI* pHeader = m_pOwner->GetHeader();
         if( pHeader != NULL && pHeader->GetCount() > 0 ) {
             cxNeeded = MAX(0, pHeader->EstimateSize(CDuiSize(rc.right - rc.left, rc.bottom - rc.top)).cx);
-			if ( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible())
+			if ( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible())
 			{
+				int nOffset = m_pHorizontalScrollBar->GetScrollPos();
 				RECT rcHeader = pHeader->GetPos();
+				rcHeader.left = rc.left - nOffset;
 				pHeader->SetPos(rcHeader);
 			}
         }
@@ -2473,7 +2475,23 @@ void CListContainerElementUI::DoEvent(TEventUI& event)
         }
         return;
     }
-
+	if( event.Type == UIEVENT_TIMER )
+ 	{
+ 		m_pManager->SendNotify(this, DUI_MSGTYPE_TIMER, event.wParam, event.lParam);
+ 		return;
+ 	}
+ 	if( event.Type == UIEVENT_TIMER )
+ 	{
+ 		m_pManager->SendNotify(this, DUI_MSGTYPE_TIMER, event.wParam, event.lParam);
+ 		return;
+ 	}
+ 	if( event.Type == UIEVENT_CONTEXTMENU )
+ 	{
+ 		if( IsContextMenuUsed() ) {
+ 			m_pManager->SendNotify(this, DUI_MSGTYPE_MENU, event.wParam, event.lParam);
+ 			return;
+ 		}
+ 	}
     // An important twist: The list-item will send the event not to its immediate
     // parent but to the "attached" list. A list may actually embed several components
     // in its path to the item, but key-presses etc. needs to go to the actual list.

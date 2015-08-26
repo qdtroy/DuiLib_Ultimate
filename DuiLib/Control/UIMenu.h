@@ -16,6 +16,14 @@ struct ContextMenuParam
 	HWND hWnd;
 };
 
+struct MenuCmd
+{
+	TCHAR szName[256];
+	TCHAR szUserData[1024];
+	TCHAR szText[1024];
+	BOOL bChecked;
+};
+
 enum MenuAlignment
 {
 	eMenuAlignment_Left = 1 << 1,

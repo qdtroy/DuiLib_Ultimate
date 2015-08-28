@@ -22,7 +22,6 @@ CPopWnd::~CPopWnd(void)
 void CPopWnd::OnFinalMessage( HWND hWnd)
 {
 	__super::OnFinalMessage(hWnd);
-	delete this;
 }
 
 DuiLib::CDuiString CPopWnd::GetSkinFolder()
@@ -55,7 +54,7 @@ void CPopWnd::OnClick( TNotifyUI &msg )
 	sName.MakeLower();
 
 	if( msg.pSender == m_pCloseBtn ) {
-		ShowWindow(false);
+		Close(0);
 		return; 
 	}
 	else if( msg.pSender == m_pMinBtn ) { 
@@ -87,13 +86,6 @@ void CPopWnd::OnItemSelect( TNotifyUI &msg )
 
 LRESULT CPopWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
  {
-	 // 关闭窗口，退出程序
-	 if(uMsg == WM_DESTROY)
-	 {
-		 ::PostQuitMessage(0L);
-		bHandled = TRUE;
-		return 0;
-	 }
 	 bHandled = FALSE;
 	 return 0;
  }

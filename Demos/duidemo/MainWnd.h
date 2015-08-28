@@ -146,7 +146,10 @@ public:
 		{
 			if( msg.pSender == m_pCloseBtn ) 
 			{
-				PostQuitMessage(0);
+				if(IDYES == MessageBox(NULL, _T("确定退出duidemo演示程序？"), _T("Duilib旗舰版"), MB_YESNO))
+				{
+					PostQuitMessage(0);
+				}
 				return; 
 			}
 			else if( msg.pSender == m_pMinBtn ) { 
@@ -181,13 +184,16 @@ public:
 		}
 		else if(sName.CompareNoCase(_T("popwnd_btn")) == 0)
 		{
-			if( m_pPopWnd == NULL )
+			if(m_pPopWnd == NULL)
 			{
 				m_pPopWnd = new CPopWnd();
-				m_pPopWnd->Create(NULL, _T("透明窗口演示"), WS_POPUP | WS_VISIBLE, 0L, 0, 0, 800, 572);
+			}
+			if(!::IsWindow(*m_pPopWnd))
+			{
+				m_pPopWnd->Create(m_hWnd, _T("透明窗口演示"), WS_POPUP | WS_VISIBLE, 0L, 0, 0, 800, 572);
 			}
 			m_pPopWnd->CenterWindow();
-			::ShowWindow(*m_pPopWnd, SW_SHOW);
+			m_pPopWnd->ShowModal();
 		}
 		else if(sName.CompareNoCase(_T("qqgroup_btn")) == 0)
 		{

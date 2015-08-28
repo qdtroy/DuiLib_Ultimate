@@ -132,8 +132,8 @@
             <VerticalLayout >
               <Control />
               <HorizontalLayout height="30" childpadding="12">
-                <Button name="popwnd_btn" text="弹出窗口" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
-                <Button name="qq_btn" text="问题咨询" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
+                <Button name="popwnd_btn" text="模态弹出窗口" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
+                <Button name="qq_btn" text="问题咨询(&Q)" shortcut="Q" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
               </HorizontalLayout>
               <Control />
             </VerticalLayout>

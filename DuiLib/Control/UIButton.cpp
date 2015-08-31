@@ -12,7 +12,7 @@ namespace DuiLib
 		, m_dwPushedBkColor(0)
 		, m_iBindTabIndex(-1)
 	{
-		m_uTextStyle = DT_SINGLELINE | DT_VCENTER | DT_CENTER;
+		m_uTextStyle = DT_SINGLELINE | DT_VCENTER | DT_CENTER | DT_NOPREFIX;
 	}
 
 	LPCTSTR CButtonUI::GetClass() const

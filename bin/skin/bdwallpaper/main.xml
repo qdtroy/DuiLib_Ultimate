@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Window corner="5,5" caption="0,0,0,32" mininfo="884,652" showdirty="true">
+<Window corner="5,5" caption="0,0,0,32" mininfo="884,652" showdirty="true" virtualwnd="true">
   <Font name="宋体" size="12" default="true"/>
   <Font name="宋体" size="12" bold="true" />
   <Font name="宋体" size="13" bold="true" />
@@ -17,7 +17,7 @@
         <Label bkimage="file='main/263.bmp' dest='0,8,13,21'" font="1" text="百度壁纸 - By Troy(656067418)" textcolor="#FF4c8bda" textpadding="16,0,0,0"/>
       </HorizontalLayout>
       <HorizontalLayout name="sysbtn" width="145" height="30" childpadding="3">
-        <Button name="menubtn" width="34" height="30" normalimage="main/216.bmp" hotimage="main/217.bmp" pushedimage="main/215.bmp"/>
+        <Button name="menubtn" width="34" height="30" normalimage="main/216.bmp" hotimage="main/217.bmp" pushedimage="main/215.bmp" virtualwnd="mainpage"/>
         <Button name="setbtn" width="34" height="30" normalimage="main/213.bmp" hotimage="main/214.bmp" pushedimage="main/212.bmp"/>
         <Button name="minbtn" width="34" height="30" normalimage="main/209.bmp" hotimage="main/210.bmp" pushedimage="main/211.bmp"/>
         <Button name="closebtn" width="34" height="30" normalimage="main/206.bmp" hotimage="main/207.bmp" pushedimage="main/208.bmp" tooltip="关闭"/>

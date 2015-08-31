@@ -523,7 +523,9 @@
     <None Include="..\..\bin\skin\duidemo\main.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\..\bin\skin\duidemo\menu.xml" />
+    <None Include="..\..\bin\skin\duidemo\menu.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\bin\skin\duidemo\popup.xml">
       <SubType>Designer</SubType>
     </None>

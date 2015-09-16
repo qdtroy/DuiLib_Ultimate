@@ -500,7 +500,7 @@ void CTxtWinHost::TxInvalidateRect(LPCRECT prc, BOOL fMode)
 
 void CTxtWinHost::TxViewChange(BOOL fUpdate) 
 {
-    if( m_re->OnTxViewChanged() ) m_re->Invalidate();
+    if( m_re->OnTxViewChanged(fUpdate) ) m_re->Invalidate();
 }
 
 BOOL CTxtWinHost::TxCreateCaret(HBITMAP hbmp, INT xWidth, INT yHeight)
@@ -1715,6 +1715,7 @@ void CRichEditUI::DoInit()
         m_pTwh->SetTransparent(TRUE);
         LRESULT lResult;
         m_pTwh->GetTextServices()->TxSendMessage(EM_SETLANGOPTIONS, 0, 0, &lResult);
+		m_pTwh->GetTextServices()->TxSendMessage(EM_SETEVENTMASK, 0, ENM_DROPFILES|ENM_LINK|ENM_CHANGE, &lResult);
         m_pTwh->OnTxInPlaceActivate(NULL);
         m_pManager->AddMessageFilter(this);
 		if (!m_bEnabled)
@@ -1727,7 +1728,7 @@ void CRichEditUI::DoInit()
 			m_pTwh->SetColor(m_dwTipValueColor);
 		}
     }
-
+	
 	m_bInited= true;
 }
 
@@ -1752,7 +1753,7 @@ IDropTarget* CRichEditUI::GetTxDropTarget()
     return NULL;
 }
 
-bool CRichEditUI::OnTxViewChanged()
+bool CRichEditUI::OnTxViewChanged(BOOL bUpdate)
 {
     return true;
 }
@@ -1760,8 +1761,7 @@ bool CRichEditUI::OnTxViewChanged()
 bool CRichEditUI::SetDropAcceptFile(bool bAccept) 
 {
 	LRESULT lResult;
-	TxSendMessage(EM_SETEVENTMASK, 0,ENM_DROPFILES|ENM_LINK, // ENM_CHANGE| ENM_CORRECTTEXT | ENM_DRAGDROPDONE | ENM_DROPFILES | ENM_IMECHANGE | ENM_LINK | ENM_OBJECTPOSITIONS | ENM_PROTECTED | ENM_REQUESTRESIZE | ENM_SCROLL | ENM_SELCHANGE | ENM_UPDATE,
-		&lResult);
+	TxSendMessage(EM_SETEVENTMASK, 0, ENM_DROPFILES|ENM_LINK, &lResult);
 	return (BOOL)lResult == FALSE;
 }
 
@@ -1772,8 +1772,8 @@ void CRichEditUI::OnTxNotify(DWORD iNotify, void *pv)
 	case EN_CHANGE:
 		{
 			GetManager()->SendNotify(this, DUI_MSGTYPE_TEXTCHANGED);
+			break;
 		}
-		break;
 	case EN_DROPFILES:   
 	case EN_MSGFILTER:   
 	case EN_OLEOPFAILED:   
@@ -1922,7 +1922,7 @@ void CRichEditUI::DoEvent(TEventUI& event)
 			m_pTwh->OnTxInPlaceActivate(NULL);
 			if (GetText() == m_sTipValue)
 			{
-				SetText(_T(""));
+				//SetText(_T(""));
 				m_pTwh->SetColor(m_dwTextColor);
 			}
 			m_pTwh->GetTextServices()->TxSendMessage(WM_SETFOCUS, 0, 0, 0);

@@ -146,7 +146,7 @@ public:
 		{
 			if( msg.pSender == m_pCloseBtn ) 
 			{
-				if(IDYES == MessageBox(NULL, _T("确定退出duidemo演示程序？"), _T("Duilib旗舰版"), MB_YESNO))
+				if(IDYES == MessageBox(m_hWnd, _T("确定退出duidemo演示程序？"), _T("Duilib旗舰版"), MB_YESNO))
 				{
 					PostQuitMessage(0);
 				}

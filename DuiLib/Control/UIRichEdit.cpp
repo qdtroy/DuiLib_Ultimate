@@ -1922,7 +1922,7 @@ void CRichEditUI::DoEvent(TEventUI& event)
 			m_pTwh->OnTxInPlaceActivate(NULL);
 			if (GetText() == m_sTipValue)
 			{
-				//SetText(_T(""));
+				SetText(_T(""));
 				m_pTwh->SetColor(m_dwTextColor);
 			}
 			m_pTwh->GetTextServices()->TxSendMessage(WM_SETFOCUS, 0, 0, 0);

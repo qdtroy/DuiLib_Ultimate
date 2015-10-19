@@ -1,0 +1,9 @@
+LIBRARY "UiFeatureEffect"
+
+EXPORTS
+
+	GetAnimation				@1
+	ReleaseAnimation			@2
+	GetSurportAnimationType		@3
+	GetImageProcess				@4
+	ReleaseImageProcess			@5

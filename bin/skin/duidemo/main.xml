@@ -3,7 +3,7 @@
   <Font name="宋体" size="13" bold="true" />
   <Font name="宋体" size="12" bold="true" underline="true"/>
   <Font name="宋体" size="12" />
-  <Font name="宋体" size="18" bold="true"/>
+  <Font name="宋体" size="28" bold="true"/>
   <Default name="VScrollBar" value="button1normalimage=&quot;file='scrollbar.bmp' source='0,90,16,106' mask='#FFFF00FF'&quot; button1hotimage=&quot;file='scrollbar.bmp' source='18,90,34,106' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='scrollbar.bmp' source='36,90,52,106' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='scrollbar.bmp' source='54,90,70,106' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='scrollbar.bmp' source='0,108,16,124' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='scrollbar.bmp' source='18,108,34,124' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='scrollbar.bmp' source='36,108,52,124' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='scrollbar.bmp' source='54,108,70,124' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='scrollbar.bmp' source='0,126,16,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='scrollbar.bmp' source='18,126,34,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;file='scrollbar.bmp' source='36,126,52,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='scrollbar.bmp' source='54,126,70,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='scrollbar.bmp' source='0,144,16,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='scrollbar.bmp' source='18,144,34,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='scrollbar.bmp' source='36,144,52,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='scrollbar.bmp' source='54,144,70,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='scrollbar.bmp' source='0,162,16,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='scrollbar.bmp' source='18,162,34,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='scrollbar.bmp' source='36,162,52,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='scrollbar.bmp' source='54,162,70,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; " />
   <Default name="HScrollBar" value="button1normalimage=&quot;file='scrollbar.bmp' source='0,0,16,16' mask='#FFFF00FF'&quot; button1hotimage=&quot;file='scrollbar.bmp' source='18,0,34,16' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='scrollbar.bmp' source='36,0,52,16' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='scrollbar.bmp' source='54,0,70,16' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='scrollbar.bmp' source='0,18,16,34' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='scrollbar.bmp' source='18,18,34,34' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='scrollbar.bmp' source='36,18,52,34' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='scrollbar.bmp' source='54,18,70,34' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='scrollbar.bmp' source='0,36,16,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='scrollbar.bmp' source='18,36,34,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;file='scrollbar.bmp' source='36,36,52,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='scrollbar.bmp' source='54,36,70,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='scrollbar.bmp' source='0,54,16,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='scrollbar.bmp' source='18,54,34,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='scrollbar.bmp' source='36,54,52,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='scrollbar.bmp' source='54,54,70,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='scrollbar.bmp' source='0,72,16,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='scrollbar.bmp' source='18,72,34,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='scrollbar.bmp' source='36,72,52,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='scrollbar.bmp' source='54,72,70,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; " />
   
@@ -48,9 +48,9 @@
           <HorizontalLayout height="60">
             <Label text="Label演示" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout >
-              <Control />
+              <Control/>
               <HorizontalLayout height="45" childpadding="12">
-                <Label text="duilib开源项目圈自动换行测试" width="60" align="left" wordbreak="true" textcolor="#FFFF0000"/>
+                <Label text="duilib开源项目圈自动换行测试瞧瞧去" width="60" align="left" wordbreak="true" textcolor="#FFFF0000"/>
 
               </HorizontalLayout>
               <Control />
@@ -73,7 +73,12 @@
             </VerticalLayout>
           </HorizontalLayout>
           <Label height="1" bkimage="hor_line.bmp"/>
-
+          <HorizontalLayout height="60" >
+            <HorizontalLayout />
+            <Label text="输入控件2" textcolor="#FF555555" glowsize="0" font="font13" minwidth="80" width="70" maxwidth="90"/>
+            <Label text="输入控件3" textcolor="#FF555555" glowsize="0" font="font13" minwidth="80" width="70" maxwidth="90"/>
+            <HorizontalLayout />
+          </HorizontalLayout>
           <HorizontalLayout height="60" >
             <Label text="输入控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout >
@@ -95,14 +100,14 @@
             <VerticalLayout>
               <Control />
               <HorizontalLayout height="23" childpadding="12">
-                <Combo name="font_type" droptype="droplist" width="100" height="22" textpadding="4,1,1,1"  normalimage="file='combo.png' source='0,0,100,22' corner='2,2,20,2'" hotimage="file='combo.png' source='0,22,100,44' corner='2,2,22,2'" pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'">
+                <Combo name="font_type" droptype="droplist" itemfont="3" width="100" height="22" textpadding="4,1,1,1"  normalimage="file='combo.png' source='0,0,100,22' corner='2,2,20,2'" hotimage="file='combo.png' source='0,22,100,44' corner='2,2,22,2'" pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'">
                   <ListLabelElement text="微软雅黑" selected="true" height="23"/>
                   <ListLabelElement text="宋体" height="23" />
                   <ListLabelElement text="黑体" height="23" />
                   <ListLabelElement text="幼圆" height="23" />
                   <ListLabelElement text="楷体" height="23" />
                 </Combo>
-                <Combo name="font_size" droptype="droplist" width="50" height="22" textpadding="4,1,22,1" normalimage="file='combo.png' source='0,0,100,22' corner='2,2,20,2'" hotimage="file='combo.png' source='0,22,100,44' corner='2,2,22,2'" pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'">
+                <!--<Combo name="font_size" droptype="droplist" width="50" height="22" textpadding="4,1,22,1" normalimage="file='combo.png' source='0,0,100,22' corner='2,2,20,2'" hotimage="file='combo.png' source='0,22,100,44' corner='2,2,22,2'" pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'">
                   <ListLabelElement text="9" selected="true" height="23" />
                   <ListLabelElement text="10" height="23" />
                   <ListLabelElement text="11" height="23" />
@@ -120,7 +125,7 @@
                   <ListLabelElement text="24" height="23" />
                   <ListLabelElement text="28" height="23" />
                   <ListLabelElement text="32" height="23" />
-                </Combo>
+                </Combo>-->
               </HorizontalLayout>
               <Control />
             </VerticalLayout>
@@ -160,7 +165,7 @@
           <HorizontalLayout height="120" bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="RichEdit控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
-              <RichEdit name="wordedit" text="duilib地址：https://github.com/duisharp/DuiLib_Ultimate duilib 开源项目交流圈（261675375），请各位积极贡献自己在开发中遇到的各种问题解决方案和开发经验，互帮互助，一起完善duilib。入群要求：接收Q龄高于3年等级一个太阳及以上的非企业QQ入群。" readonly="false" hscrollbar="true" autohscroll="true"/>
+              <RichEdit name="wordedit" text="duilib地址：https://github.com/duisharp/DuiLib_Ultimate duilib 开源项目交流圈（261675375），请各位积极贡献自己在开发中遇到的各种问题解决方案和开发经验，互帮互助，一起完善duilib。入群要求：接收Q龄高于3年等级一个太阳及以上的非企业QQ入群。" readonly="false" multiline="false" hscrollbar="true" autohscroll="true"/>
             </VerticalLayout>
           </HorizontalLayout>
           <Label height="1" bkimage="hor_line.bmp"/>

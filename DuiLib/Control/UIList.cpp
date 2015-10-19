@@ -2475,11 +2475,6 @@ void CListContainerElementUI::DoEvent(TEventUI& event)
         }
         return;
     }
-	if( event.Type == UIEVENT_TIMER )
- 	{
- 		m_pManager->SendNotify(this, DUI_MSGTYPE_TIMER, event.wParam, event.lParam);
- 		return;
- 	}
  	if( event.Type == UIEVENT_TIMER )
  	{
  		m_pManager->SendNotify(this, DUI_MSGTYPE_TIMER, event.wParam, event.lParam);

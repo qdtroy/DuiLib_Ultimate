@@ -1962,9 +1962,12 @@ namespace DuiLib {
 
 	HFONT CPaintManagerUI::GetFont(int index)
 	{
-		if( index < 0 || index >= m_aCustomFonts.GetSize() ) return GetDefaultFontInfo()->hFont;
-		TFontInfo* pFontInfo = static_cast<TFontInfo*>(m_aCustomFonts[index]);
-		return pFontInfo->hFont;
+		if( index >= 0 && index < m_aCustomFonts.GetSize() ) {
+			TFontInfo* pFontInfo = static_cast<TFontInfo*>(m_aCustomFonts[index]);
+			return pFontInfo->hFont;
+		}
+		if( m_pParentResourcePM ) return m_pParentResourcePM->GetFont(index);
+		return GetDefaultFontInfo()->hFont;
 	}
 
 	HFONT CPaintManagerUI::GetFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic)

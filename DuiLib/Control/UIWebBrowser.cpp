@@ -96,11 +96,8 @@ STDMETHODIMP DuiLib::CWebBrowserUI::Invoke( DISPID dispIdMember, REFIID riid, LC
 		break;
 	case DISPID_STATUSTEXTCHANGE:
 		break;
-	case DISPID_NEWWINDOW2:
-		{
-			NewWindow2(pDispParams->rgvarg[1].ppdispVal, pDispParams->rgvarg[0].pboolVal);
-			break;
-		}
+		//  	case DISPID_NEWWINDOW2:
+		//  		break;
 	case DISPID_NEWWINDOW3:
 		NewWindow3(
 			pDispParams->rgvarg[4].ppdispVal,
@@ -228,14 +225,6 @@ void DuiLib::CWebBrowserUI::ProgressChange( LONG nProgress, LONG nProgressMax )
 	}
 }
 
-void DuiLib::CWebBrowserUI::NewWindow2(IDispatch **ppDisp,VARIANT_BOOL* Cancel)
-{
-	if (m_pWebBrowserEventHandler)
-	{
-		m_pWebBrowserEventHandler->NewWindow2(ppDisp, Cancel);
-	}
-}
-
 void DuiLib::CWebBrowserUI::NewWindow3( IDispatch **pDisp, VARIANT_BOOL *&Cancel, DWORD dwFlags, BSTR bstrUrlContext, BSTR bstrUrl )
 {
 	if (m_pWebBrowserEventHandler)
@@ -243,7 +232,6 @@ void DuiLib::CWebBrowserUI::NewWindow3( IDispatch **pDisp, VARIANT_BOOL *&Cancel
 		m_pWebBrowserEventHandler->NewWindow3(pDisp,Cancel,dwFlags,bstrUrlContext,bstrUrl);
 	}
 }
-
 void DuiLib::CWebBrowserUI::CommandStateChange(long Command,VARIANT_BOOL Enable)
 {
 	if (m_pWebBrowserEventHandler)

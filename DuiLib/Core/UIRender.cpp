@@ -1055,6 +1055,37 @@ void CRenderEngine::DrawColor(HDC hDC, const RECT& rc, DWORD color)
 	Gdiplus::SolidBrush brush(Gdiplus::Color((LOBYTE((color)>>24)), GetBValue(color), GetGValue(color), GetRValue(color)));
 
 	graphics.FillRectangle(&brush, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
+	
+// 原来的代码，填充的背景色不包含透明通道，在透明模式下输出的图片和文字会出现问题，所以改为gdi+填充背景色
+// 	if( color <= 0x00FFFFFF ) return;
+// 	if( color >= 0xFF000000 )
+// 	{
+// 		::SetBkColor(hDC, RGB(GetBValue(color), GetGValue(color), GetRValue(color)));
+// 		::ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &rc, NULL, 0, NULL);
+// 	}
+// 	else
+// 	{
+// 		// Create a new 32bpp bitmap with room for an alpha channel
+// 		BITMAPINFO bmi = { 0 };
+// 		bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+// 		bmi.bmiHeader.biWidth = 1;
+// 		bmi.bmiHeader.biHeight = 1;
+// 		bmi.bmiHeader.biPlanes = 1;
+// 		bmi.bmiHeader.biBitCount = 32;
+// 		bmi.bmiHeader.biCompression = BI_RGB;
+// 		bmi.bmiHeader.biSizeImage = 1 * 1 * sizeof(DWORD);
+// 		LPDWORD pDest = NULL;
+// 		HBITMAP hBitmap = ::CreateDIBSection(hDC, &bmi, DIB_RGB_COLORS, (LPVOID*) &pDest, NULL, 0);
+// 		if( !hBitmap ) return;
+// 
+// 		*pDest = color;
+// 
+// 		RECT rcBmpPart = {0, 0, 1, 1};
+// 		RECT rcCorners = {0};
+// 		DrawImage(hDC, hBitmap, rc, rc, rcBmpPart, rcCorners, true, 255);
+// 		::DeleteObject(hBitmap);
+// 	}
+
 }
 
 void CRenderEngine::DrawGradient(HDC hDC, const RECT& rc, DWORD dwFirst, DWORD dwSecond, bool bVertical, int nSteps)

@@ -62,8 +62,6 @@ namespace DuiLib
 		void NavigateComplete2(IDispatch *pDisp,VARIANT *&url);
 		void ProgressChange(LONG nProgress, LONG nProgressMax);
 		void NewWindow3(IDispatch **pDisp, VARIANT_BOOL *&Cancel, DWORD dwFlags, BSTR bstrUrlContext, BSTR bstrUrl);
-		void NewWindow2(IDispatch **ppDisp,VARIANT_BOOL* Cancel);
-
 		void CommandStateChange(long Command,VARIANT_BOOL Enable);
 
 	public:

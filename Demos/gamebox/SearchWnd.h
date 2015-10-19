@@ -19,7 +19,7 @@ public:
 		if(pGameList != NULL)
 		{
 			CDialogBuilder builder;
-			CListContainerElementUI* pGameItem = static_cast<CListContainerElementUI*>(builder.Create(_T("searchitem.xml"), (UINT)0, NULL, &m_pm, NULL));
+			CListContainerElementUI* pGameItem = static_cast<CListContainerElementUI*>(builder.Create(_T("searchitem.xml"), (UINT)0));
 			CControlUI *pText = pGameItem->FindSubControl(_T("searchitem_text"));
 			pGameList->Add(pGameItem);
 			pText->SetText(sItem);

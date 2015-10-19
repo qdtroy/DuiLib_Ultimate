@@ -27,17 +27,6 @@ public:
 		pBrowser1->NavigateUrl(_T("http://member.yw26.com/c_register.aspx"));
 		pBrowser2->NavigateUrl(_T("https://github.com/duisharp/DuiLib_Ultimate"));
 
-		CContainerUI* pPanel = (CContainerUI*)m_PaintManager.FindControl(_T("split_tab_panel"));
-		
-		CWebBrowserUI* pBrowser3 = new CWebBrowserUI();
-		pPanel->Add(pBrowser3);
-		pBrowser3->SetName(_T("browser3"));
-		pBrowser3->SetAutoNavigation(true);
-		pBrowser3->SetHomePage(_T("ftp://ftp.pku.edu.cn"));
-		pBrowser3->SetWebBrowserEventHandler(this);
-		//pBrowser3->SetDelayCreate(false);
-		//pBrowser3->NavigateUrl(_T("www.baidu.com"));
-
 		CComboUI* pFontSize = static_cast<CComboUI*>(m_PaintManager.FindControl(_T("font_size")));
 		if(pFontSize)
 		{
@@ -81,16 +70,6 @@ public:
 		return S_OK;
 	}
 
-	virtual void NewWindow2(IDispatch **pDisp, VARIANT_BOOL *&Cancel)
-	{
-		*Cancel = TRUE;
-
-	}
-
-	void NewWindow3(IDispatch** ppDisp,VARIANT_BOOL* Cancel,unsigned long dwFlags,BSTR bstrUrlContext,BSTR bstrUrl)
-	{
-		*Cancel = VARIANT_TRUE;
-	}
 public:
 
 	DuiLib::CDuiString GetSkinFolder()
@@ -256,7 +235,6 @@ public:
 				pSubNew->SetIconSize(16,16);
 				pNew->Add(pSubNew);
 				rootMenu->Add(pNew);
-
 				CMenuElementUI* pNew2 = new CMenuElementUI;
 				pNew2->SetName(_T("Menu_Dynamic"));
 				pNew2->SetText(_T("动态一级菜单2"));

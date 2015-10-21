@@ -50,7 +50,7 @@ namespace DuiLib
 		DWORD GetPushedTextColor() const;
 		void SetFocusedTextColor(DWORD dwColor);
 		DWORD GetFocusedTextColor() const;
-		SIZE EstimateSize(SIZE szAvailable);
+		//SIZE EstimateSize(SIZE szAvailable);
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
 		void PaintText(HDC hDC);

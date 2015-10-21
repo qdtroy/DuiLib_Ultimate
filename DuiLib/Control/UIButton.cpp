@@ -298,11 +298,11 @@ namespace DuiLib
 		return m_sBindTabLayoutName;
 	}
 
-	SIZE CButtonUI::EstimateSize(SIZE szAvailable)
-	{
-		if( m_cxyFixed.cy == 0 ) return CDuiSize(m_cxyFixed.cx, m_pManager->GetFontInfo(GetFont())->tm.tmHeight + 8);
-		return CControlUI::EstimateSize(szAvailable);
-	}
+	//SIZE CButtonUI::EstimateSize(SIZE szAvailable)
+	//{
+	//	if( m_cxyFixed.cy == 0 ) return CDuiSize(m_cxyFixed.cx, m_pManager->GetFontInfo(GetFont())->tm.tmHeight + 8);
+	//	return CControlUI::EstimateSize(szAvailable);
+	//}
 
 	void CButtonUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{

@@ -63,7 +63,7 @@
             <VerticalLayout >
               <Control />
               <HorizontalLayout height="30" childpadding="12">
-                <Button name="button1" text="普通按钮" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
+                <Button name="button1" text="普通按钮" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="0" autocalcwidth="true"/>
                 <Button name="button2" text="图标按钮" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100" textpadding="20,0,0,0" foreimage="dest='4,7,20,23' res='icon.png'" />
                 <Button name="sendbtn" text="命令按钮(&S)" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" shortcut="S" width="120"/>
                 <Button name="sendbtn" text="颜色按钮" textcolor="#FF555555" bkcolor="#FFFF0000" hotbkcolor="#FFFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4" width="120"/>
@@ -95,7 +95,7 @@
             <VerticalLayout>
               <Control />
               <HorizontalLayout height="23" childpadding="12">
-                <Combo name="font_type" droptype="droplist" itemfont="3" width="100" height="22" textpadding="4,1,1,1"  normalimage="file='combo.png' source='0,0,100,22' corner='2,2,20,2'" hotimage="file='combo.png' source='0,22,100,44' corner='2,2,22,2'" pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'">
+                <Combo name="font_type" droptype="droplist" itemfont="" width="100" height="22" textpadding="4,1,1,1"  normalimage="file='combo.png' source='0,0,100,22' corner='2,2,20,2'" hotimage="file='combo.png' source='0,22,100,44' corner='2,2,22,2'" pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'">
                   <ListLabelElement text="微软雅黑" selected="true" height="23" />
                   <ListLabelElement text="宋体" height="23" />
                   <ListLabelElement text="黑体" height="23" />

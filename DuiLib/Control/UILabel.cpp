@@ -247,8 +247,9 @@ namespace DuiLib
 
 	void CLabelUI::SetText( LPCTSTR pstrText )
 	{
-		if(!m_bAutoCalcWidth)
-			return CControlUI::SetText(pstrText);
-		else this->NeedParentUpdate();
+		CControlUI::SetText(pstrText);
+		if(GetAutoCalcWidth()) {
+			this->NeedParentUpdate();
+		}
 	}
 }

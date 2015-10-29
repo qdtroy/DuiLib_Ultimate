@@ -1142,7 +1142,6 @@ namespace DuiLib {
 				event.wKeyState = (WORD)wParam;
 				event.dwTimestamp = ::GetTickCount();
 				m_pEventClick->Event(event);
-				m_pEventClick = NULL;
 			}
 			break;
 		case WM_CONTEXTMENU:

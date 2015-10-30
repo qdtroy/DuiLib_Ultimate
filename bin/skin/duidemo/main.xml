@@ -62,7 +62,7 @@
             <Label text="按钮控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout >
               <Control />
-              <HorizontalLayout height="30" childpadding="12">
+              <HorizontalLayout height="30" childpadding="12" bottombordersize="1" rightbordersize="1" bordercolor="#FFFF0000">
                 <Button name="button1" text="普通按钮" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="0" autocalcwidth="true"/>
                 <Button name="button2" text="图标按钮" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100" textpadding="20,0,0,0" foreimage="dest='4,7,20,23' res='icon.png'" />
                 <Button name="sendbtn" text="命令按钮(&S)" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" shortcut="S" width="120"/>

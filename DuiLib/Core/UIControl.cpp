@@ -980,22 +980,24 @@ void CControlUI::PaintBorder(HDC hDC)
 
 				if(m_rcBorderSize.left > 0){
 					rcBorder		= m_rcItem;
-					rcBorder.right	= m_rcItem.left;
+					rcBorder.right	= rcBorder.left;
 					CRenderEngine::DrawLine(hDC,rcBorder,m_rcBorderSize.left,GetAdjustColor(m_dwBorderColor),m_nBorderStyle);
 				}
 				if(m_rcBorderSize.top > 0){
 					rcBorder		= m_rcItem;
-					rcBorder.bottom	= m_rcItem.top;
+					rcBorder.bottom	= rcBorder.top;
 					CRenderEngine::DrawLine(hDC,rcBorder,m_rcBorderSize.top,GetAdjustColor(m_dwBorderColor),m_nBorderStyle);
 				}
 				if(m_rcBorderSize.right > 0){
 					rcBorder		= m_rcItem;
-					rcBorder.left	= m_rcItem.right;
+					rcBorder.right -= 1;
+					rcBorder.left	= rcBorder.right;
 					CRenderEngine::DrawLine(hDC,rcBorder,m_rcBorderSize.right,GetAdjustColor(m_dwBorderColor),m_nBorderStyle);
 				}
 				if(m_rcBorderSize.bottom > 0){
 					rcBorder		= m_rcItem;
-					rcBorder.top	= m_rcItem.bottom;
+					rcBorder.bottom -= 1;
+					rcBorder.top	= rcBorder.bottom;
 					CRenderEngine::DrawLine(hDC,rcBorder,m_rcBorderSize.bottom,GetAdjustColor(m_dwBorderColor),m_nBorderStyle);
 				}
 			}

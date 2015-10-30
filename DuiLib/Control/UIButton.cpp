@@ -12,7 +12,7 @@ namespace DuiLib
 		, m_dwPushedBkColor(0)
 		, m_iBindTabIndex(-1)
 	{
-		m_uTextStyle = DT_SINGLELINE | DT_VCENTER | DT_CENTER | DT_NOPREFIX;
+		m_uTextStyle = DT_SINGLELINE | DT_VCENTER | DT_CENTER;
 	}
 
 	LPCTSTR CButtonUI::GetClass() const
@@ -361,6 +361,17 @@ namespace DuiLib
 			{
 				m_uTextStyle = m_uTextStyle & ~DT_WORDBREAK;
 				m_uTextStyle |= DT_SINGLELINE;
+			}
+		}
+		else if( _tcscmp(pstrName, _T("noprefix")) == 0 )
+		{
+			if( _tcscmp(pstrValue, _T("true")) == 0)
+			{
+				m_uTextStyle |= DT_NOPREFIX;
+			}
+			else
+			{
+				m_uTextStyle = m_uTextStyle & ~DT_NOPREFIX;
 			}
 		}
 		else CLabelUI::SetAttribute(pstrName, pstrValue);

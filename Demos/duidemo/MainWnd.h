@@ -182,6 +182,12 @@ public:
 		{
 			ShellExecute(NULL, _T("open"), _T("https://github.com/duisharp"), NULL, NULL, SW_SHOW);
 		}
+		else if(sName.CompareNoCase(_T("button1")) == 0)
+		{
+			CEditUI* pEdit = static_cast<CEditUI*>(m_PaintManager.FindControl(_T("edit3")));
+			double fEdit = _ttof(pEdit->GetText().GetData());
+			MessageBox(m_hWnd, pEdit->GetText(), _T(""), 0);
+		}
 		else if(sName.CompareNoCase(_T("popwnd_btn")) == 0)
 		{
 			if(m_pPopWnd == NULL)
@@ -190,7 +196,7 @@ public:
 			}
 			if(!::IsWindow(*m_pPopWnd))
 			{
-				m_pPopWnd->Create(m_hWnd, _T("透明窗口演示"), WS_POPUP | WS_VISIBLE, 0L, 0, 0, 800, 572);
+				m_pPopWnd->Create(m_hWnd, _T("透明窗口演示"), WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW, 0, 0, 800, 572);
 			}
 			m_pPopWnd->CenterWindow();
 			m_pPopWnd->ShowModal();

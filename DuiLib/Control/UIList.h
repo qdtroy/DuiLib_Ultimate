@@ -36,6 +36,8 @@ namespace DuiLib {
 		DWORD dwDisabledBkColor;
 		CDuiString sDisabledImage;
 		DWORD dwLineColor;
+		bool bShowRowLine;
+		bool bShowColumnLine;
 		bool bShowHtml;
 		bool bMultiExpandable;
 	} TListInfoUI;
@@ -146,6 +148,8 @@ namespace DuiLib {
 		void SetDisabledItemBkColor(DWORD dwBkColor);
 		void SetDisabledItemImage(LPCTSTR pStrImage);
 		void SetItemLineColor(DWORD dwLineColor);
+		void SetItemShowRowLine(bool bShowLine = false);
+		void SetItemShowColumnLine(bool bShowLine = false);
 		bool IsItemShowHtml();
 		void SetItemShowHtml(bool bShowHtml = true);
 		RECT GetItemTextPadding() const;

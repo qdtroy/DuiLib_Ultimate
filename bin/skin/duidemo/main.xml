@@ -63,7 +63,7 @@
             <VerticalLayout >
               <Control />
               <HorizontalLayout height="30" childpadding="12" bottombordersize="1" rightbordersize="1" bordercolor="#FFFF0000">
-                <Button name="button1" text="普通按钮" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="0" autocalcwidth="true"/>
+                <Button name="button1" text="普通按钮" textcolor="#FF555555" textpadding="6,0,6,0" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="0" autocalcwidth="true"/>
                 <Button name="button2" text="图标按钮" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100" textpadding="20,0,0,0" foreimage="dest='4,7,20,23' res='icon.png'" />
                 <Button name="sendbtn" text="命令按钮(&S)" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" shortcut="S" width="120"/>
                 <Button name="sendbtn" text="颜色按钮" textcolor="#FF555555" bkcolor="#FFFF0000" hotbkcolor="#FFFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4" width="120"/>
@@ -79,10 +79,10 @@
             <VerticalLayout >
               <Control />
               <HorizontalLayout height="24" childpadding="12">
-                <Edit name="button1" tipvalue="普通" bkcolor="#00000000" bkimage="res='edit.png' corner='6,6,6,6'" />
-                <Edit name="button1" tipvalue="只读" text="只读控件" bkimage="res='button_pushed.png' corner='6,6,6,6'" readonly="true"/>
-                <Edit name="button1" tipvalue="数字" bkimage="res='button_pushed.png' corner='6,6,6,6'" numberonly="true"/>
-                <Edit name="button1" tipvalue="密码" bkimage="res='button_pushed.png' corner='6,6,6,6'" password="true"/>
+                <Edit name="edit1" tipvalue="普通" bkcolor="#00000000" bkimage="res='edit.png' corner='6,6,6,6'" />
+                <Edit name="edit2" tipvalue="只读" text="只读控件" bkimage="res='button_pushed.png' corner='6,6,6,6'" readonly="true"/>
+                <Edit name="edit3" tipvalue="数字" bkimage="res='button_pushed.png' corner='6,6,6,6'" numberonly="true"/>
+                <Edit name="edit4" tipvalue="密码" bkimage="res='button_pushed.png' corner='6,6,6,6'" password="true"/>
 
               </HorizontalLayout>
               <Control />
@@ -146,7 +146,7 @@
           <HorizontalLayout height="180" bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="ListView控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
-              <List name="listview" vscrollbar="true" hscrollbar="true" headerbkimage="file='list_header_bg.png'" itemtextstyle="center">
+              <List name="listview" vscrollbar="true" hscrollbar="true" headerbkimage="file='list_header_bg.png'" itemtextstyle="center" itemlinecolor="#FFFF0000" itemshowrowline="true" itemshowcolumnline="true">
                 <ListHeader height="24" menu="true">
                   <ListHeaderItem text="姓名" width="30" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
                   <ListHeaderItem text="学号" width="260" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>

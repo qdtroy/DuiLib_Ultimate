@@ -27,6 +27,8 @@ CListUI::CListUI() : m_pCallback(NULL), m_bScrollSelect(false), m_iCurSel(-1), m
     m_ListInfo.dwDisabledTextColor = 0xFFCCCCCC;
     m_ListInfo.dwDisabledBkColor = 0xFFFFFFFF;
     m_ListInfo.dwLineColor = 0;
+	m_ListInfo.bShowRowLine = false;
+	m_ListInfo.bShowColumnLine = false;
     m_ListInfo.bShowHtml = false;
     m_ListInfo.bMultiExpandable = false;
     ::ZeroMemory(&m_ListInfo.rcTextPadding, sizeof(m_ListInfo.rcTextPadding));
@@ -599,7 +601,16 @@ void CListUI::SetItemLineColor(DWORD dwLineColor)
     m_ListInfo.dwLineColor = dwLineColor;
     Invalidate();
 }
-
+void CListUI::SetItemShowRowLine(bool bShowLine)
+{
+	m_ListInfo.bShowRowLine = bShowLine;
+	Invalidate();
+}
+void CListUI::SetItemShowColumnLine(bool bShowLine)
+{
+	m_ListInfo.bShowColumnLine = bShowLine;
+	Invalidate();
+}
 bool CListUI::IsItemShowHtml()
 {
     return m_ListInfo.bShowHtml;
@@ -772,6 +783,8 @@ void CListUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
         DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
         SetItemLineColor(clrColor);
     }
+	else if( _tcscmp(pstrName, _T("itemshowrowline")) == 0 ) SetItemShowRowLine(_tcscmp(pstrValue, _T("true")) == 0);
+	else if( _tcscmp(pstrName, _T("itemshowcolumnline")) == 0 ) SetItemShowColumnLine(_tcscmp(pstrValue, _T("true")) == 0);
     else if( _tcscmp(pstrName, _T("itemshowhtml")) == 0 ) SetItemShowHtml(_tcscmp(pstrValue, _T("true")) == 0);
     else CVerticalLayoutUI::SetAttribute(pstrName, pstrValue);
 }
@@ -1947,9 +1960,17 @@ void CListElementUI::DrawItemBk(HDC hDC, const RECT& rcItem)
         }
     }
 
-    if ( pInfo->dwLineColor != 0 ) {
-        RECT rcLine = { m_rcItem.left, m_rcItem.bottom - 1, m_rcItem.right, m_rcItem.bottom - 1 };
-        CRenderEngine::DrawLine(hDC, rcLine, 1, GetAdjustColor(pInfo->dwLineColor));
+	if ( pInfo->dwLineColor != 0 ) {
+		if(pInfo->bShowRowLine) {
+			RECT rcLine = { m_rcItem.left, m_rcItem.bottom - 1, m_rcItem.right, m_rcItem.bottom - 1 };
+			CRenderEngine::DrawLine(hDC, rcLine, 1, GetAdjustColor(pInfo->dwLineColor));
+		}
+		if(pInfo->bShowColumnLine) {
+			for( int i = 0; i < pInfo->nColumns; i++ ) {
+				RECT rcLine = { pInfo->rcColumn[i].right-1, m_rcItem.top, pInfo->rcColumn[i].right-1, m_rcItem.bottom };
+				CRenderEngine::DrawLine(hDC, rcLine, 1, GetAdjustColor(pInfo->dwLineColor));
+			}
+		}
     }
 }
 

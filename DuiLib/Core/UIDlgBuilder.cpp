@@ -4,7 +4,7 @@ namespace DuiLib {
 
 CDialogBuilder::CDialogBuilder() : m_pCallback(NULL), m_pstrtype(NULL)
 {
-
+    m_instance = NULL;
 }
 
 CControlUI* CDialogBuilder::Create(STRINGorID xml, LPCTSTR type, IDialogBuilderCallback* pCallback, 
@@ -22,16 +22,25 @@ CControlUI* CDialogBuilder::Create(STRINGorID xml, LPCTSTR type, IDialogBuilderC
         }
     }
     else {
-        HRSRC hResource = ::FindResource(CPaintManagerUI::GetResourceDll(), xml.m_lpstr, type);
+        HINSTANCE dll_instence = NULL;
+        if (m_instance)
+        {
+            dll_instence = m_instance;
+        }
+        else
+        {
+            dll_instence = CPaintManagerUI::GetResourceDll();
+        }
+        HRSRC hResource = ::FindResource(dll_instence, xml.m_lpstr, type);
         if( hResource == NULL ) return NULL;
-        HGLOBAL hGlobal = ::LoadResource(CPaintManagerUI::GetResourceDll(), hResource);
+        HGLOBAL hGlobal = ::LoadResource(dll_instence, hResource);
         if( hGlobal == NULL ) {
             FreeResource(hResource);
             return NULL;
         }
 
         m_pCallback = pCallback;
-        if( !m_xml.LoadFromMem((BYTE*)::LockResource(hGlobal), ::SizeofResource(CPaintManagerUI::GetResourceDll(), hResource) )) return NULL;
+        if( !m_xml.LoadFromMem((BYTE*)::LockResource(hGlobal), ::SizeofResource(dll_instence, hResource) )) return NULL;
         ::FreeResource(hResource);
         m_pstrtype = type;
     }

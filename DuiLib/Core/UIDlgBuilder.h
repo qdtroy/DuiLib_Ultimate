@@ -25,12 +25,14 @@ namespace DuiLib {
 
 		void GetLastErrorMessage(LPTSTR pstrMessage, SIZE_T cchMax) const;
 		void GetLastErrorLocation(LPTSTR pstrSource, SIZE_T cchMax) const;
+	    void SetInstance(HINSTANCE instance){ m_instance = instance;};
 	private:
 		CControlUI* _Parse(CMarkupNode* parent, CControlUI* pParent = NULL, CPaintManagerUI* pManager = NULL);
 
 		CMarkup m_xml;
 		IDialogBuilderCallback* m_pCallback;
 		LPCTSTR m_pstrtype;
+    	HINSTANCE m_instance;
 	};
 
 } // namespace DuiLib

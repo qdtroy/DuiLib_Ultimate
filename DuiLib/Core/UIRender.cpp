@@ -283,7 +283,7 @@ DWORD CRenderEngine::AdjustColor(DWORD dwColor, short H, short S, short L)
     return dwColor;
 }
 
-TImageInfo* CRenderEngine::LoadImage(STRINGorID bitmap, LPCTSTR type, DWORD mask)
+TImageInfo* CRenderEngine::LoadImage(STRINGorID bitmap, LPCTSTR type, DWORD mask, HINSTANCE instance)
 {
     LPBYTE pData = NULL;
     DWORD dwSize = 0;
@@ -334,15 +334,24 @@ TImageInfo* CRenderEngine::LoadImage(STRINGorID bitmap, LPCTSTR type, DWORD mask
 			}
 		}
 		else {
-			HRSRC hResource = ::FindResource(CPaintManagerUI::GetResourceDll(), bitmap.m_lpstr, type);
+             HINSTANCE dllinstance = NULL;
+            if (instance)
+            {
+                dllinstance = instance;
+            }
+            else
+            {
+                dllinstance = CPaintManagerUI::GetResourceDll();
+            }
+			HRSRC hResource = ::FindResource(dllinstance, bitmap.m_lpstr, type);
 			if( hResource == NULL ) break;
-			HGLOBAL hGlobal = ::LoadResource(CPaintManagerUI::GetResourceDll(), hResource);
+			HGLOBAL hGlobal = ::LoadResource(dllinstance, hResource);
 			if( hGlobal == NULL ) {
 				FreeResource(hResource);
 				break;
 			}
 
-			dwSize = ::SizeofResource(CPaintManagerUI::GetResourceDll(), hResource);
+			dwSize = ::SizeofResource(dllinstance, hResource);
 			if( dwSize == 0 ) break;
 			pData = new BYTE[ dwSize ];
 			::CopyMemory(pData, (LPBYTE)::LockResource(hGlobal), dwSize);
@@ -899,7 +908,7 @@ void CRenderEngine::DrawImage(HDC hDC, HBITMAP hBitmap, const RECT& rc, const RE
 
 bool DrawImage(HDC hDC, CPaintManagerUI* pManager, const RECT& rc, const RECT& rcPaint, const CDuiString& sImageName, \
 		const CDuiString& sImageResType, RECT rcItem, RECT rcBmpPart, RECT rcCorner, DWORD dwMask, BYTE bFade, \
-		bool bHole, bool bTiledX, bool bTiledY)
+		bool bHole, bool bTiledX, bool bTiledY, HINSTANCE instance = NULL)
 {
 	if (sImageName.IsEmpty()) {
 		return false;
@@ -909,7 +918,7 @@ bool DrawImage(HDC hDC, CPaintManagerUI* pManager, const RECT& rc, const RECT& r
 		data = pManager->GetImageEx((LPCTSTR)sImageName, NULL, dwMask);
 	}
 	else {
-		data = pManager->GetImageEx((LPCTSTR)sImageName, (LPCTSTR)sImageResType, dwMask);
+		data = pManager->GetImageEx((LPCTSTR)sImageName, (LPCTSTR)sImageResType, dwMask, instance);
 	}
 	if( !data ) return false;    
 
@@ -930,7 +939,7 @@ bool DrawImage(HDC hDC, CPaintManagerUI* pManager, const RECT& rc, const RECT& r
 }
 
 bool CRenderEngine::DrawImageString(HDC hDC, CPaintManagerUI* pManager, const RECT& rc, const RECT& rcPaint, 
-                                          LPCTSTR pStrImage, LPCTSTR pStrModify)
+                                          LPCTSTR pStrImage, LPCTSTR pStrModify, HINSTANCE instance)
 {
 	if ((pManager == NULL) || (hDC == NULL)) return false;
 
@@ -1042,7 +1051,7 @@ bool CRenderEngine::DrawImageString(HDC hDC, CPaintManagerUI* pManager, const RE
     }
 
 	DuiLib::DrawImage(hDC, pManager, rc, rcPaint, sImageName, sImageResType,
-		rcItem, rcBmpPart, rcCorner, dwMask, bFade, bHole, bTiledX, bTiledY);
+		rcItem, rcBmpPart, rcCorner, dwMask, bFade, bHole, bTiledX, bTiledY, instance);
 
     return true;
 }

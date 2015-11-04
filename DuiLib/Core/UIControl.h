@@ -27,7 +27,8 @@ namespace DuiLib {
 		virtual CPaintManagerUI* GetManager() const;
 		virtual void SetManager(CPaintManagerUI* pManager, CControlUI* pParent, bool bInit = true);
 		virtual CControlUI* GetParent() const;
-
+	    void setInstance(HINSTANCE instance = NULL) {m_instance = instance;};
+		
 		// ¶¨Ê±Æ÷
 		bool SetTimer(UINT nTimerID, UINT nElapse);
 		void KillTimer(UINT nTimerID);
@@ -214,6 +215,7 @@ namespace DuiLib {
 		SIZE m_cxyBorderRound;
 		RECT m_rcPaint;
 		RECT m_rcBorderSize;
+	    HINSTANCE m_instance;
 	};
 
 } // namespace DuiLib

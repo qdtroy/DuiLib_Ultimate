@@ -29,13 +29,13 @@ namespace DuiLib {
 	{
 	public:
 		static DWORD AdjustColor(DWORD dwColor, short H, short S, short L);
-		static TImageInfo* LoadImage(STRINGorID bitmap, LPCTSTR type = NULL, DWORD mask = 0);
+	    static TImageInfo* LoadImage(STRINGorID bitmap, LPCTSTR type = NULL, DWORD mask = 0, HINSTANCE instance = NULL);
 		static void FreeImage(const TImageInfo* bitmap);
 		static void DrawImage(HDC hDC, HBITMAP hBitmap, const RECT& rc, const RECT& rcPaint, \
 			const RECT& rcBmpPart, const RECT& rcCorners, bool alphaChannel, BYTE uFade = 255, 
 			bool hole = false, bool xtiled = false, bool ytiled = false);
 		static bool DrawImageString(HDC hDC, CPaintManagerUI* pManager, const RECT& rcItem, const RECT& rcPaint, 
-			LPCTSTR pStrImage, LPCTSTR pStrModify = NULL);
+        LPCTSTR pStrImage, LPCTSTR pStrModify = NULL, HINSTANCE instance = NULL);
 		static void DrawColor(HDC hDC, const RECT& rc, DWORD color);
 		static void DrawGradient(HDC hDC, const RECT& rc, DWORD dwFirst, DWORD dwSecond, bool bVertical, int nSteps);
 

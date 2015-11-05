@@ -247,7 +247,7 @@ void CControlUI::SetBorderRound(SIZE cxyRound)
 
 bool CControlUI::DrawImage(HDC hDC, LPCTSTR pStrImage, LPCTSTR pStrModify)
 {
-    return CRenderEngine::DrawImageString(hDC, m_pManager, m_rcItem, m_rcPaint, pStrImage, pStrModify);
+    return CRenderEngine::DrawImageString(hDC, m_pManager, m_rcItem, m_rcPaint, pStrImage, pStrModify, m_instance);
 }
 
 const RECT& CControlUI::GetPos() const

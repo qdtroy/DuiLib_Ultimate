@@ -268,6 +268,46 @@
 		<Attribute name="scrollstepsize" default="0" type="INT" comment="容器的滚动条滚动步长，0代表使用默认步长"/>
 		<Attribute name="selectedid" default="0" type="INT" comment="默认选中的页面id,如(0)"/>
 	</TabLayout>
+  <AnimationTabLayout parent="TabLayout" notifies="setfocus killfocus timer menu tabselect windowinit(root)">
+    <Attribute name="name" default="" type="STRING" comment="控件名字，同一窗口内必须唯一，如(testbtn)"/>
+    <Attribute name="pos" default="0,0,0,0" type="RECT" comment="位置，如果为float控件则指定位置和大小，否则只指定大小,如(0,0,100,100)"/>
+    <Attribute name="padding" default="0,0,0,0" type="RECT" comment="外边距,如(2,2,2,2)"/>
+    <Attribute name="bkcolor" default="0x00000000" type="DWORD" comment="背景颜色,如(0xFFFF0000)"/>
+    <Attribute name="bkcolor2" default="0x00000000" type="DWORD" comment="背景渐变色2,和bkcolor配合使用,如(0xFFFFFF00)"/>
+    <Attribute name="bkcolor3" default="0x00000000" type="DWORD" comment="背景渐变色3,和bkcolor、bkcolor2配合使用,如(0xFFFF00FF)"/>
+    <Attribute name="bordercolor" default="0x00000000" type="DWORD" comment="边框颜色,如(0xFF000000)"/>
+    <Attribute name="focusbordercolor" default="0x00000000" type="DWORD" comment="获得焦点时边框的颜色,如(0xFFFF0000)"/>
+    <Attribute name="colorhsl" default="false" type="BOOL" comment="本控件的颜色是否随窗口的hsl变化而变化,如(false)"/>
+    <Attribute name="bordersize" default="1" type="INT" comment="边框大小，如(1)"/>
+    <Attribute name="borderround" default="0,0" type="SIZE" comment="边框圆角半径,如(2,2)"/>
+    <Attribute name="bkimage" default="" type="STRING" comment="背景图片,如(bk.bmp或file='aaa.jpg' res='' restype='0' dest='0,0,0,0' source='0,0,0,0' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false')"/>
+    <Attribute name="disabledimage" default="" type="STRING" comment="禁用的状态图片"/>
+    <Attribute name="width" default="0" type="INT" comment="控件预设的宽度，如(100)"/>
+    <Attribute name="height" default="0" type="INT" comment="控件预设的高度，如(30)"/>
+    <Attribute name="minwidth" default="0" type="INT" comment="控件的最小宽度，如(100)"/>
+    <Attribute name="minheight" default="0" type="INT" comment="控件的最小高度，如(30)"/>
+    <Attribute name="maxwidth" default="9999" type="INT" comment="控件的最大宽度，如(100)"/>
+    <Attribute name="maxheight" default="9999" type="INT" comment="控件的最大高度，如(30)"/>
+    <Attribute name="text" default="" type="STRING" comment="显示文本,如(测试文本)"/>
+    <Attribute name="tooltip" default="" type="STRING" comment="鼠标悬浮提示,如(请在这里输入你的密码)"/>
+    <Attribute name="userdata" default="" type="STRING" comment="自定义标识"/>
+    <Attribute name="enabled" default="true" type="BOOL" comment="是否可以响应用户操作,如(true),同时禁用或者启用子控件"/>
+    <Attribute name="mouse" default="true" type="BOOL" comment="本控件是否可以响应鼠标操作,如(true)"/>
+    <Attribute name="mousechild" default="true" type="BOOL" comment="本控件的子控件是否可以响应用户操作,如(true)"/>
+    <Attribute name="visible" default="true" type="BOOL" comment="是否可见,如(true)"/>
+    <Attribute name="float" default="false" type="BOOL" comment="是否使用绝对定位,如(true)"/>
+    <Attribute name="shortcut" default="" type="CHAR" comment="对应的快捷键,如(P)"/>
+    <Attribute name="menu" default="false" type="BOOL" comment="是否需要右键菜单,如(true)"/>
+    <Attribute name="inset" default="0,0,0,0" type="RECT" comment="容器的内边距,如(2,2,2,2)"/>
+    <Attribute name="vscrollbar" default="false" type="BOOL" comment="是否使用竖向滚动条,如(true)"/>
+    <Attribute name="hscrollbar" default="false" type="BOOL" comment="是否使用横向滚动条,如(true)"/>
+    <Attribute name="childpadding" default="0" type="DWORD" comment="子控件之间的额外距离,如(4)"/>
+    <Attribute name="vscrollbarstyle" default="" type="STRING" comment="设置本容器的纵向滚动条的样式"/>
+    <Attribute name="hscrollbarstyle" default="" type="STRING" comment="设置本容器的横向滚动条的样式"/>
+    <Attribute name="scrollstepsize" default="0" type="INT" comment="容器的滚动条滚动步长，0代表使用默认步长"/>
+    <Attribute name="selectedid" default="0" type="INT" comment="默认选中的页面id,如(0)"/>
+    <Attribute name="animation_direction" default="0" type="STRING" comment="动画方向左右、上下，默认是左右,如(vertical、horizontal)"/>
+  </AnimationTabLayout>
 	<ActiveX parent="Control" notifies="setfocus killfocus timer menu showactivex windowinit(root)">
 		<Attribute name="name" default="" type="STRING" comment="控件名字，同一窗口内必须唯一，如(testbtn)"/>
 		<Attribute name="pos" default="0,0,0,0" type="RECT" comment="位置，如果为float控件则指定位置和大小，否则只指定大小,如(0,0,100,100)"/>
@@ -369,6 +409,11 @@
 		<Attribute name="itemshowhtml" default="false" type="BOOL" comment="item是否使用类html富文本绘制,如(false)"/>
 		<Attribute name="multiexpanding" default="false" type="BOOL" comment="是否支持多个item同时打开,如(false)"/>
 	</Combo>
+  <GifAnim parent="Control" notifies="setfocus killfocus timer menu windowinit(root)">
+    <Attribute name="bkimage" default="" type="STRING" comment="Gif动画图片路径(不支持source等属性设置)"/>
+    <Attribute name="autoplay" default="true" type="BOOL" comment="是否自动播放GIF动画"/>
+    <Attribute name="autosize" default="false" type="BOOL" comment="是否根据图片自动设置控件大小(开启后width和height属性失效)"/>
+  </GifAnim>
 	<Label parent="Control" notifies="setfocus killfocus timer menu windowinit(root)">
 		<Attribute name="name" default="" type="STRING" comment="控件名字，同一窗口内必须唯一，如(testbtn)"/>
 		<Attribute name="pos" default="0,0,0,0" type="RECT" comment="位置，如果为float控件则指定位置和大小，否则只指定大小,如(0,0,100,100)"/>
@@ -398,99 +443,65 @@
 		<Attribute name="float" default="false" type="BOOL" comment="是否使用绝对定位,如(true)"/>
 		<Attribute name="shortcut" default="" type="CHAR" comment="对应的快捷键,如(P)"/>
 		<Attribute name="menu" default="false" type="BOOL" comment="是否需要右键菜单,如(true)"/>
-		<Attribute name="align" default="left" type="STRING" comment="文字对齐方式,取值left、right、center、top、bottom，如(center)"/>
 		<Attribute name="endellipsis" default="false" type="BOOL" comment="句末显示不全是否使用...代替,如(true)"/>
 		<Attribute name="font" default="-1" type="INT" comment="字体id,如(0)"/>
 		<Attribute name="textcolor" default="0x00000000" type="DWORD" comment="字体颜色，0表示使用默认字体颜色,如(0xFFFF0000)"/>
 		<Attribute name="disabledtextcolor" default="0x00000000" type="DWORD" comment="disabled字体颜色，0表示使用默认disabled字体颜色,如(0xFFFF0000)"/>
 		<Attribute name="textpadding" default="0,0,0,0" type="RECT" comment="文字显示的边距,如(2,2,2,2)"/>
 		<Attribute name="showhtml" default="false" type="BOOL" comment="是否使用类html富文本绘制,如(false)"/>
-		<Attribute name="enabledeffect" default="false" type="BOOL" comment="是否使用字体特效，使用下面文字特效属性必须该属性设置为true方有效"/>
 		<Attribute name="align" default="left" type="STRING" comment="文字横向对齐方式,取值left、center、right"/>
 		<Attribute name="valign" default="center" type="STRING" comment="文字纵向对齐方式,取值top、center、bottom"/>
-		<Attribute name="rhaa" default="0" type="STRING" comment="字体质量0-5"/>
-		<Attribute name="enabledstroke" default="false" type="BOOL" comment="是否使用描边效果"/>
-		<Attribute name="strokecolor" default="0x00000000" type="STRING" comment="字体描边的颜色"/>
-		<Attribute name="transstroke" default="255" type="STRING" comment="字体描边的颜色透明度 0-255"/>
-		<Attribute name="enabledshadow" default="false" type="BOOL" comment="是否使用阴影效果"/>
-		<Attribute name="gradientangle" default="0" type="INT" comment="渐变色渲染角度"/>
-		<Attribute name="gradientlength" default="0" type="INT" comment="渐变距离"/>
-		<Attribute name="textcolor1" default="0x00000000" type="STRING" comment="字体渐变色"/>
-		<Attribute name="textshadowcolora" default="0xff000000" type="STRING" comment="字体阴影渐变色"/>
-		<Attribute name="textshadowcolorb" default="0xff000000" type="STRING" comment="字体阴影渐变色"/>
-		<Attribute name="transshadow" default="100" type="INT" comment="阴影透明度"/>
-		<Attribute name="transshadow1" default="100" type="INT" comment="阴影透明度"/>
-		<Attribute name="transtext" default="100" type="INT" comment="字体色彩透明度"/>
-		<Attribute name="transtext1" default="100" type="INT" comment="字体色彩透明度"/>
-		<Attribute name="autocalcwidth" default="false" type="INT" comment="是否自动计算宽度"/>		
-	</Label>
-	<DateTime parent="Label" notifies="setfocus killfocus timer menu windowinit(root)">
-		<Attribute name="name" default="" type="STRING" comment="控件名字，同一窗口内必须唯一，如(testbtn)"/>
-		<Attribute name="pos" default="0,0,0,0" type="RECT" comment="位置，如果为float控件则指定位置和大小，否则只指定大小,如(0,0,100,100)"/>
-		<Attribute name="padding" default="0,0,0,0" type="RECT" comment="外边距,如(2,2,2,2)"/>
-		<Attribute name="bkcolor" default="0x00000000" type="DWORD" comment="背景颜色,如(0xFFFF0000)"/>
-		<Attribute name="bkcolor2" default="0x00000000" type="DWORD" comment="背景渐变色2,和bkcolor配合使用,如(0xFFFFFF00)"/>
-		<Attribute name="bkcolor3" default="0x00000000" type="DWORD" comment="背景渐变色3,和bkcolor、bkcolor2配合使用,如(0xFFFF00FF)"/>
-		<Attribute name="bordercolor" default="0x00000000" type="DWORD" comment="边框颜色,如(0xFF000000)"/>
-		<Attribute name="focusbordercolor" default="0x00000000" type="DWORD" comment="获得焦点时边框的颜色,如(0xFFFF0000)"/>
-		<Attribute name="colorhsl" default="false" type="BOOL" comment="本控件的颜色是否随窗口的hsl变化而变化,如(false)"/>
-		<Attribute name="bordersize" default="1" type="INT" comment="边框大小，如(1)"/>
-		<Attribute name="borderround" default="0,0" type="SIZE" comment="边框圆角半径,如(2,2)"/>
-		<Attribute name="bkimage" default="" type="STRING" comment="背景图片,如(bk.bmp或file='aaa.jpg' res='' restype='0' dest='0,0,0,0' source='0,0,0,0' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false')"/>
-		<Attribute name="disabledimage" default="" type="STRING" comment="禁用的状态图片"/>
-		<Attribute name="width" default="0" type="INT" comment="控件预设的宽度，如(100)"/>
-		<Attribute name="height" default="0" type="INT" comment="控件预设的高度，如(30)"/>
-		<Attribute name="minwidth" default="0" type="INT" comment="控件的最小宽度，如(100)"/>
-		<Attribute name="minheight" default="0" type="INT" comment="控件的最小高度，如(30)"/>
-		<Attribute name="maxwidth" default="9999" type="INT" comment="控件的最大宽度，如(100)"/>
-		<Attribute name="maxheight" default="9999" type="INT" comment="控件的最大高度，如(30)"/>
-		<Attribute name="text" default="" type="STRING" comment="显示文本,如(测试文本)"/>
-		<Attribute name="tooltip" default="" type="STRING" comment="鼠标悬浮提示,如(请在这里输入你的密码)"/>
-		<Attribute name="userdata" default="" type="STRING" comment="自定义标识"/>
-		<Attribute name="enabled" default="true" type="BOOL" comment="是否可以响应用户操作,如(true)"/>
-		<Attribute name="mouse" default="true" type="BOOL" comment="本控件是否可以响应鼠标操作,如(true)"/>
-		<Attribute name="visible" default="true" type="BOOL" comment="是否可见,如(true)"/>
-		<Attribute name="float" default="false" type="BOOL" comment="是否使用绝对定位,如(true)"/>
-		<Attribute name="shortcut" default="" type="CHAR" comment="对应的快捷键,如(P)"/>
-		<Attribute name="menu" default="false" type="BOOL" comment="是否需要右键菜单,如(true)"/>
-		<Attribute name="align" default="left" type="STRING" comment="文字对齐方式,取值left、right、center、top、bottom，如(center)"/>
-		<Attribute name="endellipsis" default="false" type="BOOL" comment="句末显示不全是否使用...代替,如(true)"/>
-		<Attribute name="font" default="-1" type="INT" comment="字体id,如(0)"/>
-		<Attribute name="textcolor" default="0x00000000" type="DWORD" comment="字体颜色，0表示使用默认字体颜色,如(0xFFFF0000)"/>
-		<Attribute name="disabledtextcolor" default="0x00000000" type="DWORD" comment="disabled字体颜色，0表示使用默认disabled字体颜色,如(0xFFFF0000)"/>
-		<Attribute name="textpadding" default="0,0,0,0" type="RECT" comment="文字显示的边距,如(2,2,2,2)"/>
-		<Attribute name="align" default="left" type="STRING" comment="文字横向对齐方式,取值left、center、right"/>
-		<Attribute name="valign" default="center" type="STRING" comment="文字纵向对齐方式,取值top、center、bottom"/>
-		<Attribute name="rhaa" default="0" type="STRING" comment="字体质量0-5"/>
-		<Attribute name="autocalcwidth" default="false" type="INT" comment="是否自动计算宽度"/>		
-	</DateTime>
-	<GifAnim parent="Control" notifies="setfocus killfocus timer menu windowinit(root)">
-		<Attribute name="bkimage" default="" type="STRING" comment="Gif动画图片路径(不支持source等属性设置)"/>
-		<Attribute name="autoplay" default="true" type="BOOL" comment="是否自动播放GIF动画"/>
-		<Attribute name="autosize" default="false" type="BOOL" comment="是否根据图片自动设置控件大小(开启后width和height属性失效)"/>
-	</GifAnim>
-	<Menu parent="CListUI" notifies="setfocus killfocus timer menu itemselect windowinit(root)">
-		<Attribute name="inset" default="0,0,0,0" type="RECT" comment="菜单的高度等于所有菜单项的高度之和，加上inset属性的top和bottom"/>
-		<!-- Menu标签的属性要通过Default来定义，为了让下级菜单也能拥有同样的外观，其他属性设置见List -->
-	</Menu>
-	<MenuElement parent="CListContainerElementUI" notifies="click valuechanged WM_MENUCLICK">
-		<Attribute name="icon" default="" type="STRING" comment="菜单项的图标图片"/>
-		<Attribute name="iconsize" default="0,0" type="SIZE" comment="图片的大小，最大为26x26"/>
-		<Attribute name="checkitem" default="false" type="BOOL" comment="是否有复选功能"/>
-		<Attribute name="ischeck" default="false" type="BOOL" comment="是否被选中（前提是开启了复选功能，复选功能属性应该写在本属性的前面）"/>
-		<Attribute name="linetype" default="false" type="BOOL" comment="是否是分割线（开启后将不会显示图标）"/>
-		<Attribute name="linepadding" default="29,0,7,0" type="RECT" comment="分割线的外边据"/>
-		<Attribute name="linecolor" default="0xFFBCBFC4" type="DWORD" comment="分割线的颜色"/>
-		<Attribute name="expland" default="false" type="BOOL" comment="是否显示下级菜单的小三角图片（需要通过Default标签设置ExplandIcon属性图片的路径）"/>
-		<Attribute name="height" default="30" type="INT" comment="菜单项高度（分割线默认高度是6）"/>
-	</MenuElement>
+		<Attribute name="autocalcwidth" default="false" type="INT" comment="是否自动计算宽度"/>
+    <Attribute name="wordbreak" default="false" type="INT" comment="是否支持多行文字"/>
+  </Label>
+  <DateTime parent="Label" notifies="setfocus killfocus timer menu windowinit(root)">
+    <Attribute name="name" default="" type="STRING" comment="控件名字，同一窗口内必须唯一，如(testbtn)"/>
+    <Attribute name="pos" default="0,0,0,0" type="RECT" comment="位置，如果为float控件则指定位置和大小，否则只指定大小,如(0,0,100,100)"/>
+    <Attribute name="padding" default="0,0,0,0" type="RECT" comment="外边距,如(2,2,2,2)"/>
+    <Attribute name="bkcolor" default="0x00000000" type="DWORD" comment="背景颜色,如(0xFFFF0000)"/>
+    <Attribute name="bkcolor2" default="0x00000000" type="DWORD" comment="背景渐变色2,和bkcolor配合使用,如(0xFFFFFF00)"/>
+    <Attribute name="bkcolor3" default="0x00000000" type="DWORD" comment="背景渐变色3,和bkcolor、bkcolor2配合使用,如(0xFFFF00FF)"/>
+    <Attribute name="bordercolor" default="0x00000000" type="DWORD" comment="边框颜色,如(0xFF000000)"/>
+    <Attribute name="focusbordercolor" default="0x00000000" type="DWORD" comment="获得焦点时边框的颜色,如(0xFFFF0000)"/>
+    <Attribute name="colorhsl" default="false" type="BOOL" comment="本控件的颜色是否随窗口的hsl变化而变化,如(false)"/>
+    <Attribute name="bordersize" default="1" type="INT" comment="边框大小，如(1)"/>
+    <Attribute name="borderround" default="0,0" type="SIZE" comment="边框圆角半径,如(2,2)"/>
+    <Attribute name="bkimage" default="" type="STRING" comment="背景图片,如(bk.bmp或file='aaa.jpg' res='' restype='0' dest='0,0,0,0' source='0,0,0,0' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false')"/>
+    <Attribute name="disabledimage" default="" type="STRING" comment="禁用的状态图片"/>
+    <Attribute name="width" default="0" type="INT" comment="控件预设的宽度，如(100)"/>
+    <Attribute name="height" default="0" type="INT" comment="控件预设的高度，如(30)"/>
+    <Attribute name="minwidth" default="0" type="INT" comment="控件的最小宽度，如(100)"/>
+    <Attribute name="minheight" default="0" type="INT" comment="控件的最小高度，如(30)"/>
+    <Attribute name="maxwidth" default="9999" type="INT" comment="控件的最大宽度，如(100)"/>
+    <Attribute name="maxheight" default="9999" type="INT" comment="控件的最大高度，如(30)"/>
+    <Attribute name="text" default="" type="STRING" comment="显示文本,如(测试文本)"/>
+    <Attribute name="tooltip" default="" type="STRING" comment="鼠标悬浮提示,如(请在这里输入你的密码)"/>
+    <Attribute name="userdata" default="" type="STRING" comment="自定义标识"/>
+    <Attribute name="enabled" default="true" type="BOOL" comment="是否可以响应用户操作,如(true)"/>
+    <Attribute name="mouse" default="true" type="BOOL" comment="本控件是否可以响应鼠标操作,如(true)"/>
+    <Attribute name="visible" default="true" type="BOOL" comment="是否可见,如(true)"/>
+    <Attribute name="float" default="false" type="BOOL" comment="是否使用绝对定位,如(true)"/>
+    <Attribute name="shortcut" default="" type="CHAR" comment="对应的快捷键,如(P)"/>
+    <Attribute name="menu" default="false" type="BOOL" comment="是否需要右键菜单,如(true)"/>
+    <Attribute name="endellipsis" default="false" type="BOOL" comment="句末显示不全是否使用...代替,如(true)"/>
+    <Attribute name="font" default="-1" type="INT" comment="字体id,如(0)"/>
+    <Attribute name="textcolor" default="0x00000000" type="DWORD" comment="字体颜色，0表示使用默认字体颜色,如(0xFFFF0000)"/>
+    <Attribute name="disabledtextcolor" default="0x00000000" type="DWORD" comment="disabled字体颜色，0表示使用默认disabled字体颜色,如(0xFFFF0000)"/>
+    <Attribute name="textpadding" default="0,0,0,0" type="RECT" comment="文字显示的边距,如(2,2,2,2)"/>
+    <Attribute name="align" default="left" type="STRING" comment="文字横向对齐方式,取值left、center、right"/>
+    <Attribute name="valign" default="center" type="STRING" comment="文字纵向对齐方式,取值top、center、bottom"/>
+    <Attribute name="rhaa" default="0" type="STRING" comment="字体质量0-5"/>
+    <Attribute name="autocalcwidth" default="false" type="INT" comment="是否自动计算宽度"/>
+  </DateTime>
 	<Button parent="Label" notifies="setfocus killfocus timer menu click windowinit(root)">
 		<Attribute name="name" default="" type="STRING" comment="控件名字，同一窗口内必须唯一，如(testbtn)"/>
 		<Attribute name="pos" default="0,0,0,0" type="RECT" comment="位置，如果为float控件则指定位置和大小，否则只指定大小,如(0,0,100,100)"/>
 		<Attribute name="padding" default="0,0,0,0" type="RECT" comment="外边距,如(2,2,2,2)"/>
 		<Attribute name="bkcolor" default="0x00000000" type="DWORD" comment="背景颜色,如(0xFFFF0000)"/>
 		<Attribute name="bkcolor2" default="0x00000000" type="DWORD" comment="背景渐变色2,和bkcolor配合使用,如(0xFFFFFF00)"/>
-		<Attribute name="bkcolor3" default="0x00000000" type="DWORD" comment="背景渐变色3,和bkcolor、bkcolor2配合使用,如(0xFFFF00FF)"/>
+    <Attribute name="bkcolor3" default="0x00000000" type="DWORD" comment="背景渐变色3,和bkcolor、bkcolor2配合使用,如(0xFFFF00FF)"/>
+    <Attribute name="hotbkcolor" default="0x00000000" type="DWORD" comment="鼠标悬浮背景颜色,如(0xFFFF00FF)"/>
+    <Attribute name="pushedbkcolor" default="0x00000000" type="DWORD" comment="鼠标按下背景颜色,如(0xFFFF00FF)"/>
 		<Attribute name="bordercolor" default="0x00000000" type="DWORD" comment="边框颜色,如(0xFF000000)"/>
 		<Attribute name="focusbordercolor" default="0x00000000" type="DWORD" comment="获得焦点时边框的颜色,如(0xFFFF0000)"/>
 		<Attribute name="colorhsl" default="false" type="BOOL" comment="本控件的颜色是否随窗口的hsl变化而变化,如(false)"/>
@@ -512,11 +523,15 @@
 		<Attribute name="float" default="false" type="BOOL" comment="是否使用绝对定位,如(true)"/>
 		<Attribute name="shortcut" default="" type="CHAR" comment="对应的快捷键,如(P)"/>
 		<Attribute name="menu" default="false" type="BOOL" comment="是否需要右键菜单,如(true)"/>
-		<Attribute name="align" default="left" type="STRING" comment="文字对齐方式,取值left、right、center、top、button，如(center)"/>
+    <Attribute name="align" default="left" type="STRING" comment="文字横向对齐方式,取值left、center、right"/>
+    <Attribute name="valign" default="center" type="STRING" comment="文字纵向对齐方式,取值top、center、bottom"/>
 		<Attribute name="endellipsis" default="false" type="BOOL" comment="句末显示不完是否使用...代替,如(true)"/>
 		<Attribute name="font" default="-1" type="INT" comment="字体id,如(0)"/>
 		<Attribute name="textcolor" default="0x00000000" type="DWORD" comment="字体颜色，0表示使用默认字体颜色,如(0xFFFF0000)"/>
 		<Attribute name="disabledtextcolor" default="0x00000000" type="DWORD" comment="disabled字体颜色，0表示使用默认disabled字体颜色,如(0xFFFF0000)"/>
+    <Attribute name="hottextcolor" default="0x00000000" type="DWORD" comment="鼠标悬浮字体颜色，0表示不使用此颜色,如(0xFFFF0000)"/>
+    <Attribute name="pushedtextcolor" default="0x00000000" type="DWORD" comment="鼠标按下字体颜色，0表示不使用此颜色,如(0xFFFF0000)"/>
+    <Attribute name="focusedtextcolor" default="0x00000000" type="DWORD" comment="获得焦点字体颜色，0表示不使用此颜色,如(0xFFFF0000)"/>
 		<Attribute name="textpadding" default="0,0,0,0" type="RECT" comment="文字显示的边距,如(2,2,2,2)"/>
 		<Attribute name="showhtml" default="false" type="BOOL" comment="是否使用类html富文本绘制,如(false)"/>
 		<Attribute name="normalimage" default="" type="STRING" comment="普通状态图片"/>
@@ -524,13 +539,11 @@
 		<Attribute name="pushedimage" default="" type="STRING" comment="鼠标按下的状态图片"/>
 		<Attribute name="focusedimage" default="" type="STRING" comment="获得焦点时的状态图片"/>
 		<Attribute name="disabledimage" default="" type="STRING" comment="禁用的状态图片"/>
-		<Attribute name="hottextcolor" default="0x00000000" type="DWORD" comment="鼠标悬浮字体颜色，0表示不使用此颜色,如(0xFFFF0000)"/>
-		<Attribute name="pushedtextcolor" default="0x00000000" type="DWORD" comment="鼠标按下字体颜色，0表示不使用此颜色,如(0xFFFF0000)"/>
-		<Attribute name="focusedtextcolor" default="0x00000000" type="DWORD" comment="获得焦点字体颜色，0表示不使用此颜色,如(0xFFFF0000)"/>
 		<Attribute name="autocalcwidth" default="false" type="INT" comment="是否自动计算宽度"/>	
 		<Attribute name="bindtablayoutname" default="" type="STRING" comment="绑定TabLayout控件"/>
 		<Attribute name="bindtabindex" default="" type="INT" comment="点击后将触发绑定TabLayout控件的对应索引号"/>
-		<Attribute name="multiline" default="false" type="INT" comment="是否支持多行文字"/>
+    <Attribute name="wordbreak" default="false" type="INT" comment="是否支持多行文字"/>
+    <Attribute name="noprefix" default="false" type="INT" comment="是否支持'&'字符转义为下划线,如(false)"/>
 	</Button>
 	<Option parent="Button" notifies="setfocus killfocus timer menu click selectchanged windowinit(root)">
 		<Attribute name="name" default="" type="STRING" comment="控件名字，同一窗口内必须唯一，如(testbtn)"/>
@@ -539,6 +552,8 @@
 		<Attribute name="bkcolor" default="0x00000000" type="DWORD" comment="背景颜色,如(0xFFFF0000)"/>
 		<Attribute name="bkcolor2" default="0x00000000" type="DWORD" comment="背景渐变色2,和bkcolor配合使用,如(0xFFFFFF00)"/>
 		<Attribute name="bkcolor3" default="0x00000000" type="DWORD" comment="背景渐变色3,和bkcolor、bkcolor2配合使用,如(0xFFFF00FF)"/>
+    <Attribute name="hotbkcolor" default="0x00000000" type="DWORD" comment="鼠标悬浮背景颜色,如(0xFFFF00FF)"/>
+    <Attribute name="pushedbkcolor" default="0x00000000" type="DWORD" comment="鼠标按下背景颜色,如(0xFFFF00FF)"/>
 		<Attribute name="bordercolor" default="0x00000000" type="DWORD" comment="边框颜色,如(0xFF000000)"/>
 		<Attribute name="focusbordercolor" default="0x00000000" type="DWORD" comment="获得焦点时边框的颜色,如(0xFFFF0000)"/>
 		<Attribute name="colorhsl" default="false" type="BOOL" comment="本控件的颜色是否随窗口的hsl变化而变化,如(false)"/>
@@ -560,7 +575,8 @@
 		<Attribute name="float" default="false" type="BOOL" comment="是否使用绝对定位,如(true)"/>
 		<Attribute name="shortcut" default="" type="CHAR" comment="对应的快捷键,如(P)"/>
 		<Attribute name="menu" default="false" type="BOOL" comment="是否需要右键菜单,如(true)"/>
-		<Attribute name="align" default="left" type="STRING" comment="文字对齐方式,取值left、right、center、top、button，如(center)"/>
+    <Attribute name="align" default="left" type="STRING" comment="文字横向对齐方式,取值left、center、right"/>
+    <Attribute name="valign" default="center" type="STRING" comment="文字纵向对齐方式,取值top、center、bottom"/>
 		<Attribute name="endellipsis" default="false" type="BOOL" comment="句末显示不完是否使用...代替,如(true)"/>
 		<Attribute name="font" default="-1" type="INT" comment="字体id,如(0)"/>
 		<Attribute name="textcolor" default="0x00000000" type="DWORD" comment="字体颜色，0表示使用默认字体颜色,如(0xFFFF0000)"/>
@@ -585,7 +601,9 @@
 		<Attribute name="selected" default="false" type="BOOL" comment="是否选中"/>
 		<Attribute name="bindtablayoutname" default="" type="STRING" comment="绑定TabLayout控件"/>
 		<Attribute name="bindtabindex" default="" type="INT" comment="点击后将触发绑定TabLayout控件的对应索引号"/>
-	</Option>
+    <Attribute name="wordbreak" default="false" type="INT" comment="是否支持多行文字"/>
+    <Attribute name="noprefix" default="false" type="INT" comment="是否支持'&'字符转义为下划线,如(false)"/>
+  </Option>
 	<Text parent="Label" notifies="setfocus killfocus timer menu link windowinit(root)">
 		<Attribute name="name" default="" type="STRING" comment="控件名字，同一窗口内必须唯一，如(testbtn)"/>
 		<Attribute name="pos" default="0,0,0,0" type="RECT" comment="位置，如果为float控件则指定位置和大小，否则只指定大小,如(0,0,100,100)"/>
@@ -615,7 +633,8 @@
 		<Attribute name="float" default="false" type="BOOL" comment="是否使用绝对定位,如(true)"/>
 		<Attribute name="shortcut" default="" type="CHAR" comment="对应的快捷键,如(P)"/>
 		<Attribute name="menu" default="false" type="BOOL" comment="是否需要右键菜单,如(true)"/>
-		<Attribute name="align" default="left" type="STRING" comment="文字对齐方式,取值left、right、center、top、button，如(center)"/>
+    <Attribute name="align" default="left" type="STRING" comment="文字横向对齐方式,取值left、center、right"/>
+    <Attribute name="valign" default="center" type="STRING" comment="文字纵向对齐方式,取值top、center、bottom"/>
 		<Attribute name="endellipsis" default="false" type="BOOL" comment="句末显示不完是否使用...代替,如(true)"/>
 		<Attribute name="font" default="-1" type="INT" comment="字体id,如(0)"/>
 		<Attribute name="textcolor" default="0x00000000" type="DWORD" comment="字体颜色，0表示使用默认字体颜色,如(0xFFFF0000)"/>
@@ -653,8 +672,9 @@
 		<Attribute name="float" default="false" type="BOOL" comment="是否使用绝对定位,如(true)"/>
 		<Attribute name="shortcut" default="" type="CHAR" comment="对应的快捷键,如(P)"/>
 		<Attribute name="menu" default="false" type="BOOL" comment="是否需要右键菜单,如(true)"/>
-		<Attribute name="align" default="certer" type="STRING" comment="文字对齐方式,取值left、right、center、top、button，如(center)"/>
-		<Attribute name="endellipsis" default="false" type="BOOL" comment="句末显示不完是否使用...代替,如(true)"/>
+    <Attribute name="align" default="left" type="STRING" comment="文字横向对齐方式,取值left、center、right"/>
+    <Attribute name="valign" default="center" type="STRING" comment="文字纵向对齐方式,取值top、center、bottom"/>
+    <Attribute name="endellipsis" default="false" type="BOOL" comment="句末显示不完是否使用...代替,如(true)"/>
 		<Attribute name="font" default="-1" type="INT" comment="字体id,如(0)"/>
 		<Attribute name="textcolor" default="0x00000000" type="DWORD" comment="字体颜色，0表示使用默认字体颜色,如(0xFFFF0000)"/>
 		<Attribute name="disabledtextcolor" default="0x00000000" type="DWORD" comment="disabled字体颜色，0表示使用默认disabled字体颜色,如(0xFFFF0000)"/>
@@ -697,7 +717,8 @@
 		<Attribute name="float" default="false" type="BOOL" comment="是否使用绝对定位,如(true)"/>
 		<Attribute name="shortcut" default="" type="CHAR" comment="对应的快捷键,如(P)"/>
 		<Attribute name="menu" default="false" type="BOOL" comment="是否需要右键菜单,如(true)"/>
-		<Attribute name="align" default="center" type="STRING" comment="文字对齐方式,取值left、right、center、top、button，如(center)"/>
+    <Attribute name="align" default="left" type="STRING" comment="文字横向对齐方式,取值left、center、right"/>
+    <Attribute name="valign" default="center" type="STRING" comment="文字纵向对齐方式,取值top、center、bottom"/>
 		<Attribute name="endellipsis" default="false" type="BOOL" comment="句末显示不完是否使用...代替,如(true)"/>
 		<Attribute name="font" default="-1" type="INT" comment="字体id,如(0)"/>
 		<Attribute name="textcolor" default="0x00000000" type="DWORD" comment="字体颜色，0表示使用默认字体颜色,如(0xFFFF0000)"/>
@@ -880,7 +901,9 @@
 		<Attribute name="itemdisabledbkcolor" default="0xFFFFFFFF" type="DWORD" comment="item禁用时的背景颜色"/>
 		<Attribute name="itemdisabledimage" default="" type="STRING" comment="item禁用时的背景图片"/>
 		<Attribute name="itemlinecolor" default="0x00000000" type="DWORD" comment="item行分割线颜色"/>
-		<Attribute name="itemshowhtml" default="false" type="BOOL" comment="item是否使用类html富文本绘制,如(false)"/>
+    <Attribute name="itemshowhtml" default="false" type="BOOL" comment="item是否使用类html富文本绘制,如(false)"/>
+    <Attribute name="itemshowrowline" default="false" type="BOOL" comment="item是否绘制行线,如(false)"/>
+    <Attribute name="itemshowcolumnline" default="false" type="BOOL" comment="item是否绘制列线,如(false)"/>
 		<Attribute name="multiexpanding" default="false" type="BOOL" comment="是否支持多个item同时打开,如(false)"/>
 	</List>
 	<ListHeader parent="HorizontalLayout" notifies="setfocus killfocus timer windowinit(root)">
@@ -1241,4 +1264,21 @@
 		<Attribute name="selhotitemtextcolor" default="0x00000000" type="DWORD" comment="item被选中时且鼠标进入时的文本颜色"/>
 		<Attribute name="defaultexpand" default="false" type="BOOL" comment="设置初始状态是否展开"/>
 	</TreeNode>
+  
+  <Menu parent="CListUI" notifies="setfocus killfocus timer menu itemselect windowinit(root)">
+    <Attribute name="inset" default="0,0,0,0" type="RECT" comment="菜单的高度等于所有菜单项的高度之和，加上inset属性的top和bottom"/>
+    <!-- Menu标签的属性要通过Default来定义，为了让下级菜单也能拥有同样的外观，其他属性设置见List -->
+  </Menu>
+  <MenuElement parent="CListContainerElementUI" notifies="click valuechanged WM_MENUCLICK">
+    <Attribute name="icon" default="" type="STRING" comment="菜单项的图标图片"/>
+    <Attribute name="iconsize" default="0,0" type="SIZE" comment="图片的大小，最大为26x26"/>
+    <Attribute name="checkitem" default="false" type="BOOL" comment="是否有复选功能"/>
+    <Attribute name="ischeck" default="false" type="BOOL" comment="是否被选中（前提是开启了复选功能，复选功能属性应该写在本属性的前面）"/>
+    <Attribute name="linetype" default="false" type="BOOL" comment="是否是分割线（开启后将不会显示图标）"/>
+    <Attribute name="linepadding" default="29,0,7,0" type="RECT" comment="分割线的外边据"/>
+    <Attribute name="linecolor" default="0xFFBCBFC4" type="DWORD" comment="分割线的颜色"/>
+    <Attribute name="expland" default="false" type="BOOL" comment="是否显示下级菜单的小三角图片（需要通过Default标签设置ExplandIcon属性图片的路径）"/>
+    <Attribute name="height" default="30" type="INT" comment="菜单项高度（分割线默认高度是6）"/>
+  </MenuElement>
+
 </Controls>

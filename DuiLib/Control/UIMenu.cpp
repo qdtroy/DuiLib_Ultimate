@@ -14,7 +14,9 @@ CMenuUI::CMenuUI()
 }
 
 CMenuUI::~CMenuUI()
-{}
+{
+
+}
 
 LPCTSTR CMenuUI::GetClass() const
 {
@@ -234,7 +236,7 @@ void CMenuWnd::OnFinalMessage(HWND hWnd)
 		m_pOwner->m_uButtonState &= ~ UISTATE_PUSHED;
 		m_pOwner->Invalidate();
 	}
-    //delete this;
+    delete this;
 }
 
 LRESULT CMenuWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)

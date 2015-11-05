@@ -298,12 +298,6 @@ namespace DuiLib
 		return m_sBindTabLayoutName;
 	}
 
-	//SIZE CButtonUI::EstimateSize(SIZE szAvailable)
-	//{
-	//	if( m_cxyFixed.cy == 0 ) return CDuiSize(m_cxyFixed.cx, m_pManager->GetFontInfo(GetFont())->tm.tmHeight + 8);
-	//	return CControlUI::EstimateSize(szAvailable);
-	//}
-
 	void CButtonUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
 		if( _tcscmp(pstrName, _T("normalimage")) == 0 ) SetNormalImage(pstrValue);
@@ -349,19 +343,6 @@ namespace DuiLib
 			LPTSTR pstr = NULL;
 			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
 			SetFocusedTextColor(clrColor);
-		}
-		else if( _tcscmp(pstrName, _T("multiline")) == 0 )
-		{
-			if( _tcscmp(pstrValue, _T("true")) == 0)
-			{
-				m_uTextStyle = m_uTextStyle & ~DT_SINGLELINE;
-				m_uTextStyle |= DT_WORDBREAK;
-			}
-			else
-			{
-				m_uTextStyle = m_uTextStyle & ~DT_WORDBREAK;
-				m_uTextStyle |= DT_SINGLELINE;
-			}
 		}
 		else if( _tcscmp(pstrName, _T("noprefix")) == 0 )
 		{

@@ -1464,7 +1464,8 @@ void CRenderEngine::DrawHtmlText(HDC hDC, CPaintManagerUI* pManager, RECT& rc, L
                         }
                     }
 
-                    DWORD clrColor = pManager->GetDefaultLinkFontColor();
+                    DWORD clrColor = dwTextColor;
+					if(clrColor == 0) pManager->GetDefaultLinkFontColor();
                     if( bHoverLink && iLinkIndex < nLinkRects ) {
                         CDuiString *pStr = (CDuiString*)(sLinks + iLinkIndex);
                         if( sHoverLink == *pStr ) clrColor = pManager->GetDefaultLinkHoverFontColor();

@@ -185,8 +185,11 @@ public:
 		else if(sName.CompareNoCase(_T("button1")) == 0)
 		{
 			CEditUI* pEdit = static_cast<CEditUI*>(m_PaintManager.FindControl(_T("edit3")));
-			double fEdit = _ttof(pEdit->GetText().GetData());
-			MessageBox(m_hWnd, pEdit->GetText(), _T(""), 0);
+			TCHAR* pstrText = (TCHAR*)pEdit->GetText().GetData();
+			if(pstrText != NULL && lstrlen(pstrText) > 0) {
+				double fEdit = _ttof(pstrText);
+				MessageBox(m_hWnd, pstrText, _T(""), 0);
+			}
 		}
 		else if(sName.CompareNoCase(_T("popwnd_btn")) == 0)
 		{

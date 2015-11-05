@@ -12,9 +12,9 @@
       <HorizontalLayout name="apptitle" childpadding="6">
         <Container width="64" height="64" bkimage="logo.jpg" />
         <VerticalLayout inset="0,10,0,0" childpadding="5">
-          <Label text="Duilib 使用演示 v1.1" width="300" align="vcenter" align="left" textcolor="#FFEEEEEE" font="3" tooltip="官网"/>
+          <Label text="Duilib 使用演示 v1.1" width="300" valign="vcenter" align="left" textcolor="#FFEEEEEE" font="3" tooltip="官网"/>
           <HorizontalLayout height="20" childpadding="20">
-            <Button name="homepage_btn" text="演示官网" width="60" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="官网"/>
+            <Button name="homepage_btn" text="{a}演示官网{/a}" showhtml="true" width="60" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FFFF00FF" font="1" tooltip="官网"/>
             <Button name="qqgroup_btn" text="加入duilib开源项目圈（261675375）" width="220" autocalcwidth="true" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="加入duilib大家庭" />
             <Button name="qq_btn" text="Troy(QQ：656067418)" width="170" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="添加Troy为QQ好友" />
           </HorizontalLayout>
@@ -146,7 +146,7 @@
           <HorizontalLayout height="180" bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="ListView控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
-              <List name="listview" vscrollbar="true" hscrollbar="true" headerbkimage="file='list_header_bg.png'" itemtextstyle="center" itemlinecolor="#FFFF0000" itemshowrowline="true" itemshowcolumnline="true">
+              <List name="listview" vscrollbar="true" hscrollbar="true" headerbkimage="file='list_header_bg.png'" itemalign="center" itemlinecolor="#FFFF0000" itemshowrowline="true" itemshowcolumnline="true">
                 <ListHeader height="24" menu="true">
                   <ListHeaderItem text="姓名" width="30" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
                   <ListHeaderItem text="学号" width="260" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>

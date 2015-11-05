@@ -174,7 +174,7 @@ namespace DuiLib
 				m_uTextStyle &= ~DT_WORDBREAK & ~DT_EDITCONTROL;
 				m_uTextStyle |= DT_SINGLELINE;
 			}
-		}    
+		}
 		else if( _tcscmp(pstrName, _T("font")) == 0 ) SetFont(_ttoi(pstrValue));
 		else if( _tcscmp(pstrName, _T("textcolor")) == 0 ) {
 			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);

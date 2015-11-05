@@ -235,8 +235,10 @@ void CMenuWnd::OnFinalMessage(HWND hWnd)
 		m_pOwner->m_pWindow = NULL;
 		m_pOwner->m_uButtonState &= ~ UISTATE_PUSHED;
 		m_pOwner->Invalidate();
+
+		// 内部创建的内部删除
+		delete this;
 	}
-    delete this;
 }
 
 LRESULT CMenuWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)

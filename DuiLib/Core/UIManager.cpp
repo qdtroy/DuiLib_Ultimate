@@ -324,6 +324,10 @@ namespace DuiLib {
 		return false;
 	}
 
+	void CPaintManagerUI::DeletePtr(void* ptr)
+	{
+		if(ptr) {delete ptr; ptr = NULL;}
+	}
 	CStdPtrArray* CPaintManagerUI::GetPlugins()
 	{
 		return &m_aPlugins;

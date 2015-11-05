@@ -8,6 +8,7 @@ public:
 	CDemoFrame() 
 	{
 		m_pPopWnd = NULL;
+		m_pMenu = NULL;
 	}
 
 public:
@@ -222,12 +223,16 @@ public:
 		}
 		else if(sName.CompareNoCase(_T("menubtn")) == 0)
 		{
-			CMenuWnd* pMenu = new CMenuWnd();
+			if(m_pMenu != NULL) {
+				delete m_pMenu;
+				m_pMenu = NULL;
+			}
+			m_pMenu = new CMenuWnd();
 			CDuiPoint point;
 			::GetCursorPos(&point);
 			
-			pMenu->Init(NULL, _T("menu.xml"), point, &m_PaintManager);
-			CMenuUI* rootMenu = pMenu->GetMenuUI();
+			m_pMenu->Init(NULL, _T("menu.xml"), point, &m_PaintManager);
+			CMenuUI* rootMenu = m_pMenu->GetMenuUI();
 			if (rootMenu != NULL)
 			{
 				CMenuElementUI* pNew = new CMenuElementUI;
@@ -251,7 +256,7 @@ public:
 			}
 
 			// 动态添加后重新设置菜单的大小
-			pMenu->ResizeMenu();
+			m_pMenu->ResizeMenu();
 		}
 	}
 
@@ -300,8 +305,7 @@ public:
 				CDuiString sMenuName = pMenuCmd->szName;
 				CDuiString sUserData = pMenuCmd->szUserData;
 				CDuiString sText = pMenuCmd->szText;
-				delete pMenuCmd;
-				pMenuCmd = NULL;
+				m_PaintManager.DeletePtr(pMenuCmd);
 
 				if ( sMenuName == _T("qianting")) 
 				{
@@ -319,6 +323,10 @@ public:
 					MessageBox(m_hWnd, sText, NULL, 0);
 				}
 			}
+			if(m_pMenu != NULL) {
+				delete m_pMenu;
+				m_pMenu = NULL;
+			}
 			bHandled = TRUE;
 			return 0;
 		}
@@ -333,5 +341,6 @@ private:
 	CButtonUI* m_pRestoreBtn;
 	CButtonUI* m_pMinBtn;
 	CButtonUI* m_pSkinBtn;
+	CMenuWnd* m_pMenu;
 	std::map<CDuiString, bool> m_MenuInfos;
 };

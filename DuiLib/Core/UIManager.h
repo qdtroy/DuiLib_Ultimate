@@ -251,6 +251,8 @@ namespace DuiLib {
 		static bool LoadPlugin(LPCTSTR pstrModuleName);
 		static CStdPtrArray* GetPlugins();
 
+		void DeletePtr(void* ptr);
+
 		bool UseParentResource(CPaintManagerUI* pm);
 		CPaintManagerUI* GetParentResource() const;
 

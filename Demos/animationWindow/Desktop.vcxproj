@@ -123,6 +123,11 @@
     <Image Include="Desktop.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="UiFeatureEffect\UIFeatureEffect.vcxproj">
+      <Project>{f641ab85-61be-46d7-9656-5e930d1167e4}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

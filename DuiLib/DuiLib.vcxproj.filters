@@ -296,5 +296,8 @@
     <ClInclude Include="Layout\UIAnimationTabLayout.h">
       <Filter>Header Files\Layout</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\stb_image.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

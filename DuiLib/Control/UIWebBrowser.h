@@ -63,6 +63,8 @@ namespace DuiLib
 		void ProgressChange(LONG nProgress, LONG nProgressMax);
 		void NewWindow3(IDispatch **pDisp, VARIANT_BOOL *&Cancel, DWORD dwFlags, BSTR bstrUrlContext, BSTR bstrUrl);
 		void CommandStateChange(long Command,VARIANT_BOOL Enable);
+		void TitleChange(BSTR bstrTitle);
+		void DocumentComplete(IDispatch *pDisp,VARIANT *&url);
 
 	public:
 		virtual LPCTSTR GetClass() const;

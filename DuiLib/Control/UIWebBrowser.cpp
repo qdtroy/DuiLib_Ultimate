@@ -6,12 +6,12 @@
 #include <mshtml.h>
 
 DuiLib::CWebBrowserUI::CWebBrowserUI()
-: m_pWebBrowser2(NULL)
-, _pHtmlWnd2(NULL)
-, m_pWebBrowserEventHandler(NULL)
-, m_bAutoNavi(false)
-, m_dwRef(0)
-, m_dwCookie(0)
+	: m_pWebBrowser2(NULL)
+	, _pHtmlWnd2(NULL)
+	, m_pWebBrowserEventHandler(NULL)
+	, m_bAutoNavi(false)
+	, m_dwRef(0)
+	, m_dwCookie(0)
 {
 	m_clsid=CLSID_WebBrowser;
 	m_sHomePage.Empty();
@@ -106,11 +106,19 @@ STDMETHODIMP DuiLib::CWebBrowserUI::Invoke( DISPID dispIdMember, REFIID riid, LC
 			pDispParams->rgvarg[1].bstrVal,
 			pDispParams->rgvarg[0].bstrVal);
 		break;
-// 	case DISPID_PROPERTYCHANGE:
-// 		if (pDispParams->cArgs>0 && pDispParams->rgvarg[0].vt == VT_BSTR) {
-// 			TRACE(_T("PropertyChange(%s)\n"), pDispParams->rgvarg[0].bstrVal);
-// 		}
-// 		break;
+	case DISPID_TITLECHANGE:
+		{
+			TitleChange(pDispParams->rgvarg[0].bstrVal);
+			break;
+		}
+	case DISPID_DOCUMENTCOMPLETE:
+		{
+			DocumentComplete(
+				pDispParams->rgvarg[1].pdispVal,
+				pDispParams->rgvarg[0].pvarVal);
+
+			break;
+		}
 	default:
 		return DISP_E_MEMBERNOTFOUND;
 	}
@@ -240,6 +248,22 @@ void DuiLib::CWebBrowserUI::CommandStateChange(long Command,VARIANT_BOOL Enable)
 	}
 }
 
+void DuiLib::CWebBrowserUI::TitleChange(BSTR bstrTitle)
+{
+	if (m_pWebBrowserEventHandler)
+	{
+		m_pWebBrowserEventHandler->TitleChange(bstrTitle);
+	}
+}
+
+void DuiLib::CWebBrowserUI::DocumentComplete(IDispatch *pDisp, VARIANT *&url)
+{
+	if (m_pWebBrowserEventHandler)
+	{
+		m_pWebBrowserEventHandler->DocumentComplete(pDisp, url);
+	}
+}
+
 // IDownloadManager
 STDMETHODIMP DuiLib::CWebBrowserUI::Download( /* [in] */ IMoniker *pmk, /* [in] */ IBindCtx *pbc, /* [in] */ DWORD dwBindVerb, /* [in] */ LONG grfBINDF, /* [in] */ BINDINFO *pBindInfo, /* [in] */ LPCOLESTR pszHeaders, /* [in] */ LPCOLESTR pszRedir, /* [in] */ UINT uiCP )
 {
@@ -343,37 +367,37 @@ STDMETHODIMP DuiLib::CWebBrowserUI::TranslateAccelerator( LPMSG lpMsg, const GUI
 
 LRESULT DuiLib::CWebBrowserUI::TranslateAccelerator( MSG *pMsg )
 {
-    if(pMsg->message < WM_KEYFIRST || pMsg->message > WM_KEYLAST)
-        return S_FALSE;
+	if(pMsg->message < WM_KEYFIRST || pMsg->message > WM_KEYLAST)
+		return S_FALSE;
 
 	if( m_pWebBrowser2 == NULL )
-        return E_NOTIMPL;
+		return E_NOTIMPL;
 
-    // 当前Web窗口不是焦点,不处理加速键
-    BOOL bIsChild = FALSE;
-    HWND hTempWnd = NULL;
-    HWND hWndFocus = ::GetFocus();
+	// 当前Web窗口不是焦点,不处理加速键
+	BOOL bIsChild = FALSE;
+	HWND hTempWnd = NULL;
+	HWND hWndFocus = ::GetFocus();
 
-    hTempWnd = hWndFocus;
-    while(hTempWnd != NULL)
-    {
-        if(hTempWnd == m_hwndHost)
-        {
-            bIsChild = TRUE;
-            break;
-        }
-        hTempWnd = ::GetParent(hTempWnd);
-    }
-    if(!bIsChild)
-        return S_FALSE;
+	hTempWnd = hWndFocus;
+	while(hTempWnd != NULL)
+	{
+		if(hTempWnd == m_hwndHost)
+		{
+			bIsChild = TRUE;
+			break;
+		}
+		hTempWnd = ::GetParent(hTempWnd);
+	}
+	if(!bIsChild)
+		return S_FALSE;
 
 	IOleInPlaceActiveObject *pObj;
 	if (FAILED(m_pWebBrowser2->QueryInterface(IID_IOleInPlaceActiveObject, (LPVOID *)&pObj)))
 		return S_FALSE;
 
-    HRESULT hResult = pObj->TranslateAccelerator(pMsg);
-    pObj->Release();
-    return hResult;
+	HRESULT hResult = pObj->TranslateAccelerator(pMsg);
+	pObj->Release();
+	return hResult;
 }
 
 STDMETHODIMP DuiLib::CWebBrowserUI::GetOptionKeyPath( LPOLESTR* pchKey, DWORD dwReserved )
@@ -409,11 +433,11 @@ STDMETHODIMP DuiLib::CWebBrowserUI::TranslateUrl( DWORD dwTranslate, OLECHAR* pc
 	{
 		return m_pWebBrowserEventHandler->TranslateUrl(dwTranslate,pchURLIn,ppchURLOut);
 	}
-    else
-    {
-        *ppchURLOut = 0;
-        return E_NOTIMPL;
-    }
+	else
+	{
+		*ppchURLOut = 0;
+		return E_NOTIMPL;
+	}
 }
 
 STDMETHODIMP DuiLib::CWebBrowserUI::FilterDataObject( IDataObject* pDO, IDataObject** ppDORet )
@@ -422,11 +446,11 @@ STDMETHODIMP DuiLib::CWebBrowserUI::FilterDataObject( IDataObject* pDO, IDataObj
 	{
 		return m_pWebBrowserEventHandler->FilterDataObject(pDO,ppDORet);
 	}
-    else
-    {
-        *ppDORet = 0;
-        return E_NOTIMPL;
-    }
+	else
+	{
+		*ppDORet = 0;
+		return E_NOTIMPL;
+	}
 }
 
 void DuiLib::CWebBrowserUI::SetWebBrowserEventHandler( CWebBrowserEventHandler* pEventHandler )
@@ -603,7 +627,7 @@ IDispatch* DuiLib::CWebBrowserUI::GetHtmlWindow()
 	if (FAILED(hr))
 		return NULL;
 
-    CComQIPtr<IHTMLDocument2> pHtmlDoc2 = pDp;
+	CComQIPtr<IHTMLDocument2> pHtmlDoc2 = pDp;
 
 	if (pHtmlDoc2 == NULL)
 		return NULL;

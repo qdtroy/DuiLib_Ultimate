@@ -15,7 +15,7 @@ namespace DuiLib
 
 	LPVOID CTileLayoutUI::GetInterface(LPCTSTR pstrName)
 	{
-		if( _tcscmp(pstrName, DUI_CTR_TILELAYOUT) == 0 ) return static_cast<CTileLayoutUI*>(this);
+		if( _tcsicmp(pstrName, DUI_CTR_TILELAYOUT) == 0 ) return static_cast<CTileLayoutUI*>(this);
 		return CContainerUI::GetInterface(pstrName);
 	}
 
@@ -46,14 +46,14 @@ namespace DuiLib
 
 	void CTileLayoutUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
-		if( _tcscmp(pstrName, _T("itemsize")) == 0 ) {
+		if( _tcsicmp(pstrName, _T("itemsize")) == 0 ) {
 			SIZE szItem = { 0 };
 			LPTSTR pstr = NULL;
 			szItem.cx = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);    
 			szItem.cy = _tcstol(pstr + 1, &pstr, 10);   ASSERT(pstr);     
 			SetItemSize(szItem);
 		}
-		else if( _tcscmp(pstrName, _T("columns")) == 0 ) SetColumns(_ttoi(pstrValue));
+		else if( _tcsicmp(pstrName, _T("columns")) == 0 ) SetColumns(_ttoi(pstrValue));
 		else CContainerUI::SetAttribute(pstrName, pstrValue);
 	}
 

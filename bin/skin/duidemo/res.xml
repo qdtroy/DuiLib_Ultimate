@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Res>
+  <Image id="sysbtn_menu_normal" path="sysbtn/btn_menu_normal.png" />
+  <Image id="sysbtn_menu_hot" path="sysbtn/btn_menu_highlight.png" />
+  <Image id="sysbtn_menu_pushed" path="sysbtn/btn_menu_down.png" />
+  
+  <Xml id="XML_MAIN" path="main.xml"/>
+</Res>

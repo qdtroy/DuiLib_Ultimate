@@ -18,7 +18,7 @@ namespace DuiLib {
 
 	LPVOID CAnimationTabLayoutUI::GetInterface(LPCTSTR pstrName)
 	{
-		if( _tcscmp(pstrName, _T("AnimationTabLayout")) == 0 ) 
+		if( _tcsicmp(pstrName, _T("AnimationTabLayout")) == 0 ) 
 			return static_cast<CAnimationTabLayoutUI*>(this);
 		return CTabLayoutUI::GetInterface(pstrName);
 	}
@@ -136,7 +136,7 @@ namespace DuiLib {
 
 	void CAnimationTabLayoutUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
-		if( _tcscmp(pstrName, _T("animation_direction")) == 0 && _tcscmp( pstrValue, _T("vertical")) == 0 ) m_bIsVerticalDirection = true; // pstrValue = "vertical" or "horizontal"
+		if( _tcsicmp(pstrName, _T("animation_direction")) == 0 && _tcsicmp( pstrValue, _T("vertical")) == 0 ) m_bIsVerticalDirection = true; // pstrValue = "vertical" or "horizontal"
 		return CTabLayoutUI::SetAttribute(pstrName, pstrValue);
 	}
 } // namespace DuiLib

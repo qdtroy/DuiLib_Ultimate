@@ -1087,7 +1087,7 @@ LPCTSTR CRichEditUI::GetClass() const
 
 LPVOID CRichEditUI::GetInterface(LPCTSTR pstrName)
 {
-    if( _tcscmp(pstrName, DUI_CTR_RICHEDIT) == 0 ) return static_cast<CRichEditUI*>(this);
+    if( _tcsicmp(pstrName, DUI_CTR_RICHEDIT) == 0 ) return static_cast<CRichEditUI*>(this);
     return CContainerUI::GetInterface(pstrName);
 }
 
@@ -2356,40 +2356,40 @@ void CRichEditUI::DoPaint(HDC hDC, const RECT& rcPaint)
 
 void CRichEditUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 {
-    if( _tcscmp(pstrName, _T("vscrollbar")) == 0 ) {
-        if( _tcscmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_DISABLENOSCROLL | WS_VSCROLL;
+    if( _tcsicmp(pstrName, _T("vscrollbar")) == 0 ) {
+        if( _tcsicmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_DISABLENOSCROLL | WS_VSCROLL;
     }
-    else if( _tcscmp(pstrName, _T("autovscroll")) == 0 ) {
-        if( _tcscmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_AUTOVSCROLL;
+    else if( _tcsicmp(pstrName, _T("autovscroll")) == 0 ) {
+        if( _tcsicmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_AUTOVSCROLL;
     }
-    else if( _tcscmp(pstrName, _T("hscrollbar")) == 0 ) {
-        if( _tcscmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_DISABLENOSCROLL | WS_HSCROLL;
+    else if( _tcsicmp(pstrName, _T("hscrollbar")) == 0 ) {
+        if( _tcsicmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_DISABLENOSCROLL | WS_HSCROLL;
     }
-    else if( _tcscmp(pstrName, _T("autohscroll")) == 0 ) {
-        if( _tcscmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_AUTOHSCROLL;
+    else if( _tcsicmp(pstrName, _T("autohscroll")) == 0 ) {
+        if( _tcsicmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_AUTOHSCROLL;
     }
-    else if( _tcscmp(pstrName, _T("wanttab")) == 0 ) {
-        SetWantTab(_tcscmp(pstrValue, _T("true")) == 0);
+    else if( _tcsicmp(pstrName, _T("wanttab")) == 0 ) {
+        SetWantTab(_tcsicmp(pstrValue, _T("true")) == 0);
     }
-    else if( _tcscmp(pstrName, _T("wantreturn")) == 0 ) {
-        SetWantReturn(_tcscmp(pstrValue, _T("true")) == 0);
+    else if( _tcsicmp(pstrName, _T("wantreturn")) == 0 ) {
+        SetWantReturn(_tcsicmp(pstrValue, _T("true")) == 0);
     }
-    else if( _tcscmp(pstrName, _T("wantctrlreturn")) == 0 ) {
-        SetWantCtrlReturn(_tcscmp(pstrValue, _T("true")) == 0);
+    else if( _tcsicmp(pstrName, _T("wantctrlreturn")) == 0 ) {
+        SetWantCtrlReturn(_tcsicmp(pstrValue, _T("true")) == 0);
     }
-    else if( _tcscmp(pstrName, _T("rich")) == 0 ) {
-        SetRich(_tcscmp(pstrValue, _T("true")) == 0);
+    else if( _tcsicmp(pstrName, _T("rich")) == 0 ) {
+        SetRich(_tcsicmp(pstrValue, _T("true")) == 0);
     }
-    else if( _tcscmp(pstrName, _T("multiline")) == 0 ) {
-        if( _tcscmp(pstrValue, _T("false")) == 0 ) m_lTwhStyle &= ~ES_MULTILINE;
+    else if( _tcsicmp(pstrName, _T("multiline")) == 0 ) {
+        if( _tcsicmp(pstrValue, _T("false")) == 0 ) m_lTwhStyle &= ~ES_MULTILINE;
     }
-    else if( _tcscmp(pstrName, _T("readonly")) == 0 ) {
-        if( _tcscmp(pstrValue, _T("true")) == 0 ) { m_lTwhStyle |= ES_READONLY; m_bReadOnly = true; }
+    else if( _tcsicmp(pstrName, _T("readonly")) == 0 ) {
+        if( _tcsicmp(pstrValue, _T("true")) == 0 ) { m_lTwhStyle |= ES_READONLY; m_bReadOnly = true; }
     }
-    else if( _tcscmp(pstrName, _T("password")) == 0 ) {
-        if( _tcscmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_PASSWORD;
+    else if( _tcsicmp(pstrName, _T("password")) == 0 ) {
+        if( _tcsicmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_PASSWORD;
     }
-    else if( _tcscmp(pstrName, _T("align")) == 0 ) {
+    else if( _tcsicmp(pstrName, _T("align")) == 0 ) {
         if( _tcsstr(pstrValue, _T("left")) != NULL ) {
             m_lTwhStyle &= ~(ES_CENTER | ES_RIGHT);
             m_lTwhStyle |= ES_LEFT;
@@ -2403,20 +2403,20 @@ void CRichEditUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
             m_lTwhStyle |= ES_RIGHT;
         }
     }
-    else if( _tcscmp(pstrName, _T("font")) == 0 ) SetFont(_ttoi(pstrValue));
-    else if( _tcscmp(pstrName, _T("textcolor")) == 0 ) {
+    else if( _tcsicmp(pstrName, _T("font")) == 0 ) SetFont(_ttoi(pstrValue));
+    else if( _tcsicmp(pstrName, _T("textcolor")) == 0 ) {
         while( *pstrValue > _T('\0') && *pstrValue <= _T(' ') ) pstrValue = ::CharNext(pstrValue);
         if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
         LPTSTR pstr = NULL;
         DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
         SetTextColor(clrColor);
     }
-	else if( _tcscmp(pstrName, _T("maxchar")) == 0 ) SetLimitText(_ttoi(pstrValue));
-	else if( _tcscmp(pstrName, _T("normalimage")) == 0 ) SetNormalImage(pstrValue);
-	else if( _tcscmp(pstrName, _T("hotimage")) == 0 ) SetHotImage(pstrValue);
-	else if( _tcscmp(pstrName, _T("focusedimage")) == 0 ) SetFocusedImage(pstrValue);
-	else if( _tcscmp(pstrName, _T("disabledimage")) == 0 ) SetDisabledImage(pstrValue);
-	else if( _tcscmp(pstrName, _T("textpadding")) == 0 ) {
+	else if( _tcsicmp(pstrName, _T("maxchar")) == 0 ) SetLimitText(_ttoi(pstrValue));
+	else if( _tcsicmp(pstrName, _T("normalimage")) == 0 ) SetNormalImage(pstrValue);
+	else if( _tcsicmp(pstrName, _T("hotimage")) == 0 ) SetHotImage(pstrValue);
+	else if( _tcsicmp(pstrName, _T("focusedimage")) == 0 ) SetFocusedImage(pstrValue);
+	else if( _tcsicmp(pstrName, _T("disabledimage")) == 0 ) SetDisabledImage(pstrValue);
+	else if( _tcsicmp(pstrName, _T("textpadding")) == 0 ) {
 		RECT rcTextPadding = { 0 };
 		LPTSTR pstr = NULL;
 		rcTextPadding.left = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);    
@@ -2425,8 +2425,8 @@ void CRichEditUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 		rcTextPadding.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);    
 		SetTextPadding(rcTextPadding);
 	}
-	else if( _tcscmp(pstrName, _T("tipvalue")) == 0 ) SetTipValue(pstrValue);
-	else if( _tcscmp(pstrName, _T("tipvaluecolor")) == 0 ) SetTipValueColor(pstrValue);
+	else if( _tcsicmp(pstrName, _T("tipvalue")) == 0 ) SetTipValue(pstrValue);
+	else if( _tcsicmp(pstrName, _T("tipvaluecolor")) == 0 ) SetTipValueColor(pstrValue);
     else CContainerUI::SetAttribute(pstrName, pstrValue);
 }
 

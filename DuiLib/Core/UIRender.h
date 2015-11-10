@@ -31,6 +31,17 @@ namespace DuiLib {
 		static DWORD AdjustColor(DWORD dwColor, short H, short S, short L);
 	    static TImageInfo* LoadImage(STRINGorID bitmap, LPCTSTR type = NULL, DWORD mask = 0, HINSTANCE instance = NULL);
 		static void FreeImage(const TImageInfo* bitmap);
+
+		static TImageInfo* LoadImage(LPCTSTR pStrImage, LPCTSTR type = NULL, DWORD mask = 0, HINSTANCE instance = NULL);
+		static TImageInfo* LoadImage(UINT nID, LPCTSTR type = NULL, DWORD mask = 0, HINSTANCE instance = NULL);
+
+		static bool DrawIconImageString(HDC hDC, CPaintManagerUI* pManager, const RECT& rcItem, const RECT& rcPaint, \
+			LPCTSTR pStrImage, LPCTSTR pStrModify = NULL);
+		static bool MakeFitIconDest(const RECT& rcControl,const CDuiSize& szIcon, const CDuiString& sAlign, RECT& rcDest);
+
+		static void DrawText(HDC hDC, CPaintManagerUI* pManager, RECT& rc, LPCTSTR pstrText,DWORD dwTextColor, \
+			int iFont, UINT uStyle, DWORD dwTextBKColor, BOOL bTransparent);
+
 		static void DrawImage(HDC hDC, HBITMAP hBitmap, const RECT& rc, const RECT& rcPaint, \
 			const RECT& rcBmpPart, const RECT& rcCorners, bool alphaChannel, BYTE uFade = 255, 
 			bool hole = false, bool xtiled = false, bool ytiled = false);

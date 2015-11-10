@@ -40,15 +40,17 @@
 #include <gdiplus.h>
 
 #include "Utils/Utils.h"
+#include "Core/UIMarkup.h"
 #include "Utils/observer_impl_base.h"
 #include "Utils/UIShadow.h"
 #include "Utils/UIDelegate.h"
 #include "Core/UIDefine.h"
+#include "Core/UIResourceManager.h"
 #include "Core/UIManager.h"
 #include "Core/UIBase.h"
 #include "Core/UIControl.h"
 #include "Core/UIContainer.h"
-#include "Core/UIMarkup.h"
+
 #include "Core/UIDlgBuilder.h"
 #include "Core/UIRender.h"
 #include "Utils/WinImplBase.h"

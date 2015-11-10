@@ -22,7 +22,7 @@ namespace DuiLib
 
 	LPVOID CSliderUI::GetInterface(LPCTSTR pstrName)
 	{
-		if( _tcscmp(pstrName, DUI_CTR_SLIDER) == 0 ) return static_cast<CSliderUI*>(this);
+		if( _tcsicmp(pstrName, DUI_CTR_SLIDER) == 0 ) return static_cast<CSliderUI*>(this);
 		return CProgressUI::GetInterface(pstrName);
 	}
 
@@ -237,21 +237,21 @@ namespace DuiLib
 
 	void CSliderUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
-		if( _tcscmp(pstrName, _T("thumbimage")) == 0 ) SetThumbImage(pstrValue);
-		else if( _tcscmp(pstrName, _T("thumbhotimage")) == 0 ) SetThumbHotImage(pstrValue);
-		else if( _tcscmp(pstrName, _T("thumbpushedimage")) == 0 ) SetThumbPushedImage(pstrValue);
-		else if( _tcscmp(pstrName, _T("thumbsize")) == 0 ) {
+		if( _tcsicmp(pstrName, _T("thumbimage")) == 0 ) SetThumbImage(pstrValue);
+		else if( _tcsicmp(pstrName, _T("thumbhotimage")) == 0 ) SetThumbHotImage(pstrValue);
+		else if( _tcsicmp(pstrName, _T("thumbpushedimage")) == 0 ) SetThumbPushedImage(pstrValue);
+		else if( _tcsicmp(pstrName, _T("thumbsize")) == 0 ) {
 			SIZE szXY = {0};
 			LPTSTR pstr = NULL;
 			szXY.cx = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);    
 			szXY.cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr); 
 			SetThumbSize(szXY);
 		}
-		else if( _tcscmp(pstrName, _T("step")) == 0 ) {
+		else if( _tcsicmp(pstrName, _T("step")) == 0 ) {
 			SetChangeStep(_ttoi(pstrValue));
 		}
-		else if( _tcscmp(pstrName, _T("sendmove")) == 0 ) {
-			SetCanSendMove(_tcscmp(pstrValue, _T("true")) == 0);
+		else if( _tcsicmp(pstrName, _T("sendmove")) == 0 ) {
+			SetCanSendMove(_tcsicmp(pstrValue, _T("true")) == 0);
 		}
 		else CProgressUI::SetAttribute(pstrName, pstrValue);
 	}

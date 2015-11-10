@@ -37,6 +37,9 @@ namespace DuiLib {
 		virtual CDuiString GetText() const;
 		virtual void SetText(LPCTSTR pstrText);
 
+		virtual bool IsResourceText() const;
+		virtual void SetResourceText(bool bResource);
+
 		// 图形相关
 		DWORD GetBkColor() const;
 		void SetBkColor(DWORD dwBackColor);
@@ -195,6 +198,7 @@ namespace DuiLib {
 		TPercentInfo m_piFloatPercent;
 		bool m_bSetPos; // 防止SetPos循环调用
 
+		bool m_bResourceText;
 		CDuiString m_sText;
 		CDuiString m_sToolTip;
 		TCHAR m_chShortcut;

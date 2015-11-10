@@ -71,7 +71,7 @@ namespace DuiLib
 
 	LPVOID CGifAnimUI::GetInterface( LPCTSTR pstrName )
 	{
-		if( _tcscmp(pstrName, DUI_CTR_GIFANIM) == 0 ) return static_cast<CGifAnimUI*>(this);
+		if( _tcsicmp(pstrName, DUI_CTR_GIFANIM) == 0 ) return static_cast<CGifAnimUI*>(this);
 		return CControlUI::GetInterface(pstrName);
 	}
 
@@ -107,12 +107,12 @@ namespace DuiLib
 
 	void CGifAnimUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
-		if( _tcscmp(pstrName, _T("bkimage")) == 0 ) SetBkImage(pstrValue);
-		else if( _tcscmp(pstrName, _T("autoplay")) == 0 ) {
-			SetAutoPlay(_tcscmp(pstrValue, _T("true")) == 0);
+		if( _tcsicmp(pstrName, _T("bkimage")) == 0 ) SetBkImage(pstrValue);
+		else if( _tcsicmp(pstrName, _T("autoplay")) == 0 ) {
+			SetAutoPlay(_tcsicmp(pstrValue, _T("true")) == 0);
 		}
-		else if( _tcscmp(pstrName, _T("autosize")) == 0 ) {
-			SetAutoSize(_tcscmp(pstrValue, _T("true")) == 0);
+		else if( _tcsicmp(pstrName, _T("autosize")) == 0 ) {
+			SetAutoSize(_tcsicmp(pstrValue, _T("true")) == 0);
 		}
 		else
 			CControlUI::SetAttribute(pstrName, pstrValue);

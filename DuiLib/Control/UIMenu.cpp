@@ -640,7 +640,8 @@ void CMenuElementUI::DrawItemExpland(HDC hDC, const RECT& rcItem)
 
 void CMenuElementUI::DrawItemText(HDC hDC, const RECT& rcItem)
 {
-    if( m_sText.IsEmpty() ) return;
+    CDuiString sText = GetText();
+	if( sText.IsEmpty() ) return;
 
     if( m_pOwner == NULL ) return;
     TListInfoUI* pInfo = m_pOwner->GetListInfo();
@@ -662,10 +663,10 @@ void CMenuElementUI::DrawItemText(HDC hDC, const RECT& rcItem)
     rcText.bottom -= pInfo->rcTextPadding.bottom;
 
     if( pInfo->bShowHtml )
-        CRenderEngine::DrawHtmlText(hDC, m_pManager, rcText, m_sText, iTextColor, \
+        CRenderEngine::DrawHtmlText(hDC, m_pManager, rcText, sText, iTextColor, \
         NULL, NULL, nLinks, DT_SINGLELINE | pInfo->uTextStyle);
     else
-        CRenderEngine::DrawText(hDC, m_pManager, rcText, m_sText, iTextColor, \
+        CRenderEngine::DrawText(hDC, m_pManager, rcText, sText, iTextColor, \
         pInfo->nFont, DT_SINGLELINE | pInfo->uTextStyle);
 }
 
@@ -694,16 +695,17 @@ SIZE CMenuElementUI::EstimateSize(SIZE szAvailable)
 		if( !IsEnabled() ) {
 			iTextColor = pInfo->dwDisabledTextColor;
 		}
+		CDuiString sText = GetText();
 
 		RECT rcText = { 0, 0, MAX(szAvailable.cx, m_cxyFixed.cx), 9999 };
 		rcText.left += pInfo->rcTextPadding.left;
 		rcText.right -= pInfo->rcTextPadding.right;
 		if( pInfo->bShowHtml ) {   
 			int nLinks = 0;
-			CRenderEngine::DrawHtmlText(m_pManager->GetPaintDC(), m_pManager, rcText, m_sText, iTextColor, NULL, NULL, nLinks, DT_CALCRECT | pInfo->uTextStyle);
+			CRenderEngine::DrawHtmlText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, iTextColor, NULL, NULL, nLinks, DT_CALCRECT | pInfo->uTextStyle);
 		}
 		else {
-			CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, m_sText, iTextColor, pInfo->nFont, DT_CALCRECT | pInfo->uTextStyle);
+			CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, iTextColor, pInfo->nFont, DT_CALCRECT | pInfo->uTextStyle);
 		}
 		cXY.cx = rcText.right - rcText.left + pInfo->rcTextPadding.left + pInfo->rcTextPadding.right + 20;
 		cXY.cy = rcText.bottom - rcText.top + pInfo->rcTextPadding.top + pInfo->rcTextPadding.bottom;
@@ -774,23 +776,26 @@ void CMenuElementUI::DoEvent(TEventUI& event)
 			else
 			{
 				SetChecked(!GetChecked());
+
+				MenuCmd* pMenuCmd = new MenuCmd();
+				lstrcpy(pMenuCmd->szName, GetName().GetData());
+				lstrcpy(pMenuCmd->szUserData, GetUserData().GetData());
+				lstrcpy(pMenuCmd->szText, GetText().GetData());
+				pMenuCmd->bChecked = GetChecked();
+
+				ContextMenuParam param;
+				param.hWnd = m_pManager->GetPaintWindow();
+				param.wParam = 1;
+				CMenuWnd::GetGlobalContextMenuObserver().RBroadcast(param);
+
 				if (CMenuWnd::GetGlobalContextMenuObserver().GetManager() != NULL)
 				{
-					MenuCmd* pMenuCmd = new MenuCmd();
-					lstrcpy(pMenuCmd->szName, GetName().GetData());
-					lstrcpy(pMenuCmd->szUserData, GetUserData().GetData());
-					lstrcpy(pMenuCmd->szText, GetText().GetData());
-					pMenuCmd->bChecked = GetChecked();
 					if (!PostMessage(CMenuWnd::GetGlobalContextMenuObserver().GetManager()->GetPaintWindow(), WM_MENUCLICK, (WPARAM)pMenuCmd, NULL))
 					{
 						delete pMenuCmd;
 						pMenuCmd = NULL;
 					}
 				}
-				ContextMenuParam param;
-				param.hWnd = m_pManager->GetPaintWindow();
-				param.wParam = 1;
-				CMenuWnd::GetGlobalContextMenuObserver().RBroadcast(param);
 			}
         }
 
@@ -937,38 +942,38 @@ void CMenuElementUI::SetShowExplandIcon(bool bShow)
 
 void CMenuElementUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 {
-	if( _tcscmp(pstrName, _T("icon")) == 0){
+	if( _tcsicmp(pstrName, _T("icon")) == 0){
 		SetIcon(pstrValue);
 	}
-	else if( _tcscmp(pstrName, _T("iconsize")) == 0 ) {
+	else if( _tcsicmp(pstrName, _T("iconsize")) == 0 ) {
 		LPTSTR pstr = NULL;
 		LONG cx = 0, cy = 0;
 		cx = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);    
 		cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);   
 		SetIconSize(cx, cy);
 	}
-	else if( _tcscmp(pstrName, _T("checkitem")) == 0 ) {		
-		SetCheckItem(_tcscmp(pstrValue, _T("true")) == 0 ? true : false);		
+	else if( _tcsicmp(pstrName, _T("checkitem")) == 0 ) {		
+		SetCheckItem(_tcsicmp(pstrValue, _T("true")) == 0 ? true : false);		
 	}
-	else if( _tcscmp(pstrName, _T("ischeck")) == 0 ) {		
+	else if( _tcsicmp(pstrName, _T("ischeck")) == 0 ) {		
 		if (CMenuWnd::GetGlobalContextMenuObserver().GetMenuCheckInfo() != NULL && CMenuWnd::GetGlobalContextMenuObserver().GetMenuCheckInfo()->find(GetName()) == CMenuWnd::GetGlobalContextMenuObserver().GetMenuCheckInfo()->end())
 		{
-			SetChecked(_tcscmp(pstrValue, _T("true")) == 0 ? true : false);
+			SetChecked(_tcsicmp(pstrValue, _T("true")) == 0 ? true : false);
 		}	
 	}	
-	else if( _tcscmp(pstrName, _T("linetype")) == 0){
-		if (_tcscmp(pstrValue, _T("true")) == 0)
+	else if( _tcsicmp(pstrName, _T("linetype")) == 0){
+		if (_tcsicmp(pstrValue, _T("true")) == 0)
 			SetLineType();
 	}
-	else if( _tcscmp(pstrName, _T("expland")) == 0 ) {
-		SetShowExplandIcon(_tcscmp(pstrValue, _T("true")) == 0 ? true : false);
+	else if( _tcsicmp(pstrName, _T("expland")) == 0 ) {
+		SetShowExplandIcon(_tcsicmp(pstrValue, _T("true")) == 0 ? true : false);
 	}
-	else if( _tcscmp(pstrName, _T("linecolor")) == 0){
+	else if( _tcsicmp(pstrName, _T("linecolor")) == 0){
 		if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
 		LPTSTR pstr = NULL;
 		SetLineColor(_tcstoul(pstrValue, &pstr, 16));
 	}
-	else if( _tcscmp(pstrName, _T("linepadding")) == 0 ) {
+	else if( _tcsicmp(pstrName, _T("linepadding")) == 0 ) {
 		RECT rcInset = { 0 };
 		LPTSTR pstr = NULL;
 		rcInset.left = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);    
@@ -977,7 +982,7 @@ void CMenuElementUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 		rcInset.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);    
 		SetLinePadding(rcInset);
 	}
-	else if	( _tcscmp(pstrName, _T("height")) == 0){
+	else if	( _tcsicmp(pstrName, _T("height")) == 0){
 		SetFixedHeight(_ttoi(pstrValue));
 	}
 	else

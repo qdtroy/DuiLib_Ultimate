@@ -84,7 +84,7 @@ public:
 
 	DuiLib::CDuiString GetSkinFile()
 	{
-		return _T("main.xml");
+		return _T("XML_MAIN");
 	}
 
 	UILIB_RESOURCETYPE GetResourceType() const
@@ -120,6 +120,35 @@ public:
 	void OnFinalMessage(HWND hWnd)
 	{ 
 		delete this;
+	}
+
+	LPCTSTR QueryControlText(LPCTSTR lpstrId, LPCTSTR lpstrType)
+	{
+		CDuiString sLanguage = CResourceManager::GetInstance()->GetLanguage();
+		if(sLanguage == _T("en")){
+			if(lstrcmpi(lpstrId, _T("lantext")) == 0) {
+				return _T("Switch to Chinese");
+			}
+			else if(lstrcmpi(lpstrId, _T("titletext")) == 0) {
+				return _T("Duilib Demo v1.1");
+			}
+			else if(lstrcmpi(lpstrId, _T("hometext")) == 0) {
+				return _T("{a}Home Page{/a}");
+			}
+		}
+		else{
+			if(lstrcmpi(lpstrId, _T("lantext")) == 0) {
+				return _T("切换到英文");
+			}
+			else if(lstrcmpi(lpstrId, _T("titletext")) == 0) {
+				return _T("Duilib 使用演示 v1.1");
+			}
+			else if(lstrcmpi(lpstrId, _T("hometext")) == 0) {
+				return _T("{a}演示官网{/a}");
+			}
+		}
+
+		return NULL;
 	}
 
 	void Notify(TNotifyUI& msg)
@@ -249,6 +278,7 @@ public:
 				pSubNew->SetIconSize(16,16);
 				pNew->Add(pSubNew);
 				rootMenu->Add(pNew);
+
 				CMenuElementUI* pNew2 = new CMenuElementUI;
 				pNew2->SetName(_T("Menu_Dynamic"));
 				pNew2->SetText(_T("动态一级菜单2"));
@@ -307,7 +337,21 @@ public:
 				CDuiString sText = pMenuCmd->szText;
 				m_PaintManager.DeletePtr(pMenuCmd);
 
-				if ( sMenuName == _T("qianting")) 
+				if(sMenuName.CompareNoCase(_T("lan")) == 0)
+				{
+					static bool bEn = false;
+					if(!bEn) {
+						CResourceManager::GetInstance()->SetLanguage(_T("en"));
+					}
+					else {
+						CResourceManager::GetInstance()->SetLanguage(_T("cn_zh"));					
+					}
+					bEn = !bEn;
+					CResourceManager::GetInstance()->ReloadText();
+					InvalidateRect(m_hWnd, NULL, TRUE);
+					m_PaintManager.NeedUpdate();
+				}
+				else if (sMenuName == _T("qianting"))
 				{
 					if (bChecked)
 					{

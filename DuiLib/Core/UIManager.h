@@ -360,6 +360,14 @@ namespace DuiLib {
 		bool PreMessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lRes);
 		void UsedVirtualWnd(bool bUsed);
 
+		// 样式管理
+		void AddStyle(LPCTSTR pName, LPCTSTR pStyle);
+		LPCTSTR GetStyle(LPCTSTR pName) const;
+		BOOL RemoveStyle(LPCTSTR pName);
+		const CStdStringPtrMap& GetStyles() const;
+		void RemoveAllStyle();
+		const TImageInfo* GetImageString(LPCTSTR pStrImage, LPCTSTR pStrModify = NULL);
+
 	private:
 		static CControlUI* CALLBACK __FindControlFromNameHash(CControlUI* pThis, LPVOID pData);
 		static CControlUI* CALLBACK __FindControlFromCount(CControlUI* pThis, LPVOID pData);
@@ -458,6 +466,7 @@ namespace DuiLib {
 	public:
 		static CDuiString m_pStrDefaultFontName;
 		CStdPtrArray m_aTranslateAccelerator;
+		CStdStringPtrMap m_StyleHash;
 	};
 
 } // namespace DuiLib

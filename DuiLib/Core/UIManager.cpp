@@ -2385,7 +2385,7 @@ namespace DuiLib {
 		LPCTSTR pstrType = static_cast<LPCTSTR>(pData);
 		LPCTSTR pType = pThis->GetClass();
 		CStdPtrArray* pFoundControls = pThis->GetManager()->GetSubControlsByClass();
-		if( _tcscmp(pstrType, _T("*")) == 0 || _tcscmp(pstrType, pType) == 0 ) {
+		if( _tcsicmp(pstrType, _T("*")) == 0 || _tcsicmp(pstrType, pType) == 0 ) {
 			int iIndex = -1;
 			while( pFoundControls->GetAt(++iIndex) != NULL ) ;
 			if( iIndex < pFoundControls->GetSize() ) pFoundControls->SetAt(iIndex, pThis);
@@ -2398,7 +2398,7 @@ namespace DuiLib {
 	{
 		LPCTSTR pstrType = static_cast<LPCTSTR>(pData);
 		LPCTSTR pType = pThis->GetClass();
-		if( _tcscmp(pstrType, _T("*")) == 0 || _tcscmp(pstrType, pType) == 0 ) 
+		if( _tcsicmp(pstrType, _T("*")) == 0 || _tcsicmp(pstrType, pType) == 0 ) 
 			pThis->GetManager()->GetSubControlsByClass()->Add((LPVOID)pThis);
 		return NULL;
 	}
@@ -2484,5 +2484,107 @@ namespace DuiLib {
 	{
 		m_bUsedVirtualWnd = bUsed;
 	}
+	
+	// 样式管理
+	void CPaintManagerUI::AddStyle(LPCTSTR pName, LPCTSTR pDeclarationList)
+	{
+		CDuiString* pStyle = new CDuiString(pDeclarationList);
+		if (pStyle != NULL)
+		{
+			if (m_StyleHash.Find(pName) == NULL)
+				m_StyleHash.Set(pName, (LPVOID)pStyle);
+			else
+				delete pStyle;
+		}
+	}
 
+	LPCTSTR CPaintManagerUI::GetStyle(LPCTSTR pName) const
+	{
+		CDuiString* pStyle = static_cast<CDuiString*>(m_StyleHash.Find(pName));
+		if( !pStyle && m_pParentResourcePM ) return m_pParentResourcePM->GetStyle(pName);
+		if( pStyle ) return pStyle->GetData();
+		else return NULL;
+	}
+
+	BOOL CPaintManagerUI::RemoveStyle(LPCTSTR pName)
+	{
+		CDuiString* pStyle = static_cast<CDuiString*>(m_StyleHash.Find(pName));
+		if( !pStyle ) return FALSE;
+
+		delete pStyle;
+		return m_StyleHash.Remove(pName);
+	}
+
+	const CStdStringPtrMap& CPaintManagerUI::GetStyles() const
+	{
+		return m_StyleHash;
+	}
+
+	void CPaintManagerUI::RemoveAllStyle()
+	{
+		CDuiString* pStyle;
+		for( int i = 0; i< m_StyleHash.GetSize(); i++ ) {
+			if(LPCTSTR key = m_StyleHash.GetAt(i)) {
+				pStyle = static_cast<CDuiString*>(m_StyleHash.Find(key));
+				delete pStyle;
+			}
+		}
+		m_StyleHash.RemoveAll();
+	}
+
+	const TImageInfo* CPaintManagerUI::GetImageString(LPCTSTR pStrImage, LPCTSTR pStrModify)
+	{
+		CDuiString sImageName = pStrImage;
+		CDuiString sImageResType = _T("");
+		DWORD dwMask = 0;
+		CDuiString sItem;
+		CDuiString sValue;
+		LPTSTR pstr = NULL;
+
+		for( int i = 0; i < 2; ++i) {
+			if( i == 1)
+				pStrImage = pStrModify;
+
+			if( !pStrImage ) continue;
+
+			while( *pStrImage != _T('\0') ) {
+				sItem.Empty();
+				sValue.Empty();
+				while( *pStrImage > _T('\0') && *pStrImage <= _T(' ') ) pStrImage = ::CharNext(pStrImage);
+				while( *pStrImage != _T('\0') && *pStrImage != _T('=') && *pStrImage > _T(' ') ) {
+					LPTSTR pstrTemp = ::CharNext(pStrImage);
+					while( pStrImage < pstrTemp) {
+						sItem += *pStrImage++;
+					}
+				}
+				while( *pStrImage > _T('\0') && *pStrImage <= _T(' ') ) pStrImage = ::CharNext(pStrImage);
+				if( *pStrImage++ != _T('=') ) break;
+				while( *pStrImage > _T('\0') && *pStrImage <= _T(' ') ) pStrImage = ::CharNext(pStrImage);
+				if( *pStrImage++ != _T('\'') ) break;
+				while( *pStrImage != _T('\0') && *pStrImage != _T('\'') ) {
+					LPTSTR pstrTemp = ::CharNext(pStrImage);
+					while( pStrImage < pstrTemp) {
+						sValue += *pStrImage++;
+					}
+				}
+				if( *pStrImage++ != _T('\'') ) break;
+				if( !sValue.IsEmpty() ) {
+					if( sItem == _T("file") || sItem == _T("res") ) {
+						sImageName = sValue;
+					}
+					else if( sItem == _T("restype") ) {
+						sImageResType = sValue;
+					}
+					else if( sItem == _T("mask") ) 
+					{
+						if( sValue[0] == _T('#')) dwMask = _tcstoul(sValue.GetData() + 1, &pstr, 16);
+						else dwMask = _tcstoul(sValue.GetData(), &pstr, 16);
+					}
+					else{};
+				}
+				if( *pStrImage++ != _T(' ') ) break;
+			}
+		}
+		return GetImageEx(sImageName, sImageResType, dwMask);
+	}
 } // namespace DuiLib

@@ -60,6 +60,11 @@ CControlUI* WindowImplBase::CreateControl(LPCTSTR pstrClass)
 	return NULL;
 }
 
+LPCTSTR WindowImplBase::QueryControlText(LPCTSTR lpstrId, LPCTSTR lpstrType)
+{
+	return NULL;
+}
+
 LRESULT WindowImplBase::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM /*lParam*/, bool& /*bHandled*/)
 {
 	if (uMsg == WM_KEYDOWN)
@@ -284,6 +289,9 @@ LRESULT WindowImplBase::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 	m_PaintManager.Init(m_hWnd);
 	m_PaintManager.AddPreMessageFilter(this);
 
+	// 多语言接口
+	CResourceManager::GetInstance()->SetTextQueryInterface(this);
+
 	CDialogBuilder builder;
 	if (m_PaintManager.GetResourcePath().IsEmpty())
 	{	// 允许更灵活的资源路径定义
@@ -327,11 +335,18 @@ LRESULT WindowImplBase::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 	CControlUI* pRoot=NULL;
 	if (GetResourceType()==UILIB_RESOURCE)
 	{
+		// 加载资源管理器
+		CResourceManager::GetInstance()->LoadResource(_T("IDR_RES"), _T("xml"));
+
 		STRINGorID xml(_ttoi(GetSkinFile().GetData()));
 		pRoot = builder.Create(xml, _T("xml"), this, &m_PaintManager);
 	}
-	else
+	else {
+		// 加载资源管理器
+		CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
+
 		pRoot = builder.Create(GetSkinFile().GetData(), (UINT)0, this, &m_PaintManager);
+	}
 	ASSERT(pRoot);
 	if (pRoot==NULL)
 	{

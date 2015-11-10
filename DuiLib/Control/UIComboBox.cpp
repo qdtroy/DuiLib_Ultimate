@@ -15,7 +15,7 @@ namespace DuiLib
 
 	void CComboBoxUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
-		if (_tcscmp(pstrName, _T("arrowimage")) == 0)
+		if (_tcsicmp(pstrName, _T("arrowimage")) == 0)
 			m_sArrowImage = pstrValue;
 		else
 			CComboUI::SetAttribute(pstrName, pstrValue);

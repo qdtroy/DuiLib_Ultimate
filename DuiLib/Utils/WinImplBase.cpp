@@ -331,20 +331,17 @@ LRESULT WindowImplBase::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 		}
 		break;
 	}
+	// 资源管理器接口
+	InitResource();
 
+	// 创建主窗口
 	CControlUI* pRoot=NULL;
 	if (GetResourceType()==UILIB_RESOURCE)
 	{
-		// 加载资源管理器
-		CResourceManager::GetInstance()->LoadResource(_T("IDR_RES"), _T("xml"));
-
 		STRINGorID xml(_ttoi(GetSkinFile().GetData()));
 		pRoot = builder.Create(xml, _T("xml"), this, &m_PaintManager);
 	}
 	else {
-		// 加载资源管理器
-		CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
-
 		pRoot = builder.Create(GetSkinFile().GetData(), (UINT)0, this, &m_PaintManager);
 	}
 	ASSERT(pRoot);

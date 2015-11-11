@@ -12,6 +12,19 @@ public:
 	}
 
 public:
+	// 初始化资源管理器
+	void InitResource()
+	{
+		if (GetResourceType()==UILIB_RESOURCE)
+		{
+			// 加载资源管理器
+			CResourceManager::GetInstance()->LoadResource(_T("IDR_RES"), _T("xml"));
+		}
+		else {
+			// 加载资源管理器
+			CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
+		}	
+	}
 	void InitWindow() 
 	{
 		CSkinManager::GetSkinManager()->AddReceiver(this);

@@ -50,7 +50,21 @@ public:
 			pElement->SetFixedWidth(120);
 			pFontSize->Add(pElement);
 		}
-
+		CComboUI* pCombo = new CComboUI();
+		pCombo->SetName(_T("mycombo"));
+		pCombo->SetFixedWidth(80);
+		pCombo->ApplyAttributeList(m_PaintManager.GetStyle(_T("combo_style")));
+		CContainerUI* pParent = (CContainerUI*)pFontSize->GetParent();
+		pParent->Add(pCombo);
+		if(pCombo)
+		{
+			CListLabelElementUI * pElement = new CListLabelElementUI();
+			pElement->SetText(_T("¶¯Ì¬Êý¾Ý"));
+			pElement->SetFixedHeight(30);
+			pElement->SetFixedWidth(120);
+			pCombo->Add(pElement);
+			pCombo->SelectItem(0);
+		}
 		CListUI* pList = static_cast<CListUI*>(m_PaintManager.FindControl(_T("listview")));
 		for(int i = 0; i < 20; i++)
 		{

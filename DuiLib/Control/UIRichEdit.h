@@ -124,6 +124,7 @@ namespace DuiLib {
 
 		SIZE EstimateSize(SIZE szAvailable);
 		void SetPos(RECT rc, bool bNeedInvalidate = true);
+		void Move(SIZE szOffset, bool bNeedInvalidate = true);
 		void DoEvent(TEventUI& event);
 		void DoPaint(HDC hDC, const RECT& rcPaint);
 

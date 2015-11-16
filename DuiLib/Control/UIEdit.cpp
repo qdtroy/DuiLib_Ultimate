@@ -507,7 +507,8 @@ namespace DuiLib
 	{
 		return m_dwTipValueColor;
 	}
-
+	
+	
 	void CEditUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
 		CControlUI::SetPos(rc, bNeedInvalidate);
@@ -515,6 +516,16 @@ namespace DuiLib
 			RECT rcPos = m_pWindow->CalPos();
 			::SetWindowPos(m_pWindow->GetHWND(), NULL, rcPos.left, rcPos.top, rcPos.right - rcPos.left, 
 				rcPos.bottom - rcPos.top, SWP_NOZORDER | SWP_NOACTIVATE);        
+		}
+	}
+
+	void CEditUI::Move(SIZE szOffset, bool bNeedInvalidate)
+	{
+		CControlUI::Move(szOffset, bNeedInvalidate);
+		if( m_pWindow != NULL ) {
+			RECT rcPos = m_pWindow->CalPos();
+			::SetWindowPos(m_pWindow->GetHWND(), NULL, rcPos.left, rcPos.top, rcPos.right - rcPos.left, 
+				rcPos.bottom - rcPos.top, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);        
 		}
 	}
 

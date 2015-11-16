@@ -173,6 +173,7 @@ namespace DuiLib {
 		bool ExpandItem(int iIndex, bool bExpand = true);
 
 		void SetPos(RECT rc, bool bNeedInvalidate = true);
+		void Move(SIZE szOffset, bool bNeedInvalidate = true);
 		void DoEvent(TEventUI& event);
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 

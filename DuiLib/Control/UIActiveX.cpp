@@ -942,6 +942,15 @@ void CActiveXUI::SetPos(RECT rc, bool bNeedInvalidate)
     }
 }
 
+void CActiveXUI::Move(SIZE szOffset, bool bNeedInvalidate)
+{
+	CControlUI::Move(szOffset, bNeedInvalidate);
+	if( !m_pControl->m_bWindowless ) {
+		ASSERT(m_pControl->m_pWindow);
+		::MoveWindow(*m_pControl->m_pWindow, m_rcItem.left, m_rcItem.top, m_rcItem.right - m_rcItem.left, m_rcItem.bottom - m_rcItem.top, TRUE);
+	}
+}
+
 void CActiveXUI::DoPaint(HDC hDC, const RECT& rcPaint)
 {
     if( !::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem) ) return;

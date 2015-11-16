@@ -853,6 +853,10 @@ namespace DuiLib {
 		CControlUI::SetPos(rc, bNeedInvalidate);
 	}
 
+	void CComboUI::Move(SIZE szOffset, bool bNeedInvalidate)
+	{
+		CControlUI::Move(szOffset, bNeedInvalidate);
+	}
 	void CComboUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
 		if( _tcsicmp(pstrName, _T("align")) == 0 ) {

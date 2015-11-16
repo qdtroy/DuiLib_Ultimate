@@ -78,6 +78,7 @@ namespace DuiLib {
 		// Œª÷√œ‡πÿ
 		virtual const RECT& GetPos() const;
 		virtual void SetPos(RECT rc, bool bNeedInvalidate = true);
+		virtual void Move(SIZE szOffset, bool bNeedInvalidate = true);
 		virtual int GetWidth() const;
 		virtual int GetHeight() const;
 		virtual int GetX() const;

@@ -259,6 +259,12 @@ void CListUI::SetPos(RECT rc, bool bNeedInvalidate)
 
 }
 
+void CListUI::Move(SIZE szOffset, bool bNeedInvalidate)
+{
+	CVerticalLayoutUI::Move(szOffset, bNeedInvalidate);
+	if( !m_pHeader->IsVisible() ) m_pHeader->Move(szOffset, false);
+}
+
 void CListUI::DoEvent(TEventUI& event)
 {
     if( !IsMouseEnabled() && event.Type > UIEVENT__MOUSEBEGIN && event.Type < UIEVENT__MOUSEEND ) {

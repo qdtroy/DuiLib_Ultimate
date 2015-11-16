@@ -287,10 +287,6 @@ void CControlUI::SetPos(RECT rc, bool bNeedInvalidate)
 			LONG width = rcParentPos.right - rcParentPos.left;
 			LONG height = rcParentPos.bottom - rcParentPos.top;
 			
-			if(m_piFloatPercent.left > 0 || m_piFloatPercent.top || m_piFloatPercent.right || m_piFloatPercent.bottom) {
-				
-			}
-			
 			m_rcItem.left = m_cXY.cx + rcParentPos.left;
 			m_rcItem.top = m_cXY.cy + rcParentPos.top;
 			m_rcItem.right = m_rcItem.left + m_cxyFixed.cx;
@@ -332,25 +328,9 @@ void CControlUI::SetPos(RECT rc, bool bNeedInvalidate)
 
 void CControlUI::Move(SIZE szOffset, bool bNeedInvalidate)
 {
-	CDuiRect invalidateRc = m_rcItem;
-	m_rcItem.left += szOffset.cx;
-	m_rcItem.top += szOffset.cy;
-	m_rcItem.right += szOffset.cx;
-	m_rcItem.bottom += szOffset.cy;
-
-	if( bNeedInvalidate && m_pManager == NULL && IsVisible() ) {
-		invalidateRc.Join(m_rcItem);
-		CControlUI* pParent = this;
-		RECT rcTemp;
-		RECT rcParent;
-		while( pParent = pParent->GetParent() ) {
-			if( !pParent->IsVisible() ) return;
-			rcTemp = invalidateRc;
-			rcParent = pParent->GetPos();
-			if( !::IntersectRect(&invalidateRc, &rcTemp, &rcParent) ) return;
-		}
-		m_pManager->Invalidate(invalidateRc);
-	}
+	m_cXY.cx += szOffset.cx;
+	m_cXY.cy += szOffset.cy;
+	SetPos(m_rcItem, bNeedInvalidate);
 }
 
 int CControlUI::GetWidth() const

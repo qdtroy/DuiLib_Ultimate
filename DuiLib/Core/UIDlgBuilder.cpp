@@ -288,6 +288,9 @@ CControlUI* CDialogBuilder::Create(IDialogBuilderCallback* pCallback, CPaintMana
 					else if( _tcsicmp(pstrName, _T("gdiplustext")) == 0 ) {
 						pManager->SetUseGdiplusText(_tcsicmp(pstrValue, _T("true")) == 0);
 					} 
+					else if( _tcsicmp(pstrName, _T("textrenderinghint")) == 0 ) {
+						pManager->SetGdiplusTextRenderingHint(_ttoi(pstrValue));
+					} 
                 }
             }
         }

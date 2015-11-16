@@ -93,7 +93,8 @@ namespace DuiLib {
 		m_bCaretActive(false),
 		m_bCaretShowing(false),
 		m_currentCaretObject(NULL),
-		m_bUseGdiplusText(false)
+		m_bUseGdiplusText(false),
+		m_trh(0)
 	{
 		m_dwDefaultDisabledColor = 0xFFA7A6AA;
 		m_dwDefaultFontColor = 0xFF000001;
@@ -572,6 +573,16 @@ namespace DuiLib {
 	bool CPaintManagerUI::IsUseGdiplusText() const
 	{
 		return m_bUseGdiplusText;
+	}
+
+	void CPaintManagerUI::SetGdiplusTextRenderingHint(int trh)
+	{
+		m_trh = trh;
+	}
+
+	int CPaintManagerUI::GetGdiplusTextRenderingHint() const
+	{
+		return m_trh;
 	}
 
 	bool CPaintManagerUI::PreMessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& /*lRes*/)

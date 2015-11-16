@@ -24,7 +24,8 @@
 		<Attribute name="shadowdarkness" default="255" type="BYTE" comment="算法阴影的深度(相当于透明度)"/>
 		<Attribute name="shadowposition" default="0,0" type="SIZE" comment="算法阴影的偏移量"/>
 		<Attribute name="shadowcolor" default="0x000000" type="DWORD" comment="算法阴影的颜色，RGB格式，不支持透明度，使用shadowdarkness设置透明度"/>
-		<Attribute name="gdiplustext" default="false" type="BOOL" comment="是否用gdi+渲染文字（抗锯齿效果更好，但是效率低）"/>
+    <Attribute name="gdiplustext" default="false" type="BOOL" comment="是否用gdi+渲染文字（抗锯齿效果更好，默认开启，但是效率低）"/>
+    <Attribute name="textrenderinghint" default="0" type="int" comment="gdi+渲染文字提示（0-5），字体大的时候可以设置为4"/>
 	</Window>
 	<Include >
 		<Attribute name="source" default="" type="STRING" comment="XML布局文件"/>

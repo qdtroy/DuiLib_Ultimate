@@ -230,6 +230,8 @@ namespace DuiLib {
 		CShadowUI* GetShadow();
 		void SetUseGdiplusText(bool bUse);
 		bool IsUseGdiplusText() const;
+		void SetGdiplusTextRenderingHint(int trh);
+		int GetGdiplusTextRenderingHint() const;
 
 		static HINSTANCE GetInstance();
 		static CDuiString GetInstancePath();
@@ -399,6 +401,7 @@ namespace DuiLib {
 
 		CShadowUI m_shadow;
 		bool m_bUseGdiplusText;
+		int m_trh;
 		//
 		//
 		ULONG_PTR						m_gdiplusToken;

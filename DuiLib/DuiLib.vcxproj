@@ -478,7 +478,6 @@
   <ItemGroup>
     <ClCompile Include="Control\UIAnimation.cpp" />
     <ClCompile Include="Control\UIGifAnim.cpp" />
-    <ClCompile Include="Control\UIIPAddress.cpp" />
     <ClCompile Include="Control\UIMenu.cpp" />
     <ClCompile Include="Core\UIResourceManager.cpp" />
     <ClCompile Include="Layout\UIAnimationTabLayout.cpp" />
@@ -566,7 +565,6 @@
   <ItemGroup>
     <ClInclude Include="Control\UIAnimation.h" />
     <ClInclude Include="Control\UIGifAnim.h" />
-    <ClInclude Include="Control\UIIPAddress.h" />
     <ClInclude Include="Control\UIMenu.h" />
     <ClInclude Include="Core\UIResourceManager.h" />
     <ClInclude Include="Layout\UIAnimationTabLayout.h" />

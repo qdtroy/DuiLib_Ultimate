@@ -165,9 +165,6 @@
     <ClCompile Include="Core\UIResourceManager.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Control\UIIPAddress.cpp">
-      <Filter>Source Files\Control</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h">
@@ -307,9 +304,6 @@
     </ClInclude>
     <ClInclude Include="Core\UIResourceManager.h">
       <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Control\UIIPAddress.h">
-      <Filter>Header Files\Control</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

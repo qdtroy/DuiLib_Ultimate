@@ -505,9 +505,9 @@ namespace DuiLib {
 		RECT rcCorner = {0};
 		DWORD dwMask = 0;
 		BYTE bFade = 0xFF;
-		bool bHole = false;
-		bool bTiledX = true;
-		bool bTiledY = true;
+		BOOL bHole = FALSE;
+		BOOL bTiledX = TRUE;
+		BOOL bTiledY = TRUE;
 		CDuiSize szIcon(0,0);
 
 		int image_count = 0;

@@ -244,6 +244,7 @@ protected:                                                                \
 #define  DUI_CTR_CONTAINER                       (_T("Container"))
 #define  DUI_CTR_TABLAYOUT                       (_T("TabLayout"))
 #define  DUI_CTR_SCROLLBAR                       (_T("ScrollBar"))
+#define  DUI_CTR_IPADDRESS                       (_T("IPAddress"))
 
 #define  DUI_CTR_LISTHEADER                      (_T("ListHeader"))
 #define  DUI_CTR_TILELAYOUT                      (_T("TileLayout"))

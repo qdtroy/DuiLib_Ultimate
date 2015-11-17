@@ -82,6 +82,7 @@
 #include "Control/UIComboBox.h"
 #include "Control/UIRichEdit.h"
 #include "Control/UIDateTime.h"
+#include "Control/UIIPAddress.h"
 
 #include "Control/UIActiveX.h"
 #include "Control/UIWebBrowser.h"

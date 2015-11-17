@@ -914,7 +914,6 @@ namespace DuiLib {
 				{
 					m_bIsRestore = true;
 				}
-				return true;
 			}
 			break;
 		case WM_GETMINMAXINFO:

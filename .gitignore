@@ -24,3 +24,5 @@ Temp/duidemo/Debug/duidemo_d_manifest.rc
 Lib/DuiLib_d.lib
 *.suo
 DuiLib.suo
+*.user
+*.suo

@@ -705,83 +705,19 @@ namespace DuiLib
 		return nCount;
 	}
     
-    int CDuiString::Format(LPCTSTR pstrFormat, va_list Args)
-    {
-#if _MSC_VER <= 1400
-
-        TCHAR *szBuffer = NULL;
-        int size = 512, nLen, counts;
-
-        //
-        //  allocate with init size
-        //
-
-        szBuffer = (TCHAR*)malloc(size);
-        ZeroMemory(szBuffer, size);
-
-        while (TRUE){
-            counts = size / sizeof(TCHAR);
-            nLen = _vsntprintf (szBuffer, counts, pstrFormat, Args);
-            if (nLen != -1 && nLen < counts){
-                break;
-            }
-
-            //
-            //  expand the buffer.
-            //
-
-            if (nLen == -1){
-                size *= 2;
-            }else{
-                size += 1 * sizeof(TCHAR);
-            }
-
-
-            //
-            //  realloc the buffer.
-            //
-
-            if ((szBuffer = (TCHAR*)realloc(szBuffer, size)) != NULL){
-                ZeroMemory(szBuffer, size);
-            }else{
-                break;
-            }
-
-        }
-
-        Assign(szBuffer);
-        free(szBuffer);
-        return nLen;
-#else
-        int nLen, totalLen;
-        TCHAR *szBuffer;
-
-        nLen = _vsntprintf(NULL, 0, pstrFormat, Args);
-        totalLen = (nLen + 1)*sizeof(TCHAR);
-        szBuffer = (TCHAR*)malloc(totalLen);
-        ZeroMemory(szBuffer, totalLen);
-        nLen = _vsntprintf(szBuffer, nLen + 1, pstrFormat, Args);
-
-        Assign(szBuffer);
-        free(szBuffer);
-
-        return nLen;
-
-#endif
-    }
-
-    int CDuiString::Format(LPCTSTR pstrFormat, ...)
-    {
-        int nRet;
-        va_list Args;
-
-        va_start(Args, pstrFormat);
-        nRet = Format(pstrFormat, Args);
-        va_end(Args);
-
-        return nRet;
-
-    }
+   int CDuiString::Format(LPCTSTR pstrFormat, ...)
+	{
+		CDuiString sFormat = pstrFormat;
+		// Do ordinary printf replacements
+		// NOTE: Documented max-length of wvsprintf() is 1024
+		TCHAR szBuffer[1025] = { 0 };
+		va_list argList;
+		va_start(argList, pstrFormat);
+		int iRet = ::wvsprintf(szBuffer, sFormat, argList);
+		va_end(argList);
+		Assign(szBuffer);
+		return iRet;
+	}
 
 	int CDuiString::SmallFormat(LPCTSTR pstrFormat, ...)
 	{

@@ -26,3 +26,7 @@ Lib/DuiLib_d.lib
 DuiLib.suo
 *.user
 *.suo
+*.suo
+*.res
+Temp/duidemo/Debug/MFCApp_manifest.rc
+*.unsuccessfulbuild

@@ -256,7 +256,7 @@ public:
 	bool RemoveNode(Node* node)
 	{
 		if( !node || node == _root ) return false;
-		for( int i = 0; i < node->num_children(); ++i ) {
+		for( int i = node->num_children() - 1; i >= 0; --i ) {
 			Node* child = node->child(i);
 			RemoveNode(child);
 		}

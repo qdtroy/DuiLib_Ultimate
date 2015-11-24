@@ -9,6 +9,7 @@
   
   <Style name="main_tab" value="textcolor=&quot;#FF386382&quot; font=&quot;2&quot; normalimage=&quot;tabbar_normal.png&quot; hotimage=&quot;tabbar_hover.png&quot; pushedimage=&quot;tabbar_pushed.png&quot; selectedimage=&quot;tabbar_pushed.png&quot; group=&quot;tab_header&quot;" />
   <Style name="combo_style" value="height=&quot;22&quot; textpadding=&quot;4,1,22,1&quot; normalimage=&quot;file='combo.png' source='0,0,100,22' corner='2,2,20,2'&quot; hotimage=&quot;file='combo.png' source='0,22,100,44' corner='2,2,22,2'&quot; pushedimage=&quot;file='combo.png' source='0,44,100,66' corner='2,2,22,2'&quot;" />
+  <Style name="list_style" value="headerbkimage=&quot;file='list_header_bg.png'&quot; itemalign=&quot;center&quot; itemlinecolor=&quot;#FFFF0000&quot; itemshowrowline=&quot;true&quot; itemshowcolumnline=&quot;true&quot;" />
   
   <VerticalLayout name="root" bkimage1="file='main\10.jpg' corner='580,370,10,5'" bkcolor="#ff0199cb">
     <HorizontalLayout name="appbar" height="64" >
@@ -54,6 +55,7 @@
               <Control />
               <HorizontalLayout height="45" childpadding="12">
                 <Label text="duilib开源项目圈自动换行测试" width="60" align="left" wordbreak="true" textcolor="#FFFF0000"/>
+                <Button text="普通按钮自动换行测试" width="60" align="left" wordbreak="true" textcolor="#FF555555" textpadding="6,0,6,0" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'"/>
 
               </HorizontalLayout>
               <Control />
@@ -98,7 +100,7 @@
             <VerticalLayout>
               <Control />
               <HorizontalLayout height="23" childpadding="12">
-                <Combo name="font_type" droptype="droplist" itemfont="" width="100" style="combo_style">
+                <Combo name="font_type" droptype="droplist" itemfont="" width="100" style="combo_style" float="true" pos="300,0,400,23">
                   <ListLabelElement text="微软雅黑" selected="true" height="23" />
                   <ListLabelElement text="宋体" height="23" />
                   <ListLabelElement text="黑体" height="23" />
@@ -131,11 +133,25 @@
           
           <Label height="1" bkimage="hor_line.bmp"/>
           <HorizontalLayout height="60">
+            <Label text="系统控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
+            <VerticalLayout>
+              <Control />
+              <HorizontalLayout height="23" childpadding="12">
+                <IPAddress width="120"/>
+                  
+              </HorizontalLayout>
+              <Control />
+            </VerticalLayout>
+          </HorizontalLayout>
+
+          <Label height="1" bkimage="hor_line.bmp"/>
+          <HorizontalLayout height="60">
             <Label text="窗口演示" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout >
               <Control />
               <HorizontalLayout height="30" childpadding="12">
-                <Button name="popwnd_btn" text="模态弹出窗口" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
+                <Button name="popwnd_btn" text="普通弹出窗口" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
+                <Button name="modal_popwnd_btn" text="模态弹出窗口" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
                 <Button name="qq_btn" text="问题咨询(&Q)" shortcut="Q" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
               </HorizontalLayout>
               <Control />
@@ -149,7 +165,7 @@
           <HorizontalLayout height="180" bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="ListView控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
-              <List name="listview" vscrollbar="true" hscrollbar="true" headerbkimage="file='list_header_bg.png'" itemalign="center" itemlinecolor="#FFFF0000" itemshowrowline="true" itemshowcolumnline="true">
+              <List name="listview" vscrollbar="true" hscrollbar="true" style="list_style">
                 <ListHeader height="24" menu="true">
                   <ListHeaderItem text="姓名" width="30" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
                   <ListHeaderItem text="学号" width="260" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
@@ -175,7 +191,7 @@
             <Label text="Tree控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
               <TreeView bkcolor="#ffffffff" visiblefolderbtn="true" visiblecheckbtn="true" vscrollbar="true" >
-                <TreeNode text="A1" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='Icon/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='Icon/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='Icon/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/unchecked.png' &quot; selectedimage=&quot;file='Icon/checked.png' &quot;" >
+                <TreeNode text="A1" dotlineattr="text=&quot;...&quot;" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='Icon/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='Icon/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='Icon/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/unchecked.png' &quot; selectedimage=&quot;file='Icon/checked.png' &quot;" >
                   <TreeNode text="B1" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='Icon/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='Icon/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='Icon/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/unchecked.png' &quot; selectedimage=&quot;file='Icon/checked.png' &quot;" >
                     <TreeNode text="C1" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='Icon/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='Icon/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='Icon/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/unchecked.png' &quot; selectedimage=&quot;file='Icon/checked.png' &quot;" >
                       <TreeNode text="D1" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='Icon/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='Icon/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='Icon/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/unchecked.png' &quot; selectedimage=&quot;file='Icon/checked.png' &quot;" >

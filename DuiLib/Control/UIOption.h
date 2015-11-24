@@ -65,6 +65,24 @@ namespace DuiLib
 		CDuiString		m_sSelectedForeImage;
 	};
 
+	class UILIB_API CCheckBoxUI : public COptionUI
+	{
+	public:
+		virtual LPCTSTR GetClass() const;
+		virtual LPVOID GetInterface(LPCTSTR pstrName);
+
+		void SetCheck(bool bCheck);
+		bool GetCheck() const;
+	protected:
+		bool m_bAutoCheck; 
+
+	public:
+		CCheckBoxUI();
+		virtual void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
+		void SetAutoCheck(bool bEnable);
+		virtual void DoEvent(TEventUI& event);
+		virtual void Selected(bool bSelected);
+	};
 } // namespace DuiLib
 
 #endif // __UIOPTION_H__

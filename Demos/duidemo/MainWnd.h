@@ -38,8 +38,8 @@ public:
 		pBrowser1->SetWebBrowserEventHandler(this);
 		CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_PaintManager.FindControl(_T("oneclick_browser2")));
 		pBrowser2->SetWebBrowserEventHandler(this);
-		pBrowser1->NavigateUrl(_T("http://member.yw26.com/c_register.aspx"));
-		pBrowser2->NavigateUrl(_T("https://github.com/duisharp/DuiLib_Ultimate"));
+		pBrowser1->NavigateUrl(_T("http://www.baidu.com"));
+		pBrowser2->NavigateUrl(_T("https://github.com/qdtroy/DuiLib_Ultimate"));
 
 		CComboUI* pFontSize = static_cast<CComboUI*>(m_PaintManager.FindControl(_T("font_size")));
 		if(pFontSize)
@@ -259,8 +259,21 @@ public:
 				m_pPopWnd->Create(m_hWnd, _T("透明窗口演示"), WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW, 0, 0, 800, 572);
 			}
 			m_pPopWnd->CenterWindow();
+		}
+		else if(sName.CompareNoCase(_T("modal_popwnd_btn")) == 0)
+		{
+			if(m_pPopWnd == NULL)
+			{
+				m_pPopWnd = new CPopWnd();
+			}
+			if(!::IsWindow(*m_pPopWnd))
+			{
+				m_pPopWnd->Create(m_hWnd, _T("透明窗口演示"), WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW, 0, 0, 800, 572);
+			}
+			m_pPopWnd->CenterWindow();
 			m_pPopWnd->ShowModal();
 		}
+
 		else if(sName.CompareNoCase(_T("qqgroup_btn")) == 0)
 		{
 			TCHAR szPath[MAX_PATH] ={0};

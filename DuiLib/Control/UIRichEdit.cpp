@@ -1781,7 +1781,7 @@ void CRichEditUI::OnTxNotify(DWORD iNotify, void *pv)
 	case EN_SAVECLIPBOARD:   
 	case EN_SELCHANGE:   
 	case EN_STOPNOUNDO:   
-	case EN_LINK:   
+	case EN_LINK:
 	case EN_OBJECTPOSITIONS:   
 	case EN_DRAGDROPDONE:   
 		{

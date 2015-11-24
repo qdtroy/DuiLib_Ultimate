@@ -1,13 +1,15 @@
 #ifndef UITreeView_h__
 #define UITreeView_h__
 
+#include <vector>
+using namespace std;
 
 #pragma once
 
 namespace DuiLib
 {
 	class CTreeViewUI;
-	class COptionUI;
+	class CCheckBoxUI;
 	class CLabelUI;
 	class COptionUI;
 
@@ -22,7 +24,7 @@ namespace DuiLib
 		LPVOID	GetInterface(LPCTSTR pstrName);
 		void	DoEvent(TEventUI& event);
 		void	Invalidate();
-		bool	Select(bool bSelect = true);
+		bool	Select(bool bSelect = TRUE);
 
 		bool	Add(CControlUI* _pTreeNodeUI);
 		bool	AddAt(CControlUI* pControl, int iIndex);
@@ -58,8 +60,7 @@ namespace DuiLib
 		DWORD	GetSelItemHotTextColor() const;
 
 		void	SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
-		
-		void	IsAllChildChecked();
+
 		CStdPtrArray GetTreeNodes();
 
 		int			 GetTreeIndex();
@@ -70,9 +71,9 @@ namespace DuiLib
 		CTreeNodeUI* CalLocation(CTreeNodeUI* _pTreeNodeUI);
 	public:
 		CHorizontalLayoutUI*	GetTreeNodeHoriznotal() const {return pHoriz;};
-		COptionUI*			GetFolderButton() const { return pFolderButton; };
+		CCheckBoxUI*			GetFolderButton() const {return pFolderButton;};
 		CLabelUI*				GetDottedLine() const {return pDottedLine;};
-		COptionUI*			GetCheckBox() const { return pCheckBox; };
+		CCheckBoxUI*			GetCheckBox() const {return pCheckBox;};
 		COptionUI*				GetItemButton() const {return pItemButton;};
 
 	private:
@@ -86,10 +87,11 @@ namespace DuiLib
 
 		CTreeViewUI*			pTreeView;
 		CHorizontalLayoutUI*	pHoriz;
-		COptionUI*			pFolderButton;
+		CCheckBoxUI*			pFolderButton;
 		CLabelUI*				pDottedLine;
-		COptionUI*			pCheckBox;
+		CCheckBoxUI*			pCheckBox;
 		COptionUI*				pItemButton;
+
 		CTreeNodeUI*			pParentTreeNode;
 
 		CStdPtrArray			mTreeNodes;

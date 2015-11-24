@@ -2165,6 +2165,7 @@ LPCTSTR CListTextElementUI::GetText(int iIndex) const
 void CListTextElementUI::SetText(int iIndex, LPCTSTR pstrText)
 {
     if( m_pOwner == NULL ) return;
+
     TListInfoUI* pInfo = m_pOwner->GetListInfo();
     if( iIndex < 0 || iIndex >= pInfo->nColumns ) return;
     while( m_aTexts.GetSize() < pInfo->nColumns ) { m_aTexts.Add(NULL); }
@@ -2172,11 +2173,10 @@ void CListTextElementUI::SetText(int iIndex, LPCTSTR pstrText)
     CDuiString* pText = static_cast<CDuiString*>(m_aTexts[iIndex]);
     if( (pText == NULL && pstrText == NULL) || (pText && *pText == pstrText) ) return;
 
-	if ( pText ) //by cddjr 2011/10/20
-		pText->Assign(pstrText);
-	else
-		m_aTexts.SetAt(iIndex, new CDuiString(pstrText));
-    Invalidate();
+	if ( pText ) {delete pText; pText = NULL;}
+	m_aTexts.SetAt(iIndex, new CDuiString(pstrText));
+    
+	Invalidate();
 }
 
 void CListTextElementUI::SetOwner(CControlUI* pOwner)

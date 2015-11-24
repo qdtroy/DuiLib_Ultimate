@@ -76,6 +76,10 @@ public:
 			AddGameNode(_T("二级游戏"), pCategoryNode3, i);
 			AddGameNode(_T("二级游戏"), pCategoryNode4, i);
 		}
+
+		GameListUI* pGameList = static_cast<GameListUI*>(m_pm.FindControl(_T("categorylist")));
+		pGameList->RemoveNode(pCategoryNode4);
+
 	}
 
 	void OnSearchEditChanged()

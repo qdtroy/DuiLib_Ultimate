@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Res>
+  <Image id="sysbtn_menu_normal" path="sysbtn/btn_menu_normal.png" />
+  <Image id="sysbtn_menu_hot" path="sysbtn/btn_menu_highlight.png" />
+  <Image id="sysbtn_menu_pushed" path="sysbtn/btn_menu_down.png" />
+
+  <Image id="sysbtn_skin_normal" path="sysbtn/btn_skin_normal.png" />
+  <Image id="sysbtn_skin_hot" path="sysbtn/btn_skin_highlight.png" />
+  <Image id="sysbtn_skin_pushed" path="sysbtn/btn_skin_down.png" />
+
+  <Image id="sysbtn_mini_normal" path="sysbtn/btn_mini_normal.png" />
+  <Image id="sysbtn_mini_hot" path="sysbtn/btn_mini_highlight.png" />
+  <Image id="sysbtn_mini_pushed" path="sysbtn/btn_mini_down.png" />
+
+  <Image id="sysbtn_max_normal" path="sysbtn/btn_max_normal.png" />
+  <Image id="sysbtn_max_hot" path="sysbtn/btn_max_highlight.png" />
+  <Image id="sysbtn_max_pushed" path="sysbtn/btn_max_down.png" />
+
+  <Image id="sysbtn_restore_normal" path="sysbtn/btn_restore_normal.png" />
+  <Image id="sysbtn_restore_hot" path="sysbtn/btn_restore_highlight.png" />
+  <Image id="sysbtn_restore_pushed" path="sysbtn/btn_restore_down.png" />
+
+  <Image id="sysbtn_close_normal" path="sysbtn/btn_close_normal.png" />
+  <Image id="sysbtn_close_hot" path="sysbtn/btn_close_highlight.png" />
+  <Image id="sysbtn_close_pushed" path="sysbtn/btn_close_down.png" />
+  <Xml id="XML_MAIN" path="main.xml"/>
+</Res>

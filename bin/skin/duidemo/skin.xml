@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Window size="162,136" bktrans="true">
-  <VerticalLayout name="root" bkcolor="FFAFAFAF" inset="6,6,6,6">
+  <VerticalLayout name="root" bkcolor="AA333333" inset="6,6,6,6">
     <HorizontalLayout height="22">
       <Control />
-      <Button name="skin_image" width="26" height="22" normalimage="res='skin\image_btn.png' source='0,0,26,22'" hotimage="res='skin\image_btn.png' source='26,0,52,22'" selectedimage="res='skin\image_btn.png' source='52,0,78,22'" selected="true"/>
-      <Button name="skin_color" width="26" height="22" normalimage="res='skin\color_btn.png' source='0,0,26,22'" hotimage="res='skin\color_btn.png' source='26,0,52,22'" selectedimage="res='skin\color_btn.png' source='52,0,78,22'"/>
+      <Button name="skin_image" tooltip="背景图片" width="26" height="22" normalimage="res='skin\image_btn.png' source='0,0,26,22'" hotimage="res='skin\image_btn.png' source='26,0,52,22'" selectedimage="res='skin\image_btn.png' source='52,0,78,22'" selected="true"/>
+      <Button name="skin_color" tooltip="背景颜色" width="26" height="22" normalimage="res='skin\color_btn.png' source='0,0,26,22'" hotimage="res='skin\color_btn.png' source='26,0,52,22'" selectedimage="res='skin\color_btn.png' source='52,0,78,22'"/>
     </HorizontalLayout>
 
-    <TabLayout name="skin_tab">
-      <TileLayout name="skin_image" itemsize="28,40" padding="0,12">
+    <AnimationTabLayout name="skin_tab">
+      <TileLayout name="skin_image" itemsize="28,40" padding="0,12" childpadding="6">
         <Button name="skin_image_btn" style="skinbtn_style" userdata="main/0.jpg" bkimage="skin/0.png"/>
         <Button name="skin_image_btn" style="skinbtn_style" userdata="main/1.jpg" bkimage="skin/1.png"/>
         <Button name="skin_image_btn" style="skinbtn_style" userdata="main/2.jpg" bkimage="skin/2.png"/>
@@ -32,7 +32,7 @@
         <Button name="skin_color_btn" option="true" width="22" height="22" bkcolor="#FF929292" normalimage="file='skin\colour_008.bmp'" hotimage="file='skin\colour_008highlight.bmp'" pushedimage="file='skin\colour_008.bmp'" />
 
       </TileLayout>
-    </TabLayout>
+    </AnimationTabLayout>
 
   </VerticalLayout>
 </Window>

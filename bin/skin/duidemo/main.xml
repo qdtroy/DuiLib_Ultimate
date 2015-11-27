@@ -10,7 +10,10 @@
   <Style name="combo_style" value="height=&quot;22&quot; textpadding=&quot;4,1,22,1&quot; normalimage=&quot;file='combo.png' source='0,0,100,22' corner='2,2,20,2'&quot; hotimage=&quot;file='combo.png' source='0,22,100,44' corner='2,2,22,2'&quot; pushedimage=&quot;file='combo.png' source='0,44,100,66' corner='2,2,22,2'&quot;" />
   <Style name="list_style" value="headerbkimage=&quot;file='list_header_bg.png'&quot; itemalign=&quot;center&quot; itemlinecolor=&quot;#FFFF0000&quot; itemshowrowline=&quot;true&quot; itemshowcolumnline=&quot;true&quot;" />
   <Style name="edit_style" value="bkimage=&quot;res='edit_bk.png' corner='6,6,6,6'&quot;" />
-  <Style name="btn_style" value="textpadding=&quot;6,0,6,0&quot; normalimage=&quot;res='button_normal.png' corner='4,4,4,4'&quot; hotimage=&quot;res='button_hover.png' corner='4,4,4,4'&quot; pushedimage=&quot;res='button_pushed.png' corner='4,4,4,4'&quot;" />
+  <Style name="btn_style" value="drag=&quot;true&quot; textpadding=&quot;6,0,6,0&quot; normalimage=&quot;res='button_normal.png' corner='4,4,4,4'&quot; hotimage=&quot;res='button_hover.png' corner='4,4,4,4'&quot; pushedimage=&quot;res='button_pushed.png' corner='4,4,4,4'&quot;" />
+  <Style name="treenode_folder_style" value="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='Icon/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='Icon/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='Icon/treeview_a.png' source='16,0,32,16' &quot;"/>
+  <Style name="treenode_checkbox_style" value="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/unchecked.png' &quot; selectedimage=&quot;file='Icon/checked.png'&quot;" />
+  <Style name="treeview_style" value="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;"/>
   
   <VerticalLayout name="root" bkimage1="file='main\10.jpg' corner='580,370,10,5'" bkcolor="#ff0199cb" colorhsl="true">
     <HorizontalLayout name="appbar" height="64" >
@@ -46,7 +49,7 @@
 
       </HorizontalLayout>
 
-      <TabLayout name="tab_switch">
+      <AnimationTabLayout name="tab_switch">
         <VerticalLayout name="basic_tab_panel" inset="2,2,2,2">
           <Label height="1" bkimage="hor_line.bmp"/>
 
@@ -191,12 +194,17 @@
           <HorizontalLayout height="120" bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="Tree控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
-              <TreeView bkcolor="#ffffffff" visiblefolderbtn="true" visiblecheckbtn="true" vscrollbar="true" >
-                <TreeNode text="A1" dotlineattr="text=&quot;...&quot;" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='Icon/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='Icon/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='Icon/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/unchecked.png' &quot; selectedimage=&quot;file='Icon/checked.png' &quot;" >
-                  <TreeNode text="B1" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='Icon/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='Icon/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='Icon/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/unchecked.png' &quot; selectedimage=&quot;file='Icon/checked.png' &quot;" >
-                    <TreeNode text="C1" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='Icon/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='Icon/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='Icon/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/unchecked.png' &quot; selectedimage=&quot;file='Icon/checked.png' &quot;" >
-                      <TreeNode text="D1" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='Icon/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='Icon/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='Icon/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/unchecked.png' &quot; selectedimage=&quot;file='Icon/checked.png' &quot;" >
-                        <Button text="扩展按钮" style="btn_style" width="100" />
+              <TreeView name="treeview" bkcolor="#ffffffff" visiblefolderbtn="true" visiblecheckbtn="true" vscrollbar="true" >
+                <TreeNode text="A1" style="treeview_style" >
+                  <TreeNode text="B1" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" >
+                    <TreeNode text="C1" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" >
+                      <TreeNode text="D1" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" >
+                        <HorizontalLayout bkcolor="#FFFF0000" width="600">
+                          <HorizontalLayout />
+                          <Button text="扩展按钮" style="btn_style" width="100"/>
+                          <Button text="扩展按钮" style="btn_style" width="100"/>
+
+                        </HorizontalLayout>
                       </TreeNode>
                       <Button text="扩展按钮" style="btn_style" width="100" />
                     </TreeNode>
@@ -247,7 +255,7 @@
           </VerticalLayout>
           <WebBrowser name="oneclick_browser2" homepage="about:blank" autonavi="true" delaycreate="false"/>
         </VerticalLayout>
-      </TabLayout>
+      </AnimationTabLayout>
       
     </VerticalLayout>
     

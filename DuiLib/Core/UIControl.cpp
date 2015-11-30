@@ -15,6 +15,8 @@ m_bMouseEnabled(true),
 m_bKeyboardEnabled(true),
 m_bFloat(false),
 m_bSetPos(false),
+m_bDragEnabled(false),
+m_bDropEnabled(false),
 m_bResourceText(false),
 m_chShortcut('\0'),
 m_pTag(NULL),
@@ -138,6 +140,27 @@ void CControlUI::SetResourceText(bool bResource)
 	m_bResourceText = bResource;
 	Invalidate();
 }
+
+bool CControlUI::IsDragEnabled() const
+{
+	return m_bDragEnabled;
+}
+
+void CControlUI::SetDragEnable(bool bDrag)
+{
+	m_bDragEnabled = bDrag;
+}
+
+bool CControlUI::IsDropEnabled() const
+{
+	return m_bDropEnabled;
+}
+
+void CControlUI::SetDropEnable(bool bDrop)
+{
+	m_bDropEnabled = bDrop;
+}
+
 
 DWORD CControlUI::GetBkColor() const
 {
@@ -764,7 +787,15 @@ CDuiString CControlUI::GetVirtualWnd() const
 
 void CControlUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 {
-    if( _tcsicmp(pstrName, _T("pos")) == 0 ) {
+	// 是否样式表
+	if(m_pManager != NULL) {
+		LPCTSTR pStyle = m_pManager->GetStyle(pstrValue);
+		if( pStyle != NULL) {
+			ApplyAttributeList(pStyle);
+			return;
+		}
+	}
+	if( _tcsicmp(pstrName, _T("pos")) == 0 ) {
         RECT rcPos = { 0 };
         LPTSTR pstr = NULL;
         rcPos.left = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);    
@@ -875,6 +906,8 @@ void CControlUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
     else if( _tcsicmp(pstrName, _T("maxwidth")) == 0 ) SetMaxWidth(_ttoi(pstrValue));
     else if( _tcsicmp(pstrName, _T("maxheight")) == 0 ) SetMaxHeight(_ttoi(pstrValue));
     else if( _tcsicmp(pstrName, _T("name")) == 0 ) SetName(pstrValue);
+    else if( _tcsicmp(pstrName, _T("drag")) == 0 ) SetDragEnable(_tcsicmp(pstrValue, _T("true")) == 0);
+    else if( _tcsicmp(pstrName, _T("drop")) == 0 ) SetDropEnable(_tcsicmp(pstrValue, _T("true")) == 0);
     else if( _tcsicmp(pstrName, _T("resourcetext")) == 0 ) SetResourceText(_tcsicmp(pstrValue, _T("true")) == 0);
     else if( _tcsicmp(pstrName, _T("text")) == 0 ) SetText(pstrValue);
     else if( _tcsicmp(pstrName, _T("tooltip")) == 0 ) SetToolTip(pstrValue);
@@ -887,10 +920,52 @@ void CControlUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
     else if( _tcsicmp(pstrName, _T("shortcut")) == 0 ) SetShortcut(pstrValue[0]);
     else if( _tcsicmp(pstrName, _T("menu")) == 0 ) SetContextMenuUsed(_tcsicmp(pstrValue, _T("true")) == 0);
 	else if( _tcsicmp(pstrName, _T("virtualwnd")) == 0 ) SetVirtualWnd(pstrValue);
+	else if( _tcsicmp(pstrName, _T("innerstyle")) == 0 ) {
+		CDuiString sXmlData = pstrValue;
+		sXmlData.Replace(_T("&quot;"), _T("\""));
+		LPCTSTR pstrList = sXmlData.GetData();
+		CDuiString sItem;
+		CDuiString sValue;
+		while( *pstrList != _T('\0') ) {
+			sItem.Empty();
+			sValue.Empty();
+			while( *pstrList != _T('\0') && *pstrList != _T('=') ) {
+				LPTSTR pstrTemp = ::CharNext(pstrList);
+				while( pstrList < pstrTemp) {
+					sItem += *pstrList++;
+				}
+			}
+			ASSERT( *pstrList == _T('=') );
+			if( *pstrList++ != _T('=') ) return;
+			ASSERT( *pstrList == _T('\"') );
+			if( *pstrList++ != _T('\"') ) return;
+			while( *pstrList != _T('\0') && *pstrList != _T('\"') ) {
+				LPTSTR pstrTemp = ::CharNext(pstrList);
+				while( pstrList < pstrTemp) {
+					sValue += *pstrList++;
+				}
+			}
+			ASSERT( *pstrList == _T('\"') );
+			if( *pstrList++ != _T('\"') ) return;
+			SetAttribute(sItem, sValue);
+			if( *pstrList++ != _T(' ') && *pstrList++ != _T(',') ) return;
+		}
+	}
 }
 
-CControlUI* CControlUI::ApplyAttributeList(LPCTSTR pstrList)
+CControlUI* CControlUI::ApplyAttributeList(LPCTSTR pstrValue)
 {
+	// 解析样式表
+	if(m_pManager != NULL) {
+		LPCTSTR pStyle = m_pManager->GetStyle(pstrValue);
+		if( pStyle != NULL) {
+			return ApplyAttributeList(pStyle);
+		}
+	}
+	CDuiString sXmlData = pstrValue;
+	sXmlData.Replace(_T("&quot;"), _T("\""));
+	LPCTSTR pstrList = sXmlData.GetData();
+	// 解析样式属性
     CDuiString sItem;
     CDuiString sValue;
     while( *pstrList != _T('\0') ) {
@@ -915,7 +990,7 @@ CControlUI* CControlUI::ApplyAttributeList(LPCTSTR pstrList)
         ASSERT( *pstrList == _T('\"') );
         if( *pstrList++ != _T('\"') ) return this;
         SetAttribute(sItem, sValue);
-        if( *pstrList++ != _T(' ') ) return this;
+        if( *pstrList++ != _T(' ') && *pstrList++ != _T(',') ) return this;
     }
     return this;
 }

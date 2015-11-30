@@ -533,7 +533,9 @@
     </None>
     <None Include="..\..\bin\skin\duidemo\res.xml" />
     <None Include="..\..\bin\skin\duidemo\scrollbar.bmp" />
-    <None Include="..\..\bin\skin\duidemo\skin.xml" />
+    <None Include="..\..\bin\skin\duidemo\skin.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\bin\skin\duidemo\sys_dlg_close.png" />
     <None Include="..\..\bin\skin\duidemo\sys_dlg_max.png" />
     <None Include="..\..\bin\skin\duidemo\sys_dlg_menu.png" />

@@ -95,7 +95,6 @@ namespace DuiLib
 				m_uButtonState |= UISTATE_HOT;
 				Invalidate();
 			}
-			// return;
 		}
 		if( event.Type == UIEVENT_MOUSELEAVE )
 		{
@@ -103,12 +102,11 @@ namespace DuiLib
 				m_uButtonState &= ~UISTATE_HOT;
 				Invalidate();
 			}
-			// return;
 		}
-		if( event.Type == UIEVENT_SETCURSOR ) {
-			::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(IDC_HAND)));
-			return;
-		}
+		//if( event.Type == UIEVENT_SETCURSOR ) {
+		//	::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(IDC_HAND)));
+		//	return;
+		//}
 		CLabelUI::DoEvent(event);
 	}
 

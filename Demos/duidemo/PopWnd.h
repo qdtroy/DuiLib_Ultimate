@@ -25,7 +25,21 @@ public:
 
 	virtual LRESULT OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled );
 	LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-
+	virtual LRESULT MessageHandler(UINT uMsg, WPARAM wParam, LPARAM /*lParam*/, bool& /*bHandled*/)
+	{
+		if (uMsg == WM_KEYDOWN)
+		{
+			switch (wParam)
+			{
+			case VK_RETURN:
+			case VK_ESCAPE:
+				return ResponseDefaultKeyEvent(wParam);
+			default:
+				break;
+			}
+		}
+		return FALSE;
+	}
 private:
 	CButtonUI* m_pCloseBtn;
 	CButtonUI* m_pMaxBtn;

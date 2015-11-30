@@ -365,17 +365,6 @@ CControlUI* CDialogBuilder::_Parse(CMarkupNode* pRoot, CControlUI* pParent, CPai
 				}
 			}
 
-			if( node.HasAttributes() && node.HasAttribute(_T("style"))) {
-				TCHAR szValue[128] = { 0 };
-				SIZE_T cchLen = lengthof(szValue) - 1;
-				if(node.GetAttributeValue(_T("style"), szValue, cchLen)) {
-					LPCTSTR pStyle = pManager->GetStyle(szValue);
-					if( pStyle ) {
-						pControl->ApplyAttributeList(pStyle);
-					}
-				}
-			}
-
 			// 解析所有属性并覆盖默认属性
 			if( node.HasAttributes() ) {
 				TCHAR szValue[500] = { 0 };
@@ -531,19 +520,6 @@ CControlUI* CDialogBuilder::_Parse(CMarkupNode* pRoot, CControlUI* pParent, CPai
                 pControl->ApplyAttributeList(pDefaultAttributes);
             }
         }
-
-		if( node.HasAttributes() && node.HasAttribute(_T("style"))) {
-			TCHAR szValue[64] = { 0 };
-			SIZE_T cchLen = lengthof(szValue) - 1;
-			// get style attributes
-			if(node.GetAttributeValue(_T("style"), szValue, cchLen))
-			{
-				LPCTSTR pStyle = pManager->GetStyle(szValue);
-				if( pStyle ) {
-					pControl->ApplyAttributeList(pStyle);
-				}
-			}else{};
-		}
 
         // Process attributes
         if( node.HasAttributes() ) {

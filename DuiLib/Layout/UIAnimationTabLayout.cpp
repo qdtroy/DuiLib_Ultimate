@@ -131,7 +131,7 @@ namespace DuiLib {
 
 	void CAnimationTabLayoutUI::OnAnimationStop(INT nAnimationID) 
 	{
-		NeedParentUpdate();
+		//NeedParentUpdate();
 	}
 
 	void CAnimationTabLayoutUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)

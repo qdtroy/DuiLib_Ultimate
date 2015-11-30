@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Window caption="0,0,0,415" size="600,384" mininfo="600,384" sizebox="6,6,6,6" bktrans="true" textrenderinghint="0">
+<Window caption="0,0,0,97" size="600,384" mininfo="600,384" sizebox="6,6,6,6" bktrans="true" textrenderinghint="0">
   <Font name="宋体" size="12" default="true"/>
   
   <VerticalLayout bkimage="res='bg.png' corner='6,97,6,29' fade='125'">
@@ -17,6 +17,16 @@
 
       <Button name="closebtn" width="39" height="20" tooltip="关闭" normalimage="file='sysbtn/btn_close_normal.png'" hotimage="file='sysbtn/btn_close_highlight.png'" pushedimage="file='sysbtn/btn_close_down.png' "/>
     </HorizontalLayout>
+    <VerticalLayout >
+      <Control />
+      <HorizontalLayout height="24" childpadding="12">
+        <Edit name="edit1" tipvalue="普通" style="edit_style" />
+        <Edit name="edit2" tipvalue="只读" text="只读控件" style="edit_style" readonly="true"/>
+        <Edit name="edit3" tipvalue="数字" style="edit_style" numberonly="true"/>
+        <Edit name="edit4" tipvalue="密码" style="edit_style" password="true"/>
 
+      </HorizontalLayout>
+      <Control />
+    </VerticalLayout>
   </VerticalLayout>
 </Window>

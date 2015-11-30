@@ -38,7 +38,7 @@ public:
 		pBrowser1->SetWebBrowserEventHandler(this);
 		CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_PaintManager.FindControl(_T("oneclick_browser2")));
 		pBrowser2->SetWebBrowserEventHandler(this);
-		pBrowser1->NavigateUrl(_T("http://www.baidu.com"));
+		pBrowser1->NavigateUrl(_T("http://blog.csdn.net/duisharp"));
 		pBrowser2->NavigateUrl(_T("https://github.com/qdtroy/DuiLib_Ultimate"));
 
 		CComboUI* pFontSize = static_cast<CComboUI*>(m_PaintManager.FindControl(_T("font_size")));
@@ -75,6 +75,14 @@ public:
 			pItem->SetText(1, _T("1000"));
 			pItem->SetText(2, _T("100"));
 		}
+
+		CTreeViewUI* pTreeView = static_cast<CTreeViewUI*>(m_PaintManager.FindControl(_T("treeview")));
+		CTreeNodeUI* pItem  = new CTreeNodeUI();
+		pItem->SetFixedHeight(30);
+		pItem->SetItemText(_T("¶¯Ì¬Ìí¼Ó"));
+		pTreeView->Add(pItem);
+		pItem->SetAttribute(_T("itemattr"), _T("valign=&quot;center&quot;"));
+		pItem->SetAttribute(_T("Style"), _T("treeview_style"));
 	}
 
 	virtual BOOL Receive(SkinChangedParam param)

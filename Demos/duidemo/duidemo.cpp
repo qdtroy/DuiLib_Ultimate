@@ -15,6 +15,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 
 	HRESULT Hr = ::CoInitialize(NULL);
 	if( FAILED(Hr) ) return 0;
+	
+	HRESULT hRes = ::OleInitialize(NULL);
 
 	CDemoFrame* pFrame = new CDemoFrame();
 	if( pFrame == NULL ) return 0;
@@ -24,6 +26,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	::ShowWindow(*pFrame, SW_SHOW);
 	CPaintManagerUI::MessageLoop();
 
+	OleUninitialize();
 	::CoUninitialize();
 	return 0;
 }

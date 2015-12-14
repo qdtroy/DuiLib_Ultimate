@@ -9,6 +9,7 @@ namespace DuiLib {
 
 	class CControlUI;
 	class CRichEditUI;
+	class CIDropTarget;
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -161,6 +162,13 @@ namespace DuiLib {
 		LPARAM lParam;
 	} TEventUI;
 
+	// Drag&Drop control
+	const TCHAR* const CF_MOVECONTROL = _T("CF_MOVECONTROL");
+
+	typedef struct UILIB_API tagTCFMoveUI
+	{
+		CControlUI* pControl;
+	} TCFMoveUI;
 
 	// Listener interface
 	class INotifyUI
@@ -187,8 +195,7 @@ namespace DuiLib {
 	//
 	typedef CControlUI* (*LPCREATECONTROL)(LPCTSTR pstrType);
 
-
-	class UILIB_API CPaintManagerUI
+	class UILIB_API CPaintManagerUI : public CIDropTarget
 	{
 	public:
 		CPaintManagerUI();
@@ -370,6 +377,9 @@ namespace DuiLib {
 		void RemoveAllStyle();
 		const TImageInfo* GetImageString(LPCTSTR pStrImage, LPCTSTR pStrModify = NULL);
 
+		// ³õÊ¼»¯ÍÏ×§
+		bool InitDragDrop();
+		virtual bool OnDrop(FORMATETC* pFmtEtc, STGMEDIUM& medium,DWORD *pdwEffect);
 	private:
 		static CControlUI* CALLBACK __FindControlFromNameHash(CControlUI* pThis, LPVOID pData);
 		static CControlUI* CALLBACK __FindControlFromCount(CControlUI* pThis, LPVOID pData);
@@ -466,6 +476,8 @@ namespace DuiLib {
 		static CStdPtrArray m_aPreMessages;
 		static CStdPtrArray m_aPlugins;
 
+		bool m_bDragMode;
+		HBITMAP m_hDragBitmap;
 	public:
 		static CDuiString m_pStrDefaultFontName;
 		CStdPtrArray m_aTranslateAccelerator;

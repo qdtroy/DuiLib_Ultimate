@@ -12,7 +12,7 @@
 #include <zmouse.h>
 #include <exdisp.h>
 #include <comdef.h>
-
+#include <WinInet.h>
 #include "..\..\DuiLib\UIlib.h"
 using namespace DuiLib;
 

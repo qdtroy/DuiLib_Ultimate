@@ -1,6 +1,8 @@
 #ifndef __BUTTONEX_H__
 #define __BUTTONEX_H__
+
 #include <ShlObj.h>
+
 namespace DuiLib
 {
 	#define DUI_MSGTYPE_CLICK_WPFAV            (_T("click_wpfav"))

@@ -94,7 +94,9 @@ namespace DuiLib {
 		m_bCaretShowing(false),
 		m_currentCaretObject(NULL),
 		m_bUseGdiplusText(false),
-		m_trh(0)
+		m_trh(0),
+		m_bDragMode(false),
+		m_hDragBitmap(NULL)
 	{
 		m_dwDefaultDisabledColor = 0xFFA7A6AA;
 		m_dwDefaultFontColor = 0xFF000001;
@@ -166,6 +168,8 @@ namespace DuiLib {
 		if( m_hbmpOffscreen != NULL ) ::DeleteObject(m_hbmpOffscreen);
 		if( m_hDcPaint != NULL ) ::ReleaseDC(m_hWndPaint, m_hDcPaint);
 		m_aPreMessages.Remove(m_aPreMessages.Find(this));
+
+		if( m_hDragBitmap != NULL ) ::DeleteObject(m_hDragBitmap);
 	}
 
 	void CPaintManagerUI::Init(HWND hWnd)
@@ -176,6 +180,12 @@ namespace DuiLib {
 		m_hDcPaint = ::GetDC(hWnd);
 		// We'll want to filter messages globally too
 		m_aPreMessages.Add(this);
+
+
+		// Setup DropTarget window
+		SetTargetWnd(hWnd);
+		// Init DropTarget
+		InitDragDrop();
 	}
 
 	HINSTANCE CPaintManagerUI::GetInstance()
@@ -640,17 +650,6 @@ namespace DuiLib {
 
 	bool CPaintManagerUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lRes)
 	{
-		//#ifdef _DEBUG
-		//    switch( uMsg ) {
-		//    case WM_NCPAINT:
-		//    case WM_NCHITTEST:
-		//    case WM_SETCURSOR:
-		//       break;
-		//    default:
-		//       DUITRACE(_T("MSG: %-20s (%08ld)"), DUITRACEMSG(uMsg), ::GetTickCount());
-		//    }
-		//#endif
-		// Not ready yet?
 		if( m_hWndPaint == NULL ) return false;
 
 		TNotifyUI* pMsg = NULL;
@@ -720,7 +719,7 @@ namespace DuiLib {
 				// Should we paint?
 				RECT rcPaint = {0};
 				if(!::GetUpdateRect(m_hWndPaint, &rcPaint, FALSE)) {
-						return true;
+					return true;
 				}
 				if(m_pRoot == NULL)
 				{
@@ -733,7 +732,6 @@ namespace DuiLib {
 				// Begin Windows paint
 				PAINTSTRUCT ps = {0};
 				::BeginPaint(m_hWndPaint, &ps);
-
 
 				// Do we need to resize anything?
 				// This is the time where we layout the controls on the form.
@@ -748,8 +746,7 @@ namespace DuiLib {
 					{
 						if(m_pRoot->IsUpdateNeeded())
 						{
-							if( !::IsIconic(m_hWndPaint))  //redrain修复bug
-								m_pRoot->SetPos(rcClient);
+							m_pRoot->SetPos(rcClient);
 							if(m_hDcOffscreen != NULL) ::DeleteDC(m_hDcOffscreen);
 							if(m_hbmpOffscreen != NULL) ::DeleteObject(m_hbmpOffscreen);
 							m_hDcOffscreen = NULL;
@@ -993,10 +990,13 @@ namespace DuiLib {
 				if( m_hwndTooltip == NULL ) {
 					m_hwndTooltip = ::CreateWindowEx(0, TOOLTIPS_CLASS, NULL, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, m_hWndPaint, NULL, m_hInstance, NULL);
 					::SendMessage(m_hwndTooltip, TTM_ADDTOOL, 0, (LPARAM) &m_ToolTip);
+					::SendMessage(m_hwndTooltip,TTM_SETMAXTIPWIDTH,0, pHover->GetToolTipWidth());
 				}
-				::SendMessage( m_hwndTooltip,TTM_SETMAXTIPWIDTH,0, pHover->GetToolTipWidth());
-				::SendMessage(m_hwndTooltip, TTM_SETTOOLINFO, 0, (LPARAM) &m_ToolTip);
-				::SendMessage(m_hwndTooltip, TTM_TRACKACTIVATE, TRUE, (LPARAM) &m_ToolTip);
+				if(!::IsWindowVisible(m_hwndTooltip))
+				{
+					::SendMessage(m_hwndTooltip, TTM_SETTOOLINFO, 0, (LPARAM)&m_ToolTip);
+					::SendMessage(m_hwndTooltip, TTM_TRACKACTIVATE, TRUE, (LPARAM)&m_ToolTip);
+				}
 			}
 			return true;
 		case WM_MOUSELEAVE:
@@ -1018,36 +1018,95 @@ namespace DuiLib {
 					_TrackMouseEvent(&tme);
 					m_bMouseTracking = true;
 				}
+
 				// Generate the appropriate mouse messages
 				POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+				// 是否移动
+				bool bNeedDrag = true;
+				if(m_ptLastMousePos.x == pt.x && m_ptLastMousePos.y == pt.y) {
+					bNeedDrag = false;
+				}
+				// 记录鼠标位置
 				m_ptLastMousePos = pt;
-				CControlUI* pNewHover = FindControl(pt);
-				if( pNewHover != NULL && pNewHover->GetManager() != this ) break;
+				CControlUI* pControl = FindControl(pt);
+				if( pControl != NULL && pControl->GetManager() != this ) break;
+
+				// 拖拽事件
+				if(bNeedDrag && m_bDragMode && wParam == MK_LBUTTON)
+				{
+					::ReleaseCapture();
+					CIDropSource* pdsrc = new CIDropSource;
+					if(pdsrc == NULL) return 0;
+					pdsrc->AddRef();
+
+					CIDataObject* pdobj = new CIDataObject(pdsrc);
+					if(pdobj == NULL) return 0;
+					pdobj->AddRef();
+
+					FORMATETC fmtetc = {0};
+					STGMEDIUM medium = {0};
+					fmtetc.dwAspect = DVASPECT_CONTENT;
+					fmtetc.lindex = -1;
+					//////////////////////////////////////
+					fmtetc.cfFormat = CF_BITMAP;
+					fmtetc.tymed = TYMED_GDI;			
+					medium.tymed = TYMED_GDI;
+					HBITMAP hBitmap = (HBITMAP)OleDuplicateData(m_hDragBitmap, fmtetc.cfFormat, NULL);
+					medium.hBitmap = hBitmap;
+					pdobj->SetData(&fmtetc,&medium,FALSE);
+					//////////////////////////////////////
+					BITMAP bmap;
+					GetObject(hBitmap, sizeof(BITMAP), &bmap);
+					RECT rc={0, 0, bmap.bmWidth, bmap.bmHeight};
+					fmtetc.cfFormat = CF_ENHMETAFILE;
+					fmtetc.tymed = TYMED_ENHMF;
+					HDC hMetaDC = CreateEnhMetaFile(m_hDcPaint, NULL, NULL, NULL);
+					HDC hdcMem = CreateCompatibleDC(m_hDcPaint);
+					HGDIOBJ hOldBmp = ::SelectObject(hdcMem, hBitmap);
+					::BitBlt(hMetaDC, 0, 0, rc.right, rc.bottom, hdcMem, 0, 0, SRCCOPY);
+					::SelectObject(hdcMem, hOldBmp);
+					medium.hEnhMetaFile = CloseEnhMetaFile(hMetaDC);
+					DeleteDC(hdcMem);
+					medium.tymed = TYMED_ENHMF;
+					pdobj->SetData(&fmtetc, &medium, TRUE);
+					//////////////////////////////////////
+					CDragSourceHelper dragSrcHelper;
+					POINT ptDrag = {0};
+					ptDrag.x = bmap.bmWidth / 2;
+					ptDrag.y = bmap.bmHeight / 2;
+					dragSrcHelper.InitializeFromBitmap(hBitmap, ptDrag, rc, pdobj); //will own the bmp
+					DWORD dwEffect;
+					HRESULT hr = ::DoDragDrop(pdobj, pdsrc, DROPEFFECT_COPY | DROPEFFECT_MOVE, &dwEffect);
+					pdsrc->Release();
+					pdobj->Release();
+					m_bDragMode = false;
+					break;
+				}
 				TEventUI event = { 0 };
 				event.ptMouse = pt;
 				event.dwTimestamp = ::GetTickCount();
-				if( pNewHover != m_pEventHover && m_pEventHover != NULL ) {
+				if( pControl != m_pEventHover && m_pEventHover != NULL ) {
 					event.Type = UIEVENT_MOUSELEAVE;
 					event.pSender = m_pEventHover;
 					m_pEventHover->Event(event);
 					m_pEventHover = NULL;
 					if( m_hwndTooltip != NULL ) ::SendMessage(m_hwndTooltip, TTM_TRACKACTIVATE, FALSE, (LPARAM) &m_ToolTip);
 				}
-				if( pNewHover != m_pEventHover && pNewHover != NULL ) {
+				if( pControl != m_pEventHover && pControl != NULL ) {
 					event.Type = UIEVENT_MOUSEENTER;
-					event.pSender = pNewHover;
-					pNewHover->Event(event);
-					m_pEventHover = pNewHover;
+					event.pSender = pControl;
+					pControl->Event(event);
+					m_pEventHover = pControl;
 				}
 				if( m_pEventClick != NULL ) {
 					event.Type = UIEVENT_MOUSEMOVE;
 					event.pSender = m_pEventClick;
 					m_pEventClick->Event(event);
 				}
-				else if( pNewHover != NULL ) {
+				else if( pControl != NULL ) {
 					event.Type = UIEVENT_MOUSEMOVE;
-					event.pSender = pNewHover;
-					pNewHover->Event(event);
+					event.pSender = pControl;
+					pControl->Event(event);
 				}
 			}
 			break;
@@ -1057,13 +1116,26 @@ namespace DuiLib {
 				// when Win32 child windows are placed on the dialog
 				// and we need to remove them on focus change).
 				::SetFocus(m_hWndPaint);
-				SetCapture();
-
+				// 查找控件
 				POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 				m_ptLastMousePos = pt;
 				CControlUI* pControl = FindControl(pt);
 				if( pControl == NULL ) break;
 				if( pControl->GetManager() != this ) break;
+
+				// 准备拖拽
+				if(pControl->IsDragEnabled()) {
+					m_bDragMode = true;
+					if( m_hDragBitmap != NULL ) {
+						::DeleteObject(m_hDragBitmap);
+						m_hDragBitmap = NULL;
+					}
+					m_hDragBitmap = CRenderEngine::GenerateBitmap(this, pControl, pControl->GetPos());
+				}
+
+				// 开启捕获
+				SetCapture();
+				// 事件处理
 				m_pEventClick = pControl;
 				pControl->SetFocus();
 
@@ -1282,7 +1354,7 @@ namespace DuiLib {
 				if( lParam == 0 ) break;
 				HWND hWndChild = (HWND) lParam;
 				lRes = ::SendMessage(hWndChild, OCM__BASE + uMsg, wParam, lParam);
-				return true;
+				if(lRes != 0) return true;
 			}
 			break;
 		case WM_CTLCOLOREDIT:
@@ -2117,29 +2189,29 @@ namespace DuiLib {
 
 	const TImageInfo* CPaintManagerUI::GetImageEx(LPCTSTR bitmap, LPCTSTR type, DWORD mask, HINSTANCE instance)
 	{
-	    TImageInfo* data = static_cast<TImageInfo*>(m_mImageHash.Find(bitmap));
-	    if( !data ) {
-	        if( AddImage(bitmap, type, mask, instance) ) {
-	            data = static_cast<TImageInfo*>(m_mImageHash.Find(bitmap));
-	        }
-    	}
+		TImageInfo* data = static_cast<TImageInfo*>(m_mImageHash.Find(bitmap));
+		if( !data ) {
+			if( AddImage(bitmap, type, mask, instance) ) {
+				data = static_cast<TImageInfo*>(m_mImageHash.Find(bitmap));
+			}
+		}
 
 		return data;
 	}
 
 	const TImageInfo* CPaintManagerUI::AddImage(LPCTSTR bitmap, LPCTSTR type, DWORD mask, HINSTANCE instance)
 	{
-	    TImageInfo* data = NULL;
-	    if( type != NULL ) {
-	        if( isdigit(*bitmap) ) {
-	            LPTSTR pstr = NULL;
-	            int iIndex = _tcstol(bitmap, &pstr, 10);
-	            data = CRenderEngine::LoadImage(iIndex, type, mask, instance);
-	        }
-	    }
-	    else {
-	        data = CRenderEngine::LoadImage(bitmap, NULL, mask);
-	    }
+		TImageInfo* data = NULL;
+		if( type != NULL ) {
+			if( isdigit(*bitmap) ) {
+				LPTSTR pstr = NULL;
+				int iIndex = _tcstol(bitmap, &pstr, 10);
+				data = CRenderEngine::LoadImage(iIndex, type, mask, instance);
+			}
+		}
+		else {
+			data = CRenderEngine::LoadImage(bitmap, NULL, mask);
+		}
 
 		if( !data ) return NULL;
 		if( type != NULL ) data->sResType = type;
@@ -2494,7 +2566,7 @@ namespace DuiLib {
 	{
 		m_bUsedVirtualWnd = bUsed;
 	}
-	
+
 	// 样式管理
 	void CPaintManagerUI::AddStyle(LPCTSTR pName, LPCTSTR pDeclarationList)
 	{
@@ -2596,5 +2668,187 @@ namespace DuiLib {
 			}
 		}
 		return GetImageEx(sImageName, sImageResType, dwMask);
+	}
+
+	bool CPaintManagerUI::InitDragDrop()
+	{
+		AddRef();
+
+		if(FAILED(RegisterDragDrop(m_hWndPaint, this))) //calls addref
+		{
+			DWORD dwError = GetLastError();
+			return false;
+		}
+		else Release(); //i decided to AddRef explicitly after new
+
+		FORMATETC ftetc={0};
+		ftetc.cfFormat = CF_BITMAP;
+		ftetc.dwAspect = DVASPECT_CONTENT;
+		ftetc.lindex = -1;
+		ftetc.tymed = TYMED_GDI;
+		AddSuportedFormat(ftetc);
+		ftetc.cfFormat = CF_DIB;
+		ftetc.tymed = TYMED_HGLOBAL;
+		AddSuportedFormat(ftetc);
+		ftetc.cfFormat = CF_HDROP;
+		ftetc.tymed = TYMED_HGLOBAL;
+		AddSuportedFormat(ftetc);
+		ftetc.cfFormat = CF_ENHMETAFILE;
+		ftetc.tymed = TYMED_ENHMF;
+		AddSuportedFormat(ftetc);
+		return true;
+	}
+	static WORD DIBNumColors(void* pv) 
+	{     
+		int bits;     
+		LPBITMAPINFOHEADER  lpbi;     
+		LPBITMAPCOREHEADER  lpbc;      
+		lpbi = ((LPBITMAPINFOHEADER)pv);     
+		lpbc = ((LPBITMAPCOREHEADER)pv);      
+		/*  With the BITMAPINFO format headers, the size of the palette 
+		*  is in biClrUsed, whereas in the BITMAPCORE - style headers, it      
+		*  is dependent on the bits per pixel ( = 2 raised to the power of      
+		*  bits/pixel).
+		*/     
+		if (lpbi->biSize != sizeof(BITMAPCOREHEADER))
+		{         
+			if (lpbi->biClrUsed != 0)
+				return (WORD)lpbi->biClrUsed;         
+			bits = lpbi->biBitCount;     
+		}     
+		else         
+			bits = lpbc->bcBitCount;
+		switch (bits)
+		{         
+		case 1:                 
+			return 2;         
+		case 4:                 
+			return 16;         
+		case 8:       
+			return 256;
+		default:
+			/* A 24 bitcount DIB has no color table */                 
+			return 0;
+		} 
+	} 
+	//code taken from SEEDIB MSDN sample
+	static WORD ColorTableSize(LPVOID lpv)
+	{
+		LPBITMAPINFOHEADER lpbih = (LPBITMAPINFOHEADER)lpv;
+
+		if (lpbih->biSize != sizeof(BITMAPCOREHEADER))
+		{
+			if (((LPBITMAPINFOHEADER)(lpbih))->biCompression == BI_BITFIELDS)
+				/* Remember that 16/32bpp dibs can still have a color table */
+				return (sizeof(DWORD) * 3) + (DIBNumColors (lpbih) * sizeof (RGBQUAD));
+			else
+				return (WORD)(DIBNumColors (lpbih) * sizeof (RGBQUAD));
+		}
+		else
+			return (WORD)(DIBNumColors (lpbih) * sizeof (RGBTRIPLE));
+	}
+
+	bool CPaintManagerUI::OnDrop(FORMATETC* pFmtEtc, STGMEDIUM& medium,DWORD *pdwEffect)
+	{
+		POINT ptMouse = {0};
+		GetCursorPos(&ptMouse);
+		::SendMessage(m_hTargetWnd, WM_LBUTTONUP, NULL, MAKELPARAM(ptMouse.x, ptMouse.y));
+
+		if(pFmtEtc->cfFormat == CF_DIB && medium.tymed == TYMED_HGLOBAL)
+		{
+			if(medium.hGlobal != NULL)
+			{
+				LPBITMAPINFOHEADER  lpbi = (BITMAPINFOHEADER*)GlobalLock(medium.hGlobal);
+				if(lpbi != NULL)
+				{
+					HBITMAP hbm;
+					HDC hdc = GetDC(NULL);
+					if(hdc != NULL)
+					{
+						int i = ((BITMAPFILEHEADER *)lpbi)->bfOffBits;
+						hbm = CreateDIBitmap(hdc,(LPBITMAPINFOHEADER)lpbi,
+							(LONG)CBM_INIT,
+							(LPSTR)lpbi + lpbi->biSize + ColorTableSize(lpbi),
+							(LPBITMAPINFO)lpbi,DIB_RGB_COLORS);
+
+						::ReleaseDC(NULL,hdc);
+					}
+					GlobalUnlock(medium.hGlobal);
+					if(hbm != NULL)
+						hbm = (HBITMAP)SendMessage(m_hTargetWnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hbm);
+					if(hbm != NULL)
+						DeleteObject(hbm);
+					return true; //release the medium
+				}
+			}
+		}
+		if(pFmtEtc->cfFormat == CF_BITMAP && medium.tymed == TYMED_GDI)
+		{
+			if(medium.hBitmap != NULL)
+			{
+				HBITMAP hBmp = (HBITMAP)SendMessage(m_hTargetWnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)medium.hBitmap);
+				if(hBmp != NULL)
+					DeleteObject(hBmp);
+				return false; //don't free the bitmap
+			}
+		}
+		if(pFmtEtc->cfFormat == CF_ENHMETAFILE && medium.tymed == TYMED_ENHMF)
+		{
+			ENHMETAHEADER emh;
+			GetEnhMetaFileHeader(medium.hEnhMetaFile, sizeof(ENHMETAHEADER),&emh);
+			RECT rc;//={0,0,EnhMetaHdr.rclBounds.right-EnhMetaHdr.rclBounds.left, EnhMetaHdr.rclBounds.bottom-EnhMetaHdr.rclBounds.top};
+			HDC hDC= GetDC(m_hTargetWnd);
+			//start code: taken from ENHMETA.EXE MSDN Sample
+			//*ALSO NEED to GET the pallete (select and RealizePalette it, but i was too lazy*
+			// Get the characteristics of the output device
+			float PixelsX = (float)GetDeviceCaps( hDC, HORZRES );
+			float PixelsY = (float)GetDeviceCaps( hDC, VERTRES );
+			float MMX = (float)GetDeviceCaps( hDC, HORZSIZE );
+			float MMY = (float)GetDeviceCaps( hDC, VERTSIZE );
+			// Calculate the rect in which to draw the metafile based on the
+			// intended size and the current output device resolution
+			// Remember that the intended size is given in 0.01mm units, so
+			// convert those to device units on the target device
+			rc.top = (int)((float)(emh.rclFrame.top) * PixelsY / (MMY*100.0f));
+			rc.left = (int)((float)(emh.rclFrame.left) * PixelsX / (MMX*100.0f));
+			rc.right = (int)((float)(emh.rclFrame.right) * PixelsX / (MMX*100.0f));
+			rc.bottom = (int)((float)(emh.rclFrame.bottom) * PixelsY / (MMY*100.0f));
+			//end code: taken from ENHMETA.EXE MSDN Sample
+
+			HDC hdcMem = CreateCompatibleDC(hDC);
+			HGDIOBJ hBmpMem = CreateCompatibleBitmap(hDC, emh.rclBounds.right, emh.rclBounds.bottom);
+			HGDIOBJ hOldBmp = ::SelectObject(hdcMem, hBmpMem);
+			PlayEnhMetaFile(hdcMem,medium.hEnhMetaFile,&rc);
+			HBITMAP hBmp = (HBITMAP)::SelectObject(hdcMem, hOldBmp);
+			DeleteDC(hdcMem);
+			ReleaseDC(m_hTargetWnd,hDC);
+			hBmp = (HBITMAP)SendMessage(m_hTargetWnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBmp);
+			if(hBmp != NULL)
+				DeleteObject(hBmp);
+			return true;
+		}
+		if(pFmtEtc->cfFormat == CF_HDROP && medium.tymed == TYMED_HGLOBAL)
+		{
+			HDROP hDrop = (HDROP)GlobalLock(medium.hGlobal);
+			if(hDrop != NULL)
+			{
+				TCHAR szFileName[MAX_PATH];
+				UINT cFiles = DragQueryFile(hDrop, 0xFFFFFFFF, NULL, 0); 
+				if(cFiles > 0)
+				{
+					DragQueryFile(hDrop, 0, szFileName, sizeof(szFileName)); 
+					HBITMAP hBitmap = (HBITMAP)LoadImage(NULL, szFileName,IMAGE_BITMAP,0,0,LR_DEFAULTSIZE|LR_LOADFROMFILE);
+					if(hBitmap)
+					{
+						HBITMAP hBmp = (HBITMAP)SendMessage(m_hTargetWnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBitmap);
+						if(hBmp != NULL)
+							DeleteObject(hBmp);
+					}
+				}
+				//DragFinish(hDrop); // base class calls ReleaseStgMedium
+			}
+			GlobalUnlock(medium.hGlobal);
+		}
+		return true; //let base free the medium
 	}
 } // namespace DuiLib

@@ -102,31 +102,6 @@ LRESULT WindowImplBase::OnNcActivate(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lPar
 
 LRESULT WindowImplBase::OnNcCalcSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-	LPRECT pRect=NULL;
-
-	if ( wParam == TRUE)
-	{
-		LPNCCALCSIZE_PARAMS pParam = (LPNCCALCSIZE_PARAMS)lParam;
-		pRect=&pParam->rgrc[0];
-	}
-	else
-	{
-		pRect=(LPRECT)lParam;
-	}
-
-	if ( ::IsZoomed(m_hWnd))
-	{
-		MONITORINFO oMonitor = {};
-		oMonitor.cbSize = sizeof(oMonitor);
-		::GetMonitorInfo(::MonitorFromWindow(*this, MONITOR_DEFAULTTONEAREST), &oMonitor);
-		CDuiRect rcWork = oMonitor.rcWork;
-		pRect->top = rcWork.top;
-		pRect->left = rcWork.left;
-		pRect->right = pRect->left + rcWork.GetWidth();
-		pRect->bottom = pRect->top + rcWork.GetHeight();
-		return WVR_REDRAW;
-	}
-
 	return 0;
 }
 
@@ -179,24 +154,21 @@ LRESULT WindowImplBase::OnNcHitTest(UINT uMsg, WPARAM wParam, LPARAM lParam, BOO
 
 LRESULT WindowImplBase::OnGetMinMaxInfo(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
+	MONITORINFO Monitor = {};
+	Monitor.cbSize = sizeof(Monitor);
+	::GetMonitorInfo(::MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTOPRIMARY), &Monitor);
+	RECT rcWork = Monitor.rcWork;
+	if( Monitor.dwFlags != MONITORINFOF_PRIMARY ) {
+		::OffsetRect(&rcWork, -rcWork.left, -rcWork.top);
+	}
+
 	LPMINMAXINFO lpMMI = (LPMINMAXINFO) lParam;
-
-	MONITORINFO oMonitor = {};
-	oMonitor.cbSize = sizeof(oMonitor);
-	::GetMonitorInfo(::MonitorFromWindow(*this, MONITOR_DEFAULTTONEAREST), &oMonitor);
-	CDuiRect rcWork = oMonitor.rcWork;
-	CDuiRect rcMonitor = oMonitor.rcMonitor;
-	rcWork.Offset(-oMonitor.rcMonitor.left, -oMonitor.rcMonitor.top);
-
-	// 计算最大化时，正确的原点坐标
 	lpMMI->ptMaxPosition.x	= rcWork.left;
 	lpMMI->ptMaxPosition.y	= rcWork.top;
-
-	lpMMI->ptMaxTrackSize.x =rcWork.GetWidth();
-	lpMMI->ptMaxTrackSize.y =rcWork.GetHeight();
-
-	lpMMI->ptMinTrackSize.x =m_PaintManager.GetMinInfo().cx;
-	lpMMI->ptMinTrackSize.y =m_PaintManager.GetMinInfo().cy;
+	lpMMI->ptMaxSize.x = rcWork.right - rcWork.left;
+	lpMMI->ptMaxSize.y = rcWork.bottom - rcWork.top;
+	lpMMI->ptMinTrackSize.x = m_PaintManager.GetMinInfo().cx;
+	lpMMI->ptMinTrackSize.y = m_PaintManager.GetMinInfo().cy;
 
 	bHandled = FALSE;
 	return 0;

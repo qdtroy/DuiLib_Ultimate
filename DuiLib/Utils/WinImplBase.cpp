@@ -115,15 +115,13 @@ LRESULT WindowImplBase::OnNcCalcSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BO
 	}
 
 	if ( ::IsZoomed(m_hWnd))
-	{	// 最大化时，计算当前显示器最适合宽高度
+	{
 		MONITORINFO oMonitor = {};
 		oMonitor.cbSize = sizeof(oMonitor);
 		::GetMonitorInfo(::MonitorFromWindow(*this, MONITOR_DEFAULTTONEAREST), &oMonitor);
 		CDuiRect rcWork = oMonitor.rcWork;
-		CDuiRect rcMonitor = oMonitor.rcMonitor;
-		rcWork.Offset(-oMonitor.rcMonitor.left, -oMonitor.rcMonitor.top);
-
-		pRect->top = pRect->left = 0;
+		pRect->top = rcWork.top;
+		pRect->left = rcWork.left;
 		pRect->right = pRect->left + rcWork.GetWidth();
 		pRect->bottom = pRect->top + rcWork.GetHeight();
 		return WVR_REDRAW;

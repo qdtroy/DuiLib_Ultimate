@@ -3,6 +3,7 @@
 
 namespace DuiLib
 {
+	//CDateTimeUI::m_nDTUpdateFlag
 #define DT_NONE   0
 #define DT_UPDATE 1
 #define DT_DELETE 2
@@ -59,6 +60,21 @@ namespace DuiLib
 	RECT CDateTimeWnd::CalPos()
 	{
 		CDuiRect rcPos = m_pOwner->GetPos();
+
+		CControlUI* pParent = m_pOwner;
+		RECT rcParent;
+		while( pParent = pParent->GetParent() ) {
+			if( !pParent->IsVisible() ) {
+				rcPos.left = rcPos.top = rcPos.right = rcPos.bottom = 0;
+				break;
+			}
+			rcParent = pParent->GetClientPos();
+			if( !::IntersectRect(&rcPos, &rcPos, &rcParent) ) {
+				rcPos.left = rcPos.top = rcPos.right = rcPos.bottom = 0;
+				break;
+			}
+		}
+
 		return rcPos;
 	}
 
@@ -72,10 +88,12 @@ namespace DuiLib
 		return DATETIMEPICK_CLASS;
 	}
 
-	void CDateTimeWnd::OnFinalMessage(HWND /*hWnd*/)
+	void CDateTimeWnd::OnFinalMessage(HWND hWnd)
 	{
-		// Clear reference and die
 		if( m_hBkBrush != NULL ) ::DeleteObject(m_hBkBrush);
+		if( m_pOwner->GetManager()->IsLayered() ) {
+			m_pOwner->GetManager()->RemovePaintChildWnd(hWnd);
+		} 
 		m_pOwner->m_pWindow = NULL;
 		delete this;
 	}
@@ -84,46 +102,9 @@ namespace DuiLib
 	{
 		LRESULT lRes = 0;
 		BOOL bHandled = TRUE;
-
-		if( uMsg == WM_NOTIFY)
-		{
-			::SetFocus(m_hWnd);
-		}
-		// 根据网络博客所知bug修复
 		if( uMsg == WM_KILLFOCUS )
-		{		
-			HWND hCanlender=::FindWindow( MONTHCAL_CLASS, NULL);
-			if(::IsWindow(hCanlender))
-			{
-				MCHITTESTINFO hitInfo;
-				memset(&hitInfo,0,sizeof(hitInfo));
-				GetCursorPos(&hitInfo.pt);
-				::ScreenToClient(hCanlender,&hitInfo.pt);
-				hitInfo.cbSize=sizeof(hitInfo);
-				MonthCal_HitTest(hCanlender,&hitInfo);
-				//下一个月
-				if(hitInfo.uHit==MCHT_TITLEBTNNEXT)
-				{
-					return 1;
-				}
-				//上一个月
-				if(hitInfo.uHit==MCHT_TITLEBTNPREV)
-				{
-					return 1;
-				}
-			}
-			else
-			{
-				POINT pt;
-				::GetCursorPos(&pt); 
-				RECT rcWnd;
-				::GetWindowRect(m_hWnd,&rcWnd);
-				if(	!( pt.x >= rcWnd.left && pt.x <= rcWnd.right )||
-					!( pt.x >= rcWnd.top && pt.x <= rcWnd.bottom ))
-				{
-					lRes= OnKillFocus(uMsg,wParam, lParam,bHandled);
-				}
-			}
+		{
+			lRes = OnKillFocus(uMsg, wParam, lParam, bHandled);
 		}
 		else if (uMsg == WM_KEYUP && (wParam == VK_DELETE || wParam == VK_BACK))
 		{
@@ -140,6 +121,12 @@ namespace DuiLib
 			PostMessage(WM_CLOSE);
 			return lRes;
 		}
+		else if( uMsg == WM_PAINT) {
+			if (m_pOwner->GetManager()->IsLayered()) {
+				m_pOwner->GetManager()->AddPaintChildWnd(m_hWnd);
+			}
+			bHandled = FALSE;
+		}
 		else bHandled = FALSE;
 		if( !bHandled ) return CWindowWnd::HandleMessage(uMsg, wParam, lParam);
 		return lRes;
@@ -154,10 +141,9 @@ namespace DuiLib
 			m_pOwner->m_nDTUpdateFlag = DT_UPDATE;
 			m_pOwner->UpdateText();
 		}
-		PostMessage(WM_CLOSE);
+		SendMessage(WM_CLOSE);
 		return lRes;
 	}
-
 
 	//////////////////////////////////////////////////////////////////////////
 	//
@@ -178,7 +164,7 @@ namespace DuiLib
 
 	LPVOID CDateTimeUI::GetInterface(LPCTSTR pstrName)
 	{
-		if( _tcsicmp(pstrName, DUI_CTR_DATETIME) == 0 ) return static_cast<CDateTimeUI*>(this);
+		if( _tcscmp(pstrName, DUI_CTR_DATETIME) == 0 ) return static_cast<CDateTimeUI*>(this);
 		return CLabelUI::GetInterface(pstrName);
 	}
 

@@ -51,6 +51,10 @@ public:
     void SetExtent(SIZEL *psizelExtent);
     void LimitText(LONG nChars);
     BOOL IsCaptured();
+	BOOL IsShowCaret();
+	void NeedFreshCaret();
+	INT GetCaretWidth();
+	INT GetCaretHeight();
 
     BOOL GetAllowBeep();
     void SetAllowBeep(BOOL fAllowBeep);
@@ -142,7 +146,14 @@ private:
     unsigned	fInplaceActive		:1; // Whether control is inplace active
     unsigned	fTransparent		:1; // Whether control is transparent
     unsigned	fTimer				:1;	// A timer is set
-    unsigned    fCaptured           :1;
+	unsigned    fCaptured           :1;
+	unsigned    fShowCaret          :1;
+	unsigned    fNeedFreshCaret     :1; // 修正改变大小后点击其他位置原来光标不能消除的问题
+
+	INT         iCaretWidth;
+	INT         iCaretHeight;
+	INT         iCaretLastWidth;
+	INT         iCaretLastHeight;
 
     LONG		lSelBarWidth;			// Width of the selection bar
     LONG  		cchTextMost;			// maximum text size
@@ -178,8 +189,7 @@ HRESULT InitDefaultCharFormat(CRichEditUI* re, CHARFORMAT2W* pcf, HFONT hfont)
     ::GetObject(hfont, sizeof(LOGFONT), &lf);
 
     DWORD dwColor = re->GetTextColor();
-	if(re->GetManager()->IsBackgroundTransparent())
-	{
+	if(re->GetManager()->IsLayered()) {
 		CRenderEngine::CheckAlphaColor(dwColor);
 	}
     pcf->cbSize = sizeof(CHARFORMAT2W);
@@ -283,18 +293,14 @@ BOOL CTxtWinHost::Init(CRichEditUI *re, const CREATESTRUCT *pcs)
 
     cchTextMost = re->GetLimitText();
 
-    if (pcs )
-    {
+    if (pcs ) {
         dwStyle = pcs->style;
-
-        if ( !(dwStyle & (ES_AUTOHSCROLL | WS_HSCROLL)) )
-        {
+        if ( !(dwStyle & (ES_AUTOHSCROLL | WS_HSCROLL)) ) {
             fWordWrap = TRUE;
         }
     }
 
-    if( !(dwStyle & ES_LEFT) )
-    {
+    if( !(dwStyle & ES_LEFT) ) {
         if(dwStyle & ES_CENTER)
             pf.wAlignment = PFA_CENTER;
         else if(dwStyle & ES_RIGHT)
@@ -303,19 +309,12 @@ BOOL CTxtWinHost::Init(CRichEditUI *re, const CREATESTRUCT *pcs)
 
     fInplaceActive = TRUE;
 
-    // Create Text Services component
-    //if(FAILED(CreateTextServices(NULL, this, &pUnk)))
-    //    goto err;
-
 	PCreateTextServices TextServicesProc;
 	HMODULE hmod = LoadLibrary(_T("msftedit.dll"));
-	if (hmod)
-	{
+	if (hmod) {
 		TextServicesProc = (PCreateTextServices)GetProcAddress(hmod,"CreateTextServices");
 	}
-
-	if (TextServicesProc)
-	{
+	if (TextServicesProc) {
 		HRESULT hr = TextServicesProc(NULL, this, &pUnk);
 	}
 
@@ -325,14 +324,12 @@ BOOL CTxtWinHost::Init(CRichEditUI *re, const CREATESTRUCT *pcs)
     // with the private interface.
     pUnk->Release();
 
-    if(FAILED(hr))
-    {
+    if(FAILED(hr)) {
         goto err;
     }
 
     // Set window text
-    if(pcs && pcs->lpszName)
-    {
+    if(pcs && pcs->lpszName) {
 #ifdef _UNICODE		
         if(FAILED(pserv->TxSetText((TCHAR *)pcs->lpszName)))
             goto err;
@@ -363,8 +360,7 @@ HRESULT CTxtWinHost::QueryInterface(REFIID riid, void **ppvObject)
     HRESULT hr = E_NOINTERFACE;
     *ppvObject = NULL;
 
-    if (IsEqualIID(riid, IID_IUnknown) 
-        || IsEqualIID(riid, IID_ITextHost)) 
+    if (IsEqualIID(riid, IID_IUnknown) || IsEqualIID(riid, IID_ITextHost)) 
     {
         AddRef();
         *ppvObject = (ITextHost *) this;
@@ -400,7 +396,6 @@ HIMC CTxtWinHost::TxImmGetContext(void)
 
 void CTxtWinHost::TxImmReleaseContext(HIMC himc)
 {
-    //::ImmReleaseContext( hwnd, himc );
 }
 
 //////////////////////////// ITextHost Interface  ////////////////////////////
@@ -505,24 +500,22 @@ void CTxtWinHost::TxViewChange(BOOL fUpdate)
 
 BOOL CTxtWinHost::TxCreateCaret(HBITMAP hbmp, INT xWidth, INT yHeight)
 {
-	if (m_re->GetManager()->IsBackgroundTransparent())
-	{
+	iCaretWidth = xWidth;
+	iCaretHeight = yHeight;
+	if (m_re->GetManager()->IsLayered()) {
 		return m_re->GetManager()->CreateCaret(hbmp, xWidth, yHeight);
 	}
-	else
-	{
+	else {
 		return ::CreateCaret(m_re->GetManager()->GetPaintWindow(), hbmp, xWidth, yHeight);
 	}
 }
 
 BOOL CTxtWinHost::TxShowCaret(BOOL fShow)
 {
-	if (m_re->GetManager()->IsBackgroundTransparent())
-	{
-		if(m_re->GetManager()->GetCurrentCaretObject() == m_re)
-		{
-			if((m_re->IsReadOnly() || !m_re->Activate()))
-			{
+	fShowCaret = fShow;
+	if (m_re->GetManager()->IsLayered()) {
+		if(m_re->GetManager()->GetCurrentCaretObject() == m_re) {
+			if((m_re->IsReadOnly() || !m_re->Activate())) {
 				m_re->GetManager()->ShowCaret(false);
 				return TRUE;
 			}
@@ -530,8 +523,7 @@ BOOL CTxtWinHost::TxShowCaret(BOOL fShow)
 
 		return m_re->GetManager()->ShowCaret(fShow == TRUE);
 	}
-	else
-	{
+	else {
 		if(fShow)
 			return ::ShowCaret(m_re->GetManager()->GetPaintWindow());
 		else
@@ -541,26 +533,25 @@ BOOL CTxtWinHost::TxShowCaret(BOOL fShow)
 
 BOOL CTxtWinHost::TxSetCaretPos(INT x, INT y)
 {
-	if (m_re->GetManager()->IsBackgroundTransparent())
-	{
+	if (m_re->GetManager()->IsLayered()) {
 		m_re->GetManager()->SetCaretPos(m_re, x, y);
 		return true;
 	}
-	else
+	else {
 		return ::SetCaretPos(x, y);
-
+	}
 }
 
 BOOL CTxtWinHost::TxSetTimer(UINT idTimer, UINT uTimeout)
 {
-    fTimer = TRUE;
-    return m_re->GetManager()->SetTimer(m_re, idTimer, uTimeout) == TRUE;
+	fTimer = TRUE;
+	return m_re->GetManager()->SetTimer(m_re, idTimer, uTimeout) == TRUE;
 }
 
 void CTxtWinHost::TxKillTimer(UINT idTimer)
 {
-    m_re->GetManager()->KillTimer(m_re, idTimer);
-    fTimer = FALSE;
+	m_re->GetManager()->KillTimer(m_re, idTimer);
+	fTimer = FALSE;
 }
 
 void CTxtWinHost::TxScrollWindowEx (INT dx, INT dy, LPCRECT lprcScroll,	LPCRECT lprcClip,	HRGN hrgnUpdate, LPRECT lprcUpdate,	UINT fuScroll)	
@@ -776,17 +767,14 @@ BOOL CTxtWinHost::GetReadOnly()
 
 void CTxtWinHost::SetReadOnly(BOOL fReadOnly)
 {
-    if (fReadOnly)
-    {
+    if (fReadOnly) {
         dwStyle |= ES_READONLY;
     }
-    else
-    {
+    else {
         dwStyle &= ~ES_READONLY;
     }
 
-    pserv->OnTxPropertyBitsChange(TXTBIT_READONLY, 
-        fReadOnly ? TXTBIT_READONLY : 0);
+    pserv->OnTxPropertyBitsChange(TXTBIT_READONLY, fReadOnly ? TXTBIT_READONLY : 0);
 }
 
 void CTxtWinHost::SetFont(HFONT hFont) 
@@ -819,8 +807,7 @@ void CTxtWinHost::SetColor(DWORD dwColor)
 {
 	CRenderEngine::CheckAlphaColor(dwColor);
     cf.crTextColor = RGB(GetBValue(dwColor), GetGValue(dwColor), GetRValue(dwColor));
-    pserv->OnTxPropertyBitsChange(TXTBIT_CHARFORMATCHANGE, 
-        TXTBIT_CHARFORMATCHANGE);
+    pserv->OnTxPropertyBitsChange(TXTBIT_CHARFORMATCHANGE, TXTBIT_CHARFORMATCHANGE);
 }
 
 SIZEL* CTxtWinHost::GetExtent() 
@@ -843,20 +830,39 @@ void CTxtWinHost::LimitText(LONG nChars)
 
 BOOL CTxtWinHost::IsCaptured()
 {
-    return fCaptured;
+	return fCaptured;
+}
+
+BOOL CTxtWinHost::IsShowCaret()
+{
+	return fShowCaret;
+}
+
+void CTxtWinHost::NeedFreshCaret()
+{
+	fNeedFreshCaret = TRUE;
+}
+
+INT CTxtWinHost::GetCaretWidth()
+{
+	return iCaretWidth;
+}
+
+INT CTxtWinHost::GetCaretHeight()
+{
+	return iCaretHeight;
 }
 
 BOOL CTxtWinHost::GetAllowBeep()
 {
-    return fAllowBeep;
+	return fAllowBeep;
 }
 
 void CTxtWinHost::SetAllowBeep(BOOL fAllowBeep)
 {
-    fAllowBeep = fAllowBeep;
+	fAllowBeep = fAllowBeep;
 
-    pserv->OnTxPropertyBitsChange(TXTBIT_ALLOWBEEP, 
-        fAllowBeep ? TXTBIT_ALLOWBEEP : 0);
+	pserv->OnTxPropertyBitsChange(TXTBIT_ALLOWBEEP, fAllowBeep ? TXTBIT_ALLOWBEEP : 0);
 }
 
 WORD CTxtWinHost::GetDefaultAlign()
@@ -881,8 +887,7 @@ void CTxtWinHost::SetRichTextFlag(BOOL fNew)
 {
     fRich = fNew;
 
-    pserv->OnTxPropertyBitsChange(TXTBIT_RICHTEXT, 
-        fNew ? TXTBIT_RICHTEXT : 0);
+    pserv->OnTxPropertyBitsChange(TXTBIT_RICHTEXT, fNew ? TXTBIT_RICHTEXT : 0);
 }
 
 LONG CTxtWinHost::GetDefaultLeftIndent()
@@ -912,12 +917,10 @@ void CTxtWinHost::SetClientRect(RECT *prc)
 BOOL CTxtWinHost::SetSaveSelection(BOOL f_SaveSelection)
 {
     BOOL fResult = f_SaveSelection;
-
     fSaveSelection = f_SaveSelection;
 
     // notify text services of property change
-    pserv->OnTxPropertyBitsChange(TXTBIT_SAVESELECTION, 
-        fSaveSelection ? TXTBIT_SAVESELECTION : 0);
+    pserv->OnTxPropertyBitsChange(TXTBIT_SAVESELECTION, fSaveSelection ? TXTBIT_SAVESELECTION : 0);
 
     return fResult;		
 }
@@ -926,8 +929,7 @@ HRESULT	CTxtWinHost::OnTxInPlaceDeactivate()
 {
     HRESULT hr = pserv->OnTxInPlaceDeactivate();
 
-    if (SUCCEEDED(hr))
-    {
+    if (SUCCEEDED(hr)) {
         fInplaceActive = FALSE;
     }
 
@@ -953,11 +955,9 @@ BOOL CTxtWinHost::DoSetCursor(RECT *prc, POINT *pt)
     RECT rc = prc ? *prc : rcClient;
 
     // Is this in our rectangle?
-    if (PtInRect(&rc, *pt))
-    {
+    if (PtInRect(&rc, *pt)) {
         RECT *prcClient = (!fInplaceActive || prc) ? &rc : NULL;
-        pserv->OnTxSetCursor(DVASPECT_CONTENT,	-1, NULL, NULL,  m_re->GetManager()->GetPaintDC(),
-            NULL, prcClient, pt->x, pt->y);
+        pserv->OnTxSetCursor(DVASPECT_CONTENT,	-1, NULL, NULL,  m_re->GetManager()->GetPaintDC(), NULL, prcClient, pt->x, pt->y);
 
         return TRUE;
     }
@@ -1000,8 +1000,7 @@ WCHAR CTxtWinHost::SetPasswordChar(WCHAR ch_PasswordChar)
     chPasswordChar = ch_PasswordChar;
 
     // notify text services of property change
-    pserv->OnTxPropertyBitsChange(TXTBIT_USEPASSWORD, 
-        (chPasswordChar != 0) ? TXTBIT_USEPASSWORD : 0);
+    pserv->OnTxPropertyBitsChange(TXTBIT_USEPASSWORD, (chPasswordChar != 0) ? TXTBIT_USEPASSWORD : 0);
 
     return chOldPasswordChar;
 }
@@ -1011,8 +1010,7 @@ void CTxtWinHost::SetDisabled(BOOL fOn)
     cf.dwMask	 |= CFM_COLOR | CFM_DISABLED;
     cf.dwEffects |= CFE_AUTOCOLOR | CFE_DISABLED;
 
-    if( !fOn )
-    {
+    if( !fOn ) {
         cf.dwEffects &= ~CFE_DISABLED;
     }
 
@@ -1026,12 +1024,10 @@ LONG CTxtWinHost::SetSelBarWidth(LONG l_SelBarWidth)
 
     lSelBarWidth = l_SelBarWidth;
 
-    if (lSelBarWidth)
-    {
+    if (lSelBarWidth) {
         dwStyle |= ES_SELECTIONBAR;
     }
-    else
-    {
+    else {
         dwStyle &= (~ES_SELECTIONBAR);
     }
 
@@ -1061,7 +1057,7 @@ void CTxtWinHost::SetParaFormat(PARAFORMAT2 &p)
 
 CRichEditUI::CRichEditUI() : m_pTwh(NULL), m_bVScrollBarFixing(false), m_bWantTab(true), m_bWantReturn(true), 
     m_bWantCtrlReturn(true), m_bRich(true), m_bReadOnly(false), m_bWordWrap(false), m_dwTextColor(0), m_iFont(-1), 
-    m_iLimitText(cInitTextMax), m_lTwhStyle(ES_MULTILINE), m_bInited(false), m_chLeadByte(0),m_uButtonState(0),
+    m_iLimitText(cInitTextMax), m_lTwhStyle(ES_MULTILINE), m_bDrawCaret(true), m_bInited(false), m_chLeadByte(0),m_uButtonState(0),
 	m_dwTipValueColor(0xFFBAC0C5)
 {
 #ifndef _UNICODE
@@ -1518,8 +1514,7 @@ DWORD CRichEditUI::GetSelectionCharFormat(CHARFORMAT2 &cf) const
 
 bool CRichEditUI::SetSelectionCharFormat(CHARFORMAT2 &cf)
 {
-	if(m_pManager->IsBackgroundTransparent())
-	{
+	if(m_pManager->IsLayered()) {
 		CRenderEngine::CheckAlphaColor(cf.crTextColor);
 		CRenderEngine::CheckAlphaColor(cf.crBackColor);
 	}
@@ -1700,8 +1695,7 @@ long CRichEditUI::StreamOut(int nFormat, EDITSTREAM &es)
 
 void CRichEditUI::DoInit()
 {
-	if(m_bInited)
-		return ;
+	if(m_bInited) return ;
 
     CREATESTRUCT cs;
     cs.style = m_lTwhStyle;
@@ -1718,12 +1712,10 @@ void CRichEditUI::DoInit()
 		m_pTwh->GetTextServices()->TxSendMessage(EM_SETEVENTMASK, 0, ENM_DROPFILES|ENM_LINK|ENM_CHANGE, &lResult);
         m_pTwh->OnTxInPlaceActivate(NULL);
         m_pManager->AddMessageFilter(this);
-		if (!m_bEnabled)
-		{
+		if (!m_bEnabled) {
 			m_pTwh->SetColor(m_pManager->GetDefaultDisabledColor());
 		}
-		else if (GetText() == _T("") && !m_sTipValue.IsEmpty())
-		{
+		else if (GetText() == _T("") && !m_sTipValue.IsEmpty()) {
 			SetText(m_sTipValue);
 			m_pTwh->SetColor(m_dwTipValueColor);
 		}
@@ -1920,8 +1912,7 @@ void CRichEditUI::DoEvent(TEventUI& event)
 	if( event.Type == UIEVENT_SETFOCUS ) {
 		if( m_pTwh ) {
 			m_pTwh->OnTxInPlaceActivate(NULL);
-			if (GetText() == m_sTipValue)
-			{
+			if (GetText() == m_sTipValue) {
 				SetText(_T(""));
 				m_pTwh->SetColor(m_dwTextColor);
 			}
@@ -1945,11 +1936,12 @@ void CRichEditUI::DoEvent(TEventUI& event)
 		Invalidate();
 		return;
 	}
-    else if( event.Type == UIEVENT_TIMER ) {
-        if( m_pTwh ) {
-            m_pTwh->GetTextServices()->TxSendMessage(WM_TIMER, event.wParam, event.lParam, 0);
-        } 
-    }
+	else if( event.Type == UIEVENT_TIMER ) {
+		if( m_pTwh ) {
+			m_pTwh->GetTextServices()->TxSendMessage(WM_TIMER, event.wParam, event.lParam, 0);
+		} 
+		return;
+	}
     else if( event.Type == UIEVENT_SCROLLWHEEL ) {
         if( (event.wKeyState & MK_CONTROL) != 0  ) {
             return;
@@ -2452,13 +2444,10 @@ LRESULT CRichEditUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, boo
     if( !IsMouseEnabled() && uMsg >= WM_MOUSEFIRST && uMsg <= WM_MOUSELAST ) return 0;
     if( uMsg == WM_MOUSEWHEEL && (LOWORD(wParam) & MK_CONTROL) == 0 ) return 0;
 
-	if (uMsg == WM_IME_COMPOSITION)
-	{
+	if (uMsg == WM_IME_COMPOSITION) {
 		// 解决微软输入法位置异常的问题
 		HIMC hIMC = ImmGetContext(GetManager()->GetPaintWindow());
-		if (hIMC) 
-		{
-			// Set composition window position near caret position
+		if (hIMC)  {
 			POINT point;
 			GetCaretPos(&point);
 
@@ -2600,7 +2589,5 @@ bool CRichEditUI::IsAccumulateDBCMode()
 {
 	return m_fAccumulateDBC;
 }
-
-
 
 } // namespace DuiLib

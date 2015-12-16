@@ -62,8 +62,7 @@ bool CShadowUI::Initialize(HINSTANCE hInstance)
 
 void CShadowUI::Create(CPaintManagerUI* pPaintManager)
 {
-	if(!m_bIsShowShadow)
-		return;
+	if(!m_bIsShowShadow) return;
 
 	// Already initialized
 	_ASSERT(CPaintManagerUI::GetInstance() != INVALID_HANDLE_VALUE);
@@ -162,7 +161,6 @@ LRESULT CALLBACK CShadowUI::ParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 				pThis->Update(hwnd);
 				pThis->m_bUpdate = false;
 			}
-			//return hr;
 			break;
 		}
 
@@ -203,7 +201,6 @@ LRESULT CALLBACK CShadowUI::ParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 
 	}
 
-
 #pragma warning(disable: 4312)	// temporrarily disable the type_cast warning in Win32
 	// Call the default(original) window procedure for other messages or messages processed but not returned
 	return ((WNDPROC)pThis->m_OriParentProc)(hwnd, uMsg, wParam, lParam);
@@ -213,6 +210,7 @@ LRESULT CALLBACK CShadowUI::ParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 
 void CShadowUI::Update(HWND hParent)
 {
+	if(!m_bIsShowShadow) return;
 
 	RECT WndRect;
 	GetWindowRect(hParent, &WndRect);
@@ -248,7 +246,7 @@ void CShadowUI::Update(HWND hParent)
 		RECT rcBmpPart = {0};
 		rcBmpPart.right = data->nX;
 		rcBmpPart.bottom = data->nY;
-		CRenderEngine::DrawImage(hMemDC, data->hBitmap, rcPaint, rcPaint, rcBmpPart, m_rcShadowCorner, data->alphaChannel, 0xFF, true, false, false);
+		CRenderEngine::DrawImage(hMemDC, data->hBitmap, rcPaint, rcPaint, rcBmpPart, m_rcShadowCorner, data->bAlpha, 0xFF, true, false, false);
 	}
 	else
 	{

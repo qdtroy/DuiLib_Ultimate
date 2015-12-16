@@ -2538,8 +2538,8 @@ void CListContainerElementUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 void CListContainerElementUI::DoPaint(HDC hDC, const RECT& rcPaint)
 {
     if( !::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem) ) return;
+	CContainerUI::DoPaint(hDC, rcPaint);
     DrawItemBk(hDC, m_rcItem);
-    CContainerUI::DoPaint(hDC, rcPaint);
 }
 
 void CListContainerElementUI::DrawItemText(HDC hDC, const RECT& rcItem)

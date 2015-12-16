@@ -29,9 +29,10 @@ namespace DuiLib {
 	{
 	public:
 		static DWORD AdjustColor(DWORD dwColor, short H, short S, short L);
+		static HBITMAP CreateARGB32Bitmap(HDC hDC, int cx, int cy, BYTE** pBits);
+		static void AdjustImage(bool bUseHSL, TImageInfo* imageInfo, short H, short S, short L);
 	    static TImageInfo* LoadImage(STRINGorID bitmap, LPCTSTR type = NULL, DWORD mask = 0, HINSTANCE instance = NULL);
-		static void FreeImage(const TImageInfo* bitmap);
-
+		static void FreeImage(TImageInfo* bitmap, bool bDelete = true);
 		static TImageInfo* LoadImage(LPCTSTR pStrImage, LPCTSTR type = NULL, DWORD mask = 0, HINSTANCE instance = NULL);
 		static TImageInfo* LoadImage(UINT nID, LPCTSTR type = NULL, DWORD mask = 0, HINSTANCE instance = NULL);
 
@@ -43,8 +44,10 @@ namespace DuiLib {
 			int iFont, UINT uStyle, DWORD dwTextBKColor, BOOL bTransparent);
 
 		static void DrawImage(HDC hDC, HBITMAP hBitmap, const RECT& rc, const RECT& rcPaint, \
-			const RECT& rcBmpPart, const RECT& rcCorners, bool alphaChannel, BYTE uFade = 255, 
+			const RECT& rcBmpPart, const RECT& rcCorners, bool bAlpha, BYTE uFade = 255, 
 			bool hole = false, bool xtiled = false, bool ytiled = false);
+		static bool DrawImage(HDC hDC, CPaintManagerUI* pManager, const RECT& rcItem, const RECT& rcPaint, 
+			TDrawInfo& drawInfo);
 		static bool DrawImageString(HDC hDC, CPaintManagerUI* pManager, const RECT& rcItem, const RECT& rcPaint, 
         LPCTSTR pStrImage, LPCTSTR pStrModify = NULL, HINSTANCE instance = NULL);
 		static void DrawColor(HDC hDC, const RECT& rc, DWORD color);
@@ -63,8 +66,6 @@ namespace DuiLib {
 
 		//alpha utilities
 		static void CheckAlphaColor(DWORD& dwColor);
-		static void ClearAlphaPixel(LPBYTE pBits, int bitsWidth, PRECT rc);
-		static void RestoreAlphaColor(LPBYTE pBits, int bitsWidth, PRECT rc);
 	};
 
 } // namespace DuiLib

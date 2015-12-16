@@ -1,6 +1,9 @@
 #pragma once
 namespace DuiLib
 {
+#define MAX_FONT_ID		30000
+#define CARET_TIMERID	0x1999
+
 	enum DuiSig
 	{
 		DuiSig_end = 0, // [marks end of message map]

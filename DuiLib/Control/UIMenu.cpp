@@ -257,7 +257,7 @@ LRESULT CMenuWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandl
 		// reassigned by this operation - which is why it is important to reassign
 		// the items back to the righfull owner/manager when the window closes.
 		m_pLayout = new CMenuUI();
-		m_pm.UseParentResource(m_pOwner->GetManager());
+		m_pm.SetForceUseSharedRes(true);
 		m_pLayout->SetManager(&m_pm, NULL, true);
 		LPCTSTR pDefaultAttributes = m_pOwner->GetManager()->GetDefaultAttributeList(_T("Menu"));
 		if( pDefaultAttributes ) {

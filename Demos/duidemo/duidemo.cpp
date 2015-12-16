@@ -26,6 +26,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	::ShowWindow(*pFrame, SW_SHOW);
 	CPaintManagerUI::MessageLoop();
 
+	CResourceManager::GetInstance()->Release();
+
 	OleUninitialize();
 	::CoUninitialize();
 	return 0;

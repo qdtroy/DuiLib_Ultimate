@@ -162,6 +162,7 @@ namespace DuiLib {
 		int m_iFont;
 		int m_iLimitText;
 		LONG m_lTwhStyle;
+		bool m_bDrawCaret;
 		bool m_bInited;
 		bool  m_fAccumulateDBC ; // TRUE - need to cumulate ytes from 2 WM_CHAR msgs
 		// we are in this mode when we receive VK_PROCESSKEY

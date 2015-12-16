@@ -69,6 +69,7 @@ namespace DuiLib {
 		long m_cRefCount;
 		PFormatEtcArray m_ArrFormatEtc;
 		PStgMediumArray m_StgMedium;
+
 	public:
 		CIDataObject(CIDropSource* pDropSource);
 		~CIDataObject();

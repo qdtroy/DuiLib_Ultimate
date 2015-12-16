@@ -293,6 +293,24 @@ const RECT& CControlUI::GetPos() const
     return m_rcItem;
 }
 
+RECT CControlUI::GetRelativePos() const
+{
+	CControlUI* pParent = GetParent();
+	if( pParent != NULL ) {
+		RECT rcParentPos = pParent->GetPos();
+		CDuiRect rcRelativePos(m_rcItem);
+		rcRelativePos.Offset(-rcParentPos.left, -rcParentPos.top);
+		return rcRelativePos;
+	}
+	else {
+		return CDuiRect(0, 0, 0, 0);
+	}
+}
+
+RECT CControlUI::GetClientPos() const 
+{
+	return m_rcItem;
+}
 void CControlUI::SetPos(RECT rc, bool bNeedInvalidate)
 {
     if( rc.right < rc.left ) rc.right = rc.left;

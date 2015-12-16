@@ -23,10 +23,11 @@ namespace DuiLib
 		CEditUI* m_pOwner;
 		HBRUSH m_hBkBrush;
 		bool m_bInit;
+		bool m_bDrawCaret;
 	};
 
 
-	CEditWnd::CEditWnd() : m_pOwner(NULL), m_hBkBrush(NULL), m_bInit(false)
+	CEditWnd::CEditWnd() : m_pOwner(NULL), m_hBkBrush(NULL), m_bInit(false), m_bDrawCaret(false)
 	{
 	}
 
@@ -35,28 +36,26 @@ namespace DuiLib
 		m_pOwner = pOwner;
 		RECT rcPos = CalPos();
 		UINT uStyle = 0;
-		if(m_pOwner->GetManager()->IsBackgroundTransparent())
-		{
+		if(m_pOwner->GetManager()->IsLayered()) {
 			uStyle = WS_POPUP | ES_AUTOHSCROLL | WS_VISIBLE;
 			RECT rcWnd={0};
 			::GetWindowRect(m_pOwner->GetManager()->GetPaintWindow(), &rcWnd);
 			rcPos.left += rcWnd.left;
 			rcPos.right += rcWnd.left;
-			rcPos.top += rcWnd.top;
-			rcPos.bottom += rcWnd.top;
+			rcPos.top += rcWnd.top - 1;
+			rcPos.bottom += rcWnd.top - 1;
 		}
-		else
-		{
+		else {
 			uStyle = WS_CHILD | ES_AUTOHSCROLL;
-		}	
+		}
 		if( m_pOwner->IsPasswordMode() ) uStyle |= ES_PASSWORD;
 		Create(m_pOwner->GetManager()->GetPaintWindow(), NULL, uStyle, 0, rcPos);
 		HFONT hFont=NULL;
 		int iFontIndex=m_pOwner->GetFont();
 		if (iFontIndex!=-1)
-			hFont=m_pOwner->GetManager()->GetFont(iFontIndex);
-		if (hFont==NULL)
-			hFont=m_pOwner->GetManager()->GetDefaultFontInfo()->hFont;
+			hFont = m_pOwner->GetManager()->GetFont(iFontIndex);
+		if (hFont == NULL)
+			hFont = m_pOwner->GetManager()->GetDefaultFontInfo()->hFont;
 
 		SetWindowFont(m_hWnd, hFont, TRUE);
 		Edit_LimitText(m_hWnd, m_pOwner->GetMaxChar());
@@ -89,6 +88,21 @@ namespace DuiLib
 			rcPos.top += (rcPos.GetHeight() - lEditHeight) / 2;
 			rcPos.bottom = rcPos.top + lEditHeight;
 		}
+
+		CControlUI* pParent = m_pOwner;
+		RECT rcParent;
+		while( pParent = pParent->GetParent() ) {
+			if( !pParent->IsVisible() ) {
+				rcPos.left = rcPos.top = rcPos.right = rcPos.bottom = 0;
+				break;
+			}
+			rcParent = pParent->GetClientPos();
+			if( !::IntersectRect(&rcPos, &rcPos, &rcParent) ) {
+				rcPos.left = rcPos.top = rcPos.right = rcPos.bottom = 0;
+				break;
+			}
+		}
+
 		return rcPos;
 	}
 
@@ -102,11 +116,14 @@ namespace DuiLib
 		return WC_EDIT;
 	}
 
-	void CEditWnd::OnFinalMessage(HWND /*hWnd*/)
+	void CEditWnd::OnFinalMessage(HWND hWnd)
 	{
 		m_pOwner->Invalidate();
 		// Clear reference and die
 		if( m_hBkBrush != NULL ) ::DeleteObject(m_hBkBrush);
+		if (m_pOwner->GetManager()->IsLayered()) {
+			m_pOwner->GetManager()->RemovePaintChildWnd(hWnd);
+		}
 		m_pOwner->m_pWindow = NULL;
 		delete this;
 	}
@@ -115,7 +132,14 @@ namespace DuiLib
 	{
 		LRESULT lRes = 0;
 		BOOL bHandled = TRUE;
-		if( uMsg == WM_KILLFOCUS ) lRes = OnKillFocus(uMsg, wParam, lParam, bHandled);
+		if( uMsg == WM_CREATE ) {
+			if( m_pOwner->GetManager()->IsLayered() ) {
+				m_pOwner->GetManager()->AddPaintChildWnd(m_hWnd);
+				::SetTimer(m_hWnd, CARET_TIMERID, ::GetCaretBlinkTime(), NULL);
+			}
+			bHandled = FALSE;
+		}
+		else if( uMsg == WM_KILLFOCUS ) lRes = OnKillFocus(uMsg, wParam, lParam, bHandled);
 		else if( uMsg == OCM_COMMAND ) {
 			if( GET_WM_COMMAND_CMD(wParam, lParam) == EN_CHANGE ) lRes = OnEditChanged(uMsg, wParam, lParam, bHandled);
 			else if( GET_WM_COMMAND_CMD(wParam, lParam) == EN_UPDATE ) {
@@ -125,9 +149,7 @@ namespace DuiLib
 			}
 		}
 		else if( uMsg == WM_KEYDOWN && TCHAR(wParam) == VK_RETURN ){
-
 			m_pOwner->GetManager()->SendNotify(m_pOwner, DUI_MSGTYPE_RETURN);
-
 		}
 		else if( uMsg == OCM__BASE + WM_CTLCOLOREDIT  || uMsg == OCM__BASE + WM_CTLCOLORSTATIC ) {
 			if( m_pOwner->GetNativeEditBkColor() == 0xFFFFFFFF ) return NULL;
@@ -145,6 +167,31 @@ namespace DuiLib
 				m_hBkBrush = ::CreateSolidBrush(RGB(GetBValue(clrColor), GetGValue(clrColor), GetRValue(clrColor)));
 			}
 			return (LRESULT)m_hBkBrush;
+		}
+		else if( uMsg == WM_PRINT ) {
+			if (m_pOwner->GetManager()->IsLayered()) {
+				lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
+				if( m_pOwner->IsEnabled() && m_bDrawCaret ) {
+					RECT rcClient;
+					::GetClientRect(m_hWnd, &rcClient);
+					POINT ptCaret;
+					::GetCaretPos(&ptCaret);
+					RECT rcCaret = { ptCaret.x, ptCaret.y, ptCaret.x, ptCaret.y+rcClient.bottom-rcClient.top };
+					CRenderEngine::DrawLine((HDC)wParam, rcCaret, 1, 0xFF000000);
+				}
+				return lRes;
+			}
+			bHandled = FALSE;
+		}
+		else if( uMsg == WM_TIMER ) {
+			if (wParam == CARET_TIMERID) {
+				m_bDrawCaret = !m_bDrawCaret;
+				RECT rcClient;
+				::GetClientRect(m_hWnd, &rcClient);
+				::InvalidateRect(m_hWnd, &rcClient, FALSE);
+				return 0;
+			}
+			bHandled = FALSE;
 		}
 		else bHandled = FALSE;
 
@@ -171,6 +218,7 @@ namespace DuiLib
 		::GetWindowText(m_hWnd, pstr, cchLen);
 		m_pOwner->m_sText = pstr;
 		m_pOwner->GetManager()->SendNotify(m_pOwner, DUI_MSGTYPE_TEXTCHANGED);
+		if( m_pOwner->GetManager()->IsLayered() ) m_pOwner->Invalidate();
 		return 0;
 	}
 

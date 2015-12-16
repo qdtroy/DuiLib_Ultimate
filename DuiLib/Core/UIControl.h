@@ -82,6 +82,8 @@ namespace DuiLib {
 		void SetBorderStyle(int nStyle);
 
 		// 位置相关
+		virtual RECT GetRelativePos() const; // 相对(父控件)位置
+		virtual RECT GetClientPos() const; // 客户区域（除去scrollbar和inset）
 		virtual const RECT& GetPos() const;
 		virtual void SetPos(RECT rc, bool bNeedInvalidate = true);
 		virtual void Move(SIZE szOffset, bool bNeedInvalidate = true);

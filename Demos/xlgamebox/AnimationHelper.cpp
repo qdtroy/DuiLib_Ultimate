@@ -485,7 +485,7 @@ namespace DuiLib
 			frame.m_pImage->hBitmap = hBitmap;
 			frame.m_pImage->nX = x;
 			frame.m_pImage->nY = y;
-			frame.m_pImage->alphaChannel = bAlphaChannel;
+			frame.m_pImage->bAlpha = bAlphaChannel;
 
 			nCurFrame++;
 			// everything went well, add this frame
@@ -1049,7 +1049,7 @@ namespace DuiLib
 		if( !::IntersectRect(&rcTemp, &rcItem, &rc) ) return true;
 		if( !::IntersectRect(&rcTemp, &rcItem, &rcPaint) ) return true;
 
-		CRenderEngine::DrawImage(hDC, data->hBitmap, rcItem, rcPaint, rcBmpPart, rcCorner, data->alphaChannel, bFade, bHole, bTiledX, bTiledY);
+		CRenderEngine::DrawImage(hDC, data->hBitmap, rcItem, rcPaint, rcBmpPart, rcCorner, data->bAlpha, bFade, bHole, bTiledX, bTiledY);
 
 		return true; 
 	}

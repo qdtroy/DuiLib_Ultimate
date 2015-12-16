@@ -96,6 +96,7 @@ public:
 			else {
 				pRoot->SetBkColor(0);
 				pRoot->SetBkImage(param.bgimage);
+				m_PaintManager.SetLayeredImage(param.bgimage);
 			}
 		}
 		return TRUE;
@@ -245,7 +246,7 @@ public:
 		CDuiString sName = pControl->GetName();
 		if(sName.CompareNoCase(_T("homepage_btn")) == 0)
 		{
-			ShellExecute(NULL, _T("open"), _T("https://github.com/duisharp"), NULL, NULL, SW_SHOW);
+			ShellExecute(NULL, _T("open"), _T("https://github.com/qdtroy"), NULL, NULL, SW_SHOW);
 		}
 		else if(sName.CompareNoCase(_T("button1")) == 0)
 		{
@@ -273,6 +274,9 @@ public:
 			if(m_pPopWnd == NULL)
 			{
 				m_pPopWnd = new CPopWnd();
+			}
+			else if(IsWindow(*m_pPopWnd)) {
+				DestroyWindow(*m_pPopWnd);
 			}
 			if(!::IsWindow(*m_pPopWnd))
 			{

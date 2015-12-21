@@ -74,7 +74,11 @@ namespace DuiLib
         int cxNeeded = 0;
 		int cyNeeded = 0;
 		int cxExpand = 0;
-		if( nAdjustables > 0 ) cxExpand = MAX(0, (szAvailable.cx - cxFixed) / nAdjustables);
+		int iRemainder = 0;
+		if (nAdjustables > 0) {
+			cxExpand = MAX(0, (szAvailable.cx - cxFixed) / nAdjustables);
+			iRemainder = (szAvailable.cx - cxFixed) % nAdjustables;
+		} 
 		// Position the elements
 		SIZE szRemaining = szAvailable;
 		int iPosY = rc.top;
@@ -102,9 +106,9 @@ namespace DuiLib
 				iAdjustable++;
 				sz.cx = cxExpand;
 				// Distribute remaining to last element (usually round-off left-overs)
-// 				if( iAdjustable == nAdjustables ) {
-// 					sz.cx = MAX(0, szRemaining.cx - rcPadding.right - cxFixedRemaining);
-// 				}
+ 				if( iAdjustable == nAdjustables ) {
+					sz.cx += iRemainder;
+ 				}
 				if( sz.cx < pControl->GetMinWidth() ) sz.cx = pControl->GetMinWidth();
 				if( sz.cx > pControl->GetMaxWidth() ) sz.cx = pControl->GetMaxWidth();
 			}

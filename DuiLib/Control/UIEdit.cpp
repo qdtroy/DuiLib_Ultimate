@@ -71,7 +71,11 @@ namespace DuiLib
 		styleValue |= pOwner->GetWindowStyls();
 		::SetWindowLong(GetHWND(), GWL_STYLE, styleValue);
 		::ShowWindow(m_hWnd, SW_SHOWNOACTIVATE);
+
+		int cchLen = ::GetWindowTextLength(m_hWnd);
+		if(cchLen <= 0) cchLen = 1;
 		::SetFocus(m_hWnd);
+		::SendMessage(m_hWnd, EM_SETSEL, 0, cchLen);
 		m_bInit = true;    
 	}
 

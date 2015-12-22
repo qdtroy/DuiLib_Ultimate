@@ -63,14 +63,6 @@ namespace DuiLib {
 #define UIFIND_TOP_FIRST     0x00000010
 #define UIFIND_ME_FIRST      0x80000000
 
-	// Flags for the CDialogLayout stretching
-#define UISTRETCH_NEWGROUP   0x00000001
-#define UISTRETCH_NEWLINE    0x00000002
-#define UISTRETCH_MOVE_X     0x00000004
-#define UISTRETCH_MOVE_Y     0x00000008
-#define UISTRETCH_SIZE_X     0x00000010
-#define UISTRETCH_SIZE_Y     0x00000020
-
 	// Flags used for controlling the paint
 #define UISTATE_FOCUSED      0x00000001
 #define UISTATE_SELECTED     0x00000002
@@ -382,6 +374,7 @@ namespace DuiLib {
 		bool RemoveMessageFilter(IMessageFilterUI* pFilter);
 
 		int GetPostPaintCount() const;
+		bool IsPostPaint(CControlUI* pControl);
 		bool AddPostPaint(CControlUI* pControl);
 		bool RemovePostPaint(CControlUI* pControl);
 		bool SetPostPaintIndex(CControlUI* pControl, int iIndex);

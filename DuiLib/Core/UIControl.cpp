@@ -319,28 +319,26 @@ void CControlUI::SetPos(RECT rc, bool bNeedInvalidate)
     CDuiRect invalidateRc = m_rcItem;
     if( ::IsRectEmpty(&invalidateRc) ) invalidateRc = rc;
 
-	m_rcItem = rc;
-
 	if( m_bFloat ) {
 		CControlUI* pParent = GetParent();
 		if( pParent != NULL ) {
 			RECT rcParentPos = pParent->GetPos();
+			RECT rcCtrl = {rcParentPos.left + rc.left, rcParentPos.top + rc.top, 
+				rcParentPos.left + rc.right, rcParentPos.top + rc.bottom};
+			m_rcItem = rcCtrl;
+
 			LONG width = rcParentPos.right - rcParentPos.left;
 			LONG height = rcParentPos.bottom - rcParentPos.top;
-			
-			m_rcItem.left = m_cXY.cx + rcParentPos.left;
-			m_rcItem.top = m_cXY.cy + rcParentPos.top;
-			m_rcItem.right = m_rcItem.left + m_cxyFixed.cx;
-			m_rcItem.bottom = m_rcItem.top + m_cxyFixed.cy;
-
 			RECT rcPercent = {(LONG)(width*m_piFloatPercent.left), (LONG)(height*m_piFloatPercent.top),
 				(LONG)(width*m_piFloatPercent.right), (LONG)(height*m_piFloatPercent.bottom)};
-
-			m_rcItem.left += rcPercent.left;
-			m_rcItem.top += rcPercent.top;
-			m_rcItem.right -= rcPercent.right;
-			m_rcItem.bottom -= rcPercent.bottom;
+			m_cXY.cx = rc.left - rcPercent.left;
+			m_cXY.cy = rc.top - rcPercent.top;
+			m_cxyFixed.cx = rc.right - rcPercent.right - m_cXY.cx;
+			m_cxyFixed.cy = rc.bottom - rcPercent.bottom - m_cXY.cy;
 		}
+	}
+	else {
+		m_rcItem = rc;
 	}
     if( m_pManager == NULL ) return;
 

@@ -1959,6 +1959,11 @@ namespace DuiLib {
 	{
 		return m_aPostPaintControls.GetSize();
 	}
+	
+	bool CPaintManagerUI::IsPostPaint(CControlUI* pControl)
+	{
+		return m_aPostPaintControls.Find(pControl) >= 0;
+	}
 
 	bool CPaintManagerUI::AddPostPaint(CControlUI* pControl)
 	{
@@ -2188,7 +2193,7 @@ namespace DuiLib {
 	{
 		LOGFONT lf = { 0 };
 		::GetObject(::GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
-		_tcsncpy(lf.lfFaceName, pStrFontName, LF_FACESIZE);
+		if(lstrlen(pStrFontName) > 0) _tcsncpy(lf.lfFaceName, pStrFontName, LF_FACESIZE);
 		lf.lfCharSet = DEFAULT_CHARSET;
 		lf.lfHeight = -nSize;
 		if( bBold ) lf.lfWeight += FW_BOLD;
@@ -2243,7 +2248,7 @@ namespace DuiLib {
 	{
 		LOGFONT lf = { 0 };
 		::GetObject(::GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
-		_tcsncpy(lf.lfFaceName, pStrFontName, LF_FACESIZE);
+		if(lstrlen(pStrFontName) > 0) _tcsncpy(lf.lfFaceName, pStrFontName, LF_FACESIZE);
 		lf.lfCharSet = DEFAULT_CHARSET;
 		lf.lfHeight = -nSize;
 		if( bBold ) lf.lfWeight += FW_BOLD;

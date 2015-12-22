@@ -216,7 +216,6 @@ namespace DuiLib
 
 	void COptionUI::PaintStatusImage(HDC hDC)
 	{
-
 		if( (m_uButtonState & UISTATE_PUSHED) != 0 && IsSelected() && !m_sSelectedPushedImage.IsEmpty()) {
 			if( !DrawImage(hDC, (LPCTSTR)m_sSelectedPushedImage) )
 				m_sSelectedPushedImage.Empty();

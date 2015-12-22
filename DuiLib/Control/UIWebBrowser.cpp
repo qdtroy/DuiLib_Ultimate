@@ -195,7 +195,7 @@ void DuiLib::CWebBrowserUI::BeforeNavigate2( IDispatch *pDisp,VARIANT *&url,VARI
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		m_pWebBrowserEventHandler->BeforeNavigate2(pDisp,url,Flags,TargetFrameName,PostData,Headers,Cancel);
+		m_pWebBrowserEventHandler->BeforeNavigate2(this, pDisp,url,Flags,TargetFrameName,PostData,Headers,Cancel);
 	}
 }
 
@@ -203,7 +203,7 @@ void DuiLib::CWebBrowserUI::NavigateError( IDispatch *pDisp,VARIANT * &url,VARIA
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		m_pWebBrowserEventHandler->NavigateError(pDisp,url,TargetFrameName,StatusCode,Cancel);
+		m_pWebBrowserEventHandler->NavigateError(this, pDisp,url,TargetFrameName,StatusCode,Cancel);
 	}
 }
 
@@ -221,7 +221,7 @@ void DuiLib::CWebBrowserUI::NavigateComplete2( IDispatch *pDisp,VARIANT *&url )
 
 	if (m_pWebBrowserEventHandler)
 	{
-		m_pWebBrowserEventHandler->NavigateComplete2(pDisp,url);
+		m_pWebBrowserEventHandler->NavigateComplete2(this, pDisp,url);
 	}
 }
 
@@ -229,7 +229,7 @@ void DuiLib::CWebBrowserUI::ProgressChange( LONG nProgress, LONG nProgressMax )
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		m_pWebBrowserEventHandler->ProgressChange(nProgress,nProgressMax);
+		m_pWebBrowserEventHandler->ProgressChange(this, nProgress,nProgressMax);
 	}
 }
 
@@ -237,14 +237,14 @@ void DuiLib::CWebBrowserUI::NewWindow3( IDispatch **pDisp, VARIANT_BOOL *&Cancel
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		m_pWebBrowserEventHandler->NewWindow3(pDisp,Cancel,dwFlags,bstrUrlContext,bstrUrl);
+		m_pWebBrowserEventHandler->NewWindow3(this, pDisp,Cancel,dwFlags,bstrUrlContext,bstrUrl);
 	}
 }
 void DuiLib::CWebBrowserUI::CommandStateChange(long Command,VARIANT_BOOL Enable)
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		m_pWebBrowserEventHandler->CommandStateChange(Command,Enable);
+		m_pWebBrowserEventHandler->CommandStateChange(this, Command,Enable);
 	}
 }
 
@@ -252,7 +252,7 @@ void DuiLib::CWebBrowserUI::TitleChange(BSTR bstrTitle)
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		m_pWebBrowserEventHandler->TitleChange(bstrTitle);
+		m_pWebBrowserEventHandler->TitleChange(this, bstrTitle);
 	}
 }
 
@@ -260,7 +260,7 @@ void DuiLib::CWebBrowserUI::DocumentComplete(IDispatch *pDisp, VARIANT *&url)
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		m_pWebBrowserEventHandler->DocumentComplete(pDisp, url);
+		m_pWebBrowserEventHandler->DocumentComplete(this, pDisp, url);
 	}
 }
 
@@ -269,7 +269,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::Download( /* [in] */ IMoniker *pmk, /* [in] 
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->Download(pmk,pbc,dwBindVerb,grfBINDF,pBindInfo,pszHeaders,pszRedir,uiCP);
+		return m_pWebBrowserEventHandler->Download(this, pmk,pbc,dwBindVerb,grfBINDF,pBindInfo,pszHeaders,pszRedir,uiCP);
 	}
 	return S_OK;
 }
@@ -279,7 +279,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::ShowContextMenu( DWORD dwID, POINT* pptPosit
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->ShowContextMenu(dwID,pptPosition,pCommandTarget,pDispatchObjectHit);
+		return m_pWebBrowserEventHandler->ShowContextMenu(this, dwID,pptPosition,pCommandTarget,pDispatchObjectHit);
 	}
 	return S_FALSE;
 }
@@ -288,7 +288,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::GetHostInfo( DOCHOSTUIINFO* pInfo )
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->GetHostInfo(pInfo);
+		return m_pWebBrowserEventHandler->GetHostInfo(this, pInfo);
 	}
 	return E_NOTIMPL;
 }
@@ -297,7 +297,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::ShowUI( DWORD dwID, IOleInPlaceActiveObject*
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->ShowUI(dwID,pActiveObject,pCommandTarget,pFrame,pDoc);
+		return m_pWebBrowserEventHandler->ShowUI(this, dwID,pActiveObject,pCommandTarget,pFrame,pDoc);
 	}
 	return S_OK;
 }
@@ -306,7 +306,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::HideUI()
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->HideUI();
+		return m_pWebBrowserEventHandler->HideUI(this);
 	}
 	return S_OK;
 }
@@ -315,7 +315,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::UpdateUI()
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->UpdateUI();
+		return m_pWebBrowserEventHandler->UpdateUI(this);
 	}
 	return S_OK;
 }
@@ -324,7 +324,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::EnableModeless( BOOL fEnable )
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->EnableModeless(fEnable);
+		return m_pWebBrowserEventHandler->EnableModeless(this, fEnable);
 	}
 	return E_NOTIMPL;
 }
@@ -333,7 +333,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::OnDocWindowActivate( BOOL fActivate )
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->OnDocWindowActivate(fActivate);
+		return m_pWebBrowserEventHandler->OnDocWindowActivate(this, fActivate);
 	}
 	return E_NOTIMPL;
 }
@@ -342,7 +342,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::OnFrameWindowActivate( BOOL fActivate )
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->OnFrameWindowActivate(fActivate);
+		return m_pWebBrowserEventHandler->OnFrameWindowActivate(this, fActivate);
 	}
 	return E_NOTIMPL;
 }
@@ -351,7 +351,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::ResizeBorder( LPCRECT prcBorder, IOleInPlace
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->ResizeBorder(prcBorder,pUIWindow,fFrameWindow);
+		return m_pWebBrowserEventHandler->ResizeBorder(this, prcBorder,pUIWindow,fFrameWindow);
 	}
 	return E_NOTIMPL;
 }
@@ -360,7 +360,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::TranslateAccelerator( LPMSG lpMsg, const GUI
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->TranslateAccelerator(lpMsg,pguidCmdGroup,nCmdID);
+		return m_pWebBrowserEventHandler->TranslateAccelerator(this, lpMsg,pguidCmdGroup,nCmdID);
 	}
 	return S_FALSE;
 }
@@ -404,7 +404,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::GetOptionKeyPath( LPOLESTR* pchKey, DWORD dw
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->GetOptionKeyPath(pchKey,dwReserved);
+		return m_pWebBrowserEventHandler->GetOptionKeyPath(this, pchKey,dwReserved);
 	}
 	return E_NOTIMPL;
 }
@@ -413,7 +413,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::GetDropTarget( IDropTarget* pDropTarget, IDr
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->GetDropTarget(pDropTarget,ppDropTarget);
+		return m_pWebBrowserEventHandler->GetDropTarget(this, pDropTarget,ppDropTarget);
 	}
 	return S_FALSE;	// 使用系统拖拽
 }
@@ -422,7 +422,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::GetExternal( IDispatch** ppDispatch )
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->GetExternal(ppDispatch);
+		return m_pWebBrowserEventHandler->GetExternal(this, ppDispatch);
 	}
 	return S_FALSE;
 }
@@ -431,7 +431,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::TranslateUrl( DWORD dwTranslate, OLECHAR* pc
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->TranslateUrl(dwTranslate,pchURLIn,ppchURLOut);
+		return m_pWebBrowserEventHandler->TranslateUrl(this, dwTranslate,pchURLIn,ppchURLOut);
 	}
 	else
 	{
@@ -444,7 +444,7 @@ STDMETHODIMP DuiLib::CWebBrowserUI::FilterDataObject( IDataObject* pDO, IDataObj
 {
 	if (m_pWebBrowserEventHandler)
 	{
-		return m_pWebBrowserEventHandler->FilterDataObject(pDO,ppDORet);
+		return m_pWebBrowserEventHandler->FilterDataObject(this, pDO,ppDORet);
 	}
 	else
 	{

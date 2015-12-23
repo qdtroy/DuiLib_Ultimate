@@ -2,7 +2,7 @@
 
 //////////////////////////////////////////////////////////////////////////
 ///
-#include "..\TroyControls\TroyControls.h"
+#include "TroyControls.h"
 
 typedef struct _tagTabInfo
 {

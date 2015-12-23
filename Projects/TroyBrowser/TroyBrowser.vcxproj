@@ -522,9 +522,6 @@
     <ProjectReference Include="..\..\DuiLib\DuiLib.vcxproj">
       <Project>{e106acd7-4e53-4aee-942b-d0dd426db34e}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\TroyControls\TroyControls.vcxproj">
-      <Project>{0886813e-e4b7-4058-b27e-c86fe08c5a7d}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -29,6 +29,20 @@ using namespace DuiLib;
 #   endif
 #endif
 
+#ifdef _DEBUG
+#   ifdef _UNICODE
+#       pragma comment(lib, "lib\\TroyControls_d.lib")
+#   else
+#       pragma comment(lib, "lib\\TroyControlsA_d.lib")
+#   endif
+#else
+#   ifdef _UNICODE
+#       pragma comment(lib, "lib\\TroyControls.lib")
+#   else
+#       pragma comment(lib, "lib\\TroyControls.lib")
+#   endif
+#endif
+
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 

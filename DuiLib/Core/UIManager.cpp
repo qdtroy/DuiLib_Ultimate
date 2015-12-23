@@ -111,6 +111,7 @@ namespace DuiLib {
 		m_hDcPaint(NULL),
 		m_hDcOffscreen(NULL),
 		m_hDcBackground(NULL),
+		m_bOffscreenPaint(true),
 		m_hbmpOffscreen(NULL),
 		m_pOffscreenBits(NULL),
 		m_hbmpBackground(NULL),
@@ -1019,6 +1020,10 @@ namespace DuiLib {
 					// A standard paint job
 					int iSaveDC = ::SaveDC(m_hDcPaint);
 					m_pRoot->DoPaint(m_hDcPaint, rcPaint);
+					for( int i = 0; i < m_aPostPaintControls.GetSize(); i++ ) {
+						CControlUI* pPostPaintControl = static_cast<CControlUI*>(m_aPostPaintControls[i]);
+						pPostPaintControl->DoPostPaint(m_hDcPaint, rcPaint);
+					}
 					::RestoreDC(m_hDcPaint, iSaveDC);
 				}
 				// All Done!

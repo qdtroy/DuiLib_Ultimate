@@ -144,6 +144,9 @@ LRESULT WindowImplBase::OnNcHitTest(UINT uMsg, WPARAM wParam, LPARAM lParam, BOO
 			CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(pt));
 			if( pControl && _tcsicmp(pControl->GetClass(), _T("ButtonUI")) != 0 && 
 				_tcsicmp(pControl->GetClass(), _T("OptionUI")) != 0 &&
+				_tcsicmp(pControl->GetClass(), _T("BrowserTab")) != 0 &&
+				_tcsicmp(pControl->GetClass(), _T("BrowserTabBar")) != 0 &&
+				_tcsicmp(pControl->GetClass(), _T("EditUI")) != 0 &&
 				_tcsicmp(pControl->GetClass(), _T("TextUI")) != 0 &&
 				_tcsicmp(pControl->GetClass(), _T("SliderUI")) != 0)
 				return HTCAPTION;
@@ -266,7 +269,7 @@ LRESULT WindowImplBase::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 	if (m_PaintManager.GetResourcePath().IsEmpty())
 	{	// 允许更灵活的资源路径定义
 		CDuiString strResourcePath=m_PaintManager.GetInstancePath();
-		strResourcePath+=GetSkinFolder().GetData();
+		strResourcePath += GetSkinFolder().GetData();
 		m_PaintManager.SetResourcePath(strResourcePath.GetData());
 	}
 
@@ -306,7 +309,7 @@ LRESULT WindowImplBase::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 
 	// 创建主窗口
 	CControlUI* pRoot=NULL;
-	if (GetResourceType()==UILIB_RESOURCE)
+	if (GetResourceType() == UILIB_RESOURCE)
 	{
 		STRINGorID xml(_ttoi(GetSkinFile().GetData()));
 		pRoot = builder.Create(xml, _T("xml"), this, &m_PaintManager);
@@ -314,7 +317,7 @@ LRESULT WindowImplBase::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 	else {
 		pRoot = builder.Create(GetSkinFile().GetData(), (UINT)0, this, &m_PaintManager);
 	}
-	ASSERT(pRoot);
+ 	ASSERT(pRoot);
 	if (pRoot==NULL)
 	{
 		MessageBox(NULL,_T("加载资源文件失败"),_T("Duilib"),MB_OK|MB_ICONERROR);

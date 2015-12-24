@@ -111,6 +111,7 @@ namespace DuiLib {
 		m_hDcPaint(NULL),
 		m_hDcOffscreen(NULL),
 		m_hDcBackground(NULL),
+		m_bOffscreenPaint(true),
 		m_hbmpOffscreen(NULL),
 		m_pOffscreenBits(NULL),
 		m_hbmpBackground(NULL),
@@ -1019,6 +1020,10 @@ namespace DuiLib {
 					// A standard paint job
 					int iSaveDC = ::SaveDC(m_hDcPaint);
 					m_pRoot->DoPaint(m_hDcPaint, rcPaint);
+					for( int i = 0; i < m_aPostPaintControls.GetSize(); i++ ) {
+						CControlUI* pPostPaintControl = static_cast<CControlUI*>(m_aPostPaintControls[i]);
+						pPostPaintControl->DoPostPaint(m_hDcPaint, rcPaint);
+					}
 					::RestoreDC(m_hDcPaint, iSaveDC);
 				}
 				// All Done!
@@ -1959,6 +1964,11 @@ namespace DuiLib {
 	{
 		return m_aPostPaintControls.GetSize();
 	}
+	
+	bool CPaintManagerUI::IsPostPaint(CControlUI* pControl)
+	{
+		return m_aPostPaintControls.Find(pControl) >= 0;
+	}
 
 	bool CPaintManagerUI::AddPostPaint(CControlUI* pControl)
 	{
@@ -2188,7 +2198,7 @@ namespace DuiLib {
 	{
 		LOGFONT lf = { 0 };
 		::GetObject(::GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
-		_tcsncpy(lf.lfFaceName, pStrFontName, LF_FACESIZE);
+		if(lstrlen(pStrFontName) > 0) _tcsncpy(lf.lfFaceName, pStrFontName, LF_FACESIZE);
 		lf.lfCharSet = DEFAULT_CHARSET;
 		lf.lfHeight = -nSize;
 		if( bBold ) lf.lfWeight += FW_BOLD;
@@ -2243,7 +2253,7 @@ namespace DuiLib {
 	{
 		LOGFONT lf = { 0 };
 		::GetObject(::GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
-		_tcsncpy(lf.lfFaceName, pStrFontName, LF_FACESIZE);
+		if(lstrlen(pStrFontName) > 0) _tcsncpy(lf.lfFaceName, pStrFontName, LF_FACESIZE);
 		lf.lfCharSet = DEFAULT_CHARSET;
 		lf.lfHeight = -nSize;
 		if( bBold ) lf.lfWeight += FW_BOLD;

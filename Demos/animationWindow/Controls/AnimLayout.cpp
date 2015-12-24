@@ -51,7 +51,18 @@ void AnimLayout::DoPaint(HDC hDC, const RECT& rcPaint)
 		0, 0, m_rcItem.right - m_rcItem.left, m_rcItem.bottom - m_rcItem.top, bf);
 
 }
-
+void RestoreAlphaColor(LPBYTE pBits, int bitsWidth, PRECT rc)
+{
+	for(int i = rc->top; i < rc->bottom; ++i)
+	{
+		for(int j = rc->left; j < rc->right; ++j)
+		{
+			int x = (i*bitsWidth + j) * 4;
+			if((pBits[x + 3] == 0)&& (pBits[x + 0] != 0 || pBits[x + 1] != 0|| pBits[x + 2] != 0))
+				pBits[x + 3] = 255;	
+		}
+	}
+}
 
 bool AnimLayout::StartEffect()
 {
@@ -76,7 +87,7 @@ bool AnimLayout::StartEffect()
 
 	//修补一下Alpha通道,一些控件(Richedit)会让Alpha为0
 	RECT rcRestore = m_rcItem;
-	CRenderEngine::RestoreAlphaColor((LPBYTE)bmDst.bmBits, bmDst.bmWidth, &rcRestore);
+	RestoreAlphaColor((LPBYTE)bmDst.bmBits, bmDst.bmWidth, &rcRestore);
 
 	// 填充动画参数
 	AnimationParam animParam;

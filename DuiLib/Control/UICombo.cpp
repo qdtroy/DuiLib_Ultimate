@@ -129,7 +129,7 @@ namespace DuiLib {
 		}
 		else if( uMsg == WM_CLOSE ) {
 			m_pOwner->SetManager(m_pOwner->GetManager(), m_pOwner->GetParent(), false);
-			m_pOwner->SetPos(m_pOwner->GetPos());
+			//m_pOwner->SetPos(m_pOwner->GetPos());
 			m_pOwner->SetFocus();
 		}
 		else if( uMsg == WM_LBUTTONUP ) {

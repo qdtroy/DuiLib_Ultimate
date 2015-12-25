@@ -144,6 +144,9 @@
     <None Include="..\..\bin\skin\duidemo\res.xml">
       <Filter>Resources\xmls</Filter>
     </None>
+    <None Include="Res\duidemo.zip">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="duidemo.rc">

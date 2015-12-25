@@ -2,7 +2,7 @@
 <Window caption="0,0,0,415" size="600,384" mininfo="600,384" sizebox="6,6,6,6" bktrans="true">
   <Font name="宋体" size="12" default="true"/>
   
-  <VerticalLayout bkimage="res='bg.png' corner='6,97,6,29' fade='200'">
+  <VerticalLayout bkimage="res='bg.png' corner='6,97,6,29'">
     <HorizontalLayout name="appbar" height="64" inset="0,-1">
       <HorizontalLayout name="apptitle" childpadding="6">
         <Container padding="2,3,0,0" width="64" height="64" bkimage="logo.jpg" />

@@ -2532,6 +2532,7 @@ void CListContainerElementUI::DoEvent(TEventUI& event)
 void CListContainerElementUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 {
     if( _tcsicmp(pstrName, _T("selected")) == 0 ) Select();
+    CListContainerElementUI
     else CContainerUI::SetAttribute(pstrName, pstrValue);
 }
 

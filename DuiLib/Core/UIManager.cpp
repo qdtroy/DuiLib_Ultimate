@@ -874,6 +874,7 @@ namespace DuiLib {
 				RECT rcPaint = { 0 };
 				if( !::GetUpdateRect(m_hWndPaint, &rcPaint, FALSE) ) return true;
 
+				bool bNeedSizeMsg = false;
 				RECT rcClient = { 0 };
 				::GetClientRect(m_hWndPaint, &rcClient);
 				DWORD dwWidth = rcClient.right - rcClient.left;
@@ -893,13 +894,14 @@ namespace DuiLib {
 				SetPainting(true);
 				if( m_bUpdateNeeded ) {
 					m_bUpdateNeeded = false;
-					if( !::IsRectEmpty(&rcClient) ) {
+					if( !::IsRectEmpty(&rcClient) && !::IsIconic(m_hWndPaint) ) {
 						if( m_pRoot->IsUpdateNeeded() ) {
 							if( m_hDcOffscreen != NULL ) ::DeleteDC(m_hDcOffscreen);
 							if( m_hbmpOffscreen != NULL ) ::DeleteObject(m_hbmpOffscreen);
 							m_hDcOffscreen = NULL;
 							m_hbmpOffscreen = NULL;
 							m_pRoot->SetPos(rcClient, true);
+							bNeedSizeMsg = true;
 						}
 						else {
 							CControlUI* pControl = NULL;
@@ -1030,6 +1032,10 @@ namespace DuiLib {
 				::EndPaint(m_hWndPaint, &ps);
 				if( m_bUpdateNeeded ) Invalidate();
 				SetPainting(false);
+				// 发送窗口大小改变消息
+				if(bNeedSizeMsg) {
+					this->SendNotify(m_pRoot, DUI_MSGTYPE_WINDOWSIZE, 0, 0, true);
+				}
 				return true;
 			}
 		case WM_PRINTCLIENT:
@@ -1073,6 +1079,8 @@ namespace DuiLib {
 					m_pFocus->Event(event);
 				}
 				if( m_pRoot != NULL ) m_pRoot->NeedUpdate();
+				// 重绘窗口
+				::RedrawWindow(m_hWndPaint, NULL, NULL, RDW_UPDATENOW);
 			}
 			return true;
 		case WM_TIMER:

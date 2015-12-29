@@ -234,20 +234,14 @@ void CListUI::SetPos(RECT rc, bool bNeedInvalidate)
         for( int it = 0; it < m_pHeader->GetCount(); it++ ) {
             static_cast<CControlUI*>(m_pHeader->GetItemAt(it))->SetInternVisible(true);
         }
-        m_pHeader->SetPos(CDuiRect(rc.left, 0, rc.right, 0));
+        m_pHeader->SetPos(CDuiRect(rc.left, 0, rc.right, 0), bNeedInvalidate);
     }
-    int iOffset = m_pList->GetScrollPos().cx;
+
     for( int i = 0; i < m_ListInfo.nColumns; i++ ) {
         CControlUI* pControl = static_cast<CControlUI*>(m_pHeader->GetItemAt(i));
         if( !pControl->IsVisible() ) continue;
         if( pControl->IsFloat() ) continue;
-
         RECT rcPos = pControl->GetPos();
-        if( iOffset > 0 ) {
-            rcPos.left -= iOffset;
-            rcPos.right -= iOffset;
-            pControl->SetPos(rcPos);
-        }
         m_ListInfo.rcColumn[i] = pControl->GetPos();
     }
     if( !m_pHeader->IsVisible() ) {
@@ -255,7 +249,7 @@ void CListUI::SetPos(RECT rc, bool bNeedInvalidate)
             static_cast<CControlUI*>(m_pHeader->GetItemAt(it))->SetInternVisible(false);
         }
     }
-	m_pList->SetPos(m_pList->GetPos());
+	m_pList->SetPos(m_pList->GetPos(), bNeedInvalidate);
 
 }
 
@@ -982,11 +976,10 @@ void CListBodyUI::SetScrollPos(SIZE szPos, bool bMsg)
         rcPos.right -= cx;
         rcPos.top -= cy;
         rcPos.bottom -= cy;
-        pControl->SetPos(rcPos);
+        pControl->SetPos(rcPos, true);
     }
 
     Invalidate();
-
 	if( cx != 0 && m_pOwner ) {
 		CListHeaderUI* pHeader = m_pOwner->GetHeader();
 		if( pHeader == NULL ) return;
@@ -1015,7 +1008,6 @@ void CListBodyUI::SetScrollPos(SIZE szPos, bool bMsg)
 			}
 		}
 	}
-
 }
 
 void CListBodyUI::SetPos(RECT rc, bool bNeedInvalidate)
@@ -1580,7 +1572,7 @@ void CListHeaderItemUI::DoEvent(TEventUI& event)
     {
         if( !IsEnabled() ) return;
         RECT rcSeparator = GetThumbRect();
-		if (m_iSepWidth>=0)//111024 by cddjr, 增加分隔符区域，方便用户拖动
+		if (m_iSepWidth>=0)
 			rcSeparator.left-=4;
 		else
 			rcSeparator.right+=4;

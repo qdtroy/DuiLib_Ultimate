@@ -76,7 +76,7 @@
                 <Button name="button1" text="普通按钮" textcolor="#FF555555" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
                 <Button name="button2" text="图标按钮" textcolor="#FF555555" style="btn_style" width="100" textpadding="20,0,0,0" foreimage="dest='4,7,20,23' res='icon.png'" />
                 <Button name="sendbtn" text="命令按钮(&S)" textcolor="#FF555555" style="btn_style" shortcut="S" width="120"/>
-                <Button name="sendbtn" text="颜色按钮" colorhsl="true" textcolor="#FF555555" bkcolor="#FFFF0000" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4" width="120"/>
+                <Button name="sendbtn" text="颜色按钮" colorhsl="true" float="0.5,0,0.8,1" textcolor="#FF555555" bkcolor="#FFFF0000" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
 
               </HorizontalLayout>
               <Control />
@@ -105,7 +105,7 @@
             <VerticalLayout>
               <Control />
               <HorizontalLayout height="23" childpadding="12">
-                <Combo name="font_type" droptype="droplist" itemfont="" width="100" style="combo_style" float="true" pos="300,0,400,23">
+                <Combo name="font_type" droptype="droplist" itemfont="" width="100" style="combo_style" textcolor="#FFFF0000" float="true" pos="300,0,400,23">
                   <ListLabelElement text="微软雅黑" selected="true" height="23" />
                   <ListLabelElement text="宋体" height="23" />
                   <ListLabelElement text="黑体" height="23" />

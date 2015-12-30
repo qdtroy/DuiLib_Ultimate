@@ -123,7 +123,7 @@ LRESULT CALLBACK CShadowUI::ParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 			GetWindowRect(hwnd, &WndRect);
 			SetWindowPos(pThis->m_hWnd, 0,
 					WndRect.left + pThis->m_nxOffset - pThis->m_nSize, WndRect.top + pThis->m_nyOffset - pThis->m_nSize,
-					0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
+					0, 0, SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
 		}
 		break;
 

@@ -1079,7 +1079,7 @@ namespace DuiLib {
 					m_pFocus->Event(event);
 				}
 				if( m_pRoot != NULL ) m_pRoot->NeedUpdate();
-				 重绘窗口
+				// 重绘窗口
 				if(wParam == SIZE_MAXIMIZED) {
 					::RedrawWindow(m_hWndPaint, NULL, NULL, RDW_UPDATENOW);
 				}

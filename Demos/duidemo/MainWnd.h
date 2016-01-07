@@ -409,11 +409,11 @@ public:
 				{
 					if (bChecked)
 					{
-						MessageBox(m_hWnd, _T("你预定修潜艇服务"), _T(""), 0);
+						CMsgWnd::MessageBox(m_hWnd, NULL, _T("你预定修潜艇服务"));
 					} 
 					else
 					{
-						MessageBox(m_hWnd, _T("你取消修潜艇服务"), NULL, 0);
+						CMsgWnd::MessageBox(m_hWnd, NULL, _T("你取消修潜艇服务"));
 					}			 
 				}
 				else

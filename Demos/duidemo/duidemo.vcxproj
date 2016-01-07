@@ -474,6 +474,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="duidemo.cpp" />
+    <ClCompile Include="MsgWnd.cpp" />
     <ClCompile Include="PopWnd.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -497,6 +498,7 @@
   <ItemGroup>
     <ClInclude Include="ControlEx.h" />
     <ClInclude Include="MainWnd.h" />
+    <ClInclude Include="MsgWnd.h" />
     <ClInclude Include="PopWnd.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SkinFrame.h" />
@@ -522,6 +524,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="..\..\bin\skin\duidemo\menu.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\bin\skin\duidemo\msg.xml">
       <SubType>Designer</SubType>
     </None>
     <None Include="..\..\bin\skin\duidemo\popup.xml">

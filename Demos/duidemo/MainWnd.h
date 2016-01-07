@@ -1,6 +1,7 @@
 #pragma once
 #include "PopWnd.h"
 #include "ShlObj.h"
+#include "MsgWnd.h"
 
 class CDemoFrame : public WindowImplBase, public CWebBrowserEventHandler, public SkinChangedReceiver
 {
@@ -58,6 +59,7 @@ public:
 		pParent->Add(pCombo);
 		if(pCombo)
 		{
+			pCombo->SetItemFont(2);
 			CListLabelElementUI * pElement = new CListLabelElementUI();
 			pElement->SetText(_T("¶¯Ì¬Êý¾Ý"));
 			pElement->SetFixedHeight(30);
@@ -416,7 +418,7 @@ public:
 				}
 				else
 				{
-					MessageBox(m_hWnd, sText, NULL, 0);
+					CMsgWnd::MessageBox(m_hWnd, NULL, sText);
 				}
 			}
 			if(m_pMenu != NULL) {

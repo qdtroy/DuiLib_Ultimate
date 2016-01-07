@@ -29,6 +29,9 @@
     <ClCompile Include="PopWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MsgWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControlEx.h">
@@ -53,6 +56,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MainWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MsgWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -146,6 +152,9 @@
     </None>
     <None Include="Res\duidemo.zip">
       <Filter>Resources</Filter>
+    </None>
+    <None Include="..\..\bin\skin\duidemo\msg.xml">
+      <Filter>Resources\xmls</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

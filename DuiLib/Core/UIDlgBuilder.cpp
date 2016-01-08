@@ -93,7 +93,7 @@ CControlUI* CDialogBuilder::Create(IDialogBuilderCallback* pCallback, CPaintMana
 						shared = (_tcsicmp(pstrValue, _T("true")) == 0);
 					}
 				}
-				if( pImageName ) pManager->AddImage(pImageName, pImageResType, mask, shared);
+				if( pImageName ) pManager->AddImage(pImageName, pImageResType, mask, false, shared);
             }
             else if( _tcsicmp(pstrClass, _T("Font")) == 0 ) {
                 nAttributes = node.GetAttributeCount();
@@ -179,7 +179,7 @@ CControlUI* CDialogBuilder::Create(IDialogBuilderCallback* pCallback, CPaintMana
 						}
 					}
 					if( pName ) {
-						pManager->AddStyle(pName, pStyle);
+						pManager->AddStyle(pName, pStyle, shared);
 					}
 				}
         }

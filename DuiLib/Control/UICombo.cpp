@@ -144,7 +144,6 @@ namespace DuiLib {
 			case VK_ESCAPE:
 				m_pOwner->SelectItem(m_iOldSel, true);
 				EnsureVisible(m_iOldSel);
-				// FALL THROUGH...
 			case VK_RETURN:
 				PostMessage(WM_KILLFOCUS);
 				break;

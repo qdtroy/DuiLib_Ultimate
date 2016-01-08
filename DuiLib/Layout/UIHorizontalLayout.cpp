@@ -29,7 +29,6 @@ namespace DuiLib
 
 	void CHorizontalLayoutUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
-		// heliangbao
 		CControlUI::SetPos(rc, bNeedInvalidate);
 		rc = m_rcItem;
 

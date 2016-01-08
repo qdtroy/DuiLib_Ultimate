@@ -1,10 +1,6 @@
 #ifndef __UILIST_H__
 #define __UILIST_H__
 
-#pragma once
-#include "Layout/UIVerticalLayout.h"
-#include "Layout/UIHorizontalLayout.h"
-
 namespace DuiLib {
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -333,8 +329,6 @@ namespace DuiLib {
 
 	class UILIB_API CListElementUI : public CControlUI, public IListItemUI
 	{
-	DECLARE_DUICONTROL(CListElementUI)
-
 	public:
 		CListElementUI();
 

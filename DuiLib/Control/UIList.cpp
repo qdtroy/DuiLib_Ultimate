@@ -1727,8 +1727,7 @@ namespace DuiLib {
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 	//
-	CListElementUI::CListElementUI() : 
-	m_iIndex(-1),
+		CListElementUI::CListElementUI() : m_iIndex(-1),
 		m_pOwner(NULL), 
 		m_bSelected(false),
 		m_uButtonState(0)

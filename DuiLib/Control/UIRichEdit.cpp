@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 
 // These constants are for backward compatibility. They are the 
 // sizes used for initialization and reset in RichEdit 1.0
@@ -1054,6 +1054,7 @@ void CTxtWinHost::SetParaFormat(PARAFORMAT2 &p)
 /////////////////////////////////////////////////////////////////////////////////////
 //
 //
+IMPLEMENT_DUICONTROL(CRichEditUI)
 
 CRichEditUI::CRichEditUI() : m_pTwh(NULL), m_bVScrollBarFixing(false), m_bWantTab(true), m_bWantReturn(true), 
     m_bWantCtrlReturn(true), m_bRich(true), m_bReadOnly(false), m_bWordWrap(false), m_dwTextColor(0), m_iFont(-1), 

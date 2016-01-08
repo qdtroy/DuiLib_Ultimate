@@ -28,6 +28,8 @@ namespace DuiLib {
 
 	class UILIB_API CContainerUI : public CControlUI, public IContainerUI
 	{
+		DECLARE_DUICONTROL(CContainerUI)
+
 	public:
 		CContainerUI();
 		virtual ~CContainerUI();

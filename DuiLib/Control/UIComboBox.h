@@ -10,6 +10,7 @@ namespace DuiLib
 	/// <Default name="ComboBox" value="arrowimage=&quot;file='sys_combo_btn.png' source='0,0,16,16'&quot; "/>
 	class UILIB_API CComboBoxUI : public CComboUI
 	{
+		DECLARE_DUICONTROL(CComboBoxUI)
 	public:
 		CComboBoxUI();
 		LPCTSTR GetClass() const;

@@ -1,13 +1,11 @@
 #ifndef __UIANIMATIONTABLAYOUT_H__
 #define __UIANIMATIONTABLAYOUT_H__
 
-#pragma once
-using namespace std;
 namespace DuiLib
 {
-
 	class UILIB_API CAnimationTabLayoutUI : public CTabLayoutUI, public CUIAnimation
 	{
+		DECLARE_DUICONTROL(CAnimationTabLayoutUI)
 	public:
 		CAnimationTabLayoutUI();
 

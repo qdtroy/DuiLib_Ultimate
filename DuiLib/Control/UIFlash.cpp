@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UIFlash.h"
 #include <atlcomcli.h>
 
@@ -8,6 +8,7 @@
 
 namespace DuiLib
 {
+	IMPLEMENT_DUICONTROL(CFlashUI)
 
 	CFlashUI::CFlashUI(void)
 		: m_dwRef(0)

@@ -12,6 +12,8 @@ namespace DuiLib
 	/// 时间选择控件
 	class UILIB_API CIPAddressUI : public CLabelUI
 	{
+		DECLARE_DUICONTROL(CIPAddressUI)
+
 		friend class CIPAddressWnd;
 	public:
 		CIPAddressUI();

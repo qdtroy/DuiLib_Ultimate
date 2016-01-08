@@ -242,6 +242,7 @@ protected:
 class CListUI;
 class UILIB_API CMenuUI : public CListUI
 {
+	DECLARE_DUICONTROL(CMenuUI)
 public:
 	CMenuUI();
 	virtual ~CMenuUI();
@@ -270,7 +271,6 @@ class CMenuElementUI;
 class UILIB_API CMenuWnd : public CWindowWnd, public MenuReceiverImpl, public INotifyUI, public IDialogBuilderCallback
 {
 public:
-
 	static MenuObserverImpl& GetGlobalContextMenuObserver()
 	{
 		static MenuObserverImpl s_context_menu_observer;
@@ -326,6 +326,7 @@ public:
 class CListContainerElementUI;
 class UILIB_API CMenuElementUI : public CListContainerElementUI
 {
+	DECLARE_DUICONTROL(CMenuElementUI)
 	friend CMenuWnd;
 public:
     CMenuElementUI();

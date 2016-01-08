@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #pragma comment( lib, "ws2_32.lib" )
 
 DWORD GetLocalIpAddress()   
@@ -167,6 +167,8 @@ namespace DuiLib
 
 	//////////////////////////////////////////////////////////////////////////
 	//
+	IMPLEMENT_DUICONTROL(CIPAddressUI)
+
 	CIPAddressUI::CIPAddressUI()
 	{
 		m_dwIP = GetLocalIpAddress();

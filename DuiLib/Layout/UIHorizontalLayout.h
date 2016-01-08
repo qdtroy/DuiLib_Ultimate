@@ -7,6 +7,7 @@ namespace DuiLib
 {
 	class UILIB_API CHorizontalLayoutUI : public CContainerUI
 	{
+		DECLARE_DUICONTROL(CHorizontalLayoutUI)
 	public:
 		CHorizontalLayoutUI();
 

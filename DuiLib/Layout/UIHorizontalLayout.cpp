@@ -1,8 +1,9 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UIHorizontalLayout.h"
 
 namespace DuiLib
 {
+	IMPLEMENT_DUICONTROL(CHorizontalLayoutUI)
 	CHorizontalLayoutUI::CHorizontalLayoutUI() : m_iSepWidth(0), m_uButtonState(0), m_bImmMode(false)
 	{
 		ptLastMouse.x = ptLastMouse.y = 0;

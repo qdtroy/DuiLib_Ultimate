@@ -9,6 +9,7 @@ namespace DuiLib
 
 	class UILIB_API CEditUI : public CLabelUI
 	{
+		DECLARE_DUICONTROL(CEditUI)
 		friend class CEditWnd;
 	public:
 		CEditUI();

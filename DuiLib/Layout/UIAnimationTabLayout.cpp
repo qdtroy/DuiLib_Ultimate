@@ -1,7 +1,9 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UIAnimationTabLayout.h"
 
 namespace DuiLib {
+	IMPLEMENT_DUICONTROL(CAnimationTabLayoutUI)
+
 	CAnimationTabLayoutUI::CAnimationTabLayoutUI() : 
 		CUIAnimation( this ), 
 		m_bIsVerticalDirection( false ), 

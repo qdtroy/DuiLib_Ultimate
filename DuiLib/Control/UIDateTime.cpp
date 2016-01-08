@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UIDateTime.h"
 
 namespace DuiLib
@@ -147,6 +147,8 @@ namespace DuiLib
 
 	//////////////////////////////////////////////////////////////////////////
 	//
+	IMPLEMENT_DUICONTROL(CDateTimeUI)
+
 	CDateTimeUI::CDateTimeUI()
 	{
 		::GetLocalTime(&m_sysTime);

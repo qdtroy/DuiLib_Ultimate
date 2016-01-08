@@ -1,8 +1,9 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UITabLayout.h"
 
 namespace DuiLib
 {
+	IMPLEMENT_DUICONTROL(CTabLayoutUI)
 	CTabLayoutUI::CTabLayoutUI() : m_iCurSel(-1)
 	{
 	}

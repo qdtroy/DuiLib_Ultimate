@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ColorHelper.h"
 
  HSL CColorHelper::RGBToHSL(int red, int green, int blue)

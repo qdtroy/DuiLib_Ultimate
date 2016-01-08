@@ -1,9 +1,11 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UITreeView.h"
 
 #pragma warning( disable: 4251 )
 namespace DuiLib
 {
+	IMPLEMENT_DUICONTROL(CTreeNodeUI)
+
 	//************************************
 	// 函数名称: CTreeNodeUI
 	// 返回类型: 
@@ -729,6 +731,7 @@ namespace DuiLib
 	/*****************************************************************************/
 	/*****************************************************************************/
 	/*****************************************************************************/
+	IMPLEMENT_DUICONTROL(CTreeViewUI)
 	
 	//************************************
 	// 函数名称: CTreeViewUI

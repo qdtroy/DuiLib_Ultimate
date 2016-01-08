@@ -17,6 +17,7 @@ namespace DuiLib
 		, public IDispatch
 		, public ITranslateAccelerator
 	{
+		DECLARE_DUICONTROL(CWebBrowserUI)
 	public:
 		/// ¹¹Ôìº¯Êý
 		CWebBrowserUI();

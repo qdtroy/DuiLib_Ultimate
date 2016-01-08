@@ -7,6 +7,8 @@ namespace DuiLib
 {
 	class UILIB_API CButtonUI : public CLabelUI
 	{
+		DECLARE_DUICONTROL(CButtonUI)
+
 	public:
 		CButtonUI();
 

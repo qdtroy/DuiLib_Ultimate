@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Effect.h"
 #include "Image\ImageProcess.h"
 #include "Graph\Graph_Projection.h"

@@ -1,8 +1,9 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UITileLayout.h"
 
 namespace DuiLib
 {
+	IMPLEMENT_DUICONTROL(CTileLayoutUI)
 	CTileLayoutUI::CTileLayoutUI() : m_nColumns(1)
 	{
 		m_szItem.cx = m_szItem.cy = 0;

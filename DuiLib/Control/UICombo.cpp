@@ -206,6 +206,7 @@ namespace DuiLib {
 	}
 #endif
 	////////////////////////////////////////////////////////
+	IMPLEMENT_DUICONTROL(CComboUI)
 
 	CComboUI::CComboUI() : m_uTextStyle(DT_VCENTER | DT_SINGLELINE)
 		, m_dwTextColor(0)

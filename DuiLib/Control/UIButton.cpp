@@ -1,8 +1,10 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UIButton.h"
 
 namespace DuiLib
 {
+	IMPLEMENT_DUICONTROL(CButtonUI)
+
 	CButtonUI::CButtonUI()
 		: m_uButtonState(0)
 		, m_dwHotTextColor(0)

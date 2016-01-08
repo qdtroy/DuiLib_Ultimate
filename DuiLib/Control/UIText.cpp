@@ -3,7 +3,9 @@
 
 namespace DuiLib
 {
-	CTextUI::CTextUI() : m_nLinks(0), m_nHoverLink(-1)
+	IMPLEMENT_DUICONTROL(CTextUI)
+
+		CTextUI::CTextUI() : m_nLinks(0), m_nHoverLink(-1)
 	{
 		m_uTextStyle = DT_WORDBREAK;
 		m_rcTextPadding.left = 2;

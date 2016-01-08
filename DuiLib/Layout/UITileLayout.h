@@ -7,6 +7,7 @@ namespace DuiLib
 {
 	class UILIB_API CTileLayoutUI : public CContainerUI
 	{
+		DECLARE_DUICONTROL(CTileLayoutUI)
 	public:
 		CTileLayoutUI();
 

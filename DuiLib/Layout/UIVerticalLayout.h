@@ -7,6 +7,7 @@ namespace DuiLib
 {
 	class UILIB_API CVerticalLayoutUI : public CContainerUI
 	{
+		DECLARE_DUICONTROL(CVerticalLayoutUI)
 	public:
 		CVerticalLayoutUI();
 

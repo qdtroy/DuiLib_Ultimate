@@ -27,6 +27,8 @@ namespace DuiLib {
 
 	class UILIB_API CActiveXUI : public CControlUI, public IMessageFilterUI
 	{
+		DECLARE_DUICONTROL(CActiveXUI)
+
 		friend class CActiveXCtrl;
 	public:
 		CActiveXUI();

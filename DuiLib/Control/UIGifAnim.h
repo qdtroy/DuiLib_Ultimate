@@ -11,6 +11,7 @@ namespace DuiLib
 
 	class UILIB_API CGifAnimUI : public CControlUI
 	{
+		DECLARE_DUICONTROL(CGifAnimUI)
 	public:
 		CGifAnimUI(void);
 		~CGifAnimUI(void);

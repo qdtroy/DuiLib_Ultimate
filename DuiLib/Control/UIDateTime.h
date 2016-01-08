@@ -10,6 +10,7 @@ namespace DuiLib
 	/// 时间选择控件
 	class UILIB_API CDateTimeUI : public CLabelUI
 	{
+		DECLARE_DUICONTROL(CDateTimeUI)
 		friend class CDateTimeWnd;
 	public:
 		CDateTimeUI();

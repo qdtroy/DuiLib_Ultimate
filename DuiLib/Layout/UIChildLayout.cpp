@@ -1,8 +1,10 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UIChildLayout.h"
 
 namespace DuiLib
 {
+	IMPLEMENT_DUICONTROL(CChildLayoutUI)
+
 	CChildLayoutUI::CChildLayoutUI()
 	{
 

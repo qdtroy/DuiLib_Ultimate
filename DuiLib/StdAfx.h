@@ -1,4 +1,4 @@
-// stdafx.h : include file for standard system include files,
+// StdAfx.h : include file for standard system include files,
 //  or project specific include files that are used frequently, but
 //      are changed infrequently
 //
@@ -52,7 +52,7 @@
 #define _WIN32_WINNT _WIN32_WINNT_WINXP//0x0500
 #endif
 
-#include "./UIlib.h"
+#include "UIlib.h"
 
 #include <olectl.h>
 

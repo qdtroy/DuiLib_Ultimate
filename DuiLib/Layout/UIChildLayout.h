@@ -7,18 +7,19 @@ namespace DuiLib
 {
 	class UILIB_API CChildLayoutUI : public CContainerUI
 	{
+		DECLARE_DUICONTROL(CChildLayoutUI)
 	public:
 		CChildLayoutUI();
 
 		void Init();
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 		void SetChildLayoutXML(CDuiString pXML);
-		DuiLib::CDuiString GetChildLayoutXML();
+		CDuiString GetChildLayoutXML();
 		virtual LPVOID GetInterface(LPCTSTR pstrName);
 		virtual LPCTSTR GetClass() const;
 
 	private:
-		DuiLib::CDuiString m_pstrXMLFile;
+		CDuiString m_pstrXMLFile;
 	};
 } // namespace DuiLib
 #endif // __UICHILDLAYOUT_H__

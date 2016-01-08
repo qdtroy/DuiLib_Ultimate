@@ -1,6 +1,6 @@
 // UIEffect.cpp : Defines the exported functions for the DLL application.
 //
-#include "stdafx.h"
+#include "StdAfx.h"
 #include <time.h>
 #include "UIFeatureEffect.h"
 

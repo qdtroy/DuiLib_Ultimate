@@ -17,6 +17,8 @@
 #endif
 #define UILIB_COMDAT __declspec(selectany)
 
+#pragma warning(disable:4251)
+
 #if defined _M_IX86
 #pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #elif defined _M_IA64
@@ -49,6 +51,7 @@
 #include "Core/UIResourceManager.h"
 #include "Core/UIManager.h"
 #include "Core/UIBase.h"
+#include "Core/ControlFactory.h"
 #include "Core/UIControl.h"
 #include "Core/UIContainer.h"
 

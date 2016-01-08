@@ -1,8 +1,9 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UIOption.h"
 
 namespace DuiLib
 {
+	IMPLEMENT_DUICONTROL(COptionUI)
 	COptionUI::COptionUI() : m_bSelected(false), m_dwSelectedTextColor(0), m_dwSelectedBkColor(0)
 	{
 	}
@@ -285,6 +286,8 @@ Label_ForeImage:
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	//
+	IMPLEMENT_DUICONTROL(CCheckBoxUI)
+
 	LPCTSTR CCheckBoxUI::GetClass() const
 	{
 		return _T("CheckBoxUI");

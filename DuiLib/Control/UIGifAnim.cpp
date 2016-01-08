@@ -43,6 +43,7 @@ extern ZRESULT UnzipItem(HZIP hz, int index, void *dst, unsigned int len, DWORD 
 
 namespace DuiLib
 {
+	IMPLEMENT_DUICONTROL(CGifAnimUI)
 
 	CGifAnimUI::CGifAnimUI(void)
 	{

@@ -7,6 +7,7 @@ namespace DuiLib
 {
 	class UILIB_API CSliderUI : public CProgressUI
 	{
+		DECLARE_DUICONTROL(CSliderUI)
 	public:
 		CSliderUI();
 

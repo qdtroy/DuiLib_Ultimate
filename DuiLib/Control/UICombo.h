@@ -11,6 +11,7 @@ namespace DuiLib {
 
 	class UILIB_API CComboUI : public CContainerUI, public IListOwnerUI
 	{
+		DECLARE_DUICONTROL(CComboUI)
 		friend class CComboWnd;
 	public:
 		CComboUI();

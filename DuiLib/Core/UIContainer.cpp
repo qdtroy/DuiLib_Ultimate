@@ -6,6 +6,7 @@ namespace DuiLib
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 	//
+	IMPLEMENT_DUICONTROL(CContainerUI)
 
 	CContainerUI::CContainerUI()
 		: m_iChildPadding(0),

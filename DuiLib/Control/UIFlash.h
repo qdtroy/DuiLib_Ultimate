@@ -21,8 +21,8 @@ namespace DuiLib
 		, public _IShockwaveFlashEvents
 		, public ITranslateAccelerator
 	{
+		DECLARE_DUICONTROL(CFlashUI)
 	public:
-
 		CFlashUI(void);
 		~CFlashUI(void);
 

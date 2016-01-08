@@ -1,8 +1,10 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "UIComboBox.h"
 
 namespace DuiLib
 {
+	IMPLEMENT_DUICONTROL(CComboBoxUI)
+
 	CComboBoxUI::CComboBoxUI()
 	{
 		m_nArrowWidth = 0;

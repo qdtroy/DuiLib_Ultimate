@@ -280,10 +280,10 @@ namespace DuiLib {
 		}
 		const TImageInfo* data = NULL;
 		if( sImageResType.IsEmpty() ) {
-			data = pManager->GetImageEx((LPCTSTR)sImageName, NULL, dwMask);
+			data = pManager->GetImageEx((LPCTSTR)sImageName, NULL, dwMask, false, instance);
 		}
 		else {
-			data = pManager->GetImageEx((LPCTSTR)sImageName, (LPCTSTR)sImageResType, dwMask, instance);
+			data = pManager->GetImageEx((LPCTSTR)sImageName, (LPCTSTR)sImageResType, dwMask, false, instance);
 		}
 		if( !data ) return false;    
 

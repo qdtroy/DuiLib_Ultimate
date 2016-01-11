@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Window size="800,572" sizebox="4,4,6,6" roundcorner="0,0" caption="0,0,0,64" layered="true" mininfo="400,300" showshadow="true" shadowimage="main/shadow.png" shadowsize="6" shadowcorner="8,8,8,8">
+<Window size="800,572" sizebox="4,4,6,6" roundcorner="0,0" caption="0,0,0,64" layered="false" mininfo="400,300" showshadow="true" shadowimage="main/shadow.png" shadowsize="6" shadowcorner="8,8,8,8">
   <Font id="0" name="宋体" size="13" default="true" shared="true"/>
   <Font id="1" name="宋体" size="12" bold="true" underline="true" shared="true"/>
   <Font id="2" name="宋体" size="18" bold="true" shared="true"/>
@@ -105,6 +105,9 @@
             <VerticalLayout>
               <Control />
               <HorizontalLayout height="23" childpadding="12">
+                <Text text="Text" width="100" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6"/>
+                <GroupBox text="文件信息" width="100" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6"/>
+                
                 <Combo name="font_type" itemfont="2" width="100" style="combo_style" textcolor="#FFFF0000" float="true" pos="300,0,400,23">
                   <ListLabelElement text="微软雅黑" selected="true" height="23" />
                   <ListLabelElement text="宋体" height="23" />

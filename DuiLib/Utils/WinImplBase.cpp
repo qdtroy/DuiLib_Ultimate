@@ -259,7 +259,8 @@ LRESULT WindowImplBase::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 	::SetWindowPos(*this, NULL, rcClient.left, rcClient.top, rcClient.right - rcClient.left, \
 		rcClient.bottom - rcClient.top, SWP_FRAMECHANGED);
 
-	m_PaintManager.Init(m_hWnd);
+	// 关联UI管理器
+	m_PaintManager.Init(m_hWnd, GetManagerName());
 	m_PaintManager.AddPreMessageFilter(this);
 
 	// 多语言接口

@@ -9,8 +9,7 @@
 
 static CControlUI* CreateControl(LPCTSTR pstrClass) 
 {
-	if( _tcsicmp(pstrClass, _T("LabelEx")) == 0 ) return new CLabelEx;
-	else if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutiline;
+	if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutiline;
 	else if( _tcsicmp(pstrClass, _T("WPButton")) == 0 ) return new CWPButton;
 	else if( _tcsicmp(pstrClass, _T("WPPanel")) == 0 ) return new CWPPanel;
 	return NULL;
@@ -21,8 +20,7 @@ class CDialogBuilderCallbackEx : public IDialogBuilderCallback
 public:
 	CControlUI* CreateControl(LPCTSTR pstrClass) 
 	{
-		if( _tcsicmp(pstrClass, _T("LabelEx")) == 0 ) return new CLabelEx;
-		else if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutiline;
+		if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutiline;
 		else if( _tcsicmp(pstrClass, _T("WPButton")) == 0 ) return new CWPButton;
 		else if( _tcsicmp(pstrClass, _T("WPPanel")) == 0 ) return new CWPPanel;
 		return NULL;

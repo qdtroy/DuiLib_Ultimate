@@ -43,7 +43,7 @@ public:
 		CListUI* pGameList = static_cast<CListUI*>(m_pm.FindControl(_T("searchlist")));
 		if(pGameList != NULL)
 		{
-			int nHeight = 0;
+			int nHeight = 1;
 			for (int i = 0; i< pGameList->GetCount(); i++)
 			{
 				CControlUI *pItem = pGameList->GetItemAt(i);

@@ -9,7 +9,7 @@
 
       <Button name="closebtn" width="45" maxwidth="45" maxheight="17" normalimage="file='sys_dlg_close.png' source='90,0,135,17'" hotimage="file='sys_dlg_close.png' source='45,0,90,17'" pushedimage="file='sys_dlg_close.png' source='0,0,45,17'"/>
     </HorizontalLayout>
-    <LabelEx height="120" bkimage="loading.gif" />
-    <LabelEx text="正在从服务器获取更新..."  height="36" align="center"/>
+    <GifAni height="120" bkimage="loading.gif" />
+    <Label text="正在从服务器获取更新..."  height="36" align="center"/>
   </VerticalLayout>
 </Window>

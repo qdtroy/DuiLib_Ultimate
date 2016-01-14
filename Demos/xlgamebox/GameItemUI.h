@@ -1,6 +1,4 @@
 #pragma once
-#include "LableEx.h"
-
 class CGameItemUI : public DuiLib::COptionUI
 {
 public:

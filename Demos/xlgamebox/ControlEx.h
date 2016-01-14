@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <math.h>
-#include "LableEx.h"
 #include "GameItemUI.h"
 #include "ShortCutUI.h"
 
@@ -331,7 +330,6 @@ public:
 		if( _tcsicmp(pstrClass, _T("GameList")) == 0 ) return new GameListUI;
 			else if( _tcsicmp(pstrClass, _T("GameItem")) == 0 ) return new CGameItemUI;
 			else if( _tcsicmp(pstrClass, _T("ShortCut")) == 0 ) return new CShortCutUI;
-			else if( _tcsicmp(pstrClass, _T("LabelEx")) == 0 ) return new CLabelEx;
 			else if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutiline;
 			return NULL;
 	}

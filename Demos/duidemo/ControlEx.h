@@ -13,6 +13,4 @@ public:
 	}
 };
 
-
-
 #endif __CONTROLEX_H__

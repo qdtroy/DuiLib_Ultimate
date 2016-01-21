@@ -156,6 +156,9 @@
     <None Include="..\..\bin\skin\duidemo\msg.xml">
       <Filter>Resources\xmls</Filter>
     </None>
+    <None Include="..\..\bin\skin\duidemo\treeitem.xml">
+      <Filter>Resources\xmls</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="duidemo.rc">

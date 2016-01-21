@@ -77,6 +77,20 @@ public:
 			pItem->SetText(1, _T("1000"));
 			pItem->SetText(2, _T("100"));
 		}
+		CListContainerElementUI* pListItem  = new CListContainerElementUI();
+		pListItem->SetFixedHeight(30);
+		pListItem->SetManager(&m_PaintManager, NULL, false);
+		pList->Add(pListItem);
+		CButtonUI* pBtn1 = new CButtonUI();
+		pBtn1->SetManager(&m_PaintManager, NULL, false);
+		pBtn1->SetAttribute(_T("style"), _T("btn_style"));
+		pListItem->Add(pBtn1);
+		CButtonUI* pBtn2 = new CButtonUI();
+		pBtn2->SetManager(&m_PaintManager, NULL, false);
+		pBtn2->SetAttribute(_T("style"), _T("btn_style"));
+		pListItem->Add(pBtn2);
+		
+
 
 		CTreeViewUI* pTreeView = static_cast<CTreeViewUI*>(m_PaintManager.FindControl(_T("treeview")));
 		CTreeNodeUI* pItem  = new CTreeNodeUI();
@@ -85,6 +99,10 @@ public:
 		pTreeView->Add(pItem);
 		pItem->SetAttribute(_T("itemattr"), _T("valign=&quot;center&quot;"));
 		pItem->SetAttribute(_T("Style"), _T("treeview_style"));
+
+		CDialogBuilder builder;
+		CTreeNodeUI* pTreeItem = (CTreeNodeUI*)builder.Create(_T("treeitem.xml"), NULL, this, &m_PaintManager, pTreeView);
+		pTreeView->Add(pTreeItem);
 	}
 
 	virtual BOOL Receive(SkinChangedParam param)

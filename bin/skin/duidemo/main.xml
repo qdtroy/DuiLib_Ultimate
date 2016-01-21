@@ -108,12 +108,12 @@
                 <Text text="Text" width="100" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6"/>
                 <GroupBox text="文件信息" width="100" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6"/>
                 
-                <Combo name="font_type" itemfont="2" width="100" style="combo_style" textcolor="#FFFF0000" float="true" pos="300,0,400,23">
+                <Combo name="font_type" itemfont="2" width="100" style="combo_style" dropbox="hscrollbar=&quot;true&quot;" textcolor="#FFFF0000" float="true" pos="300,0,400,23">
                   <ListLabelElement text="微软雅黑" selected="true" height="23" />
-                  <ListLabelElement text="宋体" height="23" />
-                  <ListLabelElement text="黑体" height="23" />
-                  <ListLabelElement text="幼圆" height="23" />
-                  <ListLabelElement text="楷体" height="23" />
+                  <ListLabelElement text="宋体" height="23" width="500" />
+                  <ListLabelElement text="黑体" height="23" width="500" />
+                  <ListLabelElement text="幼圆" height="23" width="500" />
+                  <ListLabelElement text="楷体" height="23" width="500" />
                 </Combo>
                 <Combo name="font_size" width="50" style="combo_style">
                   <ListLabelElement text="9" selected="true" height="23" />

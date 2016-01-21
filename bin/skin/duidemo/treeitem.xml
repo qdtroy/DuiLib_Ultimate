@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window >
+  <TreeNode text="D1" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" >
+    <Button text="扩展按钮" style="btn_style" width="100"/>
+    <Button text="扩展按钮" style="btn_style" width="100"/>
+  </TreeNode>
+</Window>

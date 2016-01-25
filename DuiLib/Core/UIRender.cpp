@@ -322,7 +322,6 @@ namespace DuiLib {
 	{
 		LPBYTE pData = NULL;
 		DWORD dwSize = 0;
-
 		do 
 		{
 			if( type == NULL ) {
@@ -476,6 +475,8 @@ namespace DuiLib {
 		stbi_image_free(pImage);
 
 		TImageInfo* data = new TImageInfo;
+		data->pBits = NULL;
+		data->pSrcBits = NULL;
 		data->hBitmap = hBitmap;
 		data->nX = x;
 		data->nY = y;
@@ -488,13 +489,20 @@ namespace DuiLib {
 		if (bitmap == NULL) return;
 		if (bitmap->hBitmap) {
 			::DeleteObject(bitmap->hBitmap);
-			bitmap->hBitmap = NULL;
 		}
+		bitmap->hBitmap = NULL;
+		if (bitmap->pBits) {
+			delete[] bitmap->pBits;
+		}
+		bitmap->pBits = NULL;
 		if (bitmap->pSrcBits) {
 			delete[] bitmap->pSrcBits;
-			bitmap->pSrcBits = NULL;
 		}
-		if (bDelete) delete bitmap ;
+		bitmap->pSrcBits = NULL;
+		if (bDelete) {
+			delete bitmap;
+			bitmap = NULL;
+		}
 	}
 
 

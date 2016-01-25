@@ -2649,6 +2649,8 @@ namespace DuiLib {
 		if( hBitmap == NULL || iWidth <= 0 || iHeight <= 0 ) return NULL;
 
 		TImageInfo* data = new TImageInfo;
+		data->pBits = NULL;
+		data->pSrcBits = NULL;
 		data->hBitmap = hBitmap;
 		data->pBits = NULL;
 		data->nX = iWidth;
@@ -2656,7 +2658,6 @@ namespace DuiLib {
 		data->bAlpha = bAlpha;
 		data->bUseHSL = false;
 		data->pSrcBits = NULL;
-		//data->sResType = _T("");
 		data->dwMask = 0;
 
 		if (bShared || m_bForceUseSharedRes)

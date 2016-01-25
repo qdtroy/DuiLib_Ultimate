@@ -2655,8 +2655,16 @@ namespace DuiLib {
 		}
 
 		if ( pInfo->dwLineColor != 0 ) {
-			RECT rcLine = { m_rcItem.left, m_rcItem.bottom - 1, m_rcItem.right, m_rcItem.bottom - 1 };
-			CRenderEngine::DrawLine(hDC, rcLine, 1, GetAdjustColor(pInfo->dwLineColor));
+			if(pInfo->bShowRowLine) {
+				RECT rcLine = { m_rcItem.left, m_rcItem.bottom - 1, m_rcItem.right, m_rcItem.bottom - 1 };
+				CRenderEngine::DrawLine(hDC, rcLine, 1, GetAdjustColor(pInfo->dwLineColor));
+			}
+			if(pInfo->bShowColumnLine) {
+				for( int i = 0; i < pInfo->nColumns; i++ ) {
+					RECT rcLine = { pInfo->rcColumn[i].right-1, m_rcItem.top, pInfo->rcColumn[i].right-1, m_rcItem.bottom };
+					CRenderEngine::DrawLine(hDC, rcLine, 1, GetAdjustColor(pInfo->dwLineColor));
+				}
+			}
 		}
 	}
 
@@ -2689,7 +2697,6 @@ namespace DuiLib {
 				rt.right = rcHeaderItem.right;
 				pListItem->SetPos(rt);
 			}
-
 		}
 
 	}

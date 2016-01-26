@@ -30,8 +30,6 @@ namespace DuiLib
 		void SetFocusedImage(LPCTSTR pStrImage);
 		LPCTSTR GetDisabledImage();
 		void SetDisabledImage(LPCTSTR pStrImage);
-		LPCTSTR GetForeImage();
-		void SetForeImage(LPCTSTR pStrImage);
 		LPCTSTR GetHotForeImage();
 		void SetHotForeImage(LPCTSTR pStrImage);
 

@@ -236,17 +236,6 @@ namespace DuiLib
 		Invalidate();
 	}
 
-	LPCTSTR CButtonUI::GetForeImage()
-	{
-		return m_sForeImage;
-	}
-
-	void CButtonUI::SetForeImage( LPCTSTR pStrImage )
-	{
-		m_sForeImage = pStrImage;
-		Invalidate();
-	}
-
 	LPCTSTR CButtonUI::GetHotForeImage()
 	{
 		return m_sHotForeImage;
@@ -305,7 +294,6 @@ namespace DuiLib
 		else if( _tcsicmp(pstrName, _T("pushedimage")) == 0 ) SetPushedImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("focusedimage")) == 0 ) SetFocusedImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("disabledimage")) == 0 ) SetDisabledImage(pstrValue);
-		else if( _tcsicmp(pstrName, _T("foreimage")) == 0 ) SetForeImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("hotforeimage")) == 0 ) SetHotForeImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("bindtabindex")) == 0 ) BindTabIndex(_ttoi(pstrValue));
 		else if( _tcsicmp(pstrName, _T("bindtablayoutname")) == 0 ) BindTabLayoutName(pstrValue);

@@ -24,6 +24,7 @@ namespace DuiLib {
 		m_dwBackColor(0),
 		m_dwBackColor2(0),
 		m_dwBackColor3(0),
+		m_dwForeColor(0),
 		m_dwBorderColor(0),
 		m_dwFocusBorderColor(0),
 		m_bColorHSL(false),
@@ -202,6 +203,19 @@ namespace DuiLib {
 		Invalidate();
 	}
 
+	DWORD CControlUI::GetForeColor() const
+	{
+		return m_dwForeColor;
+	}
+
+	void CControlUI::SetForeColor(DWORD dwForeColor)
+	{
+		if( m_dwForeColor == dwForeColor ) return;
+
+		m_dwForeColor = dwForeColor;
+		Invalidate();
+	}
+
 	LPCTSTR CControlUI::GetBkImage()
 	{
 		return m_sBkImage;
@@ -212,6 +226,19 @@ namespace DuiLib {
 		if( m_sBkImage == pStrImage ) return;
 
 		m_sBkImage = pStrImage;
+		Invalidate();
+	}
+	
+	LPCTSTR CControlUI::GetForeImage() const
+	{
+		return m_sForeImage;
+	}
+
+	void CControlUI::SetForeImage(LPCTSTR pStrImage)
+	{
+		if( m_sForeImage == pStrImage ) return;
+
+		m_sForeImage = pStrImage;
 		Invalidate();
 	}
 
@@ -871,6 +898,13 @@ namespace DuiLib {
 			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
 			SetBkColor3(clrColor);
 		}
+		else if( _tcsicmp(pstrName, _T("forecolor")) == 0 ) {
+			while( *pstrValue > _T('\0') && *pstrValue <= _T(' ') ) pstrValue = ::CharNext(pstrValue);
+			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
+			LPTSTR pstr = NULL;
+			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
+			SetForeColor(clrColor);
+		}
 		else if( _tcsicmp(pstrName, _T("bordercolor")) == 0 ) {
 			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
 			LPTSTR pstr = NULL;
@@ -916,6 +950,7 @@ namespace DuiLib {
 			SetBorderRound(cxyRound);
 		}
 		else if( _tcsicmp(pstrName, _T("bkimage")) == 0 ) SetBkImage(pstrValue);
+		else if( _tcsicmp(pstrName, _T("foreimage")) == 0 ) SetForeImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("width")) == 0 ) SetFixedWidth(_ttoi(pstrValue));
 		else if( _tcsicmp(pstrName, _T("height")) == 0 ) SetFixedHeight(_ttoi(pstrValue));
 		else if( _tcsicmp(pstrName, _T("minwidth")) == 0 ) SetMinWidth(_ttoi(pstrValue));
@@ -1028,6 +1063,8 @@ namespace DuiLib {
 			PaintBkColor(hDC);
 			PaintBkImage(hDC);
 			PaintStatusImage(hDC);
+			PaintForeColor(hDC);
+			PaintForeImage(hDC);
 			PaintText(hDC);
 			PaintBorder(hDC);
 		}
@@ -1035,6 +1072,8 @@ namespace DuiLib {
 			PaintBkColor(hDC);
 			PaintBkImage(hDC);
 			PaintStatusImage(hDC);
+			PaintForeColor(hDC);
+			PaintForeImage(hDC);
 			PaintText(hDC);
 			PaintBorder(hDC);
 		}
@@ -1069,6 +1108,17 @@ namespace DuiLib {
 	void CControlUI::PaintStatusImage(HDC hDC)
 	{
 		return;
+	}
+
+	void CControlUI::PaintForeColor(HDC hDC)
+	{
+		CRenderEngine::DrawColor(hDC, m_rcItem, GetAdjustColor(m_dwForeColor));
+	}
+	
+	void CControlUI::PaintForeImage(HDC hDC)
+	{
+		if( m_sForeImage.IsEmpty() ) return;
+		if( !DrawImage(hDC, (LPCTSTR)m_sForeImage) ) m_sForeImage.Empty();
 	}
 
 	void CControlUI::PaintText(HDC hDC)

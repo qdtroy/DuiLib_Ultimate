@@ -64,31 +64,17 @@ namespace DuiLib
 
 	void CProgressUI::SetValue(int nValue)
 	{
-		if(nValue == m_nValue || nValue<m_nMin || nValue > m_nMax)
-		{
+		if(nValue == m_nValue || nValue<m_nMin || nValue > m_nMax) {
 			return;
 		}
 		m_nValue = nValue;
 		Invalidate();
-	}
-
-	LPCTSTR CProgressUI::GetForeImage() const
-	{
-		return m_sForeImage;
-	}
-
-	void CProgressUI::SetForeImage(LPCTSTR pStrImage)
-	{
-		if( m_sForeImage == pStrImage ) return;
-
-		m_sForeImage = pStrImage;
-		Invalidate();
+		UpdateText();
 	}
 
 	void CProgressUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
-		if( _tcsicmp(pstrName, _T("foreimage")) == 0 ) SetForeImage(pstrValue);
-		else if( _tcsicmp(pstrName, _T("hor")) == 0 ) SetHorizontal(_tcsicmp(pstrValue, _T("true")) == 0);
+		if( _tcsicmp(pstrName, _T("hor")) == 0 ) SetHorizontal(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("min")) == 0 ) SetMinValue(_ttoi(pstrValue));
 		else if( _tcsicmp(pstrName, _T("max")) == 0 ) SetMaxValue(_ttoi(pstrValue));
 		else if( _tcsicmp(pstrName, _T("value")) == 0 ) SetValue(_ttoi(pstrValue));
@@ -96,7 +82,27 @@ namespace DuiLib
 		else CLabelUI::SetAttribute(pstrName, pstrValue);
 	}
 
-	void CProgressUI::PaintStatusImage(HDC hDC)
+	void CProgressUI::PaintForeColor(HDC hDC)
+	{
+		if(m_dwForeColor == 0) return;
+
+		if( m_nMax <= m_nMin ) m_nMax = m_nMin + 1;
+		if( m_nValue > m_nMax ) m_nValue = m_nMax;
+		if( m_nValue < m_nMin ) m_nValue = m_nMin;
+
+		RECT rc = m_rcItem;
+		if( m_bHorizontal ) {
+			rc.right = m_rcItem.left + (m_nValue - m_nMin) * (m_rcItem.right - m_rcItem.left) / (m_nMax - m_nMin);
+		}
+		else {
+			rc.bottom = m_rcItem.top + (m_rcItem.bottom - m_rcItem.top) * (m_nMax - m_nValue) / (m_nMax - m_nMin);
+		
+		}
+		
+		CRenderEngine::DrawColor(hDC, rc, GetAdjustColor(m_dwForeColor));
+	}
+
+	void CProgressUI::PaintForeImage(HDC hDC)
 	{
 		if( m_nMax <= m_nMin ) m_nMax = m_nMin + 1;
 		if( m_nValue > m_nMax ) m_nValue = m_nMax;
@@ -137,5 +143,12 @@ namespace DuiLib
 		if (m_bStretchForeImage==bStretchForeImage)		return;
 		m_bStretchForeImage=bStretchForeImage;
 		Invalidate();
+	}
+
+	void CProgressUI::UpdateText()
+	{
+		CDuiString sText;
+		sText.Format(_T("%.0f%%"), (m_nValue - m_nMin) * 100.0f / (m_nMax - m_nMin));
+		SetText(sText);
 	}
 }

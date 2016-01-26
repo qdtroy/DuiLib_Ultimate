@@ -24,12 +24,10 @@ namespace DuiLib
 		void SetMaxValue(int nMax);
 		int GetValue() const;
 		void SetValue(int nValue);
-		LPCTSTR GetForeImage() const;
-		void SetForeImage(LPCTSTR pStrImage);
-
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
-		void PaintStatusImage(HDC hDC);
-
+		void PaintForeColor(HDC hDC);
+		void PaintForeImage(HDC hDC);
+		virtual void UpdateText();
 	protected:
 		bool m_bHorizontal;
 		bool m_bStretchForeImage;
@@ -37,7 +35,6 @@ namespace DuiLib
 		int m_nMin;
 		int m_nValue;
 
-		CDuiString m_sForeImage;
 		CDuiString m_sForeImageModify;
 	};
 

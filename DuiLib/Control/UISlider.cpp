@@ -4,7 +4,7 @@
 namespace DuiLib
 {
 	IMPLEMENT_DUICONTROL(CSliderUI)
-	CSliderUI::CSliderUI() : m_uButtonState(0), m_nStep(1),m_bSendMove(false)
+		CSliderUI::CSliderUI() : m_uButtonState(0), m_nStep(1),m_bSendMove(false)
 	{
 		m_uTextStyle = DT_SINGLELINE | DT_CENTER;
 		m_szThumb.cx = m_szThumb.cy = 10;
@@ -99,10 +99,10 @@ namespace DuiLib
 
 	void CSliderUI::SetValue(int nValue)
 	{
-		if( (m_uButtonState & UISTATE_CAPTURED) != 0 ) 
-			return;
+		if( (m_uButtonState & UISTATE_CAPTURED) != 0 ) return;
 		CProgressUI::SetValue(nValue);
 	}
+
 	void CSliderUI::DoEvent(TEventUI& event)
 	{
 		if( !IsMouseEnabled() && event.Type > UIEVENT__MOUSEBEGIN && event.Type < UIEVENT__MOUSEEND ) {
@@ -127,13 +127,13 @@ namespace DuiLib
 					else if( event.ptMouse.y <= m_rcItem.top + m_szThumb.cy / 2  ) nValue = m_nMax;
 					else nValue = m_nMin + (m_nMax - m_nMin) * (m_rcItem.bottom - event.ptMouse.y - m_szThumb.cy / 2 ) / (m_rcItem.bottom - m_rcItem.top - m_szThumb.cy);
 				}
-				if(m_nValue != nValue && nValue >= m_nMin && nValue <= m_nMax)
-				{
+				if(m_nValue != nValue && nValue >= m_nMin && nValue <= m_nMax) {
 					m_nValue = nValue;
 					Invalidate();
 				}
+				UpdateText();
 			}
-				return;
+			return;
 		}
 
 		if( event.Type == UIEVENT_BUTTONUP || event.Type == UIEVENT_RBUTTONUP)
@@ -152,12 +152,12 @@ namespace DuiLib
 				else if( event.ptMouse.y <= m_rcItem.top + m_szThumb.cy / 2  ) nValue = m_nMax;
 				else nValue = m_nMin + (m_nMax - m_nMin) * (m_rcItem.bottom - event.ptMouse.y - m_szThumb.cy / 2 ) / (m_rcItem.bottom - m_rcItem.top - m_szThumb.cy);
 			}
-			if(nValue >= m_nMin && nValue <= m_nMax)
-			{
+			if(nValue >= m_nMin && nValue <= m_nMax) {
 				m_nValue =nValue;
 				m_pManager->SendNotify(this, DUI_MSGTYPE_VALUECHANGED);
 				Invalidate();
 			}
+			UpdateText();
 			return;
 		}
 		if( event.Type == UIEVENT_CONTEXTMENU )
@@ -167,14 +167,14 @@ namespace DuiLib
 		if( event.Type == UIEVENT_SCROLLWHEEL ) 
 		{
 			switch( LOWORD(event.wParam) ) {
-		case SB_LINEUP:
-			SetValue(GetValue() + GetChangeStep());
-			m_pManager->SendNotify(this, DUI_MSGTYPE_VALUECHANGED);
-			return;
-		case SB_LINEDOWN:
-			SetValue(GetValue() - GetChangeStep());
-			m_pManager->SendNotify(this, DUI_MSGTYPE_VALUECHANGED);
-			return;
+			case SB_LINEUP:
+				SetValue(GetValue() + GetChangeStep());
+				m_pManager->SendNotify(this, DUI_MSGTYPE_VALUECHANGED);
+				return;
+			case SB_LINEDOWN:
+				SetValue(GetValue() - GetChangeStep());
+				m_pManager->SendNotify(this, DUI_MSGTYPE_VALUECHANGED);
+				return;
 			}
 		}
 		if( event.Type == UIEVENT_MOUSEMOVE )
@@ -191,6 +191,7 @@ namespace DuiLib
 					else m_nValue = m_nMin + (m_nMax - m_nMin) * (m_rcItem.bottom - event.ptMouse.y - m_szThumb.cy / 2 ) / (m_rcItem.bottom - m_rcItem.top - m_szThumb.cy);
 				}
 				if (m_bSendMove) {
+					UpdateText();
 					m_pManager->SendNotify(this, DUI_MSGTYPE_VALUECHANGED_MOVE);
 				}
 				Invalidate();

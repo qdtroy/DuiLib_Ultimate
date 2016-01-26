@@ -163,17 +163,6 @@ namespace DuiLib
 		return m_dwSelectedBkColor;
 	}
 
-	LPCTSTR COptionUI::GetForeImage()
-	{
-		return m_sForeImage;
-	}
-
-	void COptionUI::SetForeImage(LPCTSTR pStrImage)
-	{
-		m_sForeImage = pStrImage;
-		Invalidate();
-	}
-
 	LPCTSTR COptionUI::GetSelectedForedImage()
 	{
 		return m_sSelectedForeImage;
@@ -198,7 +187,6 @@ namespace DuiLib
 		else if( _tcsicmp(pstrName, _T("selectedimage")) == 0 ) SetSelectedImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("selectedhotimage")) == 0 ) SetSelectedHotImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("selectedpushedimage")) == 0 ) SetSelectedPushedImage(pstrValue);
-		else if( _tcsicmp(pstrName, _T("foreimage")) == 0 ) SetForeImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("selectedforeimage")) == 0 ) SetSelectedForedImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("selectedbkcolor")) == 0 ) {
 			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);

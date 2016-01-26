@@ -5,7 +5,7 @@ namespace DuiLib
 	typedef CControlUI* (*CreateClass)();
 	typedef std::map<CDuiString, CreateClass> MAP_DUI_CTRATECLASS;
 
-	class CControlFactory
+	class UILIB_API CControlFactory
 	{
 	public:
 		CControlUI* CreateControl(CDuiString strClassName);

@@ -473,6 +473,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ControlEx.cpp" />
     <ClCompile Include="duidemo.cpp" />
     <ClCompile Include="MsgWnd.cpp" />
     <ClCompile Include="PopWnd.cpp" />
@@ -515,6 +516,7 @@
     <None Include="..\..\bin\skin\duidemo\header_bk.png" />
     <None Include="..\..\bin\skin\duidemo\hor_line.bmp" />
     <None Include="..\..\bin\skin\duidemo\icon.png" />
+    <None Include="..\..\bin\skin\duidemo\listitem.xml" />
     <None Include="..\..\bin\skin\duidemo\list_header_bg.png" />
     <None Include="..\..\bin\skin\duidemo\list_header_hot.png" />
     <None Include="..\..\bin\skin\duidemo\list_header_pushed.png" />

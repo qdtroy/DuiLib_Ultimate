@@ -67,7 +67,7 @@ void CPopWnd::OnClick( TNotifyUI &msg )
 	}
 	else if(sName.CompareNoCase(_T("homepage_btn")) == 0)
 	{
-		ShellExecute(NULL, _T("open"), _T("https://github.com/duisharp"), NULL, NULL, SW_SHOW);
+		ShellExecute(NULL, _T("open"), _T("https://github.com/qdtroy"), NULL, NULL, SW_SHOW);
 	}
 }
 

@@ -2,6 +2,7 @@
 #include "PopWnd.h"
 #include "ShlObj.h"
 #include "MsgWnd.h"
+#include "ControlEx.h"
 
 class CDemoFrame : public WindowImplBase, public CWebBrowserEventHandler, public SkinChangedReceiver
 {
@@ -13,9 +14,18 @@ public:
 	}
 
 public:
+	CControlUI* CreateControl(LPCTSTR pstrClass)
+	{
+		if(lstrcmpi(pstrClass, _T("CircleProgress" )) == 0) {
+			return new CCircleProgressUI();
+		}
+		return NULL;
+	}
 	// 初始化资源管理器
 	void InitResource()
 	{
+		REGIST_DUICONTROL(CCircleProgressUI);
+
 		if (GetResourceType() == UILIB_RESOURCE)
 		{
 			// 加载资源管理器
@@ -40,7 +50,7 @@ public:
 		CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_PaintManager.FindControl(_T("oneclick_browser2")));
 		pBrowser2->SetWebBrowserEventHandler(this);
 		pBrowser1->NavigateUrl(_T("http://blog.csdn.net/duisharp"));
-		pBrowser2->NavigateUrl(_T("https://github.com/qdtroy/DuiLib_Ultimate"));
+		pBrowser2->NavigateUrl(_T("https://www.winradar.com"));
 
 		CComboUI* pFontSize = static_cast<CComboUI*>(m_PaintManager.FindControl(_T("font_size")));
 		if(pFontSize)
@@ -68,6 +78,26 @@ public:
 			pCombo->SelectItem(0);
 		}
 		CListUI* pList = static_cast<CListUI*>(m_PaintManager.FindControl(_T("listview")));
+
+		CListContainerElementUI* pListItem  = new CListContainerElementUI();
+		pListItem->SetFixedHeight(30);
+		pListItem->SetManager(&m_PaintManager, NULL, false);
+		pList->Add(pListItem);
+		CButtonUI* pBtn1 = new CButtonUI();
+		pBtn1->SetManager(&m_PaintManager, NULL, false);
+		pBtn1->SetAttribute(_T("style"), _T("btn_style"));
+		pBtn1->SetText(_T("阿呆"));
+		pListItem->Add(pBtn1);
+		CButtonUI* pBtn2 = new CButtonUI();
+		pBtn2->SetManager(&m_PaintManager, NULL, false);
+		pBtn2->SetAttribute(_T("style"), _T("btn_style"));
+		pBtn2->SetText(_T("20001"));
+		pListItem->Add(pBtn2);
+
+		CDialogBuilder builder1;
+		CListContainerElementUI* pListItem1  = (CListContainerElementUI*)builder1.Create(_T("listitem.xml"), NULL, this, &m_PaintManager, NULL);
+		pList->Add(pListItem1);
+
 		for(int i = 0; i < 20; i++)
 		{
 			CListTextElementUI* pItem  = new CListTextElementUI();
@@ -77,21 +107,7 @@ public:
 			pItem->SetText(1, _T("1000"));
 			pItem->SetText(2, _T("100"));
 		}
-		CListContainerElementUI* pListItem  = new CListContainerElementUI();
-		pListItem->SetFixedHeight(30);
-		pListItem->SetManager(&m_PaintManager, NULL, false);
-		pList->Add(pListItem);
-		CButtonUI* pBtn1 = new CButtonUI();
-		pBtn1->SetManager(&m_PaintManager, NULL, false);
-		pBtn1->SetAttribute(_T("style"), _T("btn_style"));
-		pListItem->Add(pBtn1);
-		CButtonUI* pBtn2 = new CButtonUI();
-		pBtn2->SetManager(&m_PaintManager, NULL, false);
-		pBtn2->SetAttribute(_T("style"), _T("btn_style"));
-		pListItem->Add(pBtn2);
 		
-
-
 		CTreeViewUI* pTreeView = static_cast<CTreeViewUI*>(m_PaintManager.FindControl(_T("treeview")));
 		CTreeNodeUI* pItem  = new CTreeNodeUI();
 		pItem->SetFixedHeight(30);
@@ -259,6 +275,14 @@ public:
 			if(name.CompareNoCase(_T("rich_tab")) == 0) pTabSwitch->SelectItem(1);
 			if(name.CompareNoCase(_T("ani_tab")) == 0) pTabSwitch->SelectItem(2);
 			if(name.CompareNoCase(_T("split_tab")) == 0) pTabSwitch->SelectItem(3);
+		}
+		else if(msg.sType == _T("valuechanged"))
+		{
+			CProgressUI* pSlider = static_cast<CProgressUI*>(m_PaintManager.FindControl(_T("slider")));
+			CProgressUI* pPro1 = static_cast<CProgressUI*>(m_PaintManager.FindControl(_T("progress")));
+			CProgressUI* pPro2 = static_cast<CProgressUI*>(m_PaintManager.FindControl(_T("circle_progress")));
+			pPro1->SetValue(pSlider->GetValue());
+			pPro2->SetValue(pSlider->GetValue());
 		}
 	}
 	void OnLClick(CControlUI *pControl)

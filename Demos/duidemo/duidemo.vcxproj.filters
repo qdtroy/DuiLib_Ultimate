@@ -32,6 +32,9 @@
     <ClCompile Include="MsgWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ControlEx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControlEx.h">
@@ -157,6 +160,9 @@
       <Filter>Resources\xmls</Filter>
     </None>
     <None Include="..\..\bin\skin\duidemo\treeitem.xml">
+      <Filter>Resources\xmls</Filter>
+    </None>
+    <None Include="..\..\bin\skin\duidemo\listitem.xml">
       <Filter>Resources\xmls</Filter>
     </None>
   </ItemGroup>

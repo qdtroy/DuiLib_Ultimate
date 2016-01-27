@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Window corner="5,5" caption="0,0,0,32" mininfo="884,652" showdirty="true" virtualwnd="true">
+<Window corner="5,5" caption="0,0,0,32" mininfo="884,652" showdirty="false" virtualwnd="true">
   <Font name="宋体" size="12" default="true"/>
   <Font name="宋体" size="12" bold="true" />
   <Font name="宋体" size="13" bold="true" />

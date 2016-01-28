@@ -129,7 +129,8 @@ namespace DuiLib {
 		}
 		else if( uMsg == WM_CLOSE ) {
 			m_pOwner->SetManager(m_pOwner->GetManager(), m_pOwner->GetParent(), false);
-			//m_pOwner->SetPos(m_pOwner->GetPos());
+			RECT rcNull = { 0 };
+			for( int i = 0; i < m_pOwner->GetCount(); i++ ) static_cast<CControlUI*>(m_pOwner->GetItemAt(i))->SetPos(rcNull);
 			m_pOwner->SetFocus();
 		}
 		else if( uMsg == WM_LBUTTONUP ) {

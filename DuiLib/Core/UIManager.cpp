@@ -206,6 +206,7 @@ namespace DuiLib {
 		::DeleteObject(m_ResInfo.m_DefaultFontInfo.hFont);
 		RemoveAllFonts();
 		RemoveAllImages();
+		RemoveAllStyle();
 		RemoveAllDefaultAttributeList();
 		RemoveAllWindowCustomAttribute();
 		RemoveAllOptionGroups();
@@ -235,6 +236,7 @@ namespace DuiLib {
 		m_mNameHash.Resize();
 		RemoveAllFonts();
 		RemoveAllImages();
+		RemoveAllStyle();
 		RemoveAllDefaultAttributeList();
 		RemoveAllWindowCustomAttribute();
 		RemoveAllOptionGroups();

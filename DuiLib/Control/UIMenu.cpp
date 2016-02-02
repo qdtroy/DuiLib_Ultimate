@@ -275,7 +275,6 @@ namespace DuiLib {
 
 			CShadowUI *pShadow = m_pOwner->GetManager()->GetShadow();
 			pShadow->CopyShadow(m_pm.GetShadow());
-
 			pShadow->ShowShadow(false);
 
 			m_pm.AttachDialog(m_pLayout);
@@ -352,9 +351,7 @@ namespace DuiLib {
 
 		SetForegroundWindow(m_hWnd);
 		MoveWindow(m_hWnd, rc.left, rc.top, rc.GetWidth(), rc.GetHeight(), FALSE);
-		SetWindowPos(m_hWnd, HWND_TOPMOST, rc.left, rc.top,
-			rc.GetWidth(), rc.GetHeight() + pMenuRoot->GetInset().bottom + pMenuRoot->GetInset().top,
-			SWP_SHOWWINDOW);
+		SetWindowPos(m_hWnd, HWND_TOPMOST, rc.left, rc.top, rc.GetWidth(), rc.GetHeight() + pMenuRoot->GetInset().bottom + pMenuRoot->GetInset().top, SWP_SHOWWINDOW);
 	}
 
 	void CMenuWnd::ResizeSubMenu()
@@ -382,9 +379,7 @@ namespace DuiLib {
 				CControlUI* pControl = static_cast<CControlUI*>(m_pOwner->GetItemAt(it));
 				SIZE sz = pControl->EstimateSize(szAvailable);
 				cyFixed += sz.cy;
-
-				if( cxFixed < sz.cx )
-					cxFixed = sz.cx;
+				if( cxFixed < sz.cx ) cxFixed = sz.cx;
 			}
 		}
 
@@ -413,8 +408,7 @@ namespace DuiLib {
 
 				bReachRight = rcPreWindow.left >= rcWindow.right;
 				bReachBottom = rcPreWindow.top >= rcWindow.bottom;
-				if( pContextMenu->GetHWND() == m_pOwner->GetManager()->GetPaintWindow() 
-					||  bReachBottom || bReachRight )
+				if( pContextMenu->GetHWND() == m_pOwner->GetManager()->GetPaintWindow() ||  bReachBottom || bReachRight )
 					break;
 			}
 			pReceiver = iterator.next();

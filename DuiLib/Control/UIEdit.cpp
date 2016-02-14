@@ -48,6 +48,10 @@ namespace DuiLib
 		else {
 			uStyle = WS_CHILD | ES_AUTOHSCROLL;
 		}
+		UINT uTextStyle = m_pOwner->GetTextStyle();
+		if(uTextStyle & DT_LEFT) uStyle |= ES_LEFT;
+		else if(uTextStyle & DT_CENTER) uStyle |= ES_CENTER;
+		else if(uTextStyle & DT_RIGHT) uStyle |= ES_RIGHT;
 		if( m_pOwner->IsPasswordMode() ) uStyle |= ES_PASSWORD;
 		Create(m_pOwner->GetManager()->GetPaintWindow(), NULL, uStyle, 0, rcPos);
 		HFONT hFont=NULL;

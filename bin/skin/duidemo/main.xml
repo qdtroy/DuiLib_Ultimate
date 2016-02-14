@@ -73,7 +73,7 @@
             <Label text="按钮控件" textcolor="#FF555555" font="font13" width="80"/>
             <VerticalLayout >
               <Control />
-              <HorizontalLayout height="30" childpadding="12">
+              <HorizontalLayout height="30" childpadding="12" bordersize="1,1,1,1" bordercolor="#FFFF0000">
                 <Button name="button1" text="普通按钮" textcolor="#FF555555" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
                 <Button name="button2" text="图标按钮" textcolor="#FF555555" style="btn_style" width="100" textpadding="20,0,0,0" foreimage="dest='4,7,20,23' res='icon.png'" />
                 <Button name="sendbtn" text="命令按钮(&S)" textcolor="#FF555555" style="btn_style" shortcut="S" width="120"/>
@@ -91,7 +91,7 @@
               <Control />
               <HorizontalLayout height="24" childpadding="12">
                 <Edit name="edit1" tipvalue="普通" style="edit_style" />
-                <Edit name="edit2" tipvalue="只读" text="只读控件" style="edit_style" readonly="true"/>
+                <Edit name="edit2" tipvalue="只读" text="只读控件" style="edit_style" align="center" readonly="true"/>
                 <Edit name="edit3" tipvalue="数字" style="edit_style" numberonly="true"/>
                 <Edit name="edit4" tipvalue="密码" style="edit_style" password="true"/>
 
@@ -106,14 +106,14 @@
             <VerticalLayout>
               <Control />
               <HorizontalLayout height="23" childpadding="12">
-                <Combo name="font_type" itemfont="2" width="100" style="combo_style" dropbox="hscrollbar=&quot;true&quot;" textcolor="#FFFF0000" float="true" pos="300,0,400,23">
+                <Combo name="font_type" itemfont="2" width="120" style="combo_style" dropbox="hscrollbar=&quot;true&quot;" textcolor="#FFFF0000" float="true" pos="300,0,400,23">
                   <ListLabelElement text="微软雅黑" selected="true" height="23" />
                   <ListLabelElement text="宋体" height="23" width="500" />
                   <ListLabelElement text="黑体" height="23" width="500" />
                   <ListLabelElement text="幼圆" height="23" width="500" />
                   <ListLabelElement text="楷体" height="23" width="500" />
                 </Combo>
-                <Combo name="font_size" width="50" style="combo_style">
+                <Combo name="font_size" width="120" style="combo_style">
                   <ListLabelElement text="9" selected="true" height="23" />
                   <ListLabelElement text="10" height="23" />
                   <ListLabelElement text="11" height="23" />

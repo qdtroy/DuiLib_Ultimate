@@ -116,6 +116,11 @@ namespace DuiLib
 
 		switch(uMsg)
 		{
+		case WM_WINDOWPOSCHANGED:
+			if(pThis->m_Status & SS_VISABLE) {
+				SetWindowPos(pThis->m_hWnd, hwnd, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+			}
+			break;
 		case WM_MOVE:
 			if(pThis->m_Status & SS_VISABLE)
 			{

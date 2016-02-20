@@ -1873,6 +1873,7 @@ namespace DuiLib {
 	{
 		::ReleaseCapture();
 		m_bMouseCapture = false;
+		m_bDragMode = false;
 	}
 
 	bool CPaintManagerUI::IsCaptured()

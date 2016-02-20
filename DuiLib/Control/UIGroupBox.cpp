@@ -89,11 +89,9 @@ namespace DuiLib
 	void CGroupBoxUI::PaintText(HDC hDC)
 	{
 		//如果没有设置字体颜色，则用默认设置
-		if (m_dwTextColor == 0)
-		{
+		if (m_dwTextColor == 0) {
 			m_dwTextColor = m_pManager->GetDefaultFontColor();
 		}
-
 
 		RECT rc;		//文字输出位置
 		rc = GetPos();
@@ -108,37 +106,27 @@ namespace DuiLib
 		graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQualityBicubic);
 		Gdiplus::RectF rectF((Gdiplus::REAL)rc.left, (Gdiplus::REAL)rc.top, (Gdiplus::REAL)(rc.right - rc.left), (Gdiplus::REAL)(rc.bottom - rc.top));
 		Gdiplus::SolidBrush brush(Gdiplus::Color(254, GetBValue(m_dwTextColor), GetGValue(m_dwTextColor), GetRValue(m_dwTextColor)));
-
 		Gdiplus::StringFormat stringFormat = Gdiplus::StringFormat::GenericTypographic();
 		Gdiplus::RectF bounds;
 		graphics.MeasureString(m_sText, -1, &font, rectF, &stringFormat, &bounds);
-
 		// MeasureString存在计算误差，这里加一像素
 		rc.bottom = rc.top + (long)bounds.Height + 1;		//这两句是从UIRender.cpp中DrawText()中拷出来的，不知道意义何在
 		rc.right = rc.left + (long)bounds.Width + 1;
-
 		m_iTextWidth = (int)bounds.Width;
 		m_iTextHeigh = (int)bounds.Height;
 
 		graphics.DrawString(m_sText, -1, &font, rectF, &stringFormat, &brush);
-
 		::SelectObject(hDC, hOldFont);
-
 	}
-
 
 	void CGroupBoxUI::PaintBorder(HDC hDC)
 	{
 		RECT rc = GetPos();		//画框框时的位置
-
 		rc.top += (m_iTextHeigh * 1) / 2;		//最顶部的线移到Text的中下部
 		rc.right -= 1;
 		rc.bottom -= 1;
 		int nSize = m_nBorderSize;
-		//DWORD dwPenColor = m_dwBorderColor;
 		Gdiplus::Graphics graphics(hDC);
-
-		//const Gdiplus::Pen pen(Gdiplus::Color::Red, 1.0f);
 
 		DWORD dwPenColor = GetAdjustColor(m_dwBorderColor);
 		ASSERT(::GetObjectType(hDC) == OBJ_DC || ::GetObjectType(hDC) == OBJ_MEMDC);
@@ -159,7 +147,6 @@ namespace DuiLib
 		graphics.DrawArc(&pen, rcBottomLeftCorner.left, rcBottomLeftCorner.top, rcBottomLeftCorner.right - rcBottomLeftCorner.left, rcBottomLeftCorner.bottom - rcBottomLeftCorner.top, 90, 90);
 		graphics.DrawArc(&pen, rcBottomRightCorner.left, rcBottomRightCorner.top, rcBottomRightCorner.right - rcBottomRightCorner.left, rcBottomRightCorner.bottom - rcBottomRightCorner.top, 0, 90);
 
-
 		//画线----GDI
 		MoveToEx(hDC, rc.left, rc.top + m_cxyBorderRound.cy, NULL);			//左边线
 		LineTo(hDC, rc.left, rc.bottom - m_cxyBorderRound.cy);
@@ -178,7 +165,5 @@ namespace DuiLib
 
 		::SelectObject(hDC, hOldPen);
 		::DeleteObject(hPen);
-
-
 	}
 }

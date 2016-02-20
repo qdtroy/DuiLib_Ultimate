@@ -963,8 +963,6 @@ namespace DuiLib {
 			cx = m_pHorizontalScrollBar->GetScrollPos() - iLastScrollPos;
 		}
 
-		if( cx == 0 && cy == 0 ) return;
-
 		RECT rcPos;
 		for( int it2 = 0; it2 < m_items.GetSize(); it2++ ) {
 			CControlUI* pControl = static_cast<CControlUI*>(m_items[it2]);
@@ -980,7 +978,7 @@ namespace DuiLib {
 		}
 
 		Invalidate();
-		if( cx != 0 && m_pOwner ) {
+		if( m_pOwner ) {
 			CListHeaderUI* pHeader = m_pOwner->GetHeader();
 			if( pHeader == NULL ) return;
 			TListInfoUI* pInfo = m_pOwner->GetListInfo();

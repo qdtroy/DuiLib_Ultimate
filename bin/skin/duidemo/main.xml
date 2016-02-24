@@ -263,7 +263,7 @@
           </HorizontalLayout>
 
         </VerticalLayout>
-        <VerticalLayout name="split_tab_panel" >
+        <VerticalLayout name="split_tab_panel" bkcolor="#FF000000">
           <VerticalLayout inset="0,0,0,6" sepimm="true" sepheight="6" height="200" minheight="200" maxheight="300">
             <WebBrowser name="oneclick_browser1" homepage="about:blank" autonavi="true" delaycreate="false" />
           </VerticalLayout>

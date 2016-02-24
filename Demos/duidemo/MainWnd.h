@@ -50,7 +50,7 @@ public:
 		CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_PaintManager.FindControl(_T("oneclick_browser2")));
 		pBrowser2->SetWebBrowserEventHandler(this);
 		pBrowser1->NavigateUrl(_T("http://blog.csdn.net/duisharp"));
-		pBrowser2->NavigateUrl(_T("https://www.winradar.com"));
+		pBrowser2->NavigateUrl(_T("http://www.51haoliandan.com"));
 
 		CComboUI* pFontSize = static_cast<CComboUI*>(m_PaintManager.FindControl(_T("font_size")));
 		if(pFontSize)
@@ -142,7 +142,14 @@ public:
 	{
 		return S_OK;
 	}
-
+	virtual HRESULT STDMETHODCALLTYPE GetHostInfo(CWebBrowserUI* pWeb, 
+		/* [out][in] */ DOCHOSTUIINFO __RPC_FAR *pInfo)
+	{
+		if (pInfo != NULL) {
+			pInfo->dwFlags |= DOCHOSTUIFLAG_NO3DBORDER | DOCHOSTUIFLAG_NO3DOUTERBORDER;
+		}
+		return S_OK;
+	}
 public:
 
 	DuiLib::CDuiString GetSkinFolder()

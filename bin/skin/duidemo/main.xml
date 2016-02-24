@@ -157,6 +157,8 @@
               <Control />
               <HorizontalLayout height="23" childpadding="12">
                 <IPAddress width="120"/>
+                <DateTime width="160"/>
+
               </HorizontalLayout>
               <Control />
             </VerticalLayout>

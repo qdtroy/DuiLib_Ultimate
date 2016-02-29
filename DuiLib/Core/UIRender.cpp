@@ -1530,10 +1530,10 @@ namespace DuiLib {
 		::DeleteObject(hPen);
 	}
 
-	void CRenderEngine::DrawRect(HDC hDC, const RECT& rc, int nSize, DWORD dwPenColor)
+	void CRenderEngine::DrawRect(HDC hDC, const RECT& rc, int nSize, DWORD dwPenColor,int nStyle /*= PS_SOLID*/)
 	{
 		ASSERT(::GetObjectType(hDC)==OBJ_DC || ::GetObjectType(hDC)==OBJ_MEMDC);
-		HPEN hPen = ::CreatePen(PS_SOLID | PS_INSIDEFRAME, nSize, RGB(GetBValue(dwPenColor), GetGValue(dwPenColor), GetRValue(dwPenColor)));
+		HPEN hPen = ::CreatePen(nStyle, nSize, RGB(GetBValue(dwPenColor), GetGValue(dwPenColor), GetRValue(dwPenColor)));
 		HPEN hOldPen = (HPEN)::SelectObject(hDC, hPen);
 		::SelectObject(hDC, ::GetStockObject(HOLLOW_BRUSH));
 		::Rectangle(hDC, rc.left, rc.top, rc.right, rc.bottom);
@@ -1541,10 +1541,10 @@ namespace DuiLib {
 		::DeleteObject(hPen);
 	}
 
-	void CRenderEngine::DrawRoundRect(HDC hDC, const RECT& rc, int nSize, int width, int height, DWORD dwPenColor)
+	void CRenderEngine::DrawRoundRect(HDC hDC, const RECT& rc, int nSize, int width, int height, DWORD dwPenColor,int nStyle /*= PS_SOLID*/)
 	{
 		ASSERT(::GetObjectType(hDC)==OBJ_DC || ::GetObjectType(hDC)==OBJ_MEMDC);
-		HPEN hPen = ::CreatePen(PS_SOLID | PS_INSIDEFRAME, nSize, RGB(GetBValue(dwPenColor), GetGValue(dwPenColor), GetRValue(dwPenColor)));
+		HPEN hPen = ::CreatePen(nStyle, nSize, RGB(GetBValue(dwPenColor), GetGValue(dwPenColor), GetRValue(dwPenColor)));
 		HPEN hOldPen = (HPEN)::SelectObject(hDC, hPen);
 		::SelectObject(hDC, ::GetStockObject(HOLLOW_BRUSH));
 		::RoundRect(hDC, rc.left, rc.top, rc.right, rc.bottom, width, height);

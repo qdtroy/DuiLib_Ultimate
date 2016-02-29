@@ -292,11 +292,13 @@ namespace DuiLib
 
 	STDMETHODIMP CWebBrowserUI::GetHostInfo( DOCHOSTUIINFO* pInfo )
 	{
-		if (m_pWebBrowserEventHandler)
-		{
+		if (pInfo != NULL) {
+			pInfo->dwFlags |= DOCHOSTUIFLAG_NO3DBORDER | DOCHOSTUIFLAG_NO3DOUTERBORDER;
+		}
+		if (m_pWebBrowserEventHandler) {
 			return m_pWebBrowserEventHandler->GetHostInfo(this, pInfo);
 		}
-		return E_NOTIMPL;
+		return S_OK;
 	}
 
 	STDMETHODIMP CWebBrowserUI::ShowUI( DWORD dwID, IOleInPlaceActiveObject* pActiveObject, IOleCommandTarget* pCommandTarget, IOleInPlaceFrame* pFrame, IOleInPlaceUIWindow* pDoc )

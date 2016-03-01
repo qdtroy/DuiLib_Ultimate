@@ -142,7 +142,7 @@
             <VerticalLayout>
               <Control />
               <HorizontalLayout height="100" childpadding="12">
-                <Progress name="progress" padding="0,40" text="50%" textcolor="#FF333333" valign="vcenter" height="18" width="160" bkcolor="#FFFFFF33" forecolor="#FFFF0000" value="50" min="0" max="100"/>
+                <Progress name="progress" padding="0,40" textcolor="#FF333333" valign="vcenter" height="18" width="160" bkcolor="#FFFFFF33" forecolor="#FFFF0000" value="50" min="0" max="100"/>
                 <CircleProgress name="circle_progress" textcolor="#FF333333" valign="vcenter" height="100" width="100" bkcolor="#FFFFFF33" forecolor="#FFFF0000" value="50" min="0" max="100"/>
                 <Slider name="slider" padding="0,40" width="124" height="19" value="50" min="0" max="100" bkimage="res='SliderBar_BK.bmp' mask='#ffff00ff'" thumbimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbhotimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbpushedimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbsize="12,20" />
               </HorizontalLayout>

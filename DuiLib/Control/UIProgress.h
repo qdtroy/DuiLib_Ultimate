@@ -14,6 +14,8 @@ namespace DuiLib
 		LPCTSTR GetClass() const;
 		LPVOID GetInterface(LPCTSTR pstrName);
 
+		bool IsShowText();
+		void SetShowText(bool bShowText = true);
 		bool IsHorizontal();
 		void SetHorizontal(bool bHorizontal = true);
 		bool IsStretchForeImage();
@@ -28,7 +30,9 @@ namespace DuiLib
 		void PaintForeColor(HDC hDC);
 		void PaintForeImage(HDC hDC);
 		virtual void UpdateText();
+
 	protected:
+		bool m_bShowText;
 		bool m_bHorizontal;
 		bool m_bStretchForeImage;
 		int m_nMax;

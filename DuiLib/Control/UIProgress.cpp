@@ -5,7 +5,7 @@ namespace DuiLib
 {
 	IMPLEMENT_DUICONTROL(CProgressUI)
 
-	CProgressUI::CProgressUI() : m_bHorizontal(true), m_nMin(0), m_nMax(100), m_nValue(0), m_bStretchForeImage(true)
+	CProgressUI::CProgressUI() : m_bShowText(false), m_bHorizontal(true), m_nMin(0), m_nMax(100), m_nValue(0), m_bStretchForeImage(true)
 	{
 		m_uTextStyle = DT_SINGLELINE | DT_CENTER;
 		SetFixedHeight(12);
@@ -20,6 +20,18 @@ namespace DuiLib
 	{
 		if( _tcsicmp(pstrName, DUI_CTR_PROGRESS) == 0 ) return static_cast<CProgressUI*>(this);
 		return CLabelUI::GetInterface(pstrName);
+	}
+	
+	bool CProgressUI::IsShowText()
+	{
+		return m_bShowText;
+	}
+
+	void CProgressUI::SetShowText(bool bShowText)
+	{
+		if( m_bShowText == bShowText ) return;
+		m_bShowText = bShowText;
+		if(!m_bShowText) SetText(_T(""));
 	}
 
 	bool CProgressUI::IsHorizontal()
@@ -147,8 +159,10 @@ namespace DuiLib
 
 	void CProgressUI::UpdateText()
 	{
-		CDuiString sText;
-		sText.Format(_T("%.0f%%"), (m_nValue - m_nMin) * 100.0f / (m_nMax - m_nMin));
-		SetText(sText);
+		if(m_bShowText) {
+			CDuiString sText;
+			sText.Format(_T("%.0f%%"), (m_nValue - m_nMin) * 100.0f / (m_nMax - m_nMin));
+			SetText(sText);
+		}
 	}
 }

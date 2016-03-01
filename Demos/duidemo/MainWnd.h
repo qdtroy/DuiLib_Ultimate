@@ -80,6 +80,9 @@ public:
 		CListUI* pList = static_cast<CListUI*>(m_PaintManager.FindControl(_T("listview")));
 
 		CListContainerElementUI* pListItem  = new CListContainerElementUI();
+		pListItem->SetBorderColor(0xFF00FF00);
+		pListItem->SetBorderSize(1);
+		pListItem->SetBorderStyle(PS_DASHDOTDOT);
 		pListItem->SetFixedHeight(30);
 		pListItem->SetManager(&m_PaintManager, NULL, false);
 		pList->Add(pListItem);

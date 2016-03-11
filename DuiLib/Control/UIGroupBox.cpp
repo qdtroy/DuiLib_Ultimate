@@ -4,8 +4,8 @@
 namespace DuiLib
 {
 	IMPLEMENT_DUICONTROL(CGroupBoxUI)
-    
-    CGroupBoxUI::CGroupBoxUI() :m_iFont(-1), m_bShowHtml(false)
+
+		CGroupBoxUI::CGroupBoxUI() :m_iFont(-1), m_bShowHtml(false)
 	{
 
 	}
@@ -108,14 +108,31 @@ namespace DuiLib
 		Gdiplus::SolidBrush brush(Gdiplus::Color(254, GetBValue(m_dwTextColor), GetGValue(m_dwTextColor), GetRValue(m_dwTextColor)));
 		Gdiplus::StringFormat stringFormat = Gdiplus::StringFormat::GenericTypographic();
 		Gdiplus::RectF bounds;
+#ifdef UNICODE
 		graphics.MeasureString(m_sText, -1, &font, rectF, &stringFormat, &bounds);
 		// MeasureString存在计算误差，这里加一像素
 		rc.bottom = rc.top + (long)bounds.Height + 1;		//这两句是从UIRender.cpp中DrawText()中拷出来的，不知道意义何在
 		rc.right = rc.left + (long)bounds.Width + 1;
 		m_iTextWidth = (int)bounds.Width;
 		m_iTextHeigh = (int)bounds.Height;
-
 		graphics.DrawString(m_sText, -1, &font, rectF, &stringFormat, &brush);
+#else
+		DWORD dwSize = MultiByteToWideChar(CP_ACP, 0, m_sText, -1, NULL, 0);
+		WCHAR * pcwszDest = new WCHAR[dwSize + 1];
+		memset(pcwszDest, 0, (dwSize + 1) * sizeof(WCHAR));
+		MultiByteToWideChar(CP_ACP, NULL, m_sText, -1, pcwszDest, dwSize);
+		if(pcwszDest != NULL) {
+			Gdiplus::RectF bounds;
+			graphics.MeasureString(pcwszDest, -1, &font, rectF, &stringFormat, &bounds);
+			rc.bottom = rc.top + (long)bounds.Height + 1;		//这两句是从UIRender.cpp中DrawText()中拷出来的，不知道意义何在
+			rc.right = rc.left + (long)bounds.Width + 1;
+			m_iTextWidth = (int)bounds.Width;
+			m_iTextHeigh = (int)bounds.Height;
+			graphics.DrawString(pcwszDest, -1, &font, rectF, &stringFormat, &brush);
+			delete []pcwszDest;
+			pcwszDest = NULL;
+		}
+#endif
 		::SelectObject(hDC, hOldFont);
 	}
 

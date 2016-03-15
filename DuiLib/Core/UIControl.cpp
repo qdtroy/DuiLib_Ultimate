@@ -223,6 +223,7 @@ namespace DuiLib {
 
 	void CControlUI::SetBkImage(LPCTSTR pStrImage)
 	{
+		if(m_pManager) m_pManager->RemoveImage(pStrImage);
 		if( m_sBkImage == pStrImage ) return;
 
 		m_sBkImage = pStrImage;

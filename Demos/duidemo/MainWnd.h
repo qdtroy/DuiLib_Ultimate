@@ -24,8 +24,11 @@ public:
 	// 初始化资源管理器
 	void InitResource()
 	{
+		// 多语言接口
+		CResourceManager::GetInstance()->SetTextQueryInterface(this);
+		// 注册控件
 		REGIST_DUICONTROL(CCircleProgressUI);
-
+		// 加载资源
 		if (GetResourceType() == UILIB_RESOURCE)
 		{
 			// 加载资源管理器

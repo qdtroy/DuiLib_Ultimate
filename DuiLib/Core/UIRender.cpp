@@ -3,6 +3,19 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "..\Utils\stb_image.h"
 
+#ifdef USE_XIMAGE_EFFECT
+#	include "../../3rd/CxImage/ximage.h"
+#	include "../../3rd/CxImage/ximage.cpp"
+#	include "../../3rd/CxImage/ximaenc.cpp"
+#	include "../../3rd/CxImage/ximagif.cpp"
+#	include "../../3rd/CxImage/ximainfo.cpp"
+#	include "../../3rd/CxImage/ximalpha.cpp"
+#	include "../../3rd/CxImage/ximapal.cpp"
+#	include "../../3rd/CxImage/ximatran.cpp"
+#	include "../../3rd/CxImage/ximawnd.cpp"
+#	include "../../3rd/CxImage/xmemfile.cpp"
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////////////
 DECLARE_HANDLE(HZIP);	// An HZIP identifies a zip file that has been opened
 typedef DWORD ZRESULT;
@@ -483,7 +496,135 @@ namespace DuiLib {
 		data->bAlpha = bAlphaChannel;
 		return data;
 	}
+#ifdef USE_XIMAGE_EFFECT
+	static DWORD LoadImage2Memory(const STRINGorID &bitmap, LPCTSTR type,LPBYTE &pData)
+	{
+		assert(pData == NULL);
+		pData = NULL;
+		DWORD dwSize(0U);
+		do 
+		{
+			if( type == NULL )
+			{
+				CDuiString sFile = CPaintManagerUI::GetResourcePath();
+				if( CPaintManagerUI::GetResourceZip().IsEmpty() )
+				{
+					sFile += bitmap.m_lpstr;
+					HANDLE hFile = ::CreateFile(sFile.GetData(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, \
+						FILE_ATTRIBUTE_NORMAL, NULL);
+					if( hFile == INVALID_HANDLE_VALUE ) break;
+					dwSize = ::GetFileSize(hFile, NULL);
+					if( dwSize == 0 ) break;
 
+					DWORD dwRead = 0;
+					pData = new BYTE[ dwSize + 1 ];
+					memset(pData,0,dwSize+1);
+					::ReadFile( hFile, pData, dwSize, &dwRead, NULL );
+					::CloseHandle( hFile );
+
+					if( dwRead != dwSize ) 
+					{
+						delete[] pData;
+						pData = NULL;
+						dwSize = 0U;
+						break;
+					}
+				}
+				else 
+				{
+					sFile += CPaintManagerUI::GetResourceZip();
+					HZIP hz = NULL;
+					if( CPaintManagerUI::IsCachedResourceZip() ) 
+						hz = (HZIP)CPaintManagerUI::GetResourceZipHandle();
+					else 
+						hz = OpenZip((void*)sFile.GetData(), 0, 2);
+					if( hz == NULL ) break;
+					ZIPENTRY ze; 
+					int i; 
+					if( FindZipItem(hz, bitmap.m_lpstr, true, &i, &ze) != 0 ) break;
+					dwSize = ze.unc_size;
+					if( dwSize == 0 ) break;
+					pData = new BYTE[ dwSize ];
+					int res = UnzipItem(hz, i, pData, dwSize, 3);
+					if( res != 0x00000000 && res != 0x00000600)
+					{
+						delete[] pData;
+						pData = NULL;
+						dwSize = 0U;
+						if( !CPaintManagerUI::IsCachedResourceZip() )
+							CloseZip(hz);
+						break;
+					}
+					if( !CPaintManagerUI::IsCachedResourceZip() )
+						CloseZip(hz);
+				}
+			}
+			else 
+			{
+				HINSTANCE hDll = CPaintManagerUI::GetResourceDll();
+				HRSRC hResource = ::FindResource(hDll, bitmap.m_lpstr, type);
+				if( hResource == NULL ) break;
+				HGLOBAL hGlobal = ::LoadResource(hDll, hResource);
+				if( hGlobal == NULL ) 
+				{
+					FreeResource(hResource);
+					break;
+				}
+
+				dwSize = ::SizeofResource(hDll, hResource);
+				if( dwSize == 0 ) break;
+				pData = new BYTE[ dwSize ];
+				::CopyMemory(pData, (LPBYTE)::LockResource(hGlobal), dwSize);
+				::FreeResource(hResource);
+			}
+		} while (0);
+
+		while (!pData)
+		{
+			//读不到图片, 则直接去读取bitmap.m_lpstr指向的路径
+			HANDLE hFile = ::CreateFile(bitmap.m_lpstr, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, \
+				FILE_ATTRIBUTE_NORMAL, NULL);
+			if( hFile == INVALID_HANDLE_VALUE ) break;
+			dwSize = ::GetFileSize(hFile, NULL);
+			if( dwSize == 0 ) break;
+
+			DWORD dwRead = 0;
+			pData = new BYTE[ dwSize ];
+			::ReadFile( hFile, pData, dwSize, &dwRead, NULL );
+			::CloseHandle( hFile );
+
+			if( dwRead != dwSize ) 
+			{
+				delete[] pData;
+				pData = NULL;
+				dwSize = 0U;
+			}
+			break;
+		}
+		return dwSize;
+	}
+	CxImage* CRenderEngine::LoadGifImageX(STRINGorID bitmap, LPCTSTR type , DWORD mask)
+	{
+		//write by wangji
+		LPBYTE pData = NULL;
+		DWORD dwSize = LoadImage2Memory(bitmap,type,pData);
+		if(dwSize == 0U || !pData)
+			return NULL;
+		CxImage * pImg = NULL;
+		if(pImg = new CxImage())
+		{
+			pImg->SetRetreiveAllFrames(TRUE);
+			if(!pImg->Decode(pData,dwSize,CXIMAGE_FORMAT_GIF))
+			{
+				delete pImg;
+				pImg = nullptr;
+			}
+		}
+		delete[] pData;
+		pData = NULL;
+		return pImg;
+	}
+#endif//USE_XIMAGE_EFFECT
 	void CRenderEngine::FreeImage(TImageInfo* bitmap, bool bDelete)
 	{
 		if (bitmap == NULL) return;

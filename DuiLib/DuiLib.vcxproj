@@ -478,6 +478,7 @@
   <ItemGroup>
     <ClCompile Include="Control\UIAnimation.cpp" />
     <ClCompile Include="Control\UIGifAnim.cpp" />
+    <ClCompile Include="Control\UIGifAnimEx.cpp" />
     <ClCompile Include="Control\UIGroupBox.cpp" />
     <ClCompile Include="Control\UIIPAddress.cpp" />
     <ClCompile Include="Control\UIMenu.cpp" />
@@ -551,6 +552,7 @@
   <ItemGroup>
     <ClInclude Include="Control\UIAnimation.h" />
     <ClInclude Include="Control\UIGifAnim.h" />
+    <ClInclude Include="Control\UIGifAnimEx.h" />
     <ClInclude Include="Control\UIGroupBox.h" />
     <ClInclude Include="Control\UIIPAddress.h" />
     <ClInclude Include="Control\UIMenu.h" />

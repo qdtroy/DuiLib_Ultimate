@@ -1401,6 +1401,47 @@ namespace DuiLib {
 				m_pEventClick->Event(event);
 			}
 			break;
+		case WM_MBUTTONDOWN:
+			{
+				::SetFocus(m_hWndPaint);
+				POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+				m_ptLastMousePos = pt;
+				CControlUI* pControl = FindControl(pt);
+				if( pControl == NULL ) break;
+				if( pControl->GetManager() != this ) break;
+				pControl->SetFocus();
+				SetCapture();
+				TEventUI event = { 0 };
+				event.Type = UIEVENT_MBUTTONDOWN;
+				event.pSender = pControl;
+				event.wParam = wParam;
+				event.lParam = lParam;
+				event.ptMouse = pt;
+				event.wKeyState = (WORD)wParam;
+				event.dwTimestamp = ::GetTickCount();
+				pControl->Event(event);
+				m_pEventClick = pControl;
+			}
+			break;
+		case WM_MBUTTONUP:
+			{
+				ReleaseCapture();
+
+				POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+				m_ptLastMousePos = pt;
+				m_pEventClick = FindControl(pt);
+				if(m_pEventClick == NULL) break;
+				TEventUI event = { 0 };
+				event.Type = UIEVENT_MBUTTONUP;
+				event.pSender = m_pEventClick;
+				event.wParam = wParam;
+				event.lParam = lParam;
+				event.ptMouse = pt;
+				event.wKeyState = (WORD)wParam;
+				event.dwTimestamp = ::GetTickCount();
+				m_pEventClick->Event(event);
+			}
+			break;
 		case WM_CONTEXTMENU:
 			{
 				POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };

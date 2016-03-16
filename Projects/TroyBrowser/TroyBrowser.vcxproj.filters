@@ -15,6 +15,9 @@
     <Filter Include="Resources\skin">
       <UniqueIdentifier>{da733bb5-17f3-4675-84dc-22007cd7f798}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lib">
+      <UniqueIdentifier>{9860f076-22e0-4d91-bfb0-28f2f3727dc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TroyBrowser.cpp">
@@ -56,5 +59,13 @@
     <ResourceCompile Include="TroyBrowser.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Lib\TroyControls.lib">
+      <Filter>Lib</Filter>
+    </Library>
+    <Library Include="Lib\TroyControls_d.lib">
+      <Filter>Lib</Filter>
+    </Library>
   </ItemGroup>
 </Project>

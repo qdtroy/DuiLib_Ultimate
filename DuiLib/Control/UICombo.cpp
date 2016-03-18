@@ -847,10 +847,12 @@ namespace DuiLib {
 
 	void CComboUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
-		// Put all elements out of sight
+		// 隐藏下拉窗口
+		if(m_pWindow && ::IsWindow(m_pWindow->GetHWND())) m_pWindow->Close();
+		// 所有元素大小置为0
 		RECT rcNull = { 0 };
 		for( int i = 0; i < m_items.GetSize(); i++ ) static_cast<CControlUI*>(m_items[i])->SetPos(rcNull);
-		// Position this control
+		// 调整位置
 		CControlUI::SetPos(rc, bNeedInvalidate);
 	}
 

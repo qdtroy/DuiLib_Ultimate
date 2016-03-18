@@ -17,6 +17,16 @@ public:
 		return pWnd->ShowModal();
 	}
 
+	static void ShowMessageBox(HWND hParent, LPCTSTR lpstrTitle, LPCTSTR lpstrMsg)
+	{
+		CMsgWnd* pWnd = new CMsgWnd();
+		pWnd->Create(hParent, _T("msgwnd"), UI_WNDSTYLE_FRAME, 0);
+		pWnd->CenterWindow();
+		pWnd->SetTitle(lpstrTitle);
+		pWnd->SetMsg(lpstrMsg);
+		pWnd->ShowWindow(true);
+	}
+
 public:
 	CMsgWnd(void);
 	~CMsgWnd(void);

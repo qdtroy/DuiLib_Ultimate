@@ -15,9 +15,9 @@ namespace DuiLib
 
 		void WindowImplBase::OnFinalMessage( HWND hWnd )
 	{
-		m_PaintManager.RemovePreMessageFilter(this);
-		m_PaintManager.RemoveNotifier(this);
-		m_PaintManager.ReapObjects(m_PaintManager.GetRoot());
+		m_pm.RemovePreMessageFilter(this);
+		m_pm.RemoveNotifier(this);
+		m_pm.ReapObjects(m_pm.GetRoot());
 	}
 
 	LRESULT WindowImplBase::ResponseDefaultKeyEvent(WPARAM wParam)
@@ -120,7 +120,7 @@ namespace DuiLib
 
 		if( !::IsZoomed(*this) )
 		{
-			RECT rcSizeBox = m_PaintManager.GetSizeBox();
+			RECT rcSizeBox = m_pm.GetSizeBox();
 			if( pt.y < rcClient.top + rcSizeBox.top )
 			{
 				if( pt.x < rcClient.left + rcSizeBox.left ) return HTTOPLEFT;
@@ -138,10 +138,10 @@ namespace DuiLib
 			if( pt.x > rcClient.right - rcSizeBox.right ) return HTRIGHT;
 		}
 
-		RECT rcCaption = m_PaintManager.GetCaptionRect();
+		RECT rcCaption = m_pm.GetCaptionRect();
 		if( pt.x >= rcClient.left + rcCaption.left && pt.x < rcClient.right - rcCaption.right \
 			&& pt.y >= rcCaption.top && pt.y < rcCaption.bottom ) {
-				CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(pt));
+				CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(pt));
 				if( pControl && _tcsicmp(pControl->GetClass(), _T("ButtonUI")) != 0 && 
 					_tcsicmp(pControl->GetClass(), _T("OptionUI")) != 0 &&
 					_tcsicmp(pControl->GetClass(), _T("BrowserTab")) != 0 &&
@@ -170,8 +170,8 @@ namespace DuiLib
 		lpMMI->ptMaxPosition.y	= rcWork.top;
 		lpMMI->ptMaxSize.x = rcWork.right - rcWork.left;
 		lpMMI->ptMaxSize.y = rcWork.bottom - rcWork.top;
-		lpMMI->ptMinTrackSize.x = m_PaintManager.GetMinInfo().cx;
-		lpMMI->ptMinTrackSize.y = m_PaintManager.GetMinInfo().cy;
+		lpMMI->ptMinTrackSize.x = m_pm.GetMinInfo().cx;
+		lpMMI->ptMinTrackSize.y = m_pm.GetMinInfo().cy;
 
 		bHandled = FALSE;
 		return 0;
@@ -192,7 +192,7 @@ namespace DuiLib
 
 	LRESULT WindowImplBase::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 	{
-		SIZE szRoundCorner = m_PaintManager.GetRoundCorner();
+		SIZE szRoundCorner = m_pm.GetRoundCorner();
 #if defined(WIN32) && !defined(UNDER_CE)
 		if( !::IsIconic(*this) ) {
 			CDuiRect rcWnd;
@@ -227,8 +227,8 @@ namespace DuiLib
 		LRESULT lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
 		if( ::IsZoomed(*this) != bZoomed )
 		{
-			CControlUI* pbtnMax     = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("maxbtn")));       // 最大化按钮
-			CControlUI* pbtnRestore = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("restorebtn")));   // 还原按钮
+			CControlUI* pbtnMax     = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));       // 最大化按钮
+			CControlUI* pbtnRestore = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));   // 还原按钮
 
 			// 切换最大化按钮和还原按钮的状态
 			if (pbtnMax && pbtnRestore)
@@ -261,9 +261,9 @@ namespace DuiLib
 		::SetWindowPos(*this, NULL, rcClient.left, rcClient.top, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top, SWP_FRAMECHANGED);
 
 		// 关联UI管理器
-		m_PaintManager.Init(m_hWnd, GetManagerName());
+		m_pm.Init(m_hWnd, GetManagerName());
 		// 注册PreMessage回调
-		m_PaintManager.AddPreMessageFilter(this);
+		m_pm.AddPreMessageFilter(this);
 
 		// 允许更灵活的资源路径定义
 		if (CPaintManagerUI::GetResourcePath().IsEmpty()) {
@@ -279,17 +279,17 @@ namespace DuiLib
 			break;
 		case UILIB_ZIPRESOURCE:
 			{
-				HRSRC hResource = ::FindResource(m_PaintManager.GetResourceDll(), GetResourceID(), _T("ZIPRES"));
+				HRSRC hResource = ::FindResource(m_pm.GetResourceDll(), GetResourceID(), _T("ZIPRES"));
 				if( hResource == NULL ) return 0L;
 				DWORD dwSize = 0;
-				HGLOBAL hGlobal = ::LoadResource(m_PaintManager.GetResourceDll(), hResource);
+				HGLOBAL hGlobal = ::LoadResource(m_pm.GetResourceDll(), hResource);
 				if( hGlobal == NULL ) {
 #if defined(WIN32) && !defined(UNDER_CE)
 					::FreeResource(hResource);
 #endif
 					return 0L;
 				}
-				dwSize = ::SizeofResource(m_PaintManager.GetResourceDll(), hResource);
+				dwSize = ::SizeofResource(m_pm.GetResourceDll(), hResource);
 				if( dwSize == 0 ) return 0L;
 
 				CPaintManagerUI::SetResourceZip((LPBYTE)::LockResource(hGlobal), dwSize);
@@ -307,10 +307,10 @@ namespace DuiLib
 		CDialogBuilder builder;
 		if (GetResourceType() == UILIB_RESOURCE) {
 			STRINGorID xml(_ttoi(GetSkinFile().GetData()));
-			pRoot = builder.Create(xml, _T("xml"), this, &m_PaintManager);
+			pRoot = builder.Create(xml, _T("xml"), this, &m_pm);
 		}
 		else {
-			pRoot = builder.Create(GetSkinFile().GetData(), (UINT)0, this, &m_PaintManager);
+			pRoot = builder.Create(GetSkinFile().GetData(), (UINT)0, this, &m_pm);
 		}
 
 		if (pRoot == NULL) {
@@ -318,9 +318,9 @@ namespace DuiLib
 			ExitProcess(1);
 			return 0;
 		}
-		m_PaintManager.AttachDialog(pRoot);
+		m_pm.AttachDialog(pRoot);
 		// 添加Notify事件接口
-		m_PaintManager.AddNotifier(this);
+		m_pm.AddNotifier(this);
 		// 窗口初始化完毕
 		InitWindow();
 		return 0;
@@ -396,7 +396,7 @@ namespace DuiLib
 		lRes = HandleCustomMessage(uMsg, wParam, lParam, bHandled);
 		if (bHandled) return lRes;
 
-		if (m_PaintManager.MessageHandler(uMsg, wParam, lParam, lRes))
+		if (m_pm.MessageHandler(uMsg, wParam, lParam, lRes))
 			return lRes;
 		return CWindowWnd::HandleMessage(uMsg, wParam, lParam);
 	}

@@ -44,4 +44,44 @@ public:
 	}
 };
 
+#define CHARTVIEW_PIE		0x0
+#define CHARTVIEW_HISTOGRAM 0x01
+
+typedef struct tagCHARTITEM
+{
+	CDuiString name;
+	double value;
+} CHARTITEM, *PCHARTITEM;
+
+class CChartViewUI : 
+	public CControlUI
+{
+public:
+	DECLARE_DUICONTROL(CChartViewUI)
+public:
+	CChartViewUI(void);
+	~CChartViewUI(void);
+
+	bool Add(LPCTSTR name, double value);
+	bool AddAt(LPCTSTR name, double value, int iIndex);
+
+public:
+	virtual void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
+	virtual void DoPaint(HDC hDC, const RECT& rcPaint);
+	virtual void DoPaintPie(HDC hDC, const RECT& rcPaint);
+	virtual void DoPaintHistogram(HDC hDC, const RECT& rcPaint);
+private:
+	vector<CHARTITEM> m_items;
+	int m_ViewStyle;
+	CDuiString m_sShadowImage;
+	int m_ShadowImageHeight;
+	CDuiString m_sPillarImage;
+	int m_PillarImageWidth;
+	DWORD m_dwTextColor;
+	DWORD m_dwDisabledTextColor;
+	bool m_bShowHtml;
+	bool m_bShowText;
+	int m_iFont;
+};
+
 #endif __CONTROLEX_H__

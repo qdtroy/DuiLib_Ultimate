@@ -119,7 +119,7 @@ DUI_END_MESSAGE_MAP()
 
 CMainWnd::CMainWnd(void)
 {
-	m_MainPage.SetPaintMagager(&m_PaintManager);
+	m_MainPage.SetPaintMagager(&m_pm);
 
 	AddVirtualWnd(_T("mainpage"),&m_MainPage);
 }
@@ -201,10 +201,10 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 	}
 	else if(sName == _T("gamehome") || sName == _T("gamesearch") || sName == _T("gamephone"))
 	{
-		CControlUI* pTabLeft = m_PaintManager.FindControl(_T("body_main_left"));
+		CControlUI* pTabLeft = m_pm.FindControl(_T("body_main_left"));
 		pTabLeft->SetVisible(sName != _T("gamephone"));
-		CTabLayoutUI* pTabLayout = static_cast<CTabLayoutUI*>(m_PaintManager.FindControl(_T("body_main_tablayout")));
-		CControlUI* pItem = m_PaintManager.FindControl(msg.pSender->GetUserData());
+		CTabLayoutUI* pTabLayout = static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("body_main_tablayout")));
+		CControlUI* pItem = m_pm.FindControl(msg.pSender->GetUserData());
 		pTabLayout->SelectItem(pItem);
 		
 	}
@@ -214,11 +214,11 @@ void CMainWnd::OnSelectChanged( TNotifyUI &msg )
 {
 	if(msg.pSender->GetName() == _T("down_list"))
 	{
-		static_cast<CTabLayoutUI*>(m_PaintManager.FindControl(_T("tab_main")))->SelectItem(0);
+		static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("tab_main")))->SelectItem(0);
 	}
 	else if(msg.pSender->GetName() == _T("down_his"))
 	{
-		static_cast<CTabLayoutUI*>(m_PaintManager.FindControl(_T("tab_main")))->SelectItem(1);
+		static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("tab_main")))->SelectItem(1);
 	}
 }
 
@@ -229,7 +229,7 @@ void CMainWnd::OnItemClick( TNotifyUI &msg )
 	wsprintf(alert_msg, _T("选中了行%d, 查找本行内的下载项目名..."), index);
 	MessageBox(NULL, alert_msg, _T("DUILIB DEMO"), MB_OK);            
 
-	CControlUI *find_ctrl =m_PaintManager.FindSubControlByName(msg.pSender, _T("down_name"));
+	CControlUI *find_ctrl =m_pm.FindSubControlByName(msg.pSender, _T("down_name"));
 
 	if(find_ctrl)
 	{
@@ -244,7 +244,7 @@ void CMainWnd::OnItemClick( TNotifyUI &msg )
 			_T("DUILIB DEMO"), MB_OK);   
 	}
 
-	find_ctrl =m_PaintManager.FindSubControlByName(msg.pSender, _T("down_progress"));
+	find_ctrl =m_pm.FindSubControlByName(msg.pSender, _T("down_progress"));
 
 	if(find_ctrl)
 	{
@@ -266,8 +266,8 @@ LRESULT CMainWnd::OnMouseWheel( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 {
 	// 解决ie控件收不到滚动消息的问题
 	POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-	::ScreenToClient(m_PaintManager.GetPaintWindow(), &pt);
-	CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("ie")));
+	::ScreenToClient(m_pm.GetPaintWindow(), &pt);
+	CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("ie")));
 	if( pControl && pControl->IsVisible() ) {
 		RECT rc = pControl->GetPos();
 		if( ::PtInRect(&rc, pt) ) {
@@ -291,15 +291,15 @@ LRESULT CMainWnd::OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 	LRESULT lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
 	if( ::IsZoomed(*this) != bZoomed ) {
 		if( !bZoomed ) {
-			CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("maxbtn")));
+			CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));
 			if( pControl ) pControl->SetVisible(false);
-			pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("restorebtn")));
+			pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));
 			if( pControl ) pControl->SetVisible(true);
 		}
 		else {
-			CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("maxbtn")));
+			CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));
 			if( pControl ) pControl->SetVisible(true);
-			pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("restorebtn")));
+			pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));
 			if( pControl ) pControl->SetVisible(false);
 		}
 	}
@@ -308,14 +308,14 @@ LRESULT CMainWnd::OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 
 void CMainWnd::InitWindow()
 {
-	m_pCloseBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("closebtn")));
-	m_pMaxBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("maxbtn")));
-	m_pRestoreBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("restorebtn")));
-	m_pMinBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("minbtn")));
+	m_pCloseBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("closebtn")));
+	m_pMaxBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("maxbtn")));
+	m_pRestoreBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("restorebtn")));
+	m_pMinBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("minbtn")));
 
-	CWebBrowserUI* pWebHome = static_cast<CWebBrowserUI*>(m_PaintManager.FindControl(_T("main_web_home")));
-	CWebBrowserUI* pWebSearch = static_cast<CWebBrowserUI*>(m_PaintManager.FindControl(_T("main_web_search")));
-	CWebBrowserUI* pWebPhone = static_cast<CWebBrowserUI*>(m_PaintManager.FindControl(_T("main_web_phone")));
+	CWebBrowserUI* pWebHome = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("main_web_home")));
+	CWebBrowserUI* pWebSearch = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("main_web_search")));
+	CWebBrowserUI* pWebPhone = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("main_web_phone")));
 	pWebHome->Navigate2(_T("http://v2.boxpage.niu.xunlei.com/v3/index.html?timestamp=1399907545"));
 	pWebSearch->Navigate2(_T("http://v2.boxpage.niu.xunlei.com/v3/index.html?timestamp=1399907545"));
 	pWebPhone->Navigate2(_T("http://v2.boxpage.niu.xunlei.com/v3/index.html?timestamp=1399907545"));
@@ -324,7 +324,7 @@ void CMainWnd::InitWindow()
 LRESULT CMainWnd::OnMouseHover(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
 	POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-	CControlUI* pHover = m_PaintManager.FindControl(pt);
+	CControlUI* pHover = m_pm.FindControl(pt);
 	if( pHover == NULL ) return 0;
 	/*演示悬停在下载列表的图标上时，动态变换下载图标状态显示*/
 	if(pHover->GetName() == _T("down_ico"))

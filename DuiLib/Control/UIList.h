@@ -66,6 +66,15 @@ namespace DuiLib {
 		virtual void SetTextCallback(IListCallbackUI* pCallback) = 0;
 		virtual bool ExpandItem(int iIndex, bool bExpand = true) = 0;
 		virtual int GetExpandedItem() const = 0;
+
+		virtual bool SelectMultiItem(int iIndex, bool bTakeFocus = false) = 0;
+		virtual void SetSingleSelect(bool bSingleSel) = 0;
+		virtual bool GetSingleSelect() const = 0;
+		virtual bool UnSelectItem(int iIndex) = 0;
+		virtual void SelectAllItems() = 0;
+		virtual void UnSelectAllItems() = 0;
+		virtual int GetSelectItemCount() const = 0;
+		virtual int GetNextSelItem(int nItem) const = 0;
 	};
 
 	class IListItemUI
@@ -106,6 +115,15 @@ namespace DuiLib {
 		int GetCurSelActivate() const;
 		bool SelectItem(int iIndex, bool bTakeFocus = false);
 		bool SelectItemActivate(int iIndex);    // 双击选中
+
+		bool SelectMultiItem(int iIndex, bool bTakeFocus = false);
+		void SetSingleSelect(bool bSingleSel);
+		bool GetSingleSelect() const;
+		bool UnSelectItem(int iIndex);
+		void SelectAllItems();
+		void UnSelectAllItems();
+		int GetSelectItemCount() const;
+		int GetNextSelItem(int nItem) const;
 
 		CListHeaderUI* GetHeader() const;  
 		CContainerUI* GetList() const;
@@ -197,9 +215,15 @@ namespace DuiLib {
 		virtual CScrollBarUI* GetVerticalScrollBar() const;
 		virtual CScrollBarUI* GetHorizontalScrollBar() const;
 		BOOL SortItems(PULVCompareFunc pfnCompare, UINT_PTR dwData);
+
+		protected:
+			int GetMinSelItemIndex();
+			int GetMaxSelItemIndex();
 	protected:
 		bool m_bScrollSelect;
 		int m_iCurSel;
+		bool m_bSingleSel;
+		CStdPtrArray m_aSelItems;
 		int m_iCurSelActivate;  // 双击的列
 		int m_iExpandedItem;
 		IListCallbackUI* m_pCallback;
@@ -347,6 +371,7 @@ namespace DuiLib {
 
 		bool IsSelected() const;
 		bool Select(bool bSelect = true);
+		bool SelectMulti(bool bSelect = true);
 		bool IsExpanded() const;
 		bool Expand(bool bExpand = true);
 

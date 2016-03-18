@@ -7,7 +7,7 @@ namespace DuiLib {
 	//
 	IMPLEMENT_DUICONTROL(CListUI)
 
-		CListUI::CListUI() : m_pCallback(NULL), m_bScrollSelect(false), m_iCurSel(-1), m_iExpandedItem(-1)
+		CListUI::CListUI() : m_pCallback(NULL), m_bScrollSelect(false), m_iCurSel(-1), m_iExpandedItem(-1), m_bSingleSel(true)
 	{
 		m_pList = new CListBodyUI(this);
 		m_pHeader = new CListHeaderUI;
@@ -260,6 +260,35 @@ namespace DuiLib {
 		if( !m_pHeader->IsVisible() ) m_pHeader->Move(szOffset, false);
 	}
 
+	int CListUI::GetMinSelItemIndex()
+	{
+		if (m_aSelItems.GetSize() <= 0)
+			return -1;
+		int min = (int)m_aSelItems.GetAt(0);
+		int index;
+		for (int i = 0; i < m_aSelItems.GetSize(); ++i)
+		{
+			index = (int)m_aSelItems.GetAt(i);
+			if (min > index)
+				min = index;
+		}
+		return min;
+	}
+
+	int CListUI::GetMaxSelItemIndex()
+	{
+		if (m_aSelItems.GetSize() <= 0)
+			return -1;
+		int max = (int)m_aSelItems.GetAt(0);
+		int index;
+		for (int i = 0; i < m_aSelItems.GetSize(); ++i)
+		{
+			index = (int)m_aSelItems.GetAt(i);
+			if (max < index)
+				max = index;
+		}
+		return max;
+	}
 	void CListUI::DoEvent(TEventUI& event)
 	{
 		if( !IsMouseEnabled() && event.Type > UIEVENT__MOUSEBEGIN && event.Type < UIEVENT__MOUSEEND ) {
@@ -283,10 +312,24 @@ namespace DuiLib {
 		case UIEVENT_KEYDOWN:
 			switch( event.chKey ) {
 			case VK_UP:
-				SelectItem(FindSelectable(m_iCurSel - 1, false), true);
+				{
+					if (m_aSelItems.GetSize() > 0)
+					{					
+						int index = GetMinSelItemIndex() - 1;
+						UnSelectAllItems();
+						index > 0 ? SelectItem(index, true) : SelectItem(0, true);					
+					}
+				}			
 				return;
-			case VK_DOWN:
-				SelectItem(FindSelectable(m_iCurSel + 1, true), true);
+			case VK_DOWN:			
+				{
+					if (m_aSelItems.GetSize() > 0)
+					{					
+						int index = GetMaxSelItemIndex() + 1;
+						UnSelectAllItems();
+						index + 1 > m_pList->GetCount() ? SelectItem(GetCount() - 1, true) : SelectItem(index, true);					
+					}
+				}
 				return;
 			case VK_PRIOR:
 				PageUp();
@@ -303,17 +346,25 @@ namespace DuiLib {
 			case VK_RETURN:
 				if( m_iCurSel != -1 ) GetItemAt(m_iCurSel)->Activate();
 				return;
+			case 0x41:
+				{
+					if (!m_bSingleSel && (GetKeyState(VK_CONTROL) & 0x8000))
+					{
+						SelectAllItems();
+					}
+					return;
+				}
 			}
 			break;
 		case UIEVENT_SCROLLWHEEL:
 			{
 				switch( LOWORD(event.wParam) ) {
 				case SB_LINEUP:
-					if( m_bScrollSelect ) SelectItem(FindSelectable(m_iCurSel - 1, false), true);
+					if( m_bScrollSelect && m_bSingleSel ) SelectItem(FindSelectable(m_iCurSel - 1, false), true);
 					else LineUp();
 					return;
 				case SB_LINEDOWN:
-					if( m_bScrollSelect ) SelectItem(FindSelectable(m_iCurSel + 1, true), true);
+					if( m_bScrollSelect && m_bSingleSel ) SelectItem(FindSelectable(m_iCurSel + 1, true), true);
 					else LineDown();
 					return;
 				}
@@ -343,53 +394,53 @@ namespace DuiLib {
 		m_bScrollSelect = bScrollSelect;
 	}
 
-	int CListUI::GetCurSel() const
-	{
-		return m_iCurSel;
-	}
+	//int CListUI::GetCurSel() const
+	//{
+	//	return m_iCurSel;
+	//}
 
 	int CListUI::GetCurSelActivate() const
 	{
 		return m_iCurSelActivate;
 	}
 
-	bool CListUI::SelectItem(int iIndex, bool bTakeFocus)
-	{
-		if( iIndex == m_iCurSel ) return true;
+	//bool CListUI::SelectItem(int iIndex, bool bTakeFocus)
+	//{
+	//	if( iIndex == m_iCurSel ) return true;
 
-		int iOldSel = m_iCurSel;
-		// We should first unselect the currently selected item
-		if( m_iCurSel >= 0 ) {
-			CControlUI* pControl = GetItemAt(m_iCurSel);
-			if( pControl != NULL) {
-				IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
-				if( pListItem != NULL ) pListItem->Select(false);
-			}
+	//	int iOldSel = m_iCurSel;
+	//	// We should first unselect the currently selected item
+	//	if( m_iCurSel >= 0 ) {
+	//		CControlUI* pControl = GetItemAt(m_iCurSel);
+	//		if( pControl != NULL) {
+	//			IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
+	//			if( pListItem != NULL ) pListItem->Select(false);
+	//		}
 
-			m_iCurSel = -1;
-		}
-		if( iIndex < 0 ) return false;
+	//		m_iCurSel = -1;
+	//	}
+	//	if( iIndex < 0 ) return false;
 
-		CControlUI* pControl = GetItemAt(iIndex);
-		if( pControl == NULL ) return false;
-		//  if( !pControl->IsVisible() ) return false;
-		//  if( !pControl->IsEnabled() ) return false;
+	//	CControlUI* pControl = GetItemAt(iIndex);
+	//	if( pControl == NULL ) return false;
+	//	//  if( !pControl->IsVisible() ) return false;
+	//	//  if( !pControl->IsEnabled() ) return false;
 
-		IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
-		if( pListItem == NULL ) return false;
-		m_iCurSel = iIndex;
-		if( !pListItem->Select(true) ) {
-			m_iCurSel = -1;
-			return false;
-		}
-		EnsureVisible(m_iCurSel);
-		if( bTakeFocus ) pControl->SetFocus();
-		if( m_pManager != NULL ) {
-			m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMSELECT, m_iCurSel, iOldSel);
-		}
+	//	IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
+	//	if( pListItem == NULL ) return false;
+	//	m_iCurSel = iIndex;
+	//	if( !pListItem->Select(true) ) {
+	//		m_iCurSel = -1;
+	//		return false;
+	//	}
+	//	EnsureVisible(m_iCurSel);
+	//	if( bTakeFocus ) pControl->SetFocus();
+	//	if( m_pManager != NULL ) {
+	//		m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMSELECT, m_iCurSel, iOldSel);
+	//	}
 
-		return true;
-	}
+	//	return true;
+	//}
 
 	bool CListUI::SelectItemActivate(int iIndex)
 	{
@@ -400,6 +451,197 @@ namespace DuiLib {
 
 		m_iCurSelActivate = iIndex;
 		return true;
+	}
+
+	int CListUI::GetCurSel() const
+	{	
+		if (m_aSelItems.GetSize() <= 0)
+		{
+			return -1;
+		}
+		else
+		{
+			return (int)m_aSelItems.GetAt(0);
+		}
+
+		return -1;
+	}
+
+	bool CListUI::SelectItem(int iIndex, bool bTakeFocus)
+	{
+		if( iIndex < 0 ) return false;
+		CControlUI* pControl = GetItemAt(iIndex);
+		if( pControl == NULL ) return false;
+		//if( !pControl->IsVisible() ) return false;
+		//if( !pControl->IsEnabled() ) return false;
+		IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
+		if( pListItem == NULL ) return false;
+
+		UnSelectAllItems();
+
+		if(m_bSingleSel && m_aSelItems.GetSize() > 0) {
+			CControlUI* pControl = GetItemAt((int)m_aSelItems.GetAt(0));
+			if( pControl != NULL) {
+				IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
+				if( pListItem != NULL ) pListItem->Select(false);
+			}		
+		}	
+
+		if( !pListItem->Select(true) ) {		
+			return false;
+		}
+
+		m_aSelItems.Add((LPVOID)iIndex);
+
+		EnsureVisible(iIndex);
+		if( bTakeFocus ) pControl->SetFocus();
+		if( m_pManager != NULL ) {
+			m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMSELECT, iIndex);
+		}
+
+		return true;
+	}
+
+	bool CListUI::SelectMultiItem(int iIndex, bool bTakeFocus)
+	{
+		if (m_bSingleSel)
+		{
+			return SelectItem(iIndex, bTakeFocus);
+		}
+
+		if( iIndex < 0 ) return false;
+		CControlUI* pControl = GetItemAt(iIndex);
+		if( pControl == NULL ) return false;
+		if( !pControl->IsVisible() ) return false;
+		if( !pControl->IsEnabled() ) return false;
+		IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
+		if( pListItem == NULL ) return false;
+
+		if (m_aSelItems.Find((LPVOID)iIndex) >= 0)
+			return false;
+
+		if(m_bSingleSel && m_aSelItems.GetSize() > 0) {
+			CControlUI* pControl = GetItemAt((int)m_aSelItems.GetAt(0));
+			if( pControl != NULL) {
+				IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
+				if( pListItem != NULL ) pListItem->Select(false);
+			}		
+		}	
+
+		if( !pListItem->Select(true) ) {		
+			return false;
+		}
+
+		m_aSelItems.Add((LPVOID)iIndex);
+
+		EnsureVisible(iIndex);
+		if( bTakeFocus ) pControl->SetFocus();
+		if( m_pManager != NULL ) {
+			m_pManager->SendNotify(this, _T("itemselect"), iIndex);
+		}
+
+		return true;
+	}
+
+	void CListUI::SetSingleSelect(bool bSingleSel)
+	{
+		m_bSingleSel = bSingleSel;
+		UnSelectAllItems();
+	}
+
+	bool CListUI::GetSingleSelect() const
+	{
+		return m_bSingleSel;
+	}
+
+	bool CListUI::UnSelectItem(int iIndex)
+	{
+		if( iIndex < 0 ) return false;
+		CControlUI* pControl = GetItemAt(iIndex);
+		if( pControl == NULL ) return false;
+		if( !pControl->IsVisible() ) return false;
+		if( !pControl->IsEnabled() ) return false;
+		IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
+		if( pListItem == NULL ) return false;
+
+		int aIndex = m_aSelItems.Find((LPVOID)iIndex);
+		if (aIndex < 0)
+			return false;
+
+		if( !pListItem->Select(false) ) {		
+			return false;
+		}
+
+		m_aSelItems.Remove(aIndex);
+
+		return true;
+	}
+
+	void CListUI::SelectAllItems()
+	{
+		UnSelectAllItems();
+		CControlUI* pControl;
+		for (int i = 0; i < GetCount(); ++i)
+		{
+			pControl = GetItemAt(i);
+			if(pControl == NULL)
+				continue;
+			if(!pControl->IsVisible())
+				continue;
+			if(!pControl->IsEnabled())
+				continue;
+			IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
+			if( pListItem == NULL )
+				continue;
+			if( !pListItem->Select(true) )
+				continue;
+			m_aSelItems.Add((LPVOID)i);
+		}
+	}
+
+	void CListUI::UnSelectAllItems()
+	{
+		CControlUI* pControl;
+		int itemIndex;
+		for (int i = 0; i < m_aSelItems.GetSize(); ++i)
+		{
+			itemIndex = (int)m_aSelItems.GetAt(i);
+			pControl = GetItemAt(itemIndex);
+			if(pControl == NULL)
+				continue;
+			if(!pControl->IsVisible())
+				continue;
+			if(!pControl->IsEnabled())
+				continue;
+			IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
+			if( pListItem == NULL )
+				continue;
+			if( !pListItem->Select(false) )
+				continue;		
+		}
+		m_aSelItems.Empty();
+	}
+
+	int CListUI::GetSelectItemCount() const
+	{
+		return m_aSelItems.GetSize();
+	}
+
+	int CListUI::GetNextSelItem(int nItem) const
+	{
+		if (m_aSelItems.GetSize() <= 0)
+			return -1;
+
+		if (nItem < 0)
+		{
+			return (int)m_aSelItems.GetAt(0);
+		}
+		int aIndex = m_aSelItems.Find((LPVOID)nItem);
+		if (aIndex < 0)
+			return -1;
+		if (aIndex + 1 > m_aSelItems.GetSize() - 1)
+			return -1;
+		return (int)m_aSelItems.GetAt(aIndex + 1);
 	}
 
 	TListInfoUI* CListUI::GetListInfo()
@@ -787,6 +1029,7 @@ namespace DuiLib {
 		else if( _tcsicmp(pstrName, _T("itemshowrowline")) == 0 ) SetItemShowRowLine(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("itemshowcolumnline")) == 0 ) SetItemShowColumnLine(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("itemshowhtml")) == 0 ) SetItemShowHtml(_tcsicmp(pstrValue, _T("true")) == 0);
+		else if ( _tcscmp(pstrName, _T("singleselect")) == 0 ) SetSingleSelect(_tcscmp(pstrValue, _T("true")) == 0);
 		else CVerticalLayoutUI::SetAttribute(pstrName, pstrValue);
 	}
 
@@ -1858,6 +2101,10 @@ namespace DuiLib {
 		return true;
 	}
 
+	bool CListElementUI::SelectMulti(bool bSelect)
+	{
+		return Select(bSelect);
+	}
 	bool CListElementUI::IsExpanded() const
 	{
 		return false;

@@ -28,6 +28,7 @@ public:
 		CResourceManager::GetInstance()->SetTextQueryInterface(this);
 		// 注册控件
 		REGIST_DUICONTROL(CCircleProgressUI);
+		REGIST_DUICONTROL(CChartViewUI);
 		// 加载资源
 		if (GetResourceType() == UILIB_RESOURCE)
 		{
@@ -43,19 +44,19 @@ public:
 	{
 		CSkinManager::GetSkinManager()->AddReceiver(this);
 
-		m_pCloseBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("closebtn")));
-		m_pMaxBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("maxbtn")));
-		m_pRestoreBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("restorebtn")));
-		m_pMinBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("minbtn")));
-		m_pSkinBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("skinbtn")));
-		CWebBrowserUI* pBrowser1 = static_cast<CWebBrowserUI*>(m_PaintManager.FindControl(_T("oneclick_browser1")));
+		m_pCloseBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("closebtn")));
+		m_pMaxBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("maxbtn")));
+		m_pRestoreBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("restorebtn")));
+		m_pMinBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("minbtn")));
+		m_pSkinBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("skinbtn")));
+		CWebBrowserUI* pBrowser1 = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("oneclick_browser1")));
 		pBrowser1->SetWebBrowserEventHandler(this);
-		CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_PaintManager.FindControl(_T("oneclick_browser2")));
+		CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("oneclick_browser2")));
 		pBrowser2->SetWebBrowserEventHandler(this);
 		pBrowser1->NavigateUrl(_T("http://blog.csdn.net/duisharp"));
 		pBrowser2->NavigateUrl(_T("http://www.51haoliandan.com"));
 
-		CComboUI* pFontSize = static_cast<CComboUI*>(m_PaintManager.FindControl(_T("font_size")));
+		CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("font_size")));
 		if(pFontSize)
 		{
 			CListLabelElementUI * pElement = new CListLabelElementUI();
@@ -67,7 +68,7 @@ public:
 		CComboUI* pCombo = new CComboUI();
 		pCombo->SetName(_T("mycombo"));
 		pCombo->SetFixedWidth(80);
-		pCombo->ApplyAttributeList(m_PaintManager.GetStyle(_T("combo_style")));
+		pCombo->ApplyAttributeList(m_pm.GetStyle(_T("combo_style")));
 		CContainerUI* pParent = (CContainerUI*)pFontSize->GetParent();
 		pParent->Add(pCombo);
 		if(pCombo)
@@ -80,28 +81,28 @@ public:
 			pCombo->Add(pElement);
 			pCombo->SelectItem(0);
 		}
-		CListUI* pList = static_cast<CListUI*>(m_PaintManager.FindControl(_T("listview")));
+		CListUI* pList = static_cast<CListUI*>(m_pm.FindControl(_T("listview")));
 
 		CListContainerElementUI* pListItem  = new CListContainerElementUI();
 		pListItem->SetBorderColor(0xFF00FF00);
 		pListItem->SetBorderSize(1);
 		pListItem->SetBorderStyle(PS_DASHDOTDOT);
 		pListItem->SetFixedHeight(30);
-		pListItem->SetManager(&m_PaintManager, NULL, false);
+		pListItem->SetManager(&m_pm, NULL, false);
 		pList->Add(pListItem);
 		CButtonUI* pBtn1 = new CButtonUI();
-		pBtn1->SetManager(&m_PaintManager, NULL, false);
+		pBtn1->SetManager(&m_pm, NULL, false);
 		pBtn1->SetAttribute(_T("style"), _T("btn_style"));
 		pBtn1->SetText(_T("阿呆"));
 		pListItem->Add(pBtn1);
 		CButtonUI* pBtn2 = new CButtonUI();
-		pBtn2->SetManager(&m_PaintManager, NULL, false);
+		pBtn2->SetManager(&m_pm, NULL, false);
 		pBtn2->SetAttribute(_T("style"), _T("btn_style"));
 		pBtn2->SetText(_T("20001"));
 		pListItem->Add(pBtn2);
 
 		CDialogBuilder builder1;
-		CListContainerElementUI* pListItem1  = (CListContainerElementUI*)builder1.Create(_T("listitem.xml"), NULL, this, &m_PaintManager, NULL);
+		CListContainerElementUI* pListItem1  = (CListContainerElementUI*)builder1.Create(_T("listitem.xml"), NULL, this, &m_pm, NULL);
 		pList->Add(pListItem1);
 
 		for(int i = 0; i < 20; i++)
@@ -114,7 +115,7 @@ public:
 			pItem->SetText(2, _T("100"));
 		}
 		
-		CTreeViewUI* pTreeView = static_cast<CTreeViewUI*>(m_PaintManager.FindControl(_T("treeview")));
+		CTreeViewUI* pTreeView = static_cast<CTreeViewUI*>(m_pm.FindControl(_T("treeview")));
 		CTreeNodeUI* pItem  = new CTreeNodeUI();
 		pItem->SetFixedHeight(30);
 		pItem->SetItemText(_T("动态添加"));
@@ -123,13 +124,34 @@ public:
 		pItem->SetAttribute(_T("Style"), _T("treeview_style"));
 
 		CDialogBuilder builder;
-		CTreeNodeUI* pTreeItem = (CTreeNodeUI*)builder.Create(_T("treeitem.xml"), NULL, this, &m_PaintManager, pTreeView);
+		CTreeNodeUI* pTreeItem = (CTreeNodeUI*)builder.Create(_T("treeitem.xml"), NULL, this, &m_pm, pTreeView);
 		pTreeView->Add(pTreeItem);
+
+		// 图表控件
+		CChartViewUI *pHistpgramView = static_cast<CChartViewUI*>(m_pm.FindControl(_T("ChartView_Histpgram")));
+		if (NULL != pHistpgramView)
+		{
+			pHistpgramView->Add(_T("1月{c #FE5900}13%{/c}"), 13);
+			pHistpgramView->Add(_T("2月{c #FE5900}11%{/c}"), 11);
+			pHistpgramView->Add(_T("3月{c #FE5900}32%{/c}"), 32);
+			pHistpgramView->Add(_T("4月{c #FE5900}17%{/c}"), 17);
+			pHistpgramView->Add(_T("5月{c #FE5900}8%{/c}"), 8);
+			pHistpgramView->Add(_T("6月{c #FE5900}12%{/c}"), 12);
+		}
+
+		CChartViewUI *pPieView = static_cast<CChartViewUI*>(m_pm.FindControl(_T("ChartView_Pie")));
+		if (NULL != pPieView)
+		{
+			pPieView->Add(_T("北京{c #FE5900}35%{/c}"), 35);
+			pPieView->Add(_T("上海{c #FE5900}38%{/c}"), 38);
+			pPieView->Add(_T("广州{c #FE5900}35%{/c}"), 35);
+			pPieView->Add(_T("香港{c #FE5900}15%{/c}"), 15);
+		}
 	}
 
 	virtual BOOL Receive(SkinChangedParam param)
 	{
-		CControlUI* pRoot = m_PaintManager.FindControl(_T("root"));
+		CControlUI* pRoot = m_pm.FindControl(_T("root"));
 		if( pRoot != NULL ) {
 			if( param.bColor ) {
 				pRoot->SetBkColor(param.bkcolor);
@@ -138,7 +160,7 @@ public:
 			else {
 				pRoot->SetBkColor(0);
 				pRoot->SetBkImage(param.bgimage);
-				m_PaintManager.SetLayeredImage(param.bgimage);
+				m_pm.SetLayeredImage(param.bgimage);
 			}
 		}
 		return TRUE;
@@ -282,7 +304,7 @@ public:
 		else if(msg.sType==_T("selectchanged"))
 		{
 			CDuiString name = msg.pSender->GetName();
-			CTabLayoutUI* pTabSwitch = static_cast<CTabLayoutUI*>(m_PaintManager.FindControl(_T("tab_switch")));
+			CTabLayoutUI* pTabSwitch = static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("tab_switch")));
 
 			if(name.CompareNoCase(_T("basic_tab")) == 0) pTabSwitch->SelectItem(0);
 			if(name.CompareNoCase(_T("rich_tab")) == 0) pTabSwitch->SelectItem(1);
@@ -291,9 +313,9 @@ public:
 		}
 		else if(msg.sType == _T("valuechanged"))
 		{
-			CProgressUI* pSlider = static_cast<CProgressUI*>(m_PaintManager.FindControl(_T("slider")));
-			CProgressUI* pPro1 = static_cast<CProgressUI*>(m_PaintManager.FindControl(_T("progress")));
-			CProgressUI* pPro2 = static_cast<CProgressUI*>(m_PaintManager.FindControl(_T("circle_progress")));
+			CProgressUI* pSlider = static_cast<CProgressUI*>(m_pm.FindControl(_T("slider")));
+			CProgressUI* pPro1 = static_cast<CProgressUI*>(m_pm.FindControl(_T("progress")));
+			CProgressUI* pPro2 = static_cast<CProgressUI*>(m_pm.FindControl(_T("circle_progress")));
 			pPro1->SetValue(pSlider->GetValue());
 			pPro2->SetValue(pSlider->GetValue());
 		}
@@ -307,7 +329,7 @@ public:
 		}
 		else if(sName.CompareNoCase(_T("button1")) == 0)
 		{
-			CEditUI* pEdit = static_cast<CEditUI*>(m_PaintManager.FindControl(_T("edit3")));
+			CEditUI* pEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("edit3")));
 			TCHAR* pstrText = (TCHAR*)pEdit->GetText().GetData();
 			if(pstrText != NULL && lstrlen(pstrText) > 0) {
 				double fEdit = _ttof(pstrText);
@@ -369,7 +391,7 @@ public:
 			CDuiPoint point;
 			::GetCursorPos(&point);
 			
-			m_pMenu->Init(NULL, _T("menu.xml"), point, &m_PaintManager);
+			m_pMenu->Init(NULL, _T("menu.xml"), point, &m_pm);
 			CMenuUI* rootMenu = m_pMenu->GetMenuUI();
 			if (rootMenu != NULL)
 			{
@@ -411,15 +433,15 @@ public:
 		LRESULT lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
 		if( ::IsZoomed(*this) != bZoomed ) {
 			if( !bZoomed ) {
-				CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("maxbtn")));
+				CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));
 				if( pControl ) pControl->SetVisible(false);
-				pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("restorebtn")));
+				pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));
 				if( pControl ) pControl->SetVisible(true);
 			}
 			else {
-				CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("maxbtn")));
+				CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));
 				if( pControl ) pControl->SetVisible(true);
-				pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("restorebtn")));
+				pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));
 				if( pControl ) pControl->SetVisible(false);
 			}
 		}
@@ -444,7 +466,7 @@ public:
 				CDuiString sMenuName = pMenuCmd->szName;
 				CDuiString sUserData = pMenuCmd->szUserData;
 				CDuiString sText = pMenuCmd->szText;
-				m_PaintManager.DeletePtr(pMenuCmd);
+				m_pm.DeletePtr(pMenuCmd);
 
 				if(sMenuName.CompareNoCase(_T("lan")) == 0)
 				{
@@ -458,7 +480,7 @@ public:
 					bEn = !bEn;
 					CResourceManager::GetInstance()->ReloadText();
 					InvalidateRect(m_hWnd, NULL, TRUE);
-					m_PaintManager.NeedUpdate();
+					m_pm.NeedUpdate();
 				}
 				else if (sMenuName == _T("qianting"))
 				{

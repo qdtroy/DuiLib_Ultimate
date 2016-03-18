@@ -78,12 +78,12 @@ public:
 		WPPage* pPage = (WPPage*)wParam;
 		if(pPage != NULL)
 		{
-			CTabLayoutUI* pTabLayout = (CTabLayoutUI*)m_PaintManager.FindControl(_T("wp_tablayout"));
+			CTabLayoutUI* pTabLayout = (CTabLayoutUI*)m_pm.FindControl(_T("wp_tablayout"));
 			if(pTabLayout)
 			{
 				CString sTabPanel;
 				sTabPanel.Format(_T("wp_tabpanel@%s"), pPage->sType);
-				CVerticalLayoutUI* pTabPanel = (CVerticalLayoutUI*)m_PaintManager.FindControl(sTabPanel);
+				CVerticalLayoutUI* pTabPanel = (CVerticalLayoutUI*)m_pm.FindControl(sTabPanel);
 				if(pTabPanel == NULL)
 				{
 					pTabPanel = new CVerticalLayoutUI();
@@ -120,7 +120,7 @@ public:
 		{
 			CString sPanel;
 			sPanel.Format(_T("wp_panel_%s_%d"), pKey->sType, pKey->nPage);
-			CWPPanel* pPanel = (CWPPanel*)m_PaintManager.FindControl(sPanel);
+			CWPPanel* pPanel = (CWPPanel*)m_pm.FindControl(sPanel);
 			if(pPanel != NULL)
 			{
 				std::vector<WPInfo> vInfos;

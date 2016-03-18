@@ -121,11 +121,11 @@ LRESULT CMainWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandle
 
 void CMainWnd::Init()
 {
-	m_pStepTabLayout = static_cast<CAnimationTabLayoutUI*>(m_PaintManager.FindControl(_T("stepTabLayout")));
-	m_pInstallText = static_cast<CLabelUI*>(m_PaintManager.FindControl(_T("textProgress")));
-	m_pBtnOneClick = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("BtnOneClick")));
-	m_pBtnOverwrite = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("BtnOverwrite")));
-	m_pProgressBar = static_cast<CProgressUI*>(m_PaintManager.FindControl(_T("install")));
+	m_pStepTabLayout = static_cast<CAnimationTabLayoutUI*>(m_pm.FindControl(_T("stepTabLayout")));
+	m_pInstallText = static_cast<CLabelUI*>(m_pm.FindControl(_T("textProgress")));
+	m_pBtnOneClick = static_cast<CButtonUI*>(m_pm.FindControl(_T("BtnOneClick")));
+	m_pBtnOverwrite = static_cast<CButtonUI*>(m_pm.FindControl(_T("BtnOverwrite")));
+	m_pProgressBar = static_cast<CProgressUI*>(m_pm.FindControl(_T("install")));
 
 	m_pProgressBar->SetValue(0);
 }

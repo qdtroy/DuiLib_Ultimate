@@ -42,7 +42,7 @@ namespace DuiLib
 		virtual LPCTSTR GetManagerName() { return NULL; }
 		virtual LRESULT ResponseDefaultKeyEvent(WPARAM wParam);
 
-		CPaintManagerUI m_PaintManager;
+		CPaintManagerUI m_pm;
 
 	public:
 		virtual UINT GetClassStyle() const;

@@ -27,7 +27,7 @@ CDuiString CFrameWnd::GetSkinFolder()
 
 void CFrameWnd::InitWindow()
 {
-	m_pAnimLayout = static_cast<AnimLayout*>(m_PaintManager.FindControl(_T("vlayout_background")));
+	m_pAnimLayout = static_cast<AnimLayout*>(m_pm.FindControl(_T("vlayout_background")));
 	ASSERT(m_pAnimLayout != NULL);
 
 	CenterWindow();
@@ -76,7 +76,7 @@ LRESULT CFrameWnd::OnNcHitTest(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bH
 
 	if( !::IsZoomed(*this) )
 	{
-		RECT rcSizeBox = m_PaintManager.GetSizeBox();
+		RECT rcSizeBox = m_pm.GetSizeBox();
 		if( pt.y < rcClient.top + rcSizeBox.top )
 		{
 			if( pt.x < rcClient.left + rcSizeBox.left ) return HTTOPLEFT;
@@ -94,10 +94,10 @@ LRESULT CFrameWnd::OnNcHitTest(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bH
 		if( pt.x > rcClient.right - rcSizeBox.right ) return HTRIGHT;
 	}
 
-	RECT rcCaption = m_PaintManager.GetCaptionRect();
+	RECT rcCaption = m_pm.GetCaptionRect();
 	if( pt.x >= rcClient.left + rcCaption.left && pt.x < rcClient.right - rcCaption.right \
 		&& pt.y >= rcCaption.top && pt.y < rcCaption.bottom ) {
-			CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(pt));
+			CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(pt));
 			if( pControl && _tcsicmp(pControl->GetClass(), _T("ButtonUI")) != 0 && 
 				_tcsicmp(pControl->GetClass(), _T("OptionUI")) != 0 &&
 				_tcsicmp(pControl->GetClass(), _T("SliderUI")) != 0 &&

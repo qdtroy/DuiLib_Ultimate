@@ -46,7 +46,7 @@ DUI_BEGIN_MESSAGE_MAP(CMainWnd, WindowImplBase)
 
 	CMainWnd::CMainWnd(void)
 {
-	m_MainPage.SetPaintMagager(&m_PaintManager);
+	m_MainPage.SetPaintMagager(&m_pm);
 
 	AddVirtualWnd(_T("mainpage"),&m_MainPage);
 }
@@ -115,7 +115,7 @@ void CMainWnd::InitWindow()
 	// 初始化数据管理器
 	m_Data.Init(m_hWnd);
 	// 创建分类按钮
-	CHorizontalLayoutUI* pTabBar = (CHorizontalLayoutUI*)m_PaintManager.FindControl(_T("tabbar"));
+	CHorizontalLayoutUI* pTabBar = (CHorizontalLayoutUI*)m_pm.FindControl(_T("tabbar"));
 	if(pTabBar)
 	{
 		TABBTN aTypes[] = {
@@ -178,14 +178,14 @@ void CMainWnd::Notify( TNotifyUI &msg )
 	else if(msg.sType.CompareNoCase(DUI_MSGTYPE_SELECTCHANGED) == 0)
 	{
 		COptionUI* pTabBtn = (COptionUI*)msg.pSender;
-		CTabLayoutUI* pTabLayout = (CTabLayoutUI*)m_PaintManager.FindControl(_T("wp_tablayout"));
+		CTabLayoutUI* pTabLayout = (CTabLayoutUI*)m_pm.FindControl(_T("wp_tablayout"));
 		CString sName = pTabBtn->GetName();
 		if(sName == _T("wp_tabbtn") && pTabLayout)
 		{
 			CString sType = pTabBtn->GetUserData();
 			CString sTabPanel;
 			sTabPanel.Format(_T("wp_tabpanel@%s"), sType);
-			CVerticalLayoutUI* pTabPanel = (CVerticalLayoutUI*)m_PaintManager.FindControl(sTabPanel);
+			CVerticalLayoutUI* pTabPanel = (CVerticalLayoutUI*)m_pm.FindControl(sTabPanel);
 			if(pTabPanel == NULL)
 			{
 				m_Data.LoadBizhi(sType, 1, 10);

@@ -20,7 +20,7 @@ void CMsgWnd::SetTitle(LPCTSTR lpstrTitle)
 {
 	if(lstrlen(lpstrTitle) <= 0) return;
 
-	CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("MessageTitle")));
+	CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("MessageTitle")));
 	if( pControl ) pControl->SetText(lpstrTitle);
 }
 
@@ -28,7 +28,7 @@ void CMsgWnd::SetMsg(LPCTSTR lpstrMsg)
 {
 	if(lstrlen(lpstrMsg) <= 0) return;
 
-	CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("MessageText")));
+	CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("MessageText")));
 	if( pControl ) pControl->SetText(lpstrMsg);
 }
 
@@ -108,5 +108,5 @@ LRESULT CMsgWnd::OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bH
 
 void CMsgWnd::InitWindow()
 {
-	m_pCloseBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("closebtn")));
+	m_pCloseBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("closebtn")));
 }

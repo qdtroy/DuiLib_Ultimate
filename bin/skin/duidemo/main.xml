@@ -4,9 +4,9 @@
   <Font id="1" name="宋体" size="12" bold="true" underline="true" shared="true"/>
   <Font id="2" name="宋体" size="18" bold="true" shared="true"/>
   <Font id="3" name="宋体" size="18" bold="true" shared="true"/>
-  <Default name="VScrollBar" shared="true" value="width=&quot;6&quot; button1normalimage=&quot;file='scrollbar.bmp' source='0,90,16,106' mask='#FFFF00FF'&quot; button1hotimage=&quot;file='scrollbar.bmp' source='18,90,34,106' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='scrollbar.bmp' source='36,90,52,106' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='scrollbar.bmp' source='54,90,70,106' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='scrollbar.bmp' source='0,108,16,124' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='scrollbar.bmp' source='18,108,34,124' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='scrollbar.bmp' source='36,108,52,124' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='scrollbar.bmp' source='54,108,70,124' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='scrollbar.bmp' source='0,126,16,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='scrollbar.bmp' source='18,126,34,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;file='scrollbar.bmp' source='36,126,52,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='scrollbar.bmp' source='54,126,70,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='scrollbar.bmp' source='0,144,16,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='scrollbar.bmp' source='18,144,34,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='scrollbar.bmp' source='36,144,52,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='scrollbar.bmp' source='54,144,70,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='scrollbar.bmp' source='0,162,16,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='scrollbar.bmp' source='18,162,34,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='scrollbar.bmp' source='36,162,52,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='scrollbar.bmp' source='54,162,70,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; " />
+  <Default name="VScrollBar" shared="true" value="button1normalimage=&quot;file='scrollbar.bmp' source='0,90,16,106' mask='#FFFF00FF'&quot; button1hotimage=&quot;file='scrollbar.bmp' source='18,90,34,106' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='scrollbar.bmp' source='36,90,52,106' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='scrollbar.bmp' source='54,90,70,106' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='scrollbar.bmp' source='0,108,16,124' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='scrollbar.bmp' source='18,108,34,124' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='scrollbar.bmp' source='36,108,52,124' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='scrollbar.bmp' source='54,108,70,124' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='scrollbar.bmp' source='0,126,16,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='scrollbar.bmp' source='18,126,34,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;file='scrollbar.bmp' source='36,126,52,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='scrollbar.bmp' source='54,126,70,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='scrollbar.bmp' source='0,144,16,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='scrollbar.bmp' source='18,144,34,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='scrollbar.bmp' source='36,144,52,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='scrollbar.bmp' source='54,144,70,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='scrollbar.bmp' source='0,162,16,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='scrollbar.bmp' source='18,162,34,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='scrollbar.bmp' source='36,162,52,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='scrollbar.bmp' source='54,162,70,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; " />
   <Default name="HScrollBar" shared="true" value="button1normalimage=&quot;file='scrollbar.bmp' source='0,0,16,16' mask='#FFFF00FF'&quot; button1hotimage=&quot;file='scrollbar.bmp' source='18,0,34,16' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='scrollbar.bmp' source='36,0,52,16' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='scrollbar.bmp' source='54,0,70,16' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='scrollbar.bmp' source='0,18,16,34' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='scrollbar.bmp' source='18,18,34,34' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='scrollbar.bmp' source='36,18,52,34' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='scrollbar.bmp' source='54,18,70,34' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='scrollbar.bmp' source='0,36,16,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='scrollbar.bmp' source='18,36,34,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;file='scrollbar.bmp' source='36,36,52,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='scrollbar.bmp' source='54,36,70,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='scrollbar.bmp' source='0,54,16,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='scrollbar.bmp' source='18,54,34,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='scrollbar.bmp' source='36,54,52,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='scrollbar.bmp' source='54,54,70,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='scrollbar.bmp' source='0,72,16,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='scrollbar.bmp' source='18,72,34,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='scrollbar.bmp' source='36,72,52,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='scrollbar.bmp' source='54,72,70,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; " />
-  
+
   <Style name="main_tab" value="textcolor=&quot;#FF386382&quot; font=&quot;2&quot; normalimage=&quot;tabbar_normal.png&quot; hotimage=&quot;tabbar_hover.png&quot; pushedimage=&quot;tabbar_pushed.png&quot; selectedimage=&quot;tabbar_pushed.png&quot; group=&quot;tab_header&quot;" />
   <Style name="combo_style" value="height=&quot;22&quot; textpadding=&quot;4,1,22,1&quot; normalimage=&quot;file='combo.png' source='0,0,100,22' corner='2,2,20,2'&quot; hotimage=&quot;file='combo.png' source='0,22,100,44' corner='2,2,22,2'&quot; pushedimage=&quot;file='combo.png' source='0,44,100,66' corner='2,2,22,2'&quot;" />
   <Style name="list_style" value="headerbkimage=&quot;file='list_header_bg.png'&quot; itemalign=&quot;center&quot; itemlinecolor=&quot;#FFFF0000&quot; itemshowrowline=&quot;true&quot; itemshowcolumnline=&quot;true&quot;" />
@@ -15,7 +15,7 @@
   <Style name="treenode_folder_style" value="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='Icon/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='Icon/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='Icon/treeview_a.png' source='16,0,32,16' &quot;"/>
   <Style name="treenode_checkbox_style" value="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/unchecked.png' &quot; selectedimage=&quot;file='Icon/checked.png'&quot;" />
   <Style name="treeview_style" value="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;"/>
-  
+
   <VerticalLayout name="root" bkimage1="file='main\10.jpg' corner='580,370,10,5'" bkcolor="#ff0199cb" colorhsl="true">
     <HorizontalLayout name="appbar" height="64" >
       <HorizontalLayout name="apptitle" childpadding="6">
@@ -25,7 +25,7 @@
           <HorizontalLayout height="20" childpadding="20">
             <Button name="homepage_btn" text="hometext" resourcetext="true"  showhtml="true" width="60" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FFFF00FF" font="1" tooltip="官网"/>
             <Button name="qqgroup_btn" text="加入duilib开源项目圈（261675375）" tooltip="加入duilib开源项目圈" width="220" autocalcwidth="true" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" />
-            <Button name="qq_btn" text="Troy(QQ：656067418)" width="170" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="添加Troy为QQ好友" />
+            <Button name="qq_btn" text =  "Troy(QQ：656067418)" width="170" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="添加Troy为QQ好友" />
           </HorizontalLayout>
         </VerticalLayout>
       </HorizontalLayout>
@@ -55,7 +55,7 @@
           <Label height="1" bkimage="hor_line.bmp"/>
 
           <HorizontalLayout height="60">
-            <Text text="Text演示" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
+            <Label text="Label演示" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout >
               <Control />
               <HorizontalLayout height="45" childpadding="12" leftbordersize="1" topbordersize="1" bottombordersize="1" rightbordersize="1" bordercolor="#0">
@@ -67,7 +67,7 @@
               <Control />
             </VerticalLayout>
           </HorizontalLayout>
-          
+
           <Label height="1" bkimage="hor_line.bmp"/>
           <HorizontalLayout height="60">
             <Label text="按钮控件" textcolor="#FF555555" font="font13" width="80"/>
@@ -94,7 +94,7 @@
                 <Edit name="edit2" tipvalue="只读" text="只读控件" style="edit_style" align="center" readonly="true"/>
                 <Edit name="edit3" tipvalue="数字" style="edit_style" numberonly="true"/>
                 <Edit name="edit4" tipvalue="密码" style="edit_style" password="true"/>
-                <Edit name="TxtLoginName" enabled="true"  textpadding="40,2,2,2" width="200"   menu="true" borderround="2,2" textcolor="#3F3F3F" bordersize="1" bordercolor="#FFFF00" focusbordercolor="#1F6CF5" />
+
               </HorizontalLayout>
               <Control />
             </VerticalLayout>
@@ -136,7 +136,7 @@
               <Control />
             </VerticalLayout>
           </HorizontalLayout>
-          
+
           <HorizontalLayout height="100">
             <Label text="进度控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout>
@@ -150,6 +150,13 @@
             </VerticalLayout>
           </HorizontalLayout>
           
+          <HorizontalLayout height="200">
+            <Label text="图标控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
+            <VerticalLayout>
+              <ChartView name="ChartView_Histpgram" padding="10,10,10,10" view="histpgram" shadowimage="file='Histogram_Shadow.png' corner='10,0,10,0'" shadowimageheight="8" pillarimage="file='Histogram_Pillar.png' corner='0,7,0,7'" pillarimagewidth="19" showhtml="true" />
+              <ChartView name="ChartView_Pie" padding="10,10,10,10" view="pie" showhtml="true" />
+            </VerticalLayout>
+          </HorizontalLayout>
           <Label height="1" bkimage="hor_line.bmp"/>
           <HorizontalLayout height="60">
             <Label text="系统控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
@@ -178,7 +185,7 @@
             </VerticalLayout>
           </HorizontalLayout>
           <Label height="1" bkimage="hor_line.bmp"/>
-          
+
         </VerticalLayout>
         <VerticalLayout name="rich_tab_panel" inset="2,2,2,2" vscrollbar="true">
           <Label height="1" bkimage="hor_line.bmp"/>
@@ -212,12 +219,11 @@
                 <TreeNode text="A1" style="treeview_style" >
                   <TreeNode text="B1" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" >
                     <TreeNode text="C1" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" >
-                      <TreeNode text="D1" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" >
-                        <HorizontalLayout bkcolor="#FFFF0000" width="600">
-
+                      <TreeNode text="D1" horizattr="width=&quot;128&quot; bkcolor=&quot;#FFFF0000&quot;" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" >
+                        <HorizontalLayout bkcolor="#FFFF00FF" width="300">
+                          <!--<Button text="扩展按钮" style="btn_style" width="100"/>
                           <Button text="扩展按钮" style="btn_style" width="100"/>
-                          <Button text="扩展按钮" style="btn_style" width="100"/>
-                          <HorizontalLayout />
+                          <HorizontalLayout />-->
                         </HorizontalLayout>
                       </TreeNode>
                       <Button text="扩展按钮" style="btn_style" width="100" />
@@ -244,7 +250,7 @@
           <Label height="1" bkimage="hor_line.bmp"/>
 
         </VerticalLayout>
-        
+
         <VerticalLayout name="ani_tab_panel">
           <Label height="1" bkimage="hor_line.bmp"/>
           <HorizontalLayout bkcolor="#FFFFFFFF" inset="0,6,0,6">
@@ -253,7 +259,7 @@
               <GifAnim name="ani_gif" bkimage="gifani.gif" width="320"/>
             </VerticalLayout>
           </HorizontalLayout>
-          
+
           <Label height="1" bkimage="hor_line.bmp"/>
           <HorizontalLayout bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="Flash控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
@@ -270,9 +276,9 @@
           <WebBrowser name="oneclick_browser2" homepage="about:blank" autonavi="true" delaycreate="false"/>
         </VerticalLayout>
       </AnimationTabLayout>
-      
+
     </VerticalLayout>
-    
+
     <HorizontalLayout height="32">
     </HorizontalLayout>
   </VerticalLayout>

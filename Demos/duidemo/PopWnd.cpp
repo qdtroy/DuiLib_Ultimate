@@ -108,15 +108,15 @@ LRESULT CPopWnd::OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bH
 	LRESULT lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
 	if( ::IsZoomed(*this) != bZoomed ) {
 		if( !bZoomed ) {
-			CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("maxbtn")));
+			CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));
 			if( pControl ) pControl->SetVisible(false);
-			pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("restorebtn")));
+			pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));
 			if( pControl ) pControl->SetVisible(true);
 		}
 		else {
-			CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("maxbtn")));
+			CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));
 			if( pControl ) pControl->SetVisible(true);
-			pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("restorebtn")));
+			pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));
 			if( pControl ) pControl->SetVisible(false);
 		}
 	}
@@ -125,9 +125,9 @@ LRESULT CPopWnd::OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bH
 
 void CPopWnd::InitWindow()
 {
-	m_pCloseBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("closebtn")));
-	m_pMaxBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("maxbtn")));
-	m_pRestoreBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("restorebtn")));
-	m_pMinBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("minbtn")));
-	m_pMenuBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("menubtn")));
+	m_pCloseBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("closebtn")));
+	m_pMaxBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("maxbtn")));
+	m_pRestoreBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("restorebtn")));
+	m_pMinBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("minbtn")));
+	m_pMenuBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("menubtn")));
 }

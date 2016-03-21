@@ -145,6 +145,8 @@ namespace DuiLib {
 		LPCTSTR GetTipValue();
 		void SetTipValueColor(LPCTSTR pStrColor);
 		DWORD GetTipValueColor();
+		void SetTipValueAlign(UINT uAlign);
+		UINT GetTipValueAlign();
 
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
@@ -177,6 +179,7 @@ namespace DuiLib {
 		RECT m_rcTextPadding;
 		CDuiString m_sTipValue;
 		DWORD m_dwTipValueColor;
+		UINT m_uTipValueAlign;
 	};
 
 } // namespace DuiLib

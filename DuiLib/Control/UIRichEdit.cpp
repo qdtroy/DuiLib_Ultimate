@@ -232,20 +232,16 @@ HRESULT InitDefaultParaFormat(CRichEditUI* re, PARAFORMAT2* ppf)
 HRESULT CreateHost(CRichEditUI *re, const CREATESTRUCT *pcs, CTxtWinHost **pptec)
 {
     HRESULT hr = E_FAIL;
-    //GdiSetBatchLimit(1);
 
     CTxtWinHost *phost = new CTxtWinHost();
-    if(phost)
-    {
-        if (phost->Init(re, pcs))
-        {
+    if(phost) {
+        if (phost->Init(re, pcs)) {
             *pptec = phost;
             hr = S_OK;
         }
     }
 
-    if (FAILED(hr))
-    {
+    if (FAILED(hr)) {
         delete phost;
     }
 
@@ -1059,7 +1055,7 @@ IMPLEMENT_DUICONTROL(CRichEditUI)
 CRichEditUI::CRichEditUI() : m_pTwh(NULL), m_bVScrollBarFixing(false), m_bWantTab(true), m_bWantReturn(true), 
     m_bWantCtrlReturn(true), m_bRich(true), m_bReadOnly(false), m_bWordWrap(false), m_dwTextColor(0), m_iFont(-1), 
     m_iLimitText(cInitTextMax), m_lTwhStyle(ES_MULTILINE), m_bDrawCaret(true), m_bInited(false), m_chLeadByte(0),m_uButtonState(0),
-	m_dwTipValueColor(0xFFBAC0C5)
+	m_dwTipValueColor(0xFFBAC0C5), m_uTipValueAlign(DT_SINGLELINE | DT_LEFT)
 {
 #ifndef _UNICODE
 	m_fAccumulateDBC =true;
@@ -1716,10 +1712,6 @@ void CRichEditUI::DoInit()
 		if (!m_bEnabled) {
 			m_pTwh->SetColor(m_pManager->GetDefaultDisabledColor());
 		}
-		else if (GetText() == _T("") && !m_sTipValue.IsEmpty()) {
-			SetText(m_sTipValue);
-			m_pTwh->SetColor(m_dwTipValueColor);
-		}
     }
 	
 	m_bInited= true;
@@ -1913,10 +1905,7 @@ void CRichEditUI::DoEvent(TEventUI& event)
 	if( event.Type == UIEVENT_SETFOCUS ) {
 		if( m_pTwh ) {
 			m_pTwh->OnTxInPlaceActivate(NULL);
-			if (GetText() == m_sTipValue) {
-				SetText(_T(""));
-				m_pTwh->SetColor(m_dwTextColor);
-			}
+			m_pTwh->SetColor(m_dwTextColor);
 			m_pTwh->GetTextServices()->TxSendMessage(WM_SETFOCUS, 0, 0, 0);
 		}
 		m_bFocused = true;
@@ -1926,11 +1915,6 @@ void CRichEditUI::DoEvent(TEventUI& event)
 	if( event.Type == UIEVENT_KILLFOCUS )  {
 		if( m_pTwh ) {
 			m_pTwh->OnTxInPlaceActivate(NULL);
-			if (GetText() == _T("") && !m_sTipValue.IsEmpty())
-			{
-				SetText(m_sTipValue);
-				m_pTwh->SetColor(m_dwTipValueColor);
-			}
 			m_pTwh->GetTextServices()->TxSendMessage(WM_KILLFOCUS, 0, 0, 0);
 		}
 		m_bFocused = false;
@@ -2061,6 +2045,17 @@ void CRichEditUI::SetTipValueColor( LPCTSTR pStrColor )
 DWORD CRichEditUI::GetTipValueColor()
 {
 	return m_dwTipValueColor;
+}
+
+void CRichEditUI::SetTipValueAlign(UINT uAlign)
+{
+	m_uTipValueAlign = uAlign;
+	if(GetText().IsEmpty()) Invalidate();
+}
+
+UINT CRichEditUI::GetTipValueAlign()
+{
+	return m_uTipValueAlign;
 }
 
 void CRichEditUI::PaintStatusImage(HDC hDC)
@@ -2361,6 +2356,21 @@ void CRichEditUI::DoPaint(HDC hDC, const RECT& rcPaint)
             m_pHorizontalScrollBar->DoPaint(hDC, rcPaint);
         }
     }
+	// 绘制提示文字
+	CDuiString sDrawText = GetText();
+	if(sDrawText.IsEmpty()) {
+		DWORD dwTextColor = GetTipValueColor();
+		CDuiString sTipValue = GetTipValue();
+		RECT rc = m_rcItem;
+		rc.left += m_rcTextPadding.left;
+		rc.right -= m_rcTextPadding.right;
+		rc.top += m_rcTextPadding.top;
+		rc.bottom -= m_rcTextPadding.bottom;
+		UINT uTextAlign = GetTipValueAlign();
+		if(IsMultiLine()) uTextAlign |= DT_TOP;
+		else uTextAlign |= DT_VCENTER;
+		CRenderEngine::DrawText(hDC, m_pManager, rc, sTipValue, dwTextColor, m_iFont, uTextAlign);
+	}
 }
 
 void CRichEditUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
@@ -2396,7 +2406,9 @@ void CRichEditUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
         if( _tcsicmp(pstrValue, _T("true")) == 0 ) { m_lTwhStyle |= ES_READONLY; m_bReadOnly = true; }
     }
     else if( _tcsicmp(pstrName, _T("password")) == 0 ) {
-        if( _tcsicmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_PASSWORD;
+        if( _tcsicmp(pstrValue, _T("true")) == 0 ) {
+			m_lTwhStyle |= ES_PASSWORD;
+		}
     }
     else if( _tcsicmp(pstrName, _T("align")) == 0 ) {
         if( _tcsstr(pstrValue, _T("left")) != NULL ) {
@@ -2436,6 +2448,17 @@ void CRichEditUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	}
 	else if( _tcsicmp(pstrName, _T("tipvalue")) == 0 ) SetTipValue(pstrValue);
 	else if( _tcsicmp(pstrName, _T("tipvaluecolor")) == 0 ) SetTipValueColor(pstrValue);
+	else if( _tcsicmp(pstrName, _T("tipvaluealign")) == 0 ) {
+        if( _tcsstr(pstrValue, _T("left")) != NULL ) {
+            m_uTipValueAlign = DT_SINGLELINE | DT_LEFT;
+        }
+        if( _tcsstr(pstrValue, _T("center")) != NULL ) {
+            m_uTipValueAlign = DT_SINGLELINE | DT_CENTER;
+        }
+        if( _tcsstr(pstrValue, _T("right")) != NULL ) {
+           m_uTipValueAlign = DT_SINGLELINE | DT_RIGHT;
+        }
+    }
     else CContainerUI::SetAttribute(pstrName, pstrValue);
 }
 

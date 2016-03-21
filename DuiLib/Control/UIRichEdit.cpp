@@ -2358,7 +2358,7 @@ void CRichEditUI::DoPaint(HDC hDC, const RECT& rcPaint)
     }
 	// 绘制提示文字
 	CDuiString sDrawText = GetText();
-	if(sDrawText.IsEmpty()) {
+	if(sDrawText.IsEmpty() && !m_bFocused) {
 		DWORD dwTextColor = GetTipValueColor();
 		CDuiString sTipValue = GetTipValue();
 		RECT rc = m_rcItem;

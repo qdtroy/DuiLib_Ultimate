@@ -141,7 +141,7 @@
             <Label text="进度控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout>
               <Control />
-              <HorizontalLayout height="100" childpadding="12">
+              <HorizontalLayout height="100" childpadding="12" bkcolor="#FF00FF00">
                 <Progress name="progress" padding="0,40" textcolor="#FF333333" valign="vcenter" height="18" width="160" bkcolor="#FFFFFF33" forecolor="#FFFF0000" value="50" min="0" max="100"/>
                 <CircleProgress name="circle_progress" textcolor="#FF333333" valign="vcenter" height="100" width="100" bkcolor="#FFFFFF33" forecolor="#FFFF0000" value="50" min="0" max="100"/>
                 <Slider name="slider" padding="0,40" width="124" height="19" value="50" min="0" max="100" bkimage="res='SliderBar_BK.bmp' mask='#ffff00ff'" thumbimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbhotimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbpushedimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbsize="12,20" />
@@ -207,7 +207,7 @@
           <HorizontalLayout height="120" bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="RichEdit控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
-              <RichEdit name="wordedit" font="2" text="duilib地址：https://github.com/duisharp/DuiLib_Ultimate duilib 开源项目交流圈（261675375），请各位积极贡献自己在开发中遇到的各种问题解决方案和开发经验，互帮互助，一起完善duilib。入群要求：接收Q龄高于3年等级一个太阳及以上的非企业QQ入群。" readonly="false" hscrollbar="true" autohscroll="true"/>
+              <RichEdit name="wordedit" font="2" password="false" tipvalue="请输入文字" mutiline="true" rich="false" text="duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）" readonly="false" vscrollbar="true" hscrollbar="false" autohscroll="false"/>
             </VerticalLayout>
           </HorizontalLayout>
           <Label height="1" bkimage="hor_line.bmp"/>
@@ -255,8 +255,8 @@
           <Label height="1" bkimage="hor_line.bmp"/>
           <HorizontalLayout bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="Gif控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
-            <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
-              <GifAnim name="ani_gif" bkimage="gifani.gif" width="320"/>
+            <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2" bkcolor="#FFAA00AA">
+              <GifAnim name="ani_gif" bkimage="checking.gif" width="320"/>
             </VerticalLayout>
           </HorizontalLayout>
 

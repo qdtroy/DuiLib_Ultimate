@@ -18,13 +18,15 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	
 	HRESULT hRes = ::OleInitialize(NULL);
 
-	CDemoFrame* pFrame = new CDemoFrame();
-	if( pFrame == NULL ) return 0;
-	pFrame->Create(NULL, _T("duilib例子演示"), UI_WNDSTYLE_FRAME, 0L, 0, 0, 800, 572);
-	pFrame->CenterWindow();
-	//pFrame->ShowModal();
-	::ShowWindow(*pFrame, SW_SHOW);
-	CPaintManagerUI::MessageLoop();
+	if(MSGID_OK == CMsgWnd::MessageBox(NULL, _T("duilib例子使用集锦（By Troy）"), _T("点击确定会显示duilib例子使用集锦，是否继续？"))) {
+		CDemoFrame* pFrame = new CDemoFrame();
+		if( pFrame == NULL ) return 0;
+		pFrame->Create(NULL, _T("duilib使用例子集锦（By Troy）"), UI_WNDSTYLE_FRAME, 0L, 0, 0, 800, 572);
+		pFrame->CenterWindow();
+		pFrame->ShowModal();
+		//::ShowWindow(*pFrame, SW_SHOW);
+		//CPaintManagerUI::MessageLoop();
+	}
 
 	CResourceManager::GetInstance()->Release();
 

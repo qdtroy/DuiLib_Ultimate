@@ -2358,7 +2358,7 @@ namespace DuiLib {
 	//
 	IMPLEMENT_DUICONTROL(CListTextElementUI)
 
-		CListTextElementUI::CListTextElementUI() : m_nLinks(0), m_nHoverLink(-1), m_pOwner(NULL)
+	CListTextElementUI::CListTextElementUI() : m_nLinks(0), m_nHoverLink(-1), m_pOwner(NULL)
 	{
 		::ZeroMemory(&m_rcLinks, sizeof(m_rcLinks));
 	}
@@ -2744,11 +2744,6 @@ namespace DuiLib {
 				m_uButtonState &= ~UISTATE_HOT;
 				Invalidate();
 			}
-			return;
-		}
-		if( event.Type == UIEVENT_TIMER )
-		{
-			m_pManager->SendNotify(this, DUI_MSGTYPE_TIMER, event.wParam, event.lParam);
 			return;
 		}
 		if( event.Type == UIEVENT_TIMER )

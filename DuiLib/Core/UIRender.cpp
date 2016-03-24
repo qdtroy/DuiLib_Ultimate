@@ -56,14 +56,6 @@ extern ZRESULT FindZipItemW(HZIP hz, const TCHAR *name, bool ic, int *index, ZIP
 extern ZRESULT UnzipItem(HZIP hz, int index, void *dst, unsigned int len, DWORD flags);
 ///////////////////////////////////////////////////////////////////////////////////////
 
-//extern "C"
-//{
-//	extern unsigned char *stbi_load_from_memory(unsigned char const *buffer, int len, int *x, int *y, \
-//		int *comp, int req_comp);
-//	extern void     stbi_image_free(void *retval_from_stbi_load);
-//
-//};
-
 namespace DuiLib {
 	static int g_iFontID = MAX_FONT_ID;
 

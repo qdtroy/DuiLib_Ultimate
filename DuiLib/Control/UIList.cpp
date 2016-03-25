@@ -2751,6 +2751,7 @@ namespace DuiLib {
 			m_pManager->SendNotify(this, DUI_MSGTYPE_TIMER, event.wParam, event.lParam);
 			return;
 		}
+
 		if( event.Type == UIEVENT_CONTEXTMENU )
 		{
 			if( IsContextMenuUsed() ) {

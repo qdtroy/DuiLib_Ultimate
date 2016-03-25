@@ -82,9 +82,9 @@ namespace DuiLib
 #define DUI_MSGTYPE_TREEITEMACTIVATE 		(_T("treeitemactivate"))
 #define DUI_MSGTYPE_TREEITEMDBCLICK 		(_T("treeitemdbclick"))
 #define DUI_MSGTYPE_CHECKCLICK				(_T("checkclick"))
-	//////////////////////////////////////////////////////////////////////////
+#define DUI_MSGTYPE_TEXTROLLEND 			(_T("textrollend"))
 
-
+//////////////////////////////////////////////////////////////////////////
 
 	struct DUI_MSGMAP_ENTRY;
 	struct DUI_MSGMAP
@@ -273,6 +273,8 @@ protected:                                                                \
 #define  DUI_CTR_ANIMATIONTABLAYOUT				 (_T("AnimationTabLayout"))
 
 #define  DUI_CTR_LISTCONTAINERELEMENT            (_T("ListContainerElement"))
+
+#define  DUI_CTR_TEXTSCROLL						 (_T("TextScroll"))
 
 	///
 	//////////////END控件名称宏定义//////////////////////////////////////////////////

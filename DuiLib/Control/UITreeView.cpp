@@ -222,7 +222,7 @@ namespace DuiLib
 		if (_tcsicmp(_pTreeNodeUI->GetClass(), _T("TreeNodeUI")) == 0)
 			return AddChildNode((CTreeNodeUI*)_pTreeNodeUI);
 		
-		CListContainerElementUI::Add(_pTreeNodeUI);
+		return CListContainerElementUI::Add(_pTreeNodeUI);
 	}
 
 	//************************************

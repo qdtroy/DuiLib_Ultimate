@@ -177,6 +177,9 @@
     <ClCompile Include="Control\UIGifAnimEx.cpp">
       <Filter>Source Files\Control</Filter>
     </ClCompile>
+    <ClCompile Include="Control\RollTextUI.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h">
@@ -330,6 +333,9 @@
       <Filter>Header Files\Control</Filter>
     </ClInclude>
     <ClInclude Include="Control\UIGifAnimEx.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Control\RollTextUI.h">
       <Filter>Header Files\Control</Filter>
     </ClInclude>
   </ItemGroup>

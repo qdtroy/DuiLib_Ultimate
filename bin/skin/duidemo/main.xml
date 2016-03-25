@@ -151,7 +151,7 @@
           </HorizontalLayout>
           
           <HorizontalLayout height="200">
-            <Label text="图标控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
+            <Label text="图表控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout>
               <ChartView name="ChartView_Histpgram" padding="10,10,10,10" view="histpgram" shadowimage="file='Histogram_Shadow.png' corner='10,0,10,0'" shadowimageheight="8" pillarimage="file='Histogram_Pillar.png' corner='0,7,0,7'" pillarimagewidth="19" showhtml="true" />
               <ChartView name="ChartView_Pie" padding="10,10,10,10" view="pie" showhtml="true" />
@@ -251,9 +251,9 @@
 
         </VerticalLayout>
 
-        <VerticalLayout name="ani_tab_panel">
+        <VerticalLayout name="ani_tab_panel" vscrollbar="true">
           <Label height="1" bkimage="hor_line.bmp"/>
-          <HorizontalLayout bkcolor="#FFFFFFFF" inset="0,6,0,6">
+          <HorizontalLayout height="100" bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="Gif控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2" bkcolor="#FFAA00AA">
               <GifAnim name="ani_gif" bkimage="checking.gif" width="320"/>
@@ -261,13 +261,19 @@
           </HorizontalLayout>
 
           <Label height="1" bkimage="hor_line.bmp"/>
-          <HorizontalLayout bkcolor="#FFFFFFFF" inset="0,6,0,6">
+          <HorizontalLayout height="200" bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="Flash控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2" bkimage="res='water_bg.jpg' corner='0,360,480,0'">
               <ActiveX name="ani_flash" clsid="{D27CDB6E-AE6D-11CF-96B8-444553540000}" mouse="true"/>
             </VerticalLayout>
           </HorizontalLayout>
 
+          <Label height="1" bkimage="hor_line.bmp"/>
+          <HorizontalLayout height="200" bkcolor="#FFFFFFFF" inset="0,6,0,6" bkcolor="#FF7CCD7C">
+            <Label text="滚动文字" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
+            <RollText name="rolltext" text="超过5000万人使用，适用于 Chrome 的免费的广告拦截器，可阻止所有烦人的广告及恶意软件和跟踪。"/>
+          </HorizontalLayout>
+          
         </VerticalLayout>
         <VerticalLayout name="split_tab_panel" bkcolor="#FF000000">
           <VerticalLayout inset="0,0,0,6" sepimm="true" sepheight="6" height="200" minheight="200" maxheight="300">

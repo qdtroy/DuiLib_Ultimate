@@ -147,6 +147,11 @@ public:
 			pPieView->Add(_T("广州{c #FE5900}35%{/c}"), 35);
 			pPieView->Add(_T("香港{c #FE5900}15%{/c}"), 15);
 		}
+
+		// 滚动文字
+		CRollTextUI* pRollText = (CRollTextUI*)m_pm.FindControl(_T("rolltext"));
+		pRollText->SetText(_T("超过5000万人使用\n适用于 Chrome 的免费的广告拦截器\n可阻止所有烦人的广告及恶意软件和跟踪。"));
+		pRollText->BeginRoll(ROLLTEXT_UP, 20);
 	}
 
 	virtual BOOL Receive(SkinChangedParam param)

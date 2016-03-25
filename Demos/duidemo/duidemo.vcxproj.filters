@@ -111,21 +111,6 @@
     <None Include="..\..\bin\skin\duidemo\scrollbar.bmp">
       <Filter>Resources\images</Filter>
     </None>
-    <None Include="..\..\bin\skin\duidemo\sys_dlg_close.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\sys_dlg_max.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\sys_dlg_menu.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\sys_dlg_min.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\sys_dlg_restore.png">
-      <Filter>Resources\images</Filter>
-    </None>
     <None Include="..\..\bin\skin\duidemo\tabbar_hover.png">
       <Filter>Resources\images</Filter>
     </None>

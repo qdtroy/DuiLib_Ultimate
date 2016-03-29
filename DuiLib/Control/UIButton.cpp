@@ -78,9 +78,9 @@ namespace DuiLib
 		if( event.Type == UIEVENT_BUTTONUP )
 		{
 			if( (m_uButtonState & UISTATE_CAPTURED) != 0 ) {
-				if( ::PtInRect(&m_rcItem, event.ptMouse) ) Activate();				
 				m_uButtonState &= ~(UISTATE_PUSHED | UISTATE_CAPTURED);
 				Invalidate();
+				if( ::PtInRect(&m_rcItem, event.ptMouse) ) Activate();				
 			}
 			return;
 		}

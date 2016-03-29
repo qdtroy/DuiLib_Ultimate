@@ -22,6 +22,7 @@ CPopWnd::~CPopWnd(void)
 void CPopWnd::OnFinalMessage( HWND hWnd)
 {
 	__super::OnFinalMessage(hWnd);
+	delete this;
 }
 
 DuiLib::CDuiString CPopWnd::GetSkinFolder()

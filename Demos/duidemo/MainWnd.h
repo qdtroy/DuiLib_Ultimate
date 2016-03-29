@@ -9,7 +9,6 @@ class CDemoFrame : public WindowImplBase, public CWebBrowserEventHandler, public
 public:
 	CDemoFrame() 
 	{
-		m_pPopWnd = NULL;
 		m_pMenu = NULL;
 	}
 
@@ -343,31 +342,16 @@ public:
 		}
 		else if(sName.CompareNoCase(_T("popwnd_btn")) == 0)
 		{
-			if(m_pPopWnd == NULL)
-			{
-				m_pPopWnd = new CPopWnd();
-			}
-			if(!::IsWindow(*m_pPopWnd))
-			{
-				m_pPopWnd->Create(m_hWnd, _T("透明窗口演示"), WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW, 0, 0, 800, 572);
-			}
-			m_pPopWnd->CenterWindow();
+			CPopWnd* pPopWnd = new CPopWnd();
+			pPopWnd->Create(m_hWnd, _T("透明窗口演示"), WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW, 0, 0, 800, 572);
+			pPopWnd->CenterWindow();
 		}
 		else if(sName.CompareNoCase(_T("modal_popwnd_btn")) == 0)
 		{
-			if(m_pPopWnd == NULL)
-			{
-				m_pPopWnd = new CPopWnd();
-			}
-			else if(IsWindow(*m_pPopWnd)) {
-				DestroyWindow(*m_pPopWnd);
-			}
-			if(!::IsWindow(*m_pPopWnd))
-			{
-				m_pPopWnd->Create(m_hWnd, _T("透明窗口演示"), WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW, 0, 0, 800, 572);
-			}
-			m_pPopWnd->CenterWindow();
-			m_pPopWnd->ShowModal();
+			CPopWnd* pPopWnd = new CPopWnd();
+			pPopWnd->Create(m_hWnd, _T("透明窗口演示"), WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW, 0, 0, 800, 572);
+			pPopWnd->CenterWindow();
+			pPopWnd->ShowModal();
 		}
 
 		else if(sName.CompareNoCase(_T("qqgroup_btn")) == 0)
@@ -515,7 +499,6 @@ public:
 	}
 
 private:
-	CPopWnd* m_pPopWnd;
 	CButtonUI* m_pCloseBtn;
 	CButtonUI* m_pMaxBtn;
 	CButtonUI* m_pRestoreBtn;

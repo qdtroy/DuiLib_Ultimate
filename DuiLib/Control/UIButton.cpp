@@ -390,6 +390,9 @@ namespace DuiLib
 		if( !IsEnabled() ) m_uButtonState |= UISTATE_DISABLED;
 		else m_uButtonState &= ~ UISTATE_DISABLED;
 
+		if(!::IsWindowEnabled(m_pManager->GetPaintWindow())) {
+			m_uButtonState &= UISTATE_DISABLED;
+		}
 		if( (m_uButtonState & UISTATE_DISABLED) != 0 ) {
 			if( !m_sDisabledImage.IsEmpty() )
 			{

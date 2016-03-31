@@ -72,15 +72,15 @@ void CMainWnd::InitResource()
 
 void CMainWnd::InitWindow()
 {
-	m_pCloseBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("closebtn")));
-	m_pMaxBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("maxbtn")));
-	m_pRestoreBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("restorebtn")));
-	m_pMinBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("minbtn")));
-	m_pMenuBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("menubtn")));
-	m_pAddressEdit = static_cast<CEditUI*>(m_PaintManager.FindControl(_T("address_edit")));
-	m_pSearchEdit = static_cast<CEditUI*>(m_PaintManager.FindControl(_T("search_edit")));
-	m_pBrowserTabBar = static_cast<CBrowserTabBar*>(m_PaintManager.FindControl(_T("browser_tabbar")));
-	m_pBrowserTabBody = static_cast<CTabLayoutUI*>(m_PaintManager.FindControl(_T("browser_tabbody")));
+	m_pCloseBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("closebtn")));
+	m_pMaxBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("maxbtn")));
+	m_pRestoreBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("restorebtn")));
+	m_pMinBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("minbtn")));
+	m_pMenuBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("menubtn")));
+	m_pAddressEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("address_edit")));
+	m_pSearchEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("search_edit")));
+	m_pBrowserTabBar = static_cast<CBrowserTabBar*>(m_pm.FindControl(_T("browser_tabbar")));
+	m_pBrowserTabBody = static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("browser_tabbody")));
 
 	// 创建起始页
 	CreateNewTabAndGo(sHomePage);
@@ -273,15 +273,15 @@ LRESULT CMainWnd::OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 	LRESULT lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
 	if( ::IsZoomed(*this) != bZoomed ) {
 		if( !bZoomed ) {
-			CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("maxbtn")));
+			CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));
 			if( pControl ) pControl->SetVisible(false);
-			pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("restorebtn")));
+			pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));
 			if( pControl ) pControl->SetVisible(true);
 		}
 		else {
-			CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("maxbtn")));
+			CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));
 			if( pControl ) pControl->SetVisible(true);
-			pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("restorebtn")));
+			pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));
 			if( pControl ) pControl->SetVisible(false);
 		}
 	}

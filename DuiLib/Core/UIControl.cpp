@@ -30,7 +30,8 @@ namespace DuiLib {
 		m_bColorHSL(false),
 		m_nBorderSize(0),
 		m_nBorderStyle(PS_SOLID),
-		m_nTooltipWidth(300)
+		m_nTooltipWidth(300),
+		m_wCursor(0)
 	{
 		m_cXY.cx = m_cXY.cy = 0;
 		m_cxyFixed.cx = m_cxyFixed.cy = 0;
@@ -535,7 +536,7 @@ namespace DuiLib {
 	{
 		return m_piFloatPercent;
 	}
-
+	
 	void CControlUI::SetFloatPercent(TPercentInfo piFloatPercent)
 	{
 		m_piFloatPercent = piFloatPercent;
@@ -563,6 +564,17 @@ namespace DuiLib {
 	int CControlUI::GetToolTipWidth( void )
 	{
 		return m_nTooltipWidth;
+	}
+	
+	WORD CControlUI::GetCursor()
+	{
+		return m_wCursor;
+	}
+
+	void CControlUI::SetCursor(WORD wCursor)
+	{
+		m_wCursor = wCursor;
+		Invalidate();
 	}
 
 	TCHAR CControlUI::GetShortcut() const
@@ -772,11 +784,16 @@ namespace DuiLib {
 
 	void CControlUI::DoEvent(TEventUI& event)
 	{
-		if( event.Type == UIEVENT_SETCURSOR )
-		{
-			::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(IDC_ARROW)));
+		if( event.Type == UIEVENT_SETCURSOR ) {
+			if( GetCursor() ) {
+				::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(GetCursor())));
+			}
+			else {
+				::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(IDC_ARROW)));
+			}
 			return;
 		}
+
 		if( event.Type == UIEVENT_SETFOCUS ) 
 		{
 			m_bFocused = true;
@@ -972,6 +989,22 @@ namespace DuiLib {
 		else if( _tcsicmp(pstrName, _T("float")) == 0 ) SetFloat(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("shortcut")) == 0 ) SetShortcut(pstrValue[0]);
 		else if( _tcsicmp(pstrName, _T("menu")) == 0 ) SetContextMenuUsed(_tcsicmp(pstrValue, _T("true")) == 0);
+		else if( _tcsicmp(pstrName, _T("cursor")) == 0 && pstrValue) {
+			if( _tcsicmp(pstrValue, _T("arrow")) == 0 )			SetCursor(DUI_ARROW);
+			else if( _tcsicmp(pstrValue, _T("ibeam")) == 0 )	SetCursor(DUI_IBEAM);
+			else if( _tcsicmp(pstrValue, _T("wait")) == 0 )		SetCursor(DUI_WAIT);
+			else if( _tcsicmp(pstrValue, _T("cross")) == 0 )	SetCursor(DUI_CROSS);
+			else if( _tcsicmp(pstrValue, _T("uparrow")) == 0 )	SetCursor(DUI_UPARROW);
+			else if( _tcsicmp(pstrValue, _T("size")) == 0 )		SetCursor(DUI_SIZE);
+			else if( _tcsicmp(pstrValue, _T("icon")) == 0 )		SetCursor(DUI_ICON);
+			else if( _tcsicmp(pstrValue, _T("sizenwse")) == 0 )	SetCursor(DUI_SIZENWSE);
+			else if( _tcsicmp(pstrValue, _T("sizenesw")) == 0 )	SetCursor(DUI_SIZENESW);
+			else if( _tcsicmp(pstrValue, _T("sizewe")) == 0 )	SetCursor(DUI_SIZEWE);
+			else if( _tcsicmp(pstrValue, _T("sizens")) == 0 )	SetCursor(DUI_SIZENS);
+			else if( _tcsicmp(pstrValue, _T("sizeall")) == 0 )	SetCursor(DUI_SIZEALL);
+			else if( _tcsicmp(pstrValue, _T("no")) == 0 )		SetCursor(DUI_NO);
+			else if( _tcsicmp(pstrValue, _T("hand")) == 0 )		SetCursor(DUI_HAND);
+		}
 		else if( _tcsicmp(pstrName, _T("virtualwnd")) == 0 ) SetVirtualWnd(pstrValue);
 		else if( _tcsicmp(pstrName, _T("innerstyle")) == 0 ) {
 			CDuiString sXmlData = pstrValue;

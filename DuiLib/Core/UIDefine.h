@@ -1,9 +1,27 @@
 #pragma once
+
 namespace DuiLib
 {
 #define MAX_FONT_ID		30000
 #define CARET_TIMERID	0x1999
 
+	// 鼠标光标定义
+#define DUI_ARROW           32512
+#define DUI_IBEAM           32513
+#define DUI_WAIT            32514
+#define DUI_CROSS           32515
+#define DUI_UPARROW         32516
+#define DUI_SIZE            32640
+#define DUI_ICON            32641
+#define DUI_SIZENWSE        32642
+#define DUI_SIZENESW        32643
+#define DUI_SIZEWE          32644
+#define DUI_SIZENS          32645
+#define DUI_SIZEALL         32646
+#define DUI_NO              32648
+#define DUI_HAND            32649
+
+	// 消息类型
 	enum DuiSig
 	{
 		DuiSig_end = 0, // [marks end of message map]
@@ -11,6 +29,7 @@ namespace DuiLib
 		DuiSig_vn,      // void (TNotifyUI)
 	};
 
+	// 核心控件
 	class CControlUI;
 
 	// Structure for notifications to the outside world
@@ -84,7 +103,7 @@ namespace DuiLib
 #define DUI_MSGTYPE_CHECKCLICK				(_T("checkclick"))
 #define DUI_MSGTYPE_TEXTROLLEND 			(_T("textrollend"))
 
-//////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////
 
 	struct DUI_MSGMAP_ENTRY;
 	struct DUI_MSGMAP

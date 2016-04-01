@@ -120,6 +120,10 @@ namespace DuiLib {
 		virtual void SetToolTip(LPCTSTR pstrText);
 		virtual void SetToolTipWidth(int nWidth);
 		virtual int	  GetToolTipWidth(void);	// 多行ToolTip单行最长宽度
+		
+		// 光标
+		virtual WORD GetCursor();
+		virtual void SetCursor(WORD wCursor);
 
 		// 快捷键
 		virtual TCHAR GetShortcut() const;
@@ -236,6 +240,7 @@ namespace DuiLib {
 		int m_nBorderSize;
 		int m_nBorderStyle;
 		int m_nTooltipWidth;
+		WORD m_wCursor;
 		SIZE m_cxyBorderRound;
 		RECT m_rcPaint;
 		RECT m_rcBorderSize;

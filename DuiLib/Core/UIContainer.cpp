@@ -10,6 +10,8 @@ namespace DuiLib
 
 	CContainerUI::CContainerUI()
 		: m_iChildPadding(0),
+		m_iChildAlign(DT_LEFT),
+		m_iChildVAlign(DT_TOP),
 		m_bAutoDestroy(true),
 		m_bDelayedDestroy(true),
 		m_bMouseChildEnabled(true),
@@ -171,6 +173,28 @@ namespace DuiLib
 	void CContainerUI::SetChildPadding(int iPadding)
 	{
 		m_iChildPadding = iPadding;
+		NeedUpdate();
+	}
+	
+	UINT CContainerUI::GetChildAlign() const
+	{
+		return m_iChildAlign;
+	}
+
+	void CContainerUI::SetChildAlign(UINT iAlign)
+	{
+		m_iChildAlign = iAlign;
+		NeedUpdate();
+	}
+
+	UINT CContainerUI::GetChildVAlign() const
+	{
+		return m_iChildVAlign;
+	}
+
+	void CContainerUI::SetChildVAlign(UINT iVAlign)
+	{
+		m_iChildVAlign = iVAlign;
 		NeedUpdate();
 	}
 
@@ -596,15 +620,41 @@ namespace DuiLib
 		}
 		return rc;
 	}
+	
+	void CContainerUI::Move(SIZE szOffset, bool bNeedInvalidate)
+	{
+		CControlUI::Move(szOffset, bNeedInvalidate);
+		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) m_pVerticalScrollBar->Move(szOffset, false);
+		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) m_pHorizontalScrollBar->Move(szOffset, false);
+		for( int it = 0; it < m_items.GetSize(); it++ ) {
+			CControlUI* pControl = static_cast<CControlUI*>(m_items[it]);
+			if( pControl != NULL && pControl->IsVisible() ) pControl->Move(szOffset, false);
+		}
+	}
 
 	void CContainerUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
 		CControlUI::SetPos(rc, bNeedInvalidate);
 		if( m_items.IsEmpty() ) return;
+
+		rc = m_rcItem;
 		rc.left += m_rcInset.left;
 		rc.top += m_rcInset.top;
 		rc.right -= m_rcInset.right;
 		rc.bottom -= m_rcInset.bottom;
+
+		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) {
+			rc.top -= m_pVerticalScrollBar->GetScrollPos();
+			rc.bottom -= m_pVerticalScrollBar->GetScrollPos();
+			rc.bottom += m_pVerticalScrollBar->GetScrollRange();
+			rc.right -= m_pVerticalScrollBar->GetFixedWidth();
+		}
+		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) {
+			rc.left -= m_pHorizontalScrollBar->GetScrollPos();
+			rc.right -= m_pHorizontalScrollBar->GetScrollPos();
+			rc.right += m_pHorizontalScrollBar->GetScrollRange();
+			rc.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
+		}
 
 		for( int it = 0; it < m_items.GetSize(); it++ ) {
 			CControlUI* pControl = static_cast<CControlUI*>(m_items[it]);
@@ -612,8 +662,14 @@ namespace DuiLib
 			if( pControl->IsFloat() ) {
 				SetFloatPos(it);
 			}
-			else {
-				pControl->SetPos(rc); // 所有非float子控件放大到整个客户区
+			else { 
+				SIZE sz = { rc.right - rc.left, rc.bottom - rc.top };
+				if( sz.cx < pControl->GetMinWidth() ) sz.cx = pControl->GetMinWidth();
+				if( sz.cx > pControl->GetMaxWidth() ) sz.cx = pControl->GetMaxWidth();
+				if( sz.cy < pControl->GetMinHeight() ) sz.cy = pControl->GetMinHeight();
+				if( sz.cy > pControl->GetMaxHeight() ) sz.cy = pControl->GetMaxHeight();
+				RECT rcCtrl = { rc.left, rc.top, rc.left + sz.cx, rc.top + sz.cy };
+				pControl->SetPos(rcCtrl, false);
 			}
 		}
 	}
@@ -646,10 +702,6 @@ namespace DuiLib
 				}
 			}
 		}
-		//else if( _tcsicmp(pstrName, _T("vscrollbarstyle")) == 0 ) {
-		//	EnableScrollBar(true, GetHorizontalScrollBar() != NULL);
-		//	if( GetVerticalScrollBar() ) GetVerticalScrollBar()->ApplyAttributeList(pstrValue);
-		//}
 		else if( _tcsicmp(pstrName, _T("hscrollbar")) == 0 ) {
 			EnableScrollBar(GetVerticalScrollBar() != NULL, _tcsicmp(pstrValue, _T("true")) == 0);
 		}
@@ -666,11 +718,17 @@ namespace DuiLib
 				}
 			}
 		}
-		//else if( _tcsicmp(pstrName, _T("hscrollbarstyle")) == 0 ) {
-		//	EnableScrollBar(GetVerticalScrollBar() != NULL, true);
-		//	if( GetHorizontalScrollBar() ) GetHorizontalScrollBar()->ApplyAttributeList(pstrValue);
-		//}
 		else if( _tcsicmp(pstrName, _T("childpadding")) == 0 ) SetChildPadding(_ttoi(pstrValue));
+		else if( _tcscmp(pstrName, _T("childalign")) == 0 ) {
+			if( _tcscmp(pstrValue, _T("left")) == 0 ) m_iChildAlign = DT_LEFT;
+			else if( _tcscmp(pstrValue, _T("center")) == 0 ) m_iChildAlign = DT_CENTER;
+			else if( _tcscmp(pstrValue, _T("right")) == 0 ) m_iChildAlign = DT_RIGHT;
+		}
+		else if( _tcscmp(pstrName, _T("childvalign")) == 0 ) {
+			if( _tcscmp(pstrValue, _T("top")) == 0 ) m_iChildVAlign = DT_TOP;
+			else if( _tcscmp(pstrValue, _T("vcenter")) == 0 ) m_iChildVAlign = DT_VCENTER;
+			else if( _tcscmp(pstrValue, _T("bottom")) == 0 ) m_iChildVAlign = DT_BOTTOM;
+		}
 		else if( _tcsicmp(pstrName, _T("scrollstepsize")) == 0 ) SetScrollStepSize(_ttoi(pstrValue));
 		else CControlUI::SetAttribute(pstrName, pstrValue);
 	}

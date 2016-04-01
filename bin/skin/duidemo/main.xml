@@ -21,11 +21,11 @@
       <HorizontalLayout name="apptitle" childpadding="6">
         <Container width="64" height="64" bkimage="logo.jpg" />
         <VerticalLayout inset="0,10,0,0" childpadding="5">
-          <Label text="titletext" resourcetext="true" width="300" valign="vcenter" align="left" textcolor="#FFEEEEEE" font="3" tooltip="官网"/>
+          <Label resourcetext="false" text="duilib开源项目圈" minwidth="100" maxwidth="180" endellipsis="true" autocalcwidth="true" valign="vcenter" align="left" textcolor="#FFEEEEEE" font="3" tooltip="官网"/>
           <HorizontalLayout height="20" childpadding="20">
-            <Button name="homepage_btn" text="hometext" resourcetext="true"  showhtml="true" width="60" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FFFF00FF" font="1" tooltip="官网"/>
-            <Button name="qqgroup_btn" text="加入duilib开源项目圈（261675375）" tooltip="加入duilib开源项目圈" width="220" autocalcwidth="true" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" />
-            <Button name="qq_btn" text =  "Troy(QQ：656067418)" width="170" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="添加Troy为QQ好友" />
+            <Button name="homepage_btn" cursor="hand" text="hometext" resourcetext="true" showhtml="true" autocalcwidth="true" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FFFF00FF" font="1" tooltip="官网"/>
+            <Button name="qqgroup_btn" cursor="hand" text="加入duilib开源项目圈（261675375）" tooltip="加入duilib开源项目圈" width="220" autocalcwidth="true" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" />
+            <Button name="qq_btn" cursor="hand" text="骚扰Troy(QQ：656067418)" width="170" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FF0000FF" font="1" tooltip="添加Troy为QQ好友" />
           </HorizontalLayout>
         </VerticalLayout>
       </HorizontalLayout>
@@ -54,128 +54,98 @@
         <VerticalLayout name="basic_tab_panel" inset="2,2,2,2" vscrollbar="true">
           <Label height="1" bkimage="hor_line.bmp"/>
 
-          <HorizontalLayout height="60">
+          <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="Label演示" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
-            <VerticalLayout >
-              <Control />
-              <HorizontalLayout height="45" childpadding="12" leftbordersize="1" topbordersize="1" bottombordersize="1" rightbordersize="1" bordercolor="#0">
-                <Label text="duilib开源项目圈自动换行测试" width="60" align="left" valign="top" wordbreak="true" textcolor="#FFFF0000"/>
-                <Button text="普通按钮自动换行测试" width="60" align="left" wordbreak="true" textcolor="#FF555555" textpadding="6,0,6,0" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'"/>
-                <GroupBox text="Group控件" width="200" bkcolor="#FFFFFFFF" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6"/>
-
-              </HorizontalLayout>
-              <Control />
-            </VerticalLayout>
+            <HorizontalLayout height="45" childpadding="12">
+              <Label text="duilib开源项目圈自动换行测试" width="60" align="left" valign="top" wordbreak="true" textcolor="#FFFF0000" />
+              <Button text="普通按钮自动换行测试" width="60" align="left" wordbreak="true" textcolor="#FF555555" textpadding="6,0,6,0" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'"/>
+              <GroupBox text="Group控件" width="200" bkcolor="#FFFFFFFF" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6"/>
+            </HorizontalLayout>
           </HorizontalLayout>
 
           <Label height="1" bkimage="hor_line.bmp"/>
-          <HorizontalLayout height="60">
+          <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="按钮控件" textcolor="#FF555555" font="font13" width="80"/>
-            <VerticalLayout >
-              <Control />
-              <HorizontalLayout height="30" childpadding="12" bordersize="1,1,1,1" bordercolor="#FFFF0000">
-                <Button name="button1" text="普通按钮" textcolor="#FF555555" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
-                <Button name="button2" text="图标按钮" textcolor="#FF555555" style="btn_style" width="100" textpadding="20,0,0,0" foreimage="dest='4,7,20,23' res='icon.png'" />
-                <Button name="sendbtn" text="命令按钮(&S)" textcolor="#FF555555" style="btn_style" shortcut="S" width="120"/>
-                <Button name="sendbtn" text="颜色按钮" colorhsl="true" float="0.8,0,0.9,1" textcolor="#FF555555" bkcolor="#FFFF0000" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
+            <HorizontalLayout height="30" childpadding="12" bordersize="1,1,1,1" bordercolor="#FFFF0000">
+              <Button name="button1" text="普通按钮" textcolor="#FF555555" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
+              <Button name="button2" text="图标按钮" textcolor="#FF555555" style="btn_style" width="100" textpadding="20,0,0,0" foreimage="dest='4,7,20,23' res='icon.png'" />
+              <Button name="sendbtn" text="命令按钮(&S)" textcolor="#FF555555" style="btn_style" shortcut="S" width="120"/>
+              <Button name="sendbtn" text="颜色按钮" colorhsl="true" float="0.8,0,0.9,1" textcolor="#FF555555" bkcolor="#FFFF0000" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
 
-              </HorizontalLayout>
-              <Control />
-            </VerticalLayout>
+            </HorizontalLayout>
           </HorizontalLayout>
           <Label height="1" bkimage="hor_line.bmp"/>
 
-          <HorizontalLayout height="60" >
+          <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="输入控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
-            <VerticalLayout >
-              <Control />
-              <HorizontalLayout height="24" childpadding="12">
-                <Edit name="edit1" tipvalue="普通" style="edit_style" />
-                <Edit name="edit2" tipvalue="只读" text="只读控件" style="edit_style" align="center" readonly="true"/>
-                <Edit name="edit3" tipvalue="数字" style="edit_style" numberonly="true"/>
-                <Edit name="edit4" tipvalue="密码" style="edit_style" password="true"/>
+            <HorizontalLayout height="24" childpadding="12">
+              <Edit name="edit1" tipvalue="普通" style="edit_style" />
+              <Edit name="edit2" tipvalue="只读" text="只读控件" style="edit_style" align="center" readonly="true"/>
+              <Edit name="edit3" tipvalue="数字" style="edit_style" numberonly="true"/>
+              <Edit name="edit4" tipvalue="密码" style="edit_style" password="true"/>
 
-              </HorizontalLayout>
-              <Control />
-            </VerticalLayout>
-
+            </HorizontalLayout>
           </HorizontalLayout>
           <Label height="1" bkimage="hor_line.bmp"/>
-          <HorizontalLayout height="60">
+          <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="Combo控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
-            <VerticalLayout>
-              <Control />
-              <HorizontalLayout height="23" childpadding="12">
-                <Combo name="font_type" itemfont="2" width="120" style="combo_style" dropbox="hscrollbar=&quot;true&quot;" textcolor="#FFFF0000" float="true" pos="300,0,400,23">
-                  <ListLabelElement text="微软雅黑" selected="true" height="23" />
-                  <ListLabelElement text="宋体" height="23" width="500" />
-                  <ListLabelElement text="黑体" height="23" width="500" />
-                  <ListLabelElement text="幼圆" height="23" width="500" />
-                  <ListLabelElement text="楷体" height="23" width="500" />
-                </Combo>
-                <Combo name="font_size" width="120" style="combo_style">
-                  <ListLabelElement text="9" selected="true" height="23" />
-                  <ListLabelElement text="10" height="23" />
-                  <ListLabelElement text="11" height="23" />
-                  <ListLabelElement text="12" height="23" />
-                  <ListLabelElement text="13" height="23" />
-                  <ListLabelElement text="14" height="23" />
-                  <ListLabelElement text="15" height="23" />
-                  <ListLabelElement text="16" height="23" />
-                  <ListLabelElement text="17" height="23" />
-                  <ListLabelElement text="18" height="23" />
-                  <ListLabelElement text="19" height="23" />
-                  <ListLabelElement text="20" height="23" />
-                  <ListLabelElement text="21" height="23" />
-                  <ListLabelElement text="22" height="23" />
-                  <ListLabelElement text="24" height="23" />
-                  <ListLabelElement text="28" height="23" />
-                  <ListLabelElement text="32" height="23" />
-                </Combo>
-              </HorizontalLayout>
-              <Control />
-            </VerticalLayout>
+            <HorizontalLayout height="23" childpadding="12">
+              <Combo name="font_type" itemfont="2" width="120" style="combo_style" dropbox="hscrollbar=&quot;true&quot;" textcolor="#FFFF0000" float="true" pos="300,0,400,23">
+                <ListLabelElement text="微软雅黑" selected="true" height="23" />
+                <ListLabelElement text="宋体" height="23" width="500" />
+                <ListLabelElement text="黑体" height="23" width="500" />
+                <ListLabelElement text="幼圆" height="23" width="500" />
+                <ListLabelElement text="楷体" height="23" width="500" />
+              </Combo>
+              <Combo name="font_size" width="120" style="combo_style">
+                <ListLabelElement text="9" selected="true" height="23" />
+                <ListLabelElement text="10" height="23" />
+                <ListLabelElement text="11" height="23" />
+                <ListLabelElement text="12" height="23" />
+                <ListLabelElement text="13" height="23" />
+                <ListLabelElement text="14" height="23" />
+                <ListLabelElement text="15" height="23" />
+                <ListLabelElement text="16" height="23" />
+                <ListLabelElement text="17" height="23" />
+                <ListLabelElement text="18" height="23" />
+                <ListLabelElement text="19" height="23" />
+                <ListLabelElement text="20" height="23" />
+                <ListLabelElement text="21" height="23" />
+                <ListLabelElement text="22" height="23" />
+                <ListLabelElement text="24" height="23" />
+                <ListLabelElement text="28" height="23" />
+                <ListLabelElement text="32" height="23" />
+              </Combo>
+            </HorizontalLayout>
           </HorizontalLayout>
 
-          <HorizontalLayout height="100">
+          <HorizontalLayout height="100" childvalign="vcenter">
             <Label text="进度控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
-            <VerticalLayout>
-              <Control />
-              <HorizontalLayout height="100" childpadding="12" >
-                <Progress name="progress" padding="0,40" textcolor="#FF333333" valign="vcenter" height="18" width="160" bkcolor="#FFFFFF33" forecolor="#FFFF0000" value="50" min="0" max="100"/>
-                <CircleProgress name="circle_progress" textcolor="#FF333333" valign="vcenter" height="100" width="100" bkcolor="#FFFFFF33" forecolor="#FFFF0000" value="50" min="0" max="100"/>
-                <Slider name="slider" padding="0,40" width="124" height="19" value="50" min="0" max="100" bkimage="res='SliderBar_BK.bmp' mask='#ffff00ff'" thumbimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbhotimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbpushedimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbsize="12,20" />
-              </HorizontalLayout>
-              <Control />
-            </VerticalLayout>
+            <HorizontalLayout height="100" childpadding="12" >
+              <Progress name="progress" padding="0,40" textcolor="#FF333333" valign="vcenter" height="18" width="160" bkcolor="#FFFFFF33" forecolor="#FFFF0000" value="50" min="0" max="100"/>
+              <CircleProgress name="circle_progress" textcolor="#FF333333" valign="vcenter" height="100" width="100" bkcolor="#FFFFFF33" forecolor="#FFFF0000" value="50" min="0" max="100"/>
+              <Slider name="slider" padding="0,40" width="124" height="19" value="50" min="0" max="100" bkimage="res='SliderBar_BK.bmp' mask='#ffff00ff'" thumbimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbhotimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbpushedimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbsize="12,20" />
+            </HorizontalLayout>
           </HorizontalLayout>
-          
+
           <Label height="1" bkimage="hor_line.bmp"/>
-          <HorizontalLayout height="60">
+          <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="系统控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
-            <VerticalLayout>
-              <Control />
-              <HorizontalLayout height="23" childpadding="12">
-                <IPAddress width="120"/>
-                <DateTime width="160"/>
+            <HorizontalLayout height="23" childpadding="12">
+              <IPAddress width="120"/>
+              <DateTime width="160"/>
 
-              </HorizontalLayout>
-              <Control />
-            </VerticalLayout>
+            </HorizontalLayout>
           </HorizontalLayout>
 
           <Label height="1" bkimage="hor_line.bmp"/>
-          <HorizontalLayout height="60">
+          <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="窗口演示" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
-            <VerticalLayout >
-              <Control />
-              <HorizontalLayout height="30" childpadding="12">
-                <Button name="popwnd_btn" text="普通弹出窗口" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
-                <Button name="modal_popwnd_btn" text="模态弹出窗口" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
-                <Button name="qq_btn" text="问题咨询(&Q)" shortcut="Q" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
-              </HorizontalLayout>
-              <Control />
-            </VerticalLayout>
+            <HorizontalLayout height="30" childpadding="12">
+              <Button name="popwnd_btn" text="普通弹出窗口" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
+              <Button name="modal_popwnd_btn" text="模态弹出窗口" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
+              <Button name="qq_btn" text="问题咨询(&Q)" shortcut="Q" textcolor="#FF555555" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'" width="100"/>
+            </HorizontalLayout>
           </HorizontalLayout>
           <Label height="1" bkimage="hor_line.bmp"/>
 
@@ -257,7 +227,7 @@
             <Label text="滚动文字" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <RollText name="rolltext" text="超过5000万人使用，适用于 Chrome 的免费的广告拦截器，可阻止所有烦人的广告及恶意软件和跟踪。"/>
           </HorizontalLayout>
-          
+
           <Label height="1" bkimage="hor_line.bmp"/>
           <HorizontalLayout height="100" bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="Gif控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
@@ -273,7 +243,7 @@
               <ActiveX name="ani_flash" clsid="{D27CDB6E-AE6D-11CF-96B8-444553540000}" mouse="true"/>
             </VerticalLayout>
           </HorizontalLayout>
-          
+
         </VerticalLayout>
         <VerticalLayout name="split_tab_panel" bkcolor="#FF000000">
           <VerticalLayout inset="0,0,0,6" sepimm="true" sepheight="6" height="200" minheight="200" maxheight="300">

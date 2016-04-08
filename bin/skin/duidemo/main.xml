@@ -152,7 +152,12 @@
         </VerticalLayout>
         <VerticalLayout name="rich_tab_panel" inset="2,2,2,2" vscrollbar="true">
           <Label height="1" bkimage="hor_line.bmp"/>
-
+          <HorizontalLayout height="220">
+            <Label text="颜色控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
+            <ColorPalette name="Pallet" width="506" height="220" palletheight="200" barheight="14" padding="0,0,0,0" thumbimage="cursor.png" />
+          </HorizontalLayout>
+          
+          <Label height="1" bkimage="hor_line.bmp"/>
           <HorizontalLayout height="200">
             <Label text="图表控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout>

@@ -54,6 +54,8 @@ namespace DuiLib {
 		virtual TListInfoUI* GetListInfo() = 0;
 		virtual int GetCurSel() const = 0;
 		virtual bool SelectItem(int iIndex, bool bTakeFocus = false) = 0;
+		virtual bool SelectMultiItem(int iIndex, bool bTakeFocus = false) = 0;
+		virtual bool UnSelectItem(int iIndex, bool bOthers = false) = 0;
 		virtual void DoEvent(TEventUI& event) = 0;
 	};
 
@@ -67,10 +69,8 @@ namespace DuiLib {
 		virtual bool ExpandItem(int iIndex, bool bExpand = true) = 0;
 		virtual int GetExpandedItem() const = 0;
 
-		virtual bool SelectMultiItem(int iIndex, bool bTakeFocus = false) = 0;
-		virtual void SetSingleSelect(bool bSingleSel) = 0;
-		virtual bool GetSingleSelect() const = 0;
-		virtual bool UnSelectItem(int iIndex) = 0;
+		virtual void SetMultiSelect(bool bMultiSel) = 0;
+		virtual bool IsMultiSelect() const = 0;
 		virtual void SelectAllItems() = 0;
 		virtual void UnSelectAllItems() = 0;
 		virtual int GetSelectItemCount() const = 0;
@@ -86,6 +86,7 @@ namespace DuiLib {
 		virtual void SetOwner(CControlUI* pOwner) = 0;
 		virtual bool IsSelected() const = 0;
 		virtual bool Select(bool bSelect = true) = 0;
+		virtual bool SelectMulti(bool bSelect = true) = 0;
 		virtual bool IsExpanded() const = 0;
 		virtual bool Expand(bool bExpand = true) = 0;
 		virtual void DrawItemText(HDC hDC, const RECT& rcItem) = 0;
@@ -117,9 +118,9 @@ namespace DuiLib {
 		bool SelectItemActivate(int iIndex);    // 双击选中
 
 		bool SelectMultiItem(int iIndex, bool bTakeFocus = false);
-		void SetSingleSelect(bool bSingleSel);
-		bool GetSingleSelect() const;
-		bool UnSelectItem(int iIndex);
+		void SetMultiSelect(bool bMultiSel);
+		bool IsMultiSelect() const;
+		bool UnSelectItem(int iIndex, bool bOthers = false);
 		void SelectAllItems();
 		void UnSelectAllItems();
 		int GetSelectItemCount() const;
@@ -216,13 +217,13 @@ namespace DuiLib {
 		virtual CScrollBarUI* GetHorizontalScrollBar() const;
 		BOOL SortItems(PULVCompareFunc pfnCompare, UINT_PTR dwData);
 
-		protected:
-			int GetMinSelItemIndex();
-			int GetMaxSelItemIndex();
+	protected:
+		int GetMinSelItemIndex();
+		int GetMaxSelItemIndex();
 	protected:
 		bool m_bScrollSelect;
 		int m_iCurSel;
-		bool m_bSingleSel;
+		bool m_bMultiSel;
 		CStdPtrArray m_aSelItems;
 		int m_iCurSelActivate;  // 双击的列
 		int m_iExpandedItem;
@@ -469,6 +470,7 @@ namespace DuiLib {
 
 		bool IsSelected() const;
 		bool Select(bool bSelect = true);
+		bool SelectMulti(bool bSelect = true);
 		bool IsExpanded() const;
 		bool Expand(bool bExpand = true);
 
@@ -489,7 +491,6 @@ namespace DuiLib {
 		bool m_bSelected;
 		UINT m_uButtonState;
 		IListOwnerUI* m_pOwner;
-
 	};
 
 } // namespace DuiLib

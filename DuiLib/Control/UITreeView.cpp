@@ -303,7 +303,7 @@ namespace DuiLib
 
 	//************************************
 	// 函数名称: GetItemText
-	// 返回类型: UiLib::CDuiString
+	// 返回类型: DuiLib::CDuiString
 	// 函数说明: 
 	//************************************
 	CDuiString CTreeNodeUI::GetItemText()
@@ -500,7 +500,7 @@ namespace DuiLib
 
 	//************************************
 	// 函数名称: GetTreeNodes
-	// 返回类型: UiLib::CStdPtrArray
+	// 返回类型: DuiLib::CStdPtrArray
 	// 函数说明: 
 	//************************************
 	CStdPtrArray CTreeNodeUI::GetTreeNodes()

@@ -46,6 +46,7 @@ namespace DuiLib
 		INNER_REGISTER_DUICONTROL(CTileLayoutUI);
 		INNER_REGISTER_DUICONTROL(CVerticalLayoutUI);
 		INNER_REGISTER_DUICONTROL(CRollTextUI);
+		INNER_REGISTER_DUICONTROL(CColorPaletteUI);
 	}
 
 	CControlFactory::~CControlFactory()

@@ -293,6 +293,16 @@ namespace DuiLib {
 		return true;
 	}
 
+	bool CComboUI::SelectMultiItem(int iIndex, bool bTakeFocus)
+	{
+		return SelectItem(iIndex, bTakeFocus);
+	}
+	
+	bool CComboUI::UnSelectItem(int iIndex, bool bOthers)
+	{
+		return false;
+	}
+		
 	bool CComboUI::SetItemIndex(CControlUI* pControl, int iIndex)
 	{
 		int iOrginIndex = GetItemIndex(pControl);

@@ -102,6 +102,7 @@ namespace DuiLib
 #define DUI_MSGTYPE_TREEITEMDBCLICK 		(_T("treeitemdbclick"))
 #define DUI_MSGTYPE_CHECKCLICK				(_T("checkclick"))
 #define DUI_MSGTYPE_TEXTROLLEND 			(_T("textrollend"))
+#define DUI_MSGTYPE_COLORCHANGED		    (_T("colorchanged"))
 
 	//////////////////////////////////////////////////////////////////////////
 
@@ -295,6 +296,7 @@ protected:                                                                \
 
 #define  DUI_CTR_TEXTSCROLL						 (_T("TextScroll"))
 
+#define DUI_CTR_COLORPALETTE					  (_T("ColorPalette"))
 	///
 	//////////////END控件名称宏定义//////////////////////////////////////////////////
 

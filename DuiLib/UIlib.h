@@ -96,7 +96,7 @@
 #include "Control/UIMenu.h"
 #include "Control/UIGroupBox.h"
 #include "Control/RollTextUI.h"
-
+#include "Control/UIColorPalette.h"
 
 #pragma comment( lib, "comctl32.lib" )
 #pragma comment( lib, "GdiPlus.lib" )

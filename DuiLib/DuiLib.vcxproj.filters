@@ -180,6 +180,9 @@
     <ClCompile Include="Control\RollTextUI.cpp">
       <Filter>Source Files\Control</Filter>
     </ClCompile>
+    <ClCompile Include="Control\UIColorPalette.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h">
@@ -336,6 +339,9 @@
       <Filter>Header Files\Control</Filter>
     </ClInclude>
     <ClInclude Include="Control\RollTextUI.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Control\UIColorPalette.h">
       <Filter>Header Files\Control</Filter>
     </ClInclude>
   </ItemGroup>

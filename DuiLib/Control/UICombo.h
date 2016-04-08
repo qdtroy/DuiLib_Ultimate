@@ -45,7 +45,8 @@ namespace DuiLib {
 
 		int GetCurSel() const;  
 		bool SelectItem(int iIndex, bool bTakeFocus = false);
-
+		bool SelectMultiItem(int iIndex, bool bTakeFocus = false);
+		bool UnSelectItem(int iIndex, bool bOthers = false);
 		bool SetItemIndex(CControlUI* pControl, int iIndex);
 		bool Add(CControlUI* pControl);
 		bool AddAt(CControlUI* pControl, int iIndex);

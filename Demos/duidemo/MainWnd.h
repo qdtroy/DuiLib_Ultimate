@@ -151,6 +151,10 @@ public:
 		CRollTextUI* pRollText = (CRollTextUI*)m_pm.FindControl(_T("rolltext"));
 		pRollText->SetText(_T("超过5000万人使用\n适用于 Chrome 的免费的广告拦截器\n可阻止所有烦人的广告及恶意软件和跟踪。"));
 		pRollText->BeginRoll(ROLLTEXT_UP, 20);
+
+		// 调色板使用
+		CColorPaletteUI* pColorPalette = (CColorPaletteUI*)m_pm.FindControl(_T("Pallet"));
+		pColorPalette->SetSelectColor(0xff0199cb);
 	}
 
 	virtual BOOL Receive(SkinChangedParam param)
@@ -264,7 +268,16 @@ public:
 
 	void Notify(TNotifyUI& msg)
 	{
-		if( msg.sType == _T("showactivex") ) 
+		if( msg.sType == _T("colorchanged") )
+		{
+			CControlUI* pRoot = m_pm.FindControl(_T("root"));
+			if( pRoot != NULL ) {
+				CColorPaletteUI* pColorPalette = (CColorPaletteUI*)m_pm.FindControl(_T("Pallet"));
+				pRoot->SetBkColor(pColorPalette->GetSelectColor());
+				pRoot->SetBkImage(_T(""));
+			}
+		}
+		else if( msg.sType == _T("showactivex") ) 
 		{
 			if( msg.pSender->GetName().CompareNoCase(_T("ani_flash")) == 0 ) 
 			{

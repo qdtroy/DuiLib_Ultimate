@@ -48,7 +48,7 @@ namespace DuiLib {
 		virtual void SetPos(RECT rc);
 		virtual void DoInit();
 		virtual void DoEvent(TEventUI& event);
-		virtual void DoPaint(HDC hDC, const RECT& rcPaint);
+		virtual void PaintBkColor(HDC hDC);
 		virtual void PaintPallet(HDC hDC);
 
 	protected:

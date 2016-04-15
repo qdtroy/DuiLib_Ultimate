@@ -341,25 +341,14 @@ namespace DuiLib {
 
 	}
 
-	void CColorPaletteUI::DoPaint(HDC hDC, const RECT& rcPaint)
+	void CColorPaletteUI::PaintBkColor(HDC hDC)
 	{
-		CControlUI::DoPaint(hDC, rcPaint);
-		if (!::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem)) return;
-
 		PaintPallet(hDC);
 	}
-
+	
 	void CColorPaletteUI::PaintPallet(HDC hDC)
 	{
 		int nSaveDC = ::SaveDC(hDC);
-
-		//创建剪切区域
-		HRGN hClip1 = ::CreateRectRgn(m_rcItem.left, m_rcItem.top, m_rcItem.right, m_rcItem.top + m_nPalletHeight);
-		HRGN hClip2 = ::CreateRectRgn(m_rcItem.left, m_rcItem.bottom - m_nBarHeight, m_rcItem.right, m_rcItem.bottom);
-		::CombineRgn(hClip1, hClip1, hClip2, RGN_OR);
-		::SelectClipRgn(hDC, hClip1);
-		::DeleteObject(hClip1);
-		::DeleteObject(hClip2);
 
 		::SetStretchBltMode(hDC, HALFTONE);
 		//拉伸模式将内存图画到控件上
@@ -386,7 +375,6 @@ namespace DuiLib {
 		for (y = 0; y < 200; ++y) {
 			for (x = 0; x < 360; ++x) {
 				pPiexl = LPBYTE(m_pBits) + ((199 - y)*m_bmInfo.bmWidthBytes) + ((x*m_bmInfo.bmBitsPixel) / 8);
-				//*(DWORD*)pPiexl = HSLTORGB(x, m_nCurS, y);
 				dwColor = _HSLToRGB(x, m_nCurS, y);
 				pPiexl[0] = GetBValue(dwColor);
 				pPiexl[1] = GetGValue(dwColor);

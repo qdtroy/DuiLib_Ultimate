@@ -303,7 +303,7 @@ Label_ForeImage:
 	void CCheckBoxUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
 		if( _tcsicmp(pstrName, _T("EnableAutoCheck")) == 0 ) SetAutoCheck(_tcsicmp(pstrValue, _T("true")) == 0);
-		else{};
+		
 		COptionUI::SetAttribute(pstrName, pstrValue);
 	}
 	void CCheckBoxUI::SetAutoCheck(bool bEnable)

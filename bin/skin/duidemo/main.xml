@@ -15,7 +15,8 @@
   <Style name="treenode_folder_style" value="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='Icon/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='Icon/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='Icon/treeview_a.png' source='16,0,32,16' &quot;"/>
   <Style name="treenode_checkbox_style" value="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/unchecked.png' &quot; selectedimage=&quot;file='Icon/checked.png'&quot;" />
   <Style name="treeview_style" value="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;"/>
-
+  <Style name="listex_item_style" value="checkboxwidth=&quot;16&quot; checkboxheight=&quot;16&quot; checkboxnormalimage=&quot;file='icon/unchecked.png'&quot; checkboxselectedimage=&quot;file='icon/checked.png'&quot;"/>
+  
   <VerticalLayout name="root" bkimage1="file='main\10.jpg' corner='580,370,10,5'" bkcolor="#ff0199cb" colorhsl="true">
     <HorizontalLayout name="appbar" height="64" >
       <HorizontalLayout name="apptitle" childpadding="6">
@@ -45,6 +46,7 @@
       <HorizontalLayout name="tab_header" height="30" bkimage="file='header_bk.png' corner='4,4,4,4'" inset="6,3,0,0" childpadding="6">
         <Option width="98" text="基本控件" name="basic_tab" style="main_tab" selected="true"/>
         <Option width="98" text="高级控件" name="rich_tab" style="main_tab" />
+        <Option width="98" text="拓展控件" name="ex_tab" style="main_tab" />
         <Option width="98" text="动画控件" name="ani_tab" style="main_tab" />
         <Option width="98" text="分割窗口" name="split_tab" style="main_tab" />
 
@@ -99,7 +101,7 @@
               </Combo>
               <Combo name="font_size" width="120" style="combo_style">
                 <ListLabelElement text="9" selected="true" height="23" />
-                <ListLabelElement text="10" height="23" />
+                <ListLabelElement text="10" height="23" bkimage="dest='4,7,20,23' res='icon.png'"/>
                 <ListLabelElement text="11" height="23" />
                 <ListLabelElement text="12" height="23" />
                 <ListLabelElement text="13" height="23" />
@@ -152,19 +154,14 @@
         </VerticalLayout>
         <VerticalLayout name="rich_tab_panel" inset="2,2,2,2" vscrollbar="true">
           <Label height="1" bkimage="hor_line.bmp"/>
-          <HorizontalLayout height="220">
-            <Label text="颜色控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
-            <ColorPalette name="Pallet" width="506" height="220" palletheight="200" barheight="14" padding="0,0,0,0" thumbimage="cursor.png" />
-          </HorizontalLayout>
-          
-          <Label height="1" bkimage="hor_line.bmp"/>
-          <HorizontalLayout height="200">
-            <Label text="图表控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
-            <VerticalLayout>
-              <ChartView name="ChartView_Histpgram" padding="10,10,10,10" view="histpgram" shadowimage="file='Histogram_Shadow.png' corner='10,0,10,0'" shadowimageheight="8" pillarimage="file='Histogram_Pillar.png' corner='0,7,0,7'" pillarimagewidth="19" showhtml="true" />
-              <ChartView name="ChartView_Pie" padding="10,10,10,10" view="pie" showhtml="true" />
+
+          <HorizontalLayout height="120" bkcolor="#FFFFFFFF" inset="0,6,0,6">
+            <Label text="RichEdit控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
+            <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
+              <RichEdit name="wordedit" font="2" password="false" tipvalue="请输入文字" mutiline="true" rich="false" text="duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）" readonly="false" vscrollbar="true" hscrollbar="false" autohscroll="false"/>
             </VerticalLayout>
           </HorizontalLayout>
+          
           <Label height="1" bkimage="hor_line.bmp"/>
           <HorizontalLayout height="180" bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="ListView控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
@@ -179,16 +176,7 @@
               </List>
             </VerticalLayout>
           </HorizontalLayout>
-
           <Label height="1" bkimage="hor_line.bmp"/>
-          <HorizontalLayout height="120" bkcolor="#FFFFFFFF" inset="0,6,0,6">
-            <Label text="RichEdit控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
-            <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
-              <RichEdit name="wordedit" font="2" password="false" tipvalue="请输入文字" mutiline="true" rich="false" text="duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）" readonly="false" vscrollbar="true" hscrollbar="false" autohscroll="false"/>
-            </VerticalLayout>
-          </HorizontalLayout>
-          <Label height="1" bkimage="hor_line.bmp"/>
-
           <HorizontalLayout height="120" bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="Tree控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
@@ -224,9 +212,39 @@
           <Label height="1" bkimage="hor_line.bmp"/>
 
         </VerticalLayout>
+        <VerticalLayout name="ex_tab_panel" inset="2,2,2,2" vscrollbar="true">
+          <Label height="1" bkimage="hor_line.bmp"/>
+          <HorizontalLayout height="220">
+            <Label text="颜色控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
+            <ColorPalette name="Pallet" width="506" height="220" palletheight="200" barheight="14" padding="0,0,0,0" thumbimage="cursor.png" />
+          </HorizontalLayout>
 
+          <Label height="1" bkimage="hor_line.bmp"/>
+          <HorizontalLayout height="200">
+            <Label text="图表控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
+            <VerticalLayout>
+              <ChartView name="ChartView_Histpgram" padding="10,10,10,10" view="histpgram" shadowimage="file='Histogram_Shadow.png' corner='10,0,10,0'" shadowimageheight="8" pillarimage="file='Histogram_Pillar.png' corner='0,7,0,7'" pillarimagewidth="19" showhtml="true" />
+              <ChartView name="ChartView_Pie" padding="10,10,10,10" view="pie" showhtml="true" />
+            </VerticalLayout>
+          </HorizontalLayout>
+          <Label height="1" bkimage="hor_line.bmp"/>
+          <HorizontalLayout height="180" bkcolor="#FFFFFFFF" inset="0,6,0,6">
+            <Label text="ListEx控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
+            <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
+              <ListEx name="listex" vscrollbar="true" hscrollbar="true" style="list_style">
+                <ListHeader height="24" menu="true">
+                  <ListContainerHeaderItem text="" width="30" checkable="true" checkboxwidth="16" checkboxheight="16" checkboxnormalimage="file='icon/unchecked.png'" checkboxselectedimage="file='icon/checked.png'" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
+                  <ListContainerHeaderItem text="姓名" width="160" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
+                  <ListContainerHeaderItem text="学号" width="160" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
+                  <ListContainerHeaderItem text="成绩" width="160" editable="true" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
+                </ListHeader>
+              </ListEx>
+            </VerticalLayout>
+          </HorizontalLayout>
+
+        </VerticalLayout>
+        
         <VerticalLayout name="ani_tab_panel" vscrollbar="true">
-
           <Label height="1" bkimage="hor_line.bmp"/>
           <HorizontalLayout height="160" inset="0,6,0,6" >
             <Label text="滚动文字" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>

@@ -772,7 +772,7 @@ namespace DuiLib {
 					else if( sItem == _T("iconalign") )
 					{
 						MakeFitIconDest(rcItem, szIcon, sValue, rcItem);
-					}else{};
+					}
 				}
 				if( *pStrImage++ != _T(' ') ) 
 					break;
@@ -815,7 +815,7 @@ namespace DuiLib {
 			rcDest.top = rcControl.top;
 			rcDest.right = rcDest.left + szIcon.cx;
 			rcDest.bottom = rcDest.top + szIcon.cy;
-		}else{};
+		}
 
 		if (rcDest.right > rcControl.right) 
 			rcDest.right = rcControl.right;

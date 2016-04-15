@@ -104,6 +104,12 @@ namespace DuiLib
 #define DUI_MSGTYPE_TEXTROLLEND 			(_T("textrollend"))
 #define DUI_MSGTYPE_COLORCHANGED		    (_T("colorchanged"))
 
+#define DUI_MSGTYPE_LISTITEMSELECT 		   	(_T("listitemselect"))
+#define DUI_MSGTYPE_LISTITEMCHECKED 		(_T("listitemchecked"))
+#define DUI_MSGTYPE_COMBOITEMSELECT 		(_T("comboitemselect"))
+#define DUI_MSGTYPE_LISTHEADERCLICK			(_T("listheaderclick"))
+#define DUI_MSGTYPE_LISTHEADITEMCHECKED		(_T("listheaditemchecked"))
+
 	//////////////////////////////////////////////////////////////////////////
 
 	struct DUI_MSGMAP_ENTRY;

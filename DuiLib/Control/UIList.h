@@ -98,7 +98,8 @@ namespace DuiLib {
 
 	class CListBodyUI;
 	class CListHeaderUI;
-
+	class CEditUI;
+	class CComboBoxUI;
 	class UILIB_API CListUI : public CVerticalLayoutUI, public IListUI
 	{
 		DECLARE_DUICONTROL(CListUI)
@@ -216,6 +217,12 @@ namespace DuiLib {
 		virtual CScrollBarUI* GetVerticalScrollBar() const;
 		virtual CScrollBarUI* GetHorizontalScrollBar() const;
 		BOOL SortItems(PULVCompareFunc pfnCompare, UINT_PTR dwData);
+
+		virtual BOOL CheckColumEditable(int nColum) { return FALSE; };
+		virtual CEditUI* GetEditUI() { return NULL; };
+
+		virtual BOOL CheckColumComboBoxable(int nColum) { return FALSE; };
+		virtual CComboBoxUI* GetComboBoxUI() { return NULL; };
 
 	protected:
 		int GetMinSelItemIndex();

@@ -60,14 +60,14 @@ namespace DuiLib
 	}
 	void CGroupBoxUI::PaintText(HDC hDC)
 	{
-		CDuiString sUIControlText = GetText();
-		if( sUIControlText.IsEmpty() ) {
+		CDuiString sText = GetText();
+		if( sText.IsEmpty() ) {
 			return;
 		}
 
 		if( m_dwTextColor == 0 ) m_dwTextColor = m_pManager->GetDefaultFontColor();
 		if( m_dwDisabledTextColor == 0 ) m_dwDisabledTextColor = m_pManager->GetDefaultDisabledColor();
-		if( sUIControlText.IsEmpty() ) return;
+		if( sText.IsEmpty() ) return;
 
 		CDuiRect rcText = m_rcItem;
 		rcText.Deflate(5,5);
@@ -81,12 +81,12 @@ namespace DuiLib
 		rcText.bottom = rcText.top + sz.cy;
 		if( IsEnabled() ) 
 		{
-			CRenderEngine::DrawText(hDC, m_pManager, rcText, sUIControlText, m_dwTextColor, m_iFont, m_uTextStyle, 
+			CRenderEngine::DrawText(hDC, m_pManager, rcText, sText, m_dwTextColor, m_iFont, m_uTextStyle, 
 				GetAdjustColor(m_dwBackColor), FALSE);
 		}
 		else 
 		{
-			CRenderEngine::DrawText(hDC, m_pManager, rcText, sUIControlText, m_dwDisabledTextColor, m_iFont, m_uTextStyle, 
+			CRenderEngine::DrawText(hDC, m_pManager, rcText, sText, m_dwDisabledTextColor, m_iFont, m_uTextStyle, 
 				GetAdjustColor(m_dwBackColor), FALSE);
 		}
 	}
@@ -120,9 +120,9 @@ namespace DuiLib
 		rcText.left += m_rcTextPadding.left;
 		rcText.right -= m_rcTextPadding.right;
 
-		CDuiString sUIControlText = GetText();
+		CDuiString sText = GetText();
 
-		CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, sUIControlText, m_dwTextColor, m_iFont, DT_CALCRECT | m_uTextStyle);
+		CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, m_dwTextColor, m_iFont, DT_CALCRECT | m_uTextStyle);
 		SIZE cXY = {rcText.right - rcText.left + m_rcTextPadding.left + m_rcTextPadding.right,
 			rcText.bottom - rcText.top + m_rcTextPadding.top + m_rcTextPadding.bottom};
 

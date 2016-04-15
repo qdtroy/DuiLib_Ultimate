@@ -39,7 +39,7 @@ namespace DuiLib
 		if (m_bUseRoll)
 		{
 			EndRoll();
-		}else{};
+		}
 	
 		m_pManager->KillTimer(this, ROLLTEXT_TIMERID);
 		m_pManager->SetTimer(this, ROLLTEXT_TIMERID, ROLLTEXT_TIMERID_SPAN);
@@ -133,7 +133,7 @@ namespace DuiLib
 			}
 			Invalidate();
 			return;
-		}else{};
+		}
 		CLabelUI::DoEvent(event);
 	}
 	void CRollTextUI::PaintText(HDC hDC)

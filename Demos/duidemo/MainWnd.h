@@ -48,6 +48,7 @@ public:
 		m_pRestoreBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("restorebtn")));
 		m_pMinBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("minbtn")));
 		m_pSkinBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("skinbtn")));
+		// 初始化WebBrowser控件
 		CWebBrowserUI* pBrowser1 = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("oneclick_browser1")));
 		pBrowser1->SetWebBrowserEventHandler(this);
 		CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("oneclick_browser2")));
@@ -55,6 +56,7 @@ public:
 		pBrowser1->NavigateUrl(_T("http://blog.csdn.net/duisharp"));
 		pBrowser2->NavigateUrl(_T("http://www.51haoliandan.com"));
 
+		// 动态创建Combo
 		CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("font_size")));
 		if(pFontSize)
 		{
@@ -80,6 +82,8 @@ public:
 			pCombo->Add(pElement);
 			pCombo->SelectItem(0);
 		}
+
+		// List控件添加元素
 		CListUI* pList = static_cast<CListUI*>(m_pm.FindControl(_T("listview")));
 
 		CListContainerElementUI* pListItem  = new CListContainerElementUI();
@@ -155,6 +159,19 @@ public:
 		// 调色板使用
 		CColorPaletteUI* pColorPalette = (CColorPaletteUI*)m_pm.FindControl(_T("Pallet"));
 		pColorPalette->SetSelectColor(0xff0199cb);
+
+		// 拓展List
+		CListUI* pListEx = static_cast<CListUI*>(m_pm.FindControl(_T("listex")));
+		for(int i = 0; i < 5; i++)
+		{
+			CListTextExtElementUI* pItem  = new CListTextExtElementUI();
+			pItem->SetFixedHeight(30);
+			pListEx->Add(pItem);
+			pItem->SetAttribute(_T("style"), _T("listex_item_style"));
+			pItem->SetText(1, _T("张三"));
+			pItem->SetText(2, _T("1000"));
+			pItem->SetText(3, _T("100"));
+		}
 	}
 
 	virtual BOOL Receive(SkinChangedParam param)
@@ -268,6 +285,7 @@ public:
 
 	void Notify(TNotifyUI& msg)
 	{
+		CDuiString name = msg.pSender->GetName();
 		if( msg.sType == _T("colorchanged") )
 		{
 			CControlUI* pRoot = m_pm.FindControl(_T("root"));
@@ -279,7 +297,7 @@ public:
 		}
 		else if( msg.sType == _T("showactivex") ) 
 		{
-			if( msg.pSender->GetName().CompareNoCase(_T("ani_flash")) == 0 ) 
+			if( name.CompareNoCase(_T("ani_flash")) == 0 ) 
 			{
 				IShockwaveFlash* pFlash = NULL;
 				CActiveXUI* pActiveX = static_cast<CActiveXUI*>(msg.pSender);
@@ -298,7 +316,7 @@ public:
 		}
 		else if( msg.sType == _T("click") )
 		{
-			if( msg.pSender == m_pCloseBtn ) 
+			if( name.CompareNoCase(_T("closebtn")) == 0 ) 
 			{
 				if(IDYES == MessageBox(m_hWnd, _T("确定退出duidemo演示程序？"), _T("Duilib旗舰版"), MB_YESNO))
 				{
@@ -320,13 +338,13 @@ public:
 		}
 		else if(msg.sType==_T("selectchanged"))
 		{
-			CDuiString name = msg.pSender->GetName();
 			CTabLayoutUI* pTabSwitch = static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("tab_switch")));
 
 			if(name.CompareNoCase(_T("basic_tab")) == 0) pTabSwitch->SelectItem(0);
 			if(name.CompareNoCase(_T("rich_tab")) == 0) pTabSwitch->SelectItem(1);
-			if(name.CompareNoCase(_T("ani_tab")) == 0) pTabSwitch->SelectItem(2);
-			if(name.CompareNoCase(_T("split_tab")) == 0) pTabSwitch->SelectItem(3);
+			if(name.CompareNoCase(_T("ex_tab")) == 0) pTabSwitch->SelectItem(2);
+			if(name.CompareNoCase(_T("ani_tab")) == 0) pTabSwitch->SelectItem(3);
+			if(name.CompareNoCase(_T("split_tab")) == 0) pTabSwitch->SelectItem(4);
 		}
 		else if(msg.sType == _T("valuechanged"))
 		{
@@ -397,25 +415,27 @@ public:
 			CMenuUI* rootMenu = m_pMenu->GetMenuUI();
 			if (rootMenu != NULL)
 			{
-				CMenuElementUI* pNew = new CMenuElementUI;
-				pNew->SetName(_T("Menu_Dynamic"));
-				pNew->SetText(_T("动态一级菜单"));
-				pNew->SetShowExplandIcon(true);
-				pNew->SetIcon(_T("WebSit.png"));
-				pNew->SetIconSize(16,16);
+				//CMenuElementUI* pNew = new CMenuElementUI;
+				//pNew->SetName(_T("Menu_Dynamic"));
+				//pNew->SetText(_T("动态一级菜单"));
+				//pNew->SetShowExplandIcon(true);
+				//pNew->SetIcon(_T("WebSit.png"));
+				//pNew->SetIconSize(16,16);
+				//rootMenu->Add(pNew);
 
+				CMenuElementUI* pTempMenu = (CMenuElementUI*)rootMenu->GetItemAt(0);
 				CMenuElementUI* pSubNew = new CMenuElementUI;
 				pSubNew->SetText(_T("动态二级菜单"));
 				pSubNew->SetName(_T("Menu_Dynamic"));
 				pSubNew->SetIcon(_T("Virus.png"));
 				pSubNew->SetIconSize(16,16);
-				pNew->Add(pSubNew);
-				rootMenu->Add(pNew);
+				pSubNew->SetOwner(pTempMenu->GetParent());
+				pTempMenu->Add(pSubNew);
 
-				CMenuElementUI* pNew2 = new CMenuElementUI;
-				pNew2->SetName(_T("Menu_Dynamic"));
-				pNew2->SetText(_T("动态一级菜单2"));
-				rootMenu->AddAt(pNew2,2);
+				//CMenuElementUI* pNew2 = new CMenuElementUI;
+				//pNew2->SetName(_T("Menu_Dynamic"));
+				//pNew2->SetText(_T("动态一级菜单2"));
+				//rootMenu->AddAt(pNew2,2);
 			}
 
 			// 动态添加后重新设置菜单的大小

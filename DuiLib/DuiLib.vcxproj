@@ -483,6 +483,7 @@
     <ClCompile Include="Control\UIGifAnimEx.cpp" />
     <ClCompile Include="Control\UIGroupBox.cpp" />
     <ClCompile Include="Control\UIIPAddress.cpp" />
+    <ClCompile Include="Control\UIListEx.cpp" />
     <ClCompile Include="Control\UIMenu.cpp" />
     <ClCompile Include="Core\ControlFactory.cpp" />
     <ClCompile Include="Core\UIResourceManager.cpp" />
@@ -559,6 +560,7 @@
     <ClInclude Include="Control\UIGifAnimEx.h" />
     <ClInclude Include="Control\UIGroupBox.h" />
     <ClInclude Include="Control\UIIPAddress.h" />
+    <ClInclude Include="Control\UIListEx.h" />
     <ClInclude Include="Control\UIMenu.h" />
     <ClInclude Include="Core\ControlFactory.h" />
     <ClInclude Include="Core\UIResourceManager.h" />

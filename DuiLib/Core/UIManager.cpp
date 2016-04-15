@@ -3353,7 +3353,7 @@ namespace DuiLib {
 						if( sValue[0] == _T('#')) dwMask = _tcstoul(sValue.GetData() + 1, &pstr, 16);
 						else dwMask = _tcstoul(sValue.GetData(), &pstr, 16);
 					}
-					else{};
+					
 				}
 				if( *pStrImage++ != _T(' ') ) break;
 			}

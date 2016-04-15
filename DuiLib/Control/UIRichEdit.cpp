@@ -1570,6 +1570,7 @@ bool CRichEditUI::Undo()
 
 void CRichEditUI::Clear()
 { 
+	SetSel(0, -1);
     TxSendMessage(WM_CLEAR, 0, 0, 0); 
 }
 
@@ -1905,7 +1906,6 @@ void CRichEditUI::DoEvent(TEventUI& event)
 	if( event.Type == UIEVENT_SETFOCUS ) {
 		if( m_pTwh ) {
 			m_pTwh->OnTxInPlaceActivate(NULL);
-			m_pTwh->SetColor(m_dwTextColor);
 			m_pTwh->GetTextServices()->TxSendMessage(WM_SETFOCUS, 0, 0, 0);
 		}
 		m_bFocused = true;

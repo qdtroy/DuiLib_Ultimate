@@ -161,7 +161,8 @@ public:
 		pColorPalette->SetSelectColor(0xff0199cb);
 
 		// Õÿ’πList
-		CListUI* pListEx = static_cast<CListUI*>(m_pm.FindControl(_T("listex")));
+		CListExUI* pListEx = static_cast<CListExUI*>(m_pm.FindControl(_T("listex")));
+		pListEx->InitListCtrl();
 		for(int i = 0; i < 5; i++)
 		{
 			CListTextExtElementUI* pItem  = new CListTextExtElementUI();

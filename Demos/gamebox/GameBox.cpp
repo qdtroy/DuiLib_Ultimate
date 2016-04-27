@@ -16,7 +16,7 @@ public:
 	void Init() {
 		m_pSearchWnd  = new CSearchWnd(m_pm.GetRoot());
 		m_pSearchWnd->Create(m_hWnd,  _T("searchwnd"), WS_POPUP, WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
-		::SetWindowPos(m_pSearchWnd->GetHWND(), NULL, 0,0,1, 1, SWP_NOACTIVATE);
+		::SetWindowPos(m_pSearchWnd->GetHWND(), NULL, 0,0,1,1, SWP_NOACTIVATE);
 		m_pSearchWnd->ShowWindow(true);
 
 		m_pCloseBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("closebtn")));
@@ -150,7 +150,7 @@ public:
 		sUrl.Format(_T("http://www.baidu.com/s?wd=%s"), sText);
 
 		CWebBrowserUI* pBrowser = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("baidubrowser")));
-		pBrowser->Navigate2(sUrl);
+		//pBrowser->Navigate2(sUrl);
 	}
 	void OnSearchItemSelect(CControlUI *pControl)
 	{
@@ -586,7 +586,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	::FreeResource(hResource);
 	CPaintManagerUI::SetResourceZip(resource_zip_buffer_, dwSize);
 #else
-	CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath() + _T("skin\\GameBox"));//
+	CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath() + _T("skin\\GameBox"));
 	//CPaintManagerUI::SetResourceZip(_T("gamebox.zip"));
 #endif
 

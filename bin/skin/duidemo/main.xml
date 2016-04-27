@@ -57,7 +57,7 @@
           <Label height="1" bkimage="hor_line.bmp"/>
 
           <HorizontalLayout height="60" childvalign="vcenter">
-            <Label text="Label演示" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
+            <Label text="Label演示" cursor="hand" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <HorizontalLayout height="45" childpadding="12">
               <Label text="duilib开源项目圈自动换行测试" width="60" align="left" valign="top" wordbreak="true" textcolor="#FFFF0000" />
               <Button text="普通按钮自动换行测试" width="60" align="left" wordbreak="true" textcolor="#FF555555" textpadding="6,0,6,0" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'"/>
@@ -68,7 +68,7 @@
           <Label height="1" bkimage="hor_line.bmp"/>
           <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="按钮控件" textcolor="#FF555555" font="font13" width="80"/>
-            <HorizontalLayout height="30" childpadding="12" bordersize="1,1,1,1" bordercolor="#FFFF0000">
+            <HorizontalLayout height="30" childpadding="12" bordersize="1,1,1,1" bordercolor="#0">
               <Button name="button1" text="普通按钮" textcolor="#FF555555" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
               <Button name="button2" text="图标按钮" textcolor="#FF555555" style="btn_style" width="100" textpadding="20,0,0,0" foreimage="dest='4,7,20,23' res='icon.png'" />
               <Button name="sendbtn" text="命令按钮(&S)" textcolor="#FF555555" style="btn_style" shortcut="S" width="120"/>
@@ -84,7 +84,7 @@
               <Edit name="edit1" tipvalue="普通" style="edit_style" />
               <Edit name="edit2" tipvalue="只读" text="只读控件" style="edit_style" align="center" readonly="true"/>
               <Edit name="edit3" tipvalue="数字" style="edit_style" numberonly="true"/>
-              <Edit name="edit4" tipvalue="密码" style="edit_style" password="true"/>
+              <Edit name="edit4" tipvalue="密码" style="edit_style" password="true" passwordchar="●"/>
 
             </HorizontalLayout>
           </HorizontalLayout>
@@ -99,24 +99,24 @@
                 <ListLabelElement text="幼圆" height="23" width="500" />
                 <ListLabelElement text="楷体" height="23" width="500" />
               </Combo>
-              <Combo name="font_size" width="120" style="combo_style">
+              <Combo name="font_size" width="120" style="combo_style" itemtextpadding="23,0,0,0">
                 <ListLabelElement text="9" selected="true" height="23" />
                 <ListLabelElement text="10" height="23" bkimage="dest='4,7,20,23' res='icon.png'"/>
-                <ListLabelElement text="11" height="23" />
-                <ListLabelElement text="12" height="23" />
-                <ListLabelElement text="13" height="23" />
-                <ListLabelElement text="14" height="23" />
-                <ListLabelElement text="15" height="23" />
-                <ListLabelElement text="16" height="23" />
-                <ListLabelElement text="17" height="23" />
-                <ListLabelElement text="18" height="23" />
-                <ListLabelElement text="19" height="23" />
-                <ListLabelElement text="20" height="23" />
-                <ListLabelElement text="21" height="23" />
-                <ListLabelElement text="22" height="23" />
-                <ListLabelElement text="24" height="23" />
-                <ListLabelElement text="28" height="23" />
-                <ListLabelElement text="32" height="23" />
+                <ListLabelElement text="11" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
+                <ListLabelElement text="12" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
+                <ListLabelElement text="13" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
+                <ListLabelElement text="14" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
+                <ListLabelElement text="15" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
+                <ListLabelElement text="16" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
+                <ListLabelElement text="17" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
+                <ListLabelElement text="18" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
+                <ListLabelElement text="19" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
+                <ListLabelElement text="20" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
+                <ListLabelElement text="21" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
+                <ListLabelElement text="22" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
+                <ListLabelElement text="24" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
+                <ListLabelElement text="28" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
+                <ListLabelElement text="32" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
               </Combo>
             </HorizontalLayout>
           </HorizontalLayout>

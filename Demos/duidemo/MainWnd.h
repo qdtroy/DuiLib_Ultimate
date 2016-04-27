@@ -416,27 +416,27 @@ public:
 			CMenuUI* rootMenu = m_pMenu->GetMenuUI();
 			if (rootMenu != NULL)
 			{
-				//CMenuElementUI* pNew = new CMenuElementUI;
-				//pNew->SetName(_T("Menu_Dynamic"));
-				//pNew->SetText(_T("动态一级菜单"));
-				//pNew->SetShowExplandIcon(true);
-				//pNew->SetIcon(_T("WebSit.png"));
-				//pNew->SetIconSize(16,16);
-				//rootMenu->Add(pNew);
+				CMenuElementUI* pNew = new CMenuElementUI;
+				pNew->SetName(_T("Menu_Dynamic"));
+				pNew->SetText(_T("动态一级菜单"));
+				pNew->SetShowExplandIcon(true);
+				pNew->SetIcon(_T("WebSit.png"));
+				pNew->SetIconSize(16,16);
+				rootMenu->Add(pNew);
 
-				CMenuElementUI* pTempMenu = (CMenuElementUI*)rootMenu->GetItemAt(0);
-				CMenuElementUI* pSubNew = new CMenuElementUI;
-				pSubNew->SetText(_T("动态二级菜单"));
-				pSubNew->SetName(_T("Menu_Dynamic"));
-				pSubNew->SetIcon(_T("Virus.png"));
-				pSubNew->SetIconSize(16,16);
-				pSubNew->SetOwner(pTempMenu->GetParent());
-				pTempMenu->Add(pSubNew);
+				//CMenuElementUI* pTempMenu = (CMenuElementUI*)rootMenu->GetItemAt(0);
+				//CMenuElementUI* pSubNew = new CMenuElementUI;
+				//pSubNew->SetText(_T("动态二级菜单"));
+				//pSubNew->SetName(_T("Menu_Dynamic"));
+				//pSubNew->SetIcon(_T("Virus.png"));
+				//pSubNew->SetIconSize(16,16);
+				//pSubNew->SetOwner(pTempMenu->GetParent());
+				//pTempMenu->Add(pSubNew);
 
-				//CMenuElementUI* pNew2 = new CMenuElementUI;
-				//pNew2->SetName(_T("Menu_Dynamic"));
-				//pNew2->SetText(_T("动态一级菜单2"));
-				//rootMenu->AddAt(pNew2,2);
+				CMenuElementUI* pNew2 = new CMenuElementUI;
+				pNew2->SetName(_T("Menu_Dynamic"));
+				pNew2->SetText(_T("动态一级菜单2"));
+				rootMenu->AddAt(pNew2,2);
 			}
 
 			// 动态添加后重新设置菜单的大小

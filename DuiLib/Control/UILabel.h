@@ -14,6 +14,7 @@ namespace DuiLib
 
 		LPCTSTR GetClass() const;
 		LPVOID GetInterface(LPCTSTR pstrName);
+		UINT GetControlFlags() const;
 
 		void SetTextStyle(UINT uStyle);
 		UINT GetTextStyle() const;

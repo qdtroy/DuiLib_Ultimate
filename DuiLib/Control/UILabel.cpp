@@ -29,7 +29,11 @@ namespace DuiLib
 		if( _tcsicmp(pstrName, _T("Label")) == 0 ) return static_cast<CLabelUI*>(this);
 		return CControlUI::GetInterface(pstrName);
 	}
-
+	
+	UINT CLabelUI::GetControlFlags() const
+	{
+		return IsEnabled() ? UIFLAG_SETCURSOR : 0;
+	}
 	void CLabelUI::SetTextStyle(UINT uStyle)
 	{
 		m_uTextStyle = uStyle;

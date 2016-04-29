@@ -186,7 +186,7 @@ public:
 			else {
 				pRoot->SetBkColor(0);
 				pRoot->SetBkImage(param.bgimage);
-				m_pm.SetLayeredImage(param.bgimage);
+				//m_pm.SetLayeredImage(param.bgimage);
 			}
 		}
 		return TRUE;

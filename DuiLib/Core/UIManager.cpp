@@ -72,18 +72,105 @@ namespace DuiLib {
 		Clear();
 	}
 
-	tagTDrawInfo::tagTDrawInfo(LPCTSTR lpsz)
+	void tagTDrawInfo::Parse(LPCTSTR pStrImage, LPCTSTR pStrModify)
 	{
-		Clear();
-		sDrawString = lpsz;
-	}
+		// 1¡¢aaa.jpg
+		// 2¡¢file='aaa.jpg' res='' restype='0' dest='0,0,0,0' source='0,0,0,0' corner='0,0,0,0' 
+		// mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false'
 
+		sImageName = pStrImage;
+
+		CDuiString sItem;
+		CDuiString sValue;
+		LPTSTR pstr = NULL;
+		for( int i = 0; i < 2; ++i ) {
+			if( i == 1) pStrImage = pStrModify;
+			if( !pStrImage ) continue;
+			while( *pStrImage != _T('\0') ) {
+				sItem.Empty();
+				sValue.Empty();
+				while( *pStrImage > _T('\0') && *pStrImage <= _T(' ') ) pStrImage = ::CharNext(pStrImage);
+				while( *pStrImage != _T('\0') && *pStrImage != _T('=') && *pStrImage > _T(' ') ) {
+					LPTSTR pstrTemp = ::CharNext(pStrImage);
+					while( pStrImage < pstrTemp) {
+						sItem += *pStrImage++;
+					}
+				}
+				while( *pStrImage > _T('\0') && *pStrImage <= _T(' ') ) pStrImage = ::CharNext(pStrImage);
+				if( *pStrImage++ != _T('=') ) break;
+				while( *pStrImage > _T('\0') && *pStrImage <= _T(' ') ) pStrImage = ::CharNext(pStrImage);
+				if( *pStrImage++ != _T('\'') ) break;
+				while( *pStrImage != _T('\0') && *pStrImage != _T('\'') ) {
+					LPTSTR pstrTemp = ::CharNext(pStrImage);
+					while( pStrImage < pstrTemp) {
+						sValue += *pStrImage++;
+					}
+				}
+				if( *pStrImage++ != _T('\'') ) break;
+				if( !sValue.IsEmpty() ) {
+					if( sItem == _T("file") || sItem == _T("res") ) {
+						sImageName = sValue;
+					}
+					else if( sItem == _T("restype") ) {
+						sResType = sValue;
+					}
+					else if( sItem == _T("dest") ) {
+						rcDest.left = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
+						rcDest.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
+						rcDest.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
+						rcDest.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);  
+					}
+					else if( sItem == _T("source") ) {
+						rcSource.left = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
+						rcSource.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
+						rcSource.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
+						rcSource.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);  
+					}
+					else if( sItem == _T("corner") ) {
+						rcCorner.left = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
+						rcCorner.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
+						rcCorner.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
+						rcCorner.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
+					}
+					else if( sItem == _T("mask") ) {
+						if( sValue[0] == _T('#')) dwMask = _tcstoul(sValue.GetData() + 1, &pstr, 16);
+						else dwMask = _tcstoul(sValue.GetData(), &pstr, 16);
+					}
+					else if( sItem == _T("fade") ) {
+						uFade = (BYTE)_tcstoul(sValue.GetData(), &pstr, 10);
+					}
+					else if( sItem == _T("hole") ) {
+						bHole = (_tcsicmp(sValue.GetData(), _T("true")) == 0);
+					}
+					else if( sItem == _T("xtiled") ) {
+						bTiledX = (_tcsicmp(sValue.GetData(), _T("true")) == 0);
+					}
+					else if( sItem == _T("ytiled") ) {
+						bTiledY = (_tcsicmp(sValue.GetData(), _T("true")) == 0);
+					}
+					else if( sItem == _T("hsl") ) {
+						bHSL = (_tcsicmp(sValue.GetData(), _T("true")) == 0);
+					}
+				}
+				if( *pStrImage++ != _T(' ') ) break;
+			}
+		}
+	}
 	void tagTDrawInfo::Clear()
 	{
 		sDrawString.Empty();
+		sDrawModify.Empty();
 		sImageName.Empty();
-		::ZeroMemory(&bLoaded, sizeof(tagTDrawInfo) - offsetof(tagTDrawInfo, bLoaded));
+
+		memset(&rcDest, 0, sizeof(RECT));
+		memset(&rcSource, 0, sizeof(RECT));
+		memset(&rcCorner, 0, sizeof(RECT));
+		dwMask = 0;
 		uFade = 255;
+		bHole = false;
+		bTiledX = false;
+		bTiledY = false;
+		bHSL = false;
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -250,7 +337,7 @@ namespace DuiLib {
 			m_hDcPaint = ::GetDC(hWnd);
 			m_aPreMessages.Add(this);
 		}
-		
+
 		SetTargetWnd(hWnd);
 		InitDragDrop();
 	}
@@ -620,19 +707,19 @@ namespace DuiLib {
 		Invalidate();
 	}
 
-	LPCTSTR CPaintManagerUI::GetLayeredImage()
-	{
-		return m_diLayered.sDrawString;
-	}
+	//LPCTSTR CPaintManagerUI::GetLayeredImage()
+	//{
+	//	return m_diLayered.sDrawString;
+	//}
 
-	void CPaintManagerUI::SetLayeredImage(LPCTSTR pstrImage)
-	{
-		m_diLayered.sDrawString = pstrImage;
-		RECT rcNull = {0};
-		CRenderEngine::DrawImage(NULL, this, rcNull, rcNull, m_diLayered);
-		m_bLayeredChanged = true;
-		Invalidate();
-	}
+	//void CPaintManagerUI::SetLayeredImage(LPCTSTR pstrImage)
+	//{
+	//	m_diLayered.sDrawString = pstrImage;
+	//	RECT rcNull = {0};
+	//	CRenderEngine::DrawImage(NULL, this, rcNull, rcNull, m_diLayered);
+	//	m_bLayeredChanged = true;
+	//	Invalidate();
+	//}
 
 	bool CPaintManagerUI::ShowCaret(bool bShow)
 	{
@@ -876,13 +963,13 @@ namespace DuiLib {
 					::EndPaint(m_hWndPaint, &ps);
 					return true;
 				}
-				
+
 				bool bNeedSizeMsg = false;
 				RECT rcClient = { 0 };
 				::GetClientRect(m_hWndPaint, &rcClient);
 				DWORD dwWidth = rcClient.right - rcClient.left;
 				DWORD dwHeight = rcClient.bottom - rcClient.top;
-				
+
 				SetPainting(true);
 				if( m_bUpdateNeeded ) {
 					m_bUpdateNeeded = false;
@@ -921,7 +1008,7 @@ namespace DuiLib {
 				if( m_bFocusNeeded ) {
 					SetNextTabControl();
 				}
-				
+
 				if( m_bLayered ) {
 					DWORD dwExStyle = ::GetWindowLong(m_hWndPaint, GWL_EXSTYLE);
 					DWORD dwNewExStyle = dwExStyle | WS_EX_LAYERED;
@@ -2015,7 +2102,7 @@ namespace DuiLib {
 	{
 		return m_aPostPaintControls.GetSize();
 	}
-	
+
 	bool CPaintManagerUI::IsPostPaint(CControlUI* pControl)
 	{
 		return m_aPostPaintControls.Find(pControl) >= 0;
@@ -2883,6 +2970,48 @@ namespace DuiLib {
 		if( m_pRoot ) m_pRoot->Invalidate();
 	}
 
+	const TDrawInfo* CPaintManagerUI::GetDrawInfo(LPCTSTR pStrImage, LPCTSTR pStrModify)
+	{
+		CDuiString sStrImage = pStrImage;
+		CDuiString sStrModify = pStrModify;
+		CDuiString sKey = sStrImage + sStrModify;
+		TDrawInfo* pDrawInfo = static_cast<TDrawInfo*>(m_ResInfo.m_DrawInfoHash.Find(sKey));
+		if(pDrawInfo == NULL) {
+			pDrawInfo = new TDrawInfo();
+			pDrawInfo->Parse(pStrImage, pStrModify);
+			m_ResInfo.m_DrawInfoHash.Insert(sKey, pDrawInfo);
+		}
+		return pDrawInfo;
+	}
+
+	void CPaintManagerUI::RemoveDrawInfo(LPCTSTR pStrImage, LPCTSTR pStrModify)
+	{
+		CDuiString sStrImage = pStrImage;
+		CDuiString sStrModify = pStrModify;
+		CDuiString sKey = sStrImage + sStrModify;
+		TDrawInfo* pDrawInfo = static_cast<TDrawInfo*>(m_ResInfo.m_DrawInfoHash.Find(sKey));
+		if(pDrawInfo != NULL) {
+			m_ResInfo.m_DrawInfoHash.Remove(sKey);
+			delete pDrawInfo;
+			pDrawInfo = NULL;
+		}
+	}
+
+	void CPaintManagerUI::RemoveAllDrawInfos()
+	{
+		TDrawInfo* pDrawInfo = NULL;
+		for( int i = 0; i< m_ResInfo.m_DrawInfoHash.GetSize(); i++ ) {
+			if(LPCTSTR key = m_ResInfo.m_DrawInfoHash.GetAt(i)) {
+				pDrawInfo = static_cast<TDrawInfo*>(m_ResInfo.m_DrawInfoHash.Find(key, false));
+				if (pDrawInfo) {
+					delete pDrawInfo;
+					pDrawInfo = NULL;
+				}
+			}
+		}
+		m_ResInfo.m_DrawInfoHash.RemoveAll();
+	}
+
 	void CPaintManagerUI::AddDefaultAttributeList(LPCTSTR pStrControlName, LPCTSTR pStrControlAttrList, bool bShared)
 	{
 		if (bShared || m_bForceUseSharedRes)
@@ -3353,7 +3482,7 @@ namespace DuiLib {
 						if( sValue[0] == _T('#')) dwMask = _tcstoul(sValue.GetData() + 1, &pstr, 16);
 						else dwMask = _tcstoul(sValue.GetData(), &pstr, 16);
 					}
-					
+
 				}
 				if( *pStrImage++ != _T(' ') ) break;
 			}

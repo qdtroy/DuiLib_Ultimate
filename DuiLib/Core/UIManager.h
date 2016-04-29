@@ -106,19 +106,22 @@ namespace DuiLib {
 	typedef struct UILIB_API tagTDrawInfo
 	{
 		tagTDrawInfo();
-		tagTDrawInfo(LPCTSTR lpsz);
+		void Parse(LPCTSTR pStrImage, LPCTSTR pStrModify);
 		void Clear();
+
 		CDuiString sDrawString;
-		bool bLoaded;
+		CDuiString sDrawModify;
 		CDuiString sImageName;
-		const TImageInfo* pImageInfo;
-		RECT rcDestOffset;
-		RECT rcBmpPart;
+		CDuiString sResType;
+		RECT rcDest;
+		RECT rcSource;
 		RECT rcCorner;
+		DWORD dwMask;
 		BYTE uFade;
 		bool bHole;
 		bool bTiledX;
 		bool bTiledY;
+		bool bHSL;
 	} TDrawInfo;
 
 	typedef struct UILIB_API tagTPercentInfo
@@ -141,6 +144,7 @@ namespace DuiLib {
 		CStdStringPtrMap m_ImageHash;
 		CStdStringPtrMap m_AttrHash;
 		CStdStringPtrMap m_StyleHash;
+		CStdStringPtrMap m_DrawInfoHash;
 	} TResInfo;
 
 	// Structure for notifications from the system
@@ -238,8 +242,8 @@ namespace DuiLib {
 		void SetLayeredInset(RECT& rcLayeredInset);
 		BYTE GetLayeredOpacity();
 		void SetLayeredOpacity(BYTE nOpacity);
-		LPCTSTR GetLayeredImage();
-		void SetLayeredImage(LPCTSTR pstrImage);
+		//LPCTSTR GetLayeredImage();
+		//void SetLayeredImage(LPCTSTR pstrImage);
 
 		CShadowUI* GetShadow();
 		// ¹â±ê
@@ -313,6 +317,10 @@ namespace DuiLib {
 		void RemoveAllImages(bool bShared = false);
 		static void ReloadSharedImages();
 		void ReloadImages();
+
+		const TDrawInfo* GetDrawInfo(LPCTSTR pStrImage, LPCTSTR pStrModify);
+		void RemoveDrawInfo(LPCTSTR pStrImage, LPCTSTR pStrModify);
+		void RemoveAllDrawInfos();
 
 		void AddDefaultAttributeList(LPCTSTR pStrControlName, LPCTSTR pStrControlAttrList, bool bShared = false);
 		LPCTSTR GetDefaultAttributeList(LPCTSTR pStrControlName) const;
@@ -478,7 +486,7 @@ namespace DuiLib {
 		RECT m_rcLayeredInset;
 		bool m_bLayeredChanged;
 		RECT m_rcLayeredUpdate;
-		TDrawInfo m_diLayered;
+		//TDrawInfo m_diLayered;
 
 		bool m_bMouseTracking;
 		bool m_bMouseCapture;

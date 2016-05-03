@@ -298,6 +298,7 @@ namespace DuiLib {
 		RemoveAllWindowCustomAttribute();
 		RemoveAllOptionGroups();
 		RemoveAllTimers();
+		RemoveAllDrawInfos();
 
 		if( m_hwndTooltip != NULL ) {
 			::DestroyWindow(m_hwndTooltip);
@@ -2931,6 +2932,8 @@ namespace DuiLib {
 
 	void CPaintManagerUI::ReloadImages()
 	{
+		RemoveAllDrawInfos();
+
 		TImageInfo* data;
 		TImageInfo* pNewData;
 		for( int i = 0; i< m_ResInfo.m_ImageHash.GetSize(); i++ ) {

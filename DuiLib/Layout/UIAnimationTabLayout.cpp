@@ -133,6 +133,7 @@ namespace DuiLib {
 
 	void CAnimationTabLayoutUI::OnAnimationStop(INT nAnimationID) 
 	{
+		SetPos(m_rcItemOld);
 		NeedParentUpdate();
 	}
 

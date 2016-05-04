@@ -16,7 +16,6 @@ public:
 protected:
 	LPCTSTR GetWindowClassName() const;
 	CDuiString GetSkinFile();
-	CDuiString GetSkinFolder();
 
 private:
 	CDuiString		m_strXMLPath;

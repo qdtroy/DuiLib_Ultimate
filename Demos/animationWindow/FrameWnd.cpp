@@ -20,11 +20,6 @@ CDuiString CFrameWnd::GetSkinFile()
 	return m_strXMLPath;
 }
 
-CDuiString CFrameWnd::GetSkinFolder()
-{
-	return _T("Skin\\animationWindow");
-}
-
 void CFrameWnd::InitWindow()
 {
 	m_pAnimLayout = static_cast<AnimLayout*>(m_pm.FindControl(_T("vlayout_background")));

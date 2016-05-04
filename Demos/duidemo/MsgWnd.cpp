@@ -38,23 +38,9 @@ void CMsgWnd::OnFinalMessage( HWND hWnd)
 	delete this;
 }
 
-DuiLib::CDuiString CMsgWnd::GetSkinFolder()
-{
-#ifdef _DEBUG
-	return _T("skin\\duidemo\\");
-#else
-	return _T("skin\\");
-#endif
-}
-
 DuiLib::CDuiString CMsgWnd::GetSkinFile()
 {
-	return _T("msg.xml");
-}
-
-UILIB_RESOURCETYPE CMsgWnd::GetResourceType() const
-{
-	return UILIB_FILE;
+	return _T("XML_MSG");
 }
 
 LPCTSTR CMsgWnd::GetWindowClassName( void ) const

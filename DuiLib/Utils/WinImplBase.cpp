@@ -5,13 +5,12 @@
 
 namespace DuiLib
 {
-
 	//////////////////////////////////////////////////////////////////////////
 
 
 	DUI_BEGIN_MESSAGE_MAP(WindowImplBase,CNotifyPump)
 		DUI_ON_MSGTYPE(DUI_MSGTYPE_CLICK,OnClick)
-		DUI_END_MESSAGE_MAP()
+	DUI_END_MESSAGE_MAP()
 
 		void WindowImplBase::OnFinalMessage( HWND hWnd )
 	{
@@ -28,7 +27,6 @@ namespace DuiLib
 		}
 		else if (wParam == VK_ESCAPE)
 		{
-			//	Close();
 			return TRUE;
 		}
 
@@ -38,21 +36,6 @@ namespace DuiLib
 	UINT WindowImplBase::GetClassStyle() const
 	{
 		return CS_DBLCLKS;
-	}
-
-	UILIB_RESOURCETYPE WindowImplBase::GetResourceType() const
-	{
-		return UILIB_FILE;
-	}
-
-	CDuiString WindowImplBase::GetZIPFileName() const
-	{
-		return _T("");
-	}
-
-	LPCTSTR WindowImplBase::GetResourceID() const
-	{
-		return _T("");
 	}
 
 	CControlUI* WindowImplBase::CreateControl(LPCTSTR pstrClass)
@@ -265,56 +248,22 @@ namespace DuiLib
 		// 注册PreMessage回调
 		m_pm.AddPreMessageFilter(this);
 
-		// 允许更灵活的资源路径定义
-		if (CPaintManagerUI::GetResourcePath().IsEmpty()) {
-			CDuiString strResourcePath = CPaintManagerUI::GetInstancePath();
-			strResourcePath += GetSkinFolder().GetData();
-			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
-		}
-		// 加载资源
-		switch(GetResourceType())
-		{
-		case UILIB_ZIP:
-			CPaintManagerUI::SetResourceZip(GetZIPFileName().GetData(), true);
-			break;
-		case UILIB_ZIPRESOURCE:
-			{
-				HRSRC hResource = ::FindResource(m_pm.GetResourceDll(), GetResourceID(), _T("ZIPRES"));
-				if( hResource == NULL ) return 0L;
-				DWORD dwSize = 0;
-				HGLOBAL hGlobal = ::LoadResource(m_pm.GetResourceDll(), hResource);
-				if( hGlobal == NULL ) {
-#if defined(WIN32) && !defined(UNDER_CE)
-					::FreeResource(hResource);
-#endif
-					return 0L;
-				}
-				dwSize = ::SizeofResource(m_pm.GetResourceDll(), hResource);
-				if( dwSize == 0 ) return 0L;
-
-				CPaintManagerUI::SetResourceZip((LPBYTE)::LockResource(hGlobal), dwSize);
-#if defined(WIN32) && !defined(UNDER_CE)
-				::FreeResource(hResource);
-#endif
-			}
-			break;
-		}
-		// 资源管理器接口
-		InitResource();
-
 		// 创建主窗口
 		CControlUI* pRoot=NULL;
 		CDialogBuilder builder;
-		if (GetResourceType() == UILIB_RESOURCE) {
+		CDuiString sSkinType = GetSkinType();
+		if (!sSkinType.IsEmpty()) {
 			STRINGorID xml(_ttoi(GetSkinFile().GetData()));
-			pRoot = builder.Create(xml, _T("xml"), this, &m_pm);
+			pRoot = builder.Create(xml, sSkinType, this, &m_pm);
 		}
 		else {
 			pRoot = builder.Create(GetSkinFile().GetData(), (UINT)0, this, &m_pm);
 		}
 
 		if (pRoot == NULL) {
-			MessageBox(NULL,_T("加载资源文件失败"),_T("Duilib"),MB_OK|MB_ICONERROR);
+			CDuiString sError = _T("加载资源文件失败：");
+			sError += GetSkinFile();
+			MessageBox(NULL, sError, _T("Duilib") ,MB_OK|MB_ICONERROR);
 			ExitProcess(1);
 			return 0;
 		}

@@ -13,6 +13,15 @@ namespace DuiLib {
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
+	enum UILIB_RESTYPE
+	{
+		UILIB_FILE=1,		// 来自磁盘文件
+		UILIB_ZIP,			// 来自磁盘zip压缩包
+		UILIB_RESOURCE,		// 来自资源
+		UILIB_ZIPRESOURCE,	// 来自资源的zip压缩包
+	};
+	/////////////////////////////////////////////////////////////////////////////////////
+	//
 
 	typedef enum EVENTTYPE_UI
 	{
@@ -272,6 +281,8 @@ namespace DuiLib {
 		static void SetResourcePath(LPCTSTR pStrPath);
 		static void SetResourceZip(LPVOID pVoid, unsigned int len);
 		static void SetResourceZip(LPCTSTR pstrZip, bool bCachedResourceZip = false);
+		static void SetResourceType(int nType);
+		static int GetResourceType();
 		static bool GetHSL(short* H, short* S, short* L);
 		static void SetHSL(bool bUseHSL, short H, short S, short L); // H:0~360, S:0~200, L:0~200 
 		static void ReloadSkin();
@@ -522,6 +533,7 @@ namespace DuiLib {
 		static CDuiString m_pStrResourceZip;
 		static HANDLE m_hResourceZip;
 		static bool m_bCachedResourceZip;
+		static int m_nResType;
 		static TResInfo m_SharedResInfo;
 		static bool m_bUseHSL;
 		static short m_H;

@@ -25,38 +25,9 @@ void CMainWnd::OnFinalMessage( HWND hWnd)
 	delete this;
 }
 
-DuiLib::CDuiString CMainWnd::GetSkinFolder()
-{
-#ifdef _DEBUG
-	return _T("skin\\transwnd\\");
-#else
-	return _T("skin\\");
-#endif
-	
-}
-
 DuiLib::CDuiString CMainWnd::GetSkinFile()
 {
 	return _T("skin.xml");
-}
-
-UILIB_RESOURCETYPE CMainWnd::GetResourceType() const
-{
-#ifdef _DEBUG
-	return UILIB_FILE;
-#else
-	return UILIB_ZIPRESOURCE;
-#endif
-}
-
-LPCTSTR CMainWnd::GetResourceID() const
-{
-	return _T("IDR_RES_SKIN");
-}
-
-DuiLib::CDuiString CMainWnd::GetZIPFileName() const
-{
-	return _T("skin.zip");
 }
 
 LPCTSTR CMainWnd::GetWindowClassName( void ) const

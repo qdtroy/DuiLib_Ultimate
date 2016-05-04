@@ -56,20 +56,6 @@ void CMainWnd::OnFinalMessage( HWND hWnd)
 	delete this;
 }
 
-// 初始化资源管理器
-void CMainWnd::InitResource()
-{
-	if (GetResourceType() == UILIB_RESOURCE)
-	{
-		// 加载资源管理器
-		CResourceManager::GetInstance()->LoadResource(_T("IDR_RES"), _T("xml"));
-	}
-	else {
-		// 加载资源管理器
-		CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
-	}	
-}
-
 void CMainWnd::InitWindow()
 {
 	m_pCloseBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("closebtn")));
@@ -87,36 +73,9 @@ void CMainWnd::InitWindow()
 }
 
 
-DuiLib::CDuiString CMainWnd::GetSkinFolder()
-{
-#ifdef _DEBUG
-	return _T("Projects\\TroyBrowser\\");
-#endif
-	return _T("");
-}
-
 DuiLib::CDuiString CMainWnd::GetSkinFile()
 {
 	return _T("XML_MAIN");
-}
-
-UILIB_RESOURCETYPE CMainWnd::GetResourceType() const
-{
-#ifdef _DEBUG
-	return UILIB_FILE;
-#else
-	return UILIB_ZIPRESOURCE;
-#endif
-}
-
-LPCTSTR CMainWnd::GetResourceID() const
-{
-	return _T("IDR_RES_SKIN");
-}
-
-DuiLib::CDuiString CMainWnd::GetZIPFileName() const
-{
-	return _T("TroyBrowser.zip");
 }
 
 LPCTSTR CMainWnd::GetWindowClassName( void ) const

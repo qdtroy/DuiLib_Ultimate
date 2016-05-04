@@ -11,14 +11,10 @@ public:
 
 public:
 	virtual void OnFinalMessage( HWND );
-	virtual CDuiString GetSkinFolder();
 	virtual CDuiString GetSkinFile();
 	virtual LPCTSTR GetWindowClassName( void ) const;
 	virtual void Notify( TNotifyUI &msg );
 	virtual void InitWindow();
-	virtual UILIB_RESOURCETYPE GetResourceType() const;
-	virtual LPCTSTR GetResourceID() const;
-	virtual CDuiString GetZIPFileName() const;
 
 	DUI_DECLARE_MESSAGE_MAP()
 	virtual void OnClick(TNotifyUI& msg);

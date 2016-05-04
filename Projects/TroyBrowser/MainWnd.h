@@ -23,16 +23,11 @@ public:
 
 public:
 	// 初始化资源管理器
-	virtual void InitResource();
 	virtual void InitWindow();
 
 	virtual void OnFinalMessage( HWND );
-	virtual CDuiString GetSkinFolder();
 	virtual CDuiString GetSkinFile();
 	virtual LPCTSTR GetWindowClassName( void ) const;
-	virtual UILIB_RESOURCETYPE GetResourceType() const;
-	virtual LPCTSTR GetResourceID() const;
-	virtual CDuiString GetZIPFileName() const;
 
 	DUI_DECLARE_MESSAGE_MAP()
 	virtual void OnClick(TNotifyUI& msg);

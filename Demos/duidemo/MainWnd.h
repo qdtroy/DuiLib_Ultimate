@@ -20,27 +20,12 @@ public:
 		}
 		return NULL;
 	}
-	// 初始化资源管理器
-	void InitResource()
+
+	void InitWindow() 
 	{
 		// 多语言接口
 		CResourceManager::GetInstance()->SetTextQueryInterface(this);
-		// 注册控件
-		REGIST_DUICONTROL(CCircleProgressUI);
-		REGIST_DUICONTROL(CChartViewUI);
-		// 加载资源
-		if (GetResourceType() == UILIB_RESOURCE)
-		{
-			// 加载资源管理器
-			CResourceManager::GetInstance()->LoadResource(_T("IDR_RES"), _T("xml"));
-		}
-		else {
-			// 加载资源管理器
-			CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
-		}	
-	}
-	void InitWindow() 
-	{
+		// 皮肤接口
 		CSkinManager::GetSkinManager()->AddReceiver(this);
 
 		m_pCloseBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("closebtn")));
@@ -204,41 +189,12 @@ public:
 		}
 		return S_OK;
 	}
+
 public:
-
-	DuiLib::CDuiString GetSkinFolder()
-	{
-#ifdef _DEBUG
-		return _T("skin\\duidemo\\");
-#else
-		return _T("skin\\");
-#endif
-	}
-
 	DuiLib::CDuiString GetSkinFile()
 	{
 		return _T("XML_MAIN");
 	}
-
-	UILIB_RESOURCETYPE GetResourceType() const
-	{
-#ifdef _DEBUG
-		return UILIB_FILE;
-#else
-		return UILIB_ZIPRESOURCE;
-#endif
-	}
-
-	LPCTSTR GetResourceID() const
-	{
-		return _T("IDR_ZIPRES");
-	}
-
-	DuiLib::CDuiString GetZIPFileName() const
-	{
-		return _T("skin.zip");
-	}
-
 
 	LPCTSTR GetWindowClassName() const
 	{ 
@@ -287,7 +243,12 @@ public:
 	void Notify(TNotifyUI& msg)
 	{
 		CDuiString name = msg.pSender->GetName();
-		if( msg.sType == _T("colorchanged") )
+		if(msg.sType == _T("windowinit")) {
+			if(MSGID_OK != CMsgWnd::MessageBox(m_hWnd, _T("duilib开源项目圈（By Troy）"), _T("查看duilib例子集锦，是否继续？"))) {
+				Close(0);
+			}
+		}
+		else if( msg.sType == _T("colorchanged") )
 		{
 			CControlUI* pRoot = m_pm.FindControl(_T("root"));
 			if( pRoot != NULL ) {

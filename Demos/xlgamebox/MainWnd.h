@@ -27,7 +27,6 @@ public:
 	~CMainWnd(void);
 
 	virtual void OnFinalMessage( HWND );
-	virtual CDuiString GetSkinFolder();
 	virtual CDuiString GetSkinFile();
 
 	virtual LPCTSTR GetWindowClassName( void ) const;
@@ -37,9 +36,6 @@ public:
 	virtual void InitWindow();
 	virtual LRESULT OnMouseHover( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled );
 	virtual LRESULT OnChar( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled );
-	virtual UILIB_RESOURCETYPE GetResourceType() const;
-	virtual LPCTSTR GetResourceID() const;
-	virtual CDuiString GetZIPFileName() const;
 
 	DUI_DECLARE_MESSAGE_MAP()
 	virtual void OnClick(TNotifyUI& msg);

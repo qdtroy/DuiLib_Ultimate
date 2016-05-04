@@ -34,13 +34,7 @@ public:
 
 public:
 	virtual LPCTSTR GetWindowClassName( void ) const;
-	
-	virtual CDuiString GetSkinFolder();
 	virtual CDuiString GetSkinFile();
-	virtual UILIB_RESOURCETYPE GetResourceType() const;
-	virtual LPCTSTR GetResourceID() const;
-	virtual CDuiString GetZIPFileName() const;
-
 	virtual CControlUI* CreateControl(LPCTSTR pstrClass);
 	virtual void OnFinalMessage( HWND );
 	virtual void InitWindow();

@@ -8,7 +8,6 @@ class CMainWnd : public WindowImplBase
 {
 public:
 	CMainWnd();
-	CDuiString GetSkinFolder();
 	CDuiString GetSkinFile();
 	LPCTSTR GetWindowClassName() const ;
 	

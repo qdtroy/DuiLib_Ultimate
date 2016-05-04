@@ -24,11 +24,6 @@ CDuiString CMainWnd::GetSkinFile()
 	}
 }
 
-CDuiString CMainWnd::GetSkinFolder()
-{
-	return _T("");
-}
-
 LPCTSTR CMainWnd::GetWindowClassName() const
 {
 	try

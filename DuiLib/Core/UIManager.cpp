@@ -184,6 +184,7 @@ namespace DuiLib {
 	CDuiString CPaintManagerUI::m_pStrResourceZip;
 	HANDLE CPaintManagerUI::m_hResourceZip = NULL;
 	bool CPaintManagerUI::m_bCachedResourceZip = true;
+	int CPaintManagerUI::m_nResType = UILIB_FILE;
 	TResInfo CPaintManagerUI::m_SharedResInfo;
 	HINSTANCE CPaintManagerUI::m_hInstance = NULL;
 	bool CPaintManagerUI::m_bUseHSL = false;
@@ -447,6 +448,16 @@ namespace DuiLib {
 			sFile += CPaintManagerUI::GetResourceZip();
 			m_hResourceZip = (HANDLE)OpenZip((void*)sFile.GetData(), 0, 2);
 		}
+	}
+	
+	void CPaintManagerUI::SetResourceType(int nType)
+	{
+		m_nResType = nType;
+	}
+
+	int CPaintManagerUI::GetResourceType()
+	{
+		return m_nResType;
 	}
 
 	bool CPaintManagerUI::GetHSL(short* H, short* S, short* L)

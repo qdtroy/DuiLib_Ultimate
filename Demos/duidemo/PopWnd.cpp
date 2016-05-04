@@ -25,23 +25,9 @@ void CPopWnd::OnFinalMessage( HWND hWnd)
 	delete this;
 }
 
-DuiLib::CDuiString CPopWnd::GetSkinFolder()
-{
-#ifdef _DEBUG
-	return _T("skin\\duidemo\\");
-#else
-	return _T("skin\\");
-#endif
-}
-
 DuiLib::CDuiString CPopWnd::GetSkinFile()
 {
 	return _T("popup.xml");
-}
-
-UILIB_RESOURCETYPE CPopWnd::GetResourceType() const
-{
-	return UILIB_FILE;
 }
 
 LPCTSTR CPopWnd::GetWindowClassName( void ) const

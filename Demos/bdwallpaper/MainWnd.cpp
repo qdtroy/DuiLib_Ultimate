@@ -56,37 +56,9 @@ CMainWnd::~CMainWnd(void)
 	RemoveVirtualWnd(_T("mainpage"));
 }
 
-DuiLib::CDuiString CMainWnd::GetSkinFolder()
-{
-#ifdef _DEBUG
-	return _T("skin\\BDWallPaper\\");
-#else
-	return _T("skin\\BDWallPaper\\");
-#endif
-}
-
 DuiLib::CDuiString CMainWnd::GetSkinFile()
 {
 	return _T("main.xml");
-}
-
-UILIB_RESOURCETYPE CMainWnd::GetResourceType() const
-{
-#ifdef _DEBUG
-	return UILIB_FILE;
-#else
-	return UILIB_ZIPRESOURCE;
-#endif
-}
-
-LPCTSTR CMainWnd::GetResourceID() const
-{
-	return _T("IDR_SKIN");
-}
-
-DuiLib::CDuiString CMainWnd::GetZIPFileName() const
-{
-	return _T("skin.zip");
 }
 
 LPCTSTR CMainWnd::GetWindowClassName( void ) const

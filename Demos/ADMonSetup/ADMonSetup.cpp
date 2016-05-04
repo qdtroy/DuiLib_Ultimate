@@ -26,6 +26,68 @@ inline  void  EnableMemLeakCheck(int Breakpoint = 0){
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 
+void InitResource()
+{	
+	// 资源类型
+#ifdef _DEBUG
+	CPaintManagerUI::SetResourceType(UILIB_FILE);
+#else
+	CPaintManagerUI::SetResourceType(UILIB_ZIPRESOURCE);
+#endif
+	// 资源路径
+	CDuiString strResourcePath = CPaintManagerUI::GetInstancePath();
+	// 加载资源
+	switch(CPaintManagerUI::GetResourceType())
+	{
+	case UILIB_FILE:
+		{
+			strResourcePath += _T("skin\\ADMonSetup\\");
+			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
+			// 加载资源管理器
+			CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
+			break;
+		}
+	case UILIB_RESOURCE:
+		{
+			strResourcePath += _T("skin\\ADMonSetup\\");
+			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
+			// 加载资源管理器
+			CResourceManager::GetInstance()->LoadResource(_T("IDR_RES"), _T("xml"));
+			break;
+		}
+	case UILIB_ZIP:
+		{
+			strResourcePath += _T("skin\\");
+			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
+			CPaintManagerUI::SetResourceZip(_T("ADMonSetup.zip"), true);
+			// 加载资源管理器
+			CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
+			break;
+		}
+	case UILIB_ZIPRESOURCE:
+		{
+			strResourcePath += _T("skin\\ADMonSetup\\");
+			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
+
+			HRSRC hResource = ::FindResource(CPaintManagerUI::GetResourceDll(), _T("IDR_ZIPRES"), _T("ZIPRES"));
+			if( hResource != NULL ) {
+				DWORD dwSize = 0;
+				HGLOBAL hGlobal = ::LoadResource(CPaintManagerUI::GetResourceDll(), hResource);
+				if( hGlobal != NULL ) {
+					dwSize = ::SizeofResource(CPaintManagerUI::GetResourceDll(), hResource);
+					if( dwSize > 0 ) {
+						CPaintManagerUI::SetResourceZip((LPBYTE)::LockResource(hGlobal), dwSize);
+						// 加载资源管理器
+						CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
+					}
+				}
+				::FreeResource(hResource);
+			}
+		}
+		break;
+	}
+}
+
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
                      LPTSTR    lpCmdLine,
@@ -35,8 +97,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	EnableMemLeakCheck();
-	CPaintManagerUI::SetInstance(hInstance);
-	CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath() + _T("skin\\ADMonSetup"));
 
 	//GdiplusStartupInput   gdiplusStartupInput;
 	//ULONG_PTR             gdiplusToken;
@@ -44,6 +104,9 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	HRESULT Hr = ::CoInitialize(NULL);
 	if( FAILED(Hr) ) return 0;
+
+	CPaintManagerUI::SetInstance(hInstance);
+	InitResource();
 
 	if( ::LoadLibrary(_T("d3d9.dll")) == NULL ) 
 		::MessageBox(NULL, _T("加载 d3d9.dll 失败，一些特效可能无法显示！"), _T("信息提示"),MB_OK|MB_ICONWARNING);

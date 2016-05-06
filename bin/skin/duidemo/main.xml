@@ -168,11 +168,12 @@
             <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
               <List name="listview" vscrollbar="true" hscrollbar="true" style="list_style">
                 <ListHeader height="24" menu="true">
-                  <ListHeaderItem text="姓名" width="60" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
+                  <ListHeaderItem text="姓名" width="80" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
                   <ListHeaderItem text="学号" width="160" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
                   <ListHeaderItem text="成绩" width="160" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
                   <ListHeaderItem text="审核" width="160" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
                 </ListHeader>
+                <Include source="listitem.xml"/>
               </List>
             </VerticalLayout>
           </HorizontalLayout>

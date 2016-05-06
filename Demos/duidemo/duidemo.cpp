@@ -74,9 +74,11 @@ void InitResource()
 	REGIST_DUICONTROL(CCircleProgressUI);
 	REGIST_DUICONTROL(CChartViewUI);
 }
-
+#define new   new(_NORMAL_BLOCK, __FILE__, __LINE__) 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
+	_CrtSetDbgFlag(_CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) | _CRTDBG_LEAK_CHECK_DF);
+
 	HRESULT Hr = ::CoInitialize(NULL);
 	if( FAILED(Hr) ) return 0;
 	HRESULT hRes = ::OleInitialize(NULL);
@@ -91,7 +93,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	pFrame->CenterWindow();
 	ShowWindow(*pFrame, SW_SHOW);
 	CPaintManagerUI::MessageLoop();
-
+	delete pFrame;
+	pFrame = NULL;
 	CResourceManager::GetInstance()->Release();
 
 	OleUninitialize();

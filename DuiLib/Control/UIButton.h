@@ -38,7 +38,7 @@ namespace DuiLib
 		void BindTriggerTabSel(int _SetSelectIndex = -1);
 		void RemoveBindTabIndex();
 		int	 GetBindTabLayoutIndex();
-		CDuiString GetBindTabLayoutName();
+		LPCTSTR GetBindTabLayoutName();
 
 		void SetHotBkColor(DWORD dwColor);
 		DWORD GetHotBkColor() const;

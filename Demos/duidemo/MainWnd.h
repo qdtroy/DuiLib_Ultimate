@@ -189,7 +189,16 @@ public:
 		}
 		return S_OK;
 	}
-
+	virtual HRESULT STDMETHODCALLTYPE ShowContextMenu(CWebBrowserUI* pWeb, 
+			/* [in] */ DWORD dwID,
+			/* [in] */ POINT __RPC_FAR *ppt,
+			/* [in] */ IUnknown __RPC_FAR *pcmdtReserved,
+			/* [in] */ IDispatch __RPC_FAR *pdispReserved)
+		{
+			return E_NOTIMPL;
+			//返回 E_NOTIMPL 正常弹出系统右键菜单
+			//返回S_OK 则可屏蔽系统右键菜单
+		}
 public:
 	DuiLib::CDuiString GetSkinFile()
 	{
@@ -207,8 +216,8 @@ public:
 	}
 
 	void OnFinalMessage(HWND hWnd)
-	{ 
-		delete this;
+	{
+		__super::OnFinalMessage(hWnd);
 	}
 
 	LPCTSTR QueryControlText(LPCTSTR lpstrId, LPCTSTR lpstrType)
@@ -282,7 +291,7 @@ public:
 			{
 				if(IDYES == MessageBox(m_hWnd, _T("确定退出duidemo演示程序？"), _T("Duilib旗舰版"), MB_YESNO))
 				{
-					PostQuitMessage(0);
+					::DestroyWindow(m_hWnd);
 				}
 				return; 
 			}
@@ -403,6 +412,13 @@ public:
 			// 动态添加后重新设置菜单的大小
 			m_pMenu->ResizeMenu();
 		}
+	}
+
+	LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled)
+	{
+		bHandled = FALSE;
+		PostQuitMessage(0);
+		return 0;
 	}
 
 	LRESULT OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)

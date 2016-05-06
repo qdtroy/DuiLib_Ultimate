@@ -261,13 +261,12 @@ namespace DuiLib
 
 	void CButtonUI::BindTriggerTabSel( int _SetSelectIndex /*= -1*/ )
 	{
-		if(GetBindTabLayoutName().IsEmpty() || (GetBindTabLayoutIndex() < 0 && _SetSelectIndex < 0))
+		LPCTSTR pstrName = GetBindTabLayoutName();
+		if(pstrName == NULL || (GetBindTabLayoutIndex() < 0 && _SetSelectIndex < 0))
 			return;
 
-		CTabLayoutUI* pTabLayout = static_cast<CTabLayoutUI*>(GetManager()->FindControl(GetBindTabLayoutName()));
-		if(!pTabLayout)
-			return;
-
+		CTabLayoutUI* pTabLayout = static_cast<CTabLayoutUI*>(GetManager()->FindControl(pstrName));
+		if(!pTabLayout) return;
 		pTabLayout->SelectItem(_SetSelectIndex >=0?_SetSelectIndex:GetBindTabLayoutIndex());
 	}
 
@@ -282,7 +281,7 @@ namespace DuiLib
 		return m_iBindTabIndex;
 	}
 
-	CDuiString CButtonUI::GetBindTabLayoutName()
+	LPCTSTR CButtonUI::GetBindTabLayoutName()
 	{
 		return m_sBindTabLayoutName;
 	}

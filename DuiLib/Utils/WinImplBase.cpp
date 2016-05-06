@@ -12,7 +12,7 @@ namespace DuiLib
 		DUI_ON_MSGTYPE(DUI_MSGTYPE_CLICK,OnClick)
 	DUI_END_MESSAGE_MAP()
 
-		void WindowImplBase::OnFinalMessage( HWND hWnd )
+	void WindowImplBase::OnFinalMessage( HWND hWnd )
 	{
 		m_pm.RemovePreMessageFilter(this);
 		m_pm.RemoveNotifier(this);

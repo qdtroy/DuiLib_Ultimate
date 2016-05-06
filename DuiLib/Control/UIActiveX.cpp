@@ -919,13 +919,11 @@ namespace DuiLib {
 	CActiveXUI::CActiveXUI() : m_pUnk(NULL), m_pControl(NULL), m_hwndHost(NULL), m_bCreated(false), m_bDelayCreate(true)
 	{
 		m_clsid = IID_NULL;
-		::CoInitialize(NULL);
 	}
 
 	CActiveXUI::~CActiveXUI()
 	{
 		ReleaseControl();
-		::CoUninitialize();
 	}
 
 	LPCTSTR CActiveXUI::GetClass() const
@@ -1112,7 +1110,9 @@ namespace DuiLib {
 
 	void CActiveXUI::ReleaseControl()
 	{
-		m_hwndHost = NULL;
+		// ÒÆ³ýÏûÏ¢Á´
+		m_pManager->RemoveMessageFilter(this);
+
 		if( m_pUnk != NULL ) {
 			IObjectWithSite* pSite = NULL;
 			m_pUnk->QueryInterface(IID_IObjectWithSite, (LPVOID*) &pSite);
@@ -1124,13 +1124,15 @@ namespace DuiLib {
 			m_pUnk->SetClientSite(NULL);
 			m_pUnk->Release(); 
 			m_pUnk = NULL;
-		}
+		}		
+		// Ïú»ÙCActiveXCtrl
 		if( m_pControl != NULL ) {
 			m_pControl->m_pOwner = NULL;
 			m_pControl->Release();
 			m_pControl = NULL;
 		}
-		m_pManager->RemoveMessageFilter(this);
+
+		m_hwndHost = NULL;
 	}
 
 	typedef HRESULT (__stdcall *DllGetClassObjectFunc)(REFCLSID rclsid, REFIID riid, LPVOID* ppv); 

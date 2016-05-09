@@ -5,7 +5,7 @@
   
   <VerticalLayout bkimage="res='bg.png' corner='6,97,6,29' fade='180'">
     <HorizontalLayout name="appbar" height="64" inset="0,-1">
-      <HorizontalLayout name="apptitle" childpadding="6">
+      <HorizontalLayout name="apptitle" childpadding="6" inset="0,3,0,0">
         <Container padding="2,3,0,0" width="64" height="64" bkimage="logo.jpg" />
         <VerticalLayout>
           <Button name="homepage_btn" text="透明窗口演示 v1.0" width="180" align="vcenter" align="left" textcolor="#FF333333" hottextcolor="#FF0000FF" font="1" tooltip="官网"/>
@@ -14,7 +14,6 @@
       </HorizontalLayout>
 
       <Button name="minbtn" width="28" height="20" tooltip="最小化" normalimage="file='sysbtn/btn_mini_normal.png'" hotimage="file='sysbtn/btn_mini_highlight.png'" pushedimage="file='sysbtn/btn_mini_down.png' "/>
-
       <Button name="closebtn" width="39" height="20" tooltip="关闭" normalimage="file='sysbtn/btn_close_normal.png'" hotimage="file='sysbtn/btn_close_highlight.png'" pushedimage="file='sysbtn/btn_close_down.png' "/>
     </HorizontalLayout>
     <VerticalLayout >

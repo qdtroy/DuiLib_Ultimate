@@ -22,15 +22,15 @@ namespace DuiLib
 		void OnFinalMessage(HWND hWnd);
 
 		LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
-		LRESULT OnKillFocus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-
 	protected:
 		CDateTimeUI* m_pOwner;
 		HBRUSH m_hBkBrush;
 		bool m_bInit;
+		bool m_bDropOpen;
+		SYSTEMTIME m_oldSysTime;
 	};
 
-	CDateTimeWnd::CDateTimeWnd() : m_pOwner(NULL), m_hBkBrush(NULL), m_bInit(false)
+	CDateTimeWnd::CDateTimeWnd() : m_pOwner(NULL), m_hBkBrush(NULL), m_bInit(false), m_bDropOpen(false)
 	{
 	}
 
@@ -47,9 +47,10 @@ namespace DuiLib
 			SetWindowFont(m_hWnd, m_pOwner->GetManager()->GetFontInfo(m_pOwner->GetFont())->hFont, TRUE);
 		}
 
-		if (m_pOwner->GetText().IsEmpty())
+		if (m_pOwner->GetText().IsEmpty()) {
 			::GetLocalTime(&m_pOwner->m_sysTime);
-
+		}
+		memcpy(&m_oldSysTime, &m_pOwner->m_sysTime, sizeof(SYSTEMTIME));
 		::SendMessage(m_hWnd, DTM_SETSYSTEMTIME, 0, (LPARAM)&m_pOwner->m_sysTime);
 		::ShowWindow(m_hWnd, SW_SHOWNOACTIVATE);
 		::SetFocus(m_hWnd);
@@ -102,24 +103,44 @@ namespace DuiLib
 	{
 		LRESULT lRes = 0;
 		BOOL bHandled = TRUE;
-		if( uMsg == WM_KILLFOCUS )
+		if (uMsg == WM_KEYDOWN && wParam == VK_ESCAPE)
 		{
-			lRes = OnKillFocus(uMsg, wParam, lParam, bHandled);
-		}
-		else if (uMsg == WM_KEYUP && (wParam == VK_DELETE || wParam == VK_BACK))
-		{
-			LRESULT lRes = ::DefWindowProc(m_hWnd, uMsg, wParam, lParam);
-			m_pOwner->m_nDTUpdateFlag = DT_DELETE;
+			memcpy(&m_pOwner->m_sysTime, &m_oldSysTime, sizeof(SYSTEMTIME));
+			m_pOwner->m_nDTUpdateFlag = DT_UPDATE;
 			m_pOwner->UpdateText();
 			PostMessage(WM_CLOSE);
 			return lRes;
 		}
-		else if (uMsg == WM_KEYUP && wParam == VK_ESCAPE)
+		else if(uMsg == OCM_NOTIFY)
 		{
-			LRESULT lRes = ::DefWindowProc(m_hWnd, uMsg, wParam, lParam);
-			m_pOwner->m_nDTUpdateFlag = DT_KEEP;
-			PostMessage(WM_CLOSE);
-			return lRes;
+			NMHDR* pHeader=(NMHDR*)lParam;
+			if(pHeader != NULL && pHeader->hwndFrom == m_hWnd) {
+				if(pHeader->code == DTN_DATETIMECHANGE) {
+					LPNMDATETIMECHANGE lpChage=(LPNMDATETIMECHANGE)lParam;
+					::SendMessage(m_hWnd, DTM_GETSYSTEMTIME, 0, (LPARAM)&m_pOwner->m_sysTime);
+					m_pOwner->m_nDTUpdateFlag = DT_UPDATE;
+					m_pOwner->UpdateText();
+				}
+				else if(pHeader->code == DTN_DROPDOWN) {
+					m_bDropOpen = true;
+
+				}
+				else if(pHeader->code == DTN_CLOSEUP) {
+					::SendMessage(m_hWnd, DTM_GETSYSTEMTIME, 0, (LPARAM)&m_pOwner->m_sysTime);
+					m_pOwner->m_nDTUpdateFlag = DT_UPDATE;
+					m_pOwner->UpdateText();
+					PostMessage(WM_CLOSE);
+					m_bDropOpen = false;
+				}
+			}
+			bHandled = FALSE;
+		}
+		else if(uMsg == WM_KILLFOCUS)
+		{
+			if(!m_bDropOpen) {
+				PostMessage(WM_CLOSE);
+			}
+			bHandled = FALSE;
 		}
 		else if( uMsg == WM_PAINT) {
 			if (m_pOwner->GetManager()->IsLayered()) {
@@ -131,20 +152,6 @@ namespace DuiLib
 		if( !bHandled ) return CWindowWnd::HandleMessage(uMsg, wParam, lParam);
 		return lRes;
 	}
-
-	LRESULT CDateTimeWnd::OnKillFocus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
-	{
-		LRESULT lRes = ::DefWindowProc(m_hWnd, uMsg, wParam, lParam);
-		if (m_pOwner->m_nDTUpdateFlag == DT_NONE)
-		{
-			::SendMessage(m_hWnd, DTM_GETSYSTEMTIME, 0, (LPARAM)&m_pOwner->m_sysTime);
-			m_pOwner->m_nDTUpdateFlag = DT_UPDATE;
-			m_pOwner->UpdateText();
-		}
-		SendMessage(WM_CLOSE);
-		return lRes;
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	//
 	IMPLEMENT_DUICONTROL(CDateTimeUI)
@@ -194,13 +201,12 @@ namespace DuiLib
 
 	void CDateTimeUI::UpdateText()
 	{
-		if (m_nDTUpdateFlag == DT_DELETE)
+		if (m_nDTUpdateFlag == DT_DELETE) {
 			SetText(_T(""));
-		else if (m_nDTUpdateFlag == DT_UPDATE)
-		{
+		}
+		else if (m_nDTUpdateFlag == DT_UPDATE) {
 			CDuiString sText;
-			sText.SmallFormat(_T("%4d-%02d-%02d"),
-				m_sysTime.wYear, m_sysTime.wMonth, m_sysTime.wDay, m_sysTime.wHour, m_sysTime.wMinute);
+			sText.SmallFormat(_T("%4d-%02d-%02d"), m_sysTime.wYear, m_sysTime.wMonth, m_sysTime.wDay, m_sysTime.wHour, m_sysTime.wMinute);
 			SetText(sText);
 		}
 	}

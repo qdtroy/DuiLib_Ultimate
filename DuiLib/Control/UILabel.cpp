@@ -185,6 +185,16 @@ namespace DuiLib
 				m_uTextStyle |= DT_SINGLELINE;
 			}
 		}
+		else if( _tcsicmp(pstrName, _T("noprefix")) == 0 ) {
+			if( _tcsicmp(pstrValue, _T("true")) == 0)
+			{
+				m_uTextStyle |= DT_NOPREFIX;
+			}
+			else
+			{
+				m_uTextStyle = m_uTextStyle & ~DT_NOPREFIX;
+			}
+		}
 		else if( _tcsicmp(pstrName, _T("font")) == 0 ) SetFont(_ttoi(pstrValue));
 		else if( _tcsicmp(pstrName, _T("textcolor")) == 0 ) {
 			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);

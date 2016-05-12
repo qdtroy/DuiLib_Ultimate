@@ -331,17 +331,6 @@ namespace DuiLib
 			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
 			SetFocusedTextColor(clrColor);
 		}
-		else if( _tcsicmp(pstrName, _T("noprefix")) == 0 )
-		{
-			if( _tcsicmp(pstrValue, _T("true")) == 0)
-			{
-				m_uTextStyle |= DT_NOPREFIX;
-			}
-			else
-			{
-				m_uTextStyle = m_uTextStyle & ~DT_NOPREFIX;
-			}
-		}
 		else CLabelUI::SetAttribute(pstrName, pstrValue);
 	}
 

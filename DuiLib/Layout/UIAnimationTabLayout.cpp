@@ -34,21 +34,20 @@ namespace DuiLib {
 
 		int iOldSel = m_iCurSel;
 		m_iCurSel = iIndex;
-		for( int it = 0; it < m_items.GetSize(); it++ )
-		{
+		for( int it = 0; it < m_items.GetSize(); it++ ) {
 			if( it == iIndex ) {
 				GetItemAt(it)->SetVisible(true);
 				GetItemAt(it)->SetFocus();
-
 				m_bControlVisibleFlag = false;
 				m_pCurrentControl = static_cast<CControlUI*>(m_items[it]);
-				if( NULL != m_pCurrentControl )
-					m_pCurrentControl->SetVisible( false );
-				AnimationSwitch();
+				
 			}
 			else GetItemAt(it)->SetVisible(false);
 		}
+
 		NeedParentUpdate();
+		if( NULL != m_pCurrentControl ) m_pCurrentControl->SetVisible( false );
+		AnimationSwitch();
 
 		if( m_pManager != NULL ) {
 			m_pManager->SetNextTabControl();
@@ -95,8 +94,7 @@ namespace DuiLib {
 
 	void CAnimationTabLayoutUI::OnAnimationStep(INT nTotalFrame, INT nCurFrame, INT nAnimationID)
 	{
-		if( !m_bControlVisibleFlag )
-		{
+		if( !m_bControlVisibleFlag ) {
 			m_bControlVisibleFlag = true;
 			m_pCurrentControl->SetVisible( true );
 		}

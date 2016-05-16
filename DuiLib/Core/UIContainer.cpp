@@ -26,8 +26,14 @@ namespace DuiLib
 	{
 		m_bDelayedDestroy = false;
 		RemoveAll();
-		if( m_pVerticalScrollBar ) delete m_pVerticalScrollBar;
-		if( m_pHorizontalScrollBar ) delete m_pHorizontalScrollBar;
+		if( m_pVerticalScrollBar ) {
+			delete m_pVerticalScrollBar;
+			m_pVerticalScrollBar = NULL;
+		}
+		if( m_pHorizontalScrollBar ) {
+			delete m_pHorizontalScrollBar;
+			m_pHorizontalScrollBar = NULL;
+		}
 	}
 
 	LPCTSTR CContainerUI::GetClass() const
@@ -127,8 +133,14 @@ namespace DuiLib
 	void CContainerUI::RemoveAll()
 	{
 		for( int it = 0; m_bAutoDestroy && it < m_items.GetSize(); it++ ) {
-			if( m_bDelayedDestroy && m_pManager ) m_pManager->AddDelayedCleanup(static_cast<CControlUI*>(m_items[it]));             
-			else delete static_cast<CControlUI*>(m_items[it]);
+			CControlUI* pItem = static_cast<CControlUI*>(m_items[it]);
+			if( m_bDelayedDestroy && m_pManager ) {
+				m_pManager->AddDelayedCleanup(pItem);             
+			}
+			else {
+				delete pItem;
+				pItem = NULL;
+			}
 		}
 		m_items.Empty();
 		NeedUpdate();

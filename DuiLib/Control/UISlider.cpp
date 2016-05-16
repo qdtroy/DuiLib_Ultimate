@@ -111,8 +111,7 @@ namespace DuiLib
 			return;
 		}
 
-		if( event.Type == UIEVENT_BUTTONDOWN || event.Type == UIEVENT_DBLCLICK )
-		{
+		if( event.Type == UIEVENT_BUTTONDOWN || event.Type == UIEVENT_DBLCLICK ) {
 			if( IsEnabled() ) {
 				m_uButtonState |= UISTATE_CAPTURED;
 
@@ -136,29 +135,30 @@ namespace DuiLib
 			return;
 		}
 
-		if( event.Type == UIEVENT_BUTTONUP || event.Type == UIEVENT_RBUTTONUP)
-		{
-			int nValue;
-			if( (m_uButtonState & UISTATE_CAPTURED) != 0 ) {
-				m_uButtonState &= ~UISTATE_CAPTURED;
+		if( event.Type == UIEVENT_BUTTONUP || event.Type == UIEVENT_RBUTTONUP) {
+			if( IsEnabled() ) {
+				int nValue = 0;
+				if( (m_uButtonState & UISTATE_CAPTURED) != 0 ) {
+					m_uButtonState &= ~UISTATE_CAPTURED;
+				}
+				if( m_bHorizontal ) {
+					if( event.ptMouse.x >= m_rcItem.right - m_szThumb.cx / 2 ) nValue = m_nMax;
+					else if( event.ptMouse.x <= m_rcItem.left + m_szThumb.cx / 2 ) nValue = m_nMin;
+					else nValue = m_nMin + (m_nMax - m_nMin) * (event.ptMouse.x - m_rcItem.left - m_szThumb.cx / 2 ) / (m_rcItem.right - m_rcItem.left - m_szThumb.cx);
+				}
+				else {
+					if( event.ptMouse.y >= m_rcItem.bottom - m_szThumb.cy / 2 ) nValue = m_nMin;
+					else if( event.ptMouse.y <= m_rcItem.top + m_szThumb.cy / 2  ) nValue = m_nMax;
+					else nValue = m_nMin + (m_nMax - m_nMin) * (m_rcItem.bottom - event.ptMouse.y - m_szThumb.cy / 2 ) / (m_rcItem.bottom - m_rcItem.top - m_szThumb.cy);
+				}
+				if(nValue >= m_nMin && nValue <= m_nMax) {
+					m_nValue =nValue;
+					m_pManager->SendNotify(this, DUI_MSGTYPE_VALUECHANGED);
+					Invalidate();
+				}
+				UpdateText();
+				return;
 			}
-			if( m_bHorizontal ) {
-				if( event.ptMouse.x >= m_rcItem.right - m_szThumb.cx / 2 ) nValue = m_nMax;
-				else if( event.ptMouse.x <= m_rcItem.left + m_szThumb.cx / 2 ) nValue = m_nMin;
-				else nValue = m_nMin + (m_nMax - m_nMin) * (event.ptMouse.x - m_rcItem.left - m_szThumb.cx / 2 ) / (m_rcItem.right - m_rcItem.left - m_szThumb.cx);
-			}
-			else {
-				if( event.ptMouse.y >= m_rcItem.bottom - m_szThumb.cy / 2 ) nValue = m_nMin;
-				else if( event.ptMouse.y <= m_rcItem.top + m_szThumb.cy / 2  ) nValue = m_nMax;
-				else nValue = m_nMin + (m_nMax - m_nMin) * (m_rcItem.bottom - event.ptMouse.y - m_szThumb.cy / 2 ) / (m_rcItem.bottom - m_rcItem.top - m_szThumb.cy);
-			}
-			if(nValue >= m_nMin && nValue <= m_nMax) {
-				m_nValue =nValue;
-				m_pManager->SendNotify(this, DUI_MSGTYPE_VALUECHANGED);
-				Invalidate();
-			}
-			UpdateText();
-			return;
 		}
 		if( event.Type == UIEVENT_CONTEXTMENU )
 		{
@@ -166,19 +166,20 @@ namespace DuiLib
 		}
 		if( event.Type == UIEVENT_SCROLLWHEEL ) 
 		{
-			switch( LOWORD(event.wParam) ) {
-			case SB_LINEUP:
-				SetValue(GetValue() + GetChangeStep());
-				m_pManager->SendNotify(this, DUI_MSGTYPE_VALUECHANGED);
-				return;
-			case SB_LINEDOWN:
-				SetValue(GetValue() - GetChangeStep());
-				m_pManager->SendNotify(this, DUI_MSGTYPE_VALUECHANGED);
-				return;
+			if( IsEnabled() ) {
+				switch( LOWORD(event.wParam) ) {
+				case SB_LINEUP:
+					SetValue(GetValue() + GetChangeStep());
+					m_pManager->SendNotify(this, DUI_MSGTYPE_VALUECHANGED);
+					return;
+				case SB_LINEDOWN:
+					SetValue(GetValue() - GetChangeStep());
+					m_pManager->SendNotify(this, DUI_MSGTYPE_VALUECHANGED);
+					return;
+				}
 			}
 		}
-		if( event.Type == UIEVENT_MOUSEMOVE )
-		{
+		if( event.Type == UIEVENT_MOUSEMOVE ) {
 			if( (m_uButtonState & UISTATE_CAPTURED) != 0 ) {
 				if( m_bHorizontal ) {
 					if( event.ptMouse.x >= m_rcItem.right - m_szThumb.cx / 2 ) m_nValue = m_nMax;

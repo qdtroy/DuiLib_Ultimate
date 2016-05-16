@@ -420,13 +420,14 @@ namespace DuiLib {
 
 	bool CListUI::SelectItem(int iIndex, bool bTakeFocus)
 	{
+		// 取消所有选择项
+		UnSelectAllItems();
+		// 判断是否合法列表项
 		if( iIndex < 0 ) return false;
 		CControlUI* pControl = GetItemAt(iIndex);
 		if( pControl == NULL ) return false;
 		IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
 		if( pListItem == NULL ) return false;
-
-		UnSelectAllItems();
 		if( !pListItem->Select(true) ) {
 			return false;
 		}
@@ -434,7 +435,6 @@ namespace DuiLib {
 		m_iCurSel = iIndex;
 		m_aSelItems.Add((LPVOID)iIndex);
 		EnsureVisible(iIndex);
-
 		if( bTakeFocus ) pControl->SetFocus();
 		if( m_pManager != NULL && iLastSel != m_iCurSel) {
 			m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMSELECT, iIndex);
@@ -485,7 +485,6 @@ namespace DuiLib {
 				if(iSelIndex == iIndex) continue;
 				CControlUI* pControl = GetItemAt(iSelIndex);
 				if(pControl == NULL) continue;
-				if(!pControl->IsVisible()) continue;
 				if(!pControl->IsEnabled()) continue;
 				IListItemUI* pSelListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
 				if( pSelListItem == NULL ) continue;
@@ -497,11 +496,9 @@ namespace DuiLib {
 			if( iIndex < 0 ) return false;
 			CControlUI* pControl = GetItemAt(iIndex);
 			if( pControl == NULL ) return false;
-			if( !pControl->IsVisible() ) return false;
 			if( !pControl->IsEnabled() ) return false;
 			IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
 			if( pListItem == NULL ) return false;
-
 			int aIndex = m_aSelItems.Find((LPVOID)iIndex);
 			if (aIndex < 0) return false;
 			if( !pListItem->SelectMulti(false) ) return false;
@@ -533,7 +530,6 @@ namespace DuiLib {
 			int iSelIndex = (int)m_aSelItems.GetAt(i);
 			CControlUI* pControl = GetItemAt(iSelIndex);
 			if(pControl == NULL) continue;
-			if(!pControl->IsVisible()) continue;
 			if(!pControl->IsEnabled()) continue;
 			IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
 			if( pListItem == NULL ) continue;

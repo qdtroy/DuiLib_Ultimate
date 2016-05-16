@@ -81,7 +81,9 @@ public:
 		CButtonUI* pBtn1 = new CButtonUI();
 		pBtn1->SetManager(&m_pm, NULL, false);
 		pBtn1->SetAttribute(_T("style"), _T("btn_style"));
-		pBtn1->SetText(_T("°¢´ô"));
+		pBtn1->SetText(_T("´úÂë°¢´ô"));
+		pBtn1->SetFixedHeight(20);
+		pBtn1->SetFixedWidth(30);
 		pListItem->Add(pBtn1);
 		CButtonUI* pBtn2 = new CButtonUI();
 		pBtn2->SetManager(&m_pm, NULL, false);
@@ -112,8 +114,9 @@ public:
 		pItem->SetAttribute(_T("Style"), _T("treeview_style"));
 
 		CDialogBuilder builder;
-		CTreeNodeUI* pTreeItem = (CTreeNodeUI*)builder.Create(_T("treeitem.xml"), NULL, this, &m_pm, pTreeView);
-		pTreeView->Add(pTreeItem);
+		CControlUI* pParentItem = NULL;
+		CTreeNodeUI* pTreeItem = (CTreeNodeUI*)builder.Create(_T("treeitem.xml"), NULL, this, &m_pm, pParentItem);
+		if(pParentItem == NULL) pTreeView->Add(pTreeItem);
 
 		// Í¼±í¿Ø¼þ
 		CChartViewUI *pHistpgramView = static_cast<CChartViewUI*>(m_pm.FindControl(_T("ChartView_Histpgram")));
@@ -310,7 +313,6 @@ public:
 		else if(msg.sType==_T("selectchanged"))
 		{
 			CTabLayoutUI* pTabSwitch = static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("tab_switch")));
-
 			if(name.CompareNoCase(_T("basic_tab")) == 0) pTabSwitch->SelectItem(0);
 			if(name.CompareNoCase(_T("rich_tab")) == 0) pTabSwitch->SelectItem(1);
 			if(name.CompareNoCase(_T("ex_tab")) == 0) pTabSwitch->SelectItem(2);

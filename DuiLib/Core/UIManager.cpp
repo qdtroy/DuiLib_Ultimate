@@ -2658,6 +2658,8 @@ namespace DuiLib {
 
 	TFontInfo* CPaintManagerUI::GetFontInfo(int id)
 	{
+		if (id < 0) return GetDefaultFontInfo();
+
 		TCHAR idBuffer[16];
 		::ZeroMemory(idBuffer, sizeof(idBuffer));
 		_itot(id, idBuffer, 10);

@@ -99,7 +99,7 @@
                 <ListLabelElement text="幼圆" height="23" width="500" />
                 <ListLabelElement text="楷体" height="23" width="500" />
               </Combo>
-              <Combo name="font_size" width="120" style="combo_style" itemtextpadding="23,0,0,0">
+              <Combo name="font_size" width="120" style="combo_style" itemtextpadding="23,0,0,0" dropbox="bordercolor=&quot;#FFFF0000&quot; bordersize=&quot;1&quot; bkcolor=&quot;#FF888888&quot;">
                 <ListLabelElement text="9" selected="true" height="23" />
                 <ListLabelElement text="10" height="23" bkimage="dest='4,7,20,23' res='icon.png'"/>
                 <ListLabelElement text="11" height="23" bkimage="dest='4,7,20,23' res='icon.png'" />
@@ -126,7 +126,7 @@
             <HorizontalLayout height="100" childpadding="12" >
               <Progress name="progress" padding="0,40" textcolor="#FF333333" valign="vcenter" height="18" width="160" bkcolor="#FFFFFF33" forecolor="#FFFF0000" value="50" min="0" max="100"/>
               <CircleProgress name="circle_progress" textcolor="#FF333333" valign="vcenter" height="100" width="100" bkcolor="#FFFFFF33" forecolor="#FFFF0000" value="50" min="0" max="100"/>
-              <Slider name="slider" padding="0,40" width="124" height="19" value="50" min="0" max="100" bkimage="res='SliderBar_BK.bmp' mask='#ffff00ff'" thumbimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbhotimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbpushedimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbsize="12,20" />
+              <Slider name="slider" enabled="true" padding="0,40" width="124" height="19" value="50" min="0" max="100" bkimage="res='SliderBar_BK.bmp' mask='#ffff00ff'" thumbimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbhotimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbpushedimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbsize="12,20" />
             </HorizontalLayout>
           </HorizontalLayout>
 

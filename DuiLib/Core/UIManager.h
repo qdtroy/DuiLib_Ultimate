@@ -52,11 +52,16 @@ namespace DuiLib {
 		UIEVENT_WINDOWSIZE,
 		UIEVENT_SETCURSOR,
 		UIEVENT_TIMER,
-		UIEVENT_NOTIFY,
-		UIEVENT_COMMAND,
 		UIEVENT__LAST,
 	};
 
+	typedef enum MSGTYPE_UI
+	{
+		// 内部保留消息
+		UIMSG_TRAYICON = WM_USER + 1,
+		// 程序自定义消息
+		UIMSG_USER = WM_USER + 100,
+	};
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 

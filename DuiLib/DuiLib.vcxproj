@@ -949,6 +949,7 @@
     </ClCompile>
     <ClCompile Include="UIlib.cpp" />
     <ClCompile Include="Utils\DragDropImpl.cpp" />
+    <ClCompile Include="Utils\TrayIcon.cpp" />
     <ClCompile Include="Utils\UIShadow.cpp" />
     <ClCompile Include="Utils\WinImplBase.cpp" />
     <ClCompile Include="Utils\UIDelegate.cpp" />
@@ -1037,6 +1038,7 @@
     <ClInclude Include="Utils\FlashEventHandler.h" />
     <ClInclude Include="Utils\observer_impl_base.h" />
     <ClInclude Include="Utils\stb_image.h" />
+    <ClInclude Include="Utils\TrayIcon.h" />
     <ClInclude Include="Utils\UIDelegate.h" />
     <ClInclude Include="Utils\UIShadow.h" />
     <ClInclude Include="Utils\Utils.h" />

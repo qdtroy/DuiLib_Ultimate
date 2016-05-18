@@ -22,5 +22,7 @@
         <Button name="menuitembtn" height="30" text="菜单按钮" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'"/>
       </VerticalLayout>
     </MenuElement>
+
+    <MenuElement name="exit" text="退出"/>
   </Menu>
 </Window>

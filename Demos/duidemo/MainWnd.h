@@ -104,7 +104,7 @@ public:
 			pItem->SetText(1, _T("1000"));
 			pItem->SetText(2, _T("100"));
 		}
-		
+
 		CTreeViewUI* pTreeView = static_cast<CTreeViewUI*>(m_pm.FindControl(_T("treeview")));
 		CTreeNodeUI* pItem  = new CTreeNodeUI();
 		pItem->SetFixedHeight(30);
@@ -161,6 +161,8 @@ public:
 			pItem->SetText(2, _T("1000"));
 			pItem->SetText(3, _T("100"));
 		}
+		// 注册托盘图标
+		m_trayIcon.CreateTrayIcon(m_hWnd, IDR_MAINFRAME, _T("Duilib演示大全"));
 	}
 
 	virtual BOOL Receive(SkinChangedParam param)
@@ -180,6 +182,8 @@ public:
 		return TRUE;
 	}
 
+	/////////////////////////////////////////////////////////////////////////
+public:
 	virtual HRESULT STDMETHODCALLTYPE UpdateUI( void)
 	{
 		return S_OK;
@@ -193,15 +197,15 @@ public:
 		return S_OK;
 	}
 	virtual HRESULT STDMETHODCALLTYPE ShowContextMenu(CWebBrowserUI* pWeb, 
-			/* [in] */ DWORD dwID,
-			/* [in] */ POINT __RPC_FAR *ppt,
-			/* [in] */ IUnknown __RPC_FAR *pcmdtReserved,
-			/* [in] */ IDispatch __RPC_FAR *pdispReserved)
-		{
-			return E_NOTIMPL;
-			//返回 E_NOTIMPL 正常弹出系统右键菜单
-			//返回S_OK 则可屏蔽系统右键菜单
-		}
+		/* [in] */ DWORD dwID,
+		/* [in] */ POINT __RPC_FAR *ppt,
+		/* [in] */ IUnknown __RPC_FAR *pcmdtReserved,
+		/* [in] */ IDispatch __RPC_FAR *pdispReserved)
+	{
+		return E_NOTIMPL;
+		//返回 E_NOTIMPL 正常弹出系统右键菜单
+		//返回S_OK 则可屏蔽系统右键菜单
+	}
 public:
 	DuiLib::CDuiString GetSkinFile()
 	{
@@ -383,7 +387,7 @@ public:
 			m_pMenu = new CMenuWnd();
 			CDuiPoint point;
 			::GetCursorPos(&point);
-			
+
 			m_pMenu->Init(NULL, _T("menu.xml"), point, &m_pm);
 			CMenuUI* rootMenu = m_pMenu->GetMenuUI();
 			if (rootMenu != NULL)
@@ -419,6 +423,7 @@ public:
 	LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled)
 	{
 		bHandled = FALSE;
+		// 退出程序
 		PostQuitMessage(0);
 		return 0;
 	}
@@ -495,6 +500,9 @@ public:
 						CMsgWnd::MessageBox(m_hWnd, NULL, _T("你取消修潜艇服务"));
 					}			 
 				}
+				else if(sMenuName == _T("exit")) {
+					Close(0);
+				}
 				else
 				{
 					CMsgWnd::MessageBox(m_hWnd, NULL, sText);
@@ -506,6 +514,27 @@ public:
 			}
 			bHandled = TRUE;
 			return 0;
+		}
+		else if(uMsg == UIMSG_TRAYICON)
+		{
+			UINT uIconMsg = (UINT)lParam;
+			if(uIconMsg == WM_LBUTTONUP) {
+				BOOL bVisible = IsWindowVisible(m_hWnd);
+				::ShowWindow(m_hWnd, !bVisible ?  SW_SHOW : SW_HIDE);
+			}
+			else if(uIconMsg == WM_RBUTTONUP) {
+				if(m_pMenu != NULL) {
+					delete m_pMenu;
+					m_pMenu = NULL;
+				}
+				m_pMenu = new CMenuWnd();
+				CDuiPoint point;
+				::GetCursorPos(&point);
+				point.y -= 100;
+				m_pMenu->Init(NULL, _T("menu.xml"), point, &m_pm);
+				// 动态添加后重新设置菜单的大小
+				m_pMenu->ResizeMenu();
+			}
 		}
 		bHandled = FALSE;
 		return 0;
@@ -519,4 +548,5 @@ private:
 	CButtonUI* m_pSkinBtn;
 	CMenuWnd* m_pMenu;
 	std::map<CDuiString, bool> m_MenuInfos;
+	CTrayIcon m_trayIcon;
 };

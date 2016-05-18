@@ -991,7 +991,9 @@
     <None Include="..\..\bin\skin\duidemo\tabbar_hover.png" />
     <None Include="..\..\bin\skin\duidemo\tabbar_normal.png" />
     <None Include="..\..\bin\skin\duidemo\tabbar_pushed.png" />
-    <None Include="..\..\bin\skin\duidemo\treeitem.xml" />
+    <None Include="..\..\bin\skin\duidemo\treeitem.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Flash11.tlb" />
     <None Include="Res\duidemo.ico" />
     <None Include="Res\duidemo.zip" />

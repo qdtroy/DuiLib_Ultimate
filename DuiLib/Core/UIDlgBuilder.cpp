@@ -459,7 +459,7 @@ namespace DuiLib {
 			// Attach to parent
 			// 因为某些属性和父窗口相关，比如selected，必须先Add到父窗口
 			CTreeViewUI* pTreeView = NULL;
-			if( pParent != NULL ) {
+			if( pParent != NULL && pControl != NULL ) {
 				CTreeNodeUI* pParentTreeNode = static_cast<CTreeNodeUI*>(pParent->GetInterface(_T("TreeNode")));
 				CTreeNodeUI* pTreeNode = static_cast<CTreeNodeUI*>(pControl->GetInterface(_T("TreeNode")));
 				pTreeView = static_cast<CTreeViewUI*>(pParent->GetInterface(_T("TreeView")));

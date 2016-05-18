@@ -100,6 +100,7 @@
 #include "Control/RollTextUI.h"
 #include "Control/UIColorPalette.h"
 #include "Control/UIListEx.h"
+#include "Control/UIHotKey.h"
 
 #pragma comment( lib, "comctl32.lib" )
 #pragma comment( lib, "GdiPlus.lib" )

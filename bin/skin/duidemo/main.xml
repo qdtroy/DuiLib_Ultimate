@@ -134,9 +134,12 @@
           <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="系统控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <HorizontalLayout height="23" childpadding="12">
-              <IPAddress width="120"/>
-              <DateTime width="160"/>
-
+              <Label text="IP地址" autocalcwidth="true"/>
+              <IPAddress width="120" bordersize="1" bordercolor="#FF888888" textpadding="5"/>
+              <Label text="日期" autocalcwidth="true"/>
+              <DateTime width="120" bordersize="1" bordercolor="#FF888888" textpadding="3"/>
+              <Label text="系统热键" autocalcwidth="true"/>
+              <HotKey width="100" bordersize="1" bordercolor="#FF888888"/>
             </HorizontalLayout>
           </HorizontalLayout>
 

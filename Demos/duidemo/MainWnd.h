@@ -70,7 +70,6 @@ public:
 
 		// List¿Ø¼şÌí¼ÓÔªËØ
 		CListUI* pList = static_cast<CListUI*>(m_pm.FindControl(_T("listview")));
-
 		CListContainerElementUI* pListItem  = new CListContainerElementUI();
 		pListItem->SetBorderColor(0xFF00FF00);
 		pListItem->SetBorderSize(1);
@@ -94,7 +93,6 @@ public:
 		CDialogBuilder builder1;
 		CListContainerElementUI* pListItem1  = (CListContainerElementUI*)builder1.Create(_T("listitem.xml"), NULL, this, &m_pm, NULL);
 		pList->Add(pListItem1);
-
 		for(int i = 0; i < 20; i++)
 		{
 			CListTextElementUI* pItem  = new CListTextElementUI();

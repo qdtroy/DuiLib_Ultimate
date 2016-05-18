@@ -72,12 +72,10 @@ namespace DuiLib
 
 		if (m_pOwner->GetText().IsEmpty())
 			m_pOwner->m_dwIP = GetLocalIpAddress();
-		
 		::SendMessage(m_hWnd, IPM_SETADDRESS, 0, m_pOwner->m_dwIP);
 		::ShowWindow(m_hWnd, SW_SHOW);
 		::SetFocus(m_hWnd);
 		
-
 		m_bInit = true;    
 	}
 

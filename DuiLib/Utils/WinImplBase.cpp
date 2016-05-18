@@ -126,6 +126,7 @@ namespace DuiLib
 			&& pt.y >= rcCaption.top && pt.y < rcCaption.bottom ) {
 				CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(pt));
 				if( pControl && _tcsicmp(pControl->GetClass(), _T("ButtonUI")) != 0 && 
+					_tcsicmp(pControl->GetClass(), _T("FadeButtonUI")) != 0 &&
 					_tcsicmp(pControl->GetClass(), _T("OptionUI")) != 0 &&
 					_tcsicmp(pControl->GetClass(), _T("BrowserTab")) != 0 &&
 					_tcsicmp(pControl->GetClass(), _T("BrowserTabBar")) != 0 &&

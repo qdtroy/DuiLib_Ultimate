@@ -920,6 +920,7 @@
     <ClCompile Include="Control\RollTextUI.cpp" />
     <ClCompile Include="Control\UIAnimation.cpp" />
     <ClCompile Include="Control\UIColorPalette.cpp" />
+    <ClCompile Include="Control\UIFadeButton.cpp" />
     <ClCompile Include="Control\UIGifAnim.cpp" />
     <ClCompile Include="Control\UIGifAnimEx.cpp" />
     <ClCompile Include="Control\UIGroupBox.cpp" />
@@ -1023,6 +1024,7 @@
     <ClInclude Include="Control\RollTextUI.h" />
     <ClInclude Include="Control\UIAnimation.h" />
     <ClInclude Include="Control\UIColorPalette.h" />
+    <ClInclude Include="Control\UIFadeButton.h" />
     <ClInclude Include="Control\UIGifAnim.h" />
     <ClInclude Include="Control\UIGifAnimEx.h" />
     <ClInclude Include="Control\UIGroupBox.h" />

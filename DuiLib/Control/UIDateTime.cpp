@@ -186,6 +186,9 @@ namespace DuiLib
 	{
 		m_sysTime = *pst;
 		Invalidate();
+		m_nDTUpdateFlag = DT_UPDATE;
+		UpdateText();
+		m_nDTUpdateFlag = DT_NONE;
 	}
 
 	void CDateTimeUI::SetReadOnly(bool bReadOnly)

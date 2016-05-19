@@ -107,7 +107,7 @@ public:
 		CTreeNodeUI* pItem  = new CTreeNodeUI();
 		pItem->SetFixedHeight(30);
 		pItem->SetItemText(_T("¶¯Ì¬Ìí¼Ó"));
-		pTreeView->Add(pItem);
+		pTreeView->AddAt(pItem, 3);
 		pItem->SetAttribute(_T("itemattr"), _T("valign=&quot;center&quot;"));
 		pItem->SetAttribute(_T("Style"), _T("treeview_style"));
 

@@ -371,56 +371,6 @@ namespace DuiLib {
 				}
 				continue;
 			}
-			////树控件XML解析
-			//else if( _tcsicmp(pstrClass, _T("TreeNode")) == 0 ) {
-			//	CTreeNodeUI* pParentNode = static_cast<CTreeNodeUI*>(pParent->GetInterface(_T("TreeNode")));
-			//	CTreeNodeUI* pTreeNode = new CTreeNodeUI();
-			//	if( pParentNode != NULL ){
-			//		if(!pParentNode->Add(pTreeNode)){
-			//			delete pTreeNode;
-			//			continue;
-			//		}
-			//	}
-
-			//	// 若有控件默认配置先初始化默认属性
-			//	if( pManager != NULL ) {
-			//		pTreeNode->SetManager(pManager, NULL, false);
-			//		LPCTSTR pDefaultAttributes = pManager->GetDefaultAttributeList(pstrClass);
-			//		if( pDefaultAttributes ) {
-			//			pTreeNode->ApplyAttributeList(pDefaultAttributes);
-			//		}
-			//	}
-
-			//	// 解析所有属性并覆盖默认属性
-			//	if( node.HasAttributes() ) {
-			//		TCHAR szValue[500] = { 0 };
-			//		SIZE_T cchLen = lengthof(szValue) - 1;
-			//		// Set ordinary attributes
-			//		int nAttributes = node.GetAttributeCount();
-			//		for( int i = 0; i < nAttributes; i++ ) {
-			//			pTreeNode->SetAttribute(node.GetAttributeName(i), node.GetAttributeValue(i));
-			//		}
-			//	}
-
-			//	//检索子节点及附加控件
-			//	if(node.HasChildren()){
-			//		_Parse(&node, pTreeNode, pManager);
-			//	}
-
-			//	CTreeViewUI* pTreeView = NULL;
-			//	if(pParentNode != NULL) {
-			//		pTreeView = pParentNode->GetTreeView();
-			//	}
-			//	else {
-			//		pTreeView = static_cast<CTreeViewUI*>(pParent->GetInterface(_T("TreeView")));
-			//	}
-			//	if( pTreeView != NULL && !pTreeView->Add(pTreeNode) ) {
-			//		delete pTreeNode;
-			//		continue;
-			//	}
-			//	if(pReturn == NULL) pReturn = pTreeNode;
-			//	continue;
-			//}
 			else {
 				CDuiString strClass =  _T("C");
 				strClass = strClass + pstrClass + _T("UI");

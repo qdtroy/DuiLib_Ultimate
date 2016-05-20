@@ -51,6 +51,14 @@ public:
 	void Refresh();
 
 public:
+	virtual HRESULT STDMETHODCALLTYPE ShowContextMenu(CWebBrowserUI* pWeb, 
+		/* [in] */ DWORD dwID,
+		/* [in] */ POINT __RPC_FAR *ppt,
+		/* [in] */ IUnknown __RPC_FAR *pcmdtReserved,
+		/* [in] */ IDispatch __RPC_FAR *pdispReserved)
+	{
+		return E_NOTIMPL;
+	}
 	virtual HRESULT STDMETHODCALLTYPE GetHostInfo(CWebBrowserUI* pWeb, DOCHOSTUIINFO __RPC_FAR *pInfo)
 	{
 		if (pInfo != NULL) {

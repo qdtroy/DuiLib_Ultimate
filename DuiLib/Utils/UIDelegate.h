@@ -83,6 +83,7 @@ public:
     void operator-= (const CDelegateBase& d);
     void operator-= (FnType pFn);
     bool operator() (void* param);
+	void Clear();
 
 protected:
     CStdPtrArray m_aDelegates;

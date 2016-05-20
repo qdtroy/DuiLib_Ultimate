@@ -6,7 +6,9 @@ void InitResource()
 {	
 	// 资源类型
 #ifdef _DEBUG
-	CPaintManagerUI::SetResourceType(UILIB_FILE);
+	CPaintManagerUI::SetResourceType(UILIB_ZIPRESOURCE);
+
+	//CPaintManagerUI::SetResourceType(UILIB_FILE);
 #else
 	CPaintManagerUI::SetResourceType(UILIB_ZIPRESOURCE);
 #endif
@@ -68,6 +70,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 {
 	HRESULT Hr = ::CoInitialize(NULL);
 	if( FAILED(Hr) ) return 0;
+	HRESULT hRes = ::OleInitialize(NULL);
 	// 初始化UI管理器
 	CPaintManagerUI::SetInstance(hInstance);
 	// 初始化资源
@@ -86,7 +89,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	pFrame->ShowModal();
 
 	CPaintManagerUI::MessageLoop();
-
+	OleUninitialize();
 	::CoUninitialize();
 	return 0;
 }

@@ -822,7 +822,7 @@ namespace DuiLib
 		if(m_uItemMinWidth > 0) {
 			pControl->SetMinWidth(m_uItemMinWidth);
 		}
-		CListUI::AddAt(pControl,iIndex);
+		CListUI::AddAt(pControl, iIndex);
 		if(pControl->GetCountChild() > 0) {
 			int nCount = pControl->GetCountChild();
 			for(int nIndex = 0; nIndex < nCount; nIndex++) {
@@ -845,13 +845,12 @@ namespace DuiLib
 	// 参数信息: CTreeNodeUI * _IndexNode
 	// 函数说明:
 	//************************************
-	bool CTreeViewUI::AddAt( CTreeNodeUI* pControl,CTreeNodeUI* _IndexNode )
+	bool CTreeViewUI::AddAt( CTreeNodeUI* pControl, CTreeNodeUI* _IndexNode )
 	{
 		if(!_IndexNode && !pControl)
 			return FALSE;
 
 		int nItemIndex = -1;
-
 		for(int nIndex = 0;nIndex < GetCount();nIndex++) {
 			if(_IndexNode == GetItemAt(nIndex)) {
 				nItemIndex = nIndex;

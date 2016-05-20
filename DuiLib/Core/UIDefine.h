@@ -109,6 +109,7 @@ namespace DuiLib
 #define DUI_MSGTYPE_COMBOITEMSELECT 		(_T("comboitemselect"))
 #define DUI_MSGTYPE_LISTHEADERCLICK			(_T("listheaderclick"))
 #define DUI_MSGTYPE_LISTHEADITEMCHECKED		(_T("listheaditemchecked"))
+#define DUI_MSGTYPE_LISTPAGECHANGED			(_T("listpagechanged"))
 
 	//////////////////////////////////////////////////////////////////////////
 
@@ -282,6 +283,7 @@ protected:                                                                \
 #define  DUI_CTR_IPADDRESS                       (_T("IPAddress"))
 
 #define  DUI_CTR_LISTHEADER                      (_T("ListHeader"))
+#define  DUI_CTR_LISTFOOTER                      (_T("ListFooter"))
 #define  DUI_CTR_TILELAYOUT                      (_T("TileLayout"))
 #define  DUI_CTR_WEBBROWSER                      (_T("WebBrowser"))
 

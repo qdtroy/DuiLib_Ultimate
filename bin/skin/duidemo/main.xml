@@ -188,8 +188,8 @@
             <Label text="Tree控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
               <TreeView name="treeview" bkcolor="#ffffffff" visiblefolderbtn="true" visiblecheckbtn="true" vscrollbar="true" >
-                <TreeNode text="A1" style="treeview_style" >
-                  <TreeNode text="B1" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" >
+                <TreeNode text="A1" style="treeview_style" itemattr="visible=&quot;false&quot;">
+                  <TreeNode text="B1" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" itemattr="visible=&quot;false&quot;" >
                     <TreeNode text="C1" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" >
                       <TreeNode text="D1" horizattr="width=&quot;128&quot; bkcolor=&quot;#FFFF0000&quot;" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" >
                         <HorizontalLayout bkcolor="#FFFF00FF" width="300">
@@ -197,9 +197,9 @@
                       </TreeNode>
                       <Button text="扩展按钮" style="btn_style" width="100" />
                     </TreeNode>
-                    <Edit text="扩展文本框" style="edit_style" tipvalue="扩展文本框" width="100" />
+                    <Edit text="请输入编辑内容" style="edit_style" tipvalue="扩展文本框"  />
                   </TreeNode>
-                  <Edit text="扩展文本框" style="edit_style" tipvalue="扩展文本框" width="100" />
+                  <Edit text="我是Troy" style="edit_style" tipvalue="扩展文本框" />
                 </TreeNode>
                 <TreeNode text="A2" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='Icon/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='Icon/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='Icon/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/unchecked.png' &quot; selectedimage=&quot;file='Icon/checked.png' &quot;" >
                   <TreeNode text="B2" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='Icon/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='Icon/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='Icon/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/unchecked.png' &quot; selectedimage=&quot;file='Icon/checked.png' &quot;" >

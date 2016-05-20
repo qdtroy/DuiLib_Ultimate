@@ -55,13 +55,15 @@ public:
 		pCombo->SetName(_T("mycombo"));
 		pCombo->SetFixedWidth(80);
 		pCombo->ApplyAttributeList(m_pm.GetStyle(_T("combo_style")));
+		pCombo->SetAttribute(_T("endellipsis"), _T("true"));
+		pCombo->SetAttribute(_T("itemendellipsis"), _T("true"));
 		CContainerUI* pParent = (CContainerUI*)pFontSize->GetParent();
 		pParent->Add(pCombo);
 		if(pCombo)
 		{
 			pCombo->SetItemFont(2);
 			CListLabelElementUI * pElement = new CListLabelElementUI();
-			pElement->SetText(_T("动态数据"));
+			pElement->SetText(_T("动态数据动态数据"));
 			pElement->SetFixedHeight(30);
 			pElement->SetFixedWidth(120);
 			pCombo->Add(pElement);

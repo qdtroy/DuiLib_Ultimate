@@ -341,6 +341,18 @@ void CMainWnd::Refresh()
 	pWeb->Refresh();
 }
 
+HRESULT STDMETHODCALLTYPE CMainWnd::ShowContextMenu(CWebBrowserUI* pWeb, DWORD dwID, POINT __RPC_FAR *ppt, IUnknown __RPC_FAR *pcmdtReserved, IDispatch __RPC_FAR *pdispReserved)
+{
+	return E_NOTIMPL;
+}
+
+HRESULT STDMETHODCALLTYPE CMainWnd::GetHostInfo(CWebBrowserUI* pWeb, DOCHOSTUIINFO __RPC_FAR *pInfo)
+{
+	if (pInfo != NULL) {
+		pInfo->dwFlags |= DOCHOSTUIFLAG_NO3DBORDER | DOCHOSTUIFLAG_NO3DOUTERBORDER;
+	}
+	return S_OK;
+}
 void CMainWnd::BeforeNavigate2(CWebBrowserUI* pWeb,  IDispatch *pDisp,VARIANT *&url,VARIANT *&Flags,VARIANT *&TargetFrameName,VARIANT *&PostData,VARIANT *&Headers,VARIANT_BOOL *&Cancel ) {}
 void CMainWnd::NavigateError(CWebBrowserUI* pWeb, IDispatch *pDisp,VARIANT * &url,VARIANT *&TargetFrameName,VARIANT *&StatusCode,VARIANT_BOOL *&Cancel) {}
 void CMainWnd::NavigateComplete2(CWebBrowserUI* pWeb, IDispatch *pDisp,VARIANT *&url)

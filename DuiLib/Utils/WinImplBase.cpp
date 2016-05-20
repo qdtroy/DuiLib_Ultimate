@@ -209,26 +209,23 @@ namespace DuiLib
 #if defined(WIN32) && !defined(UNDER_CE)
 		BOOL bZoomed = ::IsZoomed(*this);
 		LRESULT lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
-		if( ::IsZoomed(*this) != bZoomed )
-		{
-			CControlUI* pbtnMax     = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));       // 最大化按钮
-			CControlUI* pbtnRestore = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));   // 还原按钮
-
-			// 切换最大化按钮和还原按钮的状态
-			if (pbtnMax && pbtnRestore)
-			{
-				pbtnMax->SetVisible(TRUE == bZoomed);       // 此处用表达式是为了避免编译器BOOL转换的警告
-				pbtnRestore->SetVisible(FALSE == bZoomed);
+		if( ::IsZoomed(*this) != bZoomed ) {
+			if( !bZoomed ) {
+				CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));
+				if( pControl ) pControl->SetVisible(false);
+				pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));
+				if( pControl ) pControl->SetVisible(true);
 			}
-
+			else {
+				CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));
+				if( pControl ) pControl->SetVisible(true);
+				pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));
+				if( pControl ) pControl->SetVisible(false);
+			}
 		}
 #else
 		LRESULT lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
 #endif
-		if (SC_RESTORE == (wParam & 0xfff0))
-		{
-			bHandled = FALSE;
-		}
 		return lRes;
 	}
 

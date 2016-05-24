@@ -31,7 +31,8 @@ namespace DuiLib {
 		m_nBorderSize(0),
 		m_nBorderStyle(PS_SOLID),
 		m_nTooltipWidth(300),
-		m_wCursor(0)
+		m_wCursor(0),
+		m_instance(NULL)
 	{
 		m_cXY.cx = m_cXY.cy = 0;
 		m_cxyFixed.cx = m_cxyFixed.cy = 0;
@@ -44,7 +45,6 @@ namespace DuiLib {
 		::ZeroMemory(&m_rcPaint, sizeof(RECT));
 		::ZeroMemory(&m_rcBorderSize,sizeof(RECT));
 		m_piFloatPercent.left = m_piFloatPercent.top = m_piFloatPercent.right = m_piFloatPercent.bottom = 0.0f;
-
 	}
 
 	CControlUI::~CControlUI()
@@ -553,12 +553,12 @@ namespace DuiLib {
 	{
 		CDuiString strTemp(pstrText);
 		strTemp.Replace(_T("<n>"),_T("\r\n"));
-		m_sToolTip=strTemp;
+		m_sToolTip = strTemp;
 	}
 
 	void CControlUI::SetToolTipWidth( int nWidth )
 	{
-		m_nTooltipWidth=nWidth;
+		m_nTooltipWidth = nWidth;
 	}
 
 	int CControlUI::GetToolTipWidth( void )

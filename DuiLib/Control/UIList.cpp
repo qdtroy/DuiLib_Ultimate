@@ -1874,10 +1874,10 @@ namespace DuiLib {
 		int nLinks = 0;
 		if( m_bShowHtml )
 			CRenderEngine::DrawHtmlText(hDC, m_pManager, rcText, sText, m_dwTextColor, \
-			NULL, NULL, nLinks, DT_SINGLELINE | m_uTextStyle);
+			NULL, NULL, nLinks, m_uTextStyle);
 		else
 			CRenderEngine::DrawText(hDC, m_pManager, rcText, sText, m_dwTextColor, \
-			m_iFont, DT_SINGLELINE | m_uTextStyle);
+			m_iFont, m_uTextStyle);
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -2273,10 +2273,10 @@ namespace DuiLib {
 
 		if( pInfo->bShowHtml )
 			CRenderEngine::DrawHtmlText(hDC, m_pManager, rcText, sText, iTextColor, \
-			NULL, NULL, nLinks, DT_SINGLELINE | pInfo->uTextStyle);
+			NULL, NULL, nLinks, pInfo->uTextStyle);
 		else
 			CRenderEngine::DrawText(hDC, m_pManager, rcText, sText, iTextColor, \
-			pInfo->nFont, DT_SINGLELINE | pInfo->uTextStyle);
+			pInfo->nFont, pInfo->uTextStyle);
 	}
 
 
@@ -2451,10 +2451,10 @@ namespace DuiLib {
 
 			if( pInfo->bShowHtml )
 				CRenderEngine::DrawHtmlText(hDC, m_pManager, rcItem, strText.GetData(), iTextColor, \
-				&m_rcLinks[m_nLinks], &m_sLinks[m_nLinks], nLinks, DT_SINGLELINE | pInfo->uTextStyle);
+				&m_rcLinks[m_nLinks], &m_sLinks[m_nLinks], nLinks, pInfo->uTextStyle);
 			else
 				CRenderEngine::DrawText(hDC, m_pManager, rcItem, strText.GetData(), iTextColor, \
-				pInfo->nFont, DT_SINGLELINE | pInfo->uTextStyle);
+				pInfo->nFont, pInfo->uTextStyle);
 
 			m_nLinks += nLinks;
 			nLinks = lengthof(m_rcLinks) - m_nLinks; 

@@ -37,7 +37,7 @@ namespace DuiLib
 
 		virtual bool GetAutoCalcWidth() const;
 		virtual void SetAutoCalcWidth(bool bAutoCalcWidth);
-		void SetText(LPCTSTR pstrText);
+		virtual void SetText(LPCTSTR pstrText);
 		
 	protected:
 		DWORD	m_dwTextColor;

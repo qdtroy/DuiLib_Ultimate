@@ -177,9 +177,6 @@
     <ClCompile Include="Control\UIGifAnimEx.cpp">
       <Filter>Source Files\Control</Filter>
     </ClCompile>
-    <ClCompile Include="Control\RollTextUI.cpp">
-      <Filter>Source Files\Control</Filter>
-    </ClCompile>
     <ClCompile Include="Control\UIColorPalette.cpp">
       <Filter>Source Files\Control</Filter>
     </ClCompile>
@@ -193,6 +190,9 @@
       <Filter>Source Files\Control</Filter>
     </ClCompile>
     <ClCompile Include="Control\UIFadeButton.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="Control\UIRollText.cpp">
       <Filter>Source Files\Control</Filter>
     </ClCompile>
   </ItemGroup>
@@ -350,9 +350,6 @@
     <ClInclude Include="Control\UIGifAnimEx.h">
       <Filter>Header Files\Control</Filter>
     </ClInclude>
-    <ClInclude Include="Control\RollTextUI.h">
-      <Filter>Header Files\Control</Filter>
-    </ClInclude>
     <ClInclude Include="Control\UIColorPalette.h">
       <Filter>Header Files\Control</Filter>
     </ClInclude>
@@ -366,6 +363,9 @@
       <Filter>Header Files\Control</Filter>
     </ClInclude>
     <ClInclude Include="Control\UIFadeButton.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Control\UIRollText.h">
       <Filter>Header Files\Control</Filter>
     </ClInclude>
   </ItemGroup>

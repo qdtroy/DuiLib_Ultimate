@@ -159,6 +159,11 @@ namespace DuiLib
 		else if( uMsg == WM_KEYDOWN && TCHAR(wParam) == VK_RETURN ){
 			m_pOwner->GetManager()->SendNotify(m_pOwner, DUI_MSGTYPE_RETURN);
 		}
+		else if( uMsg == WM_KEYDOWN && TCHAR(wParam) == VK_TAB ){
+			if (m_pOwner->GetManager()->IsLayered()) {
+				m_pOwner->GetManager()->SetNextTabControl();
+			}
+		}
 		else if( uMsg == OCM__BASE + WM_CTLCOLOREDIT  || uMsg == OCM__BASE + WM_CTLCOLORSTATIC ) {
 			if( m_pOwner->GetNativeEditBkColor() == 0xFFFFFFFF ) return NULL;
 			::SetBkMode((HDC)wParam, TRANSPARENT);

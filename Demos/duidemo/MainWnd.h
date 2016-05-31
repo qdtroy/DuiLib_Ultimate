@@ -142,7 +142,7 @@ public:
 		// 滚动文字
 		CRollTextUI* pRollText = (CRollTextUI*)m_pm.FindControl(_T("rolltext"));
 		pRollText->SetText(_T("超过5000万人使用\n适用于 Chrome 的免费的广告拦截器\n可阻止所有烦人的广告及恶意软件和跟踪。"));
-		pRollText->BeginRoll(ROLLTEXT_UP, 20);
+		pRollText->BeginRoll(ROLLTEXT_UP, 200, 20);		//运动方式，速度，时间
 
 		// 调色板使用
 		CColorPaletteUI* pColorPalette = (CColorPaletteUI*)m_pm.FindControl(_T("Pallet"));
@@ -422,6 +422,7 @@ public:
 
 	LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled)
 	{
+		m_trayIcon.DeleteTrayIcon();
 		bHandled = FALSE;
 		// 退出程序
 		PostQuitMessage(0);

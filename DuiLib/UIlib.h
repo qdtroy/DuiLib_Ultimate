@@ -97,7 +97,7 @@
 
 #include "Control/UIMenu.h"
 #include "Control/UIGroupBox.h"
-#include "Control/RollTextUI.h"
+#include "Control/UIRollText.h"
 #include "Control/UIColorPalette.h"
 #include "Control/UIListEx.h"
 #include "Control/UIHotKey.h"

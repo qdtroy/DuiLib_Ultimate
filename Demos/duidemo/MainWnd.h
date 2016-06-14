@@ -429,33 +429,6 @@ public:
 		return 0;
 	}
 
-	LRESULT OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
-	{
-		// 有时会在收到WM_NCDESTROY后收到wParam为SC_CLOSE的WM_SYSCOMMAND
-		if( wParam == SC_CLOSE ) {
-			::PostQuitMessage(0L);
-			bHandled = TRUE;
-			return 0;
-		}
-		BOOL bZoomed = ::IsZoomed(*this);
-		LRESULT lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
-		if( ::IsZoomed(*this) != bZoomed ) {
-			if( !bZoomed ) {
-				CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));
-				if( pControl ) pControl->SetVisible(false);
-				pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));
-				if( pControl ) pControl->SetVisible(true);
-			}
-			else {
-				CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));
-				if( pControl ) pControl->SetVisible(true);
-				pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));
-				if( pControl ) pControl->SetVisible(false);
-			}
-		}
-		return lRes;
-	}
-
 	LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 	{
 		// 关闭窗口，退出程序

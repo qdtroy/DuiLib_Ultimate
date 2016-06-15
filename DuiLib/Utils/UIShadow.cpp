@@ -161,10 +161,13 @@ namespace DuiLib
 
 		case WM_PAINT:
 			{
-				if(pThis->m_bUpdate)
+				if(pThis->m_Status & SS_VISABLE)
 				{
-					pThis->Update(hwnd);
-					pThis->m_bUpdate = false;
+					if(pThis->m_bUpdate)
+					{
+						pThis->Update(hwnd);
+						pThis->m_bUpdate = false;
+					}
 				}
 				break;
 			}

@@ -78,16 +78,15 @@ namespace DuiLib
 
 		// Create the shadow window
 		LONG styleValue = lParentStyle & WS_CAPTION;
-		m_hWnd = CreateWindowEx(WS_EX_LAYERED | WS_EX_TRANSPARENT, strWndClassName, NULL,
-			/*WS_VISIBLE | */styleValue | WS_POPUPWINDOW,
-			CW_USEDEFAULT, 0, 0, 0, hParentWnd, NULL, CPaintManagerUI::GetInstance(), NULL);
+		m_hWnd = CreateWindowEx(WS_EX_LAYERED | WS_EX_TRANSPARENT, strWndClassName, NULL, styleValue | WS_POPUPWINDOW, CW_USEDEFAULT, 0, 0, 0, hParentWnd, NULL, CPaintManagerUI::GetInstance(), NULL);
 
-		if(!(WS_VISIBLE & lParentStyle))	// Parent invisible
+		if(!(WS_VISIBLE & lParentStyle)) {
 			m_Status = SS_ENABLED;
-		else if((WS_MAXIMIZE | WS_MINIMIZE) & lParentStyle)	// Parent visible but does not need shadow
+		}
+		else if((WS_MAXIMIZE | WS_MINIMIZE) & lParentStyle) {
 			m_Status = SS_ENABLED | SS_PARENTVISIBLE;
-		else	// Show the shadow
-		{
+		}
+		else {
 			m_Status = SS_ENABLED | SS_VISABLE | SS_PARENTVISIBLE;
 			::ShowWindow(m_hWnd, SW_SHOWNA);
 			Update(hParentWnd);
@@ -108,117 +107,104 @@ namespace DuiLib
 		return s_Shadowmap;
 	}
 
+	LRESULT CShadowUI::MyParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+	{
+
+		switch(uMsg)
+		{
+		case WM_WINDOWPOSCHANGED:
+			SetWindowPos(m_hWnd, hwnd, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+			break;
+		case WM_MOVE:
+			{
+				RECT WndRect = {0};
+				GetWindowRect(hwnd, &WndRect);
+				SetWindowPos(m_hWnd, 0, WndRect.left + m_nxOffset - m_nSize, WndRect.top + m_nyOffset - m_nSize, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
+				break;
+			}
+		case WM_SIZE:
+			{
+				if((m_Status & SS_ENABLED) == SS_ENABLED) {
+					if(SIZE_MAXIMIZED == wParam || SIZE_MINIMIZED == wParam) {
+						::ShowWindow(m_hWnd, SW_HIDE);
+						m_Status &= ~SS_VISABLE;
+					}
+					else if(m_Status & SS_PARENTVISIBLE) {
+						if(!(m_Status & SS_VISABLE) && !IsZoomed(hwnd) && !IsIconic(hwnd)) {
+							::ShowWindow(m_hWnd, SW_SHOWNOACTIVATE);
+							m_Status |= SS_VISABLE;
+						}
+						if(LOWORD(lParam) > LOWORD(m_WndSize) || HIWORD(lParam) > HIWORD(m_WndSize)) {
+							m_bUpdate = true;
+						}
+						else {
+							Update(hwnd);
+						}
+					}
+					m_WndSize = lParam;
+				}
+				break;
+			}
+		case WM_PAINT:
+			{
+				if(m_bUpdate) {
+					Update(hwnd);
+					m_bUpdate = false;
+				}
+				break;
+			}
+		case WM_EXITSIZEMOVE:
+			{
+				Update(hwnd);
+				break;
+			}
+		case WM_SHOWWINDOW:
+			{
+				if((m_Status & SS_ENABLED) == SS_ENABLED) {
+					LRESULT lResult = ((WNDPROC)m_OriParentProc)(hwnd, uMsg, wParam, lParam);
+					if( !wParam ) {
+						::ShowWindow(m_hWnd, SW_HIDE);
+						m_Status &= ~(SS_VISABLE | SS_PARENTVISIBLE);
+					}
+					else if(!IsZoomed(hwnd) && !IsIconic(hwnd)){
+						::ShowWindow(m_hWnd, SW_SHOWNOACTIVATE);
+						m_Status |= SS_VISABLE | SS_PARENTVISIBLE;
+						Update(hwnd);
+					}
+					return lResult;
+				}
+				break;
+			}
+		case WM_DESTROY:
+			{
+				DestroyWindow(m_hWnd);
+				break;
+			}
+		case WM_NCDESTROY:
+			{
+				GetShadowMap().erase(hwnd);
+				break;
+			}
+		default:break;
+		}
+
+#pragma warning(disable: 4312)	// temporrarily disable the type_cast warning in Win32
+		// Call the default(original) window procedure for other messages or messages processed but not returned
+		return ((WNDPROC)m_OriParentProc)(hwnd, uMsg, wParam, lParam);
+#pragma warning(default: 4312)
+	}
+
 	LRESULT CALLBACK CShadowUI::ParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		_ASSERT(GetShadowMap().find(hwnd) != GetShadowMap().end());	// Shadow must have been attached
 
 		CShadowUI *pThis = GetShadowMap()[hwnd];
-
-		switch(uMsg)
-		{
-		case WM_WINDOWPOSCHANGED:
-			if(pThis->m_Status & SS_VISABLE) {
-				SetWindowPos(pThis->m_hWnd, hwnd, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
-			}
-			break;
-		case WM_MOVE:
-			if(pThis->m_Status & SS_VISABLE)
-			{
-				RECT WndRect;
-				GetWindowRect(hwnd, &WndRect);
-				SetWindowPos(pThis->m_hWnd, 0,
-					WndRect.left + pThis->m_nxOffset - pThis->m_nSize, WndRect.top + pThis->m_nyOffset - pThis->m_nSize,
-					0, 0, SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
-			}
-			break;
-
-		case WM_SIZE:
-			if(pThis->m_Status & SS_ENABLED)
-			{
-				if(SIZE_MAXIMIZED == wParam || SIZE_MINIMIZED == wParam)
-				{
-					::ShowWindow(pThis->m_hWnd, SW_HIDE);
-					pThis->m_Status &= ~SS_VISABLE;
-				}
-				else if(pThis->m_Status & SS_PARENTVISIBLE)	// Parent maybe resized even if invisible
-				{
-					// Awful! It seems that if the window size was not decreased
-					// the window region would never be updated until WM_PAINT was sent.
-					// So do not Update() until next WM_PAINT is received in this case
-					if(LOWORD(lParam) > LOWORD(pThis->m_WndSize) || HIWORD(lParam) > HIWORD(pThis->m_WndSize))
-						pThis->m_bUpdate = true;
-					else
-						pThis->Update(hwnd);
-					if(!(pThis->m_Status & SS_VISABLE))
-					{
-						::ShowWindow(pThis->m_hWnd, SW_SHOWNA);
-						pThis->m_Status |= SS_VISABLE;
-					}
-				}
-				pThis->m_WndSize = lParam;
-			}
-			break;
-
-		case WM_PAINT:
-			{
-				if(pThis->m_Status & SS_VISABLE)
-				{
-					if(pThis->m_bUpdate)
-					{
-						pThis->Update(hwnd);
-						pThis->m_bUpdate = false;
-					}
-				}
-				break;
-			}
-
-			// In some cases of sizing, the up-right corner of the parent window region would not be properly updated
-			// Update() again when sizing is finished
-		case WM_EXITSIZEMOVE:
-			if(pThis->m_Status & SS_VISABLE)
-			{
-				pThis->Update(hwnd);
-			}
-			break;
-
-		case WM_SHOWWINDOW:
-			if(pThis->m_Status & SS_ENABLED)
-			{
-				if(!wParam)	// the window is being hidden
-				{
-					::ShowWindow(pThis->m_hWnd, SW_HIDE);
-					pThis->m_Status &= ~(SS_VISABLE | SS_PARENTVISIBLE);
-				}
-				else if(!(pThis->m_Status & SS_PARENTVISIBLE))
-				{
-					//pThis->Update(hwnd);
-					pThis->m_bUpdate = true;
-					::ShowWindow(pThis->m_hWnd, SW_SHOWNA);
-					pThis->m_Status |= SS_VISABLE | SS_PARENTVISIBLE;
-				}
-			}
-			break;
-
-		case WM_DESTROY:
-			DestroyWindow(pThis->m_hWnd);	// Destroy the shadow
-			break;
-
-		case WM_NCDESTROY:
-			GetShadowMap().erase(hwnd);	// Remove this window and shadow from the map
-			break;
-
-		}
-
-#pragma warning(disable: 4312)	// temporrarily disable the type_cast warning in Win32
-		// Call the default(original) window procedure for other messages or messages processed but not returned
-		return ((WNDPROC)pThis->m_OriParentProc)(hwnd, uMsg, wParam, lParam);
-#pragma warning(default: 4312)
-
+		return pThis->MyParentProc(hwnd, uMsg, wParam, lParam);
 	}
 
 	void CShadowUI::Update(HWND hParent)
 	{
-		if(!m_bIsShowShadow) return;
+		if(!m_bIsShowShadow || !(m_Status & SS_VISABLE)) return;
 
 		RECT WndRect;
 		GetWindowRect(hParent, &WndRect);

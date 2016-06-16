@@ -45,6 +45,7 @@ namespace DuiLib
 		static std::map<HWND, CShadowUI *>& GetShadowMap();
 
 		//	子类化父窗体
+		LRESULT MyParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 		static LRESULT CALLBACK ParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 		// 父窗体改变大小，移动，或者主动重绘阴影时调用

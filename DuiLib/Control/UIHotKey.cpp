@@ -193,7 +193,7 @@ namespace DuiLib{
 		if (fExtended)
 			nScanCode |= 0x01000000L;
 
-		wchar_t szStr[ MAX_PATH ] = L"";
+		TCHAR szStr[ MAX_PATH ] = {0};
 		::GetKeyNameText( nScanCode << 16, szStr, MAX_PATH );
 
 		return CDuiString(szStr);

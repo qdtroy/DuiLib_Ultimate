@@ -39,8 +39,10 @@ namespace DuiLib {
 
 		HWND GetHostWindow() const;
 
-		bool IsDelayCreate() const;
-		void SetDelayCreate(bool bDelayCreate = true);
+		virtual bool IsDelayCreate() const;
+		virtual void SetDelayCreate(bool bDelayCreate = true);
+		virtual bool IsMFC() const;
+		virtual void SetMFC(bool bMFC = false);
 
 		bool CreateControl(const CLSID clsid);
 		bool CreateControl(LPCTSTR pstrCLSID);
@@ -68,6 +70,7 @@ namespace DuiLib {
 		CDuiString m_sModuleName;
 		bool m_bCreated;
 		bool m_bDelayCreate;
+		bool m_bMFC;
 		IOleObject* m_pUnk;
 		CActiveXCtrl* m_pControl;
 		HWND m_hwndHost;

@@ -549,7 +549,7 @@ namespace DuiLib {
 			if( FAILED(Hr) ) return Hr;
 			Hr = m_pOwner->m_pUnk->QueryInterface(IID_IOleInPlaceObject, (LPVOID*) &m_pInPlaceObject);
 		}
-		if( m_pInPlaceObject != NULL ) {
+		if( m_pInPlaceObject != NULL && !m_pOwner->IsMFC() ) {
 			CDuiRect rcItem = m_pOwner->m_rcItem;
 			if( !m_bWindowless ) rcItem.ResetOffset();
 			m_pInPlaceObject->SetObjectRects(&rcItem, &rcItem);
@@ -916,7 +916,7 @@ namespace DuiLib {
 	//
 	IMPLEMENT_DUICONTROL(CActiveXUI)
 
-	CActiveXUI::CActiveXUI() : m_pUnk(NULL), m_pControl(NULL), m_hwndHost(NULL), m_bCreated(false), m_bDelayCreate(true)
+	CActiveXUI::CActiveXUI() : m_pUnk(NULL), m_pControl(NULL), m_hwndHost(NULL), m_bCreated(false), m_bDelayCreate(true), m_bMFC(false)
 	{
 		m_clsid = IID_NULL;
 	}
@@ -1024,6 +1024,7 @@ namespace DuiLib {
 		if( _tcscmp(pstrName, _T("clsid")) == 0 ) CreateControl(pstrValue);
 		else if( _tcscmp(pstrName, _T("modulename")) == 0 ) SetModuleName(pstrValue);
 		else if( _tcscmp(pstrName, _T("delaycreate")) == 0 ) SetDelayCreate(_tcscmp(pstrValue, _T("true")) == 0);
+		else if( _tcscmp(pstrName, _T("mfc")) == 0 ) SetMFC(_tcscmp(pstrValue, _T("true")) == 0);
 		else CControlUI::SetAttribute(pstrName, pstrValue);
 	}
 
@@ -1083,6 +1084,17 @@ namespace DuiLib {
 		}
 		m_bDelayCreate = bDelayCreate;
 	}
+	
+	bool CActiveXUI::IsMFC() const
+	{
+		return m_bMFC;
+	}
+
+	void CActiveXUI::SetMFC(bool bMFC/* = false*/)
+	{
+		if( m_bMFC == bMFC ) return;
+		m_bMFC = bMFC;
+	}
 
 	bool CActiveXUI::CreateControl(LPCTSTR pstrCLSID)
 	{
@@ -1120,7 +1132,9 @@ namespace DuiLib {
 				pSite->SetSite(NULL);
 				pSite->Release();
 			}
-			m_pUnk->Close(OLECLOSE_NOSAVE);
+			if(!IsMFC()) {
+				m_pUnk->Close(OLECLOSE_NOSAVE);
+			}
 			m_pUnk->SetClientSite(NULL);
 			m_pUnk->Release(); 
 			m_pUnk = NULL;
@@ -1192,8 +1206,13 @@ namespace DuiLib {
 		m_pUnk->SetHostNames(OLESTR("UIActiveX"), NULL);
 		if( m_pManager != NULL ) m_pManager->SendNotify((CControlUI*)this, DUI_MSGTYPE_SHOWACTIVEX, 0, 0, false);
 		if( (dwMiscStatus & OLEMISC_INVISIBLEATRUNTIME) == 0 ) {
-			Hr = m_pUnk->DoVerb(OLEIVERB_INPLACEACTIVATE, NULL, pOleClientSite, 0, m_pManager->GetPaintWindow(), &m_rcItem);
-			//::RedrawWindow(m_pManager->GetPaintWindow(), &m_rcItem, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE | RDW_INTERNALPAINT | RDW_FRAME);
+			try
+			{
+				Hr = m_pUnk->DoVerb(OLEIVERB_INPLACEACTIVATE, NULL, pOleClientSite, 0, m_pManager->GetPaintWindow(), &m_rcItem);
+			}
+			catch (...)
+			{
+			}
 		}
 		IObjectWithSite* pSite = NULL;
 		m_pUnk->QueryInterface(IID_IObjectWithSite, (LPVOID*) &pSite);

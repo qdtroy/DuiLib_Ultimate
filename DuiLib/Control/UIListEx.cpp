@@ -1146,6 +1146,7 @@ Label_ForeImage:
 			if (nColum >= 0)
 			{
 				GetColumRect(nColum, rc);
+				::InflateRect(&rc, -2, -2);
 			}
 
 			pListCtrl->OnListItemClicked(GetIndex(), nColum, &rc, GetText(nColum));

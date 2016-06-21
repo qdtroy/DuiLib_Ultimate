@@ -17,7 +17,7 @@ namespace DuiLib {
 
 		m_ListInfo.nColumns = 0;
 		m_ListInfo.nFont = -1;
-		m_ListInfo.uTextStyle = DT_VCENTER; // m_uTextStyle(DT_VCENTER | DT_END_ELLIPSIS)
+		m_ListInfo.uTextStyle = DT_VCENTER | DT_SINGLELINE;
 		m_ListInfo.dwTextColor = 0xFF000000;
 		m_ListInfo.dwBkColor = 0;
 		m_ListInfo.bAlternateBk = false;
@@ -867,6 +867,20 @@ namespace DuiLib {
 			if( _tcsstr(pstrValue, _T("right")) != NULL ) {
 				m_ListInfo.uTextStyle &= ~(DT_LEFT | DT_CENTER);
 				m_ListInfo.uTextStyle |= DT_RIGHT;
+			}
+		}
+		else if( _tcsicmp(pstrName, _T("itemvalign")) == 0 ) {
+			if( _tcsstr(pstrValue, _T("top")) != NULL ) {
+				m_ListInfo.uTextStyle &= ~(DT_VCENTER | DT_BOTTOM);
+				m_ListInfo.uTextStyle |= DT_TOP;
+			}
+			if( _tcsstr(pstrValue, _T("vcenter")) != NULL ) {
+				m_ListInfo.uTextStyle &= ~(DT_TOP | DT_BOTTOM);
+				m_ListInfo.uTextStyle |= DT_VCENTER;
+			}
+			if( _tcsstr(pstrValue, _T("bottom")) != NULL ) {
+				m_ListInfo.uTextStyle &= ~(DT_TOP | DT_VCENTER);
+				m_ListInfo.uTextStyle |= DT_BOTTOM;
 			}
 		}
 		else if( _tcsicmp(pstrName, _T("itemendellipsis")) == 0 ) {

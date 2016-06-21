@@ -11,6 +11,12 @@
 
 void InitResource()
 {	
+	HINSTANCE hDll=::LoadLibrary(_T("DllRes_d.dll"));
+	if(hDll)
+	{
+		CPaintManagerUI::SetResourceDll(hDll);
+	}
+
 	// 资源类型
 #ifdef _DEBUG
 	CPaintManagerUI::SetResourceType(UILIB_FILE);

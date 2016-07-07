@@ -545,7 +545,7 @@ namespace DuiLib {
 
 	CDuiString CControlUI::GetToolTip() const
 	{
-		if (!IsResourceText()) return m_sText;
+		if (!IsResourceText()) return m_sToolTip;
 		return CResourceManager::GetInstance()->GetText(m_sToolTip);
 	}
 

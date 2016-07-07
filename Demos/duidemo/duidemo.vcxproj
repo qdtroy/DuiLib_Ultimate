@@ -966,7 +966,9 @@
     <None Include="..\..\bin\skin\duidemo\header_bk.png" />
     <None Include="..\..\bin\skin\duidemo\hor_line.bmp" />
     <None Include="..\..\bin\skin\duidemo\icon.png" />
-    <None Include="..\..\bin\skin\duidemo\lan_cn.xml" />
+    <None Include="..\..\bin\skin\duidemo\lan_cn.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\bin\skin\duidemo\lan_en.xml" />
     <None Include="..\..\bin\skin\duidemo\listitem.xml" />
     <None Include="..\..\bin\skin\duidemo\list_header_bg.png" />

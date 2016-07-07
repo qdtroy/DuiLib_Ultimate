@@ -79,7 +79,7 @@ namespace DuiLib
 
 			// draw image
 			if (!DrawImage(hDC, m_sArrowImage, sModify))
-				m_sNormalImage.Empty();
+				{}
 		}
 	}
 

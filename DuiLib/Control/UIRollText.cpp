@@ -93,13 +93,13 @@ namespace DuiLib
 		DWORD dwTextColor = IsEnabled() ? m_dwTextColor : m_dwDisabledTextColor;
 		CDuiString sText = GetText();
 		if( sText.IsEmpty() ) return;
-
+		RECT rcTextPadding = GetTextPadding();
 		CDuiRect  rcClient;
 		rcClient = m_rcItem;
-		rcClient.left += m_rcTextPadding.left;
-		rcClient.right -= m_rcTextPadding.right;
-		rcClient.top += m_rcTextPadding.top;
-		rcClient.bottom -= m_rcTextPadding.bottom;
+		rcClient.left += rcTextPadding.left;
+		rcClient.right -= rcTextPadding.right;
+		rcClient.top += rcTextPadding.top;
+		rcClient.bottom -= rcTextPadding.bottom;
 
 		if(m_nText_W_H > 0)
 		{

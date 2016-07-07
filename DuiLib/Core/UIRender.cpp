@@ -828,13 +828,19 @@ namespace DuiLib {
 	{	
 		if(pStrImage == NULL) return NULL;
 
-		LPCTSTR pStrPath = pStrImage;
-		if( type == NULL ) 
-		{
-			pStrPath = CResourceManager::GetInstance()->GetImagePath(pStrImage);
+		CDuiString sStrPath = pStrImage;
+		if( type == NULL )  {
+			sStrPath = CResourceManager::GetInstance()->GetImagePath(pStrImage);
+			if (sStrPath.IsEmpty()) sStrPath = pStrImage;
+			else {
+				if (CResourceManager::GetInstance()->GetScale() != 100) {
+					CDuiString sScale;
+					sScale.Format(_T("@%d."), CResourceManager::GetInstance()->GetScale());
+					sStrPath.Replace(_T("."), sScale);
+				}
+			}
 		}
-		if (pStrPath == NULL) pStrPath =pStrImage;
-		return LoadImage(STRINGorID(pStrPath), type, mask, instance);
+		return LoadImage(STRINGorID(sStrPath.GetData()), type, mask, instance);
 	}
 
 	TImageInfo* CRenderEngine::LoadImage(UINT nID, LPCTSTR type, DWORD mask, HINSTANCE instance)

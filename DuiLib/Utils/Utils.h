@@ -302,7 +302,51 @@ namespace DuiLib
 			VariantClear(this); 
 		}
 	};
+	///////////////////////////////////////////////////////////////////////////////////////
+	////
+	//struct TImageInfo;
+	//class CPaintManagerUI;
+	//class UILIB_API CImageString
+	//{
+	//public:
+	//	CImageString();
+	//	CImageString(const CImageString&);
+	//	const CImageString& operator=(const CImageString&);
+	//	virtual ~CImageString();
 
+	//	const CDuiString& GetAttributeString() const;
+	//	void SetAttributeString(LPCTSTR pStrImageAttri);
+	//	void ModifyAttribute(LPCTSTR pStrModify);
+	//	bool LoadImage(CPaintManagerUI* pManager);
+	//	bool IsLoadSuccess();
+
+	//	RECT GetDest() const;
+	//	void SetDest(const RECT &rcDest);
+	//	const TImageInfo* GetImageInfo() const;
+
+	//private:
+	//	void Clone(const CImageString&);
+	//	void Clear();
+	//	void ParseAttribute(LPCTSTR pStrImageAttri);
+
+	//protected:
+	//	friend class CRenderEngine;
+	//	CDuiString	m_sImageAttribute;
+
+	//	CDuiString	m_sImage;
+	//	CDuiString	m_sResType;
+	//	TImageInfo	*m_imageInfo;
+	//	bool		m_bLoadSuccess;
+
+	//	RECT	m_rcDest;
+	//	RECT	m_rcSource;
+	//	RECT	m_rcCorner;
+	//	BYTE	m_bFade;
+	//	DWORD	m_dwMask;
+	//	bool	m_bHole;
+	//	bool	m_bTiledX;
+	//	bool	m_bTiledY;
+	//};
 }// namespace DuiLib
 
 #endif // __UTILS_H__

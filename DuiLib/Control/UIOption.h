@@ -43,10 +43,11 @@ namespace DuiLib
 		bool IsSelected() const;
 		virtual void Selected(bool bSelected);
 
-		SIZE EstimateSize(SIZE szAvailable);
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
+		void PaintBkColor(HDC hDC);
 		void PaintStatusImage(HDC hDC);
+		void PaintForeImage(HDC hDC);
 		void PaintText(HDC hDC);
 
 	protected:

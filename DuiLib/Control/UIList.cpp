@@ -1844,19 +1844,19 @@ namespace DuiLib {
 
 		if( (m_uButtonState & UISTATE_PUSHED) != 0 ) {
 			if( m_sPushedImage.IsEmpty() && !m_sNormalImage.IsEmpty() ) DrawImage(hDC, (LPCTSTR)m_sNormalImage);
-			if( !DrawImage(hDC, (LPCTSTR)m_sPushedImage) ) m_sPushedImage.Empty();
+			if( !DrawImage(hDC, (LPCTSTR)m_sPushedImage) ) {}
 		}
 		else if( (m_uButtonState & UISTATE_HOT) != 0 ) {
 			if( m_sHotImage.IsEmpty() && !m_sNormalImage.IsEmpty() ) DrawImage(hDC, (LPCTSTR)m_sNormalImage);
-			if( !DrawImage(hDC, (LPCTSTR)m_sHotImage) ) m_sHotImage.Empty();
+			if( !DrawImage(hDC, (LPCTSTR)m_sHotImage) ) {}
 		}
 		else if( (m_uButtonState & UISTATE_FOCUSED) != 0 ) {
 			if( m_sFocusedImage.IsEmpty() && !m_sNormalImage.IsEmpty() ) DrawImage(hDC, (LPCTSTR)m_sNormalImage);
-			if( !DrawImage(hDC, (LPCTSTR)m_sFocusedImage) ) m_sFocusedImage.Empty();
+			if( !DrawImage(hDC, (LPCTSTR)m_sFocusedImage) ) {}
 		}
 		else {
 			if( !m_sNormalImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sNormalImage) ) m_sNormalImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sNormalImage) ) {}
 			}
 		}
 
@@ -1869,7 +1869,7 @@ namespace DuiLib {
 
 			m_sSepImageModify.Empty();
 			m_sSepImageModify.SmallFormat(_T("dest='%d,%d,%d,%d'"), rcThumb.left, rcThumb.top, rcThumb.right, rcThumb.bottom);
-			if( !DrawImage(hDC, (LPCTSTR)m_sSepImage, (LPCTSTR)m_sSepImageModify) ) m_sSepImage.Empty();
+			if( !DrawImage(hDC, (LPCTSTR)m_sSepImage, (LPCTSTR)m_sSepImageModify) ) {}
 		}
 	}
 
@@ -2111,32 +2111,32 @@ namespace DuiLib {
 
 		if( !IsEnabled() ) {
 			if( !pInfo->sDisabledImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)pInfo->sDisabledImage) ) pInfo->sDisabledImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)pInfo->sDisabledImage) ) {}
 				else return;
 			}
 		}
 		if( IsSelected() ) {
 			if( !pInfo->sSelectedImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)pInfo->sSelectedImage) ) pInfo->sSelectedImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)pInfo->sSelectedImage) ) {}
 				else return;
 			}
 		}
 		if( (m_uButtonState & UISTATE_HOT) != 0 ) {
 			if( !pInfo->sHotImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)pInfo->sHotImage) ) pInfo->sHotImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)pInfo->sHotImage) ) {}
 				else return;
 			}
 		}
 
 		if( !m_sBkImage.IsEmpty() ) {
 			if( !pInfo->bAlternateBk || m_iIndex % 2 == 0 ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sBkImage) ) m_sBkImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sBkImage) ) {}
 			}
 		}
 
 		if( m_sBkImage.IsEmpty() ) {
 			if( !pInfo->sBkImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)pInfo->sBkImage) ) pInfo->sBkImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)pInfo->sBkImage) ) {}
 				else return;
 			}
 		}
@@ -2821,31 +2821,31 @@ namespace DuiLib {
 
 		if( !IsEnabled() ) {
 			if( !pInfo->sDisabledImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)pInfo->sDisabledImage) ) pInfo->sDisabledImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)pInfo->sDisabledImage) ) {}
 				else return;
 			}
 		}
 		if( IsSelected() ) {
 			if( !pInfo->sSelectedImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)pInfo->sSelectedImage) ) pInfo->sSelectedImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)pInfo->sSelectedImage) ) {}
 				else return;
 			}
 		}
 		if( (m_uButtonState & UISTATE_HOT) != 0 ) {
 			if( !pInfo->sHotImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)pInfo->sHotImage) ) pInfo->sHotImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)pInfo->sHotImage) ) {}
 				else return;
 			}
 		}
 		if( !m_sBkImage.IsEmpty() ) {
 			if( !pInfo->bAlternateBk || m_iIndex % 2 == 0 ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sBkImage) ) m_sBkImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sBkImage) ) {}
 			}
 		}
 
 		if( m_sBkImage.IsEmpty() ) {
 			if( !pInfo->sBkImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)pInfo->sBkImage) ) pInfo->sBkImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)pInfo->sBkImage) ) {}
 				else return;
 			}
 		}

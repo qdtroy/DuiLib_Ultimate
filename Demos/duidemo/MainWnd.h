@@ -25,6 +25,7 @@ public:
 	{
 		// 多语言接口
 		CResourceManager::GetInstance()->SetTextQueryInterface(this);
+		CResourceManager::GetInstance()->LoadLanguage(_T("lan_cn.xml"));
 		// 皮肤接口
 		CSkinManager::GetSkinManager()->AddReceiver(this);
 
@@ -231,10 +232,7 @@ public:
 	{
 		CDuiString sLanguage = CResourceManager::GetInstance()->GetLanguage();
 		if(sLanguage == _T("en")){
-			if(lstrcmpi(lpstrId, _T("lantext")) == 0) {
-				return _T("Switch to Chinese");
-			}
-			else if(lstrcmpi(lpstrId, _T("titletext")) == 0) {
+			if(lstrcmpi(lpstrId, _T("titletext")) == 0) {
 				return _T("Duilib Demo v1.1");
 			}
 			else if(lstrcmpi(lpstrId, _T("hometext")) == 0) {
@@ -242,10 +240,7 @@ public:
 			}
 		}
 		else{
-			if(lstrcmpi(lpstrId, _T("lantext")) == 0) {
-				return _T("切换到英文");
-			}
-			else if(lstrcmpi(lpstrId, _T("titletext")) == 0) {
+			if(lstrcmpi(lpstrId, _T("titletext")) == 0) {
 				return _T("Duilib 使用演示 v1.1");
 			}
 			else if(lstrcmpi(lpstrId, _T("hometext")) == 0) {
@@ -418,6 +413,11 @@ public:
 			// 动态添加后重新设置菜单的大小
 			m_pMenu->ResizeMenu();
 		}
+		else if(sName.CompareNoCase(_T("dpi_btn")) == 0)
+		{
+			int nDPI = _ttoi(pControl->GetUserData());
+			m_pm.SetDPI(nDPI);
+		}
 	}
 
 	LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled)
@@ -454,9 +454,11 @@ public:
 					static bool bEn = false;
 					if(!bEn) {
 						CResourceManager::GetInstance()->SetLanguage(_T("en"));
+						CResourceManager::GetInstance()->LoadLanguage(_T("lan_en.xml"));
 					}
 					else {
-						CResourceManager::GetInstance()->SetLanguage(_T("cn_zh"));					
+						CResourceManager::GetInstance()->SetLanguage(_T("cn_zh"));
+						CResourceManager::GetInstance()->LoadLanguage(_T("lan_cn.xml"));
 					}
 					bEn = !bEn;
 					CResourceManager::GetInstance()->ReloadText();
@@ -509,6 +511,13 @@ public:
 				// 动态添加后重新设置菜单的大小
 				m_pMenu->ResizeMenu();
 			}
+		}
+		else if (uMsg == WM_DPICHANGED) {
+			CResourceManager::GetInstance()->SetScale(LOWORD(wParam));  // Set the new DPI, retrieved from the wParam
+			m_pm.ResetDPIAssets();
+			RECT* const prcNewWindow = (RECT*)lParam;
+			SetWindowPos(m_hWnd, NULL, prcNewWindow->left, prcNewWindow->top, prcNewWindow->right - prcNewWindow->left, prcNewWindow->bottom - prcNewWindow->top, SWP_NOZORDER | SWP_NOACTIVATE);
+			if (m_pm.GetRoot() != NULL) m_pm.GetRoot()->NeedUpdate();
 		}
 		bHandled = FALSE;
 		return 0;

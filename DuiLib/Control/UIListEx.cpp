@@ -753,19 +753,19 @@ namespace DuiLib {
 
 		if( (m_uButtonState & UISTATE_PUSHED) != 0 ) {
 			if( m_sPushedImage.IsEmpty() && !m_sNormalImage.IsEmpty() ) DrawImage(hDC, (LPCTSTR)m_sNormalImage);
-			if( !DrawImage(hDC, (LPCTSTR)m_sPushedImage) ) m_sPushedImage.Empty();
+			if( !DrawImage(hDC, (LPCTSTR)m_sPushedImage) ) {}
 		}
 		else if( (m_uButtonState & UISTATE_HOT) != 0 ) {
 			if( m_sHotImage.IsEmpty() && !m_sNormalImage.IsEmpty() ) DrawImage(hDC, (LPCTSTR)m_sNormalImage);
-			if( !DrawImage(hDC, (LPCTSTR)m_sHotImage) ) m_sHotImage.Empty();
+			if( !DrawImage(hDC, (LPCTSTR)m_sHotImage) ) {}
 		}
 		else if( (m_uButtonState & UISTATE_FOCUSED) != 0 ) {
 			if( m_sFocusedImage.IsEmpty() && !m_sNormalImage.IsEmpty() ) DrawImage(hDC, (LPCTSTR)m_sNormalImage);
-			if( !DrawImage(hDC, (LPCTSTR)m_sFocusedImage) ) m_sFocusedImage.Empty();
+			if( !DrawImage(hDC, (LPCTSTR)m_sFocusedImage) ) {}
 		}
 		else {
 			if( !m_sNormalImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sNormalImage) ) m_sNormalImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sNormalImage) ) {}
 			}
 		}
 
@@ -778,7 +778,7 @@ namespace DuiLib {
 
 			m_sSepImageModify.Empty();
 			m_sSepImageModify.SmallFormat(_T("dest='%d,%d,%d,%d'"), rcThumb.left, rcThumb.top, rcThumb.right, rcThumb.bottom);
-			if( !DrawImage(hDC, (LPCTSTR)m_sSepImage, (LPCTSTR)m_sSepImageModify) ) m_sSepImage.Empty();
+			if( !DrawImage(hDC, (LPCTSTR)m_sSepImage, (LPCTSTR)m_sSepImageModify) ) {}
 		}
 
 		if(m_bCheckBoxable)
@@ -787,7 +787,7 @@ namespace DuiLib {
 
 			if( (m_uCheckBoxState & UISTATE_SELECTED) != 0 ) {
 				if( !m_sCheckBoxSelectedImage.IsEmpty() ) {
-					if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxSelectedImage) ) m_sCheckBoxSelectedImage.Empty();
+					if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxSelectedImage) ) {}
 					else goto Label_ForeImage;
 				}
 			}
@@ -799,37 +799,37 @@ namespace DuiLib {
 
 			if( (m_uCheckBoxState & UISTATE_DISABLED) != 0 ) {
 				if( !m_sCheckBoxDisabledImage.IsEmpty() ) {
-					if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxDisabledImage) ) m_sCheckBoxDisabledImage.Empty();
+					if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxDisabledImage) ) {}
 					else return;
 				}
 			}
 			else if( (m_uCheckBoxState & UISTATE_PUSHED) != 0 ) {
 				if( !m_sCheckBoxPushedImage.IsEmpty() ) {
-					if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxPushedImage) ) m_sCheckBoxPushedImage.Empty();
+					if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxPushedImage) ) {}
 					else return;
 				}
 			}
 			else if( (m_uCheckBoxState & UISTATE_HOT) != 0 ) {
 				if( !m_sCheckBoxHotImage.IsEmpty() ) {
-					if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxHotImage) ) m_sCheckBoxHotImage.Empty();
+					if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxHotImage) ) {}
 					else return;
 				}
 			}
 			else if( (m_uCheckBoxState & UISTATE_FOCUSED) != 0 ) {
 				if( !m_sCheckBoxFocusedImage.IsEmpty() ) {
-					if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxFocusedImage) ) m_sCheckBoxFocusedImage.Empty();
+					if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxFocusedImage) ) {}
 					else return;
 				}
 			}
 
 			if( !m_sCheckBoxNormalImage.IsEmpty() ) {
-				if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxNormalImage) ) m_sCheckBoxNormalImage.Empty();
+				if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxNormalImage) ) {}
 				else return;
 			}
 
 Label_ForeImage:
 			if( !m_sCheckBoxForeImage.IsEmpty() ) {
-				if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxForeImage) ) m_sCheckBoxForeImage.Empty();
+				if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxForeImage) ) {}
 			}
 		}
 	}
@@ -843,8 +843,7 @@ Label_ForeImage:
 		rcText.top += m_rcTextPadding.top;
 		rcText.right -= m_rcTextPadding.right;
 		rcText.bottom -= m_rcTextPadding.bottom;
-		if (m_bCheckBoxable)
-		{
+		if (m_bCheckBoxable) {
 			RECT rcCheck;
 			GetCheckBoxRect(rcCheck);
 			rcText.left += (rcCheck.right - rcCheck.left);
@@ -1307,7 +1306,7 @@ Label_ForeImage:
 
 				if( (m_uCheckBoxState & UISTATE_SELECTED) != 0 ) {
 					if( !m_sCheckBoxSelectedImage.IsEmpty() ) {
-						if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxSelectedImage, NULL, rcCheckBox) ) m_sCheckBoxSelectedImage.Empty();
+						if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxSelectedImage, NULL, rcCheckBox) ) {}
 						else goto Label_ForeImage;
 					}
 				}
@@ -1319,37 +1318,37 @@ Label_ForeImage:
 
 				if( (m_uCheckBoxState & UISTATE_DISABLED) != 0 ) {
 					if( !m_sCheckBoxDisabledImage.IsEmpty() ) {
-						if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxDisabledImage, NULL, rcCheckBox) ) m_sCheckBoxDisabledImage.Empty();
+						if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxDisabledImage, NULL, rcCheckBox) ) {}
 						else return;
 					}
 				}
 				else if( (m_uCheckBoxState & UISTATE_PUSHED) != 0 ) {
 					if( !m_sCheckBoxPushedImage.IsEmpty() ) {
-						if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxPushedImage, NULL, rcCheckBox) ) m_sCheckBoxPushedImage.Empty();
+						if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxPushedImage, NULL, rcCheckBox) ) {}
 						else return;
 					}
 				}
 				else if( (m_uCheckBoxState & UISTATE_HOT) != 0 ) {
 					if( !m_sCheckBoxHotImage.IsEmpty() ) {
-						if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxHotImage, NULL, rcCheckBox) ) m_sCheckBoxHotImage.Empty();
+						if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxHotImage, NULL, rcCheckBox) ) {}
 						else return;
 					}
 				}
 				else if( (m_uCheckBoxState & UISTATE_FOCUSED) != 0 ) {
 					if( !m_sCheckBoxFocusedImage.IsEmpty() ) {
-						if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxFocusedImage, NULL, rcCheckBox) ) m_sCheckBoxFocusedImage.Empty();
+						if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxFocusedImage, NULL, rcCheckBox) ) {}
 						else return;
 					}
 				}
 
 				if( !m_sCheckBoxNormalImage.IsEmpty() ) {
-					if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxNormalImage, NULL, rcCheckBox) ) m_sCheckBoxNormalImage.Empty();
+					if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxNormalImage, NULL, rcCheckBox) ) {}
 					else return;
 				}
 
 Label_ForeImage:
 				if( !m_sCheckBoxForeImage.IsEmpty() ) {
-					if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxForeImage, NULL, rcCheckBox) ) m_sCheckBoxForeImage.Empty();
+					if( !DrawCheckBoxImage(hDC, (LPCTSTR)m_sCheckBoxForeImage, NULL, rcCheckBox) ) {}
 				}
 			}
 		}

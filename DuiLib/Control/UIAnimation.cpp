@@ -56,6 +56,10 @@ namespace DuiLib {
 			{
 				m_pControl->GetManager()->KillTimer( m_pControl, nAnimationID );
 				m_pImp->m_arAnimations.erase(std::remove(m_pImp->m_arAnimations.begin(), m_pImp->m_arAnimations.end(), pData), m_pImp->m_arAnimations.end());
+				if(pData != NULL){
+					delete pData;
+					pData = NULL;
+				}
 				return;
 			}
 		}
@@ -64,7 +68,14 @@ namespace DuiLib {
 			int nCount = m_pImp->m_arAnimations.size();
 			for(int i=0; i<nCount; ++i)
 			{
-				m_pControl->GetManager()->KillTimer( m_pControl, m_pImp->m_arAnimations[i]->m_nAnimationID );
+				CAnimationData* pData = m_pImp->m_arAnimations[i];
+				if(pData) {
+					m_pControl->GetManager()->KillTimer(m_pControl, pData->m_nAnimationID);
+					if(pData != NULL){
+						delete pData;
+						pData = NULL;
+					}
+				}
 			}
 			m_pImp->m_arAnimations.clear();
 		}
@@ -135,6 +146,7 @@ namespace DuiLib {
 			{
 				m_pControl->GetManager()->KillTimer( m_pControl, nAnimationID );
 				m_pImp->m_arAnimations.erase(std::remove(m_pImp->m_arAnimations.begin(), m_pImp->m_arAnimations.end(), pData), m_pImp->m_arAnimations.end());
+				delete pData;
 				pData = NULL;
 			}
 		}

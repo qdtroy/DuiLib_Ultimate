@@ -66,6 +66,8 @@ namespace DuiLib
 
 	void COptionUI::Selected(bool bSelected)
 	{
+		if(m_bSelected == bSelected) return;
+
 		m_bSelected = bSelected;
 		if( m_bSelected ) m_uButtonState |= UISTATE_SELECTED;
 		else m_uButtonState &= ~UISTATE_SELECTED;
@@ -174,12 +176,6 @@ namespace DuiLib
 		Invalidate();
 	}
 
-	SIZE COptionUI::EstimateSize(SIZE szAvailable)
-	{
-		if( m_cxyFixed.cy == 0 ) return CDuiSize(m_cxyFixed.cx, m_pManager->GetFontInfo(GetFont())->tm.tmHeight + 8);
-		return CControlUI::EstimateSize(szAvailable);
-	}
-
 	void COptionUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
 		if( _tcsicmp(pstrName, _T("group")) == 0 ) SetGroup(pstrValue);
@@ -203,41 +199,49 @@ namespace DuiLib
 		else CButtonUI::SetAttribute(pstrName, pstrValue);
 	}
 
+	void COptionUI::PaintBkColor(HDC hDC)
+	{
+		if(IsSelected()) {
+			if(m_dwSelectedBkColor != 0) {
+				CRenderEngine::DrawColor(hDC, m_rcPaint, GetAdjustColor(m_dwSelectedBkColor));
+			}
+		}
+		else {
+			return CButtonUI::PaintBkColor(hDC);
+		}
+	}
+
 	void COptionUI::PaintStatusImage(HDC hDC)
 	{
-		if( (m_uButtonState & UISTATE_PUSHED) != 0 && IsSelected() && !m_sSelectedPushedImage.IsEmpty()) {
-			if( !DrawImage(hDC, (LPCTSTR)m_sSelectedPushedImage) )
-				m_sSelectedPushedImage.Empty();
-			else goto Label_ForeImage;
-		}
-		else if( (m_uButtonState & UISTATE_HOT) != 0 && IsSelected() && !m_sSelectedHotImage.IsEmpty()) {
-			if( !DrawImage(hDC, (LPCTSTR)m_sSelectedHotImage) )
-				m_sSelectedHotImage.Empty();
-			else goto Label_ForeImage;
-		}
-		else if( (m_uButtonState & UISTATE_SELECTED) != 0 ) {
-			if( !m_sSelectedImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sSelectedImage) ) m_sSelectedImage.Empty();
-				else goto Label_ForeImage;
+		if(IsSelected()) {
+			if( (m_uButtonState & UISTATE_PUSHED) != 0 && !m_sSelectedPushedImage.IsEmpty()) {
+				if( !DrawImage(hDC, (LPCTSTR)m_sSelectedPushedImage) ) {}
+				else return;
 			}
-			else if(m_dwSelectedBkColor != 0) {
-				CRenderEngine::DrawColor(hDC, m_rcPaint, GetAdjustColor(m_dwSelectedBkColor));
-				return;
-			}	
+			else if( (m_uButtonState & UISTATE_HOT) != 0 && !m_sSelectedHotImage.IsEmpty()) {
+				if( !DrawImage(hDC, (LPCTSTR)m_sSelectedHotImage) ) {}
+				else return;
+			}
+
+			if( !m_sSelectedImage.IsEmpty() ) {
+				if( !DrawImage(hDC, (LPCTSTR)m_sSelectedImage) ) {}
+			}
+		}
+		else {
+			CButtonUI::PaintStatusImage(hDC);
+		}
+	}
+
+	void COptionUI::PaintForeImage(HDC hDC)
+	{
+		if(IsSelected()) {
+			if( !m_sSelectedForeImage.IsEmpty() ) {
+				if( !DrawImage(hDC, (LPCTSTR)m_sSelectedForeImage) ) {}
+				else return;
+			}
 		}
 
-		CButtonUI::PaintStatusImage(hDC);
-
-Label_ForeImage:
-		if ( IsSelected() && !m_sSelectedForeImage.IsEmpty())
-		{
-			if( !DrawImage(hDC, (LPCTSTR)m_sSelectedForeImage) ) m_sSelectedForeImage.Empty();
-		}
-		else if(  !m_sForeImage.IsEmpty() ) 
-		{
-			if( !DrawImage(hDC, (LPCTSTR)m_sForeImage) ) m_sForeImage.Empty();
-		}
-
+		return CButtonUI::PaintForeImage(hDC);
 	}
 
 	void COptionUI::PaintText(HDC hDC)

@@ -140,7 +140,7 @@ namespace DuiLib
 				, rc.left, rc.top, rc.right, rc.bottom
 				, rc.left, rc.top, rc.right, rc.bottom);
 
-			if( !DrawImage(hDC, (LPCTSTR)m_sForeImage, (LPCTSTR)m_sForeImageModify) ) m_sForeImage.Empty();
+			if( !DrawImage(hDC, (LPCTSTR)m_sForeImage, (LPCTSTR)m_sForeImageModify) ) {}
 			else return;
 		}
 	}

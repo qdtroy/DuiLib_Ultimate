@@ -112,6 +112,7 @@ namespace DuiLib
 			if( m_bShowHtml ) CRenderEngine::DrawHtmlText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, m_dwTextColor, NULL, NULL, nLinks, DT_CALCRECT | m_uTextStyle);
 			else CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, m_dwTextColor, m_iFont, DT_CALCRECT | m_uTextStyle);
 			m_cxyFixed.cx = rcText.right - rcText.left + m_rcTextPadding.left + m_rcTextPadding.right;
+			m_cxyFixed.cx = CResourceManager::GetInstance()->Scale(m_cxyFixed.cx);
 		}
 
 		if( m_cxyFixed.cy == 0 ) return CDuiSize(m_cxyFixed.cx, m_pManager->GetFontInfo(GetFont())->tm.tmHeight + 4);
@@ -129,14 +130,6 @@ namespace DuiLib
 		{
 			m_bFocused = false;
 			return;
-		}
-		if( event.Type == UIEVENT_MOUSEENTER )
-		{
-			// return;
-		}
-		if( event.Type == UIEVENT_MOUSELEAVE )
-		{
-			// return;
 		}
 		CControlUI::DoEvent(event);
 	}
@@ -270,7 +263,7 @@ namespace DuiLib
 	{
 		CControlUI::SetText(pstrText);
 		if(GetAutoCalcWidth()) {
-			this->NeedParentUpdate();
+			NeedParentUpdate();
 		}
 	}
 }

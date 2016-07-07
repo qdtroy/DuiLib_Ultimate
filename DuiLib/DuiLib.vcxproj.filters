@@ -368,5 +368,8 @@
     <ClInclude Include="Control\UIRollText.h">
       <Filter>Header Files\Control</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\VersionHelpers.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -135,7 +135,7 @@ namespace DuiLib {
 					}
 					if( id >= 0 ) {
 						pManager->AddFont(id, pFontName, size, bold, underline, italic, shared);
-						if( defaultfont ) pManager->SetDefaultFont(pFontName, size, bold, underline, italic, shared);
+						if( defaultfont ) pManager->SetDefaultFont(pFontName, CResourceManager::GetInstance()->Scale(size), bold, underline, italic, shared);
 					}
 				}
 				else if( _tcsicmp(pstrClass, _T("Default")) == 0 ) {
@@ -195,7 +195,7 @@ namespace DuiLib {
 							LPTSTR pstr = NULL;
 							int cx = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);    
 							int cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr); 
-							pManager->SetInitSize(cx, cy);
+							pManager->SetInitSize(CResourceManager::GetInstance()->Scale(cx), CResourceManager::GetInstance()->Scale(cy));
 						} 
 						else if( _tcsicmp(pstrName, _T("sizebox")) == 0 ) {
 							RECT rcSizeBox = { 0 };

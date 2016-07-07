@@ -72,61 +72,55 @@ namespace DuiLib {
 
 		if( (m_uButtonState & UISTATE_DISABLED) != 0 ) {
 			if( !m_sDisabledImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sDisabledImage) ) m_sDisabledImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sDisabledImage) ) {}
 				else return;
 			}
 		}
 		else if( (m_uButtonState & UISTATE_PUSHED) != 0 ) {
 			if( !m_sPushedImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sPushedImage) ) m_sPushedImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sPushedImage) ) {}
 				else return;
 			}
 		}
 		else if( (m_uButtonState & UISTATE_FOCUSED) != 0 ) {
 			if( !m_sFocusedImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sFocusedImage) ) m_sFocusedImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sFocusedImage) ) {}
 				else return;
 			}
 		}
 
 		if( !m_sNormalImage.IsEmpty() ) {
-			if( IsAnimationRunning(FADE_IN_ID) || IsAnimationRunning(FADE_OUT_ID))
-			{
-				if( m_bMouseHove )
-				{
+			if( IsAnimationRunning(FADE_IN_ID) || IsAnimationRunning(FADE_OUT_ID)) {
+				if( m_bMouseHove ) {
 					m_bMouseHove = FALSE;
 					m_sLastImage = m_sHotImage;
-					if( !DrawImage(hDC, (LPCTSTR)m_sNormalImage) ) 
-						m_sNormalImage.Empty();
+					if( !DrawImage(hDC, (LPCTSTR)m_sNormalImage) ) {}
 					return;
 				}
 
-				if( m_bMouseLeave )
-				{
+				if( m_bMouseLeave ) {
 					m_bMouseLeave = FALSE;
 					m_sLastImage = m_sNormalImage;
-					if( !DrawImage(hDC, (LPCTSTR)m_sHotImage) ) 
-						m_sHotImage.Empty();
+					if( !DrawImage(hDC, (LPCTSTR)m_sHotImage) ) {}
 					return;
 				}
 
 				m_sOldImage = m_sNormalImage;
 				m_sNewImage = m_sHotImage;
-				if( IsAnimationRunning(FADE_OUT_ID) )
-				{
+				if( IsAnimationRunning(FADE_OUT_ID) ) {
 					m_sOldImage = m_sHotImage;
 					m_sNewImage = m_sNormalImage;
 				}
 				CDuiString sFadeOut, sFadeIn;
 				sFadeOut.Format(_T("fade='%d'"), 255 - m_bFadeAlpha);
 				sFadeIn.Format(_T("fade='%d'"), m_bFadeAlpha);
-				if( !DrawImage(hDC, (LPCTSTR)m_sOldImage, sFadeOut) ) m_sOldImage.Empty();
-				if( !DrawImage(hDC, (LPCTSTR)m_sNewImage, sFadeIn) ) m_sNewImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sOldImage, sFadeOut) ) {}
+				if( !DrawImage(hDC, (LPCTSTR)m_sNewImage, sFadeIn) ) {}
 				return;
 			}
-			else
-			{
-				if( !DrawImage(hDC, (LPCTSTR)m_sLastImage) ) m_sLastImage.Empty();
+			else {
+				if(m_sLastImage.IsEmpty()) m_sLastImage = m_sNormalImage;
+				if( !DrawImage(hDC, (LPCTSTR)m_sLastImage) ) {}
 				return;
 			}
 		}

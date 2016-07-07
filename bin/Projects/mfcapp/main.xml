@@ -30,7 +30,6 @@
 
     <VerticalLayout name="body" >
         <Label height="50" text="兼容MFC的Duilib框架，By Troy(QQ：656067418)" font="2" textcolor="#FFFFFFFF" align="center"/>
-
     </VerticalLayout>
     
     <HorizontalLayout height="32">

@@ -168,7 +168,7 @@ namespace DuiLib
 
 	RECT CContainerUI::GetInset() const
 	{
-		return m_rcInset;
+		return CResourceManager::GetInstance()->Scale(m_rcInset);
 	}
 
 	void CContainerUI::SetInset(RECT rcInset)
@@ -179,7 +179,7 @@ namespace DuiLib
 
 	int CContainerUI::GetChildPadding() const
 	{
-		return m_iChildPadding;
+		return CResourceManager::GetInstance()->Scale(m_iChildPadding);
 	}
 
 	void CContainerUI::SetChildPadding(int iPadding)
@@ -424,14 +424,13 @@ namespace DuiLib
 
 	int CContainerUI::GetScrollStepSize() const
 	{
-		return m_nScrollStepSize;
+		return CResourceManager::GetInstance()->Scale(m_nScrollStepSize);
 	}
 
 	void CContainerUI::LineUp()
 	{
 		int cyLine = m_nScrollStepSize;
-		if (m_nScrollStepSize == 0)
-		{
+		if (m_nScrollStepSize == 0) {
 			cyLine = 8;
 			if( m_pManager ) cyLine = m_pManager->GetDefaultFontInfo()->tm.tmHeight + 8;
 		}
@@ -444,8 +443,7 @@ namespace DuiLib
 	void CContainerUI::LineDown()
 	{
 		int cyLine = m_nScrollStepSize;
-		if (m_nScrollStepSize == 0)
-		{
+		if (m_nScrollStepSize == 0) {
 			cyLine = 8;
 			if( m_pManager ) cyLine = m_pManager->GetDefaultFontInfo()->tm.tmHeight + 8;
 		}
@@ -824,11 +822,12 @@ namespace DuiLib
 		CControlUI::DoPaint(hDC, rcPaint);
 
 		if( m_items.GetSize() > 0 ) {
+			RECT rcInset = GetInset();
 			RECT rc = m_rcItem;
-			rc.left += m_rcInset.left;
-			rc.top += m_rcInset.top;
-			rc.right -= m_rcInset.right;
-			rc.bottom -= m_rcInset.bottom;
+			rc.left += rcInset.left;
+			rc.top += rcInset.top;
+			rc.right -= rcInset.right;
+			rc.bottom -= rcInset.bottom;
 			if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) rc.right -= m_pVerticalScrollBar->GetFixedWidth();
 			if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) rc.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
 

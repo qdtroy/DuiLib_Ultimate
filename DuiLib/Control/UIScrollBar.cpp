@@ -792,25 +792,25 @@ namespace DuiLib
 
 		if( (m_uThumbState & UISTATE_DISABLED) != 0 ) {
 			if( !m_sBkDisabledImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sBkDisabledImage) ) m_sBkDisabledImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sBkDisabledImage) ) {}
 				else return;
 			}
 		}
 		else if( (m_uThumbState & UISTATE_PUSHED) != 0 ) {
 			if( !m_sBkPushedImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sBkPushedImage) ) m_sBkPushedImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sBkPushedImage) ) {}
 				else return;
 			}
 		}
 		else if( (m_uThumbState & UISTATE_HOT) != 0 ) {
 			if( !m_sBkHotImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sBkHotImage) ) m_sBkHotImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sBkHotImage) ) {}
 				else return;
 			}
 		}
 
 		if( !m_sBkNormalImage.IsEmpty() ) {
-			if( !DrawImage(hDC, (LPCTSTR)m_sBkNormalImage) ) m_sBkNormalImage.Empty();
+			if( !DrawImage(hDC, (LPCTSTR)m_sBkNormalImage) ) {}
 			else return;
 		}
 	}
@@ -828,25 +828,25 @@ namespace DuiLib
 
 		if( (m_uButton1State & UISTATE_DISABLED) != 0 ) {
 			if( !m_sButton1DisabledImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sButton1DisabledImage, (LPCTSTR)m_sImageModify) ) m_sButton1DisabledImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sButton1DisabledImage, (LPCTSTR)m_sImageModify) ) {}
 				else return;
 			}
 		}
 		else if( (m_uButton1State & UISTATE_PUSHED) != 0 ) {
 			if( !m_sButton1PushedImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sButton1PushedImage, (LPCTSTR)m_sImageModify) ) m_sButton1PushedImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sButton1PushedImage, (LPCTSTR)m_sImageModify) ) {}
 				else return;
 			}
 		}
 		else if( (m_uButton1State & UISTATE_HOT) != 0 ) {
 			if( !m_sButton1HotImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sButton1HotImage, (LPCTSTR)m_sImageModify) ) m_sButton1HotImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sButton1HotImage, (LPCTSTR)m_sImageModify) ) {}
 				else return;
 			}
 		}
 
 		if( !m_sButton1NormalImage.IsEmpty() ) {
-			if( !DrawImage(hDC, (LPCTSTR)m_sButton1NormalImage, (LPCTSTR)m_sImageModify) ) m_sButton1NormalImage.Empty();
+			if( !DrawImage(hDC, (LPCTSTR)m_sButton1NormalImage, (LPCTSTR)m_sImageModify) ) {}
 			else return;
 		}
 
@@ -868,25 +868,25 @@ namespace DuiLib
 
 		if( (m_uButton2State & UISTATE_DISABLED) != 0 ) {
 			if( !m_sButton2DisabledImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sButton2DisabledImage, (LPCTSTR)m_sImageModify) ) m_sButton2DisabledImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sButton2DisabledImage, (LPCTSTR)m_sImageModify) ) {}
 				else return;
 			}
 		}
 		else if( (m_uButton2State & UISTATE_PUSHED) != 0 ) {
 			if( !m_sButton2PushedImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sButton2PushedImage, (LPCTSTR)m_sImageModify) ) m_sButton2PushedImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sButton2PushedImage, (LPCTSTR)m_sImageModify) ) {}
 				else return;
 			}
 		}
 		else if( (m_uButton2State & UISTATE_HOT) != 0 ) {
 			if( !m_sButton2HotImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sButton2HotImage, (LPCTSTR)m_sImageModify) ) m_sButton2HotImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sButton2HotImage, (LPCTSTR)m_sImageModify) ) {}
 				else return;
 			}
 		}
 
 		if( !m_sButton2NormalImage.IsEmpty() ) {
-			if( !DrawImage(hDC, (LPCTSTR)m_sButton2NormalImage, (LPCTSTR)m_sImageModify) ) m_sButton2NormalImage.Empty();
+			if( !DrawImage(hDC, (LPCTSTR)m_sButton2NormalImage, (LPCTSTR)m_sImageModify) ) {}
 			else return;
 		}
 
@@ -907,25 +907,25 @@ namespace DuiLib
 
 		if( (m_uThumbState & UISTATE_DISABLED) != 0 ) {
 			if( !m_sThumbDisabledImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sThumbDisabledImage, (LPCTSTR)m_sImageModify) ) m_sThumbDisabledImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sThumbDisabledImage, (LPCTSTR)m_sImageModify) ) {}
 				else return;
 			}
 		}
 		else if( (m_uThumbState & UISTATE_PUSHED) != 0 ) {
 			if( !m_sThumbPushedImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sThumbPushedImage, (LPCTSTR)m_sImageModify) ) m_sThumbPushedImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sThumbPushedImage, (LPCTSTR)m_sImageModify) ) {}
 				else return;
 			}
 		}
 		else if( (m_uThumbState & UISTATE_HOT) != 0 ) {
 			if( !m_sThumbHotImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sThumbHotImage, (LPCTSTR)m_sImageModify) ) m_sThumbHotImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sThumbHotImage, (LPCTSTR)m_sImageModify) ) {}
 				else return;
 			}
 		}
 
 		if( !m_sThumbNormalImage.IsEmpty() ) {
-			if( !DrawImage(hDC, (LPCTSTR)m_sThumbNormalImage, (LPCTSTR)m_sImageModify) ) m_sThumbNormalImage.Empty();
+			if( !DrawImage(hDC, (LPCTSTR)m_sThumbNormalImage, (LPCTSTR)m_sImageModify) ) {}
 			else return;
 		}
 
@@ -957,25 +957,25 @@ namespace DuiLib
 
 		if( (m_uThumbState & UISTATE_DISABLED) != 0 ) {
 			if( !m_sRailDisabledImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sRailDisabledImage, (LPCTSTR)m_sImageModify) ) m_sRailDisabledImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sRailDisabledImage, (LPCTSTR)m_sImageModify) ) {}
 				else return;
 			}
 		}
 		else if( (m_uThumbState & UISTATE_PUSHED) != 0 ) {
 			if( !m_sRailPushedImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sRailPushedImage, (LPCTSTR)m_sImageModify) ) m_sRailPushedImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sRailPushedImage, (LPCTSTR)m_sImageModify) ) {}
 				else return;
 			}
 		}
 		else if( (m_uThumbState & UISTATE_HOT) != 0 ) {
 			if( !m_sRailHotImage.IsEmpty() ) {
-				if( !DrawImage(hDC, (LPCTSTR)m_sRailHotImage, (LPCTSTR)m_sImageModify) ) m_sRailHotImage.Empty();
+				if( !DrawImage(hDC, (LPCTSTR)m_sRailHotImage, (LPCTSTR)m_sImageModify) ) {}
 				else return;
 			}
 		}
 
 		if( !m_sRailNormalImage.IsEmpty() ) {
-			if( !DrawImage(hDC, (LPCTSTR)m_sRailNormalImage, (LPCTSTR)m_sImageModify) ) m_sRailNormalImage.Empty();
+			if( !DrawImage(hDC, (LPCTSTR)m_sRailNormalImage, (LPCTSTR)m_sImageModify) ) {}
 			else return;
 		}
 	}

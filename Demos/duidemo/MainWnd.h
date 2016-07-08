@@ -380,6 +380,7 @@ public:
 				m_pMenu = NULL;
 			}
 			m_pMenu = new CMenuWnd();
+			CMenuWnd::GetGlobalContextMenuObserver().SetMenuCheckInfo(&m_MenuInfos);
 			CDuiPoint point;
 			::GetCursorPos(&point);
 

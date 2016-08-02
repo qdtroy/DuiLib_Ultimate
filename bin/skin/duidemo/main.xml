@@ -12,13 +12,11 @@
   <Style name="list_style" value="headerbkimage=&quot;file='list_header_bg.png'&quot; itemalign=&quot;center&quot; itemlinecolor=&quot;#FFFF0000&quot; itemshowrowline=&quot;true&quot; itemshowcolumnline=&quot;true&quot;" />
   <Style name="edit_style" value="bkimage=&quot;res='edit_bk.png' corner='6,6,6,6'&quot;" />
   <Style name="btn_style" value="drag=&quot;true&quot; textpadding=&quot;6,0,6,0&quot; normalimage=&quot;res='button_normal.png' corner='4,4,4,4'&quot; hotimage=&quot;res='button_hover.png' corner='4,4,4,4'&quot; pushedimage=&quot;res='button_pushed.png' corner='4,4,4,4'&quot; selectedimage=&quot;res='button_pushed.png' corner='4,4,4,4'&quot;"  />
-  <Style name="pagebtn_style" value="width=&quot;30&quot; textpadding=&quot;6,0,6,0&quot; normalimage=&quot;res='button_normal.png' corner='4,4,4,4'&quot; hotimage=&quot;res='button_hover.png' corner='4,4,4,4'&quot; pushedimage=&quot;res='button_pushed.png' corner='4,4,4,4'&quot; selectedimage=&quot;res='button_pushed.png' corner='4,4,4,4'&quot;"  />
-  <Style name="prebtn_style" value="width=&quot;60&quot; textpadding=&quot;6,0,6,0&quot; normalimage=&quot;res='button_normal.png' corner='4,4,4,4'&quot; hotimage=&quot;res='button_hover.png' corner='4,4,4,4'&quot; pushedimage=&quot;res='button_pushed.png' corner='4,4,4,4'&quot; selectedimage=&quot;res='button_pushed.png' corner='4,4,4,4'&quot;"  />
-  <Style name="nextbtn_style" value="width=&quot;60&quot; textpadding=&quot;6,0,6,0&quot; normalimage=&quot;res='button_normal.png' corner='4,4,4,4'&quot; hotimage=&quot;res='button_hover.png' corner='4,4,4,4'&quot; pushedimage=&quot;res='button_pushed.png' corner='4,4,4,4'&quot; selectedimage=&quot;res='button_pushed.png' corner='4,4,4,4'&quot;"  />
   <Style name="treenode_folder_style" value="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='Icon/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='Icon/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='Icon/treeview_a.png' source='16,0,32,16' &quot;"/>
   <Style name="treenode_checkbox_style" value="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='Icon/unchecked.png' &quot; selectedimage=&quot;file='Icon/checked.png'&quot;" />
   <Style name="treeview_style" value="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;"/>
   <Style name="listex_item_style" value="checkboxwidth=&quot;16&quot; checkboxheight=&quot;16&quot; checkboxnormalimage=&quot;file='icon/unchecked.png'&quot; checkboxselectedimage=&quot;file='icon/checked.png'&quot;"/>
+  <Style name="btn_style" value="textpadding=&quot;6,0,6,0&quot; bordersize=&quot;2&quot; pushedbkcolor=&quot;#55800000&quot; bordercolor=&quot;#F000FF00&quot;"/>
   
   <VerticalLayout name="root" bkimage1="file='main\10.jpg' corner='580,370,10,5'" bkcolor="#ff0199cb" colorhsl="true">
     <HorizontalLayout name="appbar" height="64" >
@@ -46,7 +44,9 @@
     </HorizontalLayout>
 
     <VerticalLayout name="body" bkcolor="#FFFFFFFF">
-      <HorizontalLayout height="40">
+      <HorizontalLayout height="40" childvalign="vcenter">
+        <Label text="DPI调整：" cursor="hand" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
+
         <Button name="dpi_btn" userdata="96" text="DPI:100" textcolor="#FF555555" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
         <Button name="dpi_btn" userdata="120" text="DPI:125" textcolor="#FF555555" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
         <Button name="dpi_btn" userdata="144" text="DPI:150" textcolor="#FF555555" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>

@@ -20,7 +20,7 @@ void InitResource()
 	{
 	case UILIB_FILE:
 		{
-			strResourcePath += _T("Project\\WkeBrowser\\");
+			strResourcePath += _T("Projects\\WkeBrowser\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
 			// 加载资源管理器
 			CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
@@ -28,7 +28,7 @@ void InitResource()
 		}
 	case UILIB_RESOURCE:
 		{
-			strResourcePath += _T("Project\\WkeBrowser\\");
+			strResourcePath += _T("Projects\\WkeBrowser\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
 			// 加载资源管理器
 			CResourceManager::GetInstance()->LoadResource(_T("IDR_RES"), _T("xml"));
@@ -36,7 +36,7 @@ void InitResource()
 		}
 	case UILIB_ZIP:
 		{
-			strResourcePath += _T("Project\\");
+			strResourcePath += _T("Projects\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
 			CPaintManagerUI::SetResourceZip(_T("WkeBrowser.zip"), true);
 			// 加载资源管理器
@@ -45,7 +45,7 @@ void InitResource()
 		}
 	case UILIB_ZIPRESOURCE:
 		{
-			strResourcePath += _T("Project\\WkeBrowser\\");
+			strResourcePath += _T("Projects\\WkeBrowser\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
 
 			HRSRC hResource = ::FindResource(CPaintManagerUI::GetResourceDll(), _T("IDR_ZIPRES"), _T("ZIPRES"));

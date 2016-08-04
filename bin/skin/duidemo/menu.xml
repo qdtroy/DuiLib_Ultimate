@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Window >
+<Window  showshadow="true" shadowimage="main/shadow.png" shadowcorner="6,6,6,6">
 <Font name="微软雅黑" size="12" bold="false" default="true" />
 <Font name="微软雅黑" size="12" bold="true"/>
 

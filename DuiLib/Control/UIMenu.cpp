@@ -244,6 +244,7 @@ namespace DuiLib {
 
 	LRESULT CMenuWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 	{
+		bool bShowShadow = false;
 		if( m_pOwner != NULL) {
 			LONG styleValue = ::GetWindowLong(*this, GWL_STYLE);
 			styleValue &= ~WS_CAPTION;
@@ -275,7 +276,8 @@ namespace DuiLib {
 
 			CShadowUI *pShadow = m_pOwner->GetManager()->GetShadow();
 			pShadow->CopyShadow(m_pm.GetShadow());
-			pShadow->ShowShadow(false);
+			bShowShadow = m_pm.GetShadow()->IsShowShadow();
+			m_pm.GetShadow()->ShowShadow(false);
 
 			m_pm.AttachDialog(m_pLayout);
 			m_pm.AddNotifier(this);
@@ -288,6 +290,7 @@ namespace DuiLib {
 			CDialogBuilder builder;
 
 			CControlUI* pRoot = builder.Create(m_xml,UINT(0), this, &m_pm);
+			bShowShadow = m_pm.GetShadow()->IsShowShadow();
 			m_pm.GetShadow()->ShowShadow(false);
 			m_pm.AttachDialog(pRoot);
 			m_pm.AddNotifier(this);
@@ -295,7 +298,7 @@ namespace DuiLib {
 			ResizeMenu();
 		}
 
-		m_pm.GetShadow()->ShowShadow(true);
+		m_pm.GetShadow()->ShowShadow(bShowShadow);
 		m_pm.GetShadow()->Create(&m_pm);
 		return 0;
 	}

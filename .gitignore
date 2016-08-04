@@ -30,3 +30,8 @@ DuiLib.suo
 *.res
 Temp/duidemo/Debug/MFCApp_manifest.rc
 *.unsuccessfulbuild
+Temp
+bin
+*.ilk
+Demos/ADMonSetup/SDebug/
+3rd/libcef_dll_wrapper/Lib/

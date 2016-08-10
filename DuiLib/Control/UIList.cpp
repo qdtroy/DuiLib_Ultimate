@@ -1119,6 +1119,13 @@ namespace DuiLib {
 		return m_pCompareFunc((UINT_PTR)pControl1, (UINT_PTR)pControl2, m_compareData);
 	}
 
+	int CListBodyUI::GetScrollStepSize() const
+	{
+		if(m_pOwner != NULL) return m_pOwner->GetScrollStepSize();
+
+		return CVerticalLayoutUI::GetScrollStepSize();
+	}
+
 	void CListBodyUI::SetScrollPos(SIZE szPos, bool bMsg)
 	{
 		int cx = 0;

@@ -33,6 +33,8 @@ namespace DuiLib
 		rc = m_rcItem;
 
 		// Adjust for inset
+		RECT m_rcInset = CVerticalLayoutUI::m_rcInset;
+		GetManager()->GetDPIObj()->Scale(&m_rcInset);
 		rc.left += m_rcInset.left;
 		rc.top += m_rcInset.top;
 		rc.right -= m_rcInset.right;

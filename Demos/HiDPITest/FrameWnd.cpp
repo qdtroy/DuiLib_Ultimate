@@ -70,7 +70,7 @@ LRESULT CFrameWnd::OnDPIChanged(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 	wstring optionName;
 	wstringstream wss;
 	wss << L"DPI";
-	wss << CResourceManager::GetInstance()->GetDPI();
+	wss << m_pm.GetDPIObj()->GetDPI();
 	wss >> optionName;
 	COptionUI	*option = static_cast<COptionUI*>(m_pm.FindControl(optionName.c_str()));
 	option->Selected(true);
@@ -91,44 +91,45 @@ void CFrameWnd::Notify( TNotifyUI& msg )
 	{	
 		if( msg.pSender->GetName() == _T("btnMenu") ) 
 		{
-			//CPoint point(0, 0);
-			//GetCursorPos(&point);
-			//point.x += 5;
-			//point.y -= 5;
-			//CMenuWnd* pMenu = CMenuWnd::CreateMenu(NULL, _T("menutest.xml"), point, &m_pm, &m_MenuCheckInfo, eMenuAlignment_Bottom);
-			////pMenu->setDPI(m_pm.GetDPIObj()->GetDPI());
-			//
-			//// 先获取到根项，然后就可以使用rootMenu插到到菜单内的任意子菜单项，然后做添加删除操作
-			//CMenuUI* rootMenu = pMenu->GetMenuUI();
-			//if (rootMenu != NULL)
-			//{
-			//	CMenuElementUI* pNew = new CMenuElementUI;
-			//	pNew->SetName(_T("Menu_Dynamic"));
-			//	pNew->SetText(_T("动态一级菜单"));
-			//	pNew->SetShowExplandIcon(true);
-			//	pNew->SetIcon(_T("WebSit.png"));
-			//	pNew->SetIconSize(16,16);
+			POINT point;
+			GetCursorPos(&point);
+			point.x += 5;
+			point.y -= 5;
+			CMenuWnd* pMenu = CMenuWnd::CreateMenu(NULL, _T("menutest.xml"), point, &m_pm, &m_MenuCheckInfo, eMenuAlignment_Bottom);
+			
+			
+			// 先获取到根项，然后就可以使用rootMenu插到到菜单内的任意子菜单项，然后做添加删除操作
+			CMenuUI* rootMenu = pMenu->GetMenuUI();
+			
+			if (rootMenu != NULL)
+			{
+				CMenuElementUI* pNew = new CMenuElementUI;
+				pNew->SetName(_T("Menu_Dynamic"));
+				pNew->SetText(_T("动态一级菜单"));
+				pNew->SetShowExplandIcon(true);
+				pNew->SetIcon(_T("WebSit.png"));
+				pNew->SetIconSize(16,16);
 
 
-			//	CMenuElementUI* pSubNew = new CMenuElementUI;
-			//	pSubNew->SetText(_T("动态二级菜单"));
-			//	pSubNew->SetName(_T("Menu_Dynamic"));
-			//	pSubNew->SetIcon(_T("Virus.png"));
-			//	pSubNew->SetIconSize(16,16);
-			//	pNew->Add(pSubNew);
-			//	
+				CMenuElementUI* pSubNew = new CMenuElementUI;
+				pSubNew->SetText(_T("动态二级菜单"));
+				pSubNew->SetName(_T("Menu_Dynamic"));
+				pSubNew->SetIcon(_T("Virus.png"));
+				pSubNew->SetIconSize(16,16);
+				pNew->Add(pSubNew);
+				
 
-			//	rootMenu->Add(pNew);
+				rootMenu->Add(pNew);
 
 
-			//	CMenuElementUI* pNew2 = new CMenuElementUI;
-			//	pNew2->SetName(_T("Menu_Dynamic"));
-			//	pNew2->SetText(_T("动态一级菜单2"));
-			//	rootMenu->AddAt(pNew2,2);
-			//}
+				CMenuElementUI* pNew2 = new CMenuElementUI;
+				pNew2->SetName(_T("Menu_Dynamic"));
+				pNew2->SetText(_T("动态一级菜单2"));
+				rootMenu->AddAt(pNew2,2);
+			}
 
-			//// 动态添加后重新设置菜单的大小
-			//pMenu->ResizeMenu();
+			// 动态添加后重新设置菜单的大小
+			pMenu->ResizeMenu();
 		}
 		else if (msg.pSender->GetName() == _T("DPI96") )
 		{
@@ -176,10 +177,20 @@ void CFrameWnd::setDPI(int DPI) {
  {
 	 if (uMsg == WM_MENUCLICK)
 	 {
-		 CDuiString *strMenuName = (CDuiString*)wParam;
-		 BOOL bChecked = (BOOL)lParam;		 
 
-		 if ( *strMenuName == _T("Menu_Test1")) 
+		 MenuCmd* pMenuCmd = (MenuCmd*)wParam;
+		
+		BOOL bChecked = pMenuCmd->bChecked;
+		CDuiString strMenuName = pMenuCmd->szName;
+		CDuiString sUserData = pMenuCmd->szUserData;
+		CDuiString sText = pMenuCmd->szText;
+		m_pm.DeletePtr(pMenuCmd);
+
+
+		
+			 
+
+		 if ( strMenuName == _T("Menu_Test1")) 
 		 {
 			 if (bChecked)
 			 {
@@ -190,11 +201,11 @@ void CFrameWnd::setDPI(int DPI) {
 				 MessageBox(m_hWnd, L"你取消Menu_Test1", L"", 0);
 			 }			 
 		 }
-		 else if ( *strMenuName == _T("Menu_Test2")) 
+		 else if ( strMenuName == _T("Menu_Test2")) 
 		 {
 				MessageBox(m_hWnd, L"你单击了Menu_Test2", L"", 0);		 
 		 }
-		 else if ( *strMenuName == _T("Menu_Test3")) 
+		 else if ( strMenuName == _T("Menu_Test3")) 
 		 {
 			 if (bChecked)
 			 {
@@ -205,7 +216,7 @@ void CFrameWnd::setDPI(int DPI) {
 				 MessageBox(m_hWnd, L"你取消Menu_Test3", L"", 0);
 			 }			 
 		 }
-		 else if ( *strMenuName == _T("Menu_Dynamic")) 
+		 else if ( strMenuName == _T("Menu_Dynamic")) 
 		 {
 			 MessageBox(m_hWnd, L"你单击了动态添加菜单", L"", 0);		 
 		 }
@@ -226,7 +237,7 @@ void CFrameWnd::setDPI(int DPI) {
 		 wstring optionName;
 		 wstringstream wss;
 		 wss << L"DPI";
-		 wss << CResourceManager::GetInstance()->GetDPI();
+		 wss << m_pm.GetDPIObj()->GetDPI();
 		 wss >> optionName;
 		 COptionUI	*option = static_cast<COptionUI*>(m_pm.FindControl(optionName.c_str()));
 		 option->Selected(true);

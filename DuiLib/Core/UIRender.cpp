@@ -833,11 +833,11 @@ namespace DuiLib {
 			sStrPath = CResourceManager::GetInstance()->GetImagePath(pStrImage);
 			if (sStrPath.IsEmpty()) sStrPath = pStrImage;
 			else {
-				if (CResourceManager::GetInstance()->GetScale() != 100) {
+				/*if (CResourceManager::GetInstance()->GetScale() != 100) {
 					CDuiString sScale;
 					sScale.Format(_T("@%d."), CResourceManager::GetInstance()->GetScale());
 					sStrPath.Replace(_T("."), sScale);
-				}
+				}*/
 			}
 		}
 		return LoadImage(STRINGorID(sStrPath.GetData()), type, mask, instance);
@@ -1439,13 +1439,22 @@ namespace DuiLib {
 
 	void CRenderEngine::DrawRect(HDC hDC, const RECT& rc, int nSize, DWORD dwPenColor,int nStyle /*= PS_SOLID*/)
 	{
-		ASSERT(::GetObjectType(hDC)==OBJ_DC || ::GetObjectType(hDC)==OBJ_MEMDC);
-		HPEN hPen = ::CreatePen(nStyle, nSize, RGB(GetBValue(dwPenColor), GetGValue(dwPenColor), GetRValue(dwPenColor)));
+#if USE_GDI_RENDER
+		ASSERT(::GetObjectType(hDC) == OBJ_DC || ::GetObjectType(hDC) == OBJ_MEMDC);
+		HPEN hPen = ::CreatePen(PS_SOLID | PS_INSIDEFRAME, nSize, RGB(GetBValue(dwPenColor), GetGValue(dwPenColor), GetRValue(dwPenColor)));
 		HPEN hOldPen = (HPEN)::SelectObject(hDC, hPen);
 		::SelectObject(hDC, ::GetStockObject(HOLLOW_BRUSH));
 		::Rectangle(hDC, rc.left, rc.top, rc.right, rc.bottom);
 		::SelectObject(hDC, hOldPen);
 		::DeleteObject(hPen);
+#else
+		ASSERT(::GetObjectType(hDC) == OBJ_DC || ::GetObjectType(hDC) == OBJ_MEMDC);
+		Gdiplus::Graphics graphics(hDC);
+		Gdiplus::Pen pen(Gdiplus::Color(dwPenColor), (Gdiplus::REAL)nSize);
+		pen.SetAlignment(Gdiplus::PenAlignmentInset);
+
+		graphics.DrawRectangle(&pen, rc.left, rc.top, rc.right - rc.left - 1, rc.bottom - rc.top - 1);
+#endif
 	}
 
 	void CRenderEngine::DrawRoundRect(HDC hDC, const RECT& rc, int nSize, int width, int height, DWORD dwPenColor,int nStyle /*= PS_SOLID*/)

@@ -33,16 +33,10 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="HiDPITest.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="duilib.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="FrameWnd.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DPI.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -54,9 +48,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="DPI.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

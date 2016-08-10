@@ -84,7 +84,6 @@
     <None Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DPI.h" />
     <ClInclude Include="duilib.h" />
     <ClInclude Include="FrameWnd.h" />
     <ClInclude Include="HiDPITest.h" />
@@ -93,7 +92,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DPI.cpp" />
     <ClCompile Include="FrameWnd.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">

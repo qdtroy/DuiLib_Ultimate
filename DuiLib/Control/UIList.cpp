@@ -604,7 +604,9 @@ namespace DuiLib {
 
 	RECT CListUI::GetItemTextPadding() const
 	{
-		return m_ListInfo.rcTextPadding;
+		RECT rect = m_ListInfo.rcTextPadding;
+		GetManager()->GetDPIObj()->Scale(&rect);
+		return rect;
 	}
 
 	void CListUI::SetItemTextColor(DWORD dwTextColor)

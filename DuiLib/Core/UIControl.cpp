@@ -284,7 +284,7 @@ namespace DuiLib {
 
 	int CControlUI::GetBorderSize() const
 	{
-		return CResourceManager::GetInstance()->Scale(m_nBorderSize);
+		return GetManager()->GetDPIObj()->Scale(m_nBorderSize);
 	}
 
 	void CControlUI::SetBorderSize(int nSize)
@@ -303,7 +303,7 @@ namespace DuiLib {
 
 	SIZE CControlUI::GetBorderRound() const
 	{
-		return CResourceManager::GetInstance()->Scale(m_cxyBorderRound);
+		return GetManager()->GetDPIObj()->Scale(m_cxyBorderRound);
 	}
 
 	void CControlUI::SetBorderRound(SIZE cxyRound)
@@ -350,7 +350,7 @@ namespace DuiLib {
 
 		if( m_bFloat ) {
 			CControlUI* pParent = GetParent();
-			if( pParent != NULL ) {
+			/*if( pParent != NULL ) {
 				RECT rcParentPos = pParent->GetPos();
 				RECT rcCtrl = {rcParentPos.left + rc.left, rcParentPos.top + rc.top, 
 					rcParentPos.left + rc.right, rcParentPos.top + rc.bottom};
@@ -364,11 +364,12 @@ namespace DuiLib {
 				m_cXY.cy = rc.top - rcPercent.top;
 				m_cxyFixed.cx = rc.right - rcPercent.right - m_cXY.cx;
 				m_cxyFixed.cy = rc.bottom - rcPercent.bottom - m_cXY.cy;
-			}
+			}*/
 		}
 		else {
 			m_rcItem = rc;
 		}
+		m_rcItem = rc;
 		if( m_pManager == NULL ) return;
 
 		if( !m_bSetPos ) {
@@ -423,7 +424,7 @@ namespace DuiLib {
 
 	RECT CControlUI::GetPadding() const
 	{
-		return CResourceManager::GetInstance()->Scale(m_rcPadding);
+		return GetManager()->GetDPIObj()->Scale(m_rcPadding);
 	}
 
 	void CControlUI::SetPadding(RECT rcPadding)
@@ -434,7 +435,7 @@ namespace DuiLib {
 
 	SIZE CControlUI::GetFixedXY() const
 	{
-		return CResourceManager::GetInstance()->Scale(m_cXY);
+		return GetManager()->GetDPIObj()->Scale(m_cXY);
 	}
 
 	void CControlUI::SetFixedXY(SIZE szXY)
@@ -447,7 +448,11 @@ namespace DuiLib {
 
 	int CControlUI::GetFixedWidth() const
 	{
-		return CResourceManager::GetInstance()->Scale(m_cxyFixed.cx);
+		if (GetManager()) {
+			return GetManager()->GetDPIObj()->Scale(m_cxyFixed.cx);
+		}
+
+		return m_cxyFixed.cx;
 	}
 
 	void CControlUI::SetFixedWidth(int cx)
@@ -460,7 +465,11 @@ namespace DuiLib {
 
 	int CControlUI::GetFixedHeight() const
 	{
-		return CResourceManager::GetInstance()->Scale(m_cxyFixed.cy);
+		if (GetManager()) {
+			return GetManager()->GetDPIObj()->Scale(m_cxyFixed.cy);
+		}
+		
+		return m_cxyFixed.cy;
 	}
 
 	void CControlUI::SetFixedHeight(int cy)
@@ -473,7 +482,7 @@ namespace DuiLib {
 
 	int CControlUI::GetMinWidth() const
 	{
-		return CResourceManager::GetInstance()->Scale(m_cxyMin.cx);
+		return GetManager()->GetDPIObj()->Scale(m_cxyMin.cx);
 	}
 
 	void CControlUI::SetMinWidth(int cx)
@@ -488,7 +497,7 @@ namespace DuiLib {
 
 	int CControlUI::GetMaxWidth() const
 	{
-		return CResourceManager::GetInstance()->Scale(m_cxyMax.cx);
+		return GetManager()->GetDPIObj()->Scale(m_cxyMax.cx);
 	}
 
 	void CControlUI::SetMaxWidth(int cx)
@@ -503,7 +512,7 @@ namespace DuiLib {
 
 	int CControlUI::GetMinHeight() const
 	{
-		return CResourceManager::GetInstance()->Scale(m_cxyMin.cy);
+		return GetManager()->GetDPIObj()->Scale(m_cxyMin.cy);
 	}
 
 	void CControlUI::SetMinHeight(int cy)
@@ -518,7 +527,7 @@ namespace DuiLib {
 
 	int CControlUI::GetMaxHeight() const
 	{
-		return CResourceManager::GetInstance()->Scale(m_cxyMax.cy);
+		return GetManager()->GetDPIObj()->Scale(m_cxyMax.cy);
 	}
 
 	void CControlUI::SetMaxHeight(int cy)
@@ -563,7 +572,7 @@ namespace DuiLib {
 
 	int CControlUI::GetToolTipWidth( void )
 	{
-		return CResourceManager::GetInstance()->Scale(m_nTooltipWidth);
+		return GetManager()->GetDPIObj()->Scale(m_nTooltipWidth);
 	}
 	
 	WORD CControlUI::GetCursor()
@@ -1081,7 +1090,7 @@ namespace DuiLib {
 
 	SIZE CControlUI::EstimateSize(SIZE szAvailable)
 	{
-		return CResourceManager::GetInstance()->Scale(m_cxyFixed);
+		return GetManager()->GetDPIObj()->Scale(m_cxyFixed);
 	}
 
 	void CControlUI::DoPaint(HDC hDC, const RECT& rcPaint)
@@ -1089,8 +1098,8 @@ namespace DuiLib {
 		if( !::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem) ) return;
 
 		// »æÖÆÑ­Ðò£º±³¾°ÑÕÉ«->±³¾°Í¼->×´Ì¬Í¼->ÎÄ±¾->±ß¿ò
-		SIZE cxyBorderRound = CResourceManager::GetInstance()->Scale(m_cxyBorderRound);
-		RECT rcBorderSize = CResourceManager::GetInstance()->Scale(m_rcBorderSize);
+		SIZE cxyBorderRound = GetManager()->GetDPIObj()->Scale(m_cxyBorderRound);
+		RECT rcBorderSize = GetManager()->GetDPIObj()->Scale(m_rcBorderSize);
 
 		if( cxyBorderRound.cx > 0 || cxyBorderRound.cy > 0 ) {
 			CRenderClip roundClip;
@@ -1164,9 +1173,9 @@ namespace DuiLib {
 
 	void CControlUI::PaintBorder(HDC hDC)
 	{
-		int nBorderSize = CResourceManager::GetInstance()->Scale(m_nBorderSize);
-		SIZE cxyBorderRound = CResourceManager::GetInstance()->Scale(m_cxyBorderRound);
-		RECT rcBorderSize = CResourceManager::GetInstance()->Scale(m_rcBorderSize);
+		int nBorderSize = GetManager()->GetDPIObj()->Scale(m_nBorderSize);
+		SIZE cxyBorderRound = GetManager()->GetDPIObj()->Scale(m_cxyBorderRound);
+		RECT rcBorderSize = GetManager()->GetDPIObj()->Scale(m_rcBorderSize);
 		if(m_dwBorderColor != 0 || m_dwFocusBorderColor != 0) {
 			//»­Ô²½Ç±ß¿ò
 			if(nBorderSize > 0 && ( cxyBorderRound.cx > 0 || cxyBorderRound.cy > 0 )) {
@@ -1219,7 +1228,8 @@ namespace DuiLib {
 
 	int CControlUI::GetLeftBorderSize() const
 	{
-		return CResourceManager::GetInstance()->Scale(m_rcBorderSize.left);
+		
+		return GetManager()->GetDPIObj()->Scale(m_rcBorderSize.left);
 	}
 
 	void CControlUI::SetLeftBorderSize( int nSize )
@@ -1230,7 +1240,7 @@ namespace DuiLib {
 
 	int CControlUI::GetTopBorderSize() const
 	{
-		return CResourceManager::GetInstance()->Scale(m_rcBorderSize.top);
+		return GetManager()->GetDPIObj()->Scale(m_rcBorderSize.top);
 	}
 
 	void CControlUI::SetTopBorderSize( int nSize )
@@ -1241,7 +1251,7 @@ namespace DuiLib {
 
 	int CControlUI::GetRightBorderSize() const
 	{
-		return CResourceManager::GetInstance()->Scale(m_rcBorderSize.right);
+		return GetManager()->GetDPIObj()->Scale(m_rcBorderSize.right);
 	}
 
 	void CControlUI::SetRightBorderSize( int nSize )
@@ -1252,7 +1262,7 @@ namespace DuiLib {
 
 	int CControlUI::GetBottomBorderSize() const
 	{
-		return CResourceManager::GetInstance()->Scale(m_rcBorderSize.bottom);
+		return GetManager()->GetDPIObj()->Scale(m_rcBorderSize.bottom);
 	}
 
 	void CControlUI::SetBottomBorderSize( int nSize )

@@ -25,6 +25,7 @@ namespace DuiLib
 
 		DUI_DECLARE_MESSAGE_MAP()
 		virtual void OnClick(TNotifyUI& msg);
+		BOOL IsInStaticControl(CControlUI *pControl);
 
 	protected:
 		virtual CDuiString GetSkinType() { return _T(""); }

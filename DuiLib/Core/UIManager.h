@@ -2,7 +2,7 @@
 #define __UIMANAGER_H__
 
 #pragma once
-
+#define WM_USER_SET_DPI WM_USER + 200
 namespace DuiLib {
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -120,7 +120,7 @@ namespace DuiLib {
 	typedef struct UILIB_API tagTDrawInfo
 	{
 		tagTDrawInfo();
-		void Parse(LPCTSTR pStrImage, LPCTSTR pStrModify);
+		void Parse(LPCTSTR pStrImage, LPCTSTR pStrModify, CPaintManagerUI *paintManager);
 		void Clear();
 
 		CDuiString sDrawString;
@@ -427,6 +427,7 @@ namespace DuiLib {
 		static bool TranslateMessage(const LPMSG pMsg);
 		static void Term();
 
+		CDPI* GetDPIObj();
 		void ResetDPIAssets();
 		void RebuildFont(TFontInfo* pFontInfo);
 		void SetDPI(int iDPI);
@@ -461,6 +462,8 @@ namespace DuiLib {
 		BYTE* m_pOffscreenBits;
 		HBITMAP m_hbmpBackground;
 		COLORREF* m_pBackgroundBits;
+
+		CDPI* m_pDPI;
 
 		bool m_bShowUpdateRect;
 		// ÊÇ·ñ¿ªÆôGdiplus

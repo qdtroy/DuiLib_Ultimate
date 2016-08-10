@@ -277,6 +277,10 @@ public:
 		return s_context_menu_observer;
 	}
 
+	static CMenuWnd* CreateMenu(CMenuElementUI* pOwner, STRINGorID xml, POINT point,
+		CPaintManagerUI* pMainPaintManager, std::map<CDuiString, bool>* pMenuCheckInfo = NULL,
+		DWORD dwAlignment = eMenuAlignment_Left | eMenuAlignment_Top);
+
 public:
 	CMenuWnd();
 	~CMenuWnd();
@@ -289,6 +293,9 @@ public:
 	 *	@pMenuCheckInfo	保存菜单的单选和复选信息结构指针
 	 *	@dwAlignment		菜单的出现位置，默认出现在鼠标的右下侧。
 	 */
+
+
+
     void Init(CMenuElementUI* pOwner, STRINGorID xml, POINT point,
 		CPaintManagerUI* pMainPaintManager, std::map<CDuiString,bool>* pMenuCheckInfo = NULL,
 		DWORD dwAlignment = eMenuAlignment_Left | eMenuAlignment_Top);
@@ -312,6 +319,7 @@ public:
 
 	// 重新调整子菜单的大小
 	void ResizeSubMenu();
+	void setDPI(int DPI);
 
 public:
 

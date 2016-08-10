@@ -383,8 +383,9 @@ public:
 			CMenuWnd::GetGlobalContextMenuObserver().SetMenuCheckInfo(&m_MenuInfos);
 			CDuiPoint point;
 			::GetCursorPos(&point);
-
+			
 			m_pMenu->Init(NULL, _T("menu.xml"), point, &m_pm);
+			
 			CMenuUI* rootMenu = m_pMenu->GetMenuUI();
 			if (rootMenu != NULL)
 			{
@@ -514,7 +515,7 @@ public:
 			}
 		}
 		else if (uMsg == WM_DPICHANGED) {
-			CResourceManager::GetInstance()->SetScale(LOWORD(wParam));  // Set the new DPI, retrieved from the wParam
+			m_pm.SetDPI(LOWORD(wParam));  // Set the new DPI, retrieved from the wParam
 			m_pm.ResetDPIAssets();
 			RECT* const prcNewWindow = (RECT*)lParam;
 			SetWindowPos(m_hWnd, NULL, prcNewWindow->left, prcNewWindow->top, prcNewWindow->right - prcNewWindow->left, prcNewWindow->bottom - prcNewWindow->top, SWP_NOZORDER | SWP_NOACTIVATE);

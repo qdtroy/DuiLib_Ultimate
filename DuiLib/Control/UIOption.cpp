@@ -258,11 +258,13 @@ namespace DuiLib
 			if( sText.IsEmpty() ) return;
 			int nLinks = 0;
 			RECT rc = m_rcItem;
+			RECT m_rcTextPadding = CButtonUI::m_rcTextPadding;
+			GetManager()->GetDPIObj()->Scale(&m_rcTextPadding);
 			rc.left += m_rcTextPadding.left;
 			rc.right -= m_rcTextPadding.right;
 			rc.top += m_rcTextPadding.top;
 			rc.bottom -= m_rcTextPadding.bottom;
-
+			
 			if( m_bShowHtml )
 				CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, sText, IsEnabled()?m_dwTextColor:m_dwDisabledTextColor, \
 				NULL, NULL, nLinks, m_uTextStyle);

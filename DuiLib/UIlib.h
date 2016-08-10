@@ -49,6 +49,7 @@
 #include "Utils/UIDelegate.h"
 #include "Utils/DragDropImpl.h"
 #include "Utils/TrayIcon.h"
+#include "Utils/DPI.h"
 
 #include "Core/UIDefine.h"
 #include "Core/UIResourceManager.h"

@@ -72,7 +72,7 @@ namespace DuiLib {
 		Clear();
 	}
 
-	void tagTDrawInfo::Parse(LPCTSTR pStrImage, LPCTSTR pStrModify)
+	void tagTDrawInfo::Parse(LPCTSTR pStrImage, LPCTSTR pStrModify,CPaintManagerUI *paintManager)
 	{
 		// 1、aaa.jpg
 		// 2、file='aaa.jpg' res='' restype='0' dest='0,0,0,0' source='0,0,0,0' corner='0,0,0,0' 
@@ -120,21 +120,21 @@ namespace DuiLib {
 						rcDest.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 						rcDest.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
 						rcDest.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);  
-						CResourceManager::GetInstance()->Scale(&rcDest);
+						paintManager->GetDPIObj()->Scale(&rcDest);
 					}
 					else if( sItem == _T("source") ) {
 						rcSource.left = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
 						rcSource.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 						rcSource.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
 						rcSource.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
-						CResourceManager::GetInstance()->Scale(&rcSource);
+						paintManager->GetDPIObj()->Scale(&rcSource);
 					}
 					else if( sItem == _T("corner") ) {
 						rcCorner.left = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
 						rcCorner.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 						rcCorner.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
 						rcCorner.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
-						CResourceManager::GetInstance()->Scale(&rcCorner);
+						paintManager->GetDPIObj()->Scale(&rcCorner);
 					}
 					else if( sItem == _T("mask") ) {
 						if( sValue[0] == _T('#')) dwMask = _tcstoul(sValue.GetData() + 1, &pstr, 16);
@@ -161,9 +161,9 @@ namespace DuiLib {
 		}
 
 		// 调整DPI资源
-		if (CResourceManager::GetInstance()->GetScale() != 100) {
+		if (paintManager->GetDPIObj()->GetScale() != 100) {
 			CDuiString sScale;
-			sScale.Format(_T("@%d."), CResourceManager::GetInstance()->GetScale());
+			sScale.Format(_T("@%d."), paintManager->GetDPIObj()->GetScale());
 			sImageName.Replace(_T("."), sScale);
 		}
 	}
@@ -239,7 +239,8 @@ namespace DuiLib {
 		m_bUseGdiplusText(false),
 		m_trh(0),
 		m_bDragMode(false),
-		m_hDragBitmap(NULL)
+		m_hDragBitmap(NULL),
+		m_pDPI(NULL)
 	{
 		if (m_SharedResInfo.m_DefaultFontInfo.sFontName.IsEmpty())
 		{
@@ -1872,11 +1873,21 @@ namespace DuiLib {
 		}
 	}
 
+	CDPI * DuiLib::CPaintManagerUI::GetDPIObj()
+	{
+		if (m_pDPI == NULL) {
+
+			m_pDPI = new CDPI;
+		}
+
+		return m_pDPI;
+	}
+
 	void DuiLib::CPaintManagerUI::SetDPI(int iDPI)
 	{
-		int scale1 = CResourceManager::GetInstance()->GetScale();
-		CResourceManager::GetInstance()->SetScale(iDPI);
-		int scale2 = CResourceManager::GetInstance()->GetScale();
+		int scale1 = GetDPIObj()->GetScale();
+		GetDPIObj()->SetScale(iDPI);
+		int scale2 = GetDPIObj()->GetScale();
 		ResetDPIAssets();
 		RECT rcWnd = {0};
 		::GetWindowRect(GetPaintWindow(), &rcWnd);
@@ -1889,7 +1900,7 @@ namespace DuiLib {
 		}
 		SetWindowPos(GetPaintWindow(), NULL, prcNewWindow->left, prcNewWindow->top, prcNewWindow->right - prcNewWindow->left, prcNewWindow->bottom - prcNewWindow->top, SWP_NOZORDER | SWP_NOACTIVATE);
 		if (GetRoot() != NULL) GetRoot()->NeedUpdate();
-		//::PostMessage(GetPaintWindow(), WM_USER_SET_DPI, 0, 0);
+		::PostMessage(GetPaintWindow(), WM_USER_SET_DPI, 0, 0);
 	}
 
 	void DuiLib::CPaintManagerUI::SetAllDPI(int iDPI)
@@ -1925,7 +1936,7 @@ namespace DuiLib {
 		::GetObject(::GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
 		_tcsncpy(lf.lfFaceName, pFontInfo->sFontName, LF_FACESIZE);
 		lf.lfCharSet = DEFAULT_CHARSET;
-		lf.lfHeight = -CResourceManager::GetInstance()->Scale(pFontInfo->iSize);
+		lf.lfHeight = -GetDPIObj()->Scale(pFontInfo->iSize);
 		lf.lfQuality = CLEARTYPE_QUALITY;
 		if (pFontInfo->bBold) lf.lfWeight += FW_BOLD;
 		if (pFontInfo->bUnderline) lf.lfUnderline = TRUE;
@@ -2433,7 +2444,7 @@ namespace DuiLib {
 			_tcsncpy(lf.lfFaceName, szFaceName, LF_FACESIZE);
 		}
 		lf.lfCharSet = DEFAULT_CHARSET;
-		lf.lfHeight = -nSize;
+		lf.lfHeight = -GetDPIObj()->Scale(nSize);;
 		if( bBold ) lf.lfWeight += FW_BOLD;
 		if( bUnderline ) lf.lfUnderline = TRUE;
 		if( bItalic ) lf.lfItalic = TRUE;
@@ -2446,7 +2457,7 @@ namespace DuiLib {
 			::DeleteObject(m_SharedResInfo.m_DefaultFontInfo.hFont);
 			m_SharedResInfo.m_DefaultFontInfo.hFont = hFont;
 			m_SharedResInfo.m_DefaultFontInfo.sFontName = lf.lfFaceName;
-			m_SharedResInfo.m_DefaultFontInfo.iSize = CResourceManager::GetInstance()->Scale(nSize);
+			m_SharedResInfo.m_DefaultFontInfo.iSize =nSize;
 			m_SharedResInfo.m_DefaultFontInfo.bBold = bBold;
 			m_SharedResInfo.m_DefaultFontInfo.bUnderline = bUnderline;
 			m_SharedResInfo.m_DefaultFontInfo.bItalic = bItalic;
@@ -2462,7 +2473,7 @@ namespace DuiLib {
 			::DeleteObject(m_ResInfo.m_DefaultFontInfo.hFont);
 			m_ResInfo.m_DefaultFontInfo.hFont = hFont;
 			m_ResInfo.m_DefaultFontInfo.sFontName = lf.lfFaceName;
-			m_ResInfo.m_DefaultFontInfo.iSize = CResourceManager::GetInstance()->Scale(nSize);
+			m_ResInfo.m_DefaultFontInfo.iSize = nSize;
 			m_ResInfo.m_DefaultFontInfo.bBold = bBold;
 			m_ResInfo.m_DefaultFontInfo.bUnderline = bUnderline;
 			m_ResInfo.m_DefaultFontInfo.bItalic = bItalic;
@@ -2493,7 +2504,7 @@ namespace DuiLib {
 			_tcsncpy(lf.lfFaceName, szFaceName, LF_FACESIZE);
 		}
 		lf.lfCharSet = DEFAULT_CHARSET;
-		lf.lfHeight = -CResourceManager::GetInstance()->Scale(nSize);
+		lf.lfHeight = -GetDPIObj()->Scale(nSize);
 		if( bBold ) lf.lfWeight = FW_BOLD;
 		if( bUnderline ) lf.lfUnderline = TRUE;
 		if( bItalic ) lf.lfItalic = TRUE;
@@ -3088,7 +3099,7 @@ namespace DuiLib {
 		TDrawInfo* pDrawInfo = static_cast<TDrawInfo*>(m_ResInfo.m_DrawInfoHash.Find(sKey));
 		if(pDrawInfo == NULL && !sKey.IsEmpty()) {
 			pDrawInfo = new TDrawInfo();
-			pDrawInfo->Parse(pStrImage, pStrModify);
+			pDrawInfo->Parse(pStrImage, pStrModify,this);
 			m_ResInfo.m_DrawInfoHash.Insert(sKey, pDrawInfo);
 		}
 		return pDrawInfo;

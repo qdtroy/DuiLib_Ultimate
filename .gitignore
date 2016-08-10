@@ -35,3 +35,7 @@ bin
 *.ilk
 Demos/ADMonSetup/SDebug/
 3rd/libcef_dll_wrapper/Lib/
+DuiLib.VC.db
+DuiLib2015.VC.db
+DuiLib2015.sln
+Demos/ADMonSetup/Debug/

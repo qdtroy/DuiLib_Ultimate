@@ -2,7 +2,7 @@
 #define WIN_IMPL_BASE_HPP
 
 #include "StdAfx.h"
-
+#include <algorithm>
 namespace DuiLib
 {
 	//////////////////////////////////////////////////////////////////////////
@@ -93,6 +93,53 @@ namespace DuiLib
 		return 0;
 	}
 
+
+	BOOL WindowImplBase::IsInStaticControl(CControlUI *pControl)
+	{
+		BOOL bRet = FALSE;
+		if (!pControl)
+		{
+			return bRet;
+		}
+
+		CDuiString strClassName;
+		std::vector<CDuiString> vctStaticName;
+
+		strClassName = pControl->GetClass();
+		strClassName.MakeLower();
+		vctStaticName.push_back(_T("controlui"));
+		vctStaticName.push_back(_T("textui"));
+		vctStaticName.push_back(_T("labelui"));
+		vctStaticName.push_back(_T("containerui"));
+		vctStaticName.push_back(_T("horizontallayoutui"));
+		vctStaticName.push_back(_T("verticallayoutui"));
+		vctStaticName.push_back(_T("tablayoutui"));
+		vctStaticName.push_back(_T("childlayoutui"));
+		vctStaticName.push_back(_T("dialoglayoutui"));
+		vctStaticName.push_back(_T("progresscontainerui"));
+		std::vector<CDuiString>::iterator it = std::find(vctStaticName.begin(), vctStaticName.end(), strClassName);
+		if (vctStaticName.end() != it)
+		{
+			CControlUI* pParent = pControl->GetParent();
+			while (pParent)
+			{
+				strClassName = pParent->GetClass();
+				strClassName.MakeLower();
+				it = std::find(vctStaticName.begin(), vctStaticName.end(), strClassName);
+				if (vctStaticName.end() == it)
+				{
+					return bRet;
+				}
+
+				pParent = pParent->GetParent();
+			}
+
+			bRet = TRUE;
+		}
+
+		return bRet;
+	}
+
 	LRESULT WindowImplBase::OnNcHitTest(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 	{
 		POINT pt; pt.x = GET_X_LPARAM(lParam); pt.y = GET_Y_LPARAM(lParam);
@@ -101,40 +148,42 @@ namespace DuiLib
 		RECT rcClient;
 		::GetClientRect(*this, &rcClient);
 
-		if( !::IsZoomed(*this) )
+		if (!::IsZoomed(*this))
 		{
 			RECT rcSizeBox = m_pm.GetSizeBox();
-			if( pt.y < rcClient.top + rcSizeBox.top )
+			if (pt.y < rcClient.top + rcSizeBox.top)
 			{
-				if( pt.x < rcClient.left + rcSizeBox.left ) return HTTOPLEFT;
-				if( pt.x > rcClient.right - rcSizeBox.right ) return HTTOPRIGHT;
+				if (pt.x < rcClient.left + rcSizeBox.left) return HTTOPLEFT;
+				if (pt.x > rcClient.right - rcSizeBox.right) return HTTOPRIGHT;
 				return HTTOP;
 			}
-			else if( pt.y > rcClient.bottom - rcSizeBox.bottom )
+			else if (pt.y > rcClient.bottom - rcSizeBox.bottom)
 			{
-				if( pt.x < rcClient.left + rcSizeBox.left ) return HTBOTTOMLEFT;
-				if( pt.x > rcClient.right - rcSizeBox.right ) return HTBOTTOMRIGHT;
+				if (pt.x < rcClient.left + rcSizeBox.left) return HTBOTTOMLEFT;
+				if (pt.x > rcClient.right - rcSizeBox.right) return HTBOTTOMRIGHT;
 				return HTBOTTOM;
 			}
 
-			if( pt.x < rcClient.left + rcSizeBox.left ) return HTLEFT;
-			if( pt.x > rcClient.right - rcSizeBox.right ) return HTRIGHT;
+			if (pt.x < rcClient.left + rcSizeBox.left) return HTLEFT;
+			if (pt.x > rcClient.right - rcSizeBox.right) return HTRIGHT;
 		}
 
 		RECT rcCaption = m_pm.GetCaptionRect();
-		if( pt.x >= rcClient.left + rcCaption.left && pt.x < rcClient.right - rcCaption.right \
-			&& pt.y >= rcCaption.top && pt.y < rcCaption.bottom ) {
-				CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(pt));
-				if( pControl && _tcsicmp(pControl->GetClass(), _T("ButtonUI")) != 0 && 
-					_tcsicmp(pControl->GetClass(), _T("FadeButtonUI")) != 0 &&
-					_tcsicmp(pControl->GetClass(), _T("OptionUI")) != 0 &&
-					_tcsicmp(pControl->GetClass(), _T("BrowserTab")) != 0 &&
-					_tcsicmp(pControl->GetClass(), _T("BrowserTabBar")) != 0 &&
-					_tcsicmp(pControl->GetClass(), _T("EditUI")) != 0 &&
-					_tcsicmp(pControl->GetClass(), _T("TextUI")) != 0 &&
-					_tcsicmp(pControl->GetClass(), _T("SliderUI")) != 0)
-					return HTCAPTION;
+		if (-1 == rcCaption.bottom)
+		{
+			rcCaption.bottom = rcClient.bottom;
 		}
+
+		if (pt.x >= rcClient.left + rcCaption.left && pt.x < rcClient.right - rcCaption.right
+			&& pt.y >= rcCaption.top && pt.y < rcCaption.bottom)
+		{
+			CControlUI* pControl = m_pm.FindControl(pt);
+			if (IsInStaticControl(pControl))
+			{
+				return HTCAPTION;
+			}
+		}
+
 
 		return HTCLIENT;
 	}

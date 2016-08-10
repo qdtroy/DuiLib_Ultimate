@@ -377,6 +377,7 @@ void CMainWnd::OnWkeAlertBox(CWkeWebkitUI* webView, LPCTSTR msg)
 
 bool CMainWnd::OnWkeNavigation(CWkeWebkitUI* webView, wkeNavigationType navigationType, LPCTSTR url)
 {
+	
 	return true;
 }
 

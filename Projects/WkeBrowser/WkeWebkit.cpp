@@ -139,6 +139,7 @@ LPVOID CWkeWebkitUI::GetInterface(LPCTSTR pstrName)
 void CWkeWebkitUI::DoInit()
 {
 	CControlUI::DoInit();
+	wkeSetUserAgent(m_pWebView, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
 	// 设置名称
 	wkeSetName(m_pWebView, T2ANSI(GetName()).c_str());
 	// 启动定时器
@@ -263,8 +264,15 @@ void CWkeWebkitUI::DoEvent( TEventUI& event )
 	case UIEVENT_SETCURSOR:
 		return;		
 	case UIEVENT_CONTEXTMENU:
-		wkeFireContextMenuEvent(m_pWebView, pt.x, pt.y, event.wKeyState);		
-		break;	
+		{
+			unsigned int flags = 0;
+			if (event.wParam & MK_CONTROL)
+				flags |= WKE_CONTROL;
+			if (event.wParam & MK_SHIFT)
+				flags |= WKE_SHIFT;
+			wkeFireContextMenuEvent(m_pWebView, pt.x, pt.y, flags);		
+			break;	
+		}
 	case UIEVENT_TIMER:
 		if(event.wParam == EVENT_TICK_TIEMER_ID) {			
 			Invalidate();

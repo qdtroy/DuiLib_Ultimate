@@ -1181,6 +1181,8 @@ namespace DuiLib {
 				if( m_szMinWindow.cy > 0 ) lpMMI->ptMinTrackSize.y = m_szMinWindow.cy;
 				if( m_szMaxWindow.cx > 0 ) lpMMI->ptMaxTrackSize.x = m_szMaxWindow.cx;
 				if( m_szMaxWindow.cy > 0 ) lpMMI->ptMaxTrackSize.y = m_szMaxWindow.cy;
+				if( m_szMaxWindow.cx > 0 ) lpMMI->ptMaxSize.x = m_szMaxWindow.cx;
+				if( m_szMaxWindow.cy > 0 ) lpMMI->ptMaxSize.y = m_szMaxWindow.cy;
 			}
 			break;
 		case WM_SIZE:
@@ -1365,6 +1367,8 @@ namespace DuiLib {
 				}
 				TEventUI event = { 0 };
 				event.ptMouse = pt;
+				event.wParam = wParam;
+				event.lParam = lParam;
 				event.dwTimestamp = ::GetTickCount();
 				if( pControl != m_pEventHover && m_pEventHover != NULL ) {
 					event.Type = UIEVENT_MOUSELEAVE;
@@ -1445,6 +1449,8 @@ namespace DuiLib {
 				event.Type = UIEVENT_DBLCLICK;
 				event.pSender = pControl;
 				event.ptMouse = pt;
+				event.wParam = wParam;
+				event.lParam = lParam;
 				event.wKeyState = (WORD)wParam;
 				event.dwTimestamp = ::GetTickCount();
 				pControl->Event(event);
@@ -1563,6 +1569,8 @@ namespace DuiLib {
 				TEventUI event = { 0 };
 				event.Type = UIEVENT_CONTEXTMENU;
 				event.pSender = m_pEventClick;
+				event.wParam = wParam;
+				event.lParam = lParam;
 				event.ptMouse = pt;
 				event.wKeyState = (WORD)wParam;
 				event.lParam = (LPARAM)m_pEventClick;

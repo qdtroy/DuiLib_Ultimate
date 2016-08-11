@@ -429,8 +429,8 @@ namespace DuiLib
 
 	void CContainerUI::LineUp()
 	{
-		int cyLine = m_nScrollStepSize;
-		if (m_nScrollStepSize == 0) {
+		int cyLine = GetScrollStepSize();
+		if (cyLine == 0) {
 			cyLine = 8;
 			if( m_pManager ) cyLine = m_pManager->GetDefaultFontInfo()->tm.tmHeight + 8;
 		}
@@ -442,8 +442,8 @@ namespace DuiLib
 
 	void CContainerUI::LineDown()
 	{
-		int cyLine = m_nScrollStepSize;
-		if (m_nScrollStepSize == 0) {
+		int cyLine = GetScrollStepSize();
+		if (cyLine == 0) {
 			cyLine = 8;
 			if( m_pManager ) cyLine = m_pManager->GetDefaultFontInfo()->tm.tmHeight + 8;
 		}
@@ -487,7 +487,8 @@ namespace DuiLib
 
 	void CContainerUI::LineLeft()
 	{
-		int cxLine = m_nScrollStepSize == 0 ? 8 : m_nScrollStepSize;
+		int nScrollStepSize = GetScrollStepSize();
+		int cxLine = nScrollStepSize == 0 ? 8 : nScrollStepSize;
 
 		SIZE sz = GetScrollPos();
 		sz.cx -= cxLine;
@@ -496,7 +497,8 @@ namespace DuiLib
 
 	void CContainerUI::LineRight()
 	{
-		int cxLine = m_nScrollStepSize == 0 ? 8 : m_nScrollStepSize;
+		int nScrollStepSize = GetScrollStepSize();
+		int cxLine = nScrollStepSize == 0 ? 8 : nScrollStepSize;
 
 		SIZE sz = GetScrollPos();
 		sz.cx += cxLine;

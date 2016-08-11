@@ -106,17 +106,34 @@ namespace DuiLib {
 		{
 			BOOL bCheck = (BOOL)msg.lParam;
 			int  nIndex = msg.wParam;
-			for(int i = 0; i < GetCount(); ++i) {
-				CControlUI* p = GetItemAt(i);
-				CListTextExtElementUI* pLItem = static_cast<CListTextExtElementUI*>(p->GetInterface(_T("ListTextExElement")));
-				if( pLItem != NULL ) {
-					pLItem->SetCheck(bCheck);
+			//判断是否是本LIST发送的notify
+			CListHeaderUI* pHeader = GetHeader();
+			for (int i = 0; i < pHeader->GetCount(); i++)
+			{
+				if (pHeader->GetItemAt(i) == msg.pSender)
+				{
+					for (int i = 0; i < GetCount(); ++i) {
+						CControlUI* p = GetItemAt(i);
+						CListTextExtElementUI* pLItem = static_cast<CListTextExtElementUI*>(p->GetInterface(_T("ListTextExElement")));
+						if (pLItem != NULL) {
+							pLItem->SetCheck(bCheck);
+						}
+					}
+					break;
 				}
 			}
 		}
 		else if (_tcsicmp(msg.sType, DUI_MSGTYPE_LISTITEMCHECKED) == 0)
 		{
-			OnListItemChecked(LOWORD(msg.wParam), HIWORD(msg.wParam), msg.lParam);
+			for (int i = 0; i < GetCount(); ++i) {
+				CControlUI* p = GetItemAt(i);
+				CListTextExtElementUI* pLItem = static_cast<CListTextExtElementUI*>(p->GetInterface(_T("ListTextExElement")));
+				if (pLItem != NULL && pLItem == msg.pSender)
+				{
+					OnListItemChecked(LOWORD(msg.wParam), HIWORD(msg.wParam), msg.lParam);
+					break;
+				}
+			}
 		}
 
 		//编辑框、组合框

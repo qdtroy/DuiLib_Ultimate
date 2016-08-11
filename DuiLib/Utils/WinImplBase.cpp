@@ -203,10 +203,12 @@ namespace DuiLib
 		lpMMI->ptMaxPosition.y	= rcWork.top;
 		lpMMI->ptMaxSize.x = rcWork.right - rcWork.left;
 		lpMMI->ptMaxSize.y = rcWork.bottom - rcWork.top;
+		lpMMI->ptMaxTrackSize.x = rcWork.right - rcWork.left;
+		lpMMI->ptMaxTrackSize.y = rcWork.bottom - rcWork.top;
 		lpMMI->ptMinTrackSize.x = m_pm.GetMinInfo().cx;
 		lpMMI->ptMinTrackSize.y = m_pm.GetMinInfo().cy;
 
-		bHandled = FALSE;
+		bHandled = TRUE;
 		return 0;
 	}
 

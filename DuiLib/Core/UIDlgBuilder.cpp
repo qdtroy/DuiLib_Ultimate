@@ -448,6 +448,8 @@ namespace DuiLib {
 					}
 				}
 			}
+			if( pControl == NULL ) continue;
+
 			// Init default attributes
 			if( pManager ) {
 				if(pTreeView != NULL) {

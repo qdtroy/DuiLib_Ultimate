@@ -249,6 +249,8 @@ namespace DuiLib {
 	public:
 		CListBodyUI(CListUI* pOwner);
 
+
+		int GetScrollStepSize() const;
 		void SetScrollPos(SIZE szPos, bool bMsg = true);
 		void SetPos(RECT rc, bool bNeedInvalidate = true);
 		void DoEvent(TEventUI& event);

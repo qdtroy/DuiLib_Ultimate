@@ -1593,6 +1593,7 @@ namespace DuiLib {
 				event.pSender = pControl;
 				event.wParam = MAKELPARAM(zDelta < 0 ? SB_LINEDOWN : SB_LINEUP, 0);
 				event.lParam = lParam;
+				event.ptMouse = pt;
 				event.wKeyState = MapKeyState();
 				event.dwTimestamp = ::GetTickCount();
 				pControl->Event(event);

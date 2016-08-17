@@ -44,9 +44,8 @@
     </HorizontalLayout>
 
     <VerticalLayout name="body" bkcolor="#FFFFFFFF">
-      <HorizontalLayout height="40" childvalign="vcenter">
+      <HorizontalLayout height="40" childvalign="vcenter" >
         <Label text="DPI调整：" cursor="hand" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
-
         <Button name="dpi_btn" userdata="96" text="DPI:100" textcolor="#FF555555" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
         <Button name="dpi_btn" userdata="120" text="DPI:125" textcolor="#FF555555" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
         <Button name="dpi_btn" userdata="144" text="DPI:150" textcolor="#FF555555" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>

@@ -139,14 +139,15 @@ LPVOID CWkeWebkitUI::GetInterface(LPCTSTR pstrName)
 void CWkeWebkitUI::DoInit()
 {
 	CControlUI::DoInit();
-	wkeSetUserAgent(m_pWebView, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+	// 设置UA
+	wkeSetUserAgent(m_pWebView, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2228.0 Safari/537.36");
 	// 设置名称
 	wkeSetName(m_pWebView, T2ANSI(GetName()).c_str());
 	// 启动定时器
 	SetTimer(EVENT_TICK_TIEMER_ID, 30);
 	// 初始化后回调接口
 	wkeOnTitleChanged(m_pWebView, OnWkeTitleChanged, this);
-	wkeOnURLChanged(m_pWebView, OnWkeTitleChanged, this);
+	wkeOnURLChanged(m_pWebView, OnWkeURLChanged, this);
 	wkeOnNavigation(m_pWebView, OnWkeNavigation, this);
 	wkeOnCreateView(m_pWebView, OnWkeCreateView, this);
 	wkeOnDocumentReady(m_pWebView, OnWkeDocumentReady, this);
@@ -374,16 +375,13 @@ void WKE_CALL CWkeWebkitUI::OnWkeTitleChanged(wkeWebView webView, void* param, w
 	}
 }
 
-bool WKE_CALL CWkeWebkitUI::OnWkeURLChanged(wkeWebView webView, void* param, wkeString url)
+void WKE_CALL CWkeWebkitUI::OnWkeURLChanged(wkeWebView webView, void* param, wkeString url)
 {
 	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
-	if(!pWkeUI)	return true;
-
+	if(!pWkeUI)	return;
 	if(pWkeUI->m_pWkeCallback) {		
 		return pWkeUI->m_pWkeCallback->OnWkeURLChanged(pWkeUI, wkeGetStringT(url));
 	}
-
-	return true;
 }
 
 void WKE_CALL CWkeWebkitUI::OnWkeAlertBox(wkeWebView webView, void* param, wkeString msg)

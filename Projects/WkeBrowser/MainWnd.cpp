@@ -358,7 +358,7 @@ void CMainWnd::OnWkeTitleChanged(CWkeWebkitUI* webView, LPCTSTR title)
 	}
 }
 
-bool CMainWnd::OnWkeURLChanged(CWkeWebkitUI* webView, LPCTSTR url)
+void CMainWnd::OnWkeURLChanged(CWkeWebkitUI* webView, LPCTSTR url)
 {
 	vector<TabInfo*>::iterator it = find_if( m_vTabs.begin(), m_vTabs.end(), web_finder(webView));
 	if(it != m_vTabs.end()) {
@@ -367,7 +367,6 @@ bool CMainWnd::OnWkeURLChanged(CWkeWebkitUI* webView, LPCTSTR url)
 			m_pAddressEdit->SetText(url);
 		}
 	}
-	return true;
 }
 
 void CMainWnd::OnWkeAlertBox(CWkeWebkitUI* webView, LPCTSTR msg)

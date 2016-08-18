@@ -28,6 +28,7 @@ namespace DuiLib {
 		CComboUI* m_pOwner;
 		CVerticalLayoutUI* m_pLayout;
 		int m_iOldSel;
+		bool m_bHitItem;
 	};
 
 	void CComboWnd::Notify(TNotifyUI& msg)
@@ -40,6 +41,7 @@ namespace DuiLib {
 
 	void CComboWnd::Init(CComboUI* pOwner)
 	{
+		m_bHitItem = false;
 		m_pOwner = pOwner;
 		m_pLayout = NULL;
 		m_iOldSel = m_pOwner->GetCurSel();
@@ -133,12 +135,30 @@ namespace DuiLib {
 			for( int i = 0; i < m_pOwner->GetCount(); i++ ) static_cast<CControlUI*>(m_pOwner->GetItemAt(i))->SetPos(rcNull);
 			m_pOwner->SetFocus();
 		}
+		else if( uMsg == WM_LBUTTONDOWN ) {
+			POINT pt = { 0 };
+			::GetCursorPos(&pt);
+			::ScreenToClient(m_pm.GetPaintWindow(), &pt);
+			CControlUI* pControl = m_pm.FindControl(pt);
+			if(pControl != NULL) {
+				IListItemUI* pListItem = (IListItemUI*)pControl->GetInterface(DUI_CTR_LISTITEM);
+				if(pListItem != NULL) {
+					m_bHitItem = true;
+				}
+			}
+		}
 		else if( uMsg == WM_LBUTTONUP ) {
 			POINT pt = { 0 };
 			::GetCursorPos(&pt);
 			::ScreenToClient(m_pm.GetPaintWindow(), &pt);
 			CControlUI* pControl = m_pm.FindControl(pt);
-			if( pControl && _tcsicmp(pControl->GetClass(), _T("ScrollBarUI")) != 0 ) PostMessage(WM_KILLFOCUS);
+			if(pControl != NULL) {
+				IListItemUI* pListItem = (IListItemUI*)pControl->GetInterface(DUI_CTR_LISTITEM);
+				if(pListItem != NULL && m_bHitItem) {
+					PostMessage(WM_KILLFOCUS);
+				}
+			}
+			m_bHitItem = false;
 		}
 		else if( uMsg == WM_KEYDOWN ) {
 			switch( wParam ) {

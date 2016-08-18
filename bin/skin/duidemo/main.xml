@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Window size="800,572" sizebox="4,4,6,6" roundcorner="0,0" caption="0,0,0,64" layered="false" mininfo="400,300" showshadow="true" shadowimage="main/shadow.png" shadowcorner="6,6,6,6">
+<Window size="800,572" sizebox="4,4,6,6" roundcorner="0,0" caption="0,0,0,64" layered="false" mininfo="400,300" showshadow="true" shadowimage="main/shadow.png" shadowsize="6" shadowcorner="8,8,8,8">
   <Font id="0" name="宋体" size="13" default="true" shared="true"/>
   <Font id="1" name="宋体" size="12" bold="true" underline="true" shared="true"/>
   <Font id="2" name="宋体" size="18" bold="true" shared="true"/>
@@ -107,6 +107,9 @@
                 <ListLabelElement text="黑体" height="23" width="500" />
                 <ListLabelElement text="幼圆" height="23" width="500" />
                 <ListLabelElement text="楷体" height="23" width="500" />
+                <ListContainerElement>
+                  <Button name="combo_closebtn" width="39" height="20" tooltip="关闭" normalimage="file='sysbtn/btn_close_normal.png'" hotimage="file='sysbtn/btn_close_highlight.png'" pushedimage="file='sysbtn/btn_close_down.png' "/>
+                </ListContainerElement>
               </Combo>
               <Combo name="font_size" width="120" style="combo_style" itemtextpadding="23,0,0,0" dropbox="bordercolor=&quot;#FFFF0000&quot; bordersize=&quot;1&quot; bkcolor=&quot;#FF888888&quot;">
                 <ListLabelElement text="9" selected="true" height="23" />

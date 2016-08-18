@@ -67,6 +67,8 @@ namespace DuiLib {
 		LPCTSTR GetDisabledImage() const;
 		void SetDisabledImage(LPCTSTR pStrImage);
 
+		bool GetScrollSelect();
+		void SetScrollSelect(bool bScrollSelect);
 		TListInfoUI* GetListInfo();
 		void SetItemFont(int index);
 		void SetItemTextStyle(UINT uStyle);
@@ -133,6 +135,7 @@ namespace DuiLib {
 		CDuiString m_sFocusedImage;
 		CDuiString m_sDisabledImage;
 
+		bool m_bScrollSelect;
 		TListInfoUI m_ListInfo;
 	};
 

@@ -135,17 +135,11 @@ LRESULT CALLBACK CShadowUI::ParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 		{
 			RECT WndRect;
 			GetWindowRect(hwnd, &WndRect);
-			if (pThis->m_bIsImageMode)
-			{
-				SetWindowPos(pThis->m_hWnd, 0,
-					WndRect.left - pThis->m_rcShadowCorner.left, WndRect.top - pThis->m_rcShadowCorner.top,
-					0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
+			if (pThis->m_bIsImageMode) {
+				SetWindowPos(pThis->m_hWnd, 0, WndRect.left - pThis->m_nSize, WndRect.top - pThis->m_nSize, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
 			}
-			else
-			{
-				SetWindowPos(pThis->m_hWnd, 0,
-					WndRect.left + pThis->m_nxOffset - pThis->m_nSize, WndRect.top + pThis->m_nyOffset - pThis->m_nSize,
-					0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
+			else {
+				SetWindowPos(pThis->m_hWnd, 0, WndRect.left + pThis->m_nxOffset - pThis->m_nSize, WndRect.top + pThis->m_nyOffset - pThis->m_nSize, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
 			}
 		}
 		break;
@@ -251,31 +245,24 @@ void GetLastErrorMessage() {          //Formats GetLastError() value.
 }
 void CShadowUI::Update(HWND hParent)
 {
-
+	if(!m_bIsShowShadow || !(m_Status & SS_VISABLE)) return;
 	RECT WndRect;
 	GetWindowRect(hParent, &WndRect);
 	int nShadWndWid;
 	int nShadWndHei;
-	if (m_bIsImageMode)
-	{
-		if(m_sShadowImage.IsEmpty())
-			return;
-
-		nShadWndWid = WndRect.right - WndRect.left + m_rcShadowCorner.left + m_rcShadowCorner.right;
-		nShadWndHei = WndRect.bottom - WndRect.top + m_rcShadowCorner.top + m_rcShadowCorner.bottom;
+	if (m_bIsImageMode) {
+		if(m_sShadowImage.IsEmpty()) return;
+		nShadWndWid = WndRect.right - WndRect.left + m_nSize * 2;
+		nShadWndHei = WndRect.bottom - WndRect.top + m_nSize * 2;
 	}
-	else
-	{
-		if (m_nSize == 0)
-			return;
-
+	else {
+		if (m_nSize == 0) return;
 		nShadWndWid = WndRect.right - WndRect.left + m_nSize * 2;
 		nShadWndHei = WndRect.bottom - WndRect.top + m_nSize * 2;
 	}
 		
 	// Create the alpha blending bitmap
 	BITMAPINFO bmi;        // bitmap header
-
 	ZeroMemory(&bmi, sizeof(BITMAPINFO));
 	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	bmi.bmiHeader.biWidth = nShadWndWid;
@@ -284,17 +271,14 @@ void CShadowUI::Update(HWND hParent)
 	bmi.bmiHeader.biBitCount = 32;         // four 8-bit components
 	bmi.bmiHeader.biCompression = BI_RGB;
 	bmi.bmiHeader.biSizeImage = nShadWndWid * nShadWndHei * 4;
-
 	BYTE *pvBits;          // pointer to DIB section
 	HBITMAP hbitmap = CreateDIBSection(NULL, &bmi, DIB_RGB_COLORS, (void **)&pvBits, NULL, 0);
 	if (hbitmap == NULL) {
-
 		GetLastErrorMessage();
 	}
 
 	HDC hMemDC = CreateCompatibleDC(NULL);
 	if (hMemDC == NULL) {
-
 		GetLastErrorMessage();
 	}
 	HBITMAP hOriBmp = (HBITMAP)SelectObject(hMemDC, hbitmap);
@@ -304,22 +288,12 @@ void CShadowUI::Update(HWND hParent)
 	if (m_bIsImageMode)
 	{
 		RECT rcPaint = {0, 0, nShadWndWid, nShadWndHei};
-		
 		const TImageInfo* data = m_pManager->GetImageEx((LPCTSTR)m_sShadowImage, NULL, 0);
-
-		if( !data ) 
-			return;    
-
+		if( !data ) return;    
 		RECT rcBmpPart = {0};
 		rcBmpPart.right = data->nX;
 		rcBmpPart.bottom = data->nY;
-
-		int shadowRound = 5;
 		RECT corner = m_rcShadowCorner;
-		corner.left += shadowRound;
-		corner.top += shadowRound;
-		corner.right += shadowRound;
-		corner.bottom += shadowRound;
 		CRenderEngine::DrawImage(hMemDC, data->hBitmap, rcPaint, rcPaint, rcBmpPart, corner, data->bAlpha, 0xFF, true, false, false);
 	}
 	else
@@ -331,8 +305,8 @@ void CShadowUI::Update(HWND hParent)
 	POINT ptDst;
 	if (m_bIsImageMode)
 	{
-		ptDst.x = WndRect.left - m_rcShadowCorner.left;
-		ptDst.y = WndRect.top - m_rcShadowCorner.top;
+		ptDst.x = WndRect.left - m_nSize;
+		ptDst.y = WndRect.top - m_nSize;
 	}
 	else
 	{
@@ -343,19 +317,13 @@ void CShadowUI::Update(HWND hParent)
 	POINT ptSrc = {0, 0};
 	SIZE WndSize = {nShadWndWid, nShadWndHei};
 	BLENDFUNCTION blendPixelFunction= { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
-
 	MoveWindow(m_hWnd, ptDst.x, ptDst.y, nShadWndWid, nShadWndHei, FALSE);
-
-	BOOL bRet= ::UpdateLayeredWindow(m_hWnd, NULL, &ptDst, &WndSize, hMemDC,
-		&ptSrc, 0, &blendPixelFunction, ULW_ALPHA);
-
+	BOOL bRet= ::UpdateLayeredWindow(m_hWnd, NULL, &ptDst, &WndSize, hMemDC, &ptSrc, 0, &blendPixelFunction, ULW_ALPHA);
 	_ASSERT(bRet); // something was wrong....
-
 	// Delete used resources
 	SelectObject(hMemDC, hOriBmp);
 	DeleteObject(hbitmap);
 	DeleteDC(hMemDC);
-
 }
 
 void CShadowUI::MakeShadow(UINT32 *pShadBits, HWND hParent, RECT *rcParent)
@@ -697,26 +665,23 @@ bool CShadowUI::SetImage(LPCTSTR szImage)
 
 bool CShadowUI::SetShadowCorner(RECT rcCorner)
 {
-	if (rcCorner.left < 0 || rcCorner.top < 0 || rcCorner.right < 0 || rcCorner.bottom < 0)
-		return false;
+	if (rcCorner.left < 0 || rcCorner.top < 0 || rcCorner.right < 0 || rcCorner.bottom < 0) return false;
 
 	m_rcShadowCorner = rcCorner;
-
-	if(m_hWnd != NULL && (SS_VISABLE & m_Status))
+	if(m_hWnd != NULL && (SS_VISABLE & m_Status)) {
 		Update(GetParent(m_hWnd));
+	}
 
 	return true;
 }
 
 bool CShadowUI::CopyShadow(CShadowUI* pShadow)
 {
-	if (m_bIsImageMode)
-	{
+	if (m_bIsImageMode) {
 		pShadow->SetImage(m_sShadowImage);
 		pShadow->SetShadowCorner(m_rcShadowCorner);
 	}
-	else
-	{
+	else {
 		pShadow->SetSize((int)m_nSize);
 		pShadow->SetSharpness((unsigned int)m_nSharpness);
 		pShadow->SetDarkness((unsigned int)m_nDarkness);

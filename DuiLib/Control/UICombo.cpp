@@ -164,9 +164,15 @@ namespace DuiLib {
 			event.wParam = MAKELPARAM(zDelta < 0 ? SB_LINEDOWN : SB_LINEUP, 0);
 			event.lParam = lParam;
 			event.dwTimestamp = ::GetTickCount();
-			m_pOwner->DoEvent(event);
-			EnsureVisible(m_pOwner->GetCurSel());
-			return 0;
+			if(m_pOwner->GetScrollSelect()) {
+				m_pOwner->DoEvent(event);
+				EnsureVisible(m_pOwner->GetCurSel());
+				return 0;
+			}
+			else {
+				m_pLayout->DoEvent(event);
+				return 0;
+			}
 		}
 		else if( uMsg == WM_KILLFOCUS ) {
 			if( m_hWnd != (HWND) wParam ) PostMessage(WM_CLOSE);
@@ -217,6 +223,7 @@ namespace DuiLib {
 		, m_pWindow(NULL)
 		, m_iCurSel(-1)
 		, m_uButtonState(0)
+		, m_bScrollSelect(true)
 	{
 		m_szDropBox = CDuiSize(0, 150);
 		::ZeroMemory(&m_rcTextPadding, sizeof(m_rcTextPadding));
@@ -472,8 +479,10 @@ namespace DuiLib {
 		}
 		if( event.Type == UIEVENT_SCROLLWHEEL )
 		{
-			bool bDownward = LOWORD(event.wParam) == SB_LINEDOWN;
-			SelectItem(FindSelectable(m_iCurSel + (bDownward ? 1 : -1), bDownward));
+			if(GetScrollSelect()) {
+				bool bDownward = LOWORD(event.wParam) == SB_LINEDOWN;
+				SelectItem(FindSelectable(m_iCurSel + (bDownward ? 1 : -1), bDownward));
+			}
 			return;
 		}
 		if( event.Type == UIEVENT_CONTEXTMENU )
@@ -673,6 +682,17 @@ namespace DuiLib {
 		m_sDisabledImage = pStrImage;
 		Invalidate();
 	}
+
+	bool CComboUI::GetScrollSelect()
+	{
+		return m_bScrollSelect;
+	}
+
+	void CComboUI::SetScrollSelect(bool bScrollSelect)
+	{
+		m_bScrollSelect = bScrollSelect;
+	}
+
 
 	TListInfoUI* CComboUI::GetListInfo()
 	{
@@ -942,6 +962,7 @@ namespace DuiLib {
 		else if( _tcsicmp(pstrName, _T("pushedimage")) == 0 ) SetPushedImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("focusedimage")) == 0 ) SetFocusedImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("disabledimage")) == 0 ) SetDisabledImage(pstrValue);
+		else if( _tcsicmp(pstrName, _T("scrollselect")) == 0 ) SetScrollSelect(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("dropbox")) == 0 ) SetDropBoxAttributeList(pstrValue);
 		else if( _tcsicmp(pstrName, _T("dropboxsize")) == 0)
 		{

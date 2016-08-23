@@ -22,6 +22,9 @@
     <None Include="HiDPITest.ico">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="..\..\bin\skin\HiDPITest\Main_dlg.xml">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -37,6 +40,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="FrameWnd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="HiDPITest.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -756,6 +756,12 @@ namespace DuiLib
 		return _T("TreeViewUI");
 	}
 
+
+	UINT CTreeViewUI::GetListType()
+	{
+		return LT_TREE;
+	}
+
 	//************************************
 	// 函数名称: GetInterface
 	// 返回类型: LPVOID

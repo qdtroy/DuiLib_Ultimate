@@ -43,11 +43,14 @@ namespace DuiLib {
 		SIZE GetDropBoxSize() const;
 		void SetDropBoxSize(SIZE szDropBox);
 
+		UINT GetListType();
+		TListInfoUI* GetListInfo();
 		int GetCurSel() const;  
 		bool SelectItem(int iIndex, bool bTakeFocus = false);
 		bool SelectMultiItem(int iIndex, bool bTakeFocus = false);
 		bool UnSelectItem(int iIndex, bool bOthers = false);
 		bool SetItemIndex(CControlUI* pControl, int iIndex);
+
 		bool Add(CControlUI* pControl);
 		bool AddAt(CControlUI* pControl, int iIndex);
 		bool Remove(CControlUI* pControl);
@@ -69,7 +72,7 @@ namespace DuiLib {
 
 		bool GetScrollSelect();
 		void SetScrollSelect(bool bScrollSelect);
-		TListInfoUI* GetListInfo();
+		
 		void SetItemFont(int index);
 		void SetItemTextStyle(UINT uStyle);
 		RECT GetItemTextPadding() const;

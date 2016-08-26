@@ -5,6 +5,14 @@ namespace DuiLib
 #define MAX_FONT_ID		30000
 #define CARET_TIMERID	0x1999
 
+	// 列表类型
+	enum ListType
+	{
+		LT_LIST = 0,
+		LT_COMBO,
+		LT_TREE,
+	};
+
 	// 鼠标光标定义
 #define DUI_ARROW           32512
 #define DUI_IBEAM           32513
@@ -307,7 +315,6 @@ protected:                                                                \
 #define DUI_CTR_COLORPALETTE					  (_T("ColorPalette"))
 	///
 	//////////////END控件名称宏定义//////////////////////////////////////////////////
-
 
 	}// namespace DuiLib
 

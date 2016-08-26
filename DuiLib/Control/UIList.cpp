@@ -559,6 +559,11 @@ namespace DuiLib {
 		return (int)m_aSelItems.GetAt(aIndex + 1);
 	}
 
+	UINT CListUI::GetListType()
+	{
+		return LT_LIST;
+	}
+
 	TListInfoUI* CListUI::GetListInfo()
 	{
 		return &m_ListInfo;
@@ -2877,9 +2882,10 @@ namespace DuiLib {
 	{	
 		CHorizontalLayoutUI::SetPos(rc, bNeedInvalidate);
 		if( m_pOwner == NULL ) return;
-		CListUI* pListOwner = static_cast<CListUI*>(m_pOwner);
-		CListUI* pList = (CListUI*)pListOwner->CControlUI::GetInterface(_T("List"));
-		if (pList == NULL) return;
+		UINT uListType = m_pOwner->GetListType();
+		if(uListType != LT_LIST && uListType != LT_TREE) return;
+
+		CListUI* pList = static_cast<CListUI*>(m_pOwner);
 		CListHeaderUI *pHeader = pList->GetHeader();
 		if (pHeader == NULL || !pHeader->IsVisible()) return;
 		int nCount = m_items.GetSize();

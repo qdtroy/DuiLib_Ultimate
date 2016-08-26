@@ -22,7 +22,7 @@ namespace DuiLib {
 #if(_WIN32_WINNT >= 0x0501)
 		virtual UINT GetClassStyle() const;
 #endif
-
+		bool IsHitItem(POINT ptMouse);
 	public:
 		CPaintManagerUI m_pm;
 		CComboUI* m_pOwner;
@@ -36,6 +36,18 @@ namespace DuiLib {
 		if (msg.sType == _T("windowinit"))
 		{
 			EnsureVisible(m_iOldSel);
+		}
+		else if(msg.sType == _T("click")) {
+			// ²âÊÔ´úÂë
+			CDuiString sName = msg.pSender->GetName();
+			CControlUI* pCtrl = msg.pSender;
+			while(pCtrl != NULL) {
+				IListItemUI* pListItem = (IListItemUI*)pCtrl->GetInterface(DUI_CTR_LISTITEM);
+				if(pListItem != NULL ) {
+					break;
+				}
+				pCtrl = pCtrl->GetParent();
+			}
 		}
 	}
 
@@ -101,6 +113,25 @@ namespace DuiLib {
 		delete this;
 	}
 
+	bool CComboWnd::IsHitItem(POINT ptMouse)
+	{
+		CControlUI* pControl = m_pm.FindControl(ptMouse);
+		if(pControl != NULL) {
+			LPVOID pInterface = pControl->GetInterface(DUI_CTR_SCROLLBAR);
+			if(pInterface) return false;
+
+			while(pControl != NULL) {
+				IListItemUI* pListItem = (IListItemUI*)pControl->GetInterface(DUI_CTR_LISTITEM);
+				if(pListItem != NULL ) {
+					return true;
+				}
+				pControl = pControl->GetParent();
+			}
+		}
+		
+		return false;
+	}
+
 	LRESULT CComboWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		if( uMsg == WM_CREATE ) {
@@ -139,24 +170,14 @@ namespace DuiLib {
 			POINT pt = { 0 };
 			::GetCursorPos(&pt);
 			::ScreenToClient(m_pm.GetPaintWindow(), &pt);
-			CControlUI* pControl = m_pm.FindControl(pt);
-			if(pControl != NULL) {
-				IListItemUI* pListItem = (IListItemUI*)pControl->GetInterface(DUI_CTR_LISTITEM);
-				if(pListItem != NULL) {
-					m_bHitItem = true;
-				}
-			}
+			m_bHitItem = IsHitItem(pt);
 		}
 		else if( uMsg == WM_LBUTTONUP ) {
 			POINT pt = { 0 };
 			::GetCursorPos(&pt);
 			::ScreenToClient(m_pm.GetPaintWindow(), &pt);
-			CControlUI* pControl = m_pm.FindControl(pt);
-			if(pControl != NULL) {
-				IListItemUI* pListItem = (IListItemUI*)pControl->GetInterface(DUI_CTR_LISTITEM);
-				if(pListItem != NULL && m_bHitItem) {
-					PostMessage(WM_KILLFOCUS);
-				}
+			if(m_bHitItem && IsHitItem(pt)) {
+				PostMessage(WM_KILLFOCUS);
 			}
 			m_bHitItem = false;
 		}
@@ -286,6 +307,16 @@ namespace DuiLib {
 
 	void CComboUI::DoInit()
 	{
+	}
+
+	UINT CComboUI::GetListType()
+	{
+		return LT_COMBO;
+	}
+
+	TListInfoUI* CComboUI::GetListInfo()
+	{
+		return &m_ListInfo;
 	}
 
 	int CComboUI::GetCurSel() const
@@ -713,11 +744,6 @@ namespace DuiLib {
 		m_bScrollSelect = bScrollSelect;
 	}
 
-
-	TListInfoUI* CComboUI::GetListInfo()
-	{
-		return &m_ListInfo;
-	}
 
 	void CComboUI::SetItemFont(int index)
 	{

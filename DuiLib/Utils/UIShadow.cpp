@@ -128,7 +128,14 @@ LRESULT CALLBACK CShadowUI::ParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 	switch(uMsg)
 	{
 	case WM_WINDOWPOSCHANGED:
-		SetWindowPos(pThis->m_hWnd, hwnd, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+		RECT WndRect;
+		GetWindowRect(hwnd, &WndRect);
+		if (pThis->m_bIsImageMode) {
+			SetWindowPos(pThis->m_hWnd, 0, WndRect.left - pThis->m_nSize, WndRect.top - pThis->m_nSize, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
+		}
+		else {
+			SetWindowPos(pThis->m_hWnd, 0, WndRect.left + pThis->m_nxOffset - pThis->m_nSize, WndRect.top + pThis->m_nyOffset - pThis->m_nSize, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
+		}
 		break;
 	case WM_MOVE:
 		if(pThis->m_Status & SS_VISABLE)

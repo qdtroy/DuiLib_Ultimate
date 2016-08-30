@@ -2885,7 +2885,9 @@ namespace DuiLib {
 		UINT uListType = m_pOwner->GetListType();
 		if(uListType != LT_LIST && uListType != LT_TREE) return;
 
-		CListUI* pList = static_cast<CListUI*>(m_pOwner);
+		CListUI* pListOwner = static_cast<CListUI*>(m_pOwner);
+		CListUI* pList = (CListUI*)pListOwner->CControlUI::GetInterface(_T("List"));
+		if (pList == NULL) return;
 		CListHeaderUI *pHeader = pList->GetHeader();
 		if (pHeader == NULL || !pHeader->IsVisible()) return;
 		int nCount = m_items.GetSize();

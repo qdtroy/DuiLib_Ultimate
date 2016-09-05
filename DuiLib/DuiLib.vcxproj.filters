@@ -375,7 +375,7 @@
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils\DPI.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

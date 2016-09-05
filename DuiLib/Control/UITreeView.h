@@ -105,6 +105,8 @@ namespace DuiLib
 	public:
 		virtual LPCTSTR GetClass() const;
 		virtual LPVOID	GetInterface(LPCTSTR pstrName);
+
+		virtual UINT GetListType();
 		virtual bool Add(CTreeNodeUI* pControl );
 		virtual long AddAt(CTreeNodeUI* pControl, int iIndex );
 		virtual bool AddAt(CTreeNodeUI* pControl,CTreeNodeUI* _IndexNode);

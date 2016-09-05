@@ -51,6 +51,7 @@ namespace DuiLib {
 	class IListOwnerUI
 	{
 	public:
+		virtual UINT GetListType() = 0;
 		virtual TListInfoUI* GetListInfo() = 0;
 		virtual int GetCurSel() const = 0;
 		virtual bool SelectItem(int iIndex, bool bTakeFocus = false) = 0;
@@ -129,6 +130,7 @@ namespace DuiLib {
 
 		CListHeaderUI* GetHeader() const;  
 		CContainerUI* GetList() const;
+		UINT GetListType();
 		TListInfoUI* GetListInfo();
 
 		CControlUI* GetItemAt(int iIndex) const;

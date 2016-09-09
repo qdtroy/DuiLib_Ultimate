@@ -2900,7 +2900,7 @@ namespace DuiLib {
 			if (pListItem != NULL && !(rcHeaderItem.left ==0 && rcHeaderItem.right ==0) )
 			{
 				RECT rt = pListItem->GetPos();
-				rt.left =rcHeaderItem.left;
+				rt.left = rcHeaderItem.left;
 				rt.right = rcHeaderItem.right;
 				pListItem->SetPos(rt);
 			}

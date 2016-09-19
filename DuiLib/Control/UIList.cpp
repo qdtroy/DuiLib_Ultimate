@@ -2886,6 +2886,13 @@ namespace DuiLib {
 		if(uListType != LT_LIST && uListType != LT_TREE) return;
 
 		CListUI* pList = static_cast<CListUI*>(m_pOwner);
+
+ 		if (uListType == LT_TREE)
+ 		{
+ 			pList = (CListUI*)pList->CControlUI::GetInterface(_T("List"));
+			if (pList == NULL) return;
+ 		}
+	
 		CListHeaderUI *pHeader = pList->GetHeader();
 		if (pHeader == NULL || !pHeader->IsVisible()) return;
 		int nCount = m_items.GetSize();

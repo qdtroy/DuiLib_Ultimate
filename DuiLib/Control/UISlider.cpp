@@ -259,9 +259,9 @@ namespace DuiLib
 		else CProgressUI::SetAttribute(pstrName, pstrValue);
 	}
 
-	void CSliderUI::PaintStatusImage(HDC hDC)
+	void CSliderUI::PaintForeImage(HDC hDC)
 	{
-		CProgressUI::PaintStatusImage(hDC);
+		CProgressUI::PaintForeImage(hDC);
 
 		RECT rcThumb = GetThumbRect();
 		rcThumb.left -= m_rcItem.left;

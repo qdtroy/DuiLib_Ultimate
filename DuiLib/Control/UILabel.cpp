@@ -151,16 +151,16 @@ namespace DuiLib
 		}
 		else if( _tcsicmp(pstrName, _T("valign")) == 0 ) {
 			if( _tcsstr(pstrValue, _T("top")) != NULL ) {
-				m_uTextStyle &= ~(DT_BOTTOM | DT_VCENTER);
-				m_uTextStyle |= DT_TOP;
+				m_uTextStyle &= ~(DT_BOTTOM | DT_VCENTER | DT_WORDBREAK);
+				m_uTextStyle |= (DT_TOP | DT_SINGLELINE);
 			}
 			if( _tcsstr(pstrValue, _T("vcenter")) != NULL ) {
-				m_uTextStyle &= ~(DT_TOP | DT_BOTTOM );            
+				m_uTextStyle &= ~(DT_TOP | DT_BOTTOM | DT_WORDBREAK);            
 				m_uTextStyle |= (DT_VCENTER | DT_SINGLELINE);
 			}
 			if( _tcsstr(pstrValue, _T("bottom")) != NULL ) {
-				m_uTextStyle &= ~(DT_TOP | DT_VCENTER);
-				m_uTextStyle |= DT_BOTTOM;
+				m_uTextStyle &= ~(DT_TOP | DT_VCENTER | DT_WORDBREAK);
+				m_uTextStyle |= (DT_BOTTOM | DT_SINGLELINE);
 			}
 		}
 		else if( _tcsicmp(pstrName, _T("endellipsis")) == 0 ) {

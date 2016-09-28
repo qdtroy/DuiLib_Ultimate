@@ -47,7 +47,7 @@ namespace DuiLib
 			pDottedLine->SetFixedWidth(_ParentNode->GetDottedLine()->GetFixedWidth()+16);
 			this->SetParentNode(_ParentNode);
 		}
-
+		pHoriz->SetChildVAlign(DT_VCENTER);
 		pHoriz->Add(pDottedLine);
 		pHoriz->Add(pFolderButton);
 		pHoriz->Add(pCheckBox);
@@ -593,18 +593,12 @@ namespace DuiLib
 	//************************************
 	CTreeNodeUI* CTreeNodeUI::GetLastNode( )
 	{
-		if(!IsHasChild())
-			return this;
+		if(!IsHasChild()) return this;
 
 		CTreeNodeUI* nRetNode = NULL;
-
 		for(int nIndex = 0;nIndex < GetTreeNodes().GetSize();nIndex++){
 			CTreeNodeUI* pNode = static_cast<CTreeNodeUI*>(GetTreeNodes().GetAt(nIndex));
-			if(!pNode)
-				continue;
-
-			CDuiString aa = pNode->GetItemText();
-
+			if(!pNode) continue;
 			if(pNode->IsHasChild())
 				nRetNode = pNode->GetLastNode();
 			else 

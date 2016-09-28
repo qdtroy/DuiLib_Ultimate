@@ -111,6 +111,10 @@ public:
 		pItem->SetFixedHeight(30);
 		pItem->SetItemText(_T("动态添加"));
 		pTreeView->AddAt(pItem, 3);
+		COptionUI* pRadio = new COptionUI();
+		pRadio->SetText(_T("单选按钮"));
+		pItem->Add(pRadio);
+		pRadio->SetAttribute(_T("Style"), _T("btn_style"));
 		pItem->SetAttribute(_T("itemattr"), _T("valign=&quot;center&quot;"));
 		pItem->SetAttribute(_T("Style"), _T("treeview_style"));
 
@@ -164,6 +168,8 @@ public:
 		}
 		// 注册托盘图标
 		m_trayIcon.CreateTrayIcon(m_hWnd, IDR_MAINFRAME, _T("Duilib演示大全"));
+
+		::SetTimer(m_hWnd, 1000, 1000, NULL);
 	}
 
 	virtual BOOL Receive(SkinChangedParam param)
@@ -439,6 +445,15 @@ public:
 			::PostQuitMessage(0L);
 			bHandled = TRUE;
 			return 0;
+		}
+		else if(uMsg == WM_TIMER)
+		{
+			bHandled = FALSE;
+			int nID = (int)wParam;
+			if(nID == 1000)
+			{
+				m_pm.SetFocus(NULL);
+			}
 		}
 		else if (uMsg == WM_MENUCLICK)
 		{

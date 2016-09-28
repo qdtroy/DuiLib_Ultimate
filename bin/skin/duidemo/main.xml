@@ -138,7 +138,7 @@
             <HorizontalLayout height="100" childpadding="12" >
               <Progress name="progress" padding="0,40" textcolor="#FF333333" valign="vcenter" height="18" width="160" bkcolor="#FFFFFF33" forecolor="#FFFF0000" value="50" min="0" max="100"/>
               <CircleProgress name="circle_progress" textcolor="#FF333333" valign="vcenter" height="100" width="100" bkcolor="#FFFFFF33" forecolor="#FFFF0000" value="50" min="0" max="100"/>
-              <Slider name="slider" enabled="true" padding="0,40" width="124" height="19" value="50" min="0" max="100" bkimage="res='SliderBar_BK.bmp' mask='#ffff00ff'" thumbimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbhotimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbpushedimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbsize="12,20" />
+              <Slider name="slider" enabled="true" padding="0,40" width="124" height="19" value="50" min="0" max="100" bkimage="res='SliderBar_BK.bmp' mask='#ffff00ff'" forecolor="#FFFF0000" thumbimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbhotimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbpushedimage="file='SliderBar_Thumb.png' mask='0xffffffff'" thumbsize="12,20" />
             </HorizontalLayout>
           </HorizontalLayout>
 
@@ -173,7 +173,7 @@
           <HorizontalLayout height="120" bkcolor="#FFFFFFFF" inset="0,6,0,6">
             <Label text="RichEdit控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
-              <RichEdit name="wordedit" font="2" password="false" tipvalue="请输入文字" mutiline="true" rich="false" text="duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）" readonly="false" vscrollbar="true" hscrollbar="false" autohscroll="false"/>
+              <RichEdit name="wordedit" font="2" password="false" tipvalue="请输入文字" mutiline="true" rich="false" text="duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）" vscrollbar="true" hscrollbar="false" autohscroll="false"/>
             </VerticalLayout>
           </HorizontalLayout>
           

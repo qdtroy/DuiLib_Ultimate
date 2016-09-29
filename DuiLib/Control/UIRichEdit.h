@@ -89,7 +89,6 @@ namespace DuiLib {
 		int LineIndex(int nLine = -1) const;
 		int LineLength(int nLine = -1) const;
 		bool LineScroll(int nLines, int nChars = 0);
-		CDuiPoint GetCharPos(long lChar) const;
 		long LineFromChar(long nIndex) const;
 		CDuiPoint PosFromChar(UINT nChar) const;
 		int CharFromPos(CDuiPoint pt) const;

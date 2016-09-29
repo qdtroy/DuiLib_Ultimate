@@ -1635,13 +1635,6 @@ bool CRichEditUI::LineScroll(int nLines, int nChars)
     return (BOOL)lResult == TRUE;
 }
 
-CDuiPoint CRichEditUI::GetCharPos(long lChar) const
-{ 
-    CDuiPoint pt; 
-    TxSendMessage(EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)lChar, 0); 
-    return pt;
-}
-
 long CRichEditUI::LineFromChar(long nIndex) const
 { 
     if( !m_pTwh ) return 0L;

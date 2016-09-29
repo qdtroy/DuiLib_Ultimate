@@ -9,29 +9,24 @@ namespace DuiLib
 	//168 DPI = 175% scaling
 	//192 DPI = 200% scaling
 
-	
-
 	typedef HRESULT (WINAPI *LPSetProcessDpiAwareness)(
-			_In_ PROCESS_DPI_AWARENESS value
-			);
+		_In_ PROCESS_DPI_AWARENESS value
+		);
 
-		typedef HRESULT (WINAPI *LPGetProcessDpiAwareness)(
-			_In_  HANDLE                hprocess,
-			_Out_ PROCESS_DPI_AWARENESS *value
-			);
+	typedef HRESULT (WINAPI *LPGetProcessDpiAwareness)(
+		_In_  HANDLE                hprocess,
+		_Out_ PROCESS_DPI_AWARENESS *value
+		);
 
 
+	typedef HRESULT (WINAPI *LPGetDpiForMonitor)(
+		_In_  HMONITOR         hmonitor,
+		_In_  MONITOR_DPI_TYPE dpiType,
+		_Out_ UINT             *dpiX,
+		_Out_ UINT             *dpiY
+		);
 
-	
 
-	 typedef HRESULT (WINAPI *LPGetDpiForMonitor)(
-	  _In_  HMONITOR         hmonitor,
-	  _In_  MONITOR_DPI_TYPE dpiType,
-	  _Out_ UINT             *dpiX,
-	  _Out_ UINT             *dpiY
-	);
-
-	
 	CDPI::CDPI()
 	{
 		m_nScaleFactor = 0;
@@ -39,12 +34,12 @@ namespace DuiLib
 		m_Awareness = PROCESS_PER_MONITOR_DPI_AWARE;
 
 		SetScale(96);
-	
+
 	}
 
 	int CDPI::GetDPIOfMonitor(HMONITOR hMonitor)
 	{
-		UINT     dpix = 96, dpiy = 96;
+		UINT dpix = 96, dpiy = 96;
 		if (IsWindows8Point1OrGreater()) {
 			HRESULT  hr = E_FAIL;
 			HMODULE hModule =::LoadLibrary(_T("Shcore.dll"));

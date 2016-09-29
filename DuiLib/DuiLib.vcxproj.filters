@@ -45,9 +45,6 @@
     <ClCompile Include="UIlib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\WinImplBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Utils\UIDelegate.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
@@ -196,6 +193,9 @@
       <Filter>Source Files\Control</Filter>
     </ClCompile>
     <ClCompile Include="Utils\DPI.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\WinImplBase.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
   </ItemGroup>

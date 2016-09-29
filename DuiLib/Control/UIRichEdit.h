@@ -78,6 +78,9 @@ namespace DuiLib {
 		bool SetWordCharFormat(CHARFORMAT2 &cf);
 		DWORD GetParaFormat(PARAFORMAT2 &pf) const;
 		bool SetParaFormat(PARAFORMAT2 &pf);
+		bool CanUndo();
+		bool CanRedo();
+		bool CanPaste();
 		bool Redo();
 		bool Undo();
 		void Clear();

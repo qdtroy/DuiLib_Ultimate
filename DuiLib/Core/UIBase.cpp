@@ -14,13 +14,13 @@ namespace DuiLib {
 void UILIB_API DUI__Trace(LPCTSTR pstrFormat, ...)
 {
 #ifdef _DEBUG
-    CDuiString strMsg;
-    va_list Args;
-
-    va_start(Args, pstrFormat);
-    strMsg.Format(pstrFormat, Args);
-    va_end(Args);
+	TCHAR szBuffer[2048] = {0};
+    va_list args;
+    va_start(args, pstrFormat);
+	_vsntprintf(szBuffer, 2048, pstrFormat, args); 
+    va_end(args);
     
+	CDuiString strMsg = szBuffer;
     strMsg += _T("\n");
     OutputDebugString(strMsg.GetData());
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Window size="162,136" bktrans="true">
-  <Style name="skinbtn_style" value="hotimage=&quot;res='skin_mouseover.png' corner='4,4,4,4'&quot; pushedimage=&quot;res='skin_mouseover.png' corner='4,4,4,4'&quot;" />
+  <Style name="skinbtn_style" value="hotimage=&quot;res='skin/skin_mouseover.png' corner='4,4,4,4'&quot; pushedimage=&quot;res='skin/skin_mouseover.png' corner='4,4,4,4'&quot;" />
 
   <VerticalLayout name="root" bkcolor="AA333333" inset="6,6,6,6">
     <HorizontalLayout height="22">

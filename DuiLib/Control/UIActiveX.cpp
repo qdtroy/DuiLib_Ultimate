@@ -1024,7 +1024,7 @@ namespace DuiLib {
 		if( _tcscmp(pstrName, _T("clsid")) == 0 ) CreateControl(pstrValue);
 		else if( _tcscmp(pstrName, _T("modulename")) == 0 ) SetModuleName(pstrValue);
 		else if( _tcscmp(pstrName, _T("delaycreate")) == 0 ) SetDelayCreate(_tcscmp(pstrValue, _T("true")) == 0);
-		else if( _tcscmp(pstrName, _T("mfc")) == 0 ) SetMFC(_tcscmp(pstrValue, _T("true")) == 0);
+		//else if( _tcscmp(pstrName, _T("mfc")) == 0 ) SetMFC(_tcscmp(pstrValue, _T("true")) == 0);
 		else CControlUI::SetAttribute(pstrName, pstrValue);
 	}
 

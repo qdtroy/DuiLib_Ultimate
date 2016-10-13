@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript">
+        var iframe;
+        function load() {
+            iframe = document.getElementById("qqvideo");
+            iframe.onload = iframe.onload = iframeload;
+            iframe.src = "http://v.qq.com/cover/5/56bxc2i14ihl9fy.html";
+        }
+        function iframeload() {
+            if (!iframe.readyState || iframe.readyState == "complete") {
+                //window.external.HandleIframeDom("qqvideo", ".site_container||.container_inner||.player_container||#mod_barrage||#mod_player||#mod_tenvideo_flash_player_1437281645027", "function DeleteNode(id){var node = document.getElementById(id);node.parentNode.removeChild(node);}", "otherdata");
+                //DeleteNode('head_v3');
+            }
+        }
+    </script>
+</head>
+<body onload="load()">
+    <iframe name='qqvideo' id='qqvideo' frameborder='0' scrolling='auto' height='500'
+        width='870'></iframe>
+</body>
+</html>

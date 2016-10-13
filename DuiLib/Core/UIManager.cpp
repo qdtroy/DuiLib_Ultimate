@@ -870,6 +870,9 @@ namespace DuiLib {
 					if( m_pFocus && m_pFocus->IsVisible() && m_pFocus->IsEnabled() && _tcsstr(m_pFocus->GetClass(), _T("RichEditUI")) != NULL ) {
 						if( static_cast<CRichEditUI*>(m_pFocus)->IsWantTab() ) return false;
 					}
+					if( m_pFocus && m_pFocus->IsVisible() && m_pFocus->IsEnabled() && _tcsstr(m_pFocus->GetClass(), _T("WkeWebkitUI")) != NULL ) {
+						return false;
+					}
 					SetNextTabControl(::GetKeyState(VK_SHIFT) >= 0);
 					return true;
 				}

@@ -970,7 +970,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="..\..\bin\skin\duidemo\lan_en.xml" />
-    <None Include="..\..\bin\skin\duidemo\listitem.xml" />
+    <None Include="..\..\bin\skin\duidemo\listitem.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\bin\skin\duidemo\list_header_bg.png" />
     <None Include="..\..\bin\skin\duidemo\list_header_hot.png" />
     <None Include="..\..\bin\skin\duidemo\list_header_pushed.png" />

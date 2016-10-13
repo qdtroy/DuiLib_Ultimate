@@ -76,8 +76,8 @@
             <HorizontalLayout height="30" childpadding="12" bordersize="1,1,1,1" bordercolor="#0">
               <Button name="button1" text="普通按钮" textcolor="#FF000000" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
               <Button name="button2" text="图标按钮" textcolor="#FF000000" style="btn_style" width="100" textpadding="20,0,0,0" foreimage="dest='4,7,20,23' res='other/icon.png'" />
-              <Button name="sendbtn" text="命令按钮(&S)" textcolor="#FF000000" style="btn_style" shortcut="S" width="120"/>
-              <Button name="sendbtn" text="自适应比例按钮" minwidth="120" colorhsl="true" float="0.7,0,0.9,1" textcolor="#FF000000" bkcolor="#FFFF0000" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
+              <Button name="cmdbtn" text="命令按钮(&S)" textcolor="#FF000000" style="btn_style" shortcut="S" width="120"/>
+              <Button name="autobtn" text="自适应比例按钮" minwidth="120" colorhsl="true" float="0.7,0,0.9,1" textcolor="#FF000000" bkcolor="#FFFF0000" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
 
             </HorizontalLayout>
           </HorizontalLayout>
@@ -177,12 +177,12 @@
             <VerticalLayout bordersize="1" bordercolor="#FF333333" inset="2,2,2,2">
               <List name="listview" vscrollbar="true" hscrollbar="true" style="list_style" itemvalign="vcenter" scrollstepsize="100">
                 <ListHeader height="24" menu="true">
-                  <ListHeaderItem text="姓名" width="80" hotimage="res='common/list_header_hot.png'" pushedimage="res='common/list_header_pushed.png'" sepimage="res='common/list_header_sep.png'" sepwidth="1"/>
+                  <ListHeaderItem name="header_name" text="姓名" width="80" hotimage="res='common/list_header_hot.png'" pushedimage="res='common/list_header_pushed.png'" sepimage="res='common/list_header_sep.png'" sepwidth="1"/>
                   <ListHeaderItem text="学号" width="160" hotimage="res='common/list_header_hot.png'" pushedimage="res='common/list_header_pushed.png'" sepimage="res='common/list_header_sep.png'" sepwidth="1"/>
                   <ListHeaderItem text="成绩" width="160" hotimage="res='common/list_header_hot.png'" pushedimage="res='common/list_header_pushed.png'" sepimage="res='common/list_header_sep.png'" sepwidth="1"/>
                   <ListHeaderItem text="审核" width="160" hotimage="res='common/list_header_hot.png'" pushedimage="res='common/list_header_pushed.png'" sepimage="res='common/list_header_sep.png'" sepwidth="1"/>
                 </ListHeader>
-                <Include source="listitem.xml"/>
+                <!--<Include source="listitem.xml"/>-->
               </List>
             </VerticalLayout>
           </HorizontalLayout>

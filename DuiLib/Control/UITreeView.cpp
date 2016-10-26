@@ -191,7 +191,7 @@ namespace DuiLib
 	// 参数信息: bool bSelect
 	// 函数说明: 
 	//************************************
-	bool CTreeNodeUI::Select( bool bSelect /*= TRUE*/ )
+	bool CTreeNodeUI::Select( bool bSelect /*= true*/ )
 	{
 		bool nRet = CListContainerElementUI::Select(bSelect);
 		if(m_bSelected)
@@ -202,6 +202,16 @@ namespace DuiLib
 		return nRet;
 	}
 
+	bool CTreeNodeUI::SelectMulti(bool bSelect)
+	{
+		bool nRet = CListContainerElementUI::SelectMulti(bSelect);
+		if(m_bSelected)
+			pItemButton->SetTextColor(GetSelItemTextColor());
+		else 
+			pItemButton->SetTextColor(GetItemTextColor());
+
+		return nRet;
+	}
 	//************************************
 	// 函数名称: Add
 	// 返回类型: bool

@@ -104,9 +104,6 @@ namespace DuiLib
 #define DUI_MSGTYPE_SELECTCHANGED 		   (_T("selectchanged"))
 #define DUI_MSGTYPE_UNSELECTED	 		   (_T("unselected"))
 
-#define DUI_MSGTYPE_TREEITEMSELECT 			(_T("treeitemselect"))
-#define DUI_MSGTYPE_TREEITEMEXPAND 			(_T("treeitemexpand"))
-#define DUI_MSGTYPE_TREEITEMACTIVATE 		(_T("treeitemactivate"))
 #define DUI_MSGTYPE_TREEITEMDBCLICK 		(_T("treeitemdbclick"))
 #define DUI_MSGTYPE_CHECKCLICK				(_T("checkclick"))
 #define DUI_MSGTYPE_TEXTROLLEND 			(_T("textrollend"))

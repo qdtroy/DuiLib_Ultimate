@@ -50,6 +50,7 @@ namespace DuiLib {
 	CControlUI::~CControlUI()
 	{
 		if( OnDestroy ) OnDestroy(this);
+		RemoveAllCustomAttribute();	
 		if( m_pManager != NULL ) m_pManager->ReapObjects(this);
 	}
 
@@ -856,6 +857,48 @@ namespace DuiLib {
 		return str;
 	}
 
+	void CControlUI::AddCustomAttribute(LPCTSTR pstrName, LPCTSTR pstrAttr)
+	{
+		if( pstrName == NULL || pstrName[0] == _T('\0') || pstrAttr == NULL || pstrAttr[0] == _T('\0') ) return;
+		CDuiString* pCostomAttr = new CDuiString(pstrAttr);
+		if (pCostomAttr != NULL) {
+			if (m_mCustomAttrHash.Find(pstrName) == NULL)
+				m_mCustomAttrHash.Set(pstrName, (LPVOID)pCostomAttr);
+			else
+				delete pCostomAttr;
+		}
+	}
+
+	LPCTSTR CControlUI::GetCustomAttribute(LPCTSTR pstrName) const
+	{
+		if( pstrName == NULL || pstrName[0] == _T('\0') ) return NULL;
+		CDuiString* pCostomAttr = static_cast<CDuiString*>(m_mCustomAttrHash.Find(pstrName));
+		if( pCostomAttr ) return pCostomAttr->GetData();
+		return NULL;
+	}
+
+	bool CControlUI::RemoveCustomAttribute(LPCTSTR pstrName)
+	{
+		if( pstrName == NULL || pstrName[0] == _T('\0') ) return NULL;
+		CDuiString* pCostomAttr = static_cast<CDuiString*>(m_mCustomAttrHash.Find(pstrName));
+		if( !pCostomAttr ) return false;
+
+		delete pCostomAttr;
+		return m_mCustomAttrHash.Remove(pstrName);
+	}
+
+	void CControlUI::RemoveAllCustomAttribute()
+	{
+		CDuiString* pCostomAttr;
+		for( int i = 0; i< m_mCustomAttrHash.GetSize(); i++ ) {
+			if(LPCTSTR key = m_mCustomAttrHash.GetAt(i)) {
+				pCostomAttr = static_cast<CDuiString*>(m_mCustomAttrHash.Find(key));
+				delete pCostomAttr;
+			}
+		}
+		m_mCustomAttrHash.Resize();
+	}
+
 	void CControlUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
 		// 是否样式表
@@ -1043,6 +1086,9 @@ namespace DuiLib {
 				SetAttribute(sItem, sValue);
 				if( *pstrList++ != _T(' ') && *pstrList++ != _T(',') ) return;
 			}
+		}
+		else {
+			AddCustomAttribute(pstrName, pstrValue);
 		}
 	}
 

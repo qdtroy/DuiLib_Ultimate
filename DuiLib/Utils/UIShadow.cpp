@@ -605,7 +605,7 @@ bool CShadowUI::IsDisableShadow() const {
 
 bool CShadowUI::SetSize(int NewSize)
 {
-	if(NewSize > 20 || NewSize < -20)
+	if(NewSize > 50 || NewSize < -50)
 		return false;
 
 	m_nSize = (signed char)NewSize;
@@ -687,6 +687,7 @@ bool CShadowUI::CopyShadow(CShadowUI* pShadow)
 	if (m_bIsImageMode) {
 		pShadow->SetImage(m_sShadowImage);
 		pShadow->SetShadowCorner(m_rcShadowCorner);
+		pShadow->SetSize((int)m_nSize);
 	}
 	else {
 		pShadow->SetSize((int)m_nSize);

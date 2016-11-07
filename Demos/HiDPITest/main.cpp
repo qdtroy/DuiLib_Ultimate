@@ -32,16 +32,15 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
 
 
 
-	CFrameWnd *pFrame1 = new CFrameWnd(_T("Main_dlg2.xml"));
+	
 
-	pFrame1->Create(NULL, _T("HiDPI Demo Window2"), UI_WNDSTYLE_FRAME, WS_EX_WINDOWEDGE);
-	pFrame1->ShowWindow();
-	::ShowWindow(*pFrame1, SW_HIDE);
+
+
 	CPaintManagerUI::MessageLoop();
 
 
     delete pFrame;
-	delete pFrame1;
+	
     ::CoUninitialize();
     return 0;
 }

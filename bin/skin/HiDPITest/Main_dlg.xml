@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<Window size="600,500" sizebox="4,4,4,4" caption="0,0,0,30" mininfo="600,500" showshadow="true" shadowimage="shadow.png" shadowsize="23" shadowcorner="23,13,23,33" roundcorner="4,4">
+<Window size="600,500" sizebox="4,4,4,4" caption="0,0,0,30" mininfo="600,500" showshadow="true" shadowimage="shadow2.png" shadowcorner="30,30,30,30" shadowsize="25" roundcorner="4,4">
 <Font name="微软雅黑" size="13" default="true" id="1"/>
 <Font name="微软雅黑" size="12" id="2"/>
 <Font name="微软雅黑" size="22"/>

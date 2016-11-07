@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Window  showshadow="true" shadowimage="shadow_menu.png" shadowcorner="23,13,23,33" bktrans="true">
+<Window  showshadow="true" shadowimage="shadow_menu2.png" shadowcorner="30,30,30,30" shadowsize="25" bktrans="true">
   <Font name="Microsoft Yahei" size="12" id="0" shared="true"/>
  <Font name="Microsoft Yahei" size="22" />
 

@@ -22,12 +22,13 @@ namespace DuiLib {
 #if(_WIN32_WINNT >= 0x0501)
 		virtual UINT GetClassStyle() const;
 #endif
-
+		bool IsHitItem(POINT ptMouse);
 	public:
 		CPaintManagerUI m_pm;
 		CComboUI* m_pOwner;
 		CVerticalLayoutUI* m_pLayout;
 		int m_iOldSel;
+		bool m_bHitItem;
 	};
 
 	void CComboWnd::Notify(TNotifyUI& msg)
@@ -36,10 +37,23 @@ namespace DuiLib {
 		{
 			EnsureVisible(m_iOldSel);
 		}
+		else if(msg.sType == _T("click")) {
+			// ²âÊÔ´úÂë
+			CDuiString sName = msg.pSender->GetName();
+			CControlUI* pCtrl = msg.pSender;
+			while(pCtrl != NULL) {
+				IListItemUI* pListItem = (IListItemUI*)pCtrl->GetInterface(DUI_CTR_LISTITEM);
+				if(pListItem != NULL ) {
+					break;
+				}
+				pCtrl = pCtrl->GetParent();
+			}
+		}
 	}
 
 	void CComboWnd::Init(CComboUI* pOwner)
 	{
+		m_bHitItem = false;
 		m_pOwner = pOwner;
 		m_pLayout = NULL;
 		m_iOldSel = m_pOwner->GetCurSel();
@@ -99,6 +113,25 @@ namespace DuiLib {
 		delete this;
 	}
 
+	bool CComboWnd::IsHitItem(POINT ptMouse)
+	{
+		CControlUI* pControl = m_pm.FindControl(ptMouse);
+		if(pControl != NULL) {
+			LPVOID pInterface = pControl->GetInterface(DUI_CTR_SCROLLBAR);
+			if(pInterface) return false;
+
+			while(pControl != NULL) {
+				IListItemUI* pListItem = (IListItemUI*)pControl->GetInterface(DUI_CTR_LISTITEM);
+				if(pListItem != NULL ) {
+					return true;
+				}
+				pControl = pControl->GetParent();
+			}
+		}
+		
+		return false;
+	}
+
 	LRESULT CComboWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		if( uMsg == WM_CREATE ) {
@@ -133,12 +166,20 @@ namespace DuiLib {
 			for( int i = 0; i < m_pOwner->GetCount(); i++ ) static_cast<CControlUI*>(m_pOwner->GetItemAt(i))->SetPos(rcNull);
 			m_pOwner->SetFocus();
 		}
+		else if( uMsg == WM_LBUTTONDOWN ) {
+			POINT pt = { 0 };
+			::GetCursorPos(&pt);
+			::ScreenToClient(m_pm.GetPaintWindow(), &pt);
+			m_bHitItem = IsHitItem(pt);
+		}
 		else if( uMsg == WM_LBUTTONUP ) {
 			POINT pt = { 0 };
 			::GetCursorPos(&pt);
 			::ScreenToClient(m_pm.GetPaintWindow(), &pt);
-			CControlUI* pControl = m_pm.FindControl(pt);
-			if( pControl && _tcsicmp(pControl->GetClass(), _T("ScrollBarUI")) != 0 ) PostMessage(WM_KILLFOCUS);
+			if(m_bHitItem && IsHitItem(pt)) {
+				PostMessage(WM_KILLFOCUS);
+			}
+			m_bHitItem = false;
 		}
 		else if( uMsg == WM_KEYDOWN ) {
 			switch( wParam ) {
@@ -164,9 +205,15 @@ namespace DuiLib {
 			event.wParam = MAKELPARAM(zDelta < 0 ? SB_LINEDOWN : SB_LINEUP, 0);
 			event.lParam = lParam;
 			event.dwTimestamp = ::GetTickCount();
-			m_pOwner->DoEvent(event);
-			EnsureVisible(m_pOwner->GetCurSel());
-			return 0;
+			if(m_pOwner->GetScrollSelect()) {
+				m_pOwner->DoEvent(event);
+				EnsureVisible(m_pOwner->GetCurSel());
+				return 0;
+			}
+			else {
+				m_pLayout->DoEvent(event);
+				return 0;
+			}
 		}
 		else if( uMsg == WM_KILLFOCUS ) {
 			if( m_hWnd != (HWND) wParam ) PostMessage(WM_CLOSE);
@@ -217,6 +264,7 @@ namespace DuiLib {
 		, m_pWindow(NULL)
 		, m_iCurSel(-1)
 		, m_uButtonState(0)
+		, m_bScrollSelect(true)
 	{
 		m_szDropBox = CDuiSize(0, 150);
 		::ZeroMemory(&m_rcTextPadding, sizeof(m_rcTextPadding));
@@ -259,6 +307,16 @@ namespace DuiLib {
 
 	void CComboUI::DoInit()
 	{
+	}
+
+	UINT CComboUI::GetListType()
+	{
+		return LT_COMBO;
+	}
+
+	TListInfoUI* CComboUI::GetListInfo()
+	{
+		return &m_ListInfo;
 	}
 
 	int CComboUI::GetCurSel() const
@@ -472,8 +530,10 @@ namespace DuiLib {
 		}
 		if( event.Type == UIEVENT_SCROLLWHEEL )
 		{
-			bool bDownward = LOWORD(event.wParam) == SB_LINEDOWN;
-			SelectItem(FindSelectable(m_iCurSel + (bDownward ? 1 : -1), bDownward));
+			if(GetScrollSelect()) {
+				bool bDownward = LOWORD(event.wParam) == SB_LINEDOWN;
+				SelectItem(FindSelectable(m_iCurSel + (bDownward ? 1 : -1), bDownward));
+			}
 			return;
 		}
 		if( event.Type == UIEVENT_CONTEXTMENU )
@@ -674,10 +734,16 @@ namespace DuiLib {
 		Invalidate();
 	}
 
-	TListInfoUI* CComboUI::GetListInfo()
+	bool CComboUI::GetScrollSelect()
 	{
-		return &m_ListInfo;
+		return m_bScrollSelect;
 	}
+
+	void CComboUI::SetScrollSelect(bool bScrollSelect)
+	{
+		m_bScrollSelect = bScrollSelect;
+	}
+
 
 	void CComboUI::SetItemFont(int index)
 	{
@@ -942,6 +1008,7 @@ namespace DuiLib {
 		else if( _tcsicmp(pstrName, _T("pushedimage")) == 0 ) SetPushedImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("focusedimage")) == 0 ) SetFocusedImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("disabledimage")) == 0 ) SetDisabledImage(pstrValue);
+		else if( _tcsicmp(pstrName, _T("scrollselect")) == 0 ) SetScrollSelect(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("dropbox")) == 0 ) SetDropBoxAttributeList(pstrValue);
 		else if( _tcsicmp(pstrName, _T("dropboxsize")) == 0)
 		{

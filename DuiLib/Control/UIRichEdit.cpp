@@ -5,6 +5,14 @@
 
 namespace DuiLib {
 
+#define ID_RICH_UNDO			101
+#define ID_RICH_CUT				102
+#define ID_RICH_COPY			103
+#define ID_RICH_PASTE			104
+#define ID_RICH_CLEAR			105
+#define ID_RICH_SELECTALL		106
+#define ID_RICH_REDO			107
+
 const LONG cInitTextMax = (32 * 1024) - 1;
 
 EXTERN_C const IID IID_ITextServices = { // 8d33f740-cf58-11ce-a89d-00aa006cadc5
@@ -135,9 +143,7 @@ private:
     ULONG	cRefs;					// Reference Count
     ITextServices	*pserv;		    // pointer to Text Services object
     // Properties
-
     DWORD		dwStyle;				// style bits
-
     unsigned	fEnableAutoWordSel	:1;	// enable Word style auto word selection?
     unsigned	fWordWrap			:1;	// Whether control should word wrap
     unsigned	fAllowBeep			:1;	// Whether beep is allowed
@@ -784,12 +790,9 @@ void CTxtWinHost::SetFont(HFONT hFont)
     ::GetObject(hFont, sizeof(LOGFONT), &lf);
     LONG yPixPerInch = ::GetDeviceCaps(m_re->GetManager()->GetPaintDC(), LOGPIXELSY);
     cf.yHeight = -lf.lfHeight * LY_PER_INCH / yPixPerInch;
-    if(lf.lfWeight >= FW_BOLD)
-        cf.dwEffects |= CFE_BOLD;
-    if(lf.lfItalic)
-        cf.dwEffects |= CFE_ITALIC;
-    if(lf.lfUnderline)
-        cf.dwEffects |= CFE_UNDERLINE;
+    if(lf.lfWeight >= FW_BOLD) cf.dwEffects |= CFE_BOLD;
+    if(lf.lfItalic) cf.dwEffects |= CFE_ITALIC;
+    if(lf.lfUnderline) cf.dwEffects |= CFE_UNDERLINE;
     cf.bCharSet = lf.lfCharSet;
     cf.bPitchAndFamily = lf.lfPitchAndFamily;
 #ifdef _UNICODE
@@ -799,8 +802,7 @@ void CTxtWinHost::SetFont(HFONT hFont)
     MultiByteToWideChar(CP_ACP, 0, lf.lfFaceName, LF_FACESIZE, cf.szFaceName, LF_FACESIZE) ;
 #endif
 
-    pserv->OnTxPropertyBitsChange(TXTBIT_CHARFORMATCHANGE, 
-        TXTBIT_CHARFORMATCHANGE);
+    pserv->OnTxPropertyBitsChange(TXTBIT_CHARFORMATCHANGE, TXTBIT_CHARFORMATCHANGE);
 }
 
 void CTxtWinHost::SetColor(DWORD dwColor)
@@ -874,7 +876,6 @@ void CTxtWinHost::SetDefaultAlign(WORD wNewAlign)
 {
     pf.wAlignment = wNewAlign;
 
-    // Notify control of property change
     pserv->OnTxPropertyBitsChange(TXTBIT_PARAFORMATCHANGE, 0);
 }
 
@@ -1556,6 +1557,30 @@ bool CRichEditUI::SetParaFormat(PARAFORMAT2 &pf)
     return false;
 }
 
+bool CRichEditUI::CanUndo()
+{
+	if( !m_pTwh ) return false;
+	LRESULT lResult;
+	TxSendMessage(EM_CANUNDO, 0, 0, &lResult);
+	return (BOOL)lResult == TRUE; 
+}
+
+bool CRichEditUI::CanRedo()
+{
+	if( !m_pTwh ) return false;
+	LRESULT lResult;
+	TxSendMessage(EM_CANREDO, 0, 0, &lResult);
+	return (BOOL)lResult == TRUE; 
+}
+
+bool CRichEditUI::CanPaste()
+{
+	if( !m_pTwh ) return false;
+	LRESULT lResult;
+	TxSendMessage(EM_CANPASTE, 0, 0, &lResult);
+	return (BOOL)lResult == TRUE; 
+}
+
 bool CRichEditUI::Redo()
 { 
     if( !m_pTwh ) return false;
@@ -1633,13 +1658,6 @@ bool CRichEditUI::LineScroll(int nLines, int nChars)
     LRESULT lResult;
     TxSendMessage(EM_LINESCROLL, nChars, nLines, &lResult);
     return (BOOL)lResult == TRUE;
-}
-
-CDuiPoint CRichEditUI::GetCharPos(long lChar) const
-{ 
-    CDuiPoint pt; 
-    TxSendMessage(EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)lChar, 0); 
-    return pt;
 }
 
 long CRichEditUI::LineFromChar(long nIndex) const
@@ -2535,13 +2553,84 @@ LRESULT CRichEditUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, boo
     }
     else if( uMsg == WM_CONTEXTMENU ) {
         POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-        ::ScreenToClient(GetManager()->GetPaintWindow(), &pt);
-        CControlUI* pHover = GetManager()->FindControl(pt);
+		POINT ptClient = pt;
+        ::ScreenToClient(GetManager()->GetPaintWindow(), &ptClient);
+        CControlUI* pHover = GetManager()->FindControl(ptClient);
         if(pHover != this) {
             bWasHandled = false;
             return 0;
         }
+
+		//创建一个弹出式菜单
+		HMENU hPopMenu = CreatePopupMenu();
+		AppendMenu(hPopMenu, 0, ID_RICH_UNDO, L"撤销(&U)");
+		AppendMenu(hPopMenu, 0, ID_RICH_REDO, L"重做(&R)");
+		AppendMenu(hPopMenu, MF_SEPARATOR, 0, L"");
+		AppendMenu(hPopMenu, 0, ID_RICH_CUT, L"剪切(&X)");
+		AppendMenu(hPopMenu, 0, ID_RICH_COPY, L"复制(&C)");
+		AppendMenu(hPopMenu, 0, ID_RICH_PASTE, L"粘帖(&V)");
+		AppendMenu(hPopMenu, 0, ID_RICH_CLEAR, L"清空(&L)");
+		AppendMenu(hPopMenu, MF_SEPARATOR, 0, L"");
+		AppendMenu(hPopMenu, 0, ID_RICH_SELECTALL, L"全选(&A)");
+
+		//初始化菜单项
+		UINT uUndo = (CanUndo() ? 0 : MF_GRAYED);
+		EnableMenuItem(hPopMenu, ID_RICH_UNDO, MF_BYCOMMAND | uUndo);
+		UINT uRedo = (CanRedo() ? 0 : MF_GRAYED);
+		EnableMenuItem(hPopMenu, ID_RICH_REDO, MF_BYCOMMAND | uRedo);
+		UINT uSel = ((GetSelectionType() != SEL_EMPTY) ? 0 : MF_GRAYED);
+		UINT uReadonly = IsReadOnly() ? MF_GRAYED : 0;
+		EnableMenuItem(hPopMenu, ID_RICH_CUT, MF_BYCOMMAND | uSel | uReadonly);
+		EnableMenuItem(hPopMenu, ID_RICH_COPY, MF_BYCOMMAND | uSel);
+		EnableMenuItem(hPopMenu, ID_RICH_CLEAR, MF_BYCOMMAND | uSel | uReadonly);
+		EnableMenuItem(hPopMenu, ID_RICH_PASTE, MF_BYCOMMAND | uReadonly);
+
+		TrackPopupMenu(hPopMenu, TPM_RIGHTBUTTON, pt.x, pt.y, 0, GetManager()->GetPaintWindow(), NULL);
+		DestroyMenu(hPopMenu);
     }
+	else if( uMsg == WM_COMMAND ) {
+		bHandled = FALSE;
+		if( !IsFocused() ) return 0;
+		UINT uCmd = (UINT)wParam;
+		switch(uCmd) {
+		case ID_RICH_UNDO:
+			{
+				Undo();
+				break;
+			}
+		case ID_RICH_REDO:
+			{
+				Redo();
+				break;
+			}
+		case ID_RICH_CUT:
+			{
+				Cut();
+				break;
+			}
+		case ID_RICH_COPY:
+			{
+				Copy();
+				break;
+			}
+		case ID_RICH_PASTE:
+			{
+				Paste();
+				break;
+			}
+		case ID_RICH_CLEAR:
+			{
+				Clear();
+				break;
+			}
+		case ID_RICH_SELECTALL:
+			{
+				SetSelAll();
+				break;
+			}
+		default:break;
+		}
+	}
     else
     {
         switch( uMsg ) {

@@ -559,6 +559,11 @@ namespace DuiLib {
 		return (int)m_aSelItems.GetAt(aIndex + 1);
 	}
 
+	UINT CListUI::GetListType()
+	{
+		return LT_LIST;
+	}
+
 	TListInfoUI* CListUI::GetListInfo()
 	{
 		return &m_ListInfo;
@@ -1084,6 +1089,7 @@ namespace DuiLib {
 		if (!pfnCompare)
 			return FALSE;
 		m_pCompareFunc = pfnCompare;
+		m_compareData = dwData;
 		CControlUI **pData = (CControlUI **)m_items.GetData();
 		qsort_s(m_items.GetData(), m_items.GetSize(), sizeof(CControlUI*), CListBodyUI::ItemComareFunc, this);	
 		IListItemUI *pItem = NULL;
@@ -2876,29 +2882,31 @@ namespace DuiLib {
 	void CListContainerElementUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{	
 		CHorizontalLayoutUI::SetPos(rc, bNeedInvalidate);
-		if( m_pOwner == NULL ) return;		
+		if( m_pOwner == NULL ) return;
+		UINT uListType = m_pOwner->GetListType();
+		if(uListType != LT_LIST && uListType != LT_TREE) return;
 
 		CListUI* pList = static_cast<CListUI*>(m_pOwner);
-		if (pList == NULL ||  _tcsicmp(_T("ListUI"), pList->GetClass()) != 0 ) return;
 
+ 		if (uListType == LT_TREE)
+ 		{
+ 			pList = (CListUI*)pList->CControlUI::GetInterface(_T("List"));
+			if (pList == NULL) return;
+ 		}
+	
 		CListHeaderUI *pHeader = pList->GetHeader();
-		if (pHeader == NULL || !pHeader->IsVisible())
-			return;
-
+		if (pHeader == NULL || !pHeader->IsVisible()) return;
 		int nCount = m_items.GetSize();
 		for (int i = 0; i < nCount; i++)
 		{
 			CControlUI *pListItem = static_cast<CControlUI*>(m_items[i]);
-
 			CControlUI *pHeaderItem = pHeader->GetItemAt(i);
-			if (pHeaderItem == NULL)
-				return;
-
+			if (pHeaderItem == NULL) return;
 			RECT rcHeaderItem = pHeaderItem->GetPos();
 			if (pListItem != NULL && !(rcHeaderItem.left ==0 && rcHeaderItem.right ==0) )
 			{
 				RECT rt = pListItem->GetPos();
-				rt.left =rcHeaderItem.left;
+				rt.left = rcHeaderItem.left;
 				rt.right = rcHeaderItem.right;
 				pListItem->SetPos(rt);
 			}

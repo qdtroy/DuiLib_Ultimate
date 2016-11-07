@@ -6,7 +6,9 @@
   <Font name="宋体" size="18" bold="true"/>
   <Default name="VScrollBar" value="button1normalimage=&quot;file='scrollbar.bmp' source='0,90,16,106' mask='#FFFF00FF'&quot; button1hotimage=&quot;file='scrollbar.bmp' source='18,90,34,106' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='scrollbar.bmp' source='36,90,52,106' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='scrollbar.bmp' source='54,90,70,106' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='scrollbar.bmp' source='0,108,16,124' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='scrollbar.bmp' source='18,108,34,124' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='scrollbar.bmp' source='36,108,52,124' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='scrollbar.bmp' source='54,108,70,124' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='scrollbar.bmp' source='0,126,16,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='scrollbar.bmp' source='18,126,34,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;file='scrollbar.bmp' source='36,126,52,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='scrollbar.bmp' source='54,126,70,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='scrollbar.bmp' source='0,144,16,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='scrollbar.bmp' source='18,144,34,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='scrollbar.bmp' source='36,144,52,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='scrollbar.bmp' source='54,144,70,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='scrollbar.bmp' source='0,162,16,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='scrollbar.bmp' source='18,162,34,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='scrollbar.bmp' source='36,162,52,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='scrollbar.bmp' source='54,162,70,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; " />
   <Default name="HScrollBar" value="button1normalimage=&quot;file='scrollbar.bmp' source='0,0,16,16' mask='#FFFF00FF'&quot; button1hotimage=&quot;file='scrollbar.bmp' source='18,0,34,16' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='scrollbar.bmp' source='36,0,52,16' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='scrollbar.bmp' source='54,0,70,16' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='scrollbar.bmp' source='0,18,16,34' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='scrollbar.bmp' source='18,18,34,34' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='scrollbar.bmp' source='36,18,52,34' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='scrollbar.bmp' source='54,18,70,34' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='scrollbar.bmp' source='0,36,16,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='scrollbar.bmp' source='18,36,34,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;file='scrollbar.bmp' source='36,36,52,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='scrollbar.bmp' source='54,36,70,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='scrollbar.bmp' source='0,54,16,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='scrollbar.bmp' source='18,54,34,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='scrollbar.bmp' source='36,54,52,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='scrollbar.bmp' source='54,54,70,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='scrollbar.bmp' source='0,72,16,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='scrollbar.bmp' source='18,72,34,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='scrollbar.bmp' source='36,72,52,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='scrollbar.bmp' source='54,72,70,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; " />
- 
+  <Style name="list_style" value="headerbkimage=&quot;file='list_header_bg.png'&quot; itemalign=&quot;center&quot; itemlinecolor=&quot;#FFFF0000&quot; itemshowrowline=&quot;true&quot; itemshowcolumnline=&quot;true&quot;" />
+  <Style name="btn_style" value="drag=&quot;true&quot; textpadding=&quot;6,0,6,0&quot; normalimage=&quot;res='button_normal.png' corner='4,4,4,4'&quot; hotimage=&quot;res='button_hover.png' corner='4,4,4,4'&quot; pushedimage=&quot;res='button_pushed.png' corner='4,4,4,4'&quot; selectedimage=&quot;res='button_pushed.png' corner='4,4,4,4'&quot;"  />
+
   <VerticalLayout name="root" bkimage="file='main\bg.jpg' " bkcolor="#ff0199cb">
     <HorizontalLayout name="appbar" height="64" >
       <HorizontalLayout name="apptitle" childpadding="6">
@@ -30,8 +32,32 @@
 
     <VerticalLayout name="body" >
         <Label height="50" text="兼容MFC的Duilib框架，By Troy(QQ：656067418)" font="2" textcolor="#FFFFFFFF" align="center"/>
+
+      <HorizontalLayout height="30" childpadding="12" bordersize="1,1,1,1" bordercolor="#0">
+        <Button name="button1" text="普通按钮" textcolor="#FF555555" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
+        <Button name="button2" text="图标按钮" textcolor="#FF555555" style="btn_style" width="100" textpadding="20,0,0,0" foreimage="dest='4,7,20,23' res='icon.png'" />
+        <Button name="sendbtn" text="命令按钮(&S)" textcolor="#FF555555" style="btn_style" shortcut="S" width="120"/>
+        <Button name="sendbtn" text="颜色按钮" colorhsl="true" float="0.8,0,0.9,1" textcolor="#FF555555" bkcolor="#FFFF0000" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
+
+      </HorizontalLayout>
+
+      <HorizontalLayout height="180" bkcolor="#FFFFFFFF" inset="0,6,0,6" visible="false">
+        <Label text="ListView控件" textcolor="#FF555555" glowsize="0" font="font13" width="80"/>
+        <VerticalLayout bordersize="1" bordercolor="#FF666666" inset="2,2,2,2">
+          <List name="listview" vscrollbar="true" hscrollbar="true" style="list_style" itemvalign="vcenter" scrollstepsize="100">
+            <ListHeader height="24" menu="true">
+              <ListHeaderItem text="姓名" width="80" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
+              <ListHeaderItem text="学号" width="160" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
+              <ListHeaderItem text="成绩" width="160" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
+              <ListHeaderItem text="审核" width="160" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
+            </ListHeader>
+            <Include source="listitem.xml"/>
+          </List>
+        </VerticalLayout>
+      </HorizontalLayout>
+
     </VerticalLayout>
-    
+
     <HorizontalLayout height="32">
     </HorizontalLayout>
   </VerticalLayout>

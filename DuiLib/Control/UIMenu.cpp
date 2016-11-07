@@ -468,12 +468,9 @@ namespace DuiLib {
 		}
 
 		MoveWindow(m_hWnd, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top + m_pLayout->GetInset().top + m_pLayout->GetInset().bottom, FALSE);
-
 	}
 
 	void CMenuWnd::setDPI(int DPI) {
-
-
 		m_pm.SetDPI(DPI);
 	}
 
@@ -693,7 +690,6 @@ namespace DuiLib {
 			CDuiString strExplandIcon;
 			strExplandIcon = GetManager()->GetDefaultAttributeList(_T("ExplandIcon"));
 			if (strExplandIcon.IsEmpty()) {
-
 				return;
 			}
 			SIZE m_cxyFixed = CMenuElementUI::m_cxyFixed;
@@ -720,9 +716,7 @@ namespace DuiLib {
 				rcDest.right,
 				rcDest.bottom);
 
-			
 			DrawImage(hDC, strExplandIcon, pStrImage);
-
 		}
 	}
 

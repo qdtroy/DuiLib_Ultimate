@@ -30,7 +30,7 @@ namespace DuiLib
 
 		void DoEvent(TEventUI& event);
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
-		void PaintStatusImage(HDC hDC);
+		void PaintForeImage(HDC hDC);
 
 		void SetValue(int nValue);
 		void SetCanSendMove(bool bCanSend);

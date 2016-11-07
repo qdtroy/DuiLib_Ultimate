@@ -78,6 +78,9 @@ namespace DuiLib {
 		bool SetWordCharFormat(CHARFORMAT2 &cf);
 		DWORD GetParaFormat(PARAFORMAT2 &pf) const;
 		bool SetParaFormat(PARAFORMAT2 &pf);
+		bool CanUndo();
+		bool CanRedo();
+		bool CanPaste();
 		bool Redo();
 		bool Undo();
 		void Clear();
@@ -89,7 +92,6 @@ namespace DuiLib {
 		int LineIndex(int nLine = -1) const;
 		int LineLength(int nLine = -1) const;
 		bool LineScroll(int nLines, int nChars = 0);
-		CDuiPoint GetCharPos(long lChar) const;
 		long LineFromChar(long nIndex) const;
 		CDuiPoint PosFromChar(UINT nChar) const;
 		int CharFromPos(CDuiPoint pt) const;

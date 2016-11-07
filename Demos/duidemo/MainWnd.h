@@ -74,9 +74,7 @@ public:
 		// List控件添加元素
 		CListUI* pList = static_cast<CListUI*>(m_pm.FindControl(_T("listview")));
 		CListContainerElementUI* pListItem  = new CListContainerElementUI();
-		pListItem->SetBorderColor(0xFF00FF00);
-		pListItem->SetBorderSize(1);
-		pListItem->SetBorderStyle(PS_DASHDOTDOT);
+		pListItem->SetChildVAlign(DT_VCENTER);
 		pListItem->SetFixedHeight(30);
 		pListItem->SetManager(&m_pm, NULL, false);
 		pList->Add(pListItem);
@@ -111,6 +109,10 @@ public:
 		pItem->SetFixedHeight(30);
 		pItem->SetItemText(_T("动态添加"));
 		pTreeView->AddAt(pItem, 3);
+		COptionUI* pRadio = new COptionUI();
+		pRadio->SetText(_T("单选按钮"));
+		pItem->Add(pRadio);
+		pRadio->SetAttribute(_T("Style"), _T("cb_style"));
 		pItem->SetAttribute(_T("itemattr"), _T("valign=&quot;center&quot;"));
 		pItem->SetAttribute(_T("Style"), _T("treeview_style"));
 
@@ -193,7 +195,7 @@ public:
 		/* [out][in] */ DOCHOSTUIINFO __RPC_FAR *pInfo)
 	{
 		if (pInfo != NULL) {
-			pInfo->dwFlags |= DOCHOSTUIFLAG_NO3DBORDER | DOCHOSTUIFLAG_NO3DOUTERBORDER;
+			pInfo->dwFlags |= DOCHOSTUIFLAG_NO3DBORDER | DOCHOSTUIFLAG_NO3DOUTERBORDER | DOCHOSTUIFLAG_SCROLL_NO;
 		}
 		return S_OK;
 	}
@@ -278,7 +280,7 @@ public:
 				if( pFlash != NULL ) 
 				{
 					pFlash->put_WMode( _bstr_t(_T("Transparent") ) );
-					pFlash->put_Movie( _bstr_t(CPaintManagerUI::GetInstancePath() + _T("\\skin\\duidemo\\waterdrop.swf")) );
+					pFlash->put_Movie( _bstr_t(CPaintManagerUI::GetInstancePath() + _T("\\skin\\duidemo\\other\\waterdrop.swf")) );
 					pFlash->DisableLocalSecurity();
 					pFlash->put_AllowScriptAccess(L"always");
 					BSTR response;
@@ -439,6 +441,10 @@ public:
 			::PostQuitMessage(0L);
 			bHandled = TRUE;
 			return 0;
+		}
+		else if(uMsg == WM_TIMER)
+		{
+			bHandled = FALSE;
 		}
 		else if (uMsg == WM_MENUCLICK)
 		{

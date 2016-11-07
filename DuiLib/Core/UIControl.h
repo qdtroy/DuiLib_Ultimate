@@ -168,6 +168,12 @@ namespace DuiLib {
 		virtual void Event(TEventUI& event);
 		virtual void DoEvent(TEventUI& event);
 
+		// 自定义(未处理的)属性
+		void AddCustomAttribute(LPCTSTR pstrName, LPCTSTR pstrAttr);
+		LPCTSTR GetCustomAttribute(LPCTSTR pstrName) const;
+		bool RemoveCustomAttribute(LPCTSTR pstrName);
+		void RemoveAllCustomAttribute();
+
 		virtual void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 		CControlUI* ApplyAttributeList(LPCTSTR pstrList);
 
@@ -245,6 +251,8 @@ namespace DuiLib {
 		RECT m_rcPaint;
 		RECT m_rcBorderSize;
 	    HINSTANCE m_instance;
+
+		CStdStringPtrMap m_mCustomAttrHash;
 	};
 
 } // namespace DuiLib

@@ -5,6 +5,8 @@
     <Label text="Include测试" align="center"/>
     <Label text="1002" align="center"/>
     <Label text="99" align="center"/>
-    <Button style="btn_style" text="确认" font="100"/>
+    <Container >
+      <Button style="btn_style" float="true" pos="30,0,100,30" text="确认" font="100"/>
+    </Container>
   </ListContainerElement>
 </Window>

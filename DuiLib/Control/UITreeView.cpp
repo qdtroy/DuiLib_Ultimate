@@ -47,7 +47,7 @@ namespace DuiLib
 			pDottedLine->SetFixedWidth(_ParentNode->GetDottedLine()->GetFixedWidth()+16);
 			this->SetParentNode(_ParentNode);
 		}
-
+		pHoriz->SetChildVAlign(DT_VCENTER);
 		pHoriz->Add(pDottedLine);
 		pHoriz->Add(pFolderButton);
 		pHoriz->Add(pCheckBox);
@@ -191,7 +191,7 @@ namespace DuiLib
 	// 参数信息: bool bSelect
 	// 函数说明: 
 	//************************************
-	bool CTreeNodeUI::Select( bool bSelect /*= TRUE*/ )
+	bool CTreeNodeUI::Select( bool bSelect /*= true*/ )
 	{
 		bool nRet = CListContainerElementUI::Select(bSelect);
 		if(m_bSelected)
@@ -202,6 +202,16 @@ namespace DuiLib
 		return nRet;
 	}
 
+	bool CTreeNodeUI::SelectMulti(bool bSelect)
+	{
+		bool nRet = CListContainerElementUI::SelectMulti(bSelect);
+		if(m_bSelected)
+			pItemButton->SetTextColor(GetSelItemTextColor());
+		else 
+			pItemButton->SetTextColor(GetItemTextColor());
+
+		return nRet;
+	}
 	//************************************
 	// 函数名称: Add
 	// 返回类型: bool
@@ -593,18 +603,12 @@ namespace DuiLib
 	//************************************
 	CTreeNodeUI* CTreeNodeUI::GetLastNode( )
 	{
-		if(!IsHasChild())
-			return this;
+		if(!IsHasChild()) return this;
 
 		CTreeNodeUI* nRetNode = NULL;
-
 		for(int nIndex = 0;nIndex < GetTreeNodes().GetSize();nIndex++){
 			CTreeNodeUI* pNode = static_cast<CTreeNodeUI*>(GetTreeNodes().GetAt(nIndex));
-			if(!pNode)
-				continue;
-
-			CDuiString aa = pNode->GetItemText();
-
+			if(!pNode) continue;
 			if(pNode->IsHasChild())
 				nRetNode = pNode->GetLastNode();
 			else 
@@ -754,6 +758,12 @@ namespace DuiLib
 	LPCTSTR CTreeViewUI::GetClass() const
 	{
 		return _T("TreeViewUI");
+	}
+
+
+	UINT CTreeViewUI::GetListType()
+	{
+		return LT_TREE;
 	}
 
 	//************************************

@@ -25,7 +25,8 @@ namespace DuiLib
 		LPVOID GetInterface(LPCTSTR pstrName);
 		void DoEvent(TEventUI& event);
 		void Invalidate();
-		bool Select(bool bSelect = TRUE);
+		bool Select(bool bSelect = true);
+		bool SelectMulti(bool bSelect = true);
 
 		bool Add(CControlUI* _pTreeNodeUI);
 		bool AddAt(CControlUI* pControl, int iIndex);
@@ -105,6 +106,8 @@ namespace DuiLib
 	public:
 		virtual LPCTSTR GetClass() const;
 		virtual LPVOID	GetInterface(LPCTSTR pstrName);
+
+		virtual UINT GetListType();
 		virtual bool Add(CTreeNodeUI* pControl );
 		virtual long AddAt(CTreeNodeUI* pControl, int iIndex );
 		virtual bool AddAt(CTreeNodeUI* pControl,CTreeNodeUI* _IndexNode);

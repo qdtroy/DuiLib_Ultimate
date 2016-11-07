@@ -49,7 +49,7 @@ class IWkeCallback
 {
 public:
 	virtual void OnWkeTitleChanged(CWkeWebkitUI* webView, LPCTSTR title){}
-	virtual bool OnWkeURLChanged(CWkeWebkitUI* webView, LPCTSTR url){return false;}
+	virtual void OnWkeURLChanged(CWkeWebkitUI* webView, LPCTSTR url){}
 	virtual void OnWkeAlertBox(CWkeWebkitUI* webView, LPCTSTR msg){}
 	virtual bool OnWkeNavigation(CWkeWebkitUI* webView, wkeNavigationType navigationType, LPCTSTR url){return false;}
 	virtual wkeWebView OnWkeCreateView(CWkeWebkitUI* webView, const wkeNewViewInfo* info){return NULL;}
@@ -122,7 +122,7 @@ public:
 private:
 	// 回调事件
 	static void WKE_CALL OnWkeTitleChanged(wkeWebView webView, void* param, wkeString title);
-	static bool WKE_CALL OnWkeURLChanged(wkeWebView webView, void* param, wkeString url);
+	static void WKE_CALL OnWkeURLChanged(wkeWebView webView, void* param, wkeString url);
 	static void WKE_CALL OnWkeAlertBox(wkeWebView webView, void* param, wkeString msg);
 	static bool WKE_CALL OnWkeNavigation(wkeWebView webView, void* param, wkeNavigationType navigationType, wkeString url);
 	static wkeWebView WKE_CALL OnWkeCreateView(wkeWebView webView, void* param, const wkeNewViewInfo* info);

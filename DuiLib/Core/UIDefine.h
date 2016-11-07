@@ -5,6 +5,14 @@ namespace DuiLib
 #define MAX_FONT_ID		30000
 #define CARET_TIMERID	0x1999
 
+	// 列表类型
+	enum ListType
+	{
+		LT_LIST = 0,
+		LT_COMBO,
+		LT_TREE,
+	};
+
 	// 鼠标光标定义
 #define DUI_ARROW           32512
 #define DUI_IBEAM           32513
@@ -96,9 +104,6 @@ namespace DuiLib
 #define DUI_MSGTYPE_SELECTCHANGED 		   (_T("selectchanged"))
 #define DUI_MSGTYPE_UNSELECTED	 		   (_T("unselected"))
 
-#define DUI_MSGTYPE_TREEITEMSELECT 			(_T("treeitemselect"))
-#define DUI_MSGTYPE_TREEITEMEXPAND 			(_T("treeitemexpand"))
-#define DUI_MSGTYPE_TREEITEMACTIVATE 		(_T("treeitemactivate"))
 #define DUI_MSGTYPE_TREEITEMDBCLICK 		(_T("treeitemdbclick"))
 #define DUI_MSGTYPE_CHECKCLICK				(_T("checkclick"))
 #define DUI_MSGTYPE_TEXTROLLEND 			(_T("textrollend"))
@@ -307,7 +312,6 @@ protected:                                                                \
 #define DUI_CTR_COLORPALETTE					  (_T("ColorPalette"))
 	///
 	//////////////END控件名称宏定义//////////////////////////////////////////////////
-
 
 	}// namespace DuiLib
 

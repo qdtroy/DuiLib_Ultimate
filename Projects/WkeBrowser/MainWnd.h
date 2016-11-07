@@ -53,7 +53,7 @@ public:
 
 public:
 	virtual void OnWkeTitleChanged(CWkeWebkitUI* webView, LPCTSTR title);
-	virtual bool OnWkeURLChanged(CWkeWebkitUI* webView, LPCTSTR url);
+	virtual void OnWkeURLChanged(CWkeWebkitUI* webView, LPCTSTR url);
 	virtual void OnWkeAlertBox(CWkeWebkitUI* webView, LPCTSTR msg);
 	virtual bool OnWkeNavigation(CWkeWebkitUI* webView, wkeNavigationType navigationType, LPCTSTR url);
 	virtual wkeWebView OnWkeCreateView(CWkeWebkitUI* webView, const wkeNewViewInfo* info);

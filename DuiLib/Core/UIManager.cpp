@@ -328,6 +328,11 @@ namespace DuiLib {
 		//卸载GDIPlus
 		Gdiplus::GdiplusShutdown( m_gdiplusToken );
 		delete m_pGdiplusStartupInput;
+		// DPI管理对象
+		if (m_pDPI != NULL) {
+			delete m_pDPI;
+			m_pDPI = NULL;
+		}
 	}
 
 	void CPaintManagerUI::Init(HWND hWnd, LPCTSTR pstrName)
@@ -869,6 +874,9 @@ namespace DuiLib {
 				if( wParam == VK_TAB ) {
 					if( m_pFocus && m_pFocus->IsVisible() && m_pFocus->IsEnabled() && _tcsstr(m_pFocus->GetClass(), _T("RichEditUI")) != NULL ) {
 						if( static_cast<CRichEditUI*>(m_pFocus)->IsWantTab() ) return false;
+					}
+					if( m_pFocus && m_pFocus->IsVisible() && m_pFocus->IsEnabled() && _tcsstr(m_pFocus->GetClass(), _T("WkeWebkitUI")) != NULL ) {
+						return false;
 					}
 					SetNextTabControl(::GetKeyState(VK_SHIFT) >= 0);
 					return true;
@@ -1593,6 +1601,7 @@ namespace DuiLib {
 				event.pSender = pControl;
 				event.wParam = MAKELPARAM(zDelta < 0 ? SB_LINEDOWN : SB_LINEUP, 0);
 				event.lParam = lParam;
+				event.ptMouse = pt;
 				event.wKeyState = MapKeyState();
 				event.dwTimestamp = ::GetTickCount();
 				pControl->Event(event);
@@ -1685,6 +1694,7 @@ namespace DuiLib {
 			}
 		case WM_NOTIFY:
 			{
+				if( lParam == 0 ) break;
 				LPNMHDR lpNMHDR = (LPNMHDR) lParam;
 				if( lpNMHDR != NULL ) lRes = ::SendMessage(lpNMHDR->hwndFrom, OCM__BASE + uMsg, wParam, lParam);
 				return true;
@@ -1701,12 +1711,10 @@ namespace DuiLib {
 		case WM_CTLCOLOREDIT:
 		case WM_CTLCOLORSTATIC:
 			{
-				// Refer To: http://msdn.microsoft.com/en-us/library/bb761691(v=vs.85).aspx
-				// Read-only or disabled edit controls do not send the WM_CTLCOLOREDIT message; instead, they send the WM_CTLCOLORSTATIC message.
 				if( lParam == 0 ) break;
 				HWND hWndChild = (HWND) lParam;
 				lRes = ::SendMessage(hWndChild, OCM__BASE + uMsg, wParam, lParam);
-				return true;
+				if(lRes != 0) return true;
 			}
 			break;
 		default:
@@ -1884,10 +1892,8 @@ namespace DuiLib {
 	CDPI * DuiLib::CPaintManagerUI::GetDPIObj()
 	{
 		if (m_pDPI == NULL) {
-
 			m_pDPI = new CDPI;
 		}
-
 		return m_pDPI;
 	}
 
@@ -2923,7 +2929,7 @@ namespace DuiLib {
 		}
 		else
 		{
-			if( !m_SharedResInfo.m_ImageHash.Insert(bitmap, data) ) {
+			if( !m_ResInfo.m_ImageHash.Insert(bitmap, data) ) {
 				CRenderEngine::FreeImage(data);
 				data = NULL;
 			}

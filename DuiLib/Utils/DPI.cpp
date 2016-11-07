@@ -9,29 +9,24 @@ namespace DuiLib
 	//168 DPI = 175% scaling
 	//192 DPI = 200% scaling
 
-	
-
 	typedef HRESULT (WINAPI *LPSetProcessDpiAwareness)(
-			_In_ PROCESS_DPI_AWARENESS value
-			);
+		_In_ PROCESS_DPI_AWARENESS value
+		);
 
-		typedef HRESULT (WINAPI *LPGetProcessDpiAwareness)(
-			_In_  HANDLE                hprocess,
-			_Out_ PROCESS_DPI_AWARENESS *value
-			);
+	typedef HRESULT (WINAPI *LPGetProcessDpiAwareness)(
+		_In_  HANDLE                hprocess,
+		_Out_ PROCESS_DPI_AWARENESS *value
+		);
 
 
+	typedef HRESULT (WINAPI *LPGetDpiForMonitor)(
+		_In_  HMONITOR         hmonitor,
+		_In_  MONITOR_DPI_TYPE dpiType,
+		_Out_ UINT             *dpiX,
+		_Out_ UINT             *dpiY
+		);
 
-	
 
-	 typedef HRESULT (WINAPI *LPGetDpiForMonitor)(
-	  _In_  HMONITOR         hmonitor,
-	  _In_  MONITOR_DPI_TYPE dpiType,
-	  _Out_ UINT             *dpiX,
-	  _Out_ UINT             *dpiY
-	);
-
-	
 	CDPI::CDPI()
 	{
 		m_nScaleFactor = 0;
@@ -39,40 +34,28 @@ namespace DuiLib
 		m_Awareness = PROCESS_PER_MONITOR_DPI_AWARE;
 
 		SetScale(96);
-	
+
 	}
 
 	int CDPI::GetDPIOfMonitor(HMONITOR hMonitor)
 	{
-		UINT     dpix = 96, dpiy = 96;
+		UINT dpix = 96, dpiy = 96;
 		if (IsWindows8Point1OrGreater()) {
-			
 			HRESULT  hr = E_FAIL;
-
 			HMODULE hModule =::LoadLibrary(_T("Shcore.dll"));
 			if(hModule != NULL) {
 				LPGetDpiForMonitor GetDpiForMonitor = (LPGetDpiForMonitor)GetProcAddress(hModule, "GetDpiForMonitor");
 				if (GetDpiForMonitor != NULL && GetDpiForMonitor(hMonitor,MDT_EFFECTIVE_DPI, &dpix, &dpiy) != S_OK) {
-					MessageBox(NULL, (LPCWSTR)L"GetDpiForMonitor failed", (LPCWSTR)L"Notification", MB_OK);
+					MessageBox(NULL, _T("GetDpiForMonitor failed"), _T("Notification"), MB_OK);
 					return 96;
 				}
 			}
-
-
-			
-
-			
-
 		}
 		else {
-
 			HDC screen = GetDC(0);
 			dpix = GetDeviceCaps(screen, LOGPIXELSX);
-			//dpiy = GetDeviceCaps(screen, LOGPIXELSY);
 			ReleaseDC(0, screen);
 		}
-
-
 		return dpix;
 	}
 
@@ -85,21 +68,12 @@ namespace DuiLib
 
 	int CDPI::GetMainMonitorDPI()
 	{
-
-		
 		POINT    pt;
 		// Get the DPI for the main monitor
 		pt.x = 1;
 		pt.y = 1;
 		return GetDPIOfMonitorNearestToPoint(pt);
-		
 	}
-
-
-
-
-
-
 
 	PROCESS_DPI_AWARENESS CDPI::GetDPIAwareness()
 	{
@@ -110,7 +84,6 @@ namespace DuiLib
 				if(GetProcessDpiAwareness != NULL) {
 					HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, false, GetCurrentProcessId());
 					if(GetProcessDpiAwareness(hProcess, &m_Awareness) == S_OK) {
-
 					}
 				}
 			}
@@ -215,7 +188,6 @@ namespace DuiLib
 		pRect->bottom = pRect->top + sh;
 	}
 
-
 	void CDPI::ScaleBack(RECT *pRect)
 	{
 		int sw = ScaleBack(pRect->right - pRect->left);
@@ -253,6 +225,4 @@ namespace DuiLib
 		szScale.cy = Scale(szSize.cy);
 		return szScale;
 	}
-
-
 }

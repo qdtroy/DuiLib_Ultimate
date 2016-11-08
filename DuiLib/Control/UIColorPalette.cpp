@@ -212,8 +212,8 @@ namespace DuiLib {
 
 	void CColorPaletteUI::DoInit()
 	{
-		m_MemDc = CreateCompatibleDC(GetManager()->GetPaintDC());
-		m_hMemBitmap = CreateCompatibleBitmap(GetManager()->GetPaintDC(), 400, 360);
+		m_MemDc = CreateCompatibleDC(m_pManager->GetPaintDC());
+		m_hMemBitmap = CreateCompatibleBitmap(m_pManager->GetPaintDC(), 400, 360);
 		HBITMAP pOldBit = (HBITMAP)SelectObject(m_MemDc, m_hMemBitmap);
 
 		::GetObject(m_hMemBitmap, sizeof(m_bmInfo), &m_bmInfo);

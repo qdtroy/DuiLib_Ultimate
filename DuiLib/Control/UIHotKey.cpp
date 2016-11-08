@@ -15,12 +15,12 @@ namespace DuiLib{
 			}
 			RECT rcPos = CalPos();
 			UINT uStyle = WS_CHILD | ES_AUTOHSCROLL;
-			HWND hWnd = Create(m_pOwner->GetManager()->GetPaintWindow(), NULL, uStyle, 0, rcPos);
+			HWND hWnd = Create(m_pOwner->m_pManager->GetPaintWindow(), NULL, uStyle, 0, rcPos);
 			if (!IsWindow(hWnd))
 			{
 				break;
 			}
-			SetWindowFont(m_hWnd, m_pOwner->GetManager()->GetFontInfo(m_pOwner->GetFont())->hFont, TRUE);
+			SetWindowFont(m_hWnd, m_pOwner->m_pManager->GetFontInfo(m_pOwner->GetFont())->hFont, TRUE);
 			SetHotKey(m_pOwner->m_wVirtualKeyCode, m_pOwner->m_wModifiers);
 			m_pOwner->m_sText = GetHotKeyName();
 			::EnableWindow(m_hWnd, m_pOwner->IsEnabled() == true);
@@ -39,7 +39,7 @@ namespace DuiLib{
 		rcPos.top += rcInset.top;
 		rcPos.right -= rcInset.right;
 		rcPos.bottom -= rcInset.bottom;
-		LONG lHeight = m_pOwner->GetManager()->GetFontInfo(m_pOwner->GetFont())->tm.tmHeight;
+		LONG lHeight = m_pOwner->m_pManager->GetFontInfo(m_pOwner->GetFont())->tm.tmHeight;
 		if( lHeight < rcPos.GetHeight() ) {
 			rcPos.top += (rcPos.GetHeight() - lHeight) / 2;
 			rcPos.bottom = rcPos.top + lHeight;
@@ -76,7 +76,7 @@ namespace DuiLib{
 			}
 		}
 		else if( uMsg == WM_KEYDOWN && TCHAR(wParam) == VK_RETURN ) {
-			m_pOwner->GetManager()->SendNotify(m_pOwner, _T("return"));
+			m_pOwner->m_pManager->SendNotify(m_pOwner, _T("return"));
 		}
 		else if ( (uMsg == WM_NCACTIVATE) || (uMsg == WM_NCACTIVATE) || (uMsg == WM_NCCALCSIZE) )
 		{
@@ -139,7 +139,7 @@ namespace DuiLib{
 		{
 			m_pOwner->m_sText = GetHotKeyName();
 		}
-		m_pOwner->GetManager()->SendNotify(m_pOwner, _T("textchanged"));
+		m_pOwner->m_pManager->SendNotify(m_pOwner, _T("textchanged"));
 		return 0;
 	}
 
@@ -303,7 +303,7 @@ namespace DuiLib{
 		if( event.Type == UIEVENT_BUTTONDOWN || event.Type == UIEVENT_DBLCLICK || event.Type == UIEVENT_RBUTTONDOWN) 
 		{
 			if( IsEnabled() ) {
-				GetManager()->ReleaseCapture();
+				m_pManager->ReleaseCapture();
 				if( IsFocused() && m_pWindow == NULL )
 				{
 					m_pWindow = new CHotKeyWnd();

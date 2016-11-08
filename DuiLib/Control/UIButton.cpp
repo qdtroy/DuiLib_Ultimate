@@ -261,7 +261,7 @@ namespace DuiLib
 		if(pstrName == NULL || (GetBindTabLayoutIndex() < 0 && _SetSelectIndex < 0))
 			return;
 
-		CTabLayoutUI* pTabLayout = static_cast<CTabLayoutUI*>(GetManager()->FindControl(pstrName));
+		CTabLayoutUI* pTabLayout = static_cast<CTabLayoutUI*>(m_pManager->FindControl(pstrName));
 		if(!pTabLayout) return;
 		pTabLayout->SelectItem(_SetSelectIndex >=0?_SetSelectIndex:GetBindTabLayoutIndex());
 	}
@@ -344,7 +344,7 @@ namespace DuiLib
 		if( sText.IsEmpty() ) return;
 
 		RECT m_rcTextPadding = CButtonUI::m_rcTextPadding;
-		GetManager()->GetDPIObj()->Scale(&m_rcTextPadding);
+		if(m_pManager) m_pManager->GetDPIObj()->Scale(&m_rcTextPadding);
 		int nLinks = 0;
 		RECT rc = m_rcItem;
 		rc.left += m_rcTextPadding.left;

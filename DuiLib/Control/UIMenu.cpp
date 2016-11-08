@@ -635,7 +635,7 @@ namespace DuiLib {
 					(m_cxyFixed.cy - m_szIconSize.cy)/2,
 					(ITEM_DEFAULT_ICON_WIDTH - m_szIconSize.cx)/2 + m_szIconSize.cx,
 					(m_cxyFixed.cy - m_szIconSize.cy)/2 + m_szIconSize.cy);
-				CRenderEngine::DrawImageString(hDC, m_pManager, m_rcItem, m_rcPaint, pStrImage, _T(""));*/
+				CRenderEngine::DrawImageString(hDC, GetManager(), m_rcItem, m_rcPaint, pStrImage, _T(""));*/
 				SIZE m_cxyFixed = CMenuElementUI::m_cxyFixed;
 				m_cxyFixed.cx = GetManager()->GetDPIObj()->Scale(m_cxyFixed.cx);
 				m_cxyFixed.cy = GetManager()->GetDPIObj()->Scale(m_cxyFixed.cy);
@@ -682,7 +682,7 @@ namespace DuiLib {
 				m_cxyFixed.cx - ITEM_DEFAULT_EXPLAND_ICON_WIDTH + (ITEM_DEFAULT_EXPLAND_ICON_WIDTH - ITEM_DEFAULT_EXPLAND_ICON_SIZE)/2 + ITEM_DEFAULT_EXPLAND_ICON_SIZE,
 				(m_cxyFixed.cy - ITEM_DEFAULT_EXPLAND_ICON_SIZE)/2 + ITEM_DEFAULT_EXPLAND_ICON_SIZE);
 
-			CRenderEngine::DrawImageString(hDC, m_pManager, m_rcItem, m_rcPaint, strBkImage, _T(""));
+			CRenderEngine::DrawImageString(hDC, GetManager(), m_rcItem, m_rcPaint, strBkImage, _T(""));
 
 
 
@@ -748,10 +748,10 @@ namespace DuiLib {
 		rcText.bottom -= rcTextPadding.bottom;
 
 		if( pInfo->bShowHtml )
-			CRenderEngine::DrawHtmlText(hDC, m_pManager, rcText, sText, iTextColor, \
+			CRenderEngine::DrawHtmlText(hDC, GetManager(), rcText, sText, iTextColor, \
 			NULL, NULL, nLinks, DT_SINGLELINE | pInfo->uTextStyle);
 		else
-			CRenderEngine::DrawText(hDC, m_pManager, rcText, sText, iTextColor, \
+			CRenderEngine::DrawText(hDC, GetManager(), rcText, sText, iTextColor, \
 			pInfo->nFont, DT_SINGLELINE | pInfo->uTextStyle);
 	}
 
@@ -792,10 +792,10 @@ namespace DuiLib {
 			rcText.right -= rcTextPadding.right;
 			if( pInfo->bShowHtml ) {   
 				int nLinks = 0;
-				CRenderEngine::DrawHtmlText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, iTextColor, NULL, NULL, nLinks, DT_CALCRECT | pInfo->uTextStyle);
+				CRenderEngine::DrawHtmlText(GetManager()->GetPaintDC(), GetManager(), rcText, sText, iTextColor, NULL, NULL, nLinks, DT_CALCRECT | pInfo->uTextStyle);
 			}
 			else {
-				CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, iTextColor, pInfo->nFont, DT_CALCRECT | pInfo->uTextStyle);
+				CRenderEngine::DrawText(GetManager()->GetPaintDC(), GetManager(), rcText, sText, iTextColor, pInfo->nFont, DT_CALCRECT | pInfo->uTextStyle);
 			}
 			cXY.cx = rcText.right - rcText.left + rcTextPadding.left + rcTextPadding.right + 20;
 			cXY.cy = rcText.bottom - rcText.top + rcTextPadding.top + rcTextPadding.bottom;
@@ -835,7 +835,7 @@ namespace DuiLib {
 			else
 			{
 				ContextMenuParam param;
-				param.hWnd = m_pManager->GetPaintWindow();
+				param.hWnd = GetManager()->GetPaintWindow();
 				param.wParam = 2;
 				CMenuWnd::GetGlobalContextMenuObserver().RBroadcast(param);
 				m_pOwner->SelectItem(GetIndex(), true);
@@ -892,7 +892,7 @@ namespace DuiLib {
 					pMenuCmd->bChecked = GetChecked();
 
 					ContextMenuParam param;
-					param.hWnd = m_pManager->GetPaintWindow();
+					param.hWnd = GetManager()->GetPaintWindow();
 					param.wParam = 1;
 					CMenuWnd::GetGlobalContextMenuObserver().RBroadcast(param);
 
@@ -932,7 +932,7 @@ namespace DuiLib {
 			else
 			{
 				ContextMenuParam param;
-				param.hWnd = m_pManager->GetPaintWindow();
+				param.hWnd = GetManager()->GetPaintWindow();
 				param.wParam = 2;
 				CMenuWnd::GetGlobalContextMenuObserver().RBroadcast(param);
 				m_pOwner->SelectItem(GetIndex(), true);
@@ -957,7 +957,7 @@ namespace DuiLib {
 		ASSERT(m_pWindow);
 
 		ContextMenuParam param;
-		param.hWnd = m_pManager->GetPaintWindow();
+		param.hWnd = GetManager()->GetPaintWindow();
 		param.wParam = 2;
 		CMenuWnd::GetGlobalContextMenuObserver().RBroadcast(param);
 

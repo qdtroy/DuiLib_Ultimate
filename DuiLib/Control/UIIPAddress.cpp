@@ -65,9 +65,9 @@ namespace DuiLib
 			{
 				RECT rcPos = CalPos();
 				UINT uStyle = WS_CHILD | WS_TABSTOP | WS_GROUP;
-				Create(m_pOwner->GetManager()->GetPaintWindow(), NULL, uStyle, 0, rcPos);
+				Create(m_pOwner->m_pManager->GetPaintWindow(), NULL, uStyle, 0, rcPos);
 			}
-			SetWindowFont(m_hWnd, m_pOwner->GetManager()->GetFontInfo(m_pOwner->GetFont())->hFont, TRUE);
+			SetWindowFont(m_hWnd, m_pOwner->m_pManager->GetFontInfo(m_pOwner->GetFont())->hFont, TRUE);
 		}
 
 		if (m_pOwner->GetText().IsEmpty())
@@ -263,7 +263,7 @@ namespace DuiLib
 		if( event.Type == UIEVENT_BUTTONDOWN || event.Type == UIEVENT_DBLCLICK || event.Type == UIEVENT_RBUTTONDOWN) 
 		{
 			if( IsEnabled() ) {
-				GetManager()->ReleaseCapture();
+				m_pManager->ReleaseCapture();
 				if( IsFocused() && m_pWindow == NULL )
 				{
 					m_pWindow = new CIPAddressWnd();

@@ -908,7 +908,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ControlEx.cpp" />
-    <ClCompile Include="duidemo.cpp" />
+    <ClCompile Include="DuiDemo.cpp" />
     <ClCompile Include="MsgWnd.cpp" />
     <ClCompile Include="PopWnd.cpp" />
     <ClCompile Include="StdAfx.cpp">

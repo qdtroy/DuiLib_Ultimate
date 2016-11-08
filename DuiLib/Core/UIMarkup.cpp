@@ -390,14 +390,16 @@ bool CMarkup::LoadFromFile(LPCTSTR pstrFilename, int encoding)
         BYTE* pByte = new BYTE[ dwSize ];
         ::ReadFile( hFile, pByte, dwSize, &dwRead, NULL );
         ::CloseHandle( hFile );
-
         if( dwRead != dwSize ) {
             delete[] pByte;
+			pByte = NULL;
             Release();
             return _Failed(_T("Could not read file"));
         }
+
         bool ret = LoadFromMem(pByte, dwSize, encoding);
         delete[] pByte;
+		pByte = NULL;
 
         return ret;
     }
@@ -423,6 +425,7 @@ bool CMarkup::LoadFromFile(LPCTSTR pstrFilename, int encoding)
         if( !CPaintManagerUI::IsCachedResourceZip() ) CloseZip(hz);
         bool ret = LoadFromMem(pByte, dwSize, encoding);
         delete[] pByte;
+		pByte = NULL;
 
         return ret;
     }

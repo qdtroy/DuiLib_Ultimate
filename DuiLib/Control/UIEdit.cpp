@@ -36,10 +36,10 @@ namespace DuiLib
 		m_pOwner = pOwner;
 		RECT rcPos = CalPos();
 		UINT uStyle = 0;
-		if(m_pOwner->GetManager()->IsLayered()) {
+		if(m_pOwner->m_pManager->IsLayered()) {
 			uStyle = WS_POPUP | ES_AUTOHSCROLL | WS_VISIBLE;
 			RECT rcWnd={0};
-			::GetWindowRect(m_pOwner->GetManager()->GetPaintWindow(), &rcWnd);
+			::GetWindowRect(m_pOwner->m_pManager->GetPaintWindow(), &rcWnd);
 			rcPos.left += rcWnd.left;
 			rcPos.right += rcWnd.left;
 			rcPos.top += rcWnd.top - 1;
@@ -53,13 +53,13 @@ namespace DuiLib
 		else if(uTextStyle & DT_CENTER) uStyle |= ES_CENTER;
 		else if(uTextStyle & DT_RIGHT) uStyle |= ES_RIGHT;
 		if( m_pOwner->IsPasswordMode() ) uStyle |= ES_PASSWORD;
-		Create(m_pOwner->GetManager()->GetPaintWindow(), NULL, uStyle, 0, rcPos);
+		Create(m_pOwner->m_pManager->GetPaintWindow(), NULL, uStyle, 0, rcPos);
 		HFONT hFont=NULL;
 		int iFontIndex=m_pOwner->GetFont();
 		if (iFontIndex!=-1)
-			hFont = m_pOwner->GetManager()->GetFont(iFontIndex);
+			hFont = m_pOwner->m_pManager->GetFont(iFontIndex);
 		if (hFont == NULL)
-			hFont = m_pOwner->GetManager()->GetDefaultFontInfo()->hFont;
+			hFont = m_pOwner->m_pManager->GetDefaultFontInfo()->hFont;
 
 		SetWindowFont(m_hWnd, hFont, TRUE);
 		Edit_LimitText(m_hWnd, m_pOwner->GetMaxChar());
@@ -91,7 +91,7 @@ namespace DuiLib
 		rcPos.top += rcInset.top;
 		rcPos.right -= rcInset.right;
 		rcPos.bottom -= rcInset.bottom;
-		LONG lEditHeight = m_pOwner->GetManager()->GetFontInfo(m_pOwner->GetFont())->tm.tmHeight;
+		LONG lEditHeight = m_pOwner->m_pManager->GetFontInfo(m_pOwner->GetFont())->tm.tmHeight;
 		if( lEditHeight < rcPos.GetHeight() ) {
 			rcPos.top += (rcPos.GetHeight() - lEditHeight) / 2;
 			rcPos.bottom = rcPos.top + lEditHeight;
@@ -129,8 +129,8 @@ namespace DuiLib
 		m_pOwner->Invalidate();
 		// Clear reference and die
 		if( m_hBkBrush != NULL ) ::DeleteObject(m_hBkBrush);
-		if (m_pOwner->GetManager()->IsLayered()) {
-			m_pOwner->GetManager()->RemovePaintChildWnd(hWnd);
+		if (m_pOwner->m_pManager->IsLayered()) {
+			m_pOwner->m_pManager->RemovePaintChildWnd(hWnd);
 		}
 		m_pOwner->m_pWindow = NULL;
 		delete this;
@@ -141,8 +141,8 @@ namespace DuiLib
 		LRESULT lRes = 0;
 		BOOL bHandled = TRUE;
 		if( uMsg == WM_CREATE ) {
-			if( m_pOwner->GetManager()->IsLayered() ) {
-				m_pOwner->GetManager()->AddPaintChildWnd(m_hWnd);
+			if( m_pOwner->m_pManager->IsLayered() ) {
+				m_pOwner->m_pManager->AddPaintChildWnd(m_hWnd);
 				::SetTimer(m_hWnd, CARET_TIMERID, ::GetCaretBlinkTime(), NULL);
 			}
 			bHandled = FALSE;
@@ -157,11 +157,11 @@ namespace DuiLib
 			}
 		}
 		else if( uMsg == WM_KEYDOWN && TCHAR(wParam) == VK_RETURN ){
-			m_pOwner->GetManager()->SendNotify(m_pOwner, DUI_MSGTYPE_RETURN);
+			m_pOwner->m_pManager->SendNotify(m_pOwner, DUI_MSGTYPE_RETURN);
 		}
 		else if( uMsg == WM_KEYDOWN && TCHAR(wParam) == VK_TAB ){
-			if (m_pOwner->GetManager()->IsLayered()) {
-				m_pOwner->GetManager()->SetNextTabControl();
+			if (m_pOwner->m_pManager->IsLayered()) {
+				m_pOwner->m_pManager->SetNextTabControl();
 			}
 		}
 		else if( uMsg == OCM__BASE + WM_CTLCOLOREDIT  || uMsg == OCM__BASE + WM_CTLCOLORSTATIC ) {
@@ -182,7 +182,7 @@ namespace DuiLib
 			return (LRESULT)m_hBkBrush;
 		}
 		else if( uMsg == WM_PRINT ) {
-			if (m_pOwner->GetManager()->IsLayered()) {
+			if (m_pOwner->m_pManager->IsLayered()) {
 				lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
 				if( m_pOwner->IsEnabled() && m_bDrawCaret ) {
 					RECT rcClient;
@@ -230,8 +230,8 @@ namespace DuiLib
 		if( pstr == NULL ) return 0;
 		::GetWindowText(m_hWnd, pstr, cchLen);
 		m_pOwner->m_sText = pstr;
-		m_pOwner->GetManager()->SendNotify(m_pOwner, DUI_MSGTYPE_TEXTCHANGED);
-		if( m_pOwner->GetManager()->IsLayered() ) m_pOwner->Invalidate();
+		m_pOwner->m_pManager->SendNotify(m_pOwner, DUI_MSGTYPE_TEXTCHANGED);
+		if( m_pOwner->m_pManager->IsLayered() ) m_pOwner->Invalidate();
 		return 0;
 	}
 
@@ -303,7 +303,7 @@ namespace DuiLib
 		if( event.Type == UIEVENT_BUTTONDOWN || event.Type == UIEVENT_DBLCLICK || event.Type == UIEVENT_RBUTTONDOWN) 
 		{
 			if( IsEnabled() ) {
-				GetManager()->ReleaseCapture();
+				m_pManager->ReleaseCapture();
 				if( IsFocused() && m_pWindow == NULL )
 				{
 					m_pWindow = new CEditWnd();

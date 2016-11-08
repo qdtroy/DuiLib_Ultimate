@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window size="960,680" mininfo="960,680" sizebox="4,4,6,6" roundcorner="0,0" caption="0,0,0,64" showshadow="true" shadowimage="main/shadow.png" shadowsize="6" shadowcorner="8,8,8,8">
+  <Font id="0" size="12" default="true" share="true"/>
+  <Font id="1" size="13" bold="true"/>
+  
+  <Style name="tabbtn_style" value="group=&quot;browser_tabbar&quot; iconsize=&quot;16,16&quot; iconpadding=&quot;2,6,3,0&quot; iconimage=&quot;tabbtn_icon&quot; closesize=&quot;18,18&quot; closepadding=&quot;0,6,3,0&quot; closeimage=&quot;res='tabbtn_close' source='21,0,41,20'&quot; textpadding=&quot;20,0,21,0&quot; align=&quot;left&quot; valign=&quot;vcenter&quot; endellipsis=&quot;true&quot; maxwidth=&quot;120&quot; minwidth=&quot;40&quot; normalimage=&quot;res='tabbtn_normal' corner='4,4,4,4'&quot; hotimage=&quot;res='tabbtn_hover' corner='4,4,4,4'&quot; pushedimage=&quot;res='tabbtn_pushed' corner='4,4,4,4'&quot; selectedimage=&quot;res='tabbtn_pushed' corner='4,4,4,4'&quot;" shared="true"/>
+  <Style name="btn_style" value="textpadding=&quot;6,0,6,0&quot; normalimage=&quot;res='button_normal.png' corner='4,4,4,4'&quot; hotimage=&quot;res='button_hover.png' corner='4,4,4,4'&quot; pushedimage=&quot;res='button_pushed.png' corner='4,4,4,4'&quot;" />
+  
+  <Default name="VScrollBar" value="button1normalimage=&quot;file='scrollbar.bmp' source='0,90,16,106' mask='#FFFF00FF'&quot; button1hotimage=&quot;file='scrollbar.bmp' source='18,90,34,106' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='scrollbar.bmp' source='36,90,52,106' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='scrollbar.bmp' source='54,90,70,106' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='scrollbar.bmp' source='0,108,16,124' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='scrollbar.bmp' source='18,108,34,124' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='scrollbar.bmp' source='36,108,52,124' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='scrollbar.bmp' source='54,108,70,124' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='scrollbar.bmp' source='0,126,16,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='scrollbar.bmp' source='18,126,34,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;file='scrollbar.bmp' source='36,126,52,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='scrollbar.bmp' source='54,126,70,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='scrollbar.bmp' source='0,144,16,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='scrollbar.bmp' source='18,144,34,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='scrollbar.bmp' source='36,144,52,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='scrollbar.bmp' source='54,144,70,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='scrollbar.bmp' source='0,162,16,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='scrollbar.bmp' source='18,162,34,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='scrollbar.bmp' source='36,162,52,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='scrollbar.bmp' source='54,162,70,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; " />
+  <Default name="HScrollBar" value="button1normalimage=&quot;file='scrollbar.bmp' source='0,0,16,16' mask='#FFFF00FF'&quot; button1hotimage=&quot;file='scrollbar.bmp' source='18,0,34,16' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='scrollbar.bmp' source='36,0,52,16' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='scrollbar.bmp' source='54,0,70,16' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='scrollbar.bmp' source='0,18,16,34' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='scrollbar.bmp' source='18,18,34,34' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='scrollbar.bmp' source='36,18,52,34' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='scrollbar.bmp' source='54,18,70,34' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='scrollbar.bmp' source='0,36,16,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='scrollbar.bmp' source='18,36,34,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;file='scrollbar.bmp' source='36,36,52,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='scrollbar.bmp' source='54,36,70,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='scrollbar.bmp' source='0,54,16,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='scrollbar.bmp' source='18,54,34,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='scrollbar.bmp' source='36,54,52,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='scrollbar.bmp' source='54,54,70,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='scrollbar.bmp' source='0,72,16,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='scrollbar.bmp' source='18,72,34,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='scrollbar.bmp' source='36,72,52,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='scrollbar.bmp' source='54,72,70,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; " />
+
+  <VerticalLayout name="root" bkimage="file='main\bg.jpg'">
+    <HorizontalLayout name="header" height="64" >
+      <Container width="64" height="64" bkimage="logo.png" />
+      
+      <VerticalLayout inset="6,0,6,0">
+        
+        <HorizontalLayout name="title_bar" height="24" >
+          <Label name="title" width="300" font="1" text="木马（Troy）浏览器 v1.0 alpha" textcolor="#FFEFEFEF"/>
+        </HorizontalLayout>
+        
+        <HorizontalLayout name="browser_tools" inset="0,6,0,6" childpadding="5">
+          <HorizontalLayout width="190">
+            <Button name="back_btn" style="btn_style" text="后退" autocalcwidth="true" />
+            <Button name="forward_btn" style="btn_style" text="前进" autocalcwidth="true" />
+            <Button name="refresh_btn" style="btn_style" text="刷新" autocalcwidth="true" />
+            <Button name="restore_btn" style="btn_style" text="恢复" autocalcwidth="true" />
+            <Button name="home_go" style="btn_style" text="主页" autocalcwidth="true" />
+            <Control />
+          </HorizontalLayout>
+          
+          <HorizontalLayout name="address_bar" bordersize="1" bordercolor="#FFAAAAAA" inset="1,1,1,1" >
+            <Edit name="address_edit" tipvalue="请输入网址" tooltip="地址栏" />
+            <Button name="address_go" style="btn_style" text="打开" autocalcwidth="true" />
+          </HorizontalLayout>
+          
+          <HorizontalLayout name="search_bar" width="180" minwidth="160" bordersize="1" bordercolor="#FFAAAAAA" inset="1,1,1,1">
+            <Edit name="search_edit" tipvalue="请输入要搜索的关键词" tooltip="搜索栏" />
+            <Button name="search_go" style="btn_style" text="搜索" autocalcwidth="true" />
+          </HorizontalLayout>
+          
+          <HorizontalLayout width="120">
+            <Control />
+
+            <Button name="download_btn" style="btn_style" text="下载" autocalcwidth="true" />
+            <Button name="app_btn" style="btn_style" text="应用" autocalcwidth="true" />
+            <Button name="menu_btn" style="btn_style" text="菜单" autocalcwidth="true" />
+          </HorizontalLayout>
+        </HorizontalLayout>
+      </VerticalLayout>
+    </HorizontalLayout>
+    
+    <BrowserTabBar name="browser_tabbar" height="32" childpadding="2" inset="0,4,0,0">
+      <Button name="newtab" width="18" height="18" normalimage="res='newtab' source='0,0,18,18'" hotimage="res='newtab' source='19,0,37,18'" pushedimage="res='newtab' source='38,0,56,18'"/>
+    </BrowserTabBar>
+    
+    <VerticalLayout name="body" bkcolor="#FFFFFFFF">
+      <TabLayout name="browser_tabbody">
+      </TabLayout>
+    </VerticalLayout>
+
+    <HorizontalLayout name="foot" height="32">
+    </HorizontalLayout>
+
+    <HorizontalLayout float="0,0,1,0" inset="0,-1,0,0" height="20">
+      <Control />
+      <Button name="qq_btn" style="btn_style" text="By Troy(QQ：656067418)" autocalcwidth="true" tooltip="添加Troy为QQ好友" />
+      <Control />
+      <Button name="menubtn" visible="false" width="28" height="20" tooltip="菜单" normalimage="sysbtn_menu_normal" hotimage="sysbtn_menu_hot" pushedimage="sysbtn_menu_pushed"/>
+      <Button name="skinbtn" width="28" height="20" tooltip="皮肤" normalimage="sysbtn_skin_normal" hotimage="sysbtn_skin_hot" pushedimage="sysbtn_skin_pushed"/>
+      <Button name="minbtn" width="28" height="20" tooltip="最小化" normalimage="sysbtn_mini_normal" hotimage="sysbtn_mini_hot" pushedimage="sysbtn_mini_pushed"/>
+      <Button name="maxbtn" width="28" height="20" tooltip="最大化" normalimage="sysbtn_max_normal" hotimage="sysbtn_max_hot" pushedimage="sysbtn_max_pushed"/>
+      <Button name="restorebtn" width="28" height="20" tooltip="还原" visible="false" normalimage="sysbtn_restore_normal" hotimage="sysbtn_restore_hot" pushedimage="sysbtn_restore_pushed"/>
+      <Button name="closebtn" width="39" height="20" tooltip="关闭" normalimage="sysbtn_close_normal" hotimage="sysbtn_close_hot" pushedimage="sysbtn_close_pushed"/>
+    </HorizontalLayout>
+  </VerticalLayout>
+</Window>

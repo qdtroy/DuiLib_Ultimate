@@ -1,0 +1,675 @@
+﻿// Created by Microsoft (R) C/C++ Compiler Version 10.00.40219.01 (c7191975).
+//
+// e:\devprojects\github\test\dlgdemo\debug\ntgraph.tli
+//
+// Wrapper implementations for Win32 type library NTGraph.ocx
+// compiler-generated file created 06/16/16 at 10:24:42 - DO NOT EDIT!
+
+#pragma once
+
+//
+// dispinterface _DNTGraph wrapper method implementations
+//
+
+inline HRESULT _DNTGraph::SetRange ( double xmin, double xmax, double ymin, double ymax ) {
+    return _com_dispatch_method(this, 0x35, DISPATCH_METHOD, VT_EMPTY, NULL, 
+        L"\x0005\x0005\x0005\x0005", xmin, xmax, ymin, ymax);
+}
+
+inline HRESULT _DNTGraph::AutoRange ( ) {
+    return _com_dispatch_method(this, 0x36, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
+}
+
+inline HRESULT _DNTGraph::CopyToClipboard ( ) {
+    return _com_dispatch_method(this, 0x37, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
+}
+
+inline HRESULT _DNTGraph::PrintGraph ( ) {
+    return _com_dispatch_method(this, 0x38, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
+}
+
+inline HRESULT _DNTGraph::AddElement ( ) {
+    return _com_dispatch_method(this, 0x39, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
+}
+
+inline HRESULT _DNTGraph::DeleteElement ( short ElementID ) {
+    return _com_dispatch_method(this, 0x3a, DISPATCH_METHOD, VT_EMPTY, NULL, 
+        L"\x0002", ElementID);
+}
+
+inline HRESULT _DNTGraph::ClearGraph ( ) {
+    return _com_dispatch_method(this, 0x3b, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
+}
+
+inline double _DNTGraph::GetElementXValue ( long index, short ElementID ) {
+    double _result = 0;
+    _com_dispatch_method(this, 0x44, DISPATCH_PROPERTYGET, VT_R8, (void*)&_result, 
+        L"\x0003\x0002", index, ElementID);
+    return _result;
+}
+
+inline void _DNTGraph::PutElementXValue ( long index, short ElementID, double _arg3 ) {
+    _com_dispatch_method(this, 0x44, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, 
+        L"\x0003\x0002\x0005", index, ElementID, _arg3);
+}
+
+inline double _DNTGraph::GetElementYValue ( long index, short ElementID ) {
+    double _result = 0;
+    _com_dispatch_method(this, 0x45, DISPATCH_PROPERTYGET, VT_R8, (void*)&_result, 
+        L"\x0003\x0002", index, ElementID);
+    return _result;
+}
+
+inline void _DNTGraph::PutElementYValue ( long index, short ElementID, double _arg3 ) {
+    _com_dispatch_method(this, 0x45, DISPATCH_PROPERTYPUT, VT_EMPTY, NULL, 
+        L"\x0003\x0002\x0005", index, ElementID, _arg3);
+}
+
+inline HRESULT _DNTGraph::PlotXY ( double X, double Y, short ElementID ) {
+    return _com_dispatch_method(this, 0x3c, DISPATCH_METHOD, VT_EMPTY, NULL, 
+        L"\x0005\x0005\x0002", X, Y, ElementID);
+}
+
+inline HRESULT _DNTGraph::PlotY ( double Y, short ElementID ) {
+    return _com_dispatch_method(this, 0x3d, DISPATCH_METHOD, VT_EMPTY, NULL, 
+        L"\x0005\x0002", Y, ElementID);
+}
+
+inline HRESULT _DNTGraph::ShowProperties ( ) {
+    return _com_dispatch_method(this, 0x3e, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
+}
+
+inline HRESULT _DNTGraph::SaveAs ( _bstr_t szFilename ) {
+    return _com_dispatch_method(this, 0x3f, DISPATCH_METHOD, VT_EMPTY, NULL, 
+        L"\x0008", (BSTR)szFilename);
+}
+
+inline HRESULT _DNTGraph::AddAnnotation ( ) {
+    return _com_dispatch_method(this, 0x40, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
+}
+
+inline HRESULT _DNTGraph::DeleteAnnotation ( short annoID ) {
+    return _com_dispatch_method(this, 0x41, DISPATCH_METHOD, VT_EMPTY, NULL, 
+        L"\x0002", annoID);
+}
+
+inline HRESULT _DNTGraph::AddCursor ( ) {
+    return _com_dispatch_method(this, 0x42, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
+}
+
+inline HRESULT _DNTGraph::DeleteCursor ( short cursorID ) {
+    return _com_dispatch_method(this, 0x43, DISPATCH_METHOD, VT_EMPTY, NULL, 
+        L"\x0002", cursorID);
+}
+
+inline HRESULT _DNTGraph::AboutBox ( ) {
+    return _com_dispatch_method(this, DISPID_ABOUTBOX, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
+}
+
+inline short _DNTGraph::GetAppearance ( ) {
+    short _result = 0;
+    _com_dispatch_propget(this, DISPID_APPEARANCE, VT_I2, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutAppearance ( short _val ) {
+    _com_dispatch_propput(this, DISPID_APPEARANCE, VT_I2, _val);
+}
+
+inline _bstr_t _DNTGraph::GetCaption ( ) {
+    BSTR _result = 0;
+    _com_dispatch_propget(this, DISPID_CAPTION, VT_BSTR, (void*)&_result);
+    return _bstr_t(_result, false);
+}
+
+inline void _DNTGraph::PutCaption ( _bstr_t _val ) {
+    _com_dispatch_propput(this, DISPID_CAPTION, VT_BSTR, (BSTR)_val);
+}
+
+inline VARIANT_BOOL _DNTGraph::GetEnabled ( ) {
+    VARIANT_BOOL _result = 0;
+    _com_dispatch_propget(this, DISPID_ENABLED, VT_BOOL, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutEnabled ( VARIANT_BOOL _val ) {
+    _com_dispatch_propput(this, DISPID_ENABLED, VT_BOOL, _val);
+}
+
+inline OLE_COLOR _DNTGraph::GetAxisColor ( ) {
+    OLE_COLOR _result;
+    _com_dispatch_propget(this, 0x1, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutAxisColor ( OLE_COLOR _val ) {
+    _com_dispatch_propput(this, 0x1, VT_I4, _val);
+}
+
+inline OLE_COLOR _DNTGraph::GetGridColor ( ) {
+    OLE_COLOR _result;
+    _com_dispatch_propget(this, 0x2, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutGridColor ( OLE_COLOR _val ) {
+    _com_dispatch_propput(this, 0x2, VT_I4, _val);
+}
+
+inline OLE_COLOR _DNTGraph::GetLabelColor ( ) {
+    OLE_COLOR _result;
+    _com_dispatch_propget(this, 0x3, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutLabelColor ( OLE_COLOR _val ) {
+    _com_dispatch_propput(this, 0x3, VT_I4, _val);
+}
+
+inline OLE_COLOR _DNTGraph::GetCursorColor ( ) {
+    OLE_COLOR _result;
+    _com_dispatch_propget(this, 0x4, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutCursorColor ( OLE_COLOR _val ) {
+    _com_dispatch_propput(this, 0x4, VT_I4, _val);
+}
+
+inline FontPtr _DNTGraph::GetLabelFont ( ) {
+    struct Font * _result = 0;
+    _com_dispatch_propget(this, 0x2b, VT_DISPATCH, (void*)&_result);
+    return FontPtr(_result, false);
+}
+
+inline void _DNTGraph::PutLabelFont ( struct Font * _val ) {
+    _com_dispatch_propput(this, 0x2b, VT_DISPATCH, _val);
+}
+
+inline FontPtr _DNTGraph::GetTickFont ( ) {
+    struct Font * _result = 0;
+    _com_dispatch_propget(this, 0x2c, VT_DISPATCH, (void*)&_result);
+    return FontPtr(_result, false);
+}
+
+inline void _DNTGraph::PutTickFont ( struct Font * _val ) {
+    _com_dispatch_propput(this, 0x2c, VT_DISPATCH, _val);
+}
+
+inline FontPtr _DNTGraph::GetTitleFont ( ) {
+    struct Font * _result = 0;
+    _com_dispatch_propget(this, 0x2d, VT_DISPATCH, (void*)&_result);
+    return FontPtr(_result, false);
+}
+
+inline void _DNTGraph::PutTitleFont ( struct Font * _val ) {
+    _com_dispatch_propput(this, 0x2d, VT_DISPATCH, _val);
+}
+
+inline FontPtr _DNTGraph::GetIdentFont ( ) {
+    struct Font * _result = 0;
+    _com_dispatch_propget(this, 0x2e, VT_DISPATCH, (void*)&_result);
+    return FontPtr(_result, false);
+}
+
+inline void _DNTGraph::PutIdentFont ( struct Font * _val ) {
+    _com_dispatch_propput(this, 0x2e, VT_DISPATCH, _val);
+}
+
+inline short _DNTGraph::GetXGridNumber ( ) {
+    short _result = 0;
+    _com_dispatch_propget(this, 0x5, VT_I2, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutXGridNumber ( short _val ) {
+    _com_dispatch_propput(this, 0x5, VT_I2, _val);
+}
+
+inline short _DNTGraph::GetYGridNumber ( ) {
+    short _result = 0;
+    _com_dispatch_propget(this, 0x6, VT_I2, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutYGridNumber ( short _val ) {
+    _com_dispatch_propput(this, 0x6, VT_I2, _val);
+}
+
+inline VARIANT_BOOL _DNTGraph::GetShowGrid ( ) {
+    VARIANT_BOOL _result = 0;
+    _com_dispatch_propget(this, 0x7, VT_BOOL, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutShowGrid ( VARIANT_BOOL _val ) {
+    _com_dispatch_propput(this, 0x7, VT_BOOL, _val);
+}
+
+inline _bstr_t _DNTGraph::GetXLabel ( ) {
+    BSTR _result = 0;
+    _com_dispatch_propget(this, 0x8, VT_BSTR, (void*)&_result);
+    return _bstr_t(_result, false);
+}
+
+inline void _DNTGraph::PutXLabel ( _bstr_t _val ) {
+    _com_dispatch_propput(this, 0x8, VT_BSTR, (BSTR)_val);
+}
+
+inline _bstr_t _DNTGraph::GetYLabel ( ) {
+    BSTR _result = 0;
+    _com_dispatch_propget(this, 0x9, VT_BSTR, (void*)&_result);
+    return _bstr_t(_result, false);
+}
+
+inline void _DNTGraph::PutYLabel ( _bstr_t _val ) {
+    _com_dispatch_propput(this, 0x9, VT_BSTR, (BSTR)_val);
+}
+
+inline OLE_COLOR _DNTGraph::GetElementLineColor ( ) {
+    OLE_COLOR _result;
+    _com_dispatch_propget(this, 0xa, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutElementLineColor ( OLE_COLOR _val ) {
+    _com_dispatch_propput(this, 0xa, VT_I4, _val);
+}
+
+inline OLE_COLOR _DNTGraph::GetElementPointColor ( ) {
+    OLE_COLOR _result;
+    _com_dispatch_propget(this, 0xb, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutElementPointColor ( OLE_COLOR _val ) {
+    _com_dispatch_propput(this, 0xb, VT_I4, _val);
+}
+
+inline enum LineType _DNTGraph::GetElementLinetype ( ) {
+    enum LineType _result;
+    _com_dispatch_propget(this, 0xc, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutElementLinetype ( enum LineType _val ) {
+    _com_dispatch_propput(this, 0xc, VT_I4, _val);
+}
+
+inline long _DNTGraph::GetElementWidth ( ) {
+    long _result = 0;
+    _com_dispatch_propget(this, 0xd, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutElementWidth ( long _val ) {
+    _com_dispatch_propput(this, 0xd, VT_I4, _val);
+}
+
+inline enum SymbolType _DNTGraph::GetElementPointSymbol ( ) {
+    enum SymbolType _result;
+    _com_dispatch_propget(this, 0xe, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutElementPointSymbol ( enum SymbolType _val ) {
+    _com_dispatch_propput(this, 0xe, VT_I4, _val);
+}
+
+inline VARIANT_BOOL _DNTGraph::GetElementSolidPoint ( ) {
+    VARIANT_BOOL _result = 0;
+    _com_dispatch_propget(this, 0xf, VT_BOOL, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutElementSolidPoint ( VARIANT_BOOL _val ) {
+    _com_dispatch_propput(this, 0xf, VT_BOOL, _val);
+}
+
+inline VARIANT_BOOL _DNTGraph::GetElementShow ( ) {
+    VARIANT_BOOL _result = 0;
+    _com_dispatch_propget(this, 0x10, VT_BOOL, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutElementShow ( VARIANT_BOOL _val ) {
+    _com_dispatch_propput(this, 0x10, VT_BOOL, _val);
+}
+
+inline enum TrackModeState _DNTGraph::GetTrackMode ( ) {
+    enum TrackModeState _result;
+    _com_dispatch_propget(this, 0x2f, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutTrackMode ( enum TrackModeState _val ) {
+    _com_dispatch_propput(this, 0x2f, VT_I4, _val);
+}
+
+inline _bstr_t _DNTGraph::GetElementName ( ) {
+    BSTR _result = 0;
+    _com_dispatch_propget(this, 0x11, VT_BSTR, (void*)&_result);
+    return _bstr_t(_result, false);
+}
+
+inline void _DNTGraph::PutElementName ( _bstr_t _val ) {
+    _com_dispatch_propput(this, 0x11, VT_BSTR, (BSTR)_val);
+}
+
+inline VARIANT_BOOL _DNTGraph::GetElementIdentify ( ) {
+    VARIANT_BOOL _result = 0;
+    _com_dispatch_propget(this, 0x12, VT_BOOL, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutElementIdentify ( VARIANT_BOOL _val ) {
+    _com_dispatch_propput(this, 0x12, VT_BOOL, _val);
+}
+
+inline VARIANT_BOOL _DNTGraph::GetXLog ( ) {
+    VARIANT_BOOL _result = 0;
+    _com_dispatch_propget(this, 0x13, VT_BOOL, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutXLog ( VARIANT_BOOL _val ) {
+    _com_dispatch_propput(this, 0x13, VT_BOOL, _val);
+}
+
+inline VARIANT_BOOL _DNTGraph::GetYLog ( ) {
+    VARIANT_BOOL _result = 0;
+    _com_dispatch_propget(this, 0x14, VT_BOOL, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutYLog ( VARIANT_BOOL _val ) {
+    _com_dispatch_propput(this, 0x14, VT_BOOL, _val);
+}
+
+inline PicturePtr _DNTGraph::GetControlFramePicture ( ) {
+    struct Picture * _result = 0;
+    _com_dispatch_propget(this, 0x30, VT_DISPATCH, (void*)&_result);
+    return PicturePtr(_result, false);
+}
+
+inline void _DNTGraph::PutControlFramePicture ( struct Picture * _val ) {
+    _com_dispatch_propput(this, 0x30, VT_DISPATCH, _val);
+}
+
+inline PicturePtr _DNTGraph::GetPlotAreaPicture ( ) {
+    struct Picture * _result = 0;
+    _com_dispatch_propget(this, 0x31, VT_DISPATCH, (void*)&_result);
+    return PicturePtr(_result, false);
+}
+
+inline void _DNTGraph::PutPlotAreaPicture ( struct Picture * _val ) {
+    _com_dispatch_propput(this, 0x31, VT_DISPATCH, _val);
+}
+
+inline OLE_COLOR _DNTGraph::GetControlFrameColor ( ) {
+    OLE_COLOR _result;
+    _com_dispatch_propget(this, 0x15, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutControlFrameColor ( OLE_COLOR _val ) {
+    _com_dispatch_propput(this, 0x15, VT_I4, _val);
+}
+
+inline OLE_COLOR _DNTGraph::GetPlotAreaColor ( ) {
+    OLE_COLOR _result;
+    _com_dispatch_propget(this, 0x16, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutPlotAreaColor ( OLE_COLOR _val ) {
+    _com_dispatch_propput(this, 0x16, VT_I4, _val);
+}
+
+inline enum FrameStyle _DNTGraph::GetFrameStyle ( ) {
+    enum FrameStyle _result;
+    _com_dispatch_propget(this, 0x17, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutFrameStyle ( enum FrameStyle _val ) {
+    _com_dispatch_propput(this, 0x17, VT_I4, _val);
+}
+
+inline _bstr_t _DNTGraph::GetAnnoLabelCaption ( ) {
+    BSTR _result = 0;
+    _com_dispatch_propget(this, 0x18, VT_BSTR, (void*)&_result);
+    return _bstr_t(_result, false);
+}
+
+inline void _DNTGraph::PutAnnoLabelCaption ( _bstr_t _val ) {
+    _com_dispatch_propput(this, 0x18, VT_BSTR, (BSTR)_val);
+}
+
+inline double _DNTGraph::GetAnnoLabelX ( ) {
+    double _result = 0;
+    _com_dispatch_propget(this, 0x19, VT_R8, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutAnnoLabelX ( double _val ) {
+    _com_dispatch_propput(this, 0x19, VT_R8, _val);
+}
+
+inline double _DNTGraph::GetAnnoLabelY ( ) {
+    double _result = 0;
+    _com_dispatch_propget(this, 0x1a, VT_R8, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutAnnoLabelY ( double _val ) {
+    _com_dispatch_propput(this, 0x1a, VT_R8, _val);
+}
+
+inline OLE_COLOR _DNTGraph::GetAnnoLabelColor ( ) {
+    OLE_COLOR _result;
+    _com_dispatch_propget(this, 0x1b, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutAnnoLabelColor ( OLE_COLOR _val ) {
+    _com_dispatch_propput(this, 0x1b, VT_I4, _val);
+}
+
+inline VARIANT_BOOL _DNTGraph::GetAnnoLabelHorizontal ( ) {
+    VARIANT_BOOL _result = 0;
+    _com_dispatch_propget(this, 0x1c, VT_BOOL, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutAnnoLabelHorizontal ( VARIANT_BOOL _val ) {
+    _com_dispatch_propput(this, 0x1c, VT_BOOL, _val);
+}
+
+inline short _DNTGraph::GetAnnotation ( ) {
+    short _result = 0;
+    _com_dispatch_propget(this, 0x1d, VT_I2, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutAnnotation ( short _val ) {
+    _com_dispatch_propput(this, 0x1d, VT_I2, _val);
+}
+
+inline VARIANT_BOOL _DNTGraph::GetAnnoVisible ( ) {
+    VARIANT_BOOL _result = 0;
+    _com_dispatch_propget(this, 0x1e, VT_BOOL, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutAnnoVisible ( VARIANT_BOOL _val ) {
+    _com_dispatch_propput(this, 0x1e, VT_BOOL, _val);
+}
+
+inline short _DNTGraph::GetAnnoCount ( ) {
+    short _result = 0;
+    _com_dispatch_propget(this, 0x32, VT_I2, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutAnnoCount ( short _val ) {
+    _com_dispatch_propput(this, 0x32, VT_I2, _val);
+}
+
+inline short _DNTGraph::GetElement ( ) {
+    short _result = 0;
+    _com_dispatch_propget(this, 0x1f, VT_I2, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutElement ( short _val ) {
+    _com_dispatch_propput(this, 0x1f, VT_I2, _val);
+}
+
+inline short _DNTGraph::GetElementCount ( ) {
+    short _result = 0;
+    _com_dispatch_propget(this, 0x33, VT_I2, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutElementCount ( short _val ) {
+    _com_dispatch_propput(this, 0x33, VT_I2, _val);
+}
+
+inline OLE_COLOR _DNTGraph::GetAnnoLabelBkColor ( ) {
+    OLE_COLOR _result;
+    _com_dispatch_propget(this, 0x20, VT_I4, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutAnnoLabelBkColor ( OLE_COLOR _val ) {
+    _com_dispatch_propput(this, 0x20, VT_I4, _val);
+}
+
+inline short _DNTGraph::GetCursorCount ( ) {
+    short _result = 0;
+    _com_dispatch_propget(this, 0x34, VT_I2, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutCursorCount ( short _val ) {
+    _com_dispatch_propput(this, 0x34, VT_I2, _val);
+}
+
+inline short _DNTGraph::GetCursor ( ) {
+    short _result = 0;
+    _com_dispatch_propget(this, 0x21, VT_I2, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutCursor ( short _val ) {
+    _com_dispatch_propput(this, 0x21, VT_I2, _val);
+}
+
+inline double _DNTGraph::GetCursorX ( ) {
+    double _result = 0;
+    _com_dispatch_propget(this, 0x22, VT_R8, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutCursorX ( double _val ) {
+    _com_dispatch_propput(this, 0x22, VT_R8, _val);
+}
+
+inline double _DNTGraph::GetCursorY ( ) {
+    double _result = 0;
+    _com_dispatch_propget(this, 0x23, VT_R8, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutCursorY ( double _val ) {
+    _com_dispatch_propput(this, 0x23, VT_R8, _val);
+}
+
+inline short _DNTGraph::GetCursorStyle ( ) {
+    short _result = 0;
+    _com_dispatch_propget(this, 0x24, VT_I2, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutCursorStyle ( short _val ) {
+    _com_dispatch_propput(this, 0x24, VT_I2, _val);
+}
+
+inline VARIANT_BOOL _DNTGraph::GetCursorVisible ( ) {
+    VARIANT_BOOL _result = 0;
+    _com_dispatch_propget(this, 0x25, VT_BOOL, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutCursorVisible ( VARIANT_BOOL _val ) {
+    _com_dispatch_propput(this, 0x25, VT_BOOL, _val);
+}
+
+inline short _DNTGraph::GetCursorMode ( ) {
+    short _result = 0;
+    _com_dispatch_propget(this, 0x26, VT_I2, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutCursorMode ( short _val ) {
+    _com_dispatch_propput(this, 0x26, VT_I2, _val);
+}
+
+inline _bstr_t _DNTGraph::GetFormatAxisBottom ( ) {
+    BSTR _result = 0;
+    _com_dispatch_propget(this, 0x27, VT_BSTR, (void*)&_result);
+    return _bstr_t(_result, false);
+}
+
+inline void _DNTGraph::PutFormatAxisBottom ( _bstr_t _val ) {
+    _com_dispatch_propput(this, 0x27, VT_BSTR, (BSTR)_val);
+}
+
+inline _bstr_t _DNTGraph::GetFormatAxisLeft ( ) {
+    BSTR _result = 0;
+    _com_dispatch_propget(this, 0x28, VT_BSTR, (void*)&_result);
+    return _bstr_t(_result, false);
+}
+
+inline void _DNTGraph::PutFormatAxisLeft ( _bstr_t _val ) {
+    _com_dispatch_propput(this, 0x28, VT_BSTR, (BSTR)_val);
+}
+
+inline VARIANT_BOOL _DNTGraph::GetYTime ( ) {
+    VARIANT_BOOL _result = 0;
+    _com_dispatch_propget(this, 0x29, VT_BOOL, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutYTime ( VARIANT_BOOL _val ) {
+    _com_dispatch_propput(this, 0x29, VT_BOOL, _val);
+}
+
+inline VARIANT_BOOL _DNTGraph::GetXTime ( ) {
+    VARIANT_BOOL _result = 0;
+    _com_dispatch_propget(this, 0x2a, VT_BOOL, (void*)&_result);
+    return _result;
+}
+
+inline void _DNTGraph::PutXTime ( VARIANT_BOOL _val ) {
+    _com_dispatch_propput(this, 0x2a, VT_BOOL, _val);
+}
+
+//
+// dispinterface _DNTGraphEvents wrapper method implementations
+//
+
+inline HRESULT _DNTGraphEvents::CursorPosition ( double X, double Y ) {
+    return _com_dispatch_method(this, 0x1, DISPATCH_METHOD, VT_EMPTY, NULL, 
+        L"\x0005\x0005", X, Y);
+}
+
+inline HRESULT _DNTGraphEvents::TrackModeChanged ( enum TrackModeState lNewState ) {
+    return _com_dispatch_method(this, 0x2, DISPATCH_METHOD, VT_EMPTY, NULL, 
+        L"\x0003", lNewState);
+}
+
+inline HRESULT _DNTGraphEvents::Click ( ) {
+    return _com_dispatch_method(this, DISPID_CLICK, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
+}

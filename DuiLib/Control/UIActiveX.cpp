@@ -1024,7 +1024,6 @@ namespace DuiLib {
 		if( _tcscmp(pstrName, _T("clsid")) == 0 ) CreateControl(pstrValue);
 		else if( _tcscmp(pstrName, _T("modulename")) == 0 ) SetModuleName(pstrValue);
 		else if( _tcscmp(pstrName, _T("delaycreate")) == 0 ) SetDelayCreate(_tcscmp(pstrValue, _T("true")) == 0);
-		//else if( _tcscmp(pstrName, _T("mfc")) == 0 ) SetMFC(_tcscmp(pstrValue, _T("true")) == 0);
 		else CControlUI::SetAttribute(pstrName, pstrValue);
 	}
 
@@ -1123,7 +1122,7 @@ namespace DuiLib {
 	void CActiveXUI::ReleaseControl()
 	{
 		// ÒÆ³ýÏûÏ¢Á´
-		m_pManager->RemoveMessageFilter(this);
+		GetManager()->RemoveMessageFilter(this);
 
 		if( m_pUnk != NULL ) {
 			IObjectWithSite* pSite = NULL;
@@ -1204,11 +1203,11 @@ namespace DuiLib {
 		if( FAILED(Hr) ) Hr = m_pUnk->QueryInterface(IID_IViewObject, (LPVOID*) &m_pControl->m_pViewObject);
 		// Activate and done...
 		m_pUnk->SetHostNames(OLESTR("UIActiveX"), NULL);
-		if( m_pManager != NULL ) m_pManager->SendNotify((CControlUI*)this, DUI_MSGTYPE_SHOWACTIVEX, 0, 0, false);
+		if( GetManager() != NULL ) GetManager()->SendNotify((CControlUI*)this, DUI_MSGTYPE_SHOWACTIVEX, 0, 0, false);
 		if( (dwMiscStatus & OLEMISC_INVISIBLEATRUNTIME) == 0 ) {
 			try
 			{
-				Hr = m_pUnk->DoVerb(OLEIVERB_INPLACEACTIVATE, NULL, pOleClientSite, 0, m_pManager->GetPaintWindow(), &m_rcItem);
+				Hr = m_pUnk->DoVerb(OLEIVERB_INPLACEACTIVATE, NULL, pOleClientSite, 0, GetManager()->GetPaintWindow(), &m_rcItem);
 			}
 			catch (...)
 			{

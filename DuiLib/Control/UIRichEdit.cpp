@@ -1074,7 +1074,7 @@ CRichEditUI::~CRichEditUI()
 {
     if( m_pTwh ) {
         m_pTwh->Release();
-        m_pManager->RemoveMessageFilter(this);
+        GetManager()->RemoveMessageFilter(this);
     }
 }
 
@@ -1206,7 +1206,7 @@ void CRichEditUI::SetEnabled(bool bEnabled)
 	if (m_bEnabled == bEnabled) return;
 
 	if( m_pTwh ) {
-		m_pTwh->SetColor(bEnabled ? m_dwTextColor : m_pManager->GetDefaultDisabledColor());
+		m_pTwh->SetColor(bEnabled ? m_dwTextColor : GetManager()->GetDefaultDisabledColor());
 	}
 	
 	CContainerUI::SetEnabled(bEnabled);
@@ -1516,7 +1516,7 @@ DWORD CRichEditUI::GetSelectionCharFormat(CHARFORMAT2 &cf) const
 
 bool CRichEditUI::SetSelectionCharFormat(CHARFORMAT2 &cf)
 {
-	if(m_pManager->IsLayered()) {
+	if(GetManager()->IsLayered()) {
 		CRenderEngine::CheckAlphaColor(cf.crTextColor);
 		CRenderEngine::CheckAlphaColor(cf.crBackColor);
 	}
@@ -1731,9 +1731,9 @@ void CRichEditUI::DoInit()
         m_pTwh->GetTextServices()->TxSendMessage(EM_SETLANGOPTIONS, 0, 0, &lResult);
 		m_pTwh->GetTextServices()->TxSendMessage(EM_SETEVENTMASK, 0, ENM_DROPFILES|ENM_LINK|ENM_CHANGE, &lResult);
         m_pTwh->OnTxInPlaceActivate(NULL);
-        m_pManager->AddMessageFilter(this);
+        GetManager()->AddMessageFilter(this);
 		if (!m_bEnabled) {
-			m_pTwh->SetColor(m_pManager->GetDefaultDisabledColor());
+			m_pTwh->SetColor(GetManager()->GetDefaultDisabledColor());
 		}
     }
 	
@@ -1745,7 +1745,7 @@ HRESULT CRichEditUI::TxSendMessage(UINT msg, WPARAM wparam, LPARAM lparam, LRESU
     if( m_pTwh ) {
         if( msg == WM_KEYDOWN && TCHAR(wparam) == VK_RETURN ) {
             if( !m_bWantReturn || (::GetKeyState(VK_CONTROL) < 0 && !m_bWantCtrlReturn) ) {
-                if( m_pManager != NULL ) m_pManager->SendNotify((CControlUI*)this, DUI_MSGTYPE_RETURN);
+                if( GetManager() != NULL ) GetManager()->SendNotify((CControlUI*)this, DUI_MSGTYPE_RETURN);
                 return S_OK;
             }
         }
@@ -2391,7 +2391,7 @@ void CRichEditUI::DoPaint(HDC hDC, const RECT& rcPaint)
 		UINT uTextAlign = GetTipValueAlign();
 		if(IsMultiLine()) uTextAlign |= DT_TOP;
 		else uTextAlign |= DT_VCENTER;
-		CRenderEngine::DrawText(hDC, m_pManager, rc, sTipValue, dwTextColor, m_iFont, uTextAlign);
+		CRenderEngine::DrawText(hDC, GetManager(), rc, sTipValue, dwTextColor, m_iFont, uTextAlign);
 	}
 }
 

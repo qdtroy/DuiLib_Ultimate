@@ -12,12 +12,10 @@ namespace DuiLib {
 	{
 		//资源ID为0-65535，两个字节；字符串指针为4个字节
 		//字符串以<开头认为是XML字符串，否则认为是XML文件
-		if(HIWORD(xml.m_lpstr) != NULL && *(xml.m_lpstr) != _T('<'))
-		{
-			LPCTSTR lpstrXML = CResourceManager::GetInstance()->GetXmlPath(xml.m_lpstr);
-			if (lpstrXML != NULL)
-			{
-				xml = lpstrXML;
+		if(HIWORD(xml.m_lpstr) != NULL && *(xml.m_lpstr) != _T('<')) {
+			LPCTSTR xmlpath = CResourceManager::GetInstance()->GetXmlPath(xml.m_lpstr);
+			if (xmlpath != NULL) {
+				xml = xmlpath;
 			}
 		}
 
@@ -372,8 +370,8 @@ namespace DuiLib {
 				continue;
 			}
 			else {
-				CDuiString strClass =  _T("C");
-				strClass = strClass + pstrClass + _T("UI");
+				CDuiString strClass;
+				strClass.Format(_T("C%sUI"), pstrClass);
 				pControl = dynamic_cast<CControlUI*>(CControlFactory::GetInstance()->CreateControl(strClass));
 
 				// 检查插件

@@ -104,7 +104,7 @@ namespace DuiLib
 
 	SIZE CLabelUI::EstimateSize(SIZE szAvailable)
 	{
-		if (m_bAutoCalcWidth) {
+		if (m_bAutoCalcWidth&&m_pManager) {
 			CDuiString sText = GetText();
 
 			RECT rcText = {0, 0, szAvailable.cx, szAvailable.cy};
@@ -114,7 +114,12 @@ namespace DuiLib
 			m_cxyFixed.cx = MulDiv(rcText.right - rcText.left + GetManager()->GetDPIObj()->Scale(m_rcTextPadding.left) + GetManager()->GetDPIObj()->Scale(m_rcTextPadding.right), 100, GetManager()->GetDPIObj()->GetScale());
 		}
 
-		if( m_cxyFixed.cy == 0 ) return CDuiSize(GetManager()->GetDPIObj()->Scale(m_cxyFixed.cx), m_pManager->GetFontInfo(GetFont())->tm.tmHeight + 4);
+		if (m_cxyFixed.cy == 0) {
+			if(m_pManager)return CDuiSize(GetManager()->GetDPIObj()->Scale(m_cxyFixed.cx), m_pManager->GetFontInfo(GetFont())->tm.tmHeight + 4);
+			else return CDuiSize(m_cxyFixed.cx, m_pManager->GetFontInfo(GetFont())->tm.tmHeight + 4);
+			
+			
+		}
 		return CControlUI::EstimateSize(szAvailable);
 	}
 
@@ -223,7 +228,7 @@ namespace DuiLib
 
 		RECT rc = m_rcItem;
 		RECT m_rcTextPadding = CLabelUI::m_rcTextPadding;
-		GetManager()->GetDPIObj()->Scale(&m_rcTextPadding);
+		if (m_pManager)GetManager()->GetDPIObj()->Scale(&m_rcTextPadding);
 		rc.left += m_rcTextPadding.left;
 		rc.right -= m_rcTextPadding.right;
 		rc.top += m_rcTextPadding.top;

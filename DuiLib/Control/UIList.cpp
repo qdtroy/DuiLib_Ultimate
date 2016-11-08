@@ -610,7 +610,7 @@ namespace DuiLib {
 	RECT CListUI::GetItemTextPadding() const
 	{
 		RECT rect = m_ListInfo.rcTextPadding;
-		GetManager()->GetDPIObj()->Scale(&rect);
+		if (m_pManager)GetManager()->GetDPIObj()->Scale(&rect);
 		return rect;
 	}
 

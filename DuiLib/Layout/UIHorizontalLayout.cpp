@@ -34,7 +34,7 @@ namespace DuiLib
 
 		// Adjust for inset
 		RECT m_rcInset = CHorizontalLayoutUI::m_rcInset;
-		GetManager()->GetDPIObj()->Scale(&m_rcInset);
+		if (m_pManager)GetManager()->GetDPIObj()->Scale(&m_rcInset);
 		rc.left += m_rcInset.left;
 		rc.top += m_rcInset.top;
 		rc.right -= m_rcInset.right;

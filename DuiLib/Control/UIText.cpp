@@ -126,7 +126,9 @@ namespace DuiLib
 		
 		if (m_bAutoCalcWidth)
 		{
-			m_cxyFixed.cx = MulDiv(cXY.cx, 100.0, GetManager()->GetDPIObj()->GetScale());
+
+			if (m_pManager) m_cxyFixed.cx = MulDiv(cXY.cx, 100.0, GetManager()->GetDPIObj()->GetScale());
+			else m_cxyFixed.cx = cXY.cx;
 		}
 
 		return CControlUI::EstimateSize(szAvailable);

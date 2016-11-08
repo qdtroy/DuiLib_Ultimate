@@ -168,7 +168,8 @@ namespace DuiLib
 
 	RECT CContainerUI::GetInset() const
 	{
-		return GetManager()->GetDPIObj()->Scale(m_rcInset);
+		if(m_pManager) return m_pManager->GetDPIObj()->Scale(m_rcInset);
+		return m_rcInset;
 	}
 
 	void CContainerUI::SetInset(RECT rcInset)
@@ -179,8 +180,10 @@ namespace DuiLib
 
 	int CContainerUI::GetChildPadding() const
 	{
-		return GetManager()->GetDPIObj()->Scale(m_iChildPadding);
+		if (m_pManager) return m_pManager->GetDPIObj()->Scale(m_iChildPadding);
+		return m_iChildPadding;
 	}
+
 
 	void CContainerUI::SetChildPadding(int iPadding)
 	{
@@ -424,7 +427,9 @@ namespace DuiLib
 
 	int CContainerUI::GetScrollStepSize() const
 	{
-		return GetManager()->GetDPIObj()->Scale(m_nScrollStepSize);
+		if(m_pManager )return m_pManager->GetDPIObj()->Scale(m_nScrollStepSize);
+
+		return m_nScrollStepSize;
 	}
 
 	void CContainerUI::LineUp()
@@ -1083,7 +1088,7 @@ namespace DuiLib
 	CControlUI* CContainerUI::FindSubControl( LPCTSTR pstrSubControlName )
 	{
 		CControlUI* pSubControl=NULL;
-		pSubControl=static_cast<CControlUI*>(GetManager()->FindSubControlByName(this,pstrSubControlName));
+		if(m_pManager != NULL) pSubControl = static_cast<CControlUI*>(m_pManager->FindSubControlByName(this,pstrSubControlName));
 		return pSubControl;
 	}
 

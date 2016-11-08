@@ -116,14 +116,10 @@ LRESULT CALLBACK CShadowUI::ParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 
 	CShadowUI *pThis = GetShadowMap()[hwnd];
 	if (pThis->m_bIsDisableShadow) {
-
 #pragma warning(disable: 4312)	// temporrarily disable the type_cast warning in Win32
 		// Call the default(original) window procedure for other messages or messages processed but not returned
 		return ((WNDPROC)pThis->m_OriParentProc)(hwnd, uMsg, wParam, lParam);
 #pragma warning(default: 4312)
-
-
-
 	}
 	switch(uMsg)
 	{
@@ -150,7 +146,11 @@ LRESULT CALLBACK CShadowUI::ParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 			}
 		}
 		break;
-
+	case WM_NCACTIVATE:
+		{
+			SetWindowPos(pThis->m_hWnd, 0, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+			break;
+		}
 	case WM_SIZE:
 		if(pThis->m_Status & SS_ENABLED)
 		{

@@ -1,0 +1,403 @@
+﻿// Created by Microsoft (R) C/C++ Compiler Version 10.00.40219.01 (c7191975).
+//
+// e:\devprojects\github\test\dlgdemo\debug\ntgraph.tlh
+//
+// C++ source equivalent of Win32 type library NTGraph.ocx
+// compiler-generated file created 06/16/16 at 10:24:42 - DO NOT EDIT!
+
+#pragma once
+#pragma pack(push, 8)
+
+#include <comdef.h>
+
+namespace NTGRAPHLib {
+
+//
+// Forward references and typedefs
+//
+
+struct __declspec(uuid("49f811f7-6005-4aaf-ae00-9d98766a6e26"))
+/* LIBID */ __NTGRAPHLib;
+enum LineType;
+enum SymbolType;
+enum FrameStyle;
+enum TrackModeState;
+struct __declspec(uuid("ac90a107-78e8-4ed8-995a-3ae8bb3044a7"))
+/* dispinterface */ _DNTGraph;
+struct __declspec(uuid("d59adfe5-1b52-45d5-ae1d-8fa146152154"))
+/* dispinterface */ _DNTGraphEvents;
+struct /* coclass */ NTGraph;
+
+//
+// Smart pointer typedef declarations
+//
+
+_COM_SMARTPTR_TYPEDEF(_DNTGraph, __uuidof(_DNTGraph));
+_COM_SMARTPTR_TYPEDEF(_DNTGraphEvents, __uuidof(_DNTGraphEvents));
+
+//
+// Type library items
+//
+
+enum __declspec(uuid("865edfd4-9e4d-4752-907a-033d45c1c7f5"))
+LineType
+{
+    Solid = 0,
+    Dash = 1,
+    Dot = 2,
+    DashDot = 3,
+    DashDotDot = 4,
+    Null = 5,
+    XYStep = 6,
+    YXStep = 7,
+    Bars = 8,
+    Stick = 9
+};
+
+enum __declspec(uuid("a096e330-15ba-42c1-bd53-2c7e0b96cf77"))
+SymbolType
+{
+    Nosym = 0,
+    Dots = 1,
+    Rectangles = 2,
+    Diamonds = 3,
+    Asterisk = 4,
+    DownTriangles = 5,
+    UpTriangles = 6,
+    LeftTriangles = 7,
+    RightTriangles = 8
+};
+
+enum __declspec(uuid("77d6cafb-62a7-4916-a188-9a76d6194870"))
+FrameStyle
+{
+    Flat = 0,
+    Scope = 1,
+    Bitmap = 2
+};
+
+enum __declspec(uuid("7f2e3118-d790-42ae-81c9-fa14b54fc817"))
+TrackModeState
+{
+    None = 0,
+    Track = 1,
+    Zoom = 2,
+    PanXY = 3,
+    PanX = 4,
+    PanY = 5
+};
+
+struct __declspec(uuid("ac90a107-78e8-4ed8-995a-3ae8bb3044a7"))
+_DNTGraph : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetElementXValue,put=PutElementXValue))
+    double ElementXValue[][];
+    __declspec(property(get=GetElementYValue,put=PutElementYValue))
+    double ElementYValue[][];
+    __declspec(property(get=GetAppearance,put=PutAppearance))
+    short Appearance;
+    __declspec(property(get=GetCaption,put=PutCaption))
+    _bstr_t Caption;
+    __declspec(property(get=GetEnabled,put=PutEnabled))
+    VARIANT_BOOL Enabled;
+    __declspec(property(get=GetAxisColor,put=PutAxisColor))
+    OLE_COLOR AxisColor;
+    __declspec(property(get=GetGridColor,put=PutGridColor))
+    OLE_COLOR GridColor;
+    __declspec(property(get=GetLabelColor,put=PutLabelColor))
+    OLE_COLOR LabelColor;
+    __declspec(property(get=GetCursorColor,put=PutCursorColor))
+    OLE_COLOR CursorColor;
+    __declspec(property(get=GetLabelFont,put=PutLabelFont))
+    FontPtr LabelFont;
+    __declspec(property(get=GetTickFont,put=PutTickFont))
+    FontPtr TickFont;
+    __declspec(property(get=GetTitleFont,put=PutTitleFont))
+    FontPtr TitleFont;
+    __declspec(property(get=GetIdentFont,put=PutIdentFont))
+    FontPtr IdentFont;
+    __declspec(property(get=GetXGridNumber,put=PutXGridNumber))
+    short XGridNumber;
+    __declspec(property(get=GetYGridNumber,put=PutYGridNumber))
+    short YGridNumber;
+    __declspec(property(get=GetShowGrid,put=PutShowGrid))
+    VARIANT_BOOL ShowGrid;
+    __declspec(property(get=GetXLabel,put=PutXLabel))
+    _bstr_t XLabel;
+    __declspec(property(get=GetYLabel,put=PutYLabel))
+    _bstr_t YLabel;
+    __declspec(property(get=GetElementLineColor,put=PutElementLineColor))
+    OLE_COLOR ElementLineColor;
+    __declspec(property(get=GetElementPointColor,put=PutElementPointColor))
+    OLE_COLOR ElementPointColor;
+    __declspec(property(get=GetElementLinetype,put=PutElementLinetype))
+    enum LineType ElementLinetype;
+    __declspec(property(get=GetElementWidth,put=PutElementWidth))
+    long ElementWidth;
+    __declspec(property(get=GetElementPointSymbol,put=PutElementPointSymbol))
+    enum SymbolType ElementPointSymbol;
+    __declspec(property(get=GetElementSolidPoint,put=PutElementSolidPoint))
+    VARIANT_BOOL ElementSolidPoint;
+    __declspec(property(get=GetElementShow,put=PutElementShow))
+    VARIANT_BOOL ElementShow;
+    __declspec(property(get=GetTrackMode,put=PutTrackMode))
+    enum TrackModeState TrackMode;
+    __declspec(property(get=GetElementName,put=PutElementName))
+    _bstr_t ElementName;
+    __declspec(property(get=GetElementIdentify,put=PutElementIdentify))
+    VARIANT_BOOL ElementIdentify;
+    __declspec(property(get=GetXLog,put=PutXLog))
+    VARIANT_BOOL XLog;
+    __declspec(property(get=GetYLog,put=PutYLog))
+    VARIANT_BOOL YLog;
+    __declspec(property(get=GetControlFramePicture,put=PutControlFramePicture))
+    PicturePtr ControlFramePicture;
+    __declspec(property(get=GetPlotAreaPicture,put=PutPlotAreaPicture))
+    PicturePtr PlotAreaPicture;
+    __declspec(property(get=GetControlFrameColor,put=PutControlFrameColor))
+    OLE_COLOR ControlFrameColor;
+    __declspec(property(get=GetPlotAreaColor,put=PutPlotAreaColor))
+    OLE_COLOR PlotAreaColor;
+    __declspec(property(get=GetFrameStyle,put=PutFrameStyle))
+    enum FrameStyle _FrameStyle;
+    __declspec(property(get=GetAnnoLabelCaption,put=PutAnnoLabelCaption))
+    _bstr_t AnnoLabelCaption;
+    __declspec(property(get=GetAnnoLabelX,put=PutAnnoLabelX))
+    double AnnoLabelX;
+    __declspec(property(get=GetAnnoLabelY,put=PutAnnoLabelY))
+    double AnnoLabelY;
+    __declspec(property(get=GetAnnoLabelColor,put=PutAnnoLabelColor))
+    OLE_COLOR AnnoLabelColor;
+    __declspec(property(get=GetAnnoLabelHorizontal,put=PutAnnoLabelHorizontal))
+    VARIANT_BOOL AnnoLabelHorizontal;
+    __declspec(property(get=GetAnnotation,put=PutAnnotation))
+    short Annotation;
+    __declspec(property(get=GetAnnoVisible,put=PutAnnoVisible))
+    VARIANT_BOOL AnnoVisible;
+    __declspec(property(get=GetAnnoCount,put=PutAnnoCount))
+    short AnnoCount;
+    __declspec(property(get=GetElement,put=PutElement))
+    short Element;
+    __declspec(property(get=GetElementCount,put=PutElementCount))
+    short ElementCount;
+    __declspec(property(get=GetAnnoLabelBkColor,put=PutAnnoLabelBkColor))
+    OLE_COLOR AnnoLabelBkColor;
+    __declspec(property(get=GetCursorCount,put=PutCursorCount))
+    short CursorCount;
+    __declspec(property(get=GetCursor,put=PutCursor))
+    short Cursor;
+    __declspec(property(get=GetCursorX,put=PutCursorX))
+    double CursorX;
+    __declspec(property(get=GetCursorY,put=PutCursorY))
+    double CursorY;
+    __declspec(property(get=GetCursorStyle,put=PutCursorStyle))
+    short CursorStyle;
+    __declspec(property(get=GetCursorVisible,put=PutCursorVisible))
+    VARIANT_BOOL CursorVisible;
+    __declspec(property(get=GetCursorMode,put=PutCursorMode))
+    short CursorMode;
+    __declspec(property(get=GetFormatAxisBottom,put=PutFormatAxisBottom))
+    _bstr_t FormatAxisBottom;
+    __declspec(property(get=GetFormatAxisLeft,put=PutFormatAxisLeft))
+    _bstr_t FormatAxisLeft;
+    __declspec(property(get=GetYTime,put=PutYTime))
+    VARIANT_BOOL YTime;
+    __declspec(property(get=GetXTime,put=PutXTime))
+    VARIANT_BOOL XTime;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    // Methods:
+    HRESULT SetRange (
+        double xmin,
+        double xmax,
+        double ymin,
+        double ymax );
+    HRESULT AutoRange ( );
+    HRESULT CopyToClipboard ( );
+    HRESULT PrintGraph ( );
+    HRESULT AddElement ( );
+    HRESULT DeleteElement (
+        short ElementID );
+    HRESULT ClearGraph ( );
+    double GetElementXValue (
+        long index,
+        short ElementID );
+    void PutElementXValue (
+        long index,
+        short ElementID,
+        double _arg3 );
+    double GetElementYValue (
+        long index,
+        short ElementID );
+    void PutElementYValue (
+        long index,
+        short ElementID,
+        double _arg3 );
+    HRESULT PlotXY (
+        double X,
+        double Y,
+        short ElementID );
+    HRESULT PlotY (
+        double Y,
+        short ElementID );
+    HRESULT ShowProperties ( );
+    HRESULT SaveAs (
+        _bstr_t szFilename );
+    HRESULT AddAnnotation ( );
+    HRESULT DeleteAnnotation (
+        short annoID );
+    HRESULT AddCursor ( );
+    HRESULT DeleteCursor (
+        short cursorID );
+    HRESULT AboutBox ( );
+
+    // Properties:
+    short GetAppearance ( );
+    void PutAppearance ( short _val );
+    _bstr_t GetCaption ( );
+    void PutCaption ( _bstr_t _val );
+    VARIANT_BOOL GetEnabled ( );
+    void PutEnabled ( VARIANT_BOOL _val );
+    OLE_COLOR GetAxisColor ( );
+    void PutAxisColor ( OLE_COLOR _val );
+    OLE_COLOR GetGridColor ( );
+    void PutGridColor ( OLE_COLOR _val );
+    OLE_COLOR GetLabelColor ( );
+    void PutLabelColor ( OLE_COLOR _val );
+    OLE_COLOR GetCursorColor ( );
+    void PutCursorColor ( OLE_COLOR _val );
+    FontPtr GetLabelFont ( );
+    void PutLabelFont ( struct Font * _val );
+    FontPtr GetTickFont ( );
+    void PutTickFont ( struct Font * _val );
+    FontPtr GetTitleFont ( );
+    void PutTitleFont ( struct Font * _val );
+    FontPtr GetIdentFont ( );
+    void PutIdentFont ( struct Font * _val );
+    short GetXGridNumber ( );
+    void PutXGridNumber ( short _val );
+    short GetYGridNumber ( );
+    void PutYGridNumber ( short _val );
+    VARIANT_BOOL GetShowGrid ( );
+    void PutShowGrid ( VARIANT_BOOL _val );
+    _bstr_t GetXLabel ( );
+    void PutXLabel ( _bstr_t _val );
+    _bstr_t GetYLabel ( );
+    void PutYLabel ( _bstr_t _val );
+    OLE_COLOR GetElementLineColor ( );
+    void PutElementLineColor ( OLE_COLOR _val );
+    OLE_COLOR GetElementPointColor ( );
+    void PutElementPointColor ( OLE_COLOR _val );
+    enum LineType GetElementLinetype ( );
+    void PutElementLinetype ( enum LineType _val );
+    long GetElementWidth ( );
+    void PutElementWidth ( long _val );
+    enum SymbolType GetElementPointSymbol ( );
+    void PutElementPointSymbol ( enum SymbolType _val );
+    VARIANT_BOOL GetElementSolidPoint ( );
+    void PutElementSolidPoint ( VARIANT_BOOL _val );
+    VARIANT_BOOL GetElementShow ( );
+    void PutElementShow ( VARIANT_BOOL _val );
+    enum TrackModeState GetTrackMode ( );
+    void PutTrackMode ( enum TrackModeState _val );
+    _bstr_t GetElementName ( );
+    void PutElementName ( _bstr_t _val );
+    VARIANT_BOOL GetElementIdentify ( );
+    void PutElementIdentify ( VARIANT_BOOL _val );
+    VARIANT_BOOL GetXLog ( );
+    void PutXLog ( VARIANT_BOOL _val );
+    VARIANT_BOOL GetYLog ( );
+    void PutYLog ( VARIANT_BOOL _val );
+    PicturePtr GetControlFramePicture ( );
+    void PutControlFramePicture ( struct Picture * _val );
+    PicturePtr GetPlotAreaPicture ( );
+    void PutPlotAreaPicture ( struct Picture * _val );
+    OLE_COLOR GetControlFrameColor ( );
+    void PutControlFrameColor ( OLE_COLOR _val );
+    OLE_COLOR GetPlotAreaColor ( );
+    void PutPlotAreaColor ( OLE_COLOR _val );
+    enum FrameStyle GetFrameStyle ( );
+    void PutFrameStyle ( enum FrameStyle _val );
+    _bstr_t GetAnnoLabelCaption ( );
+    void PutAnnoLabelCaption ( _bstr_t _val );
+    double GetAnnoLabelX ( );
+    void PutAnnoLabelX ( double _val );
+    double GetAnnoLabelY ( );
+    void PutAnnoLabelY ( double _val );
+    OLE_COLOR GetAnnoLabelColor ( );
+    void PutAnnoLabelColor ( OLE_COLOR _val );
+    VARIANT_BOOL GetAnnoLabelHorizontal ( );
+    void PutAnnoLabelHorizontal ( VARIANT_BOOL _val );
+    short GetAnnotation ( );
+    void PutAnnotation ( short _val );
+    VARIANT_BOOL GetAnnoVisible ( );
+    void PutAnnoVisible ( VARIANT_BOOL _val );
+    short GetAnnoCount ( );
+    void PutAnnoCount ( short _val );
+    short GetElement ( );
+    void PutElement ( short _val );
+    short GetElementCount ( );
+    void PutElementCount ( short _val );
+    OLE_COLOR GetAnnoLabelBkColor ( );
+    void PutAnnoLabelBkColor ( OLE_COLOR _val );
+    short GetCursorCount ( );
+    void PutCursorCount ( short _val );
+    short GetCursor ( );
+    void PutCursor ( short _val );
+    double GetCursorX ( );
+    void PutCursorX ( double _val );
+    double GetCursorY ( );
+    void PutCursorY ( double _val );
+    short GetCursorStyle ( );
+    void PutCursorStyle ( short _val );
+    VARIANT_BOOL GetCursorVisible ( );
+    void PutCursorVisible ( VARIANT_BOOL _val );
+    short GetCursorMode ( );
+    void PutCursorMode ( short _val );
+    _bstr_t GetFormatAxisBottom ( );
+    void PutFormatAxisBottom ( _bstr_t _val );
+    _bstr_t GetFormatAxisLeft ( );
+    void PutFormatAxisLeft ( _bstr_t _val );
+    VARIANT_BOOL GetYTime ( );
+    void PutYTime ( VARIANT_BOOL _val );
+    VARIANT_BOOL GetXTime ( );
+    void PutXTime ( VARIANT_BOOL _val );
+};
+
+struct __declspec(uuid("d59adfe5-1b52-45d5-ae1d-8fa146152154"))
+_DNTGraphEvents : IDispatch
+{
+    //
+    // Wrapper methods for error-handling
+    //
+
+    // Methods:
+    HRESULT CursorPosition (
+        double X,
+        double Y );
+    HRESULT TrackModeChanged (
+        enum TrackModeState lNewState );
+    HRESULT Click ( );
+};
+
+struct __declspec(uuid("c9fe01c2-2746-479b-96ab-e0be9931b018"))
+NTGraph;
+    // [ default ] dispinterface _DNTGraph
+    // [ default, source ] dispinterface _DNTGraphEvents
+
+//
+// Wrapper method implementations
+//
+
+#include "e:\devprojects\github\test\dlgdemo\debug\ntgraph.tli"
+
+} // namespace NTGRAPHLib
+
+#pragma pack(pop)

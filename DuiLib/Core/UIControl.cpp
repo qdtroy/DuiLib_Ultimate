@@ -351,27 +351,6 @@ namespace DuiLib {
 		CDuiRect invalidateRc = m_rcItem;
 		if( ::IsRectEmpty(&invalidateRc) ) invalidateRc = rc;
 
-		if( m_bFloat ) {
-			CControlUI* pParent = GetParent();
-			/*if( pParent != NULL ) {
-				RECT rcParentPos = pParent->GetPos();
-				RECT rcCtrl = {rcParentPos.left + rc.left, rcParentPos.top + rc.top, 
-					rcParentPos.left + rc.right, rcParentPos.top + rc.bottom};
-				m_rcItem = rcCtrl;
-
-				LONG width = rcParentPos.right - rcParentPos.left;
-				LONG height = rcParentPos.bottom - rcParentPos.top;
-				RECT rcPercent = {(LONG)(width*m_piFloatPercent.left), (LONG)(height*m_piFloatPercent.top),
-					(LONG)(width*m_piFloatPercent.right), (LONG)(height*m_piFloatPercent.bottom)};
-				m_cXY.cx = rc.left - rcPercent.left;
-				m_cXY.cy = rc.top - rcPercent.top;
-				m_cxyFixed.cx = rc.right - rcPercent.right - m_cXY.cx;
-				m_cxyFixed.cy = rc.bottom - rcPercent.bottom - m_cXY.cy;
-			}*/
-		}
-		else {
-			m_rcItem = rc;
-		}
 		m_rcItem = rc;
 		if( m_pManager == NULL ) return;
 
@@ -402,7 +381,7 @@ namespace DuiLib {
 	{
 		m_cXY.cx += szOffset.cx;
 		m_cXY.cy += szOffset.cy;
-		SetPos(m_rcItem, bNeedInvalidate);
+		NeedParentUpdate();
 	}
 
 	int CControlUI::GetWidth() const
@@ -447,8 +426,7 @@ namespace DuiLib {
 	{
 		m_cXY.cx = szXY.cx;
 		m_cXY.cy = szXY.cy;
-		if( !m_bFloat ) NeedParentUpdate();
-		else NeedUpdate();
+		NeedParentUpdate();
 	}
 
 	int CControlUI::GetFixedWidth() const
@@ -464,8 +442,7 @@ namespace DuiLib {
 	{
 		if( cx < 0 ) return; 
 		m_cxyFixed.cx = cx;
-		if( !m_bFloat ) NeedParentUpdate();
-		else NeedUpdate();
+		NeedParentUpdate();
 	}
 
 	int CControlUI::GetFixedHeight() const
@@ -481,8 +458,7 @@ namespace DuiLib {
 	{
 		if( cy < 0 ) return; 
 		m_cxyFixed.cy = cy;
-		if( !m_bFloat ) NeedParentUpdate();
-		else NeedUpdate();
+		NeedParentUpdate();
 	}
 
 	int CControlUI::GetMinWidth() const
@@ -499,8 +475,7 @@ namespace DuiLib {
 
 		if( cx < 0 ) return; 
 		m_cxyMin.cx = cx;
-		if( !m_bFloat ) NeedParentUpdate();
-		else NeedUpdate();
+		NeedParentUpdate();
 	}
 
 	int CControlUI::GetMaxWidth() const
@@ -517,8 +492,7 @@ namespace DuiLib {
 
 		if( cx < 0 ) return; 
 		m_cxyMax.cx = cx;
-		if( !m_bFloat ) NeedParentUpdate();
-		else NeedUpdate();
+		NeedParentUpdate();
 	}
 
 	int CControlUI::GetMinHeight() const
@@ -536,8 +510,7 @@ namespace DuiLib {
 
 		if( cy < 0 ) return; 
 		m_cxyMin.cy = cy;
-		if( !m_bFloat ) NeedParentUpdate();
-		else NeedUpdate();
+		NeedParentUpdate();
 	}
 
 	int CControlUI::GetMaxHeight() const
@@ -555,8 +528,7 @@ namespace DuiLib {
 
 		if( cy < 0 ) return; 
 		m_cxyMax.cy = cy;
-		if( !m_bFloat ) NeedParentUpdate();
-		else NeedUpdate();
+		NeedParentUpdate();
 	}
 
 	TPercentInfo CControlUI::GetFloatPercent() const

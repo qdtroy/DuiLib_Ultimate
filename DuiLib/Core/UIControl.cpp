@@ -15,6 +15,7 @@ namespace DuiLib {
 		m_bMouseEnabled(true),
 		m_bKeyboardEnabled(true),
 		m_bFloat(false),
+		m_uFloatAlign(0),
 		m_bSetPos(false),
 		m_bDragEnabled(false),
 		m_bDropEnabled(false),
@@ -542,6 +543,17 @@ namespace DuiLib {
 		NeedParentUpdate();
 	}
 
+	void CControlUI::SetFloatAlign(UINT uAlign)
+	{
+		m_uFloatAlign = uAlign;
+		NeedParentUpdate();
+	}
+
+	UINT CControlUI::GetFloatAlign() const
+	{
+		return m_uFloatAlign;
+	}
+
 	CDuiString CControlUI::GetToolTip() const
 	{
 		if (!IsResourceText()) return m_sToolTip;
@@ -927,6 +939,49 @@ namespace DuiLib {
 				SetFloatPercent(piFloatPercent);
 				SetFloat(true);
 			}
+		}
+		else if( _tcsicmp(pstrName, _T("floatalign")) == 0) {
+			UINT uAlign = GetFloatAlign();
+			// Ω‚ŒˆŒƒ◊÷ Ù–‘
+			while( *pstrValue != _T('\0') ) {
+				CDuiString sValue;
+				while( *pstrValue == _T(',') || *pstrValue == _T(' ') ) pstrValue = ::CharNext(pstrValue);
+
+				while( *pstrValue != _T('\0') && *pstrValue != _T(',') && *pstrValue != _T(' ') ) {
+					LPTSTR pstrTemp = ::CharNext(pstrValue);
+					while( pstrValue < pstrTemp) {
+						sValue += *pstrValue++;
+					}
+				}
+				if(sValue.CompareNoCase(_T("null")) == 0) {
+					uAlign = 0;
+				}
+				if( sValue.CompareNoCase(_T("left")) == 0 ) {
+					uAlign &= ~(DT_CENTER | DT_RIGHT);
+					uAlign |= DT_LEFT;
+				}
+				else if( sValue.CompareNoCase(_T("center")) == 0 ) {
+					uAlign &= ~(DT_LEFT | DT_RIGHT);
+					uAlign |= DT_CENTER;
+				}
+				else if( sValue.CompareNoCase(_T("right")) == 0 ) {
+					uAlign &= ~(DT_LEFT | DT_CENTER);
+					uAlign |= DT_RIGHT;
+				}
+				else if( sValue.CompareNoCase(_T("top")) == 0 ) {
+					uAlign &= ~(DT_BOTTOM | DT_VCENTER);
+					uAlign |= DT_TOP;
+				}
+				else if( sValue.CompareNoCase(_T("vcenter")) == 0 ) {
+					uAlign &= ~(DT_TOP | DT_BOTTOM);
+					uAlign |= DT_VCENTER;
+				}
+				else if( sValue.CompareNoCase(_T("bottom")) == 0 ) {
+					uAlign &= ~(DT_TOP | DT_VCENTER);
+					uAlign |= DT_BOTTOM;
+				}
+			}
+			SetFloatAlign(uAlign);
 		}
 		else if( _tcsicmp(pstrName, _T("padding")) == 0 ) {
 			RECT rcPadding = { 0 };

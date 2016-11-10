@@ -895,15 +895,49 @@ namespace DuiLib
 
 		SIZE szXY = pControl->GetFixedXY();
 		SIZE sz = {pControl->GetFixedWidth(), pControl->GetFixedHeight()};
-		TPercentInfo rcPercent = pControl->GetFloatPercent();
-		LONG width = m_rcItem.right - m_rcItem.left;
-		LONG height = m_rcItem.bottom - m_rcItem.top;
-		RECT rcCtrl = { 0 };
-		rcCtrl.left = (LONG)(width*rcPercent.left) + szXY.cx+ m_rcItem.left;
-		rcCtrl.top = (LONG)(height*rcPercent.top) + szXY.cy+ m_rcItem.top;
-		rcCtrl.right = (LONG)(width*rcPercent.right) + szXY.cx + sz.cx+ m_rcItem.left;
-		rcCtrl.bottom = (LONG)(height*rcPercent.bottom) + szXY.cy + sz.cy+ m_rcItem.top;
-		pControl->SetPos(rcCtrl, false);
+
+		int nParentWidth = m_rcItem.right - m_rcItem.left;
+		int nParentHeight = m_rcItem.bottom - m_rcItem.top;
+		if(sz.cx <= 0) sz.cx = nParentWidth;
+		if(sz.cy <= 0) sz.cy = nParentHeight;
+
+		UINT uAlign = pControl->GetFloatAlign();
+		if(uAlign != 0) {
+			RECT rcCtrl = {0, 0, sz.cx, sz.cy};
+			if((uAlign & DT_CENTER) != 0) {
+				::OffsetRect(&rcCtrl, (nParentWidth - sz.cx) / 2, 0);
+			}
+			else if((uAlign & DT_RIGHT) != 0) {
+				::OffsetRect(&rcCtrl, nParentWidth - sz.cx, 0);
+			}
+			else {
+				::OffsetRect(&rcCtrl, szXY.cx, 0);
+			}
+
+			if((uAlign & DT_VCENTER) != 0) {
+				::OffsetRect(&rcCtrl, 0, (nParentHeight - sz.cy) / 2);
+			}
+			else if((uAlign & DT_BOTTOM) != 0) {
+				::OffsetRect(&rcCtrl, 0, nParentHeight - sz.cy);
+			}
+			else {
+				::OffsetRect(&rcCtrl, 0, szXY.cy);
+			}
+
+			::OffsetRect(&rcCtrl, m_rcItem.left, m_rcItem.top);
+			pControl->SetPos(rcCtrl, false);
+		}
+		else {
+			TPercentInfo rcPercent = pControl->GetFloatPercent();
+			LONG width = m_rcItem.right - m_rcItem.left;
+			LONG height = m_rcItem.bottom - m_rcItem.top;
+			RECT rcCtrl = { 0 };
+			rcCtrl.left = (LONG)(width*rcPercent.left) + szXY.cx+ m_rcItem.left;
+			rcCtrl.top = (LONG)(height*rcPercent.top) + szXY.cy+ m_rcItem.top;
+			rcCtrl.right = (LONG)(width*rcPercent.right) + szXY.cx + sz.cx+ m_rcItem.left;
+			rcCtrl.bottom = (LONG)(height*rcPercent.bottom) + szXY.cy + sz.cy+ m_rcItem.top;
+			pControl->SetPos(rcCtrl, false);
+		}
 	}
 
 	void CContainerUI::ProcessScrollBar(RECT rc, int cxRequired, int cyRequired)

@@ -339,11 +339,12 @@ namespace DuiLib
 		}
 
 		Gdiplus::Image* pImage = LoadGifFromMemory(pData, dwSize);
-		delete pData;
+		delete[] pData;
+		pData = NULL;
 		return pImage;
 	}
 
-	Gdiplus::Image* CGifAnimUI::LoadGifFromMemory( LPVOID pBuf,size_t dwSize )
+	Gdiplus::Image* CGifAnimUI::LoadGifFromMemory( LPVOID pBuf, size_t dwSize )
 	{
 		HGLOBAL hMem = ::GlobalAlloc(GMEM_FIXED, dwSize);
 		BYTE* pMem = (BYTE*)::GlobalLock(hMem);

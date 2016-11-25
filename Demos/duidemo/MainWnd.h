@@ -63,7 +63,7 @@ public:
 		if(pCombo)
 		{
 			pCombo->SetFloat(true);
-			pCombo->SetFixedXY(CDuiSize(140,10));
+			pCombo->SetFixedXY(CDuiSize(140,0));
 			pCombo->SetItemFont(2);
 			CListLabelElementUI * pElement = new CListLabelElementUI();
 			pElement->SetText(_T("动态数据动态数据"));
@@ -336,12 +336,12 @@ public:
 		CDuiString sName = pControl->GetName();
 		if(sName.CompareNoCase(_T("homepage_btn")) == 0)
 		{
-			CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("mycombo")));
-			if(pFontSize)
-			{
-				pFontSize->SetFixedXY(CDuiSize(pFontSize->GetFixedXY().cx + 5, pFontSize->GetFixedXY().cy));
-			}
-			//ShellExecute(NULL, _T("open"), _T("https://github.com/qdtroy"), NULL, NULL, SW_SHOW);
+			//CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("mycombo")));
+			//if(pFontSize)
+			//{
+			//	pFontSize->SetFixedXY(CDuiSize(pFontSize->GetFixedXY().cx + 5, pFontSize->GetFixedXY().cy));
+			//}
+			ShellExecute(NULL, _T("open"), _T("https://github.com/qdtroy"), NULL, NULL, SW_SHOW);
 		}
 		else if(sName.CompareNoCase(_T("button1")) == 0)
 		{

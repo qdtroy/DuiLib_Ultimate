@@ -239,7 +239,7 @@ public:
 
 	GameListUI::Node* AddGameNode(CDuiString sText, GameListUI::Node *Category, int nID)
 	{
-		GameListUI* pGameList = static_cast<GameListUI*>(m_pm.FindControl(_T("categorylist")));
+		GameListUI* pGameList = (GameListUI*)Category->data()._pListElement->GetOwner();
 		if(!pGameList) return NULL;
 		CDuiString sIcon = _T("gameicons.png");
 		CDuiString sFormat;

@@ -243,7 +243,7 @@
             <VerticalLayout bordersize="1" bordercolor="#FF333333" inset="2,2,2,2">
               <ListEx name="listex" vscrollbar="true" hscrollbar="true" style="list_style">
                 <ListHeader height="24" menu="true">
-                  <ListContainerHeaderItem text="" width="30" checkable="true" checkboxwidth="16" checkboxheight="16" checkboxnormalimage="file='icon/unchecked.png'" checkboxselectedimage="file='icon/checked.png'" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
+                  <ListContainerHeaderItem text="" width="30" checkable="true" checkboxwidth="16" checkboxheight="16" checkboxnormalimage="file='common/unchecked.png'" checkboxselectedimage="file='common/checked.png'" hotimage="file='common/list_header_hot.png'" pushedimage="file='common/list_header_pushed.png'" sepimage="file='common/list_header_sep.png'" sepwidth="1"/>
                   <ListContainerHeaderItem text="姓名" width="160" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
                   <ListContainerHeaderItem text="学号" width="160" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
                   <ListContainerHeaderItem text="成绩" width="160" editable="true" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>

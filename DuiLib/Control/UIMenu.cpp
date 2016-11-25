@@ -598,7 +598,6 @@ namespace DuiLib {
 
 	void CMenuElementUI::DoPaint(HDC hDC, const RECT& rcPaint)
 	{
-
 		SIZE m_cxyFixed = CMenuElementUI::m_cxyFixed;
 		if (m_pManager) GetManager()->GetDPIObj()->Scale(&m_cxyFixed);
 		
@@ -627,20 +626,11 @@ namespace DuiLib {
 	{
 		if ( m_strIcon != _T("") )
 		{
-
 			if (!(m_bCheckItem && !GetChecked()))
 			{
-				/*CDuiString pStrImage;
-				pStrImage.Format(_T("file='%s' dest='%d,%d,%d,%d'"), m_strIcon.GetData(), 
-					(ITEM_DEFAULT_ICON_WIDTH - m_szIconSize.cx)/2,
-					(m_cxyFixed.cy - m_szIconSize.cy)/2,
-					(ITEM_DEFAULT_ICON_WIDTH - m_szIconSize.cx)/2 + m_szIconSize.cx,
-					(m_cxyFixed.cy - m_szIconSize.cy)/2 + m_szIconSize.cy);
-				CRenderEngine::DrawImageString(hDC, GetManager(), m_rcItem, m_rcPaint, pStrImage, _T(""));*/
 				SIZE m_cxyFixed = CMenuElementUI::m_cxyFixed;
 				if (m_pManager)GetManager()->GetDPIObj()->Scale(&m_cxyFixed);
 				
-
 				SIZE m_szIconSize = CMenuElementUI::m_szIconSize;
 				if (m_pManager)GetManager()->GetDPIObj()->Scale(&m_szIconSize);
 				TListInfoUI* pInfo = m_pOwner->GetListInfo();
@@ -662,9 +652,7 @@ namespace DuiLib {
 				rcDest.right,
 				rcDest.bottom);
 				
-				
 				DrawImage(hDC, m_strIcon, pStrImage);
-
 			}			
 		}
 	}
@@ -673,20 +661,6 @@ namespace DuiLib {
 	{
 		if (m_bShowExplandIcon)
 		{
-			/*CDuiString strExplandIcon;
-			strExplandIcon = GetManager()->GetDefaultAttributeList(_T("ExplandIcon"));
-			CDuiString strBkImage;
-			strBkImage.Format(_T("file='%s' dest='%d,%d,%d,%d'"), strExplandIcon.GetData(), 
-				m_cxyFixed.cx - ITEM_DEFAULT_EXPLAND_ICON_WIDTH + (ITEM_DEFAULT_EXPLAND_ICON_WIDTH - ITEM_DEFAULT_EXPLAND_ICON_SIZE)/2,
-				(m_cxyFixed.cy - ITEM_DEFAULT_EXPLAND_ICON_SIZE)/2,
-				m_cxyFixed.cx - ITEM_DEFAULT_EXPLAND_ICON_WIDTH + (ITEM_DEFAULT_EXPLAND_ICON_WIDTH - ITEM_DEFAULT_EXPLAND_ICON_SIZE)/2 + ITEM_DEFAULT_EXPLAND_ICON_SIZE,
-				(m_cxyFixed.cy - ITEM_DEFAULT_EXPLAND_ICON_SIZE)/2 + ITEM_DEFAULT_EXPLAND_ICON_SIZE);
-
-			CRenderEngine::DrawImageString(hDC, GetManager(), m_rcItem, m_rcPaint, strBkImage, _T(""));
-
-
-
-			*/
 			CDuiString strExplandIcon;
 			strExplandIcon = GetManager()->GetDefaultAttributeList(_T("ExplandIcon"));
 			if (strExplandIcon.IsEmpty()) {
@@ -698,7 +672,6 @@ namespace DuiLib {
 				GetManager()->GetDPIObj()->Scale(&m_cxyFixed);
 				padding = GetManager()->GetDPIObj()->Scale(ITEM_DEFAULT_EXPLAND_ICON_WIDTH) / 3;
 			}
-			
 			
 			const TDrawInfo* pDrawInfo = GetManager()->GetDrawInfo((LPCTSTR)strExplandIcon, NULL);
 			const TImageInfo *pImageInfo = GetManager()->GetImageEx(pDrawInfo->sImageName, NULL, 0);
@@ -733,12 +706,14 @@ namespace DuiLib {
 		if( m_pOwner == NULL ) return;
 		TListInfoUI* pInfo = m_pOwner->GetListInfo();
 		DWORD iTextColor = pInfo->dwTextColor;
+
 		if( (m_uButtonState & UISTATE_HOT) != 0 ) {
 			iTextColor = pInfo->dwHotTextColor;
 		}
 		if( IsSelected() ) {
 			iTextColor = pInfo->dwSelectedTextColor;
 		}
+		
 		if( !IsEnabled() ) {
 			iTextColor = pInfo->dwDisabledTextColor;
 		}
@@ -831,11 +806,10 @@ namespace DuiLib {
 				{
 					(static_cast<CMenuElementUI*>(GetItemAt(i)->GetInterface(_T("MenuElement"))))->SetVisible(true);
 					(static_cast<CMenuElementUI*>(GetItemAt(i)->GetInterface(_T("MenuElement"))))->SetInternVisible(true);
-
 					hasSubMenu = true;
 				}
 			}
-			if( hasSubMenu )
+			if(hasSubMenu)
 			{
 				m_pOwner->SelectItem(GetIndex(), true);
 				CreateMenuWnd();
@@ -846,14 +820,11 @@ namespace DuiLib {
 				param.hWnd = GetManager()->GetPaintWindow();
 				param.wParam = 2;
 				CMenuWnd::GetGlobalContextMenuObserver().RBroadcast(param);
-				m_pOwner->SelectItem(GetIndex(), true);
 			}
 			return;
 		}
 
-
 		if (event.Type == UIEVENT_MOUSELEAVE) {
-
 			bool hasSubMenu = false;
 			for (int i = 0; i < GetCount(); ++i)
 			{
@@ -873,15 +844,12 @@ namespace DuiLib {
 		{
 			if( IsEnabled() ){
 				CListContainerElementUI::DoEvent(event);
-
 				if( m_pWindow ) return;
-
 				bool hasSubMenu = false;
 				for( int i = 0; i < GetCount(); ++i ) {
 					if( GetItemAt(i)->GetInterface(_T("MenuElement")) != NULL ) {
 						(static_cast<CMenuElementUI*>(GetItemAt(i)->GetInterface(_T("MenuElement"))))->SetVisible(true);
 						(static_cast<CMenuElementUI*>(GetItemAt(i)->GetInterface(_T("MenuElement"))))->SetInternVisible(true);
-
 						hasSubMenu = true;
 					}
 				}
@@ -943,7 +911,6 @@ namespace DuiLib {
 				param.hWnd = GetManager()->GetPaintWindow();
 				param.wParam = 2;
 				CMenuWnd::GetGlobalContextMenuObserver().RBroadcast(param);
-				m_pOwner->SelectItem(GetIndex(), true);
 			}
 
 			return;

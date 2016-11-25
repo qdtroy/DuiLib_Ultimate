@@ -2563,15 +2563,15 @@ LRESULT CRichEditUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, boo
 
 		//创建一个弹出式菜单
 		HMENU hPopMenu = CreatePopupMenu();
-		AppendMenu(hPopMenu, 0, ID_RICH_UNDO, L"撤销(&U)");
-		AppendMenu(hPopMenu, 0, ID_RICH_REDO, L"重做(&R)");
-		AppendMenu(hPopMenu, MF_SEPARATOR, 0, L"");
-		AppendMenu(hPopMenu, 0, ID_RICH_CUT, L"剪切(&X)");
-		AppendMenu(hPopMenu, 0, ID_RICH_COPY, L"复制(&C)");
-		AppendMenu(hPopMenu, 0, ID_RICH_PASTE, L"粘帖(&V)");
-		AppendMenu(hPopMenu, 0, ID_RICH_CLEAR, L"清空(&L)");
-		AppendMenu(hPopMenu, MF_SEPARATOR, 0, L"");
-		AppendMenu(hPopMenu, 0, ID_RICH_SELECTALL, L"全选(&A)");
+		AppendMenu(hPopMenu, 0, ID_RICH_UNDO, _T("撤销(&U)"));
+		AppendMenu(hPopMenu, 0, ID_RICH_REDO, _T("重做(&R)"));
+		AppendMenu(hPopMenu, MF_SEPARATOR, 0, _T(""));
+		AppendMenu(hPopMenu, 0, ID_RICH_CUT, _T("剪切(&X)"));
+		AppendMenu(hPopMenu, 0, ID_RICH_COPY, _T("复制(&C)"));
+		AppendMenu(hPopMenu, 0, ID_RICH_PASTE, _T("粘帖(&V)"));
+		AppendMenu(hPopMenu, 0, ID_RICH_CLEAR, _T("清空(&L)"));
+		AppendMenu(hPopMenu, MF_SEPARATOR, 0, _T(""));
+		AppendMenu(hPopMenu, 0, ID_RICH_SELECTALL, _T("全选(&A)"));
 
 		//初始化菜单项
 		UINT uUndo = (CanUndo() ? 0 : MF_GRAYED);

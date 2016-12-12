@@ -956,7 +956,9 @@
     <ClInclude Include="WkeWebkit.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\bin\skin\WkeBrowser\main.xml" />
+    <None Include="..\..\bin\skin\WkeBrowser\main.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\bin\skin\WkeBrowser\main_encode.xml" />
     <None Include="..\..\bin\skin\WkeBrowser\msg.xml" />
     <None Include="..\..\bin\skin\WkeBrowser\res.xml" />

@@ -301,10 +301,7 @@ namespace DuiLib {
 		for( int i = 0; i < m_aDelayedCleanup.GetSize(); i++ ) delete static_cast<CControlUI*>(m_aDelayedCleanup[i]);
 		for( int i = 0; i < m_aAsyncNotify.GetSize(); i++ ) delete static_cast<TNotifyUI*>(m_aAsyncNotify[i]);
 		m_mNameHash.Resize(0);
-		if( m_pRoot != NULL ) {
-			delete m_pRoot;
-			m_pRoot = NULL;
-		}
+		if( m_pRoot != NULL ) delete m_pRoot;
 
 		::DeleteObject(m_ResInfo.m_DefaultFontInfo.hFont);
 		RemoveAllFonts();
@@ -326,23 +323,16 @@ namespace DuiLib {
 		if( m_hbmpBackground != NULL ) ::DeleteObject(m_hbmpBackground);
 		if( m_hDcPaint != NULL ) ::ReleaseDC(m_hWndPaint, m_hDcPaint);
 		m_aPreMessages.Remove(m_aPreMessages.Find(this));
-
+		// Ïú»ÙÍÏ×§Í¼Æ¬
+		if( m_hDragBitmap != NULL ) ::DeleteObject(m_hDragBitmap);
+		//Ð¶ÔØGDIPlus
+		Gdiplus::GdiplusShutdown(m_gdiplusToken);
+		delete m_pGdiplusStartupInput;
 		// DPI¹ÜÀí¶ÔÏó
 		if (m_pDPI != NULL) {
 			delete m_pDPI;
 			m_pDPI = NULL;
 		}
-
-		// Ïú»ÙÍÏ×§Í¼Æ¬
-		if( m_hDragBitmap != NULL ) {
-			::DeleteObject(m_hDragBitmap);
-			m_hDragBitmap = NULL;
-		}
-		RevokeDragDrop(m_hWndPaint);
-
-		//Ð¶ÔØGDIPlus
-		Gdiplus::GdiplusShutdown( m_gdiplusToken );
-		delete m_pGdiplusStartupInput;
 	}
 
 	void CPaintManagerUI::Init(HWND hWnd, LPCTSTR pstrName)
@@ -1951,13 +1941,6 @@ namespace DuiLib {
 			RebuildFont(pFontInfo);
 		}
 		RebuildFont(&m_SharedResInfo.m_DefaultFontInfo);
-
-		CStdPtrArray *richEditList = FindSubControlsByClass(GetRoot(), L"RichEditUI");
-		for (int i = 0; i < richEditList->GetSize(); i++)
-		{
-			CRichEditUI* pT = static_cast<CRichEditUI*>((*richEditList)[i]);
-			pT->SetFont(pT->GetFont());
-		}
 	}
 
 	void DuiLib::CPaintManagerUI::RebuildFont(TFontInfo * pFontInfo)
@@ -3645,11 +3628,15 @@ namespace DuiLib {
 
 	bool CPaintManagerUI::InitDragDrop()
 	{
-		//AddRef();
+		AddRef();
+
 		if(FAILED(RegisterDragDrop(m_hWndPaint, this))) //calls addref
 		{
+			DWORD dwError = GetLastError();
 			return false;
 		}
+		else Release(); //i decided to AddRef explicitly after new
+
 		FORMATETC ftetc={0};
 		ftetc.cfFormat = CF_BITMAP;
 		ftetc.dwAspect = DVASPECT_CONTENT;

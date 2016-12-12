@@ -538,6 +538,11 @@ public:
 		return 0;
 	}
 
+	LRESULT OnGetMinMaxInfo(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	{
+		return 0;
+	}
+
 private:
 	CButtonUI* m_pCloseBtn;
 	CButtonUI* m_pMaxBtn;

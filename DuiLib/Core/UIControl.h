@@ -114,8 +114,7 @@ namespace DuiLib {
 		virtual void SetMaxHeight(int cy);
 		virtual TPercentInfo GetFloatPercent() const;
 		virtual void SetFloatPercent(TPercentInfo piFloatPercent);
-		virtual void SetFloatAlign(UINT uAlign);
-		virtual UINT GetFloatAlign() const;
+
 		// 鼠标提示
 		virtual CDuiString GetToolTip() const;
 		virtual void SetToolTip(LPCTSTR pstrText);
@@ -223,7 +222,6 @@ namespace DuiLib {
 		bool m_bFocused;
 		bool m_bFloat;
 		TPercentInfo m_piFloatPercent;
-		UINT m_uFloatAlign;
 		bool m_bSetPos; // 防止SetPos循环调用
 
 		bool m_bDragEnabled;

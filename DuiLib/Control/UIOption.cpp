@@ -259,7 +259,7 @@ namespace DuiLib
 			int nLinks = 0;
 			RECT rc = m_rcItem;
 			RECT m_rcTextPadding = CButtonUI::m_rcTextPadding;
-			if (m_pManager)GetManager()->GetDPIObj()->Scale(&m_rcTextPadding);
+			GetManager()->GetDPIObj()->Scale(&m_rcTextPadding);
 			rc.left += m_rcTextPadding.left;
 			rc.right -= m_rcTextPadding.right;
 			rc.top += m_rcTextPadding.top;

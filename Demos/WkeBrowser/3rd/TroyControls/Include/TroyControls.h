@@ -7,10 +7,12 @@
 #endif
 
 #include <vector>
+#include <map>
 #include <math.h>
 
 #define DUI_MSGTYPE_TABINDEXCHANGED			(_T("tabindexchanged"))
 #define DUI_MSGTYPE_TABCLOSED				(_T("tabclosed"))
+#define DUI_MSGTYPE_PAGERCHANGED			(_T("pagerchanged"))
 
 extern "C" TROYCONTROLS_API CControlUI* CreateControl(LPCTSTR pstrType);
 
@@ -74,6 +76,8 @@ protected:
 	POINT m_ptMouse;
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
 class TROYCONTROLS_API CBrowserTabBar : public CContainerUI
 {
 public:
@@ -433,6 +437,9 @@ public:
 	CDuiSize m_szDigitalSize;
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+
 class TROYCONTROLS_API CAniDigitalUI : public CDigitalUI
 {
 public:
@@ -452,4 +459,220 @@ protected:
 	int m_nCurAniTime;
 	int m_nDigital;
 	int m_nEndDigital;
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+
+//虚拟列表数据源接口
+class IVListDataSource
+{
+public:
+	virtual int GetItemCount() = 0;
+	virtual void SelectItem(CStdPtrArray& arraySelectIndexList) = 0;
+	virtual void UnselectItem(CStdPtrArray& arraySelectIndexList) = 0;
+	virtual void ExclusiveSelectItem(CStdPtrArray& arraySelectIndexList) = 0;
+	virtual void SelectAllItems() = 0;
+	virtual void UnselectAllItems() = 0;
+	virtual bool IsItemSelect(int nIdex) = 0;
+	virtual LPVOID GetItemDataByIndex(int nIndex) = 0;
+	virtual CStdPtrArray& GetSelectIndexList() = 0;
+	virtual void AddData(LPVOID lpData) = 0;
+	virtual void RemoveDataAt(int nIndex) = 0;
+	virtual void RemoveAllData() = 0;
+	virtual bool SortItems(int(__cdecl *_PtFuncCompare)(void*, const void*, const void*), void* pArgs) = 0;
+};
+
+//虚拟列表变换器接口
+class IVListDataConverter
+{
+public:
+	virtual void GetItemSize(int nIndex,LPSIZE lpSize) = 0;
+	virtual CControlUI* CreateUIFromData(int nIndex,LPVOID lpData) = 0;
+	virtual void UpdateUIFromData(int nIndex, LPVOID lpData, CControlUI* pControl) = 0;
+};
+
+//虚拟列表通用数据源
+class TROYCONTROLS_API CVListDataSource : public IVListDataSource
+{
+public:
+	virtual int GetItemCount();
+	virtual void SelectItem(CStdPtrArray& arraySelectIndexList);
+	virtual void UnselectItem(CStdPtrArray& arraySelectIndexList);
+	virtual void ExclusiveSelectItem(CStdPtrArray& arraySelectIndexList);
+	virtual void SelectAllItems();
+	virtual void UnselectAllItems();
+	virtual bool IsItemSelect(int nIdex);
+	virtual LPVOID GetItemDataByIndex(int nIndex);
+	virtual CStdPtrArray& GetSelectIndexList();
+	virtual void AddData(LPVOID lpData);
+	virtual void RemoveDataAt(int nIndex);
+	virtual void RemoveAllData();
+	virtual bool SortItems(int(__cdecl *_PtFuncCompare)(void* ,const void*,const void*),void* pArgs);
+protected:
+	CStdPtrArray  m_arraySelectIndexList;
+	CStdPtrArray  m_arrayDataList;
+};
+
+class TROYCONTROLS_API CVListContainerElementUI : public CListContainerElementUI
+{
+public:
+	CVListContainerElementUI();
+	virtual ~CVListContainerElementUI();
+	void DoEvent(TEventUI& event);
+	void ClearState();
+
+protected:
+	bool  m_bNeedButtonUp;
+};
+
+//虚拟列表的视图部分
+class CVListUI;
+class TROYCONTROLS_API CVListViewUI : public CContainerUI
+{
+public:
+	CVListViewUI();
+	CVListViewUI(CVListUI* pOwner);
+	~CVListViewUI();
+	void SetDataSource(IVListDataSource* pDataSource);
+	void SetDataConverter(IVListDataConverter* pDataConverter);
+	void ReloadData();
+	bool GetVisibleItemRange(int& nFirstIndex, int& nLastIndex, int& nFirtPos);
+	void RefreshViewByVScroll();
+	int  CalculateItemTopPos(int nFirstIndex, int nFirstPos, int nItemIndex);
+	CControlUI* CreateNewItem(int nItemIndex,LPVOID lpData);
+
+	void SetPos(RECT rc);
+	void DoEvent(TEventUI& event);
+	void SetScrollPos(SIZE szPos);
+
+	void SetShiftStartIndex(int nIndex);
+	int  GetShiftStartIndex();
+
+	int  GetItemIndex(CControlUI* pControl);
+	bool IsItemSelect(CControlUI* pControl);
+
+	void SelectItem(CStdPtrArray& arraySelectIndexList);
+	void UnselectItem(CStdPtrArray& arraySelectIndexList);
+	void ExclusiveSelectItem(CStdPtrArray& arraySelectIndexList);
+	void SelectItemRange(int nStart, int nEnd);
+
+protected:
+	IVListDataSource* m_pDataSource;
+	IVListDataConverter* m_pDataConverter;
+	std::map<int, CControlUI*> m_VisibleUIMap;
+	CStdPtrArray m_arrayItemHeightList;
+	CStdPtrArray m_arrayItemWidthList;
+	CStdPtrArray m_arrayUnVisibleUIList;
+	int m_nShiftStartIndex;
+	int m_nTotalHeight;
+	int m_nHeaderLeft;
+	int m_nHeaderRight;
+	CVListUI* m_pOwner;
+};
+
+class TROYCONTROLS_API CVListUI : public CVerticalLayoutUI, public IListUI
+{
+public:
+	CVListUI();
+	~CVListUI();
+
+	LPCTSTR GetClass() const;
+	UINT GetControlFlags() const;
+	LPVOID GetInterface(LPCTSTR pstrName);
+
+	virtual UINT GetListType();
+	virtual TListInfoUI* GetListInfo();
+	virtual int GetCurSel() const;
+	virtual bool SelectItem(int iIndex, bool bTakeFocus = false);
+
+	bool SelectMultiItem(int iIndex, bool bTakeFocus = false);
+	void SetMultiSelect(bool bMultiSel);
+	bool IsMultiSelect() const;
+	bool UnSelectItem(int iIndex, bool bOthers = false);
+	void SelectAllItems();
+	void UnSelectAllItems();
+	int GetSelectItemCount() const;
+	int GetNextSelItem(int nItem) const;
+
+	virtual void DoEvent(TEventUI& event);
+
+	virtual CListHeaderUI* GetHeader() const;
+	virtual CContainerUI* GetList() const;
+	virtual IListCallbackUI* GetTextCallback() const;
+	virtual void SetTextCallback(IListCallbackUI* pCallback);
+	virtual bool ExpandItem(int iIndex, bool bExpand = true);
+	virtual int GetExpandedItem() const;
+
+	int GetChildPadding() const;
+	void SetChildPadding(int iPadding);
+
+	void SetItemFont(int index);
+	void SetItemTextStyle(UINT uStyle);
+	void SetItemTextPadding(RECT rc);
+	void SetItemTextColor(DWORD dwTextColor);
+	void SetItemBkColor(DWORD dwBkColor);
+	void SetItemBkImage(LPCTSTR pStrImage);
+	void SetAlternateBk(bool bAlternateBk);
+	void SetSelectedItemTextColor(DWORD dwTextColor);
+	void SetSelectedItemBkColor(DWORD dwBkColor);
+	void SetSelectedItemImage(LPCTSTR pStrImage);
+	void SetHotItemTextColor(DWORD dwTextColor);
+	void SetHotItemBkColor(DWORD dwBkColor);
+	void SetHotItemImage(LPCTSTR pStrImage);
+	void SetDisabledItemTextColor(DWORD dwTextColor);
+	void SetDisabledItemBkColor(DWORD dwBkColor);
+	void SetDisabledItemImage(LPCTSTR pStrImage);
+	void SetItemLineColor(DWORD dwLineColor);
+	bool IsItemShowHtml();
+	void SetItemShowHtml(bool bShowHtml = true);
+	RECT GetItemTextPadding() const;
+	DWORD GetItemTextColor() const;
+	DWORD GetItemBkColor() const;
+	LPCTSTR GetItemBkImage() const;
+	bool IsAlternateBk() const;
+	DWORD GetSelectedItemTextColor() const;
+	DWORD GetSelectedItemBkColor() const;
+	LPCTSTR GetSelectedItemImage() const;
+	DWORD GetHotItemTextColor() const;
+	DWORD GetHotItemBkColor() const;
+	LPCTSTR GetHotItemImage() const;
+	DWORD GetDisabledItemTextColor() const;
+	DWORD GetDisabledItemBkColor() const;
+	LPCTSTR GetDisabledItemImage() const;
+	DWORD GetItemLineColor() const;
+
+	void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
+
+	SIZE GetScrollPos() const;
+	SIZE GetScrollRange() const;
+	void SetScrollPos(SIZE szPos);
+	void LineUp();
+	void LineDown();
+	void PageUp();
+	void PageDown();
+	void HomeUp();
+	void EndDown();
+	void LineLeft();
+	void LineRight();
+	void PageLeft();
+	void PageRight();
+	void HomeLeft();
+	void EndRight();
+	void EnableScrollBar(bool bEnableVertical = true, bool bEnableHorizontal = false);
+	virtual CScrollBarUI* GetVerticalScrollBar() const;
+	virtual CScrollBarUI* GetHorizontalScrollBar() const;
+
+	void SetDataSource(IVListDataSource* pDataSource);
+	void SetDataConverter(IVListDataConverter* pDataConverter);
+
+	virtual void ReloadData();
+
+	bool Add(CControlUI* pControl);
+	void SetPos(RECT rc);
+
+protected: 
+	CVListViewUI* m_pList;
+	CListHeaderUI* m_pHeader;
+	TListInfoUI m_ListInfo;
 };

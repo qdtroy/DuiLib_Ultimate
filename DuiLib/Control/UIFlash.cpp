@@ -172,7 +172,7 @@ namespace DuiLib
 
 	void CFlashUI::ReleaseControl()
 	{
-		//m_pManager->RemoveTranslateAccelerator(this);
+		//GetManager()->RemoveTranslateAccelerator(this);
 		RegisterEventHandler(FALSE);
 		if (m_pFlash)
 		{
@@ -185,7 +185,7 @@ namespace DuiLib
 	{
 		if (!CActiveXUI::DoCreateControl())
 			return false;
-		//m_pManager->AddTranslateAccelerator(this);
+		//GetManager()->AddTranslateAccelerator(this);
 		GetControl(__uuidof(IShockwaveFlash),(LPVOID*)&m_pFlash);
 		RegisterEventHandler(TRUE);
 		return true;

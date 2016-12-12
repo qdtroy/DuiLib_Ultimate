@@ -33,10 +33,6 @@
     <Filter Include="Header Files\Control">
       <UniqueIdentifier>{77af9153-b795-4ed6-bcab-50a6b1c6741c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{d2d4b88c-de59-4ad8-882a-9203538020cd}</UniqueIdentifier>
-      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StdAfx.cpp">

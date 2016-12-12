@@ -36,7 +36,7 @@ namespace DuiLib {
 	{
 		if (!m_bAddMessageFilter)
 		{
-			m_pManager->AddNotifier(this);
+			GetManager()->AddNotifier(this);
 			m_bAddMessageFilter = TRUE;
 		}
 	}
@@ -46,7 +46,7 @@ namespace DuiLib {
 		{
 			m_pEditUI = new CEditUI;
 			m_pEditUI->SetName(_T("ListEx_Edit"));
-			LPCTSTR pDefaultAttributes = m_pManager->GetDefaultAttributeList(_T("Edit"));
+			LPCTSTR pDefaultAttributes = GetManager()->GetDefaultAttributeList(_T("Edit"));
 			if( pDefaultAttributes ) {
 				m_pEditUI->ApplyAttributeList(pDefaultAttributes);
 			}
@@ -74,7 +74,7 @@ namespace DuiLib {
 		{
 			m_pComboBoxUI = new CComboBoxUI;
 			m_pComboBoxUI->SetName(_T("ListEx_Combo"));
-			LPCTSTR pDefaultAttributes = m_pManager->GetDefaultAttributeList(_T("Combo"));
+			LPCTSTR pDefaultAttributes = GetManager()->GetDefaultAttributeList(_T("Combo"));
 			if( pDefaultAttributes ) {
 				m_pComboBoxUI->ApplyAttributeList(pDefaultAttributes);
 			}

@@ -45,14 +45,14 @@
     <None Include="Res\TroyBrowser.ico">
       <Filter>Resources</Filter>
     </None>
-    <None Include="..\..\bin\Projects\TroyBrowser\main.xml">
-      <Filter>Resources\skin</Filter>
-    </None>
-    <None Include="..\..\bin\Projects\TroyBrowser\res.xml">
-      <Filter>Resources\skin</Filter>
-    </None>
     <None Include="Res\TroyBrowser.zip">
       <Filter>Resources</Filter>
+    </None>
+    <None Include="..\..\bin\skin\TroyBrowser\main.xml">
+      <Filter>Resources\skin</Filter>
+    </None>
+    <None Include="..\..\bin\skin\TroyBrowser\res.xml">
+      <Filter>Resources\skin</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -77,7 +77,7 @@ namespace DuiLib {
 		cyFixed += 4; // CVerticalLayoutUI 默认的Inset 调整
 		rc.bottom = rc.top + MIN(cyFixed, szDrop.cy);
 
-		::MapWindowRect(pOwner->m_pManager->GetPaintWindow(), HWND_DESKTOP, &rc);
+		::MapWindowRect(pOwner->GetManager()->GetPaintWindow(), HWND_DESKTOP, &rc);
 
 		MONITORINFO oMonitor = {};
 		oMonitor.cbSize = sizeof(oMonitor);
@@ -89,10 +89,10 @@ namespace DuiLib {
 			if( szDrop.cx > 0 ) rc.right = rc.left + szDrop.cx;
 			rc.top = rcOwner.top - MIN(cyFixed, szDrop.cy);
 			rc.bottom = rcOwner.top;
-			::MapWindowRect(pOwner->m_pManager->GetPaintWindow(), HWND_DESKTOP, &rc);
+			::MapWindowRect(pOwner->GetManager()->GetPaintWindow(), HWND_DESKTOP, &rc);
 		}
 
-		Create(pOwner->m_pManager->GetPaintWindow(), NULL, WS_POPUP, WS_EX_TOOLWINDOW, rc);
+		Create(pOwner->GetManager()->GetPaintWindow(), NULL, WS_POPUP, WS_EX_TOOLWINDOW, rc);
 		// HACK: Don't deselect the parent's caption
 		HWND hWndParent = m_hWnd;
 		while( ::GetParent(hWndParent) != NULL ) hWndParent = ::GetParent(hWndParent);
@@ -142,7 +142,7 @@ namespace DuiLib {
 			// the items back to the righfull owner/manager when the window closes.
 			m_pLayout = new CVerticalLayoutUI;
 			m_pLayout->SetManager(&m_pm, NULL, true);
-			LPCTSTR pDefaultAttributes = m_pOwner->m_pManager->GetDefaultAttributeList(_T("VerticalLayout"));
+			LPCTSTR pDefaultAttributes = m_pOwner->GetManager()->GetDefaultAttributeList(_T("VerticalLayout"));
 			if( pDefaultAttributes ) {
 				m_pLayout->ApplyAttributeList(pDefaultAttributes);
 			}

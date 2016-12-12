@@ -104,22 +104,17 @@ namespace DuiLib
 
 	SIZE CLabelUI::EstimateSize(SIZE szAvailable)
 	{
-		if (m_bAutoCalcWidth&&m_pManager) {
+		if (m_bAutoCalcWidth) {
 			CDuiString sText = GetText();
 
 			RECT rcText = {0, 0, szAvailable.cx, szAvailable.cy};
 			int nLinks = 0;
 			if( m_bShowHtml ) CRenderEngine::DrawHtmlText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, m_dwTextColor, NULL, NULL, nLinks, DT_CALCRECT | m_uTextStyle);
 			else CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, m_dwTextColor, m_iFont, DT_CALCRECT | m_uTextStyle);
-			m_cxyFixed.cx = MulDiv(rcText.right - rcText.left + m_pManager->GetDPIObj()->Scale(m_rcTextPadding.left) + m_pManager->GetDPIObj()->Scale(m_rcTextPadding.right), 100, m_pManager->GetDPIObj()->GetScale());
+			m_cxyFixed.cx = MulDiv(rcText.right - rcText.left + GetManager()->GetDPIObj()->Scale(m_rcTextPadding.left) + GetManager()->GetDPIObj()->Scale(m_rcTextPadding.right), 100, GetManager()->GetDPIObj()->GetScale());
 		}
 
-		if (m_cxyFixed.cy == 0) {
-			if(m_pManager)return CDuiSize(GetManager()->GetDPIObj()->Scale(m_cxyFixed.cx), m_pManager->GetFontInfo(GetFont())->tm.tmHeight + 4);
-			else return CDuiSize(m_cxyFixed.cx, m_pManager->GetFontInfo(GetFont())->tm.tmHeight + 4);
-			
-			
-		}
+		if( m_cxyFixed.cy == 0 ) return CDuiSize(GetManager()->GetDPIObj()->Scale(m_cxyFixed.cx), m_pManager->GetFontInfo(GetFont())->tm.tmHeight + 4);
 		return CControlUI::EstimateSize(szAvailable);
 	}
 
@@ -228,7 +223,7 @@ namespace DuiLib
 
 		RECT rc = m_rcItem;
 		RECT m_rcTextPadding = CLabelUI::m_rcTextPadding;
-		if (m_pManager)GetManager()->GetDPIObj()->Scale(&m_rcTextPadding);
+		GetManager()->GetDPIObj()->Scale(&m_rcTextPadding);
 		rc.left += m_rcTextPadding.left;
 		rc.right -= m_rcTextPadding.right;
 		rc.top += m_rcTextPadding.top;

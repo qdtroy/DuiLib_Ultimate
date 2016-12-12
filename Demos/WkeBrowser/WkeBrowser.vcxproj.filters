@@ -15,9 +15,6 @@
     <Filter Include="Resources\xmls">
       <UniqueIdentifier>{495d8e73-881d-481f-83d1-3ca5ee46318e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resources\images">
-      <UniqueIdentifier>{d2f13808-77fd-462b-bab2-501843e85c61}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3rd">
       <UniqueIdentifier>{b76e2f16-f57a-4850-a20d-1839aaa6240a}</UniqueIdentifier>
     </Filter>
@@ -87,20 +84,17 @@
     <None Include="Res\WkeBrowser.zip">
       <Filter>Resources</Filter>
     </None>
-    <None Include="..\..\bin\Projects\WkeBrowser\main.xml">
+    <None Include="..\..\bin\skin\WkeBrowser\main.xml">
       <Filter>Resources\xmls</Filter>
     </None>
-    <None Include="..\..\bin\Projects\WkeBrowser\msg.xml">
+    <None Include="..\..\bin\skin\WkeBrowser\main_encode.xml">
       <Filter>Resources\xmls</Filter>
     </None>
-    <None Include="..\..\bin\Projects\WkeBrowser\res.xml">
+    <None Include="..\..\bin\skin\WkeBrowser\msg.xml">
       <Filter>Resources\xmls</Filter>
     </None>
-    <None Include="..\..\bin\Projects\WkeBrowser\imgs\logo.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\Projects\WkeBrowser\imgs\scrollbar.bmp">
-      <Filter>Resources\images</Filter>
+    <None Include="..\..\bin\skin\WkeBrowser\res.xml">
+      <Filter>Resources\xmls</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

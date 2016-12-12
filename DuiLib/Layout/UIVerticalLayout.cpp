@@ -34,7 +34,7 @@ namespace DuiLib
 
 		// Adjust for inset
 		RECT m_rcInset = CVerticalLayoutUI::m_rcInset;
-		if (m_pManager)GetManager()->GetDPIObj()->Scale(&m_rcInset);
+		GetManager()->GetDPIObj()->Scale(&m_rcInset);
 		rc.left += m_rcInset.left;
 		rc.top += m_rcInset.top;
 		rc.right -= m_rcInset.right;
@@ -126,7 +126,7 @@ namespace DuiLib
 			if (iControlMaxHeight <= 0) iControlMaxHeight = pControl->GetMaxHeight();
 			if (szControlAvailable.cx > iControlMaxWidth) szControlAvailable.cx = iControlMaxWidth;
 			if (szControlAvailable.cy > iControlMaxHeight) szControlAvailable.cy = iControlMaxHeight;
-			cyFixedRemaining = cyFixedRemaining - (rcPadding.top + rcPadding.bottom);
+      cyFixedRemaining = cyFixedRemaining - (rcPadding.top + rcPadding.bottom);
 			if (iEstimate > 1) cyFixedRemaining = cyFixedRemaining - m_iChildPadding;
 			SIZE sz = pControl->EstimateSize(szControlAvailable);
 			if( sz.cy == 0 ) {
@@ -145,14 +145,12 @@ namespace DuiLib
 				cyFixedRemaining -= sz.cy;
 			}
 
-			if(pControl->GetFixedWidth() <= 0) {
-				sz.cx = pControl->GetMaxWidth();
-				if( sz.cx == 0 ) sz.cx = szAvailable.cx - rcPadding.left - rcPadding.right;
-				if( sz.cx < 0 ) sz.cx = 0;
-				if( sz.cx > szControlAvailable.cx ) sz.cx = szControlAvailable.cx;
-				if( sz.cx < pControl->GetMinWidth() ) sz.cx = pControl->GetMinWidth();
-			}
-			
+			sz.cx = pControl->GetMaxWidth();
+			if( sz.cx == 0 ) sz.cx = szAvailable.cx - rcPadding.left - rcPadding.right;
+			if( sz.cx < 0 ) sz.cx = 0;
+			if( sz.cx > szControlAvailable.cx ) sz.cx = szControlAvailable.cx;
+			if( sz.cx < pControl->GetMinWidth() ) sz.cx = pControl->GetMinWidth();
+
 			UINT iChildAlign = GetChildAlign(); 
 			if (iChildAlign == DT_CENTER) {
 				int iPosX = (rc.right + rc.left) / 2;

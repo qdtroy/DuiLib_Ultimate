@@ -956,13 +956,10 @@
     <ClInclude Include="WkeWebkit.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\bin\Projects\WkeBrowser\imgs\logo.png" />
-    <None Include="..\..\bin\Projects\WkeBrowser\imgs\scrollbar.bmp" />
-    <None Include="..\..\bin\Projects\WkeBrowser\main.xml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="..\..\bin\Projects\WkeBrowser\msg.xml" />
-    <None Include="..\..\bin\Projects\WkeBrowser\res.xml" />
+    <None Include="..\..\bin\skin\WkeBrowser\main.xml" />
+    <None Include="..\..\bin\skin\WkeBrowser\main_encode.xml" />
+    <None Include="..\..\bin\skin\WkeBrowser\msg.xml" />
+    <None Include="..\..\bin\skin\WkeBrowser\res.xml" />
     <None Include="Res\WkeBrowser.ico" />
     <None Include="Res\WkeBrowser.zip" />
   </ItemGroup>

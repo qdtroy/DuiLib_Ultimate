@@ -43,8 +43,8 @@ namespace DuiLib
 		{
 			RECT rcPos = CalPos();
 			UINT uStyle = WS_CHILD;
-			Create(m_pOwner->m_pManager->GetPaintWindow(), NULL, uStyle, 0, rcPos);
-			SetWindowFont(m_hWnd, m_pOwner->m_pManager->GetFontInfo(m_pOwner->GetFont())->hFont, TRUE);
+			Create(m_pOwner->GetManager()->GetPaintWindow(), NULL, uStyle, 0, rcPos);
+			SetWindowFont(m_hWnd, m_pOwner->GetManager()->GetFontInfo(m_pOwner->GetFont())->hFont, TRUE);
 		}
 
 		if (m_pOwner->GetText().IsEmpty()) {
@@ -92,8 +92,8 @@ namespace DuiLib
 	void CDateTimeWnd::OnFinalMessage(HWND hWnd)
 	{
 		if( m_hBkBrush != NULL ) ::DeleteObject(m_hBkBrush);
-		if( m_pOwner->m_pManager->IsLayered() ) {
-			m_pOwner->m_pManager->RemovePaintChildWnd(hWnd);
+		if( m_pOwner->GetManager()->IsLayered() ) {
+			m_pOwner->GetManager()->RemovePaintChildWnd(hWnd);
 		} 
 		m_pOwner->m_pWindow = NULL;
 		delete this;
@@ -143,8 +143,8 @@ namespace DuiLib
 			bHandled = FALSE;
 		}
 		else if( uMsg == WM_PAINT) {
-			if (m_pOwner->m_pManager->IsLayered()) {
-				m_pOwner->m_pManager->AddPaintChildWnd(m_hWnd);
+			if (m_pOwner->GetManager()->IsLayered()) {
+				m_pOwner->GetManager()->AddPaintChildWnd(m_hWnd);
 			}
 			bHandled = FALSE;
 		}
@@ -250,7 +250,7 @@ namespace DuiLib
 		if( event.Type == UIEVENT_BUTTONDOWN || event.Type == UIEVENT_DBLCLICK || event.Type == UIEVENT_RBUTTONDOWN) 
 		{
 			if( IsEnabled() ) {
-				m_pManager->ReleaseCapture();
+				GetManager()->ReleaseCapture();
 				if( IsFocused() && m_pWindow == NULL )
 				{
 					m_pWindow = new CDateTimeWnd();

@@ -610,7 +610,7 @@ namespace DuiLib {
 	RECT CListUI::GetItemTextPadding() const
 	{
 		RECT rect = m_ListInfo.rcTextPadding;
-		if(m_pManager) m_pManager->GetDPIObj()->Scale(&rect);
+		GetManager()->GetDPIObj()->Scale(&rect);
 		return rect;
 	}
 
@@ -2108,8 +2108,8 @@ namespace DuiLib {
 		ASSERT(m_pOwner);
 		if( m_pOwner == NULL ) return;
 		TListInfoUI* pInfo = m_pOwner->GetListInfo();
-		DWORD iBackColor = 0;
-		if( !pInfo->bAlternateBk || m_iIndex % 2 == 0 ) iBackColor = pInfo->dwBkColor;
+		DWORD iBackColor = 0xFFFF0000;
+		//if( !pInfo->bAlternateBk || m_iIndex % 2 == 0 ) iBackColor = pInfo->dwBkColor;
 		if( (m_uButtonState & UISTATE_HOT) != 0 ) {
 			iBackColor = pInfo->dwHotBkColor;
 		}

@@ -8,7 +8,7 @@ namespace DuiLib
 	//
 	IMPLEMENT_DUICONTROL(CContainerUI)
 
-	CContainerUI::CContainerUI()
+		CContainerUI::CContainerUI()
 		: m_iChildPadding(0),
 		m_iChildAlign(DT_LEFT),
 		m_iChildVAlign(DT_TOP),
@@ -168,7 +168,8 @@ namespace DuiLib
 
 	RECT CContainerUI::GetInset() const
 	{
-		return GetManager()->GetDPIObj()->Scale(m_rcInset);
+		if(m_pManager) return m_pManager->GetDPIObj()->Scale(m_rcInset);
+		return m_rcInset;
 	}
 
 	void CContainerUI::SetInset(RECT rcInset)
@@ -179,15 +180,17 @@ namespace DuiLib
 
 	int CContainerUI::GetChildPadding() const
 	{
-		return GetManager()->GetDPIObj()->Scale(m_iChildPadding);
+		if (m_pManager) return m_pManager->GetDPIObj()->Scale(m_iChildPadding);
+		return m_iChildPadding;
 	}
+
 
 	void CContainerUI::SetChildPadding(int iPadding)
 	{
 		m_iChildPadding = iPadding;
 		NeedUpdate();
 	}
-	
+
 	UINT CContainerUI::GetChildAlign() const
 	{
 		return m_iChildAlign;
@@ -424,7 +427,9 @@ namespace DuiLib
 
 	int CContainerUI::GetScrollStepSize() const
 	{
-		return GetManager()->GetDPIObj()->Scale(m_nScrollStepSize);
+		if(m_pManager )return m_pManager->GetDPIObj()->Scale(m_nScrollStepSize);
+
+		return m_nScrollStepSize;
 	}
 
 	void CContainerUI::LineUp()
@@ -632,7 +637,7 @@ namespace DuiLib
 		}
 		return rc;
 	}
-	
+
 	void CContainerUI::Move(SIZE szOffset, bool bNeedInvalidate)
 	{
 		CControlUI::Move(szOffset, bNeedInvalidate);
@@ -890,15 +895,47 @@ namespace DuiLib
 
 		SIZE szXY = pControl->GetFixedXY();
 		SIZE sz = {pControl->GetFixedWidth(), pControl->GetFixedHeight()};
-		TPercentInfo rcPercent = pControl->GetFloatPercent();
-		LONG width = m_rcItem.right - m_rcItem.left;
-		LONG height = m_rcItem.bottom - m_rcItem.top;
-		RECT rcCtrl = { 0 };
-		rcCtrl.left = (LONG)(width*rcPercent.left) + szXY.cx+ m_rcItem.left;
-		rcCtrl.top = (LONG)(height*rcPercent.top) + szXY.cy+ m_rcItem.top;
-		rcCtrl.right = (LONG)(width*rcPercent.right) + szXY.cx + sz.cx+ m_rcItem.left;
-		rcCtrl.bottom = (LONG)(height*rcPercent.bottom) + szXY.cy + sz.cy+ m_rcItem.top;
-		pControl->SetPos(rcCtrl, false);
+
+		int nParentWidth = m_rcItem.right - m_rcItem.left;
+		int nParentHeight = m_rcItem.bottom - m_rcItem.top;
+
+		UINT uAlign = pControl->GetFloatAlign();
+		if(uAlign != 0) {
+			RECT rcCtrl = {0, 0, sz.cx, sz.cy};
+			if((uAlign & DT_CENTER) != 0) {
+				::OffsetRect(&rcCtrl, (nParentWidth - sz.cx) / 2, 0);
+			}
+			else if((uAlign & DT_RIGHT) != 0) {
+				::OffsetRect(&rcCtrl, nParentWidth - sz.cx, 0);
+			}
+			else {
+				::OffsetRect(&rcCtrl, szXY.cx, 0);
+			}
+
+			if((uAlign & DT_VCENTER) != 0) {
+				::OffsetRect(&rcCtrl, 0, (nParentHeight - sz.cy) / 2);
+			}
+			else if((uAlign & DT_BOTTOM) != 0) {
+				::OffsetRect(&rcCtrl, 0, nParentHeight - sz.cy);
+			}
+			else {
+				::OffsetRect(&rcCtrl, 0, szXY.cy);
+			}
+
+			::OffsetRect(&rcCtrl, m_rcItem.left, m_rcItem.top);
+			pControl->SetPos(rcCtrl, false);
+		}
+		else {
+			TPercentInfo rcPercent = pControl->GetFloatPercent();
+			LONG width = m_rcItem.right - m_rcItem.left;
+			LONG height = m_rcItem.bottom - m_rcItem.top;
+			RECT rcCtrl = { 0 };
+			rcCtrl.left = (LONG)(width*rcPercent.left) + szXY.cx+ m_rcItem.left;
+			rcCtrl.top = (LONG)(height*rcPercent.top) + szXY.cy+ m_rcItem.top;
+			rcCtrl.right = (LONG)(width*rcPercent.right) + szXY.cx + sz.cx+ m_rcItem.left;
+			rcCtrl.bottom = (LONG)(height*rcPercent.bottom) + szXY.cy + sz.cy+ m_rcItem.top;
+			pControl->SetPos(rcCtrl, false);
+		}
 	}
 
 	void CContainerUI::ProcessScrollBar(RECT rc, int cxRequired, int cyRequired)
@@ -1083,7 +1120,7 @@ namespace DuiLib
 	CControlUI* CContainerUI::FindSubControl( LPCTSTR pstrSubControlName )
 	{
 		CControlUI* pSubControl=NULL;
-		pSubControl=static_cast<CControlUI*>(GetManager()->FindSubControlByName(this,pstrSubControlName));
+		if(m_pManager != NULL) pSubControl = static_cast<CControlUI*>(m_pManager->FindSubControlByName(this,pstrSubControlName));
 		return pSubControl;
 	}
 

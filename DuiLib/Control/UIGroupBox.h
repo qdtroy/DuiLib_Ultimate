@@ -3,8 +3,6 @@
 
 #pragma once
 
-#define  GROUPBOX_TEXT_OFFSET		20		//定义GroupBox中的Text相对于左边的偏移
-
 namespace DuiLib
 {
 
@@ -37,7 +35,6 @@ namespace DuiLib
 		DWORD m_dwDisabledTextColor;
 		int m_iFont;
 		UINT m_uTextStyle;
-		RECT m_rcTextPadding;
 	};
 }
 #endif // __UIGROUPBOX_H__

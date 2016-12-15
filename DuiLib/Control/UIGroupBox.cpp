@@ -11,7 +11,6 @@ namespace DuiLib
 		m_dwDisabledTextColor(0), m_iFont(-1)
 	{
 		SetInset(CDuiRect(20, 25, 20, 20));
-		::ZeroMemory(&m_rcTextPadding, sizeof(m_rcTextPadding));
 	}
 
 	CGroupBoxUI::~CGroupBoxUI()
@@ -92,40 +91,53 @@ namespace DuiLib
 	}
 	void CGroupBoxUI::PaintBorder(HDC hDC)
 	{
-		if( m_nBorderSize > 0 )
+		int nBorderSize;
+		SIZE cxyBorderRound;
+		RECT rcBorderSize;
+		if (m_pManager) {
+			nBorderSize = GetManager()->GetDPIObj()->Scale(m_nBorderSize);
+			cxyBorderRound = GetManager()->GetDPIObj()->Scale(m_cxyBorderRound);
+			rcBorderSize = GetManager()->GetDPIObj()->Scale(m_rcBorderSize);
+		}
+		else {
+			nBorderSize = m_nBorderSize;
+			cxyBorderRound = m_cxyBorderRound;
+			rcBorderSize = m_rcBorderSize;
+		}
+
+		if( nBorderSize > 0 )
 		{
 			CDuiRect rcItem = m_rcItem;
-			rcItem.Deflate(5,5);
-			if( m_cxyBorderRound.cx > 0 || m_cxyBorderRound.cy > 0 )//»­Ô²½Ç±ß¿ò
+			rcItem.Deflate(5, 5);
+			
+			if( cxyBorderRound.cx > 0 || cxyBorderRound.cy > 0 )//»­Ô²½Ç±ß¿ò
 			{
 				if (IsFocused() && m_dwFocusBorderColor != 0)
-					CRenderEngine::DrawRoundRect(hDC, rcItem, m_nBorderSize, m_cxyBorderRound.cx, m_cxyBorderRound.cy, GetAdjustColor(m_dwFocusBorderColor));
+					CRenderEngine::DrawRoundRect(hDC, rcItem, nBorderSize, cxyBorderRound.cx, cxyBorderRound.cy, GetAdjustColor(m_dwFocusBorderColor));
 				else
-					CRenderEngine::DrawRoundRect(hDC, rcItem, m_nBorderSize, m_cxyBorderRound.cx, m_cxyBorderRound.cy, GetAdjustColor(m_dwBorderColor));
+					CRenderEngine::DrawRoundRect(hDC, rcItem, nBorderSize, cxyBorderRound.cx, cxyBorderRound.cy, GetAdjustColor(m_dwBorderColor));
 			}
 			else
 			{
 				if (IsFocused() && m_dwFocusBorderColor != 0)
-					CRenderEngine::DrawRect(hDC, rcItem, m_nBorderSize, GetAdjustColor(m_dwFocusBorderColor));
+					CRenderEngine::DrawRect(hDC, rcItem, nBorderSize, GetAdjustColor(m_dwFocusBorderColor));
 				else
-					CRenderEngine::DrawRect(hDC, rcItem, m_nBorderSize, GetAdjustColor(m_dwBorderColor));
+					CRenderEngine::DrawRect(hDC, rcItem, nBorderSize, GetAdjustColor(m_dwBorderColor));
 			}
 		}
 
 		PaintText(hDC);
 	}
+
 	SIZE CGroupBoxUI::CalcrectSize(SIZE szAvailable)
 	{
-		RECT rcText = { 0, 0, MAX(szAvailable.cx, m_cxyFixed.cx), 20 };
-		rcText.left += m_rcTextPadding.left;
-		rcText.right -= m_rcTextPadding.right;
-
+		SIZE cxyFixed = GetFixedXY();
+		RECT rcText = { 0, 0, MAX(szAvailable.cx, cxyFixed.cx), 20 };
+		
 		CDuiString sText = GetText();
 
 		CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, m_dwTextColor, m_iFont, DT_CALCRECT | m_uTextStyle);
-		SIZE cXY = {rcText.right - rcText.left + m_rcTextPadding.left + m_rcTextPadding.right,
-			rcText.bottom - rcText.top + m_rcTextPadding.top + m_rcTextPadding.bottom};
-
+		SIZE cXY = {rcText.right - rcText.left, rcText.bottom - rcText.top};
 		return cXY;
 	}
 	void CGroupBoxUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)

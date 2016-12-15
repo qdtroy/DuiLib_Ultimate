@@ -313,9 +313,7 @@ namespace DuiLib
 					if( PtInRect(&m_rcItem, event.ptMouse) )
 					{
 						int nSize = GetWindowTextLength(*m_pWindow);
-						if( nSize == 0 )
-							nSize = 1;
-
+						if( nSize == 0 ) nSize = 1;
 						Edit_SetSel(*m_pWindow, 0, nSize);
 					}
 				}
@@ -323,9 +321,7 @@ namespace DuiLib
 				{
 #if 1
 					int nSize = GetWindowTextLength(*m_pWindow);
-					if( nSize == 0 )
-						nSize = 1;
-
+					if( nSize == 0 ) nSize = 1;
 					Edit_SetSel(*m_pWindow, 0, nSize);
 #else
 					POINT pt = event.ptMouse;
@@ -551,8 +547,7 @@ namespace DuiLib
 
 	LPCTSTR CEditUI::GetTipValue()
 	{
-		if (!IsResourceText()) 
-			return m_sTipValue;
+		if (!IsResourceText()) return m_sTipValue;
 		return CResourceManager::GetInstance()->GetText(m_sTipValue);
 	}
 

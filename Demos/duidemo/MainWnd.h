@@ -10,8 +10,22 @@ public:
 	CDemoFrame() 
 	{
 		m_pMenu = NULL;
+		m_MenuInfos = new std::map<CDuiString, bool>();
 	}
+	~CDemoFrame()
+	{
+		if(m_MenuInfos != NULL) {
+			//m_MenuInfos->clear();
+			//delete m_MenuInfos;
+			//m_MenuInfos = NULL;
+		}
 
+		if(m_pMenu != NULL) {
+			delete m_pMenu;
+			m_pMenu = NULL;
+		}
+		
+	}
 public:
 	CControlUI* CreateControl(LPCTSTR pstrClass)
 	{
@@ -389,7 +403,7 @@ public:
 				m_pMenu = NULL;
 			}
 			m_pMenu = new CMenuWnd();
-			CMenuWnd::GetGlobalContextMenuObserver().SetMenuCheckInfo(&m_MenuInfos);
+			CMenuWnd::GetGlobalContextMenuObserver().SetMenuCheckInfo(m_MenuInfos);
 			CDuiPoint point;
 			::GetCursorPos(&point);
 			
@@ -550,6 +564,6 @@ private:
 	CButtonUI* m_pMinBtn;
 	CButtonUI* m_pSkinBtn;
 	CMenuWnd* m_pMenu;
-	std::map<CDuiString, bool> m_MenuInfos;
+	std::map<CDuiString, bool>* m_MenuInfos;
 	CTrayIcon m_trayIcon;
 };

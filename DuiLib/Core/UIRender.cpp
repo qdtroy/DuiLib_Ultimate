@@ -617,6 +617,104 @@ namespace DuiLib {
 		return pImg;
 	}
 #endif//USE_XIMAGE_EFFECT
+
+	Gdiplus::Image* CRenderEngine::GdiplusLoadImage(LPCTSTR pstrPath)
+	{
+		LPBYTE pData = NULL;
+		DWORD dwSize = 0;
+
+		do 
+		{
+			CDuiString sFile = CPaintManagerUI::GetResourcePath();
+			if( CPaintManagerUI::GetResourceZip().IsEmpty() ) {
+				sFile += pstrPath;
+				HANDLE hFile = ::CreateFile(sFile.GetData(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, \
+					FILE_ATTRIBUTE_NORMAL, NULL);
+				if( hFile == INVALID_HANDLE_VALUE ) break;
+				dwSize = ::GetFileSize(hFile, NULL);
+				if( dwSize == 0 ) break;
+
+				DWORD dwRead = 0;
+				pData = new BYTE[ dwSize ];
+				::ReadFile( hFile, pData, dwSize, &dwRead, NULL );
+				::CloseHandle( hFile );
+
+				if( dwRead != dwSize ) {
+					delete[] pData;
+					pData = NULL;
+					break;
+				}
+			}
+			else {
+				sFile += CPaintManagerUI::GetResourceZip();
+				HZIP hz = NULL;
+				if( CPaintManagerUI::IsCachedResourceZip() ) hz = (HZIP)CPaintManagerUI::GetResourceZipHandle();
+				else hz = OpenZip((void*)sFile.GetData(), 0, 2);
+				if( hz == NULL ) break;
+				ZIPENTRY ze; 
+				int i; 
+				if( FindZipItem(hz, pstrPath, true, &i, &ze) != 0 ) break;
+				dwSize = ze.unc_size;
+				if( dwSize == 0 ) break;
+				pData = new BYTE[ dwSize ];
+				int res = UnzipItem(hz, i, pData, dwSize, 3);
+				if( res != 0x00000000 && res != 0x00000600) {
+					delete[] pData;
+					pData = NULL;
+					if( !CPaintManagerUI::IsCachedResourceZip() ) CloseZip(hz);
+					break;
+				}
+				if( !CPaintManagerUI::IsCachedResourceZip() ) CloseZip(hz);
+			}
+
+		} while (0);
+
+		while (!pData)
+		{
+			//读不到图片, 则直接去读取bitmap.m_lpstr指向的路径
+			HANDLE hFile = ::CreateFile(pstrPath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+			if( hFile == INVALID_HANDLE_VALUE ) break;
+			dwSize = ::GetFileSize(hFile, NULL);
+			if( dwSize == 0 ) break;
+
+			DWORD dwRead = 0;
+			pData = new BYTE[ dwSize ];
+			::ReadFile( hFile, pData, dwSize, &dwRead, NULL );
+			::CloseHandle( hFile );
+
+			if( dwRead != dwSize ) {
+				delete[] pData;
+				pData = NULL;
+			}
+			break;
+		}
+
+		Gdiplus::Image* pImage = NULL;
+		if(pData != NULL) {
+			pImage = GdiplusLoadImage(pData, dwSize);
+			delete pData;
+			pData = NULL;
+		}
+		return pImage;
+	}
+
+	Gdiplus::Image* CRenderEngine::GdiplusLoadImage( LPVOID pBuf,size_t dwSize )
+	{
+		HGLOBAL hMem = ::GlobalAlloc(GMEM_FIXED, dwSize);
+		BYTE* pMem = (BYTE*)::GlobalLock(hMem);
+		memcpy(pMem, pBuf, dwSize);
+		IStream* pStm = NULL;
+		::CreateStreamOnHGlobal(hMem, TRUE, &pStm);
+		Gdiplus::Image *pImg = Gdiplus::Image::FromStream(pStm);
+		if(!pImg || pImg->GetLastStatus() != Gdiplus::Ok)
+		{
+			pStm->Release();
+			::GlobalUnlock(hMem);
+			return 0;
+		}
+		return pImg;
+	}
+
 	void CRenderEngine::FreeImage(TImageInfo* bitmap, bool bDelete)
 	{
 		if (bitmap == NULL) return;

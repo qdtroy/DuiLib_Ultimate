@@ -15,9 +15,6 @@
     <Filter Include="Resources\xmls">
       <UniqueIdentifier>{495d8e73-881d-481f-83d1-3ca5ee46318e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resources\images">
-      <UniqueIdentifier>{d2f13808-77fd-462b-bab2-501843e85c61}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StdAfx.cpp">
@@ -68,57 +65,6 @@
   <ItemGroup>
     <None Include="Res\duidemo.ico">
       <Filter>Resources</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\bg.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\button_hover.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\button_normal.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\button_pushed.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\combo.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\header_bk.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\hor_line.bmp">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\icon.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\list_header_bg.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\list_header_hot.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\list_header_pushed.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\list_header_sep.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\logo.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\scrollbar.bmp">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\tabbar_hover.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\tabbar_normal.png">
-      <Filter>Resources\images</Filter>
-    </None>
-    <None Include="..\..\bin\skin\duidemo\tabbar_pushed.png">
-      <Filter>Resources\images</Filter>
     </None>
     <None Include="..\..\bin\skin\duidemo\skin.xml">
       <Filter>Resources\xmls</Filter>

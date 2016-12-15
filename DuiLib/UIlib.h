@@ -105,6 +105,7 @@
 #include "Control/UIListEx.h"
 #include "Control/UIHotKey.h"
 #include "Control/UIFadeButton.h"
+#include "Control/UIRing.h"
 
 #pragma comment( lib, "comctl32.lib" )
 #pragma comment( lib, "GdiPlus.lib" )

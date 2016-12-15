@@ -53,6 +53,7 @@ namespace DuiLib
 		INNER_REGISTER_DUICONTROL(CListTextExtElementUI);
 		INNER_REGISTER_DUICONTROL(CHotKeyUI);
 		INNER_REGISTER_DUICONTROL(CFadeButtonUI);
+		INNER_REGISTER_DUICONTROL(CRingUI);
 	}
 
 	CControlFactory::~CControlFactory()

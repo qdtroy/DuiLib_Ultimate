@@ -945,6 +945,7 @@
     <ClCompile Include="Control\UIIPAddress.cpp" />
     <ClCompile Include="Control\UIListEx.cpp" />
     <ClCompile Include="Control\UIMenu.cpp" />
+    <ClCompile Include="Control\UIRing.cpp" />
     <ClCompile Include="Core\ControlFactory.cpp" />
     <ClCompile Include="Core\UIResourceManager.cpp" />
     <ClCompile Include="Layout\UIAnimationTabLayout.cpp" />
@@ -1051,6 +1052,7 @@
     <ClInclude Include="Control\UIIPAddress.h" />
     <ClInclude Include="Control\UIListEx.h" />
     <ClInclude Include="Control\UIMenu.h" />
+    <ClInclude Include="Control\UIRing.h" />
     <ClInclude Include="Core\ControlFactory.h" />
     <ClInclude Include="Core\UIResourceManager.h" />
     <ClInclude Include="Layout\UIAnimationTabLayout.h" />

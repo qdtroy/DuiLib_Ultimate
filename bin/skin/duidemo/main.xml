@@ -132,6 +132,7 @@
           <HorizontalLayout height="100" childvalign="vcenter">
             <Label text="进度控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <HorizontalLayout height="100" childpadding="12" >
+              <Ring name="ring" text="Ring" textcolor="#FF333333" align="center" valign="vcenter" height="80" width="80" bkimage="common/ring.png"/>
               <Progress name="progress" padding="0,40" textcolor="#FF333333" valign="vcenter" height="18" width="160" bkcolor="#FFFFFF33" forecolor="#FFFF0000" value="50" min="0" max="100"/>
               <CircleProgress name="circle_progress" textcolor="#FF333333" valign="vcenter" height="100" width="100" bkcolor="#FFFFFF33" forecolor="#FFFF0000" value="50" min="0" max="100"/>
               <Slider name="slider" enabled="true" padding="0,40" width="124" height="19" value="50" min="0" max="100" bkimage="res='common/SliderBar_BK.bmp' mask='#ffff00ff'" thumbimage="file='common/SliderBar_Thumb.png' mask='0xffffffff'" thumbhotimage="file='common/SliderBar_Thumb.png' mask='0xffffffff'" thumbpushedimage="file='common/SliderBar_Thumb.png' mask='0xffffffff'" thumbsize="12,20" />

@@ -42,8 +42,6 @@ namespace DuiLib {
 		void ReloadText();
 		void ResetTextMap();
 
-	
-
 	private:
 		CStdStringPtrMap m_mTextResourceHashMap;
 		IQueryControlText*	m_pQuerypInterface;
@@ -52,8 +50,6 @@ namespace DuiLib {
 		CMarkup m_xml;
 		CDuiString m_sLauguage;
 		CStdStringPtrMap m_mTextHashMap;
-
-		
 	};
 
 } // namespace DuiLib

@@ -73,6 +73,7 @@
     <Attribute name="resourcetext" default="false" type="BOOL" comment="是否支持多语言，为true文字绘制会走多语言接口"/>
     <Attribute name="style" default="" type="string" comment="通过样式名称设置控件的样式"/>
     <Attribute name="innerstyle" default="" type="string" comment="通过样式表设置控件的样式"/>
+    <Attribute name="floatalign" default="" type="string" comment="用于控制float控件先对于父控件的对齐方式（left\center\right、top\vcenter\bottom）"/>
 	</Control>
 	<Container parent="Control" notifies="setfocus killfocus timer menu windowinit(root)">
 		<Attribute name="name" default="" type="STRING" comment="控件名字，同一窗口内必须唯一，如(testbtn)"/>
@@ -458,6 +459,48 @@
 		<Attribute name="autocalcwidth" default="false" type="INT" comment="是否自动计算宽度"/>
     <Attribute name="wordbreak" default="false" type="INT" comment="是否支持多行文字"/>
   </Label>
+  
+  <Ring parent="Label" notifies="setfocus killfocus timer menu windowinit(root)">
+      <Attribute name="name" default="" type="STRING" comment="控件名字，同一窗口内必须唯一，如(testbtn)"/>
+      <Attribute name="pos" default="0,0,0,0" type="RECT" comment="位置，如果为float控件则指定位置和大小，否则只指定大小,如(0,0,100,100)"/>
+      <Attribute name="padding" default="0,0,0,0" type="RECT" comment="外边距,如(2,2,2,2)"/>
+      <Attribute name="bkcolor" default="0x00000000" type="DWORD" comment="背景颜色,如(0xFFFF0000)"/>
+      <Attribute name="bkcolor2" default="0x00000000" type="DWORD" comment="背景渐变色2,和bkcolor配合使用,如(0xFFFFFF00)"/>
+      <Attribute name="bkcolor3" default="0x00000000" type="DWORD" comment="背景渐变色3,和bkcolor、bkcolor2配合使用,如(0xFFFF00FF)"/>
+      <Attribute name="bordercolor" default="0x00000000" type="DWORD" comment="边框颜色,如(0xFF000000)"/>
+      <Attribute name="focusbordercolor" default="0x00000000" type="DWORD" comment="获得焦点时边框的颜色,如(0xFFFF0000)"/>
+      <Attribute name="colorhsl" default="false" type="BOOL" comment="本控件的颜色是否随窗口的hsl变化而变化,如(false)"/>
+      <Attribute name="bordersize" default="1" type="INT" comment="边框大小，如(1)"/>
+      <Attribute name="borderround" default="0,0" type="SIZE" comment="边框圆角半径,如(2,2)"/>
+      <Attribute name="bkimage" default="" type="STRING" comment="Ring旋转图片,如(bk.bmp或file='aaa.jpg' res='' restype='0' dest='0,0,0,0' source='0,0,0,0' corner='0,0,0,0' mask='#FF0000' fade='255' hole='false' xtiled='false' ytiled='false')"/>
+      <Attribute name="disabledimage" default="" type="STRING" comment="禁用的状态图片"/>
+      <Attribute name="width" default="0" type="INT" comment="控件预设的宽度，如(100)"/>
+      <Attribute name="height" default="0" type="INT" comment="控件预设的高度，如(30)"/>
+      <Attribute name="minwidth" default="0" type="INT" comment="控件的最小宽度，如(100)"/>
+      <Attribute name="minheight" default="0" type="INT" comment="控件的最小高度，如(30)"/>
+      <Attribute name="maxwidth" default="9999" type="INT" comment="控件的最大宽度，如(100)"/>
+      <Attribute name="maxheight" default="9999" type="INT" comment="控件的最大高度，如(30)"/>
+      <Attribute name="text" default="" type="STRING" comment="显示文本,如(测试文本)"/>
+      <Attribute name="tooltip" default="" type="STRING" comment="鼠标悬浮提示,如(请在这里输入你的密码)"/>
+      <Attribute name="userdata" default="" type="STRING" comment="自定义标识"/>
+      <Attribute name="enabled" default="true" type="BOOL" comment="是否可以响应用户操作,如(true)"/>
+      <Attribute name="mouse" default="true" type="BOOL" comment="本控件是否可以响应鼠标操作,如(true)"/>
+      <Attribute name="visible" default="true" type="BOOL" comment="是否可见,如(true)"/>
+      <Attribute name="float" default="false" type="BOOL" comment="是否使用绝对定位,如(true)"/>
+      <Attribute name="shortcut" default="" type="CHAR" comment="对应的快捷键,如(P)"/>
+      <Attribute name="menu" default="false" type="BOOL" comment="是否需要右键菜单,如(true)"/>
+      <Attribute name="endellipsis" default="false" type="BOOL" comment="句末显示不全是否使用...代替,如(true)"/>
+      <Attribute name="font" default="-1" type="INT" comment="字体id,如(0)"/>
+      <Attribute name="textcolor" default="0x00000000" type="DWORD" comment="字体颜色，0表示使用默认字体颜色,如(0xFFFF0000)"/>
+      <Attribute name="disabledtextcolor" default="0x00000000" type="DWORD" comment="disabled字体颜色，0表示使用默认disabled字体颜色,如(0xFFFF0000)"/>
+      <Attribute name="textpadding" default="0,0,0,0" type="RECT" comment="文字显示的边距,如(2,2,2,2)"/>
+      <Attribute name="showhtml" default="false" type="BOOL" comment="是否使用类html富文本绘制,如(false)"/>
+      <Attribute name="align" default="left" type="STRING" comment="文字横向对齐方式,取值left、center、right"/>
+      <Attribute name="valign" default="center" type="STRING" comment="文字纵向对齐方式,取值top、center、bottom"/>
+      <Attribute name="autocalcwidth" default="false" type="INT" comment="是否自动计算宽度"/>
+      <Attribute name="wordbreak" default="false" type="INT" comment="是否支持多行文字"/>
+      
+  </Ring>
   <DateTime parent="Label" notifies="setfocus killfocus timer menu windowinit(root)">
     <Attribute name="name" default="" type="STRING" comment="控件名字，同一窗口内必须唯一，如(testbtn)"/>
     <Attribute name="pos" default="0,0,0,0" type="RECT" comment="位置，如果为float控件则指定位置和大小，否则只指定大小,如(0,0,100,100)"/>

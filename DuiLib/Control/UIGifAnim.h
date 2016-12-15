@@ -5,12 +5,12 @@
 
 namespace DuiLib
 {
-	class CControl;
-
-#define EVENT_TIEM_ID	100
-
 	class UILIB_API CGifAnimUI : public CControlUI
 	{
+		enum
+		{ 
+			EVENT_TIEM_ID = 100,
+		};
 		DECLARE_DUICONTROL(CGifAnimUI)
 	public:
 		CGifAnimUI(void);
@@ -39,8 +39,7 @@ namespace DuiLib
 		void	DeleteGif();
 		void    OnTimer( UINT_PTR idEvent );
 		void	DrawFrame( HDC hDC );		// 绘制GIF每帧
-		Gdiplus::Image*	LoadGifFromFile(LPCTSTR pstrGifPath);
-		Gdiplus::Image* LoadGifFromMemory( LPVOID pBuf,size_t dwSize );
+
 	private:
 		Gdiplus::Image	*m_pGifImage;
 		UINT			m_nFrameCount;				// gif图片总帧数
@@ -51,7 +50,6 @@ namespace DuiLib
 		bool			m_bIsAutoPlay;				// 是否自动播放gif
 		bool			m_bIsAutoSize;				// 是否自动根据图片设置大小
 		bool			m_bIsPlaying;
-
 	};
 }
 

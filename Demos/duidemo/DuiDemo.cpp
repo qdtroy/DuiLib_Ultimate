@@ -5,7 +5,6 @@
 #include "resource.h"
 #include <ShellAPI.h>
 #include "SkinFrame.h"
-
 #include "MainWnd.h"
 #include "PopWnd.h"
 
@@ -80,28 +79,33 @@ void InitResource()
 	REGIST_DUICONTROL(CCircleProgressUI);
 	REGIST_DUICONTROL(CChartViewUI);
 }
-#define new   new(_NORMAL_BLOCK, __FILE__, __LINE__) 
+
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
-_CrtSetDbgFlag(_CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) | _CRTDBG_LEAK_CHECK_DF);	HRESULT Hr = ::CoInitialize(NULL);
+	// COM
+	HRESULT Hr = ::CoInitialize(NULL);
 	if( FAILED(Hr) ) return 0;
+	// OLE
 	HRESULT hRes = ::OleInitialize(NULL);
 	// 初始化UI管理器
 	CPaintManagerUI::SetInstance(hInstance);
 	// 初始化资源
 	InitResource();
-
-	CDemoFrame* pFrame = new CDemoFrame();
-	if( pFrame == NULL ) return 0;
-	pFrame->Create(NULL, _T("duilib使用例子集锦（By Troy）"), UI_WNDSTYLE_FRAME, 0L, 0, 0, 800, 572);
-	pFrame->CenterWindow();
-	ShowWindow(*pFrame, SW_SHOW);
+	// 创建主窗口
+	CMainWnd* pMainWnd = new CMainWnd();
+	if( pMainWnd == NULL ) return 0;
+	pMainWnd->Create(NULL, _T("duilib使用例子集锦（By Troy）"), UI_WNDSTYLE_FRAME, 0L, 0, 0, 800, 572);
+	pMainWnd->CenterWindow();
+	// 消息循环
 	CPaintManagerUI::MessageLoop();
-	delete pFrame;
-	pFrame = NULL;
+	// 销毁窗口
+	delete pMainWnd;
+	pMainWnd = NULL;
+	// 销毁资源管理器
 	CResourceManager::GetInstance()->Release();
-
+	// OLE
 	OleUninitialize();
+	// COM
 	::CoUninitialize();
 	return 0;
 }

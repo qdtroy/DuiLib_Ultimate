@@ -165,14 +165,31 @@ namespace DuiLib {
 
 		return TRUE;
 	}
-	CMenuWnd* CMenuWnd::CreateMenu(CMenuElementUI* pOwner, STRINGorID xml, POINT point, CPaintManagerUI* pMainPaintManager, std::map<CDuiString, bool>* pMenuCheckInfo /*= NULL*/, DWORD dwAlignment /*= eMenuAlignment_Left | eMenuAlignment_Top*/)
+
+	CMenuWnd* CMenuWnd::CreateMenu(CMenuElementUI* pOwner, STRINGorID xml, POINT point, CPaintManagerUI* pMainPaintManager, CStdStringPtrMap* pMenuCheckInfo /*= NULL*/, DWORD dwAlignment /*= eMenuAlignment_Left | eMenuAlignment_Top*/)
 	{
 		CMenuWnd* pMenu = new CMenuWnd;
 		pMenu->Init(pOwner, xml, point, pMainPaintManager, pMenuCheckInfo, dwAlignment);
 		return pMenu;
 	}
+
+	void CMenuWnd::DestroyMenu()
+	{
+		CStdStringPtrMap* mCheckInfos = CMenuWnd::GetGlobalContextMenuObserver().GetMenuCheckInfo();
+		if (mCheckInfos != NULL)
+		{
+			for(int i = 0; i < mCheckInfos->GetSize(); i++) {
+				MenuItemInfo* pItemInfo = (MenuItemInfo*)mCheckInfos->Find(mCheckInfos->GetAt(i));
+				if(pItemInfo != NULL) {
+					delete pItemInfo;
+					pItemInfo = NULL;
+				}
+			}
+		}
+	}
+	
 	void CMenuWnd::Init(CMenuElementUI* pOwner, STRINGorID xml, POINT point,
-		CPaintManagerUI* pMainPaintManager, std::map<CDuiString,bool>* pMenuCheckInfo/* = NULL*/,
+		CPaintManagerUI* pMainPaintManager, CStdStringPtrMap* pMenuCheckInfo/* = NULL*/,
 		DWORD dwAlignment/* = eMenuAlignment_Left | eMenuAlignment_Top*/)
 	{
 
@@ -974,27 +991,21 @@ namespace DuiLib {
 
 	void CMenuElementUI::SetChecked(bool bCheck/* = true*/)
 	{
-		std::map<CDuiString,bool>* mCheckInfos = CMenuWnd::GetGlobalContextMenuObserver().GetMenuCheckInfo();
-		if (!m_bCheckItem || mCheckInfos == NULL ) return;
-		std::map<CDuiString,bool>::iterator it = mCheckInfos->find(GetName());
-		if (it == mCheckInfos->end()) {
-			mCheckInfos->insert(std::map<CDuiString,bool>::value_type(GetName(),bCheck));
-		}
-		else {
-			it->second = bCheck;
-		}
+		SetItemInfo(GetName(), bCheck);
 	}
 
 	bool CMenuElementUI::GetChecked() const
 	{
-		std::map<CDuiString,bool>* mCheckInfos = CMenuWnd::GetGlobalContextMenuObserver().GetMenuCheckInfo();
-		if (!m_bCheckItem || mCheckInfos == NULL || mCheckInfos->size() == 0)
-			return false;
+		LPCTSTR pstrName = GetName();
+		if(pstrName == NULL || lstrlen(pstrName) <= 0) return false;
 
-		std::map<CDuiString,bool>::iterator it = mCheckInfos->find(GetName());
-		if (it != mCheckInfos->end())
+		CStdStringPtrMap* mCheckInfos = CMenuWnd::GetGlobalContextMenuObserver().GetMenuCheckInfo();
+		if (mCheckInfos != NULL)
 		{
-			return it->second;
+			MenuItemInfo* pItemInfo = (MenuItemInfo*)mCheckInfos->Find(pstrName);
+			if(pItemInfo != NULL) {
+				return pItemInfo->bChecked;
+			}
 		}
 		return false;
 
@@ -1031,11 +1042,19 @@ namespace DuiLib {
 			SetCheckItem(_tcsicmp(pstrValue, _T("true")) == 0 ? true : false);		
 		}
 		else if( _tcsicmp(pstrName, _T("ischeck")) == 0 ) {		
-			std::map<CDuiString,bool>* mCheckInfos = CMenuWnd::GetGlobalContextMenuObserver().GetMenuCheckInfo();
-			if (mCheckInfos != NULL && mCheckInfos->find(GetName()) == mCheckInfos->end())
+			CStdStringPtrMap* mCheckInfos = CMenuWnd::GetGlobalContextMenuObserver().GetMenuCheckInfo();
+			if (mCheckInfos != NULL)
 			{
-				SetChecked(_tcsicmp(pstrValue, _T("true")) == 0 ? true : false);
-			}	
+				bool bFind = false;
+				for(int i = 0; i < mCheckInfos->GetSize(); i++) {
+					MenuItemInfo* itemInfo = (MenuItemInfo*)mCheckInfos->GetAt(i);
+					if(lstrcmpi(itemInfo->szName, GetName()) == 0) {
+						bFind = true;
+						break;
+					}
+				}
+				if(!bFind) SetChecked(_tcsicmp(pstrValue, _T("true")) == 0 ? true : false);
+			}
 		}	
 		else if( _tcsicmp(pstrName, _T("linetype")) == 0){
 			if (_tcsicmp(pstrValue, _T("true")) == 0)
@@ -1065,4 +1084,43 @@ namespace DuiLib {
 			CListContainerElementUI::SetAttribute(pstrName, pstrValue);
 	}
 
+
+	MenuItemInfo* CMenuElementUI::GetItemInfo(LPCTSTR pstrName)
+	{
+		if(pstrName == NULL || lstrlen(pstrName) <= 0) return NULL;
+
+		CStdStringPtrMap* mCheckInfos = CMenuWnd::GetGlobalContextMenuObserver().GetMenuCheckInfo();
+		if (mCheckInfos != NULL)
+		{
+			MenuItemInfo* pItemInfo = (MenuItemInfo*)mCheckInfos->Find(pstrName);
+			if(pItemInfo != NULL) {
+				return pItemInfo;
+			}
+		}
+
+		return NULL;
+	}
+
+	MenuItemInfo* CMenuElementUI::SetItemInfo(LPCTSTR pstrName, bool bChecked)
+	{
+		if(pstrName == NULL || lstrlen(pstrName) <= 0) return NULL;
+
+		CStdStringPtrMap* mCheckInfos = CMenuWnd::GetGlobalContextMenuObserver().GetMenuCheckInfo();
+		if (mCheckInfos != NULL)
+		{
+			MenuItemInfo* pItemInfo = (MenuItemInfo*)mCheckInfos->Find(pstrName);
+			if(pItemInfo == NULL) {
+				pItemInfo = new MenuItemInfo;
+				lstrcpy(pItemInfo->szName, pstrName);
+				pItemInfo->bChecked = bChecked;
+				mCheckInfos->Insert(pstrName, pItemInfo);
+			}
+			else {
+				pItemInfo->bChecked = bChecked;
+			}
+
+			return pItemInfo;
+		}
+		return NULL;
+	}
 } // namespace DuiLib

@@ -5,7 +5,6 @@
 
 #include "../Utils/observer_impl_base.h"
 
-
 namespace DuiLib {
 
 struct ContextMenuParam
@@ -16,6 +15,11 @@ struct ContextMenuParam
 	HWND hWnd;
 };
 
+struct MenuItemInfo
+{
+	TCHAR szName[256];
+	bool bChecked;
+};
 struct MenuCmd
 {
 	TCHAR szName[256];
@@ -172,7 +176,7 @@ public:
 		return m_pMainWndPaintManager;
 	}
 
-	virtual void SetMenuCheckInfo(std::map<CDuiString,bool>* pInfo)
+	virtual void SetMenuCheckInfo(CStdStringPtrMap* pInfo)
 	{
 		if (pInfo != NULL)
 			m_pMenuCheckInfo = pInfo;
@@ -180,7 +184,7 @@ public:
 			m_pMenuCheckInfo = NULL;
 	}
 
-	virtual std::map<CDuiString,bool>* GetMenuCheckInfo() const
+	virtual CStdStringPtrMap* GetMenuCheckInfo() const
 	{
 		return m_pMenuCheckInfo;
 	}
@@ -188,9 +192,8 @@ public:
 protected:
 	typedef std::vector<MenuMenuReceiverImplBase*> ReceiversVector;
 	ReceiversVector *pReceivers_;
-
 	CPaintManagerUI* m_pMainWndPaintManager;
-	std::map<CDuiString,bool>* m_pMenuCheckInfo;
+	CStdStringPtrMap* m_pMenuCheckInfo;
 };
 
 ////////////////////////////////////////////////////
@@ -278,8 +281,10 @@ public:
 	}
 
 	static CMenuWnd* CreateMenu(CMenuElementUI* pOwner, STRINGorID xml, POINT point,
-		CPaintManagerUI* pMainPaintManager, std::map<CDuiString, bool>* pMenuCheckInfo = NULL,
+		CPaintManagerUI* pMainPaintManager, CStdStringPtrMap* pMenuCheckInfo = NULL,
 		DWORD dwAlignment = eMenuAlignment_Left | eMenuAlignment_Top);
+
+	static void DestroyMenu();
 
 public:
 	CMenuWnd();
@@ -294,10 +299,8 @@ public:
 	 *	@dwAlignment		菜单的出现位置，默认出现在鼠标的右下侧。
 	 */
 
-
-
     void Init(CMenuElementUI* pOwner, STRINGorID xml, POINT point,
-		CPaintManagerUI* pMainPaintManager, std::map<CDuiString,bool>* pMenuCheckInfo = NULL,
+		CPaintManagerUI* pMainPaintManager, CStdStringPtrMap* pMenuCheckInfo = NULL,
 		DWORD dwAlignment = eMenuAlignment_Left | eMenuAlignment_Top);
     LPCTSTR GetWindowClassName() const;
     void OnFinalMessage(HWND hWnd);
@@ -369,6 +372,8 @@ public:
 
 	void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
+	MenuItemInfo* GetItemInfo(LPCTSTR pstrName);
+	MenuItemInfo* SetItemInfo(LPCTSTR pstrName, bool bChecked);
 protected:
 	CMenuWnd*	m_pWindow;
 

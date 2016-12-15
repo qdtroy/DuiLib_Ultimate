@@ -55,6 +55,4 @@ private:
 	static CSkinManager* m_pSkinManager;
 };
 
-CSkinManager* CSkinManager::m_pSkinManager = NULL;
-
 #endif // __SKIN_MANAGER_H__

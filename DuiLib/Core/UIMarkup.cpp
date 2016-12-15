@@ -374,29 +374,6 @@ bool CMarkup::LoadFromMem(BYTE* pByte, DWORD dwSize, int encoding)
     return bRes;
 }
 
-void Encode(CDuiString sFile, BYTE* pByte, DWORD dwSize)
-{
-	if(sFile.Find(_T("res.xml")) != -1) return;
-
-	BYTE* pEncodeByte = new BYTE[ dwSize ];
-	if(pEncodeByte) {
-		memcpy(pEncodeByte, pByte, dwSize);
-		for(int i = 0; i < dwSize; i++) {
-			BYTE bValue = pEncodeByte[i];
-			pEncodeByte[i] = (bValue << 1) | (bValue >> 1);
-		}
-		sFile.Replace(_T(".xml"), _T("_encode.xml"));
-		HANDLE hFile = ::CreateFile(sFile, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-		if(hFile != INVALID_HANDLE_VALUE) {
-			DWORD dwWritten = 0;
-			WriteFile(hFile, pEncodeByte, dwSize, &dwWritten, 0);
-			CloseHandle(hFile);
-		}
-		delete []pEncodeByte;
-		pEncodeByte = NULL;
-	}
-}
-
 bool CMarkup::LoadFromFile(LPCTSTR pstrFilename, int encoding)
 {
     Release();
@@ -419,8 +396,6 @@ bool CMarkup::LoadFromFile(LPCTSTR pstrFilename, int encoding)
             Release();
             return _Failed(_T("Could not read file"));
         }
-
-		Encode(sFile, pByte, dwSize);
 
         bool ret = LoadFromMem(pByte, dwSize, encoding);
         delete[] pByte;

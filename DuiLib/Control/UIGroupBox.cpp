@@ -78,16 +78,10 @@ namespace DuiLib
 		rcText.top = rcText.top - 5;
 		rcText.right = rcText.left + sz.cx;
 		rcText.bottom = rcText.top + sz.cy;
-		if( IsEnabled() ) 
-		{
-			CRenderEngine::DrawText(hDC, m_pManager, rcText, sText, m_dwTextColor, m_iFont, m_uTextStyle, 
-				GetAdjustColor(m_dwBackColor), FALSE);
-		}
-		else 
-		{
-			CRenderEngine::DrawText(hDC, m_pManager, rcText, sText, m_dwDisabledTextColor, m_iFont, m_uTextStyle, 
-				GetAdjustColor(m_dwBackColor), FALSE);
-		}
+
+		DWORD dwTextColor = m_dwTextColor;
+		if(!IsEnabled()) dwTextColor = m_dwDisabledTextColor;
+		CRenderEngine::DrawText(hDC, m_pManager, rcText, sText, dwTextColor, m_iFont, m_uTextStyle, GetAdjustColor(m_dwBackColor));
 	}
 	void CGroupBoxUI::PaintBorder(HDC hDC)
 	{

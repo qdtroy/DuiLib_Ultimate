@@ -947,16 +947,12 @@ namespace DuiLib {
 	}
 
 	void CRenderEngine::DrawText(HDC hDC, CPaintManagerUI* pManager, RECT& rc, LPCTSTR pstrText,DWORD dwTextColor, \
-		int iFont, UINT uStyle, DWORD dwTextBKColor, BOOL bTransparent)
+		int iFont, UINT uStyle, DWORD dwTextBKColor)
 	{
+		ASSERT(::GetObjectType(hDC)==OBJ_DC || ::GetObjectType(hDC)==OBJ_MEMDC);
 		if( pstrText == NULL || pManager == NULL ) return;
-		if(bTransparent) ::SetBkMode(hDC, TRANSPARENT);
-		else ::SetBkMode(hDC, OPAQUE);
-		::SetBkColor(hDC, RGB(GetBValue(dwTextBKColor), GetGValue(dwTextBKColor), GetRValue(dwTextBKColor)));
-		::SetTextColor(hDC, RGB(GetBValue(dwTextColor), GetGValue(dwTextColor), GetRValue(dwTextColor)));
-		HFONT hOldFont = (HFONT)::SelectObject(hDC, pManager->GetFont(iFont));
-		::DrawText(hDC, pstrText, -1, &rc, uStyle | DT_NOPREFIX);
-		::SelectObject(hDC, hOldFont);
+		DrawColor(hDC, rc, dwTextBKColor);
+		DrawText(hDC, pManager, rc, pstrText, dwTextColor, iFont, uStyle);
 	}
 
 	void CRenderEngine::DrawImage(HDC hDC, HBITMAP hBitmap, const RECT& rc, const RECT& rcPaint,
@@ -1680,7 +1676,6 @@ namespace DuiLib {
 			::DrawText(hDC, pstrText, -1, &rc, uStyle);
 			::SelectObject(hDC, hOldFont);
 		}
-
 	}
 
 	void CRenderEngine::DrawHtmlText(HDC hDC, CPaintManagerUI* pManager, RECT& rc, LPCTSTR pstrText, DWORD dwTextColor, RECT* prcLinks, CDuiString* sLinks, int& nLinkRects, UINT uStyle)

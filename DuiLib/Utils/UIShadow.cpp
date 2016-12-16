@@ -605,7 +605,7 @@ bool CShadowUI::IsDisableShadow() const {
 
 bool CShadowUI::SetSize(int NewSize)
 {
-	if(NewSize > 20 || NewSize < -20)
+	if(NewSize > 35 || NewSize < -35)
 		return false;
 
 	m_nSize = (signed char)NewSize;
@@ -616,7 +616,7 @@ bool CShadowUI::SetSize(int NewSize)
 
 bool CShadowUI::SetSharpness(unsigned int NewSharpness)
 {
-	if(NewSharpness > 20)
+	if(NewSharpness > 35)
 		return false;
 
 	m_nSharpness = (unsigned char)NewSharpness;
@@ -638,8 +638,8 @@ bool CShadowUI::SetDarkness(unsigned int NewDarkness)
 
 bool CShadowUI::SetPosition(int NewXOffset, int NewYOffset)
 {
-	if(NewXOffset > 20 || NewXOffset < -20 ||
-		NewYOffset > 20 || NewYOffset < -20)
+	if(NewXOffset > 35 || NewXOffset < -35 ||
+		NewYOffset > 35 || NewYOffset < -35)
 		return false;
 	
 	m_nxOffset = (signed char)NewXOffset;

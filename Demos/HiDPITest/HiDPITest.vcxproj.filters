@@ -42,9 +42,6 @@
     <ClInclude Include="FrameWnd.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="HiDPITest.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

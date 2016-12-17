@@ -690,6 +690,7 @@ bool CShadowUI::CopyShadow(CShadowUI* pShadow)
 	if (m_bIsImageMode) {
 		pShadow->SetImage(m_sShadowImage);
 		pShadow->SetShadowCorner(m_rcShadowCorner);
+		pShadow->SetSize((int)m_nSize);
 	}
 	else {
 		pShadow->SetSize((int)m_nSize);

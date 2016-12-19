@@ -393,6 +393,14 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 			m_pMenu = NULL;
 		}
 		m_pMenu = new CMenuWnd();
+		
+		CDuiString sItemName = _T("qianting");
+		MenuItemInfo *pInfo = (MenuItemInfo *)m_MenuInfos.Find(sItemName);
+		if(pInfo == NULL) pInfo = new MenuItemInfo;
+		lstrcpy(pInfo->szName, sItemName);
+		pInfo->bChecked = true;
+		m_MenuInfos.Set(pInfo->szName, pInfo);
+
 		CMenuWnd::GetGlobalContextMenuObserver().SetMenuCheckInfo(&m_MenuInfos);
 		CDuiPoint point;
 		::GetCursorPos(&point);
@@ -456,6 +464,9 @@ LRESULT CMainWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 	else if(uMsg == WM_TIMER)
 	{
 		bHandled = FALSE;
+	}
+	else if(uMsg == WM_SYSKEYDOWN || uMsg == WM_KEYDOWN) {
+		int a = 0;
 	}
 	else if (uMsg == WM_MENUCLICK)
 	{

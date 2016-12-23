@@ -243,13 +243,14 @@ protected:
 
 
 class CListUI;
+class CMenuWnd;
 class UILIB_API CMenuUI : public CListUI
 {
 	DECLARE_DUICONTROL(CMenuUI)
 public:
 	CMenuUI();
 	virtual ~CMenuUI();
-
+	CMenuWnd*	m_pWindow;
     LPCTSTR GetClass() const;
     LPVOID GetInterface(LPCTSTR pstrName);
 
@@ -289,7 +290,8 @@ public:
 public:
 	CMenuWnd();
 	~CMenuWnd();
-
+	void Close(UINT nRet = IDOK);
+	bool isClosing;
 	/*
 	 *	@pOwner 一级菜单不要指定这个参数，这是菜单内部使用的
 	 *	@xml	菜单的布局文件

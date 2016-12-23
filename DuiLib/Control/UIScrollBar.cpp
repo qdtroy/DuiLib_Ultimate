@@ -374,8 +374,11 @@ namespace DuiLib
 	void CScrollBarUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
 		CControlUI::SetPos(rc, bNeedInvalidate);
+		SIZE m_cxyFixed = CScrollBarUI::m_cxyFixed;
+		if (m_pManager != NULL) {
+			GetManager()->GetDPIObj()->Scale(&m_cxyFixed);
+		}
 		rc = m_rcItem;
-
 		if( m_bHorizontal ) {
 			int cx = rc.right - rc.left;
 			if( m_bShowButton1 ) cx -= m_cxyFixed.cy;
@@ -822,9 +825,12 @@ namespace DuiLib
 		if( !IsEnabled() ) m_uButton1State |= UISTATE_DISABLED;
 		else m_uButton1State &= ~ UISTATE_DISABLED;
 
+		int d1 = MulDiv(m_rcButton1.left - m_rcItem.left, 100, GetManager()->GetDPIObj()->GetScale());
+		int d2 = MulDiv(m_rcButton1.top - m_rcItem.top, 100, GetManager()->GetDPIObj()->GetScale());
+		int d3 = MulDiv(m_rcButton1.right - m_rcItem.left, 100, GetManager()->GetDPIObj()->GetScale());
+		int d4 = MulDiv(m_rcButton1.bottom - m_rcItem.top, 100, GetManager()->GetDPIObj()->GetScale());
 		m_sImageModify.Empty();
-		m_sImageModify.SmallFormat(_T("dest='%d,%d,%d,%d'"), m_rcButton1.left - m_rcItem.left, \
-			m_rcButton1.top - m_rcItem.top, m_rcButton1.right - m_rcItem.left, m_rcButton1.bottom - m_rcItem.top);
+		m_sImageModify.SmallFormat(_T("dest='%d,%d,%d,%d'"), d1, d2, d3, d4);
 
 		if( (m_uButton1State & UISTATE_DISABLED) != 0 ) {
 			if( !m_sButton1DisabledImage.IsEmpty() ) {
@@ -861,10 +867,12 @@ namespace DuiLib
 
 		if( !IsEnabled() ) m_uButton2State |= UISTATE_DISABLED;
 		else m_uButton2State &= ~ UISTATE_DISABLED;
-
+		int d1 = MulDiv(m_rcButton2.left - m_rcItem.left, 100, GetManager()->GetDPIObj()->GetScale());
+		int d2 = MulDiv(m_rcButton2.top - m_rcItem.top, 100, GetManager()->GetDPIObj()->GetScale());
+		int d3 = MulDiv(m_rcButton2.right - m_rcItem.left, 100, GetManager()->GetDPIObj()->GetScale());
+		int d4 = MulDiv(m_rcButton2.bottom - m_rcItem.top, 100, GetManager()->GetDPIObj()->GetScale());
 		m_sImageModify.Empty();
-		m_sImageModify.SmallFormat(_T("dest='%d,%d,%d,%d'"), m_rcButton2.left - m_rcItem.left, \
-			m_rcButton2.top - m_rcItem.top, m_rcButton2.right - m_rcItem.left, m_rcButton2.bottom - m_rcItem.top);
+		m_sImageModify.SmallFormat(_T("dest='%d,%d,%d,%d'"),d1 ,d2 ,d3 ,d4 );
 
 		if( (m_uButton2State & UISTATE_DISABLED) != 0 ) {
 			if( !m_sButton2DisabledImage.IsEmpty() ) {
@@ -900,10 +908,12 @@ namespace DuiLib
 		if( m_rcThumb.left == 0 && m_rcThumb.top == 0 && m_rcThumb.right == 0 && m_rcThumb.bottom == 0 ) return;
 		if( !IsEnabled() ) m_uThumbState |= UISTATE_DISABLED;
 		else m_uThumbState &= ~ UISTATE_DISABLED;
-
+		int d1 = MulDiv(m_rcThumb.left - m_rcItem.left, 100, GetManager()->GetDPIObj()->GetScale());
+		int d2 = MulDiv(m_rcThumb.top - m_rcItem.top, 100, GetManager()->GetDPIObj()->GetScale());
+		int d3 = MulDiv(m_rcThumb.right - m_rcItem.left, 100, GetManager()->GetDPIObj()->GetScale());
+		int d4 = MulDiv(m_rcThumb.bottom - m_rcItem.top, 100, GetManager()->GetDPIObj()->GetScale());
 		m_sImageModify.Empty();
-		m_sImageModify.SmallFormat(_T("dest='%d,%d,%d,%d'"), m_rcThumb.left - m_rcItem.left, \
-			m_rcThumb.top - m_rcItem.top, m_rcThumb.right - m_rcItem.left, m_rcThumb.bottom - m_rcItem.top);
+		m_sImageModify.SmallFormat(_T("dest='%d,%d,%d,%d'"), d1, d2, d3, d4);
 
 		if( (m_uThumbState & UISTATE_DISABLED) != 0 ) {
 			if( !m_sThumbDisabledImage.IsEmpty() ) {
@@ -942,17 +952,18 @@ namespace DuiLib
 
 		m_sImageModify.Empty();
 		if( !m_bHorizontal ) {
-			m_sImageModify.SmallFormat(_T("dest='%d,%d,%d,%d'"), m_rcThumb.left - m_rcItem.left, \
-				(m_rcThumb.top + m_rcThumb.bottom) / 2 - m_rcItem.top - m_cxyFixed.cx / 2, \
-				m_rcThumb.right - m_rcItem.left, \
-				(m_rcThumb.top + m_rcThumb.bottom) / 2 - m_rcItem.top + m_cxyFixed.cx - m_cxyFixed.cx / 2);
+			int d1 = MulDiv(m_rcThumb.left - m_rcItem.left, 100, GetManager()->GetDPIObj()->GetScale());
+			int d2 = MulDiv((m_rcThumb.top + m_rcThumb.bottom) / 2 - m_rcItem.top - m_cxyFixed.cx / 2, 100, GetManager()->GetDPIObj()->GetScale());
+			int d3 = MulDiv(m_rcThumb.right - m_rcItem.left, 100, GetManager()->GetDPIObj()->GetScale());
+			int d4 = MulDiv((m_rcThumb.top + m_rcThumb.bottom) / 2 - m_rcItem.top + m_cxyFixed.cx - m_cxyFixed.cx / 2, 100, GetManager()->GetDPIObj()->GetScale());
+			m_sImageModify.SmallFormat(_T("dest='%d,%d,%d,%d'"), d1, d2, d3,d4);
 		}
 		else {
-			m_sImageModify.SmallFormat(_T("dest='%d,%d,%d,%d'"), \
-				(m_rcThumb.left + m_rcThumb.right) / 2 - m_rcItem.left - m_cxyFixed.cy / 2, \
-				m_rcThumb.top - m_rcItem.top, \
-				(m_rcThumb.left + m_rcThumb.right) / 2 - m_rcItem.left + m_cxyFixed.cy - m_cxyFixed.cy / 2, \
-				m_rcThumb.bottom - m_rcItem.top);
+			int d1 = MulDiv((m_rcThumb.left + m_rcThumb.right) / 2 - m_rcItem.left - m_cxyFixed.cy / 2, 100, GetManager()->GetDPIObj()->GetScale());
+			int d2 = MulDiv(m_rcThumb.top - m_rcItem.top, 100, GetManager()->GetDPIObj()->GetScale());
+			int d3 = MulDiv((m_rcThumb.left + m_rcThumb.right) / 2 - m_rcItem.left + m_cxyFixed.cy - m_cxyFixed.cy / 2, 100, GetManager()->GetDPIObj()->GetScale());
+			int d4 = MulDiv(m_rcThumb.bottom - m_rcItem.top, 100, GetManager()->GetDPIObj()->GetScale());
+			m_sImageModify.SmallFormat(_T("dest='%d,%d,%d,%d'"), d1,d2, d3, d4);
 		}
 
 		if( (m_uThumbState & UISTATE_DISABLED) != 0 ) {

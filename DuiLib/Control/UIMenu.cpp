@@ -8,7 +8,8 @@ namespace DuiLib {
 	//
 	IMPLEMENT_DUICONTROL(CMenuUI)
 
-		CMenuUI::CMenuUI()
+		CMenuUI::CMenuUI():
+		m_pWindow(NULL)
 	{
 		if (GetHeader() != NULL)
 			GetHeader()->SetVisible(false);
@@ -128,7 +129,8 @@ namespace DuiLib {
 	CMenuWnd::CMenuWnd():
 	m_pOwner(NULL),
 		m_pLayout(),
-		m_xml(_T(""))
+		m_xml(_T("")),
+		isClosing(false)
 	{
 		m_dwAlignment = eMenuAlignment_Left | eMenuAlignment_Top;
 	}
@@ -137,6 +139,15 @@ namespace DuiLib {
 	{
 		
 	}
+
+	void CMenuWnd::Close(UINT nRet)
+	{
+		ASSERT(::IsWindow(m_hWnd));
+		if (!::IsWindow(m_hWnd)) return;
+		PostMessage(WM_CLOSE, (WPARAM)nRet, 0L);
+		isClosing = true;
+	}
+
 
 	BOOL CMenuWnd::Receive(ContextMenuParam param)
 	{
@@ -328,7 +339,7 @@ namespace DuiLib {
 
 			ResizeMenu();
 		}
-
+		GetMenuUI()->m_pWindow = this;
 		m_pm.GetShadow()->ShowShadow(bShowShadow);
 		m_pm.GetShadow()->Create(&m_pm);
 		return 0;
@@ -616,6 +627,9 @@ namespace DuiLib {
 		SIZE m_cxyFixed = CMenuElementUI::m_cxyFixed;
 		m_cxyFixed.cx = GetManager()->GetDPIObj()->Scale(m_cxyFixed.cx);
 		m_cxyFixed.cy = GetManager()->GetDPIObj()->Scale(m_cxyFixed.cy);
+		RECT m_rcLinePadding = CMenuElementUI::m_rcLinePadding;
+		GetManager()->GetDPIObj()->Scale(&m_rcLinePadding);
+
 		if( !::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem) ) return;
 
 		if(m_bDrawLine)
@@ -781,7 +795,7 @@ namespace DuiLib {
 			else {
 				CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, iTextColor, pInfo->nFont, DT_CALCRECT | pInfo->uTextStyle);
 			}
-			cXY.cx = rcText.right - rcText.left + rcTextPadding.left + rcTextPadding.right + 20;
+			cXY.cx = rcText.right - rcText.left + rcTextPadding.left + rcTextPadding.right ;
 			cXY.cy = rcText.bottom - rcText.top + rcTextPadding.top + rcTextPadding.bottom;
 		}
 
@@ -869,25 +883,32 @@ namespace DuiLib {
 				{
 					SetChecked(!GetChecked());
 
-					MenuCmd* pMenuCmd = new MenuCmd();
-					lstrcpy(pMenuCmd->szName, GetName().GetData());
-					lstrcpy(pMenuCmd->szUserData, GetUserData().GetData());
-					lstrcpy(pMenuCmd->szText, GetText().GetData());
-					pMenuCmd->bChecked = GetChecked();
+					
+					bool isClosing = false;
+					CMenuUI* menuUI=static_cast<CMenuUI*>(GetManager()->GetRoot());
+					isClosing = (menuUI->m_pWindow->isClosing);
+					if (IsWindow(GetManager()->GetPaintWindow()) && !isClosing) {
+						if (CMenuWnd::GetGlobalContextMenuObserver().GetManager() != NULL)
+						{
 
+							MenuCmd* pMenuCmd = new MenuCmd();
+							lstrcpy(pMenuCmd->szName, GetName().GetData());
+							lstrcpy(pMenuCmd->szUserData, GetUserData().GetData());
+							lstrcpy(pMenuCmd->szText, GetText().GetData());
+							pMenuCmd->bChecked = GetChecked();
+							if (!PostMessage(CMenuWnd::GetGlobalContextMenuObserver().GetManager()->GetPaintWindow(), WM_MENUCLICK, (WPARAM)pMenuCmd, (LPARAM)this))
+							{
+								delete pMenuCmd;
+								pMenuCmd = NULL;
+							}
+						}
+					}
 					ContextMenuParam param;
 					param.hWnd = m_pManager->GetPaintWindow();
 					param.wParam = 1;
 					CMenuWnd::GetGlobalContextMenuObserver().RBroadcast(param);
 
-					if (CMenuWnd::GetGlobalContextMenuObserver().GetManager() != NULL)
-					{
-						if (!PostMessage(CMenuWnd::GetGlobalContextMenuObserver().GetManager()->GetPaintWindow(), WM_MENUCLICK, (WPARAM)pMenuCmd, (LPARAM)this))
-						{
-							delete pMenuCmd;
-							pMenuCmd = NULL;
-						}
-					}
+					
 				}
 			}
 

@@ -1941,6 +1941,14 @@ namespace DuiLib {
 			RebuildFont(pFontInfo);
 		}
 		RebuildFont(&m_SharedResInfo.m_DefaultFontInfo);
+
+		CStdPtrArray *richEditList = FindSubControlsByClass(GetRoot(), L"RichEditUI");
+		for (int i = 0; i < richEditList->GetSize(); i++)
+		{
+			CRichEditUI* pT = static_cast<CRichEditUI*>((*richEditList)[i]);
+			pT->SetFont(pT->GetFont());
+
+		}
 	}
 
 	void DuiLib::CPaintManagerUI::RebuildFont(TFontInfo * pFontInfo)

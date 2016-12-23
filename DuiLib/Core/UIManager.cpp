@@ -1,13 +1,6 @@
 #include "StdAfx.h"
 #include <zmouse.h>
 
-DECLARE_HANDLE(HZIP);	// An HZIP identifies a zip file that has been opened
-typedef DWORD ZRESULT;
-#define OpenZip OpenZipU
-#define CloseZip(hz) CloseZipU(hz)
-extern HZIP OpenZipU(void *z,unsigned int len,DWORD flags);
-extern ZRESULT CloseZipU(HZIP hz);
-
 namespace DuiLib {
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -193,6 +186,7 @@ namespace DuiLib {
 	HINSTANCE CPaintManagerUI::m_hResourceInstance = NULL;
 	CDuiString CPaintManagerUI::m_pStrResourcePath;
 	CDuiString CPaintManagerUI::m_pStrResourceZip;
+	CDuiString CPaintManagerUI::m_pStrResourceZipPwd;  //Garfield 20160325 带密码zip包解密
 	HANDLE CPaintManagerUI::m_hResourceZip = NULL;
 	bool CPaintManagerUI::m_bCachedResourceZip = true;
 	int CPaintManagerUI::m_nResType = UILIB_FILE;
@@ -406,6 +400,11 @@ namespace DuiLib {
 		return m_pStrResourceZip;
 	}
 
+	const CDuiString& CPaintManagerUI::GetResourceZipPwd()  //Garfield 20160325 带密码zip包解密
+	{
+		return m_pStrResourceZipPwd;
+	}
+	
 	bool CPaintManagerUI::IsCachedResourceZip()
 	{
 		return m_bCachedResourceZip;
@@ -439,7 +438,7 @@ namespace DuiLib {
 		if( cEnd != _T('\\') && cEnd != _T('/') ) m_pStrResourcePath += _T('\\');
 	}
 
-	void CPaintManagerUI::SetResourceZip(LPVOID pVoid, unsigned int len)
+	void CPaintManagerUI::SetResourceZip(LPVOID pVoid, unsigned int len, LPCTSTR password)
 	{
 		if( m_pStrResourceZip == _T("membuffer") ) return;
 		if( m_bCachedResourceZip && m_hResourceZip != NULL ) {
@@ -447,11 +446,21 @@ namespace DuiLib {
 			m_hResourceZip = NULL;
 		}
 		m_pStrResourceZip = _T("membuffer");
+		m_bCachedResourceZip = true;
+		m_pStrResourceZipPwd = password;  //Garfield 20160325 带密码zip包解密
 		if( m_bCachedResourceZip ) 
-			m_hResourceZip = (HANDLE)OpenZip(pVoid, len, 3);
+		{
+#ifdef UNICODE
+			char* pwd = w2a((wchar_t*)password);
+			m_hResourceZip = (HANDLE)OpenZip(pVoid, len, pwd);
+			if(pwd) delete[] pwd;
+#else
+			m_hResourceZip = (HANDLE)OpenZip(pVoid, len, password);
+#endif
+		}
 	}
 
-	void CPaintManagerUI::SetResourceZip(LPCTSTR pStrPath, bool bCachedResourceZip)
+	void CPaintManagerUI::SetResourceZip(LPCTSTR pStrPath, bool bCachedResourceZip, LPCTSTR password)
 	{
 		if( m_pStrResourceZip == pStrPath && m_bCachedResourceZip == bCachedResourceZip ) return;
 		if( m_bCachedResourceZip && m_hResourceZip != NULL ) {
@@ -460,10 +469,17 @@ namespace DuiLib {
 		}
 		m_pStrResourceZip = pStrPath;
 		m_bCachedResourceZip = bCachedResourceZip;
+		m_pStrResourceZipPwd = password;
 		if( m_bCachedResourceZip ) {
 			CDuiString sFile = CPaintManagerUI::GetResourcePath();
 			sFile += CPaintManagerUI::GetResourceZip();
-			m_hResourceZip = (HANDLE)OpenZip((void*)sFile.GetData(), 0, 2);
+#ifdef UNICODE
+			char* pwd = w2a((wchar_t*)password);
+			m_hResourceZip = (HANDLE)OpenZip(sFile.GetData(), pwd);
+			if(pwd) if(pwd) delete[] pwd;
+#else
+			m_hResourceZip = (HANDLE)OpenZip(sFile.GetData(), password);
+#endif
 		}
 	}
 	

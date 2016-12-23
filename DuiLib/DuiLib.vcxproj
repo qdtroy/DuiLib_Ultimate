@@ -972,43 +972,19 @@
     <ClCompile Include="Utils\DragDropImpl.cpp" />
     <ClCompile Include="Utils\TrayIcon.cpp" />
     <ClCompile Include="Utils\UIShadow.cpp" />
+    <ClCompile Include="Utils\unzip.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugA|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseA|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SDebugA|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SDebug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SReleaseA|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SRelease|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Utils\WinImplBase.cpp" />
     <ClCompile Include="Utils\UIDelegate.cpp" />
     <ClCompile Include="Utils\Utils.cpp" />
-    <ClCompile Include="Utils\XUnzip.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SDebug|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SDebug|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SDebugA|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SDebugA|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugA|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugA|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SRelease|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SRelease|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SReleaseA|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SReleaseA|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseA|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseA|x64'">
-      </PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="Core\UIBase.cpp" />
     <ClCompile Include="Core\UIContainer.cpp" />
     <ClCompile Include="Core\UIControl.cpp" />
@@ -1067,6 +1043,7 @@
     <ClInclude Include="Utils\TrayIcon.h" />
     <ClInclude Include="Utils\UIDelegate.h" />
     <ClInclude Include="Utils\UIShadow.h" />
+    <ClInclude Include="Utils\unzip.h" />
     <ClInclude Include="Utils\Utils.h" />
     <ClInclude Include="Utils\VersionHelpers.h" />
     <ClInclude Include="Utils\WebBrowserEventHandler.h" />

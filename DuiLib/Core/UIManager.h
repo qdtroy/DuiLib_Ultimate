@@ -278,14 +278,15 @@ namespace DuiLib {
 		static HINSTANCE GetResourceDll();
 		static const CDuiString& GetResourcePath();
 		static const CDuiString& GetResourceZip();
+		static const CDuiString& GetResourceZipPwd();
 		static bool IsCachedResourceZip();
 		static HANDLE GetResourceZipHandle();
 		static void SetInstance(HINSTANCE hInst);
 		static void SetCurrentPath(LPCTSTR pStrPath);
 		static void SetResourceDll(HINSTANCE hInst);
 		static void SetResourcePath(LPCTSTR pStrPath);
-		static void SetResourceZip(LPVOID pVoid, unsigned int len);
-		static void SetResourceZip(LPCTSTR pstrZip, bool bCachedResourceZip = false);
+		static void SetResourceZip(LPVOID pVoid, unsigned int len, LPCTSTR password = NULL);
+		static void SetResourceZip(LPCTSTR pstrZip, bool bCachedResourceZip = false, LPCTSTR password = NULL);
 		static void SetResourceType(int nType);
 		static int GetResourceType();
 		static bool GetHSL(short* H, short* S, short* L);
@@ -544,6 +545,7 @@ namespace DuiLib {
 		static HINSTANCE m_hResourceInstance;
 		static CDuiString m_pStrResourcePath;
 		static CDuiString m_pStrResourceZip;
+		static CDuiString m_pStrResourceZipPwd;  //Garfield 20160325 ´øÃÜÂëzip°ü½âÃÜ
 		static HANDLE m_hResourceZip;
 		static bool m_bCachedResourceZip;
 		static int m_nResType;

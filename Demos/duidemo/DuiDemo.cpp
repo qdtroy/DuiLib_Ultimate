@@ -9,16 +9,10 @@
 #include "PopWnd.h"
 
 void InitResource()
-{	
-	HINSTANCE hDll=::LoadLibrary(_T("DllRes_d.dll"));
-	if(hDll)
-	{
-		CPaintManagerUI::SetResourceDll(hDll);
-	}
-
+{
 	// 资源类型
 #ifdef _DEBUG
-	CPaintManagerUI::SetResourceType(UILIB_FILE);
+	CPaintManagerUI::SetResourceType(UILIB_ZIP);
 #else
 	CPaintManagerUI::SetResourceType(UILIB_ZIPRESOURCE);
 #endif
@@ -47,7 +41,9 @@ void InitResource()
 		{
 			strResourcePath += _T("skin\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
-			CPaintManagerUI::SetResourceZip(_T("skin.zip"), true);
+			// 加密
+			CPaintManagerUI::SetResourceZip(_T("duidemo.zip"), true, _T("duilib_ultimate"));
+			//CPaintManagerUI::SetResourceZip(_T("duidemo_pwd.zip"), true);
 			// 加载资源管理器
 			CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
 			break;
@@ -56,7 +52,6 @@ void InitResource()
 		{
 			strResourcePath += _T("skin\\duidemo\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
-
 			HRSRC hResource = ::FindResource(CPaintManagerUI::GetResourceDll(), _T("IDR_ZIPRES"), _T("ZIPRES"));
 			if( hResource != NULL ) {
 				DWORD dwSize = 0;

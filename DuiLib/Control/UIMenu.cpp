@@ -428,6 +428,14 @@ namespace DuiLib {
 			}
 		}
 
+
+		for (int it = 0; it < m_pOwner->GetCount(); it++) {
+			CControlUI* pControl = static_cast<CControlUI*>(m_pOwner->GetItemAt(it));
+			if (!pControl->IsVisible()) continue;
+
+			pControl->SetFixedWidth(MulDiv(cxFixed, 100, m_pm.GetDPIObj()->GetScale()));
+		}
+
 		RECT rcWindow;
 		GetWindowRect(m_pOwner->GetManager()->GetPaintWindow(), &rcWindow);
 

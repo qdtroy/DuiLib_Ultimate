@@ -12,7 +12,7 @@ void InitResource()
 {
 	// 资源类型
 #ifdef _DEBUG
-	CPaintManagerUI::SetResourceType(UILIB_ZIP);
+	CPaintManagerUI::SetResourceType(UILIB_FILE);
 #else
 	CPaintManagerUI::SetResourceType(UILIB_ZIPRESOURCE);
 #endif

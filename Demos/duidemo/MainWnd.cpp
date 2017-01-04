@@ -514,10 +514,6 @@ LRESULT CMainWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 				CMsgWnd::MessageBox(m_hWnd, NULL, sText);
 			}
 		}
-		if(m_pMenu != NULL) {
-			delete m_pMenu;
-			m_pMenu = NULL;
-		}
 		bHandled = TRUE;
 		return 0;
 	}

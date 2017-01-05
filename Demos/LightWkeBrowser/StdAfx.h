@@ -12,24 +12,13 @@
 #include <zmouse.h>
 
 #include "..\..\DuiLib\UIlib.h"
-
 using namespace DuiLib;
 
 #ifdef _DEBUG
-#   ifdef _UNICODE
-#       pragma comment(lib, "..\\..\\lib\\DuiLib_d.lib")
-#   else
-#       pragma comment(lib, "..\\..\\lib\\DuiLibA_d.lib")
-#   endif
-#else
-#   ifdef _UNICODE
-#       pragma comment(lib, "..\\..\\lib\\DuiLib.lib")
-#   else
-#       pragma comment(lib, "..\\..\\lib\\DuiLibA.lib")
-#   endif
+	#pragma comment(lib, "..\\..\\lib\\DuiLib_Static_d.lib")
+#else // _DEBUG
+	#pragma comment(lib, "..\\..\\lib\\DuiLib_Static.lib")
 #endif
-
-
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

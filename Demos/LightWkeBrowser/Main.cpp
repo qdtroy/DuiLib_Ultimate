@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "MainWnd.h"
 #include "resource.h"
+#include <Shlwapi.h>
 
 void InitResource(HINSTANCE hInstance)
 {
@@ -110,6 +111,15 @@ void InitResource(HINSTANCE hInstance)
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
+	TCHAR szModulePath[MAX_PATH] = { 0 };
+	::GetModuleFileName(NULL, szModulePath, sizeof(szModulePath));
+	::PathRemoveFileSpec(szModulePath);
+	::PathAppend(szModulePath, _T("wke.dll"));
+	if (!::PathFileExists(szModulePath))
+	{
+		return 0;
+	}
+
 	// COM
 	HRESULT Hr = ::CoInitialize(NULL);
 	if (FAILED(Hr)) return 0;

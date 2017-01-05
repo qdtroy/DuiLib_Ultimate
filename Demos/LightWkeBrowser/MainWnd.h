@@ -26,7 +26,7 @@ public:
 	virtual void OnFinalMessage( HWND ) override;
 	virtual CDuiString GetSkinFile() override;
 	virtual LPCTSTR GetWindowClassName( void ) const override;
-	virtual LRESULT OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled ) override;
+	//virtual LRESULT OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled ) override;
 	virtual LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) override;
 	virtual void Notify(TNotifyUI& msg) override;
 

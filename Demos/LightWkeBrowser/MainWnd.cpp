@@ -52,39 +52,33 @@ LRESULT CMainWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 {
 	switch (uMsg)
 	{
-	case WM_CREATE:
-
-		break;
 	case WM_CLOSE:
 		CWkeWebkitUI::UninitializeWebkit();
+		bHandled = FALSE;
 		break;
 	default:
 		break;
 	}
-	// 关闭窗口，退出程序
-	bHandled = FALSE;
-	return 0;
+
+	return __super::HandleCustomMessage(uMsg,wParam,lParam,bHandled);
 }
 
 void CMainWnd::Notify(TNotifyUI& msg)
 {
-	CDuiString name = msg.pSender->GetName();
-	if (msg.sType == DUI_MSGTYPE_CLICK)
-	{
-		if (name.CompareNoCase(_T("closebtn")) == 0)
-		{
-			this->Close();
-			return;
-		}
-	}
+// 	CDuiString name = msg.pSender->GetName();
+// 	if (msg.sType == DUI_MSGTYPE_CLICK)
+// 	{
+// 	}
+
+	__super::Notify(msg);
 }
 
-LRESULT CMainWnd::OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled )
-{
-	// 有时会在收到WM_NCDESTROY后收到wParam为SC_CLOSE的WM_SYSCOMMAND
-
-	return __super::OnSysCommand(uMsg,wParam,lParam,bHandled);
-}
+// LRESULT CMainWnd::OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled )
+// {
+// 	// 有时会在收到WM_NCDESTROY后收到wParam为SC_CLOSE的WM_SYSCOMMAND
+// 
+// 	return __super::OnSysCommand(uMsg,wParam,lParam,bHandled);
+// }
 // 
 // int CMainWnd::CreateNewTab(int nIndex, LPCTSTR pstrUrl)
 // {

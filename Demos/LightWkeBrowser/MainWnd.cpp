@@ -7,7 +7,7 @@
 ///
 
 
-CDuiString sHomePage = _T("http://www.baidu.com");
+CDuiString sHomePage = _T("www.baidu.com");
 //////////////////////////////////////////////////////////////////////////
 ///
 
@@ -209,7 +209,11 @@ void CMainWnd::OnWkeAlertBox(CWkeWebkitUI* webView, LPCTSTR msg)
 
 bool CMainWnd::OnWkeNavigation(CWkeWebkitUI* webView, wkeNavigationType navigationType, LPCTSTR url)
 {
-	
+	if (navigationType == WKE_NAVIGATION_TYPE_LINKCLICK)
+	{
+		::ShellExecute(NULL, _T("open"), url, NULL, NULL, SW_SHOW);
+		return false;
+	}
 	return true;
 }
 
@@ -220,7 +224,8 @@ wkeWebView CMainWnd::OnWkeCreateView(CWkeWebkitUI* webView, const wkeNewViewInfo
 	if(info->navigationType == WKE_NAVIGATION_TYPE_LINKCLICK || 
 		info->navigationType == WKE_NAVIGATION_TYPE_OTHER) 
 	{
-		m_pWebkit->Navigate(wkeGetStringW(info->url));
+		const wchar_t* szUrl = wkeGetStringW(info->url);
+		::ShellExecute(NULL, _T("open"), szUrl, NULL, NULL, SW_SHOW);
 	}
 
 	return NULL;

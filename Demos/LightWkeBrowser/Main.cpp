@@ -21,7 +21,7 @@ void InitResource(HINSTANCE hInstance)
 	{
 	case UILIB_FILE:
 	{
-		strResourcePath += _T("..\\skin\\LightWkeBrowser\\");
+		strResourcePath += _T("skin\\LightWkeBrowser\\");
 		CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
 
 		// 加载资源管理

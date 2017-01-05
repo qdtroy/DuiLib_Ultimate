@@ -34,7 +34,7 @@ void CMainWnd::InitWindow()
 	m_pWebkit->SetHomePage(_T("about:blank"));
 	m_pWebkit->SetWkeCallback(this);
 
-	m_pWebkit->Navigate(_T("www.baidu.com"));
+	m_pWebkit->Navigate(sHomePage.GetData());
 }
 
 

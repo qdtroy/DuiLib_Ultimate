@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window size="757,520" sizebox="4,4,6,6" roundcorner="0,0" caption="0,0,0,64" bktrans="true" mininfo="400,300" showshadow="true" shadowimage="Common/shadow.png" shadowsize="6" shadowcorner="8,8,8,8">
+ 
+	<VerticalLayout name="root" bkcolor="#FFFFFFFF">
+		<!-- 标题栏 -->
+		<HorizontalLayout name="title" height="25" padding="0,-1,0,0" >
+			<HorizontalLayout padding="10,5,0,0">
+				<Label name="main_wnd_title" height="19" text="小黑新闻" valign="center" />
+			</HorizontalLayout>
+
+			<Control/>
+			
+			<FadeButton name="minbtn" width="28" height="20" tooltip="最小化" normalimage="file='Common/btn_mini_normal.png'" hotimage="file='Common/btn_mini_highlight.png'" pushedimage="file='Common/btn_mini_down.png' "/>
+			<FadeButton name="closebtn" width="28" height="20" tooltip="关闭" normalimage="file='Common/btn_close_normal.png'" hotimage="file='Common/btn_close_highlight.png'" pushedimage="file='Common/btn_close_down.png' "/>
+		</HorizontalLayout>
+
+		<!-- 网页 -->
+		<WkeWebkit name="wkeCtl" />
+	</VerticalLayout>
+</Window>

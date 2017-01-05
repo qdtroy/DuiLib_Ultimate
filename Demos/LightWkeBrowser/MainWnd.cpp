@@ -7,7 +7,7 @@
 ///
 
 
-CDuiString sHomePage = _T("www.baidu.com");
+CDuiString sHomePage = _T("http://mini.eastday.com/kuaiya/index.html");
 //////////////////////////////////////////////////////////////////////////
 ///
 

@@ -322,3 +322,8 @@ void CChartViewUI::DoPaintHistogram(HDC hDC, const RECT& rcPaint)
 		drawLeft += m_PillarImageWidth;
 	}
 }
+
+//////////////////////////////////////////////////////////////////////////
+//
+IMPLEMENT_DUICONTROL(CWndUI)
+

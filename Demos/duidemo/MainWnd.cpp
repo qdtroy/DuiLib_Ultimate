@@ -3,10 +3,53 @@
 #include "MainWnd.h"
 #include "SkinFrame.h"
 
+//////////////////////////////////////////////////////////////////////////
+///
+
+DUI_BEGIN_MESSAGE_MAP(CMainPage, CNotifyPump)
+	DUI_ON_MSGTYPE(DUI_MSGTYPE_CLICK,OnClick)
+	DUI_ON_MSGTYPE(DUI_MSGTYPE_SELECTCHANGED,OnSelectChanged)
+	DUI_ON_MSGTYPE(DUI_MSGTYPE_ITEMCLICK,OnItemClick)
+DUI_END_MESSAGE_MAP()
+
+CMainPage::CMainPage()
+{
+	m_pPaintManager = NULL;
+}
+
+void CMainPage::SetPaintMagager(CPaintManagerUI* pPaintMgr)
+{
+	m_pPaintManager = pPaintMgr;
+}
+
+void CMainPage::OnClick(TNotifyUI& msg)
+{
+
+}
+
+void CMainPage::OnSelectChanged( TNotifyUI &msg )
+{
+
+}
+
+void CMainPage::OnItemClick( TNotifyUI &msg )
+{
+
+}
+
+//////////////////////////////////////////////////////////////////////////
+///
+DUI_BEGIN_MESSAGE_MAP(CMainWnd, WindowImplBase)
+DUI_END_MESSAGE_MAP()
+
 CMainWnd::CMainWnd() 
 {
 	m_pMenu = NULL;
+
+	m_MainPage.SetPaintMagager(&m_pm);
+	AddVirtualWnd(_T("mainpage"),&m_MainPage);
 }
+
 CMainWnd::~CMainWnd()
 {
 	CMenuWnd::DestroyMenu();
@@ -14,8 +57,9 @@ CMainWnd::~CMainWnd()
 		delete m_pMenu;
 		m_pMenu = NULL;
 	}
-
+	RemoveVirtualWnd(_T("mainpage"));
 }
+
 CControlUI* CMainWnd::CreateControl(LPCTSTR pstrClass)
 {
 	if(lstrcmpi(pstrClass, _T("CircleProgress" )) == 0) {
@@ -262,9 +306,9 @@ void CMainWnd::Notify(TNotifyUI& msg)
 {
 	CDuiString name = msg.pSender->GetName();
 	if(msg.sType == _T("windowinit")) {
-		if(MSGID_OK != CMsgWnd::MessageBox(m_hWnd, _T("duilib开源项目圈（By Troy）"), _T("查看duilib例子集锦，是否继续？"))) {
+		/*if(MSGID_OK != CMsgWnd::MessageBox(m_hWnd, _T("duilib开源项目圈（By Troy）"), _T("查看duilib例子集锦，是否继续？"))) {
 			Close(0);
-		}
+		}*/
 	}
 	else if( msg.sType == _T("colorchanged") )
 	{
@@ -334,6 +378,8 @@ void CMainWnd::Notify(TNotifyUI& msg)
 		pPro1->SetValue(pSlider->GetValue());
 		pPro2->SetValue(pSlider->GetValue());
 	}
+
+	return WindowImplBase::Notify(msg);
 }
 void CMainWnd::OnLClick(CControlUI *pControl)
 {

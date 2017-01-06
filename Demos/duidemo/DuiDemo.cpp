@@ -73,6 +73,7 @@ void InitResource()
 	// ×¢²á¿Ø¼þ
 	REGIST_DUICONTROL(CCircleProgressUI);
 	REGIST_DUICONTROL(CChartViewUI);
+	REGIST_DUICONTROL(CWndUI);
 }
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)

@@ -434,24 +434,18 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 	}
 	else if(sName.CompareNoCase(_T("menubtn")) == 0)
 	{
+		CMenuWnd::GetGlobalContextMenuObserver().SetMenuCheckInfo(&m_MenuInfos);
+
 		if(m_pMenu != NULL) {
 			delete m_pMenu;
 			m_pMenu = NULL;
 		}
 		m_pMenu = new CMenuWnd();
-		
-		CDuiString sItemName = _T("qianting");
-		MenuItemInfo *pInfo = (MenuItemInfo *)m_MenuInfos.Find(sItemName);
-		if(pInfo == NULL) pInfo = new MenuItemInfo;
-		lstrcpy(pInfo->szName, sItemName);
-		pInfo->bChecked = true;
-		m_MenuInfos.Set(pInfo->szName, pInfo);
-
-		CMenuWnd::GetGlobalContextMenuObserver().SetMenuCheckInfo(&m_MenuInfos);
 		CDuiPoint point;
 		::GetCursorPos(&point);
-
 		m_pMenu->Init(NULL, _T("menu.xml"), point, &m_pm);
+		// ÉèÖÃ×´Ì¬
+		CMenuWnd::SetMenuItemInfo(_T("qianting"), true);
 
 		CMenuUI* rootMenu = m_pMenu->GetMenuUI();
 		if (rootMenu != NULL)

@@ -196,9 +196,33 @@ namespace DuiLib {
 					pItemInfo = NULL;
 				}
 			}
+			mCheckInfos->Resize(0);
 		}
 	}
 	
+	MenuItemInfo* CMenuWnd::SetMenuItemInfo(LPCTSTR pstrName, bool bChecked)
+	{
+		if(pstrName == NULL || lstrlen(pstrName) <= 0) return NULL;
+
+		CStdStringPtrMap* mCheckInfos = CMenuWnd::GetGlobalContextMenuObserver().GetMenuCheckInfo();
+		if (mCheckInfos != NULL)
+		{
+			MenuItemInfo* pItemInfo = (MenuItemInfo*)mCheckInfos->Find(pstrName);
+			if(pItemInfo == NULL) {
+				pItemInfo = new MenuItemInfo;
+				lstrcpy(pItemInfo->szName, pstrName);
+				pItemInfo->bChecked = bChecked;
+				mCheckInfos->Insert(pstrName, pItemInfo);
+			}
+			else {
+				pItemInfo->bChecked = bChecked;
+			}
+
+			return pItemInfo;
+		}
+		return NULL;
+	}
+
 	void CMenuWnd::Init(CMenuElementUI* pOwner, STRINGorID xml, POINT point,
 		CPaintManagerUI* pMainPaintManager, CStdStringPtrMap* pMenuCheckInfo/* = NULL*/,
 		DWORD dwAlignment/* = eMenuAlignment_Left | eMenuAlignment_Top*/)

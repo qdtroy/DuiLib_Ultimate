@@ -280,12 +280,11 @@ public:
 		static MenuObserverImpl s_context_menu_observer;
 		return s_context_menu_observer;
 	}
-
 	static CMenuWnd* CreateMenu(CMenuElementUI* pOwner, STRINGorID xml, POINT point,
 		CPaintManagerUI* pMainPaintManager, CStdStringPtrMap* pMenuCheckInfo = NULL,
 		DWORD dwAlignment = eMenuAlignment_Left | eMenuAlignment_Top);
-
 	static void DestroyMenu();
+	static MenuItemInfo* SetMenuItemInfo(LPCTSTR pstrName, bool bChecked);
 
 public:
 	CMenuWnd();

@@ -44,7 +44,7 @@ DUI_BEGIN_MESSAGE_MAP(CMainWnd, WindowImplBase)
 	DUI_ON_MSGTYPE(DUI_MSGTYPE_ITEMCLICK,OnItemClick)
 DUI_END_MESSAGE_MAP()
 
-	CMainWnd::CMainWnd(void)
+CMainWnd::CMainWnd(void)
 {
 	m_MainPage.SetPaintMagager(&m_pm);
 

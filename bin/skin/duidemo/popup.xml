@@ -1,95 +1,31 @@
-<?xml version="1.0" encoding="gb2312"?>
-<Window size="480,330" maxinfo="480,330" mininfo="480,330" caption="0,0,0,100"
-		roundcorner="0,0" transparent="false" bktrans="false" linkfontcolor="#FF3fb2f5" >
-  <Font id="0" name="Microsoft Yahei" size="12" bold="false" default="true" />
-  <Font id="1" name="Microsoft Yahei" size="13" bold="false" />
-  <Font id="2" name="Microsoft Yahei" size="14" bold="false" />
-  <Font id="3" name="Microsoft Yahei" size="16" bold="false" />
-  <Font id="4" name="Microsoft Yahei" size="18" bold="false" />
-  <Font id="5" name="Microsoft Yahei" size="20" bold="false" />
-  <Font id="6" name="Microsoft Yahei" size="24" bold="false" />
-  <Default name="VScrollBar" value="thumbnormalimage=&quot;file='common/scroll.png' corner='3,3,3,3'&quot; thumbhotimage=&quot;file='common/scroll.png' corner='3,3,3,3'&quot; thumbpushedimage=&quot;file='common/scroll.png' corner='3,3,3,3'&quot;" />
+<?xml version="1.0" encoding="utf-8"?>
 
-  <Style name="edit_style" value="textpadding=&quot;6,6,6,6&quot; bkcolor=&quot;#FF666666&quot; nativebkcolor=&quot;#FF666666&quot; bkimage=&quot;res='common/edit_bk.png' corner='6,6,6,6'&quot;" />
+<Window caption="0,0,0,97" size="600,384" mininfo="600,384" sizebox="6,6,6,6" layered="true" textrenderinghint="0">
+  <Font name="å®‹ä½“" size="12" default="true"/>
 
-  <VerticalLayout name="login_UI" width="480" bkcolor="#FFf8f8f8" >
-
-    <!-- Top -->
-    <HorizontalLayout name="login_UITop" width="480" height="110" >
-      <HorizontalLayout >
-        <Control width="36"/>
-        <Control />
-        <Label name="login_lblTitle" text="VPN Client" padding="0,20,0,0" width="150" height="35" textcolor="#FF8a8a8a" disabledtextcolor="#FFA7A6AA" font="6" align="center" />
-        <Control />
+  <VerticalLayout bkimage="res='bg.png' corner='6,97,6,29' fade='180'">
+    <HorizontalLayout name="appbar" height="64" inset="0,-1">
+      <HorizontalLayout name="apptitle" childpadding="6" inset="0,3,0,0">
+        <Container padding="2,3,0,0" width="64" height="64" bkimage="logo.jpg" />
+        <VerticalLayout>
+          <Button name="homepage_btn" text="é€æ˜Žçª—å£æ¼”ç¤º v1.0" width="180" align="vcenter" align="left" textcolor="#FF333333" hottextcolor="#FF0000FF" font="1" tooltip="å®˜ç½‘"/>
+          <Label text="duilibå¼€æºé¡¹ç›®åœˆï¼ˆ261675375ï¼‰- By Troy(QQï¼š656067418)" align="left" textcolor="#FFFF0000"/>
+        </VerticalLayout>
       </HorizontalLayout>
 
-      <HorizontalLayout width="36">
-        <Button name="login_btnClose" width="27" height="22" padding="0,8,0,0"
-					normalimage="file='common/sys_dlg_close.png' source='0,0,27,22'"
-					hotimage="file='common/sys_dlg_close.png' source='27,0,54,22'"
-					pushedimage="file='common/sys_dlg_close.png' source='54,0,81,22'" />
+      <Button name="minbtn" width="28" height="20" tooltip="æœ€å°åŒ–" normalimage="file='sysbtn/btn_mini_normal.png'" hotimage="file='sysbtn/btn_mini_highlight.png'" pushedimage="file='sysbtn/btn_mini_down.png' "/>
+      <Button name="closebtn" width="39" height="20" tooltip="å…³é—­" normalimage="file='sysbtn/btn_close_normal.png'" hotimage="file='sysbtn/btn_close_highlight.png'" pushedimage="file='sysbtn/btn_close_down.png' "/>
+    </HorizontalLayout>
+    <VerticalLayout >
+      <Control />
+      <HorizontalLayout height="24" childpadding="12">
+        <Edit name="edit1" tipvalue="æ™®é€š" style="edit_style" />
+        <Edit name="edit2" tipvalue="åªè¯»" text="åªè¯»æŽ§ä»¶" style="edit_style" readonly="true"/>
+        <Edit name="edit3" tipvalue="æ•°å­—" style="edit_style" numberonly="true"/>
+        <Edit name="edit4" tipvalue="å¯†ç " style="edit_style" password="true"/>
+
       </HorizontalLayout>
-    </HorizontalLayout >
-
-    <!-- Center -->
-    <HorizontalLayout name="login_UICenter" width="480" height="210" >
-      <Control width="52" />
-      <VerticalLayout name="login_UILeft" >
-        <HorizontalLayout height="32" >
-          <Control width="20" />
-          <Control />
-          <Label name="login_lblUsername" tooltip="ÓÃ»§Ãû" padding="0,0,0,0" width="32" height="32" bkimage="file='login/left_user.png' source='0,0,32,32'" font="0" align="center" bordersize="0" bordercolor="#FFbababa" />
-          <!--Edit name="login_edtUsername" padding="10,0,0,0" width="240" height="32" textpadding="8,0,8,0" textcolor="#FF8a8a8a" font="2" align="left" bordersize="1" bordercolor="#FFbababa" focusbordercolor="#FF18acfe" /-->
-          <Edit name="login_edtUsername" tipvalue="ÇëÊäÈëÓÃ»§Ãû" style="edit_style" />
-          <Label width="78"/>
-          <Control />
-        </HorizontalLayout>
-        <Control height="20" />
-        <HorizontalLayout height="32" >
-          <Control width="20" />
-          <Control />
-          <Label name="login_lblPassword" tooltip="ÃÜ  Âë" padding="0,0,0,0" width="32" height="32" bkimage="file='login/left_lock.png' source='0,0,32,32'" font="0" align="center" bordersize="0" bordercolor="#FFbababa" />
-          <!--Edit name="login_edtPassword" padding="10,0,0,0" width="240" height="32" textpadding="8,0,8,0" textcolor="#FF8a8a8a" font="2" align="left" bordersize="1" bordercolor="#FFbababa" focusbordercolor="#FF18acfe" password="true"/-->
-          <Edit name="login_edtPassword" tipvalue="ÇëÊäÈëÃÜÂë" style="edit_style" password="true" passwordchar="¡ñ"  />
-          <Label width="78"/>
-          <Control />
-        </HorizontalLayout>
-        <Control height="20" />
-        <HorizontalLayout height="32" >
-          <Control />
-          <Button name="login_btnLogin" text="µÇ    Â¼" padding="0,0,0,0" width="240" height="32" textcolor="#FFFFFFFF" font="3" align="center" bkcolor="#FFbababa" hotbkcolor="#FF18acfe" bordersize="1" bordercolor="#FFbababa" focusbordercolor="#FF18acfe"/>
-          <Control />
-          <Control width="16" />
-        </HorizontalLayout>
-
-        <Button name="login_btnRegister" text="ÂíÉÏ×¢²á" float="true" pos="316,0,0,0" padding="6,0,0,0" width="72" height="32" textcolor="#FF8a8a8a" hottextcolor="#FF18acfe" font="1" align="center" bordersize="1" bordercolor="#FFf8f8f8" />
-        <Button name="login_btnForget" text="Íü¼ÇÃÜÂë" float="true" pos="316,52,0,0" padding="6,0,0,0" width="72" height="32" textcolor="#FF8a8a8a" hottextcolor="#FF18acfe" font="1" align="center" bordersize="1" bordercolor="#FFf8f8f8" />
-
-        <Control height="10" />
-        <HorizontalLayout name="login_UIBottom" height="32">
-          <Control width="0"/>
-          <Option name="login_optRemember" text="¼Ç×¡ÃÜÂë" width="100" height="32" padding="0,0,0,0" textpadding="28,0,0,0" textcolor="#FF8a8a8a" hottextcolor="#FF6a6a6a" selected="false"
-						font="1" align="left" bordersize="1" bordercolor="#FFf8f8f8"
-						normalimage="file='common/sys_dlg_checkbox.png' dest='0,0,32,32' source='0,0,32,32'"
-						hotimage="file='common/sys_dlg_checkbox.png' dest='0,0,32,32' source='32,0,64,32'"
-						pushedimage="file='common/sys_dlg_checkbox.png' dest='0,0,32,32' source='64,0,96,32'"
-						selectedimage="file='common/sys_dlg_checkbox.png' dest='0,0,32,32' source='96,0,128,32'" />
-          <Control width="60"/>
-          <Option name="login_optAutoLogin" text="×Ô¶¯µÇÂ¼" width="102" height="32" padding="0,0,0,0" textpadding="28,0,0,0" textcolor="#FF8a8a8a" hottextcolor="#FF6a6a6a" selected="false"
-						font="1" align="left" bordersize="1" bordercolor="#FFf8f8f8"
-						normalimage="file='common/sys_dlg_checkbox.png' dest='0,0,32,32' source='0,0,32,32'"
-						hotimage="file='common/sys_dlg_checkbox.png' dest='0,0,32,32' source='32,0,64,32'"
-						pushedimage="file='common/sys_dlg_checkbox.png' dest='0,0,32,32' source='64,0,96,32'"
-						selectedimage="file='common/sys_dlg_checkbox.png' dest='0,0,32,32' source='96,0,128,32'" />
-          <Control />
-        </HorizontalLayout >
-      </VerticalLayout>
-      <Control width="40" />
-    </HorizontalLayout >
-
-    <!-- Bottom -->
-    <HorizontalLayout name="login_UIBottom" width="480" height="10">
-    </HorizontalLayout >
-
+      <Control />
+    </VerticalLayout>
   </VerticalLayout>
 </Window>

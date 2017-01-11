@@ -37,13 +37,13 @@
         </VerticalLayout>
       </HorizontalLayout>
 
-      <HorizontalLayout inset="0,-1,0,0" float="true" height="30" width="151" floatalign="right,top">
-        <FadeButton name="menubtn" width="28" height="20" tooltip="菜单" normalimage="sysbtn_menu_normal" hotimage="sysbtn_menu_hot" pushedimage="sysbtn_menu_pushed"/>
-        <FadeButton name="skinbtn" width="28" height="20" tooltip="皮肤" normalimage="file='sysbtn/btn_skin_normal.png'" hotimage="file='sysbtn/btn_skin_highlight.png'" pushedimage="file='sysbtn/btn_skin_down.png' "/>
-        <FadeButton name="minbtn" width="28" height="20" tooltip="最小化" normalimage="file='sysbtn/btn_mini_normal.png'" hotimage="file='sysbtn/btn_mini_highlight.png'" pushedimage="file='sysbtn/btn_mini_down.png' "/>
-        <FadeButton name="maxbtn" width="28" height="20" tooltip="最大化" normalimage="file='sysbtn/btn_max_normal.png'" hotimage="file='sysbtn/btn_max_highlight.png'" pushedimage="file='sysbtn/btn_max_down.png' "/>
-        <FadeButton name="restorebtn" width="28" height="20" tooltip="还原" visible="false" normalimage="file='sysbtn/btn_restore_normal.png'" hotimage="file='sysbtn/btn_restore_highlight.png'" pushedimage="file='sysbtn/btn_restore_down.png' "/>
-        <FadeButton name="closebtn" width="39" height="20" tooltip="关闭" normalimage="file='sysbtn/btn_close_normal.png'" hotimage="file='sysbtn/btn_close_highlight.png'" pushedimage="file='sysbtn/btn_close_down.png' "/>
+      <HorizontalLayout inset="0,-1,0,0" float="true" height="30" width="151" floatalign="right,top" bordercolor="#FFFF0000" bordersize="1">
+        <FadeButton name="menubtn" virtualwnd="mainpage" width="28" height="20" tooltip="菜单" normalimage="sysbtn_menu_normal" hotimage="sysbtn_menu_hot" pushedimage="sysbtn_menu_pushed"/>
+        <FadeButton name="skinbtn" virtualwnd="mainpage" width="28" height="20" tooltip="皮肤" normalimage="file='sysbtn/btn_skin_normal.png'" hotimage="file='sysbtn/btn_skin_highlight.png'" pushedimage="file='sysbtn/btn_skin_down.png' "/>
+        <FadeButton name="minbtn" virtualwnd="mainpage" width="28" height="20" tooltip="最小化" normalimage="file='sysbtn/btn_mini_normal.png'" hotimage="file='sysbtn/btn_mini_highlight.png'" pushedimage="file='sysbtn/btn_mini_down.png' "/>
+        <FadeButton name="maxbtn" virtualwnd="mainpage" width="28" height="20" tooltip="最大化" normalimage="file='sysbtn/btn_max_normal.png'" hotimage="file='sysbtn/btn_max_highlight.png'" pushedimage="file='sysbtn/btn_max_down.png' "/>
+        <FadeButton name="restorebtn" virtualwnd="mainpage" width="28" height="20" tooltip="还原" visible="false" normalimage="file='sysbtn/btn_restore_normal.png'" hotimage="file='sysbtn/btn_restore_highlight.png'" pushedimage="file='sysbtn/btn_restore_down.png' "/>
+        <FadeButton name="closebtn" virtualwnd="mainpage" width="39" height="20" tooltip="关闭" normalimage="file='sysbtn/btn_close_normal.png'" hotimage="file='sysbtn/btn_close_highlight.png'" pushedimage="file='sysbtn/btn_close_down.png' "/>
       </HorizontalLayout>
 
     </HorizontalLayout>

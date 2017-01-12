@@ -45,7 +45,7 @@ namespace DuiLib {
 		void SetThumbImage(LPCTSTR pszImage);
 		LPCTSTR GetThumbImage() const;
 
-		virtual void SetPos(RECT rc);
+		virtual void SetPos(RECT rc, bool bNeedInvalidate = true);
 		virtual void DoInit();
 		virtual void DoEvent(TEventUI& event);
 		virtual void PaintBkColor(HDC hDC);

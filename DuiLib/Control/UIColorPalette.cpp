@@ -153,8 +153,8 @@ namespace DuiLib {
 		m_nCurH = (int)(H*360);
 		m_nCurS = (int)(S*200);
 		m_nCurB = (int)(B*200);
-		NeedUpdate();
 		UpdatePalletData();
+		NeedUpdate();
 	}
 
 	LPCTSTR CColorPaletteUI::GetClass() const
@@ -220,12 +220,11 @@ namespace DuiLib {
 		DWORD dwSize = m_bmInfo.bmHeight * m_bmInfo.bmWidthBytes;
 		m_pBits = (BYTE *)malloc(dwSize);
 		::GetBitmapBits(m_hMemBitmap, dwSize, m_pBits);
-
 	}
 
-	void CColorPaletteUI::SetPos(RECT rc)
+	void CColorPaletteUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
-		CControlUI::SetPos(rc);
+		CControlUI::SetPos(rc, bNeedInvalidate);
 
 		m_ptLastPalletMouse.x = m_nCurH * (m_rcItem.right - m_rcItem.left) / 360 + m_rcItem.left;
 		m_ptLastPalletMouse.y = (200 - m_nCurB) * m_nPalletHeight / 200 + m_rcItem.top;
@@ -263,7 +262,7 @@ namespace DuiLib {
 
 				UpdateBarData();
 			}
-			//::PtInRect(&m_rcItem, event.ptMouse)
+
 			if (event.ptMouse.x >= m_rcItem.left && event.ptMouse.y >= m_rcItem.bottom - m_nBarHeight &&
 				event.ptMouse.x < m_rcItem.right && event.ptMouse.y < m_rcItem.bottom)
 			{
@@ -295,7 +294,6 @@ namespace DuiLib {
 		}
 		if (event.Type == UIEVENT_MOUSEMOVE)
 		{
-
 			if (!(m_uButtonState &UISTATE_PUSHED))
 			{
 				m_bIsInBar = false;
@@ -318,8 +316,7 @@ namespace DuiLib {
 					if (m_ptLastPalletMouse.x < m_rcItem.left) m_ptLastPalletMouse.x = m_rcItem.left;
 					if (m_ptLastPalletMouse.x > m_rcItem.right) m_ptLastPalletMouse.x = m_rcItem.right;
 					if (m_ptLastPalletMouse.y < m_rcItem.top) m_ptLastPalletMouse.y = m_rcItem.top;
-					if (m_ptLastPalletMouse.y > m_rcItem.top + m_nPalletHeight) m_ptLastPalletMouse.y = m_rcItem.top + m_nPalletHeight;
-
+					if (m_ptLastPalletMouse.y >= m_rcItem.top + m_nPalletHeight) m_ptLastPalletMouse.y = m_rcItem.top + m_nPalletHeight;
 
 					m_nCurH = x;
 					m_nCurB = 200 - y;
@@ -327,11 +324,10 @@ namespace DuiLib {
 					UpdateBarData();
 				}
 			}
-			if (m_bIsInBar == true)
+			else if (m_bIsInBar == true)
 			{
 				m_nCurS = (event.ptMouse.x - m_rcItem.left) * 200 / (m_rcItem.right - m_rcItem.left);
 				m_nCurS = min(max(m_nCurS, 0), 200);
-
 				UpdatePalletData();
 			}
 
@@ -352,8 +348,7 @@ namespace DuiLib {
 
 		::SetStretchBltMode(hDC, HALFTONE);
 		//拉伸模式将内存图画到控件上
-
-		StretchBlt(hDC, m_rcItem.left, m_rcItem.top, m_rcItem.right - m_rcItem.left, m_nPalletHeight, m_MemDc, 0, 0, 360, 199, SRCCOPY);
+		StretchBlt(hDC, m_rcItem.left, m_rcItem.top, m_rcItem.right - m_rcItem.left, m_nPalletHeight, m_MemDc, 0, 0, 360, 200, SRCCOPY);
 		StretchBlt(hDC, m_rcItem.left, m_rcItem.bottom - m_nBarHeight, m_rcItem.right - m_rcItem.left, m_nBarHeight, m_MemDc, 0, 210, 200, m_nBarHeight, SRCCOPY);
 
 		RECT rcCurSorPaint = { m_ptLastPalletMouse.x - 4, m_ptLastPalletMouse.y - 4, m_ptLastPalletMouse.x + 4, m_ptLastPalletMouse.y + 4 };
@@ -374,7 +369,7 @@ namespace DuiLib {
 		DWORD dwColor;
 		for (y = 0; y < 200; ++y) {
 			for (x = 0; x < 360; ++x) {
-				pPiexl = LPBYTE(m_pBits) + ((199 - y)*m_bmInfo.bmWidthBytes) + ((x*m_bmInfo.bmBitsPixel) / 8);
+				pPiexl = LPBYTE(m_pBits) + ((200 - y)*m_bmInfo.bmWidthBytes) + ((x*m_bmInfo.bmBitsPixel) / 8);
 				dwColor = _HSLToRGB(x, m_nCurS, y);
 				pPiexl[0] = GetBValue(dwColor);
 				pPiexl[1] = GetGValue(dwColor);
@@ -395,8 +390,8 @@ namespace DuiLib {
 		for (y = 0; y < m_nBarHeight; ++y) {
 			for (x = 0; x < 200; ++x) {
 				pPiexl = LPBYTE(m_pBits) + ((210 + y)*m_bmInfo.bmWidthBytes) + ((x*m_bmInfo.bmBitsPixel) / 8);
-				//*(DWORD*)pPiexl = _HSLToRGB(m_nCurH, x , m_nCurB);
 				dwColor = _HSLToRGB(m_nCurH, x, m_nCurB);
+				if(dwColor == 0xFF000000) dwColor = 0xFF000001;
 				pPiexl[0] = GetBValue(dwColor);
 				pPiexl[1] = GetGValue(dwColor);
 				pPiexl[2] = GetRValue(dwColor);

@@ -37,7 +37,7 @@
         </VerticalLayout>
       </HorizontalLayout>
 
-      <HorizontalLayout inset="0,-1,0,0" float="true" height="30" width="151" floatalign="right,top" bordercolor="#FFFF0000" bordersize="1">
+      <HorizontalLayout inset="0,-1,0,0" float="true" height="30" width="151" floatalign="right,top" bordercolor="#FFFF0000" bordersize="0">
         <FadeButton name="menubtn" virtualwnd="mainpage" width="28" height="20" tooltip="菜单" normalimage="sysbtn_menu_normal" hotimage="sysbtn_menu_hot" pushedimage="sysbtn_menu_pushed"/>
         <FadeButton name="skinbtn" virtualwnd="mainpage" width="28" height="20" tooltip="皮肤" normalimage="file='sysbtn/btn_skin_normal.png'" hotimage="file='sysbtn/btn_skin_highlight.png'" pushedimage="file='sysbtn/btn_skin_down.png' "/>
         <FadeButton name="minbtn" virtualwnd="mainpage" width="28" height="20" tooltip="最小化" normalimage="file='sysbtn/btn_mini_normal.png'" hotimage="file='sysbtn/btn_mini_highlight.png'" pushedimage="file='sysbtn/btn_mini_down.png' "/>
@@ -97,7 +97,7 @@
           <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="Combo控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <HorizontalLayout height="23" childpadding="12">
-              <Combo name="font_type" itemfont="2" width="120" style="combo_style" textcolor="#FFFFFFFF" dropbox="hscrollbar=&quot;true&quot;" textcolor="#FFFFFFFF" float="true" pos="300,0,400,23">
+              <Combo name="font_type" itemfont="2" width="120" style="combo_style" textcolor="#FFFFFFFF" dropbox="hscrollbar=&quot;true&quot;" float="true" pos="300,0,400,23">
                 <ListLabelElement text="微软雅黑" selected="true" height="23" />
                 <ListLabelElement text="宋体" height="23" width="500" />
                 <ListLabelElement text="黑体" height="23" width="500" />
@@ -227,7 +227,7 @@
         <VerticalLayout name="ex_tab_panel" inset="2,2,2,2" vscrollbar="true">
           <HorizontalLayout height="220">
             <Label text="颜色控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
-            <ColorPalette name="Pallet" width="506" height="220" palletheight="200" barheight="14" padding="0,0,0,0" thumbimage="common/cursor.png" />
+            <ColorPalette name="Pallet" width="506" height="220" palletheight="200" barheight="14" thumbimage="common/cursor.png" />
           </HorizontalLayout>
 
           <Label height="1" bkimage="common/hor_line.png"/>

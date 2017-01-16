@@ -1958,7 +1958,7 @@ namespace DuiLib {
 		}
 		RebuildFont(&m_SharedResInfo.m_DefaultFontInfo);
 
-		CStdPtrArray *richEditList = FindSubControlsByClass(GetRoot(), L"RichEditUI");
+		CStdPtrArray *richEditList = FindSubControlsByClass(GetRoot(), _T("RichEditUI"));
 		for (int i = 0; i < richEditList->GetSize(); i++)
 		{
 			CRichEditUI* pT = static_cast<CRichEditUI*>((*richEditList)[i]);

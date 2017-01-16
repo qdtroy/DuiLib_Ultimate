@@ -348,7 +348,7 @@ namespace DuiLib {
 
 		::SetStretchBltMode(hDC, HALFTONE);
 		//拉伸模式将内存图画到控件上
-		StretchBlt(hDC, m_rcItem.left, m_rcItem.top, m_rcItem.right - m_rcItem.left, m_nPalletHeight, m_MemDc, 0, 0, 360, 200, SRCCOPY);
+		StretchBlt(hDC, m_rcItem.left, m_rcItem.top, m_rcItem.right - m_rcItem.left, m_nPalletHeight, m_MemDc, 0, 1, 360, 200, SRCCOPY);
 		StretchBlt(hDC, m_rcItem.left, m_rcItem.bottom - m_nBarHeight, m_rcItem.right - m_rcItem.left, m_nBarHeight, m_MemDc, 0, 210, 200, m_nBarHeight, SRCCOPY);
 
 		RECT rcCurSorPaint = { m_ptLastPalletMouse.x - 4, m_ptLastPalletMouse.y - 4, m_ptLastPalletMouse.x + 4, m_ptLastPalletMouse.y + 4 };
@@ -371,6 +371,7 @@ namespace DuiLib {
 			for (x = 0; x < 360; ++x) {
 				pPiexl = LPBYTE(m_pBits) + ((200 - y)*m_bmInfo.bmWidthBytes) + ((x*m_bmInfo.bmBitsPixel) / 8);
 				dwColor = _HSLToRGB(x, m_nCurS, y);
+				if(dwColor == 0xFF000000) dwColor = 0xFF000001;
 				pPiexl[0] = GetBValue(dwColor);
 				pPiexl[1] = GetGValue(dwColor);
 				pPiexl[2] = GetRValue(dwColor);

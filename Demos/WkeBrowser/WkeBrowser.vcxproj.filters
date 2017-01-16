@@ -87,9 +87,6 @@
     <None Include="..\..\bin\skin\WkeBrowser\main.xml">
       <Filter>Resources\xmls</Filter>
     </None>
-    <None Include="..\..\bin\skin\WkeBrowser\main_encode.xml">
-      <Filter>Resources\xmls</Filter>
-    </None>
     <None Include="..\..\bin\skin\WkeBrowser\msg.xml">
       <Filter>Resources\xmls</Filter>
     </None>

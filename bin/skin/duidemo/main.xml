@@ -76,7 +76,7 @@
             <HorizontalLayout childvalign="vcenter" childpadding="12" bordersize="1,1,1,1" bordercolor="#0">
               <Button name="button1" text="普通按钮" textcolor="#FF000000" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
               <Button name="button2" text="图标按钮" textcolor="#FF000000" style="btn_style" height="60" width="100" textpadding="0,0,0,5" align="center" valign="bottom" foreimage="dest='42,7,58,23' res='other/icon.png'" />
-              <Button name="cmdbtn" text="命令按钮(&S)" textcolor="#FF000000" style="btn_style" shortcut="S" width="120"/>
+              <Button name="cmdbtn" text="命令按钮(&amp;S)" textcolor="#FF000000" style="btn_style" shortcut="S" width="120"/>
               <Button name="autobtn" text="自适应比例按钮" minwidth="120" colorhsl="true" float="0.7,0,0.9,1" textcolor="#FF000000" bkcolor="#FFFF0000" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
 
             </HorizontalLayout>
@@ -159,7 +159,7 @@
             <HorizontalLayout height="30" childpadding="12">
               <Button name="popwnd_btn" text="普通弹出窗口" style="colorbtn_style"/>
               <Button name="modal_popwnd_btn" text="模态弹出窗口"  style="colorbtn_style"/>
-              <Button name="qq_btn" text="问题咨询(&Q)" shortcut="Q"  style="colorbtn_style"/>
+              <Button name="qq_btn" text="问题咨询(&amp;Q)" shortcut="Q"  style="colorbtn_style"/>
             </HorizontalLayout>
           </HorizontalLayout>
           <Label height="1" bkimage="common/hor_line.png"/>
@@ -228,6 +228,7 @@
           <HorizontalLayout height="220">
             <Label text="颜色控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <ColorPalette name="Pallet" width="506" height="220" palletheight="200" barheight="14" thumbimage="common/cursor.png" />
+			<Button />
           </HorizontalLayout>
 
           <Label height="1" bkimage="common/hor_line.png"/>

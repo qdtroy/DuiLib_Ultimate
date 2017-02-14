@@ -107,8 +107,8 @@
                   <Button name="combo_closebtn" width="39" height="20" tooltip="关闭" normalimage="file='sysbtn/btn_close_normal.png'" hotimage="file='sysbtn/btn_close_highlight.png'" pushedimage="file='sysbtn/btn_close_down.png' "/>
                 </ListContainerElement>
               </Combo>
-              <Combo name="font_size" width="120" style="combo_style" textcolor="#FFFFFFFF" itemtextpadding="23,0,0,0" dropbox="bordercolor=&quot;#FF666666&quot; bordersize=&quot;1&quot; bkcolor=&quot;#FF888888&quot;">
-                <ListLabelElement text="9" selected="true" height="23" />
+              <MyCombo name="font_size" width="120" style="combo_style" textcolor="#FFFFFFFF" itemtextpadding="23,0,0,0" dropbox="bordercolor=&quot;#FF666666&quot; bordersize=&quot;1&quot; bkcolor=&quot;#FF888888&quot;">
+                <ListLabelElement text="100" selected="true" height="23" />
                 <ListLabelElement text="10" height="23" bkimage="dest='4,7,20,23' res='other/icon.png'" mouse="false"/>
                 <ListLabelElement text="11" height="23" bkimage="dest='4,7,20,23' res='other/icon.png'" />
                 <ListLabelElement text="12" height="23" bkimage="dest='4,7,20,23' res='other/icon.png'" />
@@ -125,7 +125,7 @@
                 <ListLabelElement text="24" height="23" bkimage="dest='4,7,20,23' res='other/icon.png'" />
                 <ListLabelElement text="28" height="23" bkimage="dest='4,7,20,23' res='other/icon.png'" />
                 <ListLabelElement text="32" height="23" bkimage="dest='4,7,20,23' res='other/icon.png'" />
-              </Combo>
+              </MyCombo>
             </HorizontalLayout>
           </HorizontalLayout>
 

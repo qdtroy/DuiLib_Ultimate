@@ -1,14 +1,10 @@
-#ifndef WIN_IMPL_BASE_HPP
-#define WIN_IMPL_BASE_HPP
-
 #include "StdAfx.h"
 #include <algorithm>
 namespace DuiLib
 {
 	//////////////////////////////////////////////////////////////////////////
-
-
-	DUI_BEGIN_MESSAGE_MAP(WindowImplBase,CNotifyPump)
+	//
+	DUI_BEGIN_MESSAGE_MAP(WindowImplBase, CNotifyPump)
 		DUI_ON_MSGTYPE(DUI_MSGTYPE_CLICK,OnClick)
 	DUI_END_MESSAGE_MAP()
 
@@ -183,7 +179,6 @@ namespace DuiLib
 				return HTCAPTION;
 			}
 		}
-
 
 		return HTCLIENT;
 	}

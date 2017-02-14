@@ -180,6 +180,20 @@ namespace DuiLib {
 						pManager->AddStyle(pName, pStyle, shared);
 					}
 				}
+				else if (_tcsicmp(pstrClass, _T("Import")) == 0) {
+					nAttributes = node.GetAttributeCount();
+					LPCTSTR pstrPath = NULL;
+					for (int i = 0; i < nAttributes; i++) {
+						pstrName = node.GetAttributeName(i);
+						pstrValue = node.GetAttributeValue(i);
+						if (_tcsicmp(pstrName, _T("fontfile")) == 0) {
+							pstrPath = pstrValue;
+						}
+					}
+					if (pstrPath) {
+						pManager->AddFontArray(pstrPath);
+					}
+				}
 			}
 
 			pstrClass = root.GetName();
@@ -347,6 +361,7 @@ namespace DuiLib {
 				|| _tcsicmp(pstrClass, _T("Default")) == 0 || _tcsicmp(pstrClass, _T("Style")) == 0 ) continue;
 
 			CControlUI* pControl = NULL;
+			if (_tcsicmp(pstrClass, _T("Import")) == 0) continue;
 			if( _tcsicmp(pstrClass, _T("Include")) == 0 ) {
 				if( !node.HasAttributes() ) continue;
 				int count = 1;

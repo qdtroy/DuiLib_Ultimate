@@ -101,6 +101,7 @@ namespace DuiLib {
 		bool bBold;
 		bool bUnderline;
 		bool bItalic;
+		bool bStrikeOut;
 		TEXTMETRIC tm;
 	} TFontInfo;
 
@@ -287,6 +288,7 @@ namespace DuiLib {
 		static void SetResourcePath(LPCTSTR pStrPath);
 		static void SetResourceZip(LPVOID pVoid, unsigned int len, LPCTSTR password = NULL);
 		static void SetResourceZip(LPCTSTR pstrZip, bool bCachedResourceZip = false, LPCTSTR password = NULL);
+		static void SetResourceZip(LPCTSTR lpResourceName, LPCTSTR lpResourceType);
 		static void SetResourceType(int nType);
 		static int GetResourceType();
 		static bool GetHSL(short* H, short* S, short* L);
@@ -313,14 +315,14 @@ namespace DuiLib {
 		DWORD GetDefaultSelectedBkColor() const;
 		void SetDefaultSelectedBkColor(DWORD dwColor, bool bShared = false);
 		TFontInfo* GetDefaultFontInfo();
-		void SetDefaultFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared = false);
+		void SetDefaultFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bStrikeOut, bool bShared = false);
 		DWORD GetCustomFontCount(bool bShared = false) const;
 		void AddFontArray(LPCTSTR pstrPath);
-		HFONT AddFont(int id, LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared = false);
+		HFONT AddFont(int id, LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bStrikeOut, bool bShared = false);
 		HFONT GetFont(int id);
-		HFONT GetFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic);
+		HFONT GetFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bStrikeOut);
 		int GetFontIndex(HFONT hFont, bool bShared = false);
-		int GetFontIndex(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared = false);
+		int GetFontIndex(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bStrikeOut, bool bShared = false);
 		void RemoveFont(HFONT hFont, bool bShared = false);
 		void RemoveFont(int id, bool bShared = false);
 		void RemoveAllFonts(bool bShared = false);

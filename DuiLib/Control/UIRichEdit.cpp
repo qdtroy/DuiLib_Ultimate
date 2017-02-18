@@ -189,9 +189,10 @@ LONG DYtoHimetricY(LONG dy, LONG yPerInch)
 HRESULT InitDefaultCharFormat(CRichEditUI* re, CHARFORMAT2W* pcf, HFONT hfont) 
 {
     memset(pcf, 0, sizeof(CHARFORMAT2W));
-    LOGFONT lf;
-    if( !hfont )
-        hfont = re->GetManager()->GetFont(re->GetFont());
+	if(hfont == NULL) {
+		hfont = re->GetManager()->GetFont(re->GetFont());
+	}
+	LOGFONT lf;
     ::GetObject(hfont, sizeof(LOGFONT), &lf);
 
     DWORD dwColor = re->GetTextColor();
@@ -271,7 +272,7 @@ CTxtWinHost::~CTxtWinHost()
 
 BOOL CTxtWinHost::Init(CRichEditUI *re, const CREATESTRUCT *pcs)
 {
-    IUnknown *pUnk;
+    IUnknown *pUnk = NULL;
     HRESULT hr;
 
     m_re = re;
@@ -311,7 +312,7 @@ BOOL CTxtWinHost::Init(CRichEditUI *re, const CREATESTRUCT *pcs)
 
     fInplaceActive = TRUE;
 
-	PCreateTextServices TextServicesProc;
+	PCreateTextServices TextServicesProc = NULL;
 #ifdef _UNICODE		
 	HMODULE hmod = LoadLibrary(_T("Msftedit.dll"));
 #else
@@ -320,7 +321,7 @@ BOOL CTxtWinHost::Init(CRichEditUI *re, const CREATESTRUCT *pcs)
 	if (hmod) {
 		TextServicesProc = (PCreateTextServices)GetProcAddress(hmod,"CreateTextServices");
 	}
-	if (TextServicesProc) {
+	if (TextServicesProc != NULL) {
 		HRESULT hr = TextServicesProc(NULL, this, &pUnk);
 	}
 

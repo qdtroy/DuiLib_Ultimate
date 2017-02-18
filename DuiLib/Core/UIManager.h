@@ -315,6 +315,7 @@ namespace DuiLib {
 		TFontInfo* GetDefaultFontInfo();
 		void SetDefaultFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared = false);
 		DWORD GetCustomFontCount(bool bShared = false) const;
+		void AddFontArray(LPCTSTR pstrPath);
 		HFONT AddFont(int id, LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared = false);
 		HFONT GetFont(int id);
 		HFONT GetFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic);
@@ -529,6 +530,7 @@ namespace DuiLib {
 		CStdPtrArray m_aDelayedCleanup;
 		CStdPtrArray m_aAsyncNotify;
 		CStdPtrArray m_aFoundControls;
+		CStdPtrArray m_aFonts;
 		CStdStringPtrMap m_mNameHash;
 		CStdStringPtrMap m_mWindowCustomAttrHash;
 		CStdStringPtrMap m_mOptionGroup;

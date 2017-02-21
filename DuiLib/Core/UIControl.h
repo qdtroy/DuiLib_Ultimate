@@ -48,7 +48,7 @@ namespace DuiLib {
 		virtual void SetDropEnable(bool bDrop);
 
 		// Õº–Œœ‡πÿ
-		LPCTSTR GetGradient() const;
+		LPCTSTR GetGradient();
 		void SetGradient(LPCTSTR pStrImage);
 		DWORD GetBkColor() const;
 		void SetBkColor(DWORD dwBackColor);

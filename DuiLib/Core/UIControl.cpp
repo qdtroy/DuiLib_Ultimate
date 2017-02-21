@@ -165,6 +165,18 @@ namespace DuiLib {
 		m_bDropEnabled = bDrop;
 	}
 
+	LPCTSTR CControlUI::GetGradient()
+	{
+		return m_sGradient;
+	}
+
+	void CControlUI::SetGradient(LPCTSTR pStrImage)
+	{
+		if( m_sGradient == pStrImage ) return;
+
+		m_sGradient = pStrImage;
+		Invalidate();
+	}
 
 	DWORD CControlUI::GetBkColor() const
 	{
@@ -992,6 +1004,7 @@ namespace DuiLib {
 			rcPadding.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);    
 			SetPadding(rcPadding);
 		}
+		else if( _tcsicmp(pstrName, _T("gradient")) == 0 ) SetGradient(pstrValue);
 		else if( _tcsicmp(pstrName, _T("bkcolor")) == 0 || _tcsicmp(pstrName, _T("bkcolor1")) == 0 ) {
 			while( *pstrValue > _T('\0') && *pstrValue <= _T(' ') ) pstrValue = ::CharNext(pstrValue);
 			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
@@ -1227,17 +1240,18 @@ namespace DuiLib {
 	void CControlUI::PaintBkColor(HDC hDC)
 	{
 		if( m_dwBackColor != 0 ) {
+			bool bVer = (m_sGradient.CompareNoCase(_T("hor")) != 0);
 			if( m_dwBackColor2 != 0 ) {
 				if( m_dwBackColor3 != 0 ) {
 					RECT rc = m_rcItem;
 					rc.bottom = (rc.bottom + rc.top) / 2;
-					CRenderEngine::DrawGradient(hDC, rc, GetAdjustColor(m_dwBackColor), GetAdjustColor(m_dwBackColor2), true, 8);
+					CRenderEngine::DrawGradient(hDC, rc, GetAdjustColor(m_dwBackColor), GetAdjustColor(m_dwBackColor2), bVer, 8);
 					rc.top = rc.bottom;
 					rc.bottom = m_rcItem.bottom;
-					CRenderEngine::DrawGradient(hDC, rc, GetAdjustColor(m_dwBackColor2), GetAdjustColor(m_dwBackColor3), true, 8);
+					CRenderEngine::DrawGradient(hDC, rc, GetAdjustColor(m_dwBackColor2), GetAdjustColor(m_dwBackColor3), bVer, 8);
 				}
 				else {
-					CRenderEngine::DrawGradient(hDC, m_rcItem, GetAdjustColor(m_dwBackColor), GetAdjustColor(m_dwBackColor2), true, 16);
+					CRenderEngine::DrawGradient(hDC, m_rcItem, GetAdjustColor(m_dwBackColor), GetAdjustColor(m_dwBackColor2), bVer, 16);
 				}
 			}
 			else if( m_dwBackColor >= 0xFF000000 ) CRenderEngine::DrawColor(hDC, m_rcPaint, GetAdjustColor(m_dwBackColor));

@@ -2,6 +2,7 @@
 
 class CShortCutUI : public DuiLib::CButtonUI
 {
+	DECLARE_DUICONTROL(CShortCutUI)
 public:
 	CShortCutUI();
 	~CShortCutUI(void);

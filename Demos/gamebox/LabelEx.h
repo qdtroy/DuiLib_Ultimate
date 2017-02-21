@@ -3,14 +3,15 @@
 
 namespace DuiLib
 {
-	class CLabelIcon: public DuiLib::CLabelUI
+	class CLabelIconUI: public DuiLib::CLabelUI
 	{
+		DECLARE_DUICONTROL(CLabelIconUI)
 	public:
-		CLabelIcon()
+		CLabelIconUI()
 		{
 			m_hIcon = NULL;
 		}
-		~CLabelIcon(void)
+		~CLabelIconUI(void)
 		{
 			if(m_hIcon != NULL)
 				::DestroyIcon(m_hIcon);
@@ -44,8 +45,9 @@ namespace DuiLib
 		HICON m_hIcon;
 	};
 
-	class CLabelMutiline: public CLabelUI
+	class CLabelMutilineUI: public CLabelUI
 	{
+		DECLARE_DUICONTROL(CLabelMutilineUI)
 	public:
 		void PaintText(HDC hDC)
 		{

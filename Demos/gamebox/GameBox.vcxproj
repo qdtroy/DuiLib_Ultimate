@@ -491,6 +491,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ControlEx.cpp" />
     <ClCompile Include="GameBox.cpp" />
     <ClCompile Include="GameItemUI.cpp" />
     <ClCompile Include="ShortCutUI.cpp" />
@@ -526,7 +527,7 @@
   <ItemGroup>
     <ClInclude Include="ControlEx.h" />
     <ClInclude Include="GameItemUI.h" />
-    <ClInclude Include="LableEx.h" />
+    <ClInclude Include="LabelEx.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SearchWnd.h" />
     <ClInclude Include="ShortCutUI.h" />

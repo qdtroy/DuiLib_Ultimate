@@ -12,7 +12,6 @@ public:
 
 	}
 
-
 	CDuiString GetSkinFile()
 	{
 		return _T("skin.xml");
@@ -20,10 +19,10 @@ public:
 	
 	CControlUI* CreateControl(LPCTSTR pstrClass)
 	{
-		//if( _tcsicmp(pstrClass, _T("GameList")) == 0 ) return new CGameListUI;
-		//else if( _tcsicmp(pstrClass, _T("GameItem")) == 0 ) return new CGameItemUI;
-		//else if( _tcsicmp(pstrClass, _T("ShortCut")) == 0 ) return new CShortCutUI;
-		//else if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutilineUI;
+		if( _tcsicmp(pstrClass, _T("GameList")) == 0 ) return new CGameListUI;
+		else if( _tcsicmp(pstrClass, _T("GameItem")) == 0 ) return new CGameItemUI;
+		else if( _tcsicmp(pstrClass, _T("ShortCut")) == 0 ) return new CShortCutUI;
+		else if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutilineUI;
 		return NULL;
 	}
 
@@ -41,10 +40,11 @@ public:
 		m_pFindList = (CHorizontalLayoutUI*)(m_pm.FindControl(_T("findlist")));
 
 		
+		CDialogBuilderCallbackEx callback;
 		for (int i = 0; i < 60; i++)
 		{
 			CDialogBuilder builder;
-			CControlUI* pGameItem = static_cast<CControlUI*>(builder.Create(_T("gameitem.xml"), (UINT)0, NULL, &m_pm));
+			CControlUI* pGameItem = static_cast<CControlUI*>(builder.Create(_T("gameitem.xml"), (UINT)0, &callback, &m_pm));
 			m_pGameList->Add(pGameItem);
 			CDuiString sText;
 			sText.Format(_T("ÓÎÏ·%d"), i);
@@ -55,7 +55,7 @@ public:
 			for (int i = 0; i < 6; i++)
 			{
 				CDialogBuilder builder;
-				CControlUI* pGameItem = static_cast<CControlUI*>(builder.Create(_T("gameitem.xml"), (UINT)0, NULL, &m_pm));
+				CControlUI* pGameItem = static_cast<CControlUI*>(builder.Create(_T("gameitem.xml"), (UINT)0, &callback, &m_pm));
 				m_pFindList->Add(pGameItem);
 
 				CDuiString sText;
@@ -450,10 +450,10 @@ void InitResource()
 
 
 	// ×¢²á¿Ø¼þ
-	REGIST_DUICONTROL(CLabelIconUI);
-	REGIST_DUICONTROL(CGameItemUI);
-	REGIST_DUICONTROL(CGameListUI);
-	REGIST_DUICONTROL(CLabelMutilineUI);
+	//REGIST_DUICONTROL(CLabelIconUI);
+	//REGIST_DUICONTROL(CGameItemUI);
+	//REGIST_DUICONTROL(CGameListUI);
+	//REGIST_DUICONTROL(CLabelMutilineUI);
 }
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)

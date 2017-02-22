@@ -13,10 +13,10 @@ public:
 
 	CControlUI* CreateControl(LPCTSTR pstrClass)
 	{
-		//if( _tcsicmp(pstrClass, _T("GameList")) == 0 ) return new CGameListUI;
-		//else if( _tcsicmp(pstrClass, _T("GameItem")) == 0 ) return new CGameItemUI;
-		//else if( _tcsicmp(pstrClass, _T("ShortCut")) == 0 ) return new CShortCutUI;
-		//else if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutilineUI;
+		if( _tcsicmp(pstrClass, _T("GameList")) == 0 ) return new CGameListUI;
+		else if( _tcsicmp(pstrClass, _T("GameItem")) == 0 ) return new CGameItemUI;
+		else if( _tcsicmp(pstrClass, _T("ShortCut")) == 0 ) return new CShortCutUI;
+		else if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutilineUI;
 		return NULL;
 	}
 
@@ -32,8 +32,9 @@ public:
 		CListUI* pGameList = static_cast<CListUI*>(m_pm.FindControl(_T("searchlist")));
 		if(pGameList != NULL)
 		{
+			CDialogBuilderCallbackEx callback;
 			CDialogBuilder builder;
-			CListContainerElementUI* pGameItem = static_cast<CListContainerElementUI*>(builder.Create(_T("searchitem.xml"), (UINT)0));
+			CListContainerElementUI* pGameItem = static_cast<CListContainerElementUI*>(builder.Create(_T("searchitem.xml"), (UINT)0, &callback));
 			pGameList->Add(pGameItem);
 			CControlUI *pText = pGameItem->FindSubControl(_T("searchitem_text"));
 			pText->SetText(sItem);

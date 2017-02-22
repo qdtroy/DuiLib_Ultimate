@@ -329,10 +329,10 @@ class CDialogBuilderCallbackEx : public IDialogBuilderCallback
 public:
 	CControlUI* CreateControl(LPCTSTR pstrClass) 
 	{
-		//if( _tcsicmp(pstrClass, _T("GameList")) == 0 ) return new CGameListUI;
-		//else if( _tcsicmp(pstrClass, _T("GameItem")) == 0 ) return new CGameItemUI;
-		//else if( _tcsicmp(pstrClass, _T("ShortCut")) == 0 ) return new CShortCutUI;
-		//else if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutilineUI;
+		if( _tcsicmp(pstrClass, _T("GameList")) == 0 ) return new CGameListUI;
+		else if( _tcsicmp(pstrClass, _T("GameItem")) == 0 ) return new CGameItemUI;
+		else if( _tcsicmp(pstrClass, _T("ShortCut")) == 0 ) return new CShortCutUI;
+		else if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutilineUI;
 		return NULL;
 	}
 };

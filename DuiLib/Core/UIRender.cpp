@@ -513,7 +513,6 @@ namespace DuiLib {
 					}
 					if( hz == NULL ) break;
 					ZIPENTRY ze; 
-					ZIPENTRY ze; 
 					int i = 0; 
 					CDuiString key = bitmap.m_lpstr;
 					key.Replace(_T("\\"), _T("/")); 

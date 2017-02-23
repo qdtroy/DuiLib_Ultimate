@@ -328,8 +328,10 @@ namespace DuiLib {
 					}
 					if( hz == NULL ) break;
 					ZIPENTRY ze; 
-					int i; 
-					if( FindZipItem(hz, bitmap.m_lpstr, true, &i, &ze) != 0 ) break;
+					int i = 0; 
+					CDuiString key = bitmap.m_lpstr;
+					key.Replace(_T("\\"), _T("/"));
+					if( FindZipItem(hz, key, true, &i, &ze) != 0 ) break;
 					dwSize = ze.unc_size;
 					if( dwSize == 0 ) break;
 					pData = new BYTE[ dwSize ];
@@ -511,8 +513,11 @@ namespace DuiLib {
 					}
 					if( hz == NULL ) break;
 					ZIPENTRY ze; 
-					int i; 
-					if( FindZipItem(hz, bitmap.m_lpstr, true, &i, &ze) != 0 ) break;
+					ZIPENTRY ze; 
+					int i = 0; 
+					CDuiString key = bitmap.m_lpstr;
+					key.Replace(_T("\\"), _T("/")); 
+					if( FindZipItem(hz, key, true, &i, &ze) != 0 ) break;
 					dwSize = ze.unc_size;
 					if( dwSize == 0 ) break;
 					pData = new BYTE[ dwSize ];
@@ -640,8 +645,10 @@ namespace DuiLib {
 				}
 				if( hz == NULL ) break;
 				ZIPENTRY ze; 
-				int i; 
-				if( FindZipItem(hz, pstrPath, true, &i, &ze) != 0 ) break;
+				int i = 0; 
+				CDuiString key = pstrPath;
+				key.Replace(_T("\\"), _T("/"));
+				if( FindZipItem(hz, key, true, &i, &ze) != 0 ) break;
 				dwSize = ze.unc_size;
 				if( dwSize == 0 ) break;
 				pData = new BYTE[ dwSize ];

@@ -505,6 +505,12 @@ LRESULT CMainWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 	{
 		bHandled = FALSE;
 	}
+	else if(uMsg == WM_SHOWWINDOW)
+	{
+		bHandled = FALSE;
+		m_pMinBtn->NeedParentUpdate();
+		InvalidateRect(m_hWnd, NULL, TRUE);
+	}
 	else if(uMsg == WM_SYSKEYDOWN || uMsg == WM_KEYDOWN) {
 		int a = 0;
 	}

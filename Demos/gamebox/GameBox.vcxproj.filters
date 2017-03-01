@@ -29,6 +29,9 @@
     <ClCompile Include="ShortCutUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ControlEx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControlEx.h">
@@ -43,13 +46,13 @@
     <ClInclude Include="SearchWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LableEx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameItemUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ShortCutUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LabelEx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

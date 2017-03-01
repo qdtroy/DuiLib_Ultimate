@@ -377,8 +377,10 @@ bool CMarkup::LoadFromFile(LPCTSTR pstrFilename, int encoding)
 		}
         if( hz == NULL ) return _Failed(_T("Error opening zip file"));
         ZIPENTRY ze; 
-        int i; 
-        if( FindZipItem(hz, pstrFilename, true, &i, &ze) != 0 ) return _Failed(_T("Could not find ziped file"));
+        int i = 0; 
+		CDuiString key = pstrFilename;
+		key.Replace(_T("\\"), _T("/"));
+        if( FindZipItem(hz, key, true, &i, &ze) != 0 ) return _Failed(_T("Could not find ziped file"));
         DWORD dwSize = ze.unc_size;
         if( dwSize == 0 ) return _Failed(_T("File is empty"));
         if ( dwSize > 4096*1024 ) return _Failed(_T("File too large"));

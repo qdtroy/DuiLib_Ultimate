@@ -3,16 +3,18 @@
 
 #include <vector>
 #include <math.h>
-#include "LableEx.h"
+#include "LabelEx.h"
 #include "GameItemUI.h"
 #include "ShortCutUI.h"
+
 inline double CalculateDelay(double state) {
 	return pow(state, 2);
 }
 
 // category(0)->game(1)
-class GameListUI : public CListUI
+class CGameListUI : public CListUI
 {
+	DECLARE_DUICONTROL(CGameListUI)
 public:
 	enum { SCROLL_TIMERID = 10 };
 
@@ -76,7 +78,7 @@ public:
 		}
 	};	
 
-	GameListUI() : _root(NULL), m_dwDelayDeltaY(0), m_dwDelayNum(0), m_dwDelayLeft(0)
+	CGameListUI() : _root(NULL), m_dwDelayDeltaY(0), m_dwDelayNum(0), m_dwDelayLeft(0)
 	{
 		SetItemShowHtml(true);
 
@@ -86,7 +88,7 @@ public:
 		_root->data()._pListElement = NULL;
 	}
 
-	~GameListUI() { if(_root) delete _root; }
+	~CGameListUI() { if(_root) delete _root; }
 
 	bool Add(CControlUI* pControl)
 	{
@@ -295,7 +297,7 @@ public:
 			CControlUI* control = GetItemAt(i);
 			if( _tcscmp(control->GetClass(), _T("ListLabelElementUI")) == 0 ) {
 				
-				Node* local_parent = ((GameListUI::Node*)control->GetTag())->parent();
+				Node* local_parent = ((CGameListUI::Node*)control->GetTag())->parent();
 				control->SetInternVisible(local_parent->data()._expand && local_parent->data()._pListElement->IsVisible());
 			}
 		}
@@ -327,11 +329,11 @@ class CDialogBuilderCallbackEx : public IDialogBuilderCallback
 public:
 	CControlUI* CreateControl(LPCTSTR pstrClass) 
 	{
-		if( _tcsicmp(pstrClass, _T("GameList")) == 0 ) return new GameListUI;
-			else if( _tcsicmp(pstrClass, _T("GameItem")) == 0 ) return new CGameItemUI;
-			else if( _tcsicmp(pstrClass, _T("ShortCut")) == 0 ) return new CShortCutUI;
-			else if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutiline;
-			return NULL;
+		if( _tcsicmp(pstrClass, _T("GameList")) == 0 ) return new CGameListUI;
+		else if( _tcsicmp(pstrClass, _T("GameItem")) == 0 ) return new CGameItemUI;
+		else if( _tcsicmp(pstrClass, _T("ShortCut")) == 0 ) return new CShortCutUI;
+		else if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutilineUI;
+		return NULL;
 	}
 };
 

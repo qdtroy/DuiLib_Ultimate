@@ -1,15 +1,29 @@
 #ifndef __SEARCHWND_H__
 #define __SEARCHWND_H__
 
-class CSearchWnd : public CWindowWnd, public INotifyUI
+class CSearchWnd : public WindowImplBase
 {
 public:
 	CSearchWnd(CControlUI *pOwner) : m_pOwner(pOwner) { }
 
+	CDuiString GetSkinFile()
+	{
+		return _T("search.xml");
+	}
+
+	CControlUI* CreateControl(LPCTSTR pstrClass)
+	{
+		if( _tcsicmp(pstrClass, _T("GameList")) == 0 ) return new CGameListUI;
+		else if( _tcsicmp(pstrClass, _T("GameItem")) == 0 ) return new CGameItemUI;
+		else if( _tcsicmp(pstrClass, _T("ShortCut")) == 0 ) return new CShortCutUI;
+		else if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutilineUI;
+		return NULL;
+	}
+
 public:
 	void ShowWindow(bool bShow /* = true */, bool bTakeFocus  = true )
 	{
-		CWindowWnd::ShowWindow(bShow, bTakeFocus);
+		WindowImplBase::ShowWindow(bShow, bTakeFocus);
 		AdjustPos();
 	}
 
@@ -18,10 +32,11 @@ public:
 		CListUI* pGameList = static_cast<CListUI*>(m_pm.FindControl(_T("searchlist")));
 		if(pGameList != NULL)
 		{
+			CDialogBuilderCallbackEx callback;
 			CDialogBuilder builder;
-			CListContainerElementUI* pGameItem = static_cast<CListContainerElementUI*>(builder.Create(_T("searchitem.xml"), (UINT)0));
-			CControlUI *pText = pGameItem->FindSubControl(_T("searchitem_text"));
+			CListContainerElementUI* pGameItem = static_cast<CListContainerElementUI*>(builder.Create(_T("searchitem.xml"), (UINT)0, &callback));
 			pGameList->Add(pGameItem);
+			CControlUI *pText = pGameItem->FindSubControl(_T("searchitem_text"));
 			pText->SetText(sItem);
 		
 			AdjustPos();
@@ -47,7 +62,6 @@ public:
 			for (int i = 0; i< pGameList->GetCount(); i++)
 			{
 				CControlUI *pItem = pGameList->GetItemAt(i);
-
 				if(pItem != NULL) nHeight += pItem->GetFixedHeight();
 			}
 
@@ -57,6 +71,7 @@ public:
 			SetWindowPos(m_hWnd, NULL, 0, 0, rcWnd.right - rcWnd.left, nHeight, SWP_NOACTIVATE | SWP_NOMOVE);
 		}
 	}
+
 public:
 	LPCTSTR GetWindowClassName() const { return _T("MenuWnd"); }
 	void OnFinalMessage(HWND /*hWnd*/) { delete this; }
@@ -71,25 +86,6 @@ public:
 				if( m_pOwner ) m_pOwner->GetManager()->SendNotify(pGameList->GetItemAt(pGameList->GetCurSel()), _T("itemselect"), pGameList->GetCurSel(), 0, true);
 			}
 		}
-	}
-
-	HWND Create(HWND hwndParent, LPCTSTR pstrName, DWORD dwStyle, DWORD dwExStyle, int x = CW_USEDEFAULT, int y = CW_USEDEFAULT, int cx = CW_USEDEFAULT, int cy = CW_USEDEFAULT, HMENU hMenu = NULL)
-	{
-		dwExStyle |= WS_EX_TOOLWINDOW;
-		return CWindowWnd::Create(hwndParent, pstrName, dwStyle, dwExStyle, x, y, cx, cy, hMenu);
-	}
-
-	LRESULT OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
-	{
-		m_pm.Init(m_hWnd);
-		CDialogBuilder builder;
-		CControlUI* pRoot = builder.Create(_T("search.xml"), (UINT)0, NULL, &m_pm);
-		ASSERT(pRoot && "Failed to parse XML");
-		m_pm.AttachDialog(pRoot);
-		m_pm.AddNotifier(this);
-		m_pm.SetRoundCorner(3, 3);
-
-		return 0;
 	}
 
 	LRESULT OnKillFocus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
@@ -107,24 +103,21 @@ public:
 		return 0;
 	}
 
-	LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
+	LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		LRESULT lRes = 0;
 		BOOL bHandled = TRUE;
 		switch( uMsg ) {
-		case WM_CREATE:        lRes = OnCreate(uMsg, wParam, lParam, bHandled); break;
 		case WM_KILLFOCUS:     lRes = OnKillFocus(uMsg, wParam, lParam, bHandled); break; 
 		case WM_KEYDOWN:       lRes = OnKeyDown(uMsg, wParam, lParam, bHandled); break;
 		default:
 			bHandled = FALSE;
 		}
-		if( bHandled ) return lRes;
-		if( m_pm.MessageHandler(uMsg, wParam, lParam, lRes) ) return lRes;
-		return CWindowWnd::HandleMessage(uMsg, wParam, lParam);
+
+		return 0L;
 	}
 
 public:
-	CPaintManagerUI m_pm;
 	CControlUI* m_pOwner;
 	POINT m_ptPos;
 };

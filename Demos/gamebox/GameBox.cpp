@@ -19,63 +19,58 @@ public:
 	
 	CControlUI* CreateControl(LPCTSTR pstrClass)
 	{
-		if( _tcsicmp(pstrClass, _T("GameList")) == 0 ) return new GameListUI;
+		if( _tcsicmp(pstrClass, _T("GameList")) == 0 ) return new CGameListUI;
 		else if( _tcsicmp(pstrClass, _T("GameItem")) == 0 ) return new CGameItemUI;
 		else if( _tcsicmp(pstrClass, _T("ShortCut")) == 0 ) return new CShortCutUI;
-		else if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutiline;
+		else if( _tcsicmp(pstrClass, _T("LabelMutiline")) == 0 ) return new CLabelMutilineUI;
 		return NULL;
 	}
+
 public:
-	void InitWindow() {
+	void InitWindow()
+	{
+		// 搜索窗口
 		m_pSearchWnd  = new CSearchWnd(m_pm.GetRoot());
 		m_pSearchWnd->Create(m_hWnd,  _T("searchwnd"), WS_POPUP, WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
 		::SetWindowPos(m_pSearchWnd->GetHWND(), NULL, 0,0,1,1, SWP_NOACTIVATE);
 		m_pSearchWnd->ShowWindow(true);
-		m_pGameList = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("gamelist")));
-		m_pBaiduList = static_cast<CTileLayoutUI*>(m_pm.FindControl(_T("baidulist")));
-		m_pFindList = static_cast<CHorizontalLayoutUI*>(m_pm.FindControl(_T("findlist")));
 
-		//CWebBrowserUI* pBrowser = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("baidubrowser")));
-		//pBrowser->SetWebBrowserEventHandler(this);
-	}
+		// 初始化控件
+		m_pGameList = (CTileLayoutUI*)(m_pm.FindControl(_T("gamelist")));
+		m_pFindList = (CHorizontalLayoutUI*)(m_pm.FindControl(_T("findlist")));
 
-	void OnPrepare() {
+		
+		CDialogBuilderCallbackEx callback;
 		for (int i = 0; i < 60; i++)
 		{
-			CDialogBuilderCallbackEx callback;
 			CDialogBuilder builder;
-			CContainerUI* pGameItem = static_cast<CContainerUI*>(builder.Create(_T("gameitem.xml"), (UINT)0, &callback));
+			CControlUI* pGameItem = static_cast<CControlUI*>(builder.Create(_T("gameitem.xml"), (UINT)0, &callback, &m_pm));
 			m_pGameList->Add(pGameItem);
-
-			CLabelUI *pIcon = static_cast<CLabelUI*>(pGameItem->FindSubControl(_T("gameitem_icon")));
-			CLabelUI *pText = static_cast<CLabelUI*>(pGameItem->FindSubControl(_T("gameitem_text")));
-
-			//CDuiString sText;
-			//sText.Format(_T("游戏%d"), i);
-			//pText->SetText(sText);
+			CDuiString sText;
+			sText.Format(_T("游戏%d"), i);
+			pGameItem->SetText(sText);
 		}
 
-		for (int i = 0; i < 6; i++)
-		{
-			CDialogBuilderCallbackEx callback;
-			CDialogBuilder builder;
-			CContainerUI* pGameItem = static_cast<CContainerUI*>(builder.Create(_T("gameitem.xml"), (UINT)0, &callback));
-			//m_pFindList->Add(pGameItem);
+		if(m_pFindList) {
+			for (int i = 0; i < 6; i++)
+			{
+				CDialogBuilder builder;
+				CControlUI* pGameItem = static_cast<CControlUI*>(builder.Create(_T("gameitem.xml"), (UINT)0, &callback, &m_pm));
+				m_pFindList->Add(pGameItem);
 
-			CLabelUI *pIcon = static_cast<CLabelUI*>(pGameItem->FindSubControl(_T("gameitem_icon")));
-			CLabelUI *pText = static_cast<CLabelUI*>(pGameItem->FindSubControl(_T("gameitem_text")));
+				CDuiString sText;
+				sText.Format(_T("查找-游戏%d"), i);
+				pGameItem->SetText(sText);
+			}
 
-			//CDuiString sText;
-			//sText.Format(_T("查找-游戏%d"), i);
-			//pText->SetText(sText);
 		}
-
+		
 		// 添加游戏列表
-		GameListUI::Node* pGameNode = NULL;
-		GameListUI::Node* pCategoryNode1 = AddCategoryNode(_T("分类一"), 1);
-		GameListUI::Node* pCategoryNode2 = AddCategoryNode(_T("分类二"), 1);
-		GameListUI::Node* pCategoryNode3 = AddCategoryNode(_T("分类三"), 1);
-		GameListUI::Node* pCategoryNode4 = AddCategoryNode(_T("分类四"), 1);
+		CGameListUI::Node* pGameNode = NULL;
+		CGameListUI::Node* pCategoryNode1 = AddCategoryNode(_T("分类一"), 1);
+		CGameListUI::Node* pCategoryNode2 = AddCategoryNode(_T("分类二"), 1);
+		CGameListUI::Node* pCategoryNode3 = AddCategoryNode(_T("分类三"), 1);
+		CGameListUI::Node* pCategoryNode4 = AddCategoryNode(_T("分类四"), 1);
 
 		for( int i = 0; i < 6; ++i )
 		{
@@ -85,9 +80,8 @@ public:
 			AddGameNode(_T("二级游戏"), pCategoryNode4, i);
 		}
 
-		GameListUI* pGameList = static_cast<GameListUI*>(m_pm.FindControl(_T("categorylist")));
+		CGameListUI* pGameList = static_cast<CGameListUI*>(m_pm.FindControl(_T("categorylist")));
 		pGameList->RemoveNode(pCategoryNode4);
-
 	}
 
 	void OnSearchEditChanged()
@@ -114,8 +108,8 @@ public:
 		if(sName.CompareNoCase(_T("foldbtn")) == 0)
 		{
 			pControl->SetVisible(false);
-			GameListUI* pGameList = static_cast<GameListUI*>(m_pm.FindControl(_T("categorylist")));
-			GameListUI::Node *pRoot = pGameList->GetRoot();
+			CGameListUI* pGameList = static_cast<CGameListUI*>(m_pm.FindControl(_T("categorylist")));
+			CGameListUI::Node *pRoot = pGameList->GetRoot();
 			for(int i = 0; i < pRoot->num_children(); i++)
 			{
 				pGameList->ExpandNode(pRoot->child(i), false);
@@ -127,8 +121,8 @@ public:
 		else if(sName.CompareNoCase(_T("unfoldbtn")) == 0)
 		{
 			pControl->SetVisible(false);
-			GameListUI* pGameList = static_cast<GameListUI*>(m_pm.FindControl(_T("categorylist")));
-			GameListUI::Node *pRoot = pGameList->GetRoot();
+			CGameListUI* pGameList = static_cast<CGameListUI*>(m_pm.FindControl(_T("categorylist")));
+			CGameListUI::Node *pRoot = pGameList->GetRoot();
 			for(int i = 0; i < pRoot->num_children(); i++)
 			{
 				pGameList->ExpandNode(pRoot->child(i), true);
@@ -189,11 +183,11 @@ public:
 		return S_OK;
 	}
 
-	void OnCategorySelect(GameListUI *pList, int nCurSel, int nOldSel)
+	void OnCategorySelect(CGameListUI *pList, int nCurSel, int nOldSel)
 	{
 		CListLabelElementUI *pItem = (CListLabelElementUI*)pList->GetItemAt(nCurSel);
 		if( _tcscmp(pItem->GetClass(), _T("ListLabelElementUI")) == 0 ) {
-			GameListUI::Node* node = (GameListUI::Node*)pItem->GetTag();
+			CGameListUI::Node* node = (CGameListUI::Node*)pItem->GetTag();
 			if( node->data()._level == 0 ) {
 				if(node->data()._expand) pList->SelectItem(nCurSel + 1);
 			}
@@ -225,27 +219,27 @@ public:
 		}
 	}
 public:
-	GameListUI::Node* AddCategoryNode(CDuiString sText, int nID)
+	CGameListUI::Node* AddCategoryNode(CDuiString sText, int nID)
 	{
-		GameListUI* pGameList = static_cast<GameListUI*>(m_pm.FindControl(_T("categorylist")));
+		CGameListUI* pGameList = static_cast<CGameListUI*>(m_pm.FindControl(_T("categorylist")));
 		if(!pGameList) return NULL;
 		CDuiString sIcon = _T("gameicons.png");
 		CDuiString sFormat;
 		sFormat.Format(_T("{x 4}{i %s 2 0}{x 4}%s"), sIcon.GetData(), sText.GetData());
-		GameListUI::Node* pCategoryNode = pGameList->AddNode(sFormat, nID);
+		CGameListUI::Node* pCategoryNode = pGameList->AddNode(sFormat, nID);
 
 		return pCategoryNode;
 	}
 
-	GameListUI::Node* AddGameNode(CDuiString sText, GameListUI::Node *Category, int nID)
+	CGameListUI::Node* AddGameNode(CDuiString sText, CGameListUI::Node *Category, int nID)
 	{
-		GameListUI* pGameList = (GameListUI*)Category->data()._pListElement->GetOwner();
+		CGameListUI* pGameList = (CGameListUI*)Category->data()._pListElement->GetOwner();
 		if(!pGameList) return NULL;
 		CDuiString sIcon = _T("gameicons.png");
 		CDuiString sFormat;
 		sFormat.Format(_T("{x 4}{i %s 2 1}{x 4}%s"), sIcon.GetData(), sText.GetData());
 
-		GameListUI::Node* pGameNode = pGameList->AddNode(sFormat, nID, Category);
+		CGameListUI::Node* pGameNode = pGameList->AddNode(sFormat, nID, Category);
 
 		return pGameNode;
 	}
@@ -257,8 +251,7 @@ public:
 
 	void Notify(TNotifyUI& msg)
 	{
-		if( msg.sType == _T("windowinit") ) OnPrepare();
-		else if( msg.sType == _T("click") ) {
+		if( msg.sType == _T("click") ) {
 			// 按钮消息
 			OnLClick(msg.pSender);
 		}
@@ -282,11 +275,11 @@ public:
 				pControl->SelectItem(1);
 		}
 		else if( msg.sType == _T("itemclick") ) {
-			GameListUI* pGameList = static_cast<GameListUI*>(m_pm.FindControl(_T("categorylist")));
+			CGameListUI* pGameList = static_cast<CGameListUI*>(m_pm.FindControl(_T("categorylist")));
 			if( pGameList->GetItemIndex(msg.pSender) != -1 )
 			{
 				if( _tcscmp(msg.pSender->GetClass(), _T("ListLabelElementUI")) == 0 ) {
-					GameListUI::Node* node = (GameListUI::Node*)msg.pSender->GetTag();
+					CGameListUI::Node* node = (CGameListUI::Node*)msg.pSender->GetTag();
 
 					POINT pt = { 0 };
 					::GetCursorPos(&pt);
@@ -300,7 +293,7 @@ public:
 		}
 		else if(msg.sType == _T("itemselect"))
 		{
-			GameListUI* pGameList = static_cast<GameListUI*>(m_pm.FindControl(_T("categorylist")));
+			CGameListUI* pGameList = static_cast<CGameListUI*>(m_pm.FindControl(_T("categorylist")));
 			if( pGameList == msg.pSender )
 			{
 				OnCategorySelect(pGameList, (int)msg.wParam, (int)msg.lParam);
@@ -311,11 +304,11 @@ public:
 			}
 		}
 		else if( msg.sType == _T("itemactivate") ) {
-			GameListUI* pGameList = static_cast<GameListUI*>(m_pm.FindControl(_T("categorylist")));
+			CGameListUI* pGameList = static_cast<CGameListUI*>(m_pm.FindControl(_T("categorylist")));
 			if( pGameList->GetItemIndex(msg.pSender) != -1 )
 			{
 				if( _tcscmp(msg.pSender->GetClass(), _T("ListLabelElementUI")) == 0 ) {
-					GameListUI::Node* node = (GameListUI::Node*)msg.pSender->GetTag();
+					CGameListUI::Node* node = (CGameListUI::Node*)msg.pSender->GetTag();
 					pGameList->ExpandNode(node, !node->data()._expand);
 
 					if( node->data()._level == 0 && node->data()._expand) {
@@ -327,11 +320,11 @@ public:
 
 		return WindowImplBase::Notify(msg);
 	}
+
 	LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled)
 	{
 		bHandled = TRUE;
 		PostQuitMessage(0);
-
 		return 0;
 	}
 	LRESULT OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
@@ -381,22 +374,6 @@ public:
 				bHandled = FALSE;
 				break;
 			}
-		case  WM_MOUSEWHEEL:
-			{
-				POINT ptMouse;
-				GetCursorPos(&ptMouse);
-				HWND hWnd = WindowFromPoint(ptMouse);
-
-				if(::IsWindow(hWnd) && hWnd == m_pSearchWnd->GetHWND())
-				{
-					::SendMessage(hWnd, WM_MOUSEWHEEL, wParam, lParam);
-				}
-				else
-				{
-					bHandled = FALSE;
-				}
-				break;
-			}
 		default:
 			bHandled = FALSE;
 		}
@@ -406,7 +383,6 @@ public:
 
 public:
 	CTileLayoutUI* m_pGameList;
-	CTileLayoutUI* m_pBaiduList;
 	CHorizontalLayoutUI* m_pFindList;
 	CSearchWnd *m_pSearchWnd;
 };
@@ -471,6 +447,13 @@ void InitResource()
 		}
 		break;
 	}
+
+
+	// 注册控件
+	//REGIST_DUICONTROL(CLabelIconUI);
+	//REGIST_DUICONTROL(CGameItemUI);
+	//REGIST_DUICONTROL(CGameListUI);
+	//REGIST_DUICONTROL(CLabelMutilineUI);
 }
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)

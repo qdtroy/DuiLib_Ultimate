@@ -1,6 +1,7 @@
 #ifndef __CONTROLEX_H__
 #define __CONTROLEX_H__
 
+
 class CCircleProgressUI : public CProgressUI
 {
 	DECLARE_DUICONTROL(CCircleProgressUI)
@@ -41,6 +42,30 @@ public:
 	void PaintForeImage(HDC hDC)
 	{
 		
+	}
+};
+
+
+class CMyComboUI : public CComboUI
+{
+	DECLARE_DUICONTROL(CMyComboUI)
+public:
+	CMyComboUI()
+	{
+	}
+
+	LPCTSTR GetClass() const
+	{
+		return _T("MyCombo" );
+	}
+
+	void PaintBkColor(HDC hDC)
+	{
+		Gdiplus::Graphics g(hDC);
+		RECT rcPos = GetPos();
+		Gdiplus::SolidBrush brush(m_dwBackColor);
+		g.FillPie(&brush, rcPos.left, rcPos.top, rcPos.right - rcPos.left, rcPos.bottom - rcPos.top, 0, 360);
+		g.ReleaseHDC(hDC);
 	}
 };
 

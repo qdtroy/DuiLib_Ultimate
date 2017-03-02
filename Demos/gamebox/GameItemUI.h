@@ -1,8 +1,9 @@
 #pragma once
-#include "LableEx.h"
+#include "LabelEx.h"
 
 class CGameItemUI : public DuiLib::COptionUI
 {
+		DECLARE_DUICONTROL(CGameItemUI)
 public:
 	CGameItemUI();
 	~CGameItemUI(void);

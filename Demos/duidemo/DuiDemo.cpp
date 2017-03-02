@@ -72,6 +72,7 @@ void InitResource()
 
 	// ×¢²á¿Ø¼þ
 	REGIST_DUICONTROL(CCircleProgressUI);
+	REGIST_DUICONTROL(CMyComboUI);
 	REGIST_DUICONTROL(CChartViewUI);
 	REGIST_DUICONTROL(CWndUI);
 }

@@ -1,6 +1,13 @@
 #include "StdAfx.h"
 #include <zmouse.h>
 
+DECLARE_HANDLE(HZIP);	// An HZIP identifies a zip file that has been opened
+typedef DWORD ZRESULT;
+#define OpenZip OpenZipU
+#define CloseZip(hz) CloseZipU(hz)
+extern HZIP OpenZipU(void *z,unsigned int len,DWORD flags);
+extern ZRESULT CloseZipU(HZIP hz);
+
 namespace DuiLib {
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -186,7 +193,6 @@ namespace DuiLib {
 	HINSTANCE CPaintManagerUI::m_hResourceInstance = NULL;
 	CDuiString CPaintManagerUI::m_pStrResourcePath;
 	CDuiString CPaintManagerUI::m_pStrResourceZip;
-	CDuiString CPaintManagerUI::m_pStrResourceZipPwd;  //Garfield 20160325 带密码zip包解密
 	HANDLE CPaintManagerUI::m_hResourceZip = NULL;
 	bool CPaintManagerUI::m_bCachedResourceZip = true;
 	int CPaintManagerUI::m_nResType = UILIB_FILE;
@@ -291,50 +297,9 @@ namespace DuiLib {
 
 	CPaintManagerUI::~CPaintManagerUI()
 	{
-		// Delete the control-tree structures
-		for( int i = 0; i < m_aDelayedCleanup.GetSize(); i++ ) delete static_cast<CControlUI*>(m_aDelayedCleanup[i]);
-		for( int i = 0; i < m_aAsyncNotify.GetSize(); i++ ) delete static_cast<TNotifyUI*>(m_aAsyncNotify[i]);
-		m_mNameHash.Resize(0);
-		if( m_pRoot != NULL ) delete m_pRoot;
 
-		::DeleteObject(m_ResInfo.m_DefaultFontInfo.hFont);
-		RemoveAllFonts();
-		RemoveAllImages();
-		RemoveAllStyle();
-		RemoveAllDefaultAttributeList();
-		RemoveAllWindowCustomAttribute();
-		RemoveAllOptionGroups();
-		RemoveAllTimers();
-		RemoveAllDrawInfos();
-
-		if( m_hwndTooltip != NULL ) {
-			::DestroyWindow(m_hwndTooltip);
-			m_hwndTooltip = NULL;
-		}
-		if (!m_aFonts.IsEmpty()) {
-			for (int i = 0; i < m_aFonts.GetSize();++i)
-			{
-				HANDLE handle = static_cast<HANDLE>(m_aFonts.GetAt(i));
-				::RemoveFontMemResourceEx(handle);
-			}
-		}
-		if( m_hDcOffscreen != NULL ) ::DeleteDC(m_hDcOffscreen);
-		if( m_hDcBackground != NULL ) ::DeleteDC(m_hDcBackground);
-		if( m_hbmpOffscreen != NULL ) ::DeleteObject(m_hbmpOffscreen);
-		if( m_hbmpBackground != NULL ) ::DeleteObject(m_hbmpBackground);
-		if( m_hDcPaint != NULL ) ::ReleaseDC(m_hWndPaint, m_hDcPaint);
-		m_aPreMessages.Remove(m_aPreMessages.Find(this));
-		// 销毁拖拽图片
-		if( m_hDragBitmap != NULL ) ::DeleteObject(m_hDragBitmap);
-		//卸载GDIPlus
-		Gdiplus::GdiplusShutdown(m_gdiplusToken);
-		delete m_pGdiplusStartupInput;
-		// DPI管理对象
-		if (m_pDPI != NULL) {
-			delete m_pDPI;
-			m_pDPI = NULL;
-		}
 	}
+
 
 	void CPaintManagerUI::Init(HWND hWnd, LPCTSTR pstrName)
 	{
@@ -360,6 +325,46 @@ namespace DuiLib {
 
 		SetTargetWnd(hWnd);
 		InitDragDrop();
+	}
+
+	void CPaintManagerUI::UnInit()
+	{
+		// Delete the control-tree structures
+		for (int i = 0; i < m_aDelayedCleanup.GetSize(); i++) delete static_cast<CControlUI*>(m_aDelayedCleanup[i]);
+		for (int i = 0; i < m_aAsyncNotify.GetSize(); i++) delete static_cast<TNotifyUI*>(m_aAsyncNotify[i]);
+		m_mNameHash.Resize(0);
+		if (m_pRoot != NULL) delete m_pRoot;
+
+		::DeleteObject(m_ResInfo.m_DefaultFontInfo.hFont);
+		RemoveAllFonts();
+		RemoveAllImages();
+		RemoveAllStyle();
+		RemoveAllDefaultAttributeList();
+		RemoveAllWindowCustomAttribute();
+		RemoveAllOptionGroups();
+		RemoveAllTimers();
+		RemoveAllDrawInfos();
+
+		if (m_hwndTooltip != NULL) {
+			::DestroyWindow(m_hwndTooltip);
+			m_hwndTooltip = NULL;
+		}
+		if (m_hDcOffscreen != NULL) ::DeleteDC(m_hDcOffscreen);
+		if (m_hDcBackground != NULL) ::DeleteDC(m_hDcBackground);
+		if (m_hbmpOffscreen != NULL) ::DeleteObject(m_hbmpOffscreen);
+		if (m_hbmpBackground != NULL) ::DeleteObject(m_hbmpBackground);
+		if (m_hDcPaint != NULL) ::ReleaseDC(m_hWndPaint, m_hDcPaint);
+		m_aPreMessages.Remove(m_aPreMessages.Find(this));
+		// 销毁拖拽图片
+		if (m_hDragBitmap != NULL) ::DeleteObject(m_hDragBitmap);
+		//卸载GDIPlus
+		Gdiplus::GdiplusShutdown(m_gdiplusToken);
+		delete m_pGdiplusStartupInput;
+		// DPI管理对象
+		if (m_pDPI != NULL) {
+			delete m_pDPI;
+			m_pDPI = NULL;
+		}
 	}
 
 	void CPaintManagerUI::DeletePtr(void* ptr)
@@ -407,11 +412,6 @@ namespace DuiLib {
 		return m_pStrResourceZip;
 	}
 
-	const CDuiString& CPaintManagerUI::GetResourceZipPwd()  //Garfield 20160325 带密码zip包解密
-	{
-		return m_pStrResourceZipPwd;
-	}
-	
 	bool CPaintManagerUI::IsCachedResourceZip()
 	{
 		return m_bCachedResourceZip;
@@ -445,7 +445,7 @@ namespace DuiLib {
 		if( cEnd != _T('\\') && cEnd != _T('/') ) m_pStrResourcePath += _T('\\');
 	}
 
-	void CPaintManagerUI::SetResourceZip(LPVOID pVoid, unsigned int len, LPCTSTR password)
+	void CPaintManagerUI::SetResourceZip(LPVOID pVoid, unsigned int len)
 	{
 		if( m_pStrResourceZip == _T("membuffer") ) return;
 		if( m_bCachedResourceZip && m_hResourceZip != NULL ) {
@@ -453,21 +453,11 @@ namespace DuiLib {
 			m_hResourceZip = NULL;
 		}
 		m_pStrResourceZip = _T("membuffer");
-		m_bCachedResourceZip = true;
-		m_pStrResourceZipPwd = password;  //Garfield 20160325 带密码zip包解密
 		if( m_bCachedResourceZip ) 
-		{
-#ifdef UNICODE
-			char* pwd = w2a((wchar_t*)password);
-			m_hResourceZip = (HANDLE)OpenZip(pVoid, len, pwd);
-			if(pwd) delete[] pwd;
-#else
-			m_hResourceZip = (HANDLE)OpenZip(pVoid, len, password);
-#endif
-		}
+			m_hResourceZip = (HANDLE)OpenZip(pVoid, len, 3);
 	}
 
-	void CPaintManagerUI::SetResourceZip(LPCTSTR pStrPath, bool bCachedResourceZip, LPCTSTR password)
+	void CPaintManagerUI::SetResourceZip(LPCTSTR pStrPath, bool bCachedResourceZip)
 	{
 		if( m_pStrResourceZip == pStrPath && m_bCachedResourceZip == bCachedResourceZip ) return;
 		if( m_bCachedResourceZip && m_hResourceZip != NULL ) {
@@ -476,17 +466,10 @@ namespace DuiLib {
 		}
 		m_pStrResourceZip = pStrPath;
 		m_bCachedResourceZip = bCachedResourceZip;
-		m_pStrResourceZipPwd = password;
 		if( m_bCachedResourceZip ) {
 			CDuiString sFile = CPaintManagerUI::GetResourcePath();
 			sFile += CPaintManagerUI::GetResourceZip();
-#ifdef UNICODE
-			char* pwd = w2a((wchar_t*)password);
-			m_hResourceZip = (HANDLE)OpenZip(sFile.GetData(), pwd);
-			if(pwd) if(pwd) delete[] pwd;
-#else
-			m_hResourceZip = (HANDLE)OpenZip(sFile.GetData(), password);
-#endif
+			m_hResourceZip = (HANDLE)OpenZip((void*)sFile.GetData(), 0, 2);
 		}
 	}
 	
@@ -1965,12 +1948,11 @@ namespace DuiLib {
 		}
 		RebuildFont(&m_SharedResInfo.m_DefaultFontInfo);
 
-		CStdPtrArray *richEditList = FindSubControlsByClass(GetRoot(), _T("RichEditUI"));
+		CStdPtrArray *richEditList = FindSubControlsByClass(GetRoot(), L"RichEditUI");
 		for (int i = 0; i < richEditList->GetSize(); i++)
 		{
 			CRichEditUI* pT = static_cast<CRichEditUI*>((*richEditList)[i]);
 			pT->SetFont(pT->GetFont());
-
 		}
 	}
 
@@ -2610,89 +2592,7 @@ namespace DuiLib {
 
 		return hFont;
 	}
-	void CPaintManagerUI::AddFontArray(LPCTSTR pstrPath) {
-		LPBYTE pData = NULL;
-		DWORD dwSize = 0;
-		do
-		{
-			CDuiString sFile = CPaintManagerUI::GetResourcePath();
-			if (CPaintManagerUI::GetResourceZip().IsEmpty()) {
-				sFile += pstrPath;
-				HANDLE hFile = ::CreateFile(sFile.GetData(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, \
-					FILE_ATTRIBUTE_NORMAL, NULL);
-				if (hFile == INVALID_HANDLE_VALUE) break;
-				dwSize = ::GetFileSize(hFile, NULL);
-				if (dwSize == 0) break;
 
-				DWORD dwRead = 0;
-				pData = new BYTE[dwSize];
-				::ReadFile(hFile, pData, dwSize, &dwRead, NULL);
-				::CloseHandle(hFile);
-
-				if (dwRead != dwSize) {
-					delete[] pData;
-					pData = NULL;
-					break;
-				}
-			}
-			else {
-				sFile += CPaintManagerUI::GetResourceZip();
-				HZIP hz = NULL;
-				if (CPaintManagerUI::IsCachedResourceZip()) hz = (HZIP)CPaintManagerUI::GetResourceZipHandle();
-				else {
-					CDuiString sFilePwd = CPaintManagerUI::GetResourceZipPwd();
-#ifdef UNICODE
-					char* pwd = w2a((wchar_t*)sFilePwd.GetData());
-					hz = OpenZip(sFile.GetData(), pwd);
-					if (pwd) delete[] pwd;
-#else
-					hz = OpenZip(sFile.GetData(), sFilePwd.GetData());
-#endif
-				}
-				if (hz == NULL) break;
-				ZIPENTRY ze;
-				int i = 0;
-				CDuiString key = pstrPath;
-				key.Replace(_T("\\"), _T("/"));
-				if (FindZipItem(hz, key, true, &i, &ze) != 0) break;
-				dwSize = ze.unc_size;
-				if (dwSize == 0) break;
-				pData = new BYTE[dwSize];
-				int res = UnzipItem(hz, i, pData, dwSize);
-				if (res != 0x00000000 && res != 0x00000600) {
-					delete[] pData;
-					pData = NULL;
-					if (!CPaintManagerUI::IsCachedResourceZip()) CloseZip(hz);
-					break;
-				}
-				if (!CPaintManagerUI::IsCachedResourceZip()) CloseZip(hz);
-			}
-
-		} while (0);
-
-		while (!pData)
-		{
-			//读不到图片, 则直接去读取bitmap.m_lpstr指向的路径
-			HANDLE hFile = ::CreateFile(pstrPath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-			if (hFile == INVALID_HANDLE_VALUE) break;
-			dwSize = ::GetFileSize(hFile, NULL);
-			if (dwSize == 0) break;
-
-			DWORD dwRead = 0;
-			pData = new BYTE[dwSize];
-			::ReadFile(hFile, pData, dwSize, &dwRead, NULL);
-			::CloseHandle(hFile);
-
-			if (dwRead != dwSize) {
-				delete[] pData;
-				pData = NULL;
-			}
-			break;
-		}
-		DWORD nFonts;
-		HANDLE hFont = ::AddFontMemResourceEx(pData, dwSize, NULL, &nFonts);
-		m_aFonts.Add(hFont);
-	}
 	HFONT CPaintManagerUI::GetFont(int id)
 	{
 		if (id < 0) return GetDefaultFontInfo()->hFont;

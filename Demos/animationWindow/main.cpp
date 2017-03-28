@@ -69,7 +69,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	InitResource();
 
 	CFrameWnd *pFrame = new CFrameWnd(_T("MainWnd.xml"));
-	pFrame->Create(NULL, _T("Redrain窗体动画demo"), UI_WNDSTYLE_FRAME, WS_EX_WINDOWEDGE);
+	pFrame->Create(NULL, _T("窗体动画"), UI_WNDSTYLE_FRAME, WS_EX_WINDOWEDGE);
 	pFrame->ShowModal();
 
 	delete pFrame;

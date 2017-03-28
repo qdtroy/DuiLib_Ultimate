@@ -234,7 +234,8 @@ namespace DuiLib {
 		m_trh(0),
 		m_bDragMode(false),
 		m_hDragBitmap(NULL),
-		m_pDPI(NULL)
+		m_pDPI(NULL),
+		m_nTooltipHoverTime(400UL)
 	{
 		if (m_SharedResInfo.m_DefaultFontInfo.sFontName.IsEmpty())
 		{
@@ -579,6 +580,15 @@ namespace DuiLib {
 	HWND CPaintManagerUI::GetTooltipWindow() const
 	{
 		return m_hwndTooltip;
+	}
+	int CPaintManagerUI::GetHoverTime() const
+	{
+		return m_nTooltipHoverTime;
+	}
+
+	void CPaintManagerUI::SetHoverTime(int iTime)
+	{
+		m_nTooltipHoverTime = iTime;
 	}
 
 	LPCTSTR CPaintManagerUI::GetName() const
@@ -1328,7 +1338,7 @@ namespace DuiLib {
 					tme.cbSize = sizeof(TRACKMOUSEEVENT);
 					tme.dwFlags = TME_HOVER | TME_LEAVE;
 					tme.hwndTrack = m_hWndPaint;
-					tme.dwHoverTime = m_hwndTooltip == NULL ? 400UL : (DWORD) ::SendMessage(m_hwndTooltip, TTM_GETDELAYTIME, TTDT_INITIAL, 0L);
+					tme.dwHoverTime = m_hwndTooltip == NULL ? m_nTooltipHoverTime : (DWORD) ::SendMessage(m_hwndTooltip, TTM_GETDELAYTIME, TTDT_INITIAL, 0L);
 					_TrackMouseEvent(&tme);
 					m_bMouseTracking = true;
 				}

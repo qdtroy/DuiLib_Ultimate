@@ -940,7 +940,6 @@ namespace DuiLib
 
 	void CContainerUI::ProcessScrollBar(RECT rc, int cxRequired, int cyRequired)
 	{
-		// by ±ùÏÂº£ 2015/08/16
 		while (m_pHorizontalScrollBar)
 		{
 			// Scroll needed

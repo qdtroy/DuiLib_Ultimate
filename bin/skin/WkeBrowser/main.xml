@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Window size="800,572" sizebox="4,4,6,6" roundcorner="0,0" caption="0,0,0,64" bktrans="false" mininfo="400,300" showshadow="true" shadowimage="imgs/main/shadow.png" shadowsize="6" shadowcorner="8,8,8,8">
+<Window size="800,572" sizebox="4,4,6,6" roundcorner="0,0" caption="0,0,0,64" bktrans="true" mininfo="400,300" showshadow="true" shadowimage="imgs/main/shadow.png" shadowsize="6" shadowcorner="8,8,8,8">
   <Font id="0" name="宋体" size="12" default="true" shared="true"/>
   <Font id="1810" name="宋体" size="18" bold="true" shared="true"/>
   
@@ -10,7 +10,7 @@
   <Style name="combo_style" value="height=&quot;22&quot; textpadding=&quot;4,1,22,1&quot; normalimage=&quot;file='imgs/common/combo.png' source='0,0,100,22' corner='2,2,20,2'&quot; hotimage=&quot;file='imgs/common/combo.png' source='0,22,100,44' corner='2,2,22,2'&quot; pushedimage=&quot;file='imgs/common/combo.png' source='0,44,100,66' corner='2,2,22,2'&quot;" />
   <Style name="edit_style" value="bkimage=&quot;res='imgs/common/edit_bk.png' corner='6,6,6,6'&quot;" />
 
-  <VerticalLayout name="root" bkimage="file='imgs/main/bg.jpg' fade='255'">
+  <VerticalLayout name="root" bkimage="file='imgs/main/bg.jpg' fade='128'">
     <HorizontalLayout name="header" height="64" >
       <Container width="64" height="64" bkimage="imgs/logo.png" />
 
@@ -52,7 +52,7 @@
       <Button name="newtab" width="18" height="18" maxheight="18" padding="0,5" normalimage="res='newtab' source='0,0,18,18'" hotimage="res='newtab' source='19,0,37,18'" pushedimage="res='newtab' source='38,0,56,18'"/>
     </BrowserTabBar>
 
-    <VerticalLayout name="body" bkcolor="#FFFFFFFF">
+    <VerticalLayout name="body" >
       <TabLayout name="browser_tabbody" />
     </VerticalLayout>
 

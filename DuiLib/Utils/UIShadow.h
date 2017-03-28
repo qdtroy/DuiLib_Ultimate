@@ -1,44 +1,8 @@
-// WndShadow.h : header file
-//
-// Version 0.1
-//
-// Copyright (c) 2006 Perry Zhu, All Rights Reserved.
-//
-// mailto:perry@live.com
-//
-//
-// This source file may be redistributed unmodified by any means PROVIDING 
-// it is NOT sold for profit without the authors expressed written 
-// consent, and providing that this notice and the author's name and all 
-// copyright notices remain intact. This software is by no means to be 
-// included as part of any third party components library, or as part any
-// development solution that offers MFC extensions that are sold for profit. 
-// 
-// If the source code is used in any commercial applications then a statement 
-// along the lines of:
-// 
-// "Portions Copyright (c) 2006 Perry Zhu" must be included in the "Startup 
-// Banner", "About Box" or "Printed Documentation". This software is provided 
-// "as is" without express or implied warranty. Use it at your own risk! The 
-// author accepts no liability for any damage/loss of business that this 
-// product may cause.
-//
-/////////////////////////////////////////////////////////////////////////////
-//****************************************************************************
-
-/********************************************************************
-	created:	2015/01/09
-	filename: 	UIShadow.h
-	author:		Redrain
-	
-	purpose:	DuiLib阴影类，在原WndShadow类的基础上，增加了通过PNG图片设置阴影的功能，并且把代码与DuiLib融合
-*********************************************************************/
-
 #ifndef __UISHADOW_H__
 #define __UISHADOW_H__
 
 #pragma once
-#include "map"
+#include <map>
 
 namespace DuiLib
 {

@@ -329,6 +329,9 @@ namespace DuiLib {
 						else if( _tcsicmp(pstrName, _T("textrenderinghint")) == 0 ) {
 							pManager->SetGdiplusTextRenderingHint(_ttoi(pstrValue));
 						} 
+						else if( _tcsicmp(pstrName, _T("tooltiphovertime")) == 0 ) {
+							pManager->SetHoverTime(_ttoi(pstrValue));
+						} 
 					}
 				}
 			}

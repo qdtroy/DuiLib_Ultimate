@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Window caption="0,0,0,97" size="600,384" mininfo="600,384" sizebox="6,6,6,6" layered="true" textrenderinghint="0">
+<Window caption="0,0,0,97" size="600,384" mininfo="600,384" sizebox="6,6,6,6" layered="true" textrenderinghint="0" showshadow="true" shadowimage="main/shadow.png" shadowsize="6" shadowcorner="8,8,8,8">
   <Font name="宋体" size="12" default="true"/>
 
-  <VerticalLayout bkimage="res='bg.png' corner='6,97,6,29' fade='180'">
-    <HorizontalLayout name="appbar" height="64" inset="0,-1">
-      <HorizontalLayout name="apptitle" childpadding="6" inset="0,3,0,0">
-        <Container padding="2,3,0,0" width="64" height="64" bkimage="logo.jpg" />
-        <VerticalLayout>
-          <Button name="homepage_btn" text="透明窗口演示 v1.0" width="180" align="vcenter" align="left" textcolor="#FF333333" hottextcolor="#FF0000FF" font="1" tooltip="官网"/>
-          <Label text="duilib开源项目圈（261675375）- By Troy(QQ：656067418)" align="left" textcolor="#FFFF0000"/>
+  <VerticalLayout name="root" bkcolor="#EE202223">
+    <HorizontalLayout name="appbar" height="64" >
+      <HorizontalLayout name="apptitle" childpadding="6">
+        <Container width="64" height="64" bkimage="logo.jpg" />
+        <VerticalLayout inset="0,10,0,0" childpadding="5">
+          <Label name="title_lb" text="duilib开源项目圈" valign="vcenter" align="left" wordbreak="true" textcolor="#FFEEEEEE" font="2" tooltip="duilib开源项目圈"/>
+          <HorizontalLayout height="20" childpadding="20">
+            <Button name="homepage_btn" cursor="hand" text="hometext" resourcetext="true" showhtml="true" autocalcwidth="true" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FFFF00FF" font="1" tooltip="官网"/>
+            <Button name="qqgroup_btn" cursor="hand" text="加入duilib开源项目圈（261675375）" showhtml="true" tooltip="加入duilib开源项目圈" width="220" autocalcwidth="true" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FFFF00FF" font="1" />
+            <Button name="qq_btn" cursor="hand" text="骚扰Troy(QQ：656067418)" width="170" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FFFF00FF" font="1" tooltip="添加Troy为QQ好友" />
+          </HorizontalLayout>
         </VerticalLayout>
       </HorizontalLayout>
-
       <Button name="minbtn" width="28" height="20" tooltip="最小化" normalimage="file='sysbtn/btn_mini_normal.png'" hotimage="file='sysbtn/btn_mini_highlight.png'" pushedimage="file='sysbtn/btn_mini_down.png' "/>
       <Button name="closebtn" width="39" height="20" tooltip="关闭" normalimage="file='sysbtn/btn_close_normal.png'" hotimage="file='sysbtn/btn_close_highlight.png'" pushedimage="file='sysbtn/btn_close_down.png' "/>
     </HorizontalLayout>
-    <VerticalLayout >
+    
+    <VerticalLayout bkcolor="#EEFFFFFF">
       <Control />
       <HorizontalLayout height="24" childpadding="12">
         <Edit name="edit1" tipvalue="普通" style="edit_style" />

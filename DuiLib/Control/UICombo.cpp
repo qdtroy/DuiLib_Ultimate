@@ -744,7 +744,6 @@ namespace DuiLib {
 		m_bScrollSelect = bScrollSelect;
 	}
 
-
 	void CComboUI::SetItemFont(int index)
 	{
 		m_ListInfo.nFont = index;
@@ -1018,7 +1017,7 @@ namespace DuiLib {
 			szDropBoxSize.cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 			SetDropBoxSize(szDropBoxSize);
 		}
-		else if( _tcsicmp(pstrName, _T("itemfont")) == 0 ) m_ListInfo.nFont = _ttoi(pstrValue);
+		else if( _tcsicmp(pstrName, _T("itemfont")) == 0 ) SetItemFont(_ttoi(pstrValue));
 		else if( _tcsicmp(pstrName, _T("itemalign")) == 0 ) {
 			if( _tcsstr(pstrValue, _T("left")) != NULL ) {
 				m_ListInfo.uTextStyle &= ~(DT_CENTER | DT_RIGHT);

@@ -36,6 +36,7 @@ namespace DuiLib {
 		bool bShowColumnLine;
 		bool bShowHtml;
 		bool bMultiExpandable;
+		bool bRSelected;
 	} TListInfoUI;
 
 
@@ -128,6 +129,9 @@ namespace DuiLib {
 		int GetSelectItemCount() const;
 		int GetNextSelItem(int nItem) const;
 
+		bool IsFixedScrollbar();
+		void SetFixedScrollbar(bool bFixed);
+
 		CListHeaderUI* GetHeader() const;  
 		CContainerUI* GetList() const;
 		UINT GetListType();
@@ -172,6 +176,8 @@ namespace DuiLib {
 		void SetItemShowColumnLine(bool bShowLine = false);
 		bool IsItemShowHtml();
 		void SetItemShowHtml(bool bShowHtml = true);
+		bool IsItemRSelected();
+		void SetItemRSelected(bool bSelected = true);
 		RECT GetItemTextPadding() const;
 		DWORD GetItemTextColor() const;
 		DWORD GetItemBkColor() const;
@@ -229,7 +235,9 @@ namespace DuiLib {
 	protected:
 		int GetMinSelItemIndex();
 		int GetMaxSelItemIndex();
+
 	protected:
+		bool m_bFixedScrollbar;
 		bool m_bScrollSelect;
 		int m_iCurSel;
 		bool m_bMultiSel;

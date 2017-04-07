@@ -38,6 +38,11 @@ namespace DuiLib
 		LPCTSTR GetSelectedForedImage();
 		void SetSelectedForedImage(LPCTSTR pStrImage);
 
+		void SetSelectedStateCount(int nCount);
+		int GetSelectedStateCount() const;
+		virtual LPCTSTR GetSelectedStateImage();
+		virtual void SetSelectedStateImage(LPCTSTR pStrImage);
+
 		LPCTSTR GetGroup() const;
 		void SetGroup(LPCTSTR pStrGroupName = NULL);
 		bool IsSelected() const;
@@ -61,6 +66,9 @@ namespace DuiLib
 		CDuiString		m_sSelectedHotImage;
 		CDuiString		m_sSelectedPushedImage;
 		CDuiString		m_sSelectedForeImage;
+
+		int m_nSelectedStateCount;
+		CDuiString m_sSelectedStateImage;
 	};
 
 	class UILIB_API CCheckBoxUI : public COptionUI

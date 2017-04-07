@@ -13,6 +13,7 @@ namespace DuiLib
 		, m_dwHotBkColor(0)
 		, m_dwPushedBkColor(0)
 		, m_iBindTabIndex(-1)
+		, m_nStateCount(0)
 	{
 		m_uTextStyle = DT_SINGLELINE | DT_VCENTER | DT_CENTER;
 	}
@@ -243,6 +244,29 @@ namespace DuiLib
 		Invalidate();
 	}
 
+	void CButtonUI::SetStateCount(int nCount)
+	{
+		m_nStateCount = nCount;
+		Invalidate();
+	}
+
+	int CButtonUI::GetStateCount() const
+	{
+		return m_nStateCount;
+	}
+
+	LPCTSTR CButtonUI::GetStateImage()
+	{
+		return m_sStateImage;
+	}
+
+	void CButtonUI::SetStateImage( LPCTSTR pStrImage )
+	{
+		m_sNormalImage.Empty();
+		m_sStateImage = pStrImage;
+		Invalidate();
+	}
+
 	void CButtonUI::BindTabIndex(int _BindTabIndex )
 	{
 		if( _BindTabIndex >= 0)
@@ -290,6 +314,8 @@ namespace DuiLib
 		else if( _tcsicmp(pstrName, _T("focusedimage")) == 0 ) SetFocusedImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("disabledimage")) == 0 ) SetDisabledImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("hotforeimage")) == 0 ) SetHotForeImage(pstrValue);
+		else if( _tcsicmp(pstrName, _T("stateimage")) == 0 ) SetStateImage(pstrValue);
+		else if( _tcsicmp(pstrName, _T("statecount")) == 0 ) SetStateCount(_ttoi(pstrValue));
 		else if( _tcsicmp(pstrName, _T("bindtabindex")) == 0 ) BindTabIndex(_ttoi(pstrValue));
 		else if( _tcsicmp(pstrName, _T("bindtablayoutname")) == 0 ) BindTabLayoutName(pstrValue);
 		else if( _tcsicmp(pstrName, _T("hotbkcolor")) == 0 )
@@ -389,6 +415,50 @@ namespace DuiLib
 
 	void CButtonUI::PaintStatusImage(HDC hDC)
 	{
+		if(!m_sStateImage.IsEmpty() && m_nStateCount > 0)
+		{
+			TDrawInfo info;
+			info.Parse(m_sStateImage, _T(""), m_pManager);
+			const TImageInfo* pImage = m_pManager->GetImageEx(info.sImageName, info.sResType, info.dwMask, info.bHSL);
+			if(m_sNormalImage.IsEmpty() && pImage != NULL)
+			{
+				SIZE szImage = {pImage->nX, pImage->nY};
+				SIZE szStatus = {pImage->nX / m_nStateCount, pImage->nY};
+				if( szImage.cx > 0 && szImage.cy > 0 )
+				{
+					RECT rcSrc = {0, 0, szImage.cx, szImage.cy};
+					if(m_nStateCount > 0) {
+						int iLeft = rcSrc.left + 0 * szStatus.cx;
+						int iRight = iLeft + szStatus.cx;
+						int iTop = rcSrc.top;
+						int iBottom = iTop + szStatus.cy;
+						m_sNormalImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom);
+					}
+					if(m_nStateCount > 1) {
+						int iLeft = rcSrc.left + 1 * szStatus.cx;
+						int iRight = iLeft + szStatus.cx;
+						int iTop = rcSrc.top;
+						int iBottom = iTop + szStatus.cy;
+						m_sHotImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom);
+					}
+					if(m_nStateCount > 2) {
+						int iLeft = rcSrc.left + 2 * szStatus.cx;
+						int iRight = iLeft + szStatus.cx;
+						int iTop = rcSrc.top;
+						int iBottom = iTop + szStatus.cy;
+						m_sPushedImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom);
+					}
+					if(m_nStateCount > 3) {
+						int iLeft = rcSrc.left + 3 * szStatus.cx;
+						int iRight = iLeft + szStatus.cx;
+						int iTop = rcSrc.top;
+						int iBottom = iTop + szStatus.cy;
+						m_sDisabledImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom);
+					}
+				}
+			}
+		}
+
 		if( IsFocused() ) m_uButtonState |= UISTATE_FOCUSED;
 		else m_uButtonState &= ~ UISTATE_FOCUSED;
 		if( !IsEnabled() ) m_uButtonState |= UISTATE_DISABLED;

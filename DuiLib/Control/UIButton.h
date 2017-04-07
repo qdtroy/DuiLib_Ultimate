@@ -32,6 +32,10 @@ namespace DuiLib
 		virtual void SetDisabledImage(LPCTSTR pStrImage);
 		virtual LPCTSTR GetHotForeImage();
 		virtual void SetHotForeImage(LPCTSTR pStrImage);
+		void SetStateCount(int nCount);
+		int GetStateCount() const;
+		virtual LPCTSTR GetStateImage();
+		virtual void SetStateImage(LPCTSTR pStrImage);
 
 		void BindTabIndex(int _BindTabIndex);
 		void BindTabLayoutName(LPCTSTR _TabLayoutName);
@@ -74,6 +78,8 @@ namespace DuiLib
 		CDuiString m_sPushedForeImage;
 		CDuiString m_sFocusedImage;
 		CDuiString m_sDisabledImage;
+		int m_nStateCount;
+		CDuiString m_sStateImage;
 
 		int			m_iBindTabIndex;
 		CDuiString	m_sBindTabLayoutName;

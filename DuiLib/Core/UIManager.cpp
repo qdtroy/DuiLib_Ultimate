@@ -1401,6 +1401,7 @@ namespace DuiLib {
 					dragSrcHelper.InitializeFromBitmap(hBitmap, ptDrag, rc, pdobj); //will own the bmp
 					DWORD dwEffect;
 					HRESULT hr = ::DoDragDrop(pdobj, pdsrc, DROPEFFECT_COPY | DROPEFFECT_MOVE, &dwEffect);
+					if(dwEffect )
 					pdsrc->Release();
 					pdobj->Release();
 					m_bDragMode = false;
@@ -2967,7 +2968,7 @@ namespace DuiLib {
 		if( bitmap == NULL || bitmap[0] == _T('\0') ) return NULL;
 
 		TImageInfo* data = NULL;
-		if( type != NULL ) {
+		if( type != NULL && lstrlen(type) > 0) {
 			if( isdigit(*bitmap) ) {
 				LPTSTR pstr = NULL;
 				int iIndex = _tcstol(bitmap, &pstr, 10);

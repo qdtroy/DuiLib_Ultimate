@@ -4,7 +4,7 @@
 namespace DuiLib
 {
 	IMPLEMENT_DUICONTROL(COptionUI)
-	COptionUI::COptionUI() : m_bSelected(false), m_dwSelectedTextColor(0), m_dwSelectedBkColor(0)
+	COptionUI::COptionUI() : m_bSelected(false), m_dwSelectedTextColor(0), m_dwSelectedBkColor(0), m_nSelectedStateCount(0)
 	{
 	}
 
@@ -176,6 +176,28 @@ namespace DuiLib
 		Invalidate();
 	}
 
+	void COptionUI::SetSelectedStateCount(int nCount)
+	{
+		m_nSelectedStateCount = nCount;
+		Invalidate();
+	}
+
+	int COptionUI::GetSelectedStateCount() const
+	{
+		return m_nSelectedStateCount;
+	}
+
+	LPCTSTR COptionUI::GetSelectedStateImage()
+	{
+		return m_sSelectedStateImage;
+	}
+
+	void COptionUI::SetSelectedStateImage( LPCTSTR pStrImage )
+	{
+		m_sSelectedStateImage = pStrImage;
+		Invalidate();
+	}
+
 	void COptionUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
 		if( _tcsicmp(pstrName, _T("group")) == 0 ) SetGroup(pstrValue);
@@ -184,6 +206,8 @@ namespace DuiLib
 		else if( _tcsicmp(pstrName, _T("selectedhotimage")) == 0 ) SetSelectedHotImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("selectedpushedimage")) == 0 ) SetSelectedPushedImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("selectedforeimage")) == 0 ) SetSelectedForedImage(pstrValue);
+		else if( _tcsicmp(pstrName, _T("selectedstateimage")) == 0 ) SetSelectedStateImage(pstrValue);
+		else if( _tcsicmp(pstrName, _T("selectedstatecount")) == 0 ) SetSelectedStateCount(_ttoi(pstrValue));
 		else if( _tcsicmp(pstrName, _T("selectedbkcolor")) == 0 ) {
 			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
 			LPTSTR pstr = NULL;
@@ -214,6 +238,44 @@ namespace DuiLib
 	void COptionUI::PaintStatusImage(HDC hDC)
 	{
 		if(IsSelected()) {
+			if(!m_sSelectedStateImage.IsEmpty() && m_nSelectedStateCount > 0)
+			{
+				TDrawInfo info;
+				info.Parse(m_sSelectedStateImage, _T(""), m_pManager);
+				const TImageInfo* pImage = m_pManager->GetImageEx(info.sImageName, info.sResType, info.dwMask, info.bHSL);
+				if(m_sSelectedImage.IsEmpty() && pImage != NULL)
+				{
+					SIZE szImage = {pImage->nX, pImage->nY};
+					SIZE szStatus = {pImage->nX / m_nSelectedStateCount, pImage->nY};
+					if( szImage.cx > 0 && szImage.cy > 0 )
+					{
+						RECT rcSrc = {0, 0, szImage.cx, szImage.cy};
+						if(m_nSelectedStateCount > 0) {
+							int iLeft = rcSrc.left + 0 * szStatus.cx;
+							int iRight = iLeft + szStatus.cx;
+							int iTop = rcSrc.top;
+							int iBottom = iTop + szStatus.cy;
+							m_sSelectedImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom);
+						}
+						if(m_nSelectedStateCount > 1) {
+							int iLeft = rcSrc.left + 1 * szStatus.cx;
+							int iRight = iLeft + szStatus.cx;
+							int iTop = rcSrc.top;
+							int iBottom = iTop + szStatus.cy;
+							m_sSelectedHotImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom);
+						}
+						if(m_nSelectedStateCount > 2) {
+							int iLeft = rcSrc.left + 2 * szStatus.cx;
+							int iRight = iLeft + szStatus.cx;
+							int iTop = rcSrc.top;
+							int iBottom = iTop + szStatus.cy;
+							m_sSelectedPushedImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom);
+						}
+					}
+				}
+			}
+
+
 			if( (m_uButtonState & UISTATE_PUSHED) != 0 && !m_sSelectedPushedImage.IsEmpty()) {
 				if( !DrawImage(hDC, (LPCTSTR)m_sSelectedPushedImage) ) {}
 				else return;

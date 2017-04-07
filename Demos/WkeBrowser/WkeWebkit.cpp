@@ -152,6 +152,7 @@ void CWkeWebkitUI::DoInit()
 	wkeOnCreateView(m_pWebView, OnWkeCreateView, this);
 	wkeOnDocumentReady(m_pWebView, OnWkeDocumentReady, this);
 	wkeOnLoadingFinish(m_pWebView, OnWkeLoadingFinish, this);
+	wkeSetTransparent(m_pWebView, true);
 }
 
 void CWkeWebkitUI::SetPos(RECT rc, bool bNeedUpdate/* = true*/)
@@ -184,7 +185,10 @@ void CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint)
 		m_RendData.hBitmap = hbmp;
 	}		
 	wkePaint2(m_pWebView, m_RendData.pixels, 0);
-	::BitBlt(hDC, m_RendData.rt.left, m_RendData.rt.top, m_RendData.rt.right - m_RendData.rt.left, m_RendData.rt.bottom - m_RendData.rt.top, m_RendData.hDC, 0, 0, SRCCOPY);
+	typedef BOOL (WINAPI *LPALPHABLEND)(HDC, int, int, int, int,HDC, int, int, int, int, BLENDFUNCTION);
+	static LPALPHABLEND lpAlphaBlend = (LPALPHABLEND) ::GetProcAddress(::GetModuleHandle(_T("msimg32.dll")), "AlphaBlend");
+	BLENDFUNCTION bf = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
+	lpAlphaBlend(hDC, m_RendData.rt.left, m_RendData.rt.top, m_RendData.rt.right - m_RendData.rt.left, m_RendData.rt.bottom - m_RendData.rt.top, m_RendData.hDC, 0, 0, m_RendData.rt.right - m_RendData.rt.left, m_RendData.rt.bottom - m_RendData.rt.top, bf);
 }
 
 void CWkeWebkitUI::InitializeWebkit()

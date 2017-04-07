@@ -13,9 +13,9 @@
     </VerticalLayout>
     <HorizontalLayout height="60" inset="10,10,10,10">
       <Control />
-      <Button name="confirm_btn" text="确定" height="30" width="75" align="center" valign="vcenter" style="colorbtn_style"/>
+      <Button name="confirm_btn" style="btnstyle_queding"/>
       <Control width="20"/>
-      <Button name="cancel_btn" text="取消" height="30" width="75" align="center" valign="vcenter" style="colorbtn_style"/>
+      <Button name="cancel_btn" style="btnstyle_quxiao"/>
       <Control width="30"/>
     </HorizontalLayout>
   </VerticalLayout>

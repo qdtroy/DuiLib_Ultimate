@@ -386,12 +386,24 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 	CDuiString sName = pControl->GetName();
 	if(sName.CompareNoCase(_T("homepage_btn")) == 0)
 	{
+		// 动态创建Combo
+		CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("mycombo")));
+		if(pFontSize)
+		{
+			pFontSize->RemoveAll();
+			CListLabelElementUI * pElement = new CListLabelElementUI();
+			pElement->SetText(_T("测试长文字"));
+			pElement->SetFixedHeight(30);
+			pElement->SetFixedWidth(120);
+			pFontSize->Add(pElement);
+			pFontSize->NeedParentUpdate();
+		}
 		//CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("mycombo")));
 		//if(pFontSize)
 		//{
 		//	pFontSize->SetFixedXY(CDuiSize(pFontSize->GetFixedXY().cx + 5, pFontSize->GetFixedXY().cy));
 		//}
-		ShellExecute(NULL, _T("open"), _T("https://github.com/qdtroy"), NULL, NULL, SW_SHOW);
+		//ShellExecute(NULL, _T("open"), _T("https://github.com/qdtroy"), NULL, NULL, SW_SHOW);
 	}
 	else if(sName.CompareNoCase(_T("button1")) == 0)
 	{

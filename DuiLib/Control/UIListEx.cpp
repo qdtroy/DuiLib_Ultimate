@@ -329,7 +329,7 @@ namespace DuiLib {
 		CListTextExtElementUI* pLItem = static_cast<CListTextExtElementUI*>(p->GetInterface(_T("ListTextExElement")));
 		if( pLItem != NULL) 
 		{
-			DWORD iTextBkColor = 0xFFFF0000;
+			DWORD iTextBkColor = iBKColor;
 			pLItem->SetColumItemColor(nColum, iTextBkColor);
 		}
 	}

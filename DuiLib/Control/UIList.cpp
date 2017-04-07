@@ -378,6 +378,12 @@ namespace DuiLib {
 		return m_bFixedScrollbar;
 	}
 
+	void CListUI::SetFixedScrollbar(bool bFixed)
+	{
+		m_bFixedScrollbar = bFixed;
+		Invalidate();
+	}
+
 	CListHeaderUI* CListUI::GetHeader() const
 	{
 		return m_pHeader;
@@ -801,7 +807,7 @@ namespace DuiLib {
 		return m_ListInfo.bRSelected;
 	}
 
-	void CListUI::SetItemRSelected(bool bSelected = true)
+	void CListUI::SetItemRSelected(bool bSelected)
 	{
 		if( m_ListInfo.bRSelected == bSelected ) return;
 
@@ -1352,6 +1358,21 @@ namespace DuiLib {
 					m_pHorizontalScrollBar->SetScrollRange(0);
 					m_pHorizontalScrollBar->SetScrollPos(0);
 					rc.bottom += m_pHorizontalScrollBar->GetFixedHeight();
+				}
+			}
+		}
+		// ¼ÆËãºáÏò³ß´ç
+		int nItemCount = m_items.GetSize();
+		if (nItemCount > 0)
+		{
+			CControlUI* pControl = static_cast<CControlUI*>(m_items[0]);
+			int nFixedWidth = pControl->GetFixedWidth();
+			if (nFixedWidth > 0)
+			{
+				int nRank = (rc.right - rc.left) / nFixedWidth;
+				if (nRank > 0)
+				{
+					cyNeeded = ((nItemCount - 1) / nRank + 1) * pControl->GetFixedHeight();
 				}
 			}
 		}
@@ -2933,7 +2954,24 @@ namespace DuiLib {
 	}
 
 	void CListContainerElementUI::SetPos(RECT rc, bool bNeedInvalidate)
-	{	
+	{
+		int nFixedWidth = GetFixedWidth();
+		if (nFixedWidth > 0)
+		{
+			int nRank = (rc.right - rc.left) / nFixedWidth;
+			if (nRank > 0)
+			{
+				int nIndex = GetIndex();
+				int nfloor = nIndex / nRank;
+				int nHeight = rc.bottom - rc.top;
+
+				rc.top = rc.top - nHeight * (nIndex - nfloor);
+				rc.left = rc.left + nFixedWidth * (nIndex % nRank);
+				rc.right = rc.left + nFixedWidth;
+				rc.bottom = nHeight + rc.top;
+			}
+		}
+
 		CHorizontalLayoutUI::SetPos(rc, bNeedInvalidate);
 		if( m_pOwner == NULL ) return;
 		UINT uListType = m_pOwner->GetListType();

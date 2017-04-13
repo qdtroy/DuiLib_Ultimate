@@ -156,6 +156,9 @@ namespace DuiLib {
 			for( int i = 0; i < m_pOwner->GetCount(); i++ ) {
 				m_pLayout->Add(static_cast<CControlUI*>(m_pOwner->GetItemAt(i)));
 			}
+			CShadowUI *pShadow = m_pOwner->GetManager()->GetShadow();
+			pShadow->CopyShadow(m_pm.GetShadow());
+			m_pm.GetShadow()->ShowShadow(m_pOwner->IsShowShadow());
 			m_pm.AttachDialog(m_pLayout);
 			m_pm.AddNotifier(this);
 			return 0;
@@ -250,7 +253,13 @@ namespace DuiLib {
 #if(_WIN32_WINNT >= 0x0501)
 	UINT CComboWnd::GetClassStyle() const
 	{
-		return __super::GetClassStyle() | CS_DROPSHADOW;
+		if(m_pOwner->IsShowShadow()) {
+			return __super::GetClassStyle();
+
+		}
+		else {
+			return __super::GetClassStyle() | CS_DROPSHADOW;
+		}
 	}
 #endif
 	////////////////////////////////////////////////////////
@@ -679,6 +688,19 @@ namespace DuiLib {
 		Invalidate();
 	}
 
+	bool CComboUI::IsShowShadow()
+	{
+		return m_bShowShadow;
+	}
+
+	void CComboUI::SetShowShadow(bool bShow)
+	{
+		if( m_bShowShadow == bShow ) return;
+
+		m_bShowShadow = bShow;
+		Invalidate();
+	}
+
 	LPCTSTR CComboUI::GetNormalImage() const
 	{
 		return m_sNormalImage;
@@ -1002,6 +1024,7 @@ namespace DuiLib {
 			SetTextPadding(rcTextPadding);
 		}
 		else if( _tcsicmp(pstrName, _T("showhtml")) == 0 ) SetShowHtml(_tcsicmp(pstrValue, _T("true")) == 0);
+		else if( _tcsicmp(pstrName, _T("showshadow")) == 0 ) SetShowShadow(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("normalimage")) == 0 ) SetNormalImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("hotimage")) == 0 ) SetHotImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("pushedimage")) == 0 ) SetPushedImage(pstrValue);

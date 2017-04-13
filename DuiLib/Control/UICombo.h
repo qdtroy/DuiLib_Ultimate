@@ -37,6 +37,8 @@ namespace DuiLib {
 		void SetTextPadding(RECT rc);
 		bool IsShowHtml();
 		void SetShowHtml(bool bShowHtml = true);
+		bool IsShowShadow();
+		void SetShowShadow(bool bShow = true);
 
 		CDuiString GetDropBoxAttributeList();
 		void SetDropBoxAttributeList(LPCTSTR pstrList);
@@ -128,6 +130,7 @@ namespace DuiLib {
 		UINT	m_uTextStyle;
 		RECT	m_rcTextPadding;
 		bool	m_bShowHtml;
+		bool	m_bShowShadow;
 		CDuiString m_sDropBoxAttributes;
 		SIZE m_szDropBox;
 		UINT m_uButtonState;

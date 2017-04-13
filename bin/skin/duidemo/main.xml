@@ -99,7 +99,7 @@
           <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="Combo控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <HorizontalLayout height="23" childpadding="12">
-              <Combo name="font_type" font="3" itemfont="3" width="120" style="combo_style" textcolor="#FFFFFFFF" dropbox="hscrollbar=&quot;true&quot;" float="true" pos="300,0,400,23">
+              <Combo name="font_type" font="3" itemfont="3" width="120" style="combo_style" showshadow="true" textcolor="#FFFFFFFF" dropbox="hscrollbar=&quot;true&quot;" float="true" pos="300,0,400,23">
                 <ListLabelElement text="微软雅黑" selected="true" height="23" />
                 <ListLabelElement text="宋体" height="23" width="500" />
                 <ListLabelElement text="黑体" height="23" width="500" />

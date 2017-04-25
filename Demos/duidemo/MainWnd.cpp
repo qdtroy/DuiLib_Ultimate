@@ -342,10 +342,15 @@ void CMainWnd::Notify(TNotifyUI& msg)
 	{
 		if( name.CompareNoCase(_T("closebtn")) == 0 ) 
 		{
-			if(IDYES == MessageBox(m_hWnd, _T("确定退出duidemo演示程序？"), _T("Duilib旗舰版"), MB_YESNO))
+			if(MSGID_OK == CMsgWnd::MessageBox(m_hWnd, _T("Duilib旗舰版"), _T("确定退出duidemo演示程序？")))
 			{
 				::DestroyWindow(m_hWnd);
 			}
+
+			//if(IDYES == MessageBox(m_hWnd, _T("确定退出duidemo演示程序？"), _T("Duilib旗舰版"), MB_YESNO))
+			//{
+			//	::DestroyWindow(m_hWnd);
+			//}
 			return; 
 		}
 		else if( msg.pSender == m_pMinBtn ) { 

@@ -1361,22 +1361,24 @@ namespace DuiLib {
 				}
 			}
 		}
-		// ¼ÆËãºáÏò³ß´ç
-		int nItemCount = m_items.GetSize();
-		if (nItemCount > 0)
-		{
-			CControlUI* pControl = static_cast<CControlUI*>(m_items[0]);
-			int nFixedWidth = pControl->GetFixedWidth();
-			if (nFixedWidth > 0)
+		UINT uListType = m_pOwner->GetListType();
+		if(uListType == LT_LIST) {
+			// ¼ÆËãºáÏò³ß´ç
+			int nItemCount = m_items.GetSize();
+			if (nItemCount > 0)
 			{
-				int nRank = (rc.right - rc.left) / nFixedWidth;
-				if (nRank > 0)
+				CControlUI* pControl = static_cast<CControlUI*>(m_items[0]);
+				int nFixedWidth = pControl->GetFixedWidth();
+				if (nFixedWidth > 0)
 				{
-					cyNeeded = ((nItemCount - 1) / nRank + 1) * pControl->GetFixedHeight();
+					int nRank = (rc.right - rc.left) / nFixedWidth;
+					if (nRank > 0)
+					{
+						cyNeeded = ((nItemCount - 1) / nRank + 1) * pControl->GetFixedHeight();
+					}
 				}
 			}
 		}
-
 		// Process the scrollbar
 		ProcessScrollBar(rc, cxNeeded, cyNeeded);
 	}
@@ -2955,26 +2957,29 @@ namespace DuiLib {
 
 	void CListContainerElementUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
-		int nFixedWidth = GetFixedWidth();
-		if (nFixedWidth > 0)
-		{
-			int nRank = (rc.right - rc.left) / nFixedWidth;
-			if (nRank > 0)
-			{
-				int nIndex = GetIndex();
-				int nfloor = nIndex / nRank;
-				int nHeight = rc.bottom - rc.top;
+		CHorizontalLayoutUI::SetPos(rc, bNeedInvalidate);
+		if( m_pOwner == NULL ) return;
 
-				rc.top = rc.top - nHeight * (nIndex - nfloor);
-				rc.left = rc.left + nFixedWidth * (nIndex % nRank);
-				rc.right = rc.left + nFixedWidth;
-				rc.bottom = nHeight + rc.top;
+		UINT uListType = m_pOwner->GetListType();
+		if(uListType == LT_LIST) {
+			int nFixedWidth = GetFixedWidth();
+			if (nFixedWidth > 0)
+			{
+				int nRank = (rc.right - rc.left) / nFixedWidth;
+				if (nRank > 0)
+				{
+					int nIndex = GetIndex();
+					int nfloor = nIndex / nRank;
+					int nHeight = rc.bottom - rc.top;
+
+					rc.top = rc.top - nHeight * (nIndex - nfloor);
+					rc.left = rc.left + nFixedWidth * (nIndex % nRank);
+					rc.right = rc.left + nFixedWidth;
+					rc.bottom = nHeight + rc.top;
+				}
 			}
 		}
 
-		CHorizontalLayoutUI::SetPos(rc, bNeedInvalidate);
-		if( m_pOwner == NULL ) return;
-		UINT uListType = m_pOwner->GetListType();
 		if(uListType != LT_LIST && uListType != LT_TREE) return;
 
 		CListUI* pList = static_cast<CListUI*>(m_pOwner);

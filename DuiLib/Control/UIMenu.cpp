@@ -31,6 +31,11 @@ namespace DuiLib {
 		return CListUI::GetInterface(pstrName);
 	}
 
+	UINT CMenuUI::GetListType()
+	{
+		return LT_MENU;
+	}
+
 	void CMenuUI::DoEvent(TEventUI& event)
 	{
 		return __super::DoEvent(event);

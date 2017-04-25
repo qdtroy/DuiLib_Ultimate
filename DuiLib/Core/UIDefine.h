@@ -11,6 +11,7 @@ namespace DuiLib
 		LT_LIST = 0,
 		LT_COMBO,
 		LT_TREE,
+		LT_MENU,
 	};
 
 	// 鼠标光标定义

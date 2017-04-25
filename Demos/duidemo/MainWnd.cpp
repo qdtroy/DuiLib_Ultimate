@@ -87,7 +87,7 @@ void CMainWnd::InitWindow()
 	CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("oneclick_browser2")));
 	pBrowser2->SetWebBrowserEventHandler(this);
 	pBrowser1->NavigateUrl(_T("http://blog.csdn.net/duisharp"));
-	pBrowser2->NavigateUrl(_T("https://uland.taobao.com/coupon/elist?scm=20140618.1.02030002.201612271329&e=U+3HttE91tybEA6tucNztA&spm=0.0.0.0&pid=mm_25146755_13792161_55530672&&scm=20140618.1.02030002.201612271329s9&qq-pf-to=pcqq.group"));
+	pBrowser2->NavigateUrl(_T("http://www.winradar.com"));
 
 	// ¶¯Ì¬´´½¨Combo
 	CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("font_size")));

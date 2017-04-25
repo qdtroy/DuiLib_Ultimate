@@ -30,7 +30,7 @@ private:
     CWebBrowserUI* m_pWebBrowser;
 };  
 
-CDuiString sHomePage = _T("https://uland.taobao.com/coupon/elist?scm=20140618.1.02030002.201612271329&e=U+3HttE91tybEA6tucNztA&spm=0.0.0.0&pid=mm_25146755_13792161_55530672&&scm=20140618.1.02030002.201612271329s9&qq-pf-to=pcqq.group");
+CDuiString sHomePage = _T("http://www.winradar.com");
 //////////////////////////////////////////////////////////////////////////
 ///
 

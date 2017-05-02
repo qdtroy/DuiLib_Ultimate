@@ -578,6 +578,7 @@ namespace DuiLib {
 	bool CComboUI::Activate()
 	{
 		if( !CControlUI::Activate() ) return false;
+		if( m_pManager != NULL ) m_pManager->SendNotify(this, DUI_MSGTYPE_PREDROPDOWN);
 		if( m_pWindow ) return true;
 		m_pWindow = new CComboWnd();
 		ASSERT(m_pWindow);

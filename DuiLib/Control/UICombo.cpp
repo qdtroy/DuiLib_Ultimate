@@ -74,7 +74,7 @@ namespace DuiLib {
 			SIZE sz = pControl->EstimateSize(szAvailable);
 			cyFixed += sz.cy;
 		}
-		cyFixed += 4; // CVerticalLayoutUI 默认的Inset 调整
+		cyFixed += 4;
 		rc.bottom = rc.top + MIN(cyFixed, szDrop.cy);
 
 		::MapWindowRect(pOwner->GetManager()->GetPaintWindow(), HWND_DESKTOP, &rc);
@@ -945,13 +945,15 @@ namespace DuiLib {
 
 	void CComboUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
-		// 隐藏下拉窗口
-		if(m_pWindow && ::IsWindow(m_pWindow->GetHWND())) m_pWindow->Close();
-		// 所有元素大小置为0
-		RECT rcNull = { 0 };
-		for( int i = 0; i < m_items.GetSize(); i++ ) static_cast<CControlUI*>(m_items[i])->SetPos(rcNull);
-		// 调整位置
-		CControlUI::SetPos(rc, bNeedInvalidate);
+		if(!::EqualRect(&rc, &m_rcItem)) {
+			// 隐藏下拉窗口
+			if(m_pWindow && ::IsWindow(m_pWindow->GetHWND())) m_pWindow->Close();
+			// 所有元素大小置为0
+			RECT rcNull = { 0 };
+			for( int i = 0; i < m_items.GetSize(); i++ ) static_cast<CControlUI*>(m_items[i])->SetPos(rcNull);
+			// 调整位置
+			CControlUI::SetPos(rc, bNeedInvalidate);
+		}
 	}
 
 	void CComboUI::Move(SIZE szOffset, bool bNeedInvalidate)
@@ -1054,6 +1056,20 @@ namespace DuiLib {
 			if( _tcsstr(pstrValue, _T("right")) != NULL ) {
 				m_ListInfo.uTextStyle &= ~(DT_LEFT | DT_CENTER);
 				m_ListInfo.uTextStyle |= DT_RIGHT;
+			}
+		}
+		else if( _tcsicmp(pstrName, _T("itemvalign")) == 0 ) {
+			if( _tcsstr(pstrValue, _T("top")) != NULL ) {
+				m_ListInfo.uTextStyle &= ~(DT_VCENTER | DT_BOTTOM);
+				m_ListInfo.uTextStyle |= DT_TOP;
+			}
+			if( _tcsstr(pstrValue, _T("vcenter")) != NULL ) {
+				m_ListInfo.uTextStyle &= ~(DT_TOP | DT_BOTTOM | DT_WORDBREAK);
+				m_ListInfo.uTextStyle |= DT_VCENTER | DT_SINGLELINE;
+			}
+			if( _tcsstr(pstrValue, _T("bottom")) != NULL ) {
+				m_ListInfo.uTextStyle &= ~(DT_TOP | DT_VCENTER);
+				m_ListInfo.uTextStyle |= DT_BOTTOM;
 			}
 		}
 		else if( _tcsicmp(pstrName, _T("itemendellipsis")) == 0 ) {

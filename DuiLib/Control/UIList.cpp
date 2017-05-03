@@ -909,8 +909,8 @@ namespace DuiLib {
 				m_ListInfo.uTextStyle |= DT_TOP;
 			}
 			if( _tcsstr(pstrValue, _T("vcenter")) != NULL ) {
-				m_ListInfo.uTextStyle &= ~(DT_TOP | DT_BOTTOM);
-				m_ListInfo.uTextStyle |= DT_VCENTER;
+				m_ListInfo.uTextStyle &= ~(DT_TOP | DT_BOTTOM | DT_WORDBREAK);
+				m_ListInfo.uTextStyle |= DT_VCENTER | DT_SINGLELINE;
 			}
 			if( _tcsstr(pstrValue, _T("bottom")) != NULL ) {
 				m_ListInfo.uTextStyle &= ~(DT_TOP | DT_VCENTER);

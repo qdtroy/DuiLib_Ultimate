@@ -383,6 +383,21 @@ void CMainWnd::Notify(TNotifyUI& msg)
 		pPro1->SetValue(pSlider->GetValue());
 		pPro2->SetValue(pSlider->GetValue());
 	}
+	else if(msg.sType == _T("predropdown") && name == _T("font_size"))
+	{
+		CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("font_size")));
+		if(pFontSize)
+		{
+			pFontSize->RemoveAll();
+			for(int i = 0; i < 10; i++) {
+				CListLabelElementUI * pElement = new CListLabelElementUI();
+				pElement->SetText(_T("²âÊÔ³¤ÎÄ×Ö"));
+				pElement->SetFixedHeight(30);
+				pFontSize->Add(pElement);
+			}
+			pFontSize->SelectItem(0);
+		}
+	}
 
 	return WindowImplBase::Notify(msg);
 }

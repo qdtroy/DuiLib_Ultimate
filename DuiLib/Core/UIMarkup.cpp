@@ -405,7 +405,7 @@ void CMarkup::Release()
     if( m_pElements != NULL ) free(m_pElements);
     m_pstrXML = NULL;
     m_pElements = NULL;
-    m_nElements;
+    m_nElements = 0;
 }
 
 void CMarkup::GetLastErrorMessage(LPTSTR pstrMessage, SIZE_T cchMax) const

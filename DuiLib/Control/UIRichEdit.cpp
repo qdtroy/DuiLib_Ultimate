@@ -336,10 +336,11 @@ BOOL CTxtWinHost::Init(CRichEditUI *re, const CREATESTRUCT *pcs)
     }
 
     // Set window text
-    if(pcs && pcs->lpszName) {
+    if(pcs && pcs->lpszName && lstrlen(pcs->lpszName) > 0) {
 #ifdef _UNICODE		
-        if(FAILED(pserv->TxSetText((TCHAR *)pcs->lpszName)))
+        if(FAILED(pserv->TxSetText((TCHAR *)pcs->lpszName))) {
             goto err;
+		}
 #else
         size_t iLen = _tcslen(pcs->lpszName);
         LPWSTR lpText = new WCHAR[iLen + 1];

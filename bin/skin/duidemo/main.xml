@@ -198,7 +198,7 @@
                   <ListHeaderItem text="成绩" width="160" hotimage="res='common/list_header_hot.png'" pushedimage="res='common/list_header_pushed.png'" sepimage="res='common/list_header_sep.png'" sepwidth="1"/>
                   <ListHeaderItem text="审核" width="160" hotimage="res='common/list_header_hot.png'" pushedimage="res='common/list_header_pushed.png'" sepimage="res='common/list_header_sep.png'" sepwidth="1"/>
                 </ListHeader>
-                <!--<Include source="listitem.xml"/>-->
+                <Include source="listitem.xml"/>
               </List>
             </VerticalLayout>
           </HorizontalLayout>

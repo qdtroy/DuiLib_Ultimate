@@ -126,6 +126,7 @@ void CMainWnd::InitWindow()
 	pListItem->SetChildVAlign(DT_VCENTER);
 	pListItem->SetFixedHeight(30);
 	pListItem->SetManager(&m_pm, NULL, false);
+	pListItem->SetFixedWidth(100);
 	pList->Add(pListItem);
 	CButtonUI* pBtn1 = new CButtonUI();
 	pBtn1->SetManager(&m_pm, NULL, false);
@@ -142,6 +143,7 @@ void CMainWnd::InitWindow()
 
 	CDialogBuilder builder1;
 	CListContainerElementUI* pListItem1  = (CListContainerElementUI*)builder1.Create(_T("listitem.xml"), NULL, this, &m_pm, NULL);
+	
 	pList->Add(pListItem1);
 	for(int i = 0; i < 20; i++)
 	{

@@ -336,7 +336,7 @@ namespace DuiLib {
 			if( pDefaultAttributes ) {
 				m_pLayout->ApplyAttributeList(pDefaultAttributes);
 			}
-			m_pLayout->SetAutoDestroy(false);
+			m_pLayout->GetList()->SetAutoDestroy(false);
 
 			for( int i = 0; i < m_pOwner->GetCount(); i++ ) {
 				if(m_pOwner->GetItemAt(i)->GetInterface(_T("MenuElement")) != NULL ){

@@ -228,7 +228,6 @@ namespace DuiLib {
 
 		virtual BOOL CheckColumEditable(int nColum) { return FALSE; };
 		virtual CEditUI* GetEditUI() { return NULL; };
-
 		virtual BOOL CheckColumComboBoxable(int nColum) { return FALSE; };
 		virtual CComboBoxUI* GetComboBoxUI() { return NULL; };
 

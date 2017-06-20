@@ -440,6 +440,7 @@ namespace DuiLib
 						int iTop = rcSrc.top;
 						int iBottom = iTop + szStatus.cy;
 						m_sHotImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom);
+						m_sPushedImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom);
 					}
 					if(m_nStateCount > 2) {
 						int iLeft = rcSrc.left + 2 * szStatus.cx;

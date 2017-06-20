@@ -1123,7 +1123,7 @@ namespace DuiLib {
 	void CActiveXUI::ReleaseControl()
 	{
 		// ÒÆ³ýÏûÏ¢Á´
-		m_pManager->RemoveMessageFilter(this);
+		if(m_pManager != NULL) m_pManager->RemoveMessageFilter(this);
 
 		if( m_pUnk != NULL ) {
 			IObjectWithSite* pSite = NULL;
@@ -1208,7 +1208,7 @@ namespace DuiLib {
 		if( (dwMiscStatus & OLEMISC_INVISIBLEATRUNTIME) == 0 ) {
 			try
 			{
-				Hr = m_pUnk->DoVerb(OLEIVERB_INPLACEACTIVATE, NULL, pOleClientSite, 0, m_pManager->GetPaintWindow(), &m_rcItem);
+				if(m_pManager != NULL) Hr = m_pUnk->DoVerb(OLEIVERB_INPLACEACTIVATE, NULL, pOleClientSite, 0, m_pManager->GetPaintWindow(), &m_rcItem);
 			}
 			catch (...)
 			{

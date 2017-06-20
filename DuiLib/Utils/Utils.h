@@ -305,16 +305,16 @@ namespace DuiLib
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	//
-	static char* w2a(wchar_t* lpszSrc)
+	static char* w2a(wchar_t* lpszSrc, UINT   CodePage = CP_ACP)
 	{
 		if (lpszSrc != NULL)
 		{
-			int  nANSILen = WideCharToMultiByte(CP_ACP, 0, lpszSrc, -1, NULL, 0, NULL, NULL);
+			int  nANSILen = WideCharToMultiByte(CodePage, 0, lpszSrc, -1, NULL, 0, NULL, NULL);
 			char* pANSI = new char[nANSILen + 1];
 			if (pANSI != NULL)
 			{
 				ZeroMemory(pANSI, nANSILen + 1);
-				WideCharToMultiByte(CP_ACP, 0, lpszSrc, -1, pANSI, nANSILen, NULL, NULL);
+				WideCharToMultiByte(CodePage, 0, lpszSrc, -1, pANSI, nANSILen, NULL, NULL);
 				return pANSI;
 			}
 		}	

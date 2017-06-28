@@ -282,11 +282,6 @@ namespace DuiLib
 		styleValue &= ~WS_CAPTION;
 		::SetWindowLong(*this, GWL_STYLE, styleValue | WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
 
-		// 调整窗口尺寸
-		RECT rcClient;
-		::GetClientRect(*this, &rcClient);
-		::SetWindowPos(*this, NULL, rcClient.left, rcClient.top, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top, SWP_FRAMECHANGED);
-
 		// 关联UI管理器
 		m_pm.Init(m_hWnd, GetManagerName());
 		// 注册PreMessage回调

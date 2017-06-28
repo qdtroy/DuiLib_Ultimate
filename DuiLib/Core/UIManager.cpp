@@ -2768,6 +2768,8 @@ namespace DuiLib {
 		}
 		DWORD nFonts;
 		HANDLE hFont = ::AddFontMemResourceEx(pData, dwSize, NULL, &nFonts);
+		delete[] pData;
+		pData = NULL;
 		m_aFonts.Add(hFont);
 	}
 	HFONT CPaintManagerUI::GetFont(int id)

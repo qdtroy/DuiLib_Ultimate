@@ -32,6 +32,7 @@ DuiLib_Ultimate是DuiLib库的增强拓展版，库修复了大量用户在使�
 
 #### **作者简介** 
 网名troy、qdtroy，qq：656067418，微信：qdtroy
+
 duilib开源项目圈（QQ群）：261675375、261851826
 
 ##### **项目支持** 

@@ -686,7 +686,7 @@ namespace DuiLib {
 		Gdiplus::Image* pImage = NULL;
 		if(pData != NULL) {
 			pImage = GdiplusLoadImage(pData, dwSize);
-			delete pData;
+			delete[] pData;
 			pData = NULL;
 		}
 		return pImage;

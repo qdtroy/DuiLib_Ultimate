@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="属性列表.xslt"?>
-<!-- 可能有错漏，欢迎补充。wangchyz(wangchyz@gmail.com) -->
+<!-- 如有遗漏，欢迎补充：qdtroy(qdtroy@qq.com) -->
 <Controls>
 	<Window parent="">
 		<Attribute name="size" default="0,0" type="SIZE" comment="窗口的初始化大小,如(800,600)"/>

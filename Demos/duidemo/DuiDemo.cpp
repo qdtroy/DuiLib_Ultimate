@@ -98,11 +98,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	// 销毁窗口
 	delete pMainWnd;
 	pMainWnd = NULL;
-	// 销毁资源管理器
-	CResourceManager::GetInstance()->Release();
+	// 清理资源
+	CPaintManagerUI::Term();
 	// OLE
 	OleUninitialize();
 	// COM
 	::CoUninitialize();
+
 	return 0;
 }

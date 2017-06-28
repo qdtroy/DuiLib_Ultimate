@@ -408,7 +408,7 @@ namespace DuiLib {
 		return m_pStrResourceZip;
 	}
 
-	const CDuiString& CPaintManagerUI::GetResourceZipPwd()  //Garfield 20160325 带密码zip包解密
+	const CDuiString& CPaintManagerUI::GetResourceZipPwd()
 	{
 		return m_pStrResourceZipPwd;
 	}
@@ -461,7 +461,10 @@ namespace DuiLib {
 #ifdef UNICODE
 			char* pwd = w2a((wchar_t*)password);
 			m_hResourceZip = (HANDLE)OpenZip(pVoid, len, pwd);
-			if(pwd) delete[] pwd;
+			if(pwd) {
+				delete[] pwd;
+				pwd = NULL;
+			}
 #else
 			m_hResourceZip = (HANDLE)OpenZip(pVoid, len, password);
 #endif
@@ -1403,6 +1406,7 @@ namespace DuiLib {
 					HRESULT hr = ::DoDragDrop(pdobj, pdsrc, DROPEFFECT_COPY | DROPEFFECT_MOVE, &dwEffect);
 					if(dwEffect )
 					pdsrc->Release();
+					delete pdsrc;
 					pdobj->Release();
 					m_bDragMode = false;
 					break;
@@ -1917,6 +1921,68 @@ namespace DuiLib {
 
 	void CPaintManagerUI::Term()
 	{
+		// 销毁资源管理器
+		CResourceManager::GetInstance()->Release();
+		CControlFactory::GetInstance()->Release();
+		CMenuWnd::DestroyMenu();
+
+		// 清理共享资源
+		// 图片
+		TImageInfo* data;
+		for( int i = 0; i< m_SharedResInfo.m_ImageHash.GetSize(); i++ ) {
+			if(LPCTSTR key = m_SharedResInfo.m_ImageHash.GetAt(i)) {
+				data = static_cast<TImageInfo*>(m_SharedResInfo.m_ImageHash.Find(key, false));
+				if (data) {
+					CRenderEngine::FreeImage(data);
+					data = NULL;
+				}
+			}
+		}
+		m_SharedResInfo.m_ImageHash.RemoveAll();
+		// 字体
+		TFontInfo* pFontInfo;
+		for( int i = 0; i< m_SharedResInfo.m_CustomFonts.GetSize(); i++ ) {
+			if(LPCTSTR key = m_SharedResInfo.m_CustomFonts.GetAt(i)) {
+				pFontInfo = static_cast<TFontInfo*>(m_SharedResInfo.m_CustomFonts.Find(key, false));
+				if (pFontInfo) {
+					::DeleteObject(pFontInfo->hFont);
+					delete pFontInfo;
+					pFontInfo = NULL;
+				}
+			}
+		}
+		m_SharedResInfo.m_CustomFonts.RemoveAll();
+		// 默认字体
+		if(m_SharedResInfo.m_DefaultFontInfo.hFont != NULL) {
+			::DeleteObject(m_SharedResInfo.m_DefaultFontInfo.hFont);
+		}
+		// 样式
+		CDuiString* pStyle;
+		for( int i = 0; i< m_SharedResInfo.m_StyleHash.GetSize(); i++ ) {
+			if(LPCTSTR key = m_SharedResInfo.m_StyleHash.GetAt(i)) {
+				pStyle = static_cast<CDuiString*>(m_SharedResInfo.m_StyleHash.Find(key, false));
+				if (pStyle) {
+					delete pStyle;
+					pStyle = NULL;
+				}
+			}
+		}
+		m_SharedResInfo.m_StyleHash.RemoveAll();
+
+		// 样式
+		CDuiString* pAttr;
+		for( int i = 0; i< m_SharedResInfo.m_AttrHash.GetSize(); i++ ) {
+			if(LPCTSTR key = m_SharedResInfo.m_AttrHash.GetAt(i)) {
+				pAttr = static_cast<CDuiString*>(m_SharedResInfo.m_AttrHash.Find(key, false));
+				if (pAttr) {
+					delete pAttr;
+					pAttr = NULL;
+				}
+			}
+		}
+		m_SharedResInfo.m_AttrHash.RemoveAll();
+
+		// 关闭ZIP
 		if( m_bCachedResourceZip && m_hResourceZip != NULL ) {
 			CloseZip((HZIP)m_hResourceZip);
 			m_hResourceZip = NULL;

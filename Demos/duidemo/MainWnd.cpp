@@ -87,7 +87,7 @@ void CMainWnd::InitWindow()
 	CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("oneclick_browser2")));
 	pBrowser2->SetWebBrowserEventHandler(this);
 	pBrowser1->NavigateUrl(_T("http://blog.csdn.net/duisharp"));
-	pBrowser2->NavigateUrl(_T("http://www.winradar.com"));
+	pBrowser2->NavigateUrl(_T("E:\\DevProjects\\Github\\DuiLib_Ultimate.git\\trunk\\bin\\box\\index.htm"));
 
 	// ¶¯Ì¬´´½¨Combo
 	CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("font_size")));
@@ -145,6 +145,8 @@ void CMainWnd::InitWindow()
 	CListContainerElementUI* pListItem1  = (CListContainerElementUI*)builder1.Create(_T("listitem.xml"), NULL, this, &m_pm, NULL);
 	
 	pList->Add(pListItem1);
+	CControlUI* pLabel = pListItem1->FindSubControl(_T("troy"));
+	pLabel->SetText(_T("abc_troy"));
 	for(int i = 0; i < 20; i++)
 	{
 		CListTextElementUI* pItem  = new CListTextElementUI();

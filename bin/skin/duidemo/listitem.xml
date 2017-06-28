@@ -2,7 +2,7 @@
 <Window >
   <Font id="100" name="宋体" size="18" underline="true" shared="true"/>
   <ListContainerElement height="30">
-    <Label text="Include测试" align="center"/>
+    <Label name="troy" text="Include测试" align="center"/>
     <Label text="1002" align="center"/>
     <Label text="99" align="center"/>
     <Container >

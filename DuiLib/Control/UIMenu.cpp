@@ -737,12 +737,7 @@ namespace DuiLib {
 			};
 			GetManager()->GetDPIObj()->ScaleBack(&rcDest);
 			CDuiString pStrImage;
-			pStrImage.Format(_T("dest='%d,%d,%d,%d'"),
-				rcDest.left,
-				rcDest.top,
-				rcDest.right,
-				rcDest.bottom);
-
+			pStrImage.Format(_T("dest='%d,%d,%d,%d'"), rcDest.left, rcDest.top, rcDest.right, rcDest.bottom);
 			DrawImage(hDC, strExplandIcon, pStrImage);
 		}
 	}
@@ -936,8 +931,6 @@ namespace DuiLib {
 					param.hWnd = m_pManager->GetPaintWindow();
 					param.wParam = 1;
 					CMenuWnd::GetGlobalContextMenuObserver().RBroadcast(param);
-
-					
 				}
 			}
 

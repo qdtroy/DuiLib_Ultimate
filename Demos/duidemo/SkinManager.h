@@ -18,12 +18,7 @@ class CSkinManager
 public:
 	static CSkinManager* GetSkinManager()
 	{
-		if (m_pSkinManager == NULL)
-		{
-			m_pSkinManager = new CSkinManager();	
-		}
-
-		return m_pSkinManager;
+		return &m_SkinManager;
 	}
 
 public:
@@ -52,7 +47,7 @@ private:
 
 private:
 	SkinChangedObserver m_SkinChangeObserver;
-	static CSkinManager* m_pSkinManager;
+	static CSkinManager m_SkinManager;
 };
 
 #endif // __SKIN_MANAGER_H__

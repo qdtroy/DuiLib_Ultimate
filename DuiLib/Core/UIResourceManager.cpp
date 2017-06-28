@@ -11,10 +11,6 @@ namespace DuiLib {
 
 	CResourceManager::~CResourceManager(void)
 	{
-		//重置语言文本缓冲map
-		ResetTextMap();
-
-		//重置图片资源map
 		ResetResourceMap();
 	}
 
@@ -42,9 +38,9 @@ namespace DuiLib {
 				return NULL;
 			}
 
-			if( !m_xml.LoadFromMem((BYTE*)::LockResource(hGlobal), ::SizeofResource(CPaintManagerUI::GetResourceDll(), hResource) )) 
+			if( !m_xml.LoadFromMem((BYTE*)::LockResource(hGlobal), ::SizeofResource(CPaintManagerUI::GetResourceDll(), hResource) )) {
 				return NULL;
-
+			}
 			::FreeResource(hResource);
 		}
 
@@ -140,6 +136,7 @@ namespace DuiLib {
 			{
 				lpStr = static_cast<CDuiString *>(m_mImageHashMap.Find(key));
 				delete lpStr;
+				lpStr = NULL;
 			}
 		}
 		for( int i = 0; i< m_mXmlHashMap.GetSize(); i++ )
@@ -148,6 +145,16 @@ namespace DuiLib {
 			{
 				lpStr = static_cast<CDuiString *>(m_mXmlHashMap.Find(key));
 				delete lpStr;
+				lpStr = NULL;
+			}
+		}
+		for( int i = 0; i< m_mTextResourceHashMap.GetSize(); i++ )
+		{
+			if(LPCTSTR key = m_mTextResourceHashMap.GetAt(i))
+			{
+				lpStr = static_cast<CDuiString *>(m_mTextResourceHashMap.Find(key));
+				delete lpStr;
+				lpStr = NULL;
 			}
 		}
 	}

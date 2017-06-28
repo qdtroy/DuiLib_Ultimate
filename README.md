@@ -38,6 +38,7 @@ duilib开源项目圈（QQ群）：261675375、261851826
 1、微信：qdtroy
 
 2、支付宝：qdtroy@qq.com
+
 ![支付宝] (https://github.com/qdtroy/DuiLib_Ultimate/blob/master/Help/qdtroy_alipay.png)
 
 3、入门学习指导、项目技术支持、产品UI定制请联系Troy（QQ：656067418）

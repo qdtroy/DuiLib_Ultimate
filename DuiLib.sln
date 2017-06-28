@@ -30,6 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Help", "Help", "{7BD7470A-9
 	ProjectSection(SolutionItems) = preProject
 		Help\directui license.txt = Help\directui license.txt
 		Help\duilib license.txt = Help\duilib license.txt
+		Help\qdtroy_alipay.png = Help\qdtroy_alipay.png
 		Help\属性列表.xml = Help\属性列表.xml
 		Help\感谢.txt = Help\感谢.txt
 		Help\版权说明.txt = Help\版权说明.txt
@@ -67,7 +68,7 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.Debug|Win32.ActiveCfg = Debug|Win32
 		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.Debug|Win32.Build.0 = Debug|Win32
-		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.Debug|x64.ActiveCfg = Debug|Win32
+		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.Debug|x64.ActiveCfg = Debug|x64
 		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.DebugA|Win32.ActiveCfg = DebugA|Win32
 		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.DebugA|Win32.Build.0 = DebugA|Win32
 		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.DebugA|x64.ActiveCfg = DebugA|x64

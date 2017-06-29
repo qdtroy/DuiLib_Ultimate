@@ -1059,6 +1059,7 @@ namespace DuiLib {
 								if( !pControl->IsFloat() ) pControl->SetPos(pControl->GetPos(), true);
 								else pControl->SetPos(pControl->GetRelativePos(), true);
 							}
+							bNeedSizeMsg = true;
 						}
 						// We'll want to notify the window when it is first initialized
 						// with the correct layout. The window form would take the time

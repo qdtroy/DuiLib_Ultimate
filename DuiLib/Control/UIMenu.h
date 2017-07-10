@@ -263,7 +263,7 @@ public:
     virtual bool SetItemIndex(CControlUI* pControl, int iIndex);
     virtual bool Remove(CControlUI* pControl);
 
-	SIZE EstimateSize(SIZE szAvailable) override;
+	SIZE EstimateSize(SIZE szAvailable);
 
 	void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue) ;
 };

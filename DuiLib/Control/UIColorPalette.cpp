@@ -214,7 +214,7 @@ namespace DuiLib {
 	{
 		m_MemDc = CreateCompatibleDC(GetManager()->GetPaintDC());
 		m_hMemBitmap = CreateCompatibleBitmap(GetManager()->GetPaintDC(), 400, 360);
-		HBITMAP pOldBit = (HBITMAP)SelectObject(m_MemDc, m_hMemBitmap);
+		SelectObject(m_MemDc, m_hMemBitmap);
 
 		::GetObject(m_hMemBitmap, sizeof(m_bmInfo), &m_bmInfo);
 		DWORD dwSize = m_bmInfo.bmHeight * m_bmInfo.bmWidthBytes;

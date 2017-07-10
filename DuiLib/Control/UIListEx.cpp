@@ -105,7 +105,6 @@ namespace DuiLib {
 		if(_tcsicmp(msg.sType, _T("listheaditemchecked")) == 0)
 		{
 			BOOL bCheck = (BOOL)msg.lParam;
-			int  nIndex = msg.wParam;
 			//判断是否是本LIST发送的notify
 			CListHeaderUI* pHeader = GetHeader();
 			for (int i = 0; i < pHeader->GetCount(); i++)

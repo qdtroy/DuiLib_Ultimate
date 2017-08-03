@@ -417,6 +417,108 @@ protected:
 	std::vector<CKnot*> m_arrKnots;
 };
 
+class TROYCONTROLS_API CChartUI : public CControlUI
+{
+public:
+	CChartUI()
+	{
+		// 外边框 颜色大小
+		m_dwBorderColor = 0xff888888;
+		m_nBorderSize = 1;
+		// 点边框 颜色大小
+		m_dwDotBorderColor = 0xffFFFF00;
+		m_nDotBorderSize = 2;
+		// 点 背景图片和尺寸
+		m_sDotImage.Empty();
+		m_nDotSize = 8;
+		// 连接线 颜色大小
+		m_dwDotLineColor = 0xffFFFF00;
+		m_nDotLineSize = 1;
+
+		// 内部使用
+		m_nSelectedDot = -1;
+		m_uButtonState = 0;
+		m_wCursor = IDC_ARROW;
+	}
+
+public:
+	void InitChart(int nCount = 10, int nDotSpace = 24)
+	{
+		int nChartSize = nDotSpace * nCount + m_nDotSize;
+		SetFixedWidth(nChartSize);
+		SetFixedHeight(nChartSize);
+		for (int i = 0; i <= nCount; i++) {
+			POINT ptDot = { 0,0 };
+			ptDot.x = nDotSpace * i;
+			ptDot.y = nDotSpace * (nCount - i);
+			m_vDots.push_back(ptDot);
+		}
+
+		NeedParentUpdate();
+		Invalidate();
+	}
+
+	void ClearDots()
+	{
+		m_vDots.clear();
+		NeedParentUpdate();
+		Invalidate();
+	}
+
+	void SetDots(std::vector<POINT> vDots)
+	{
+		if (vDots.size() > 0) {
+			m_vDots = vDots;
+
+			int nCount = vDots.size();
+			int nChartSize = vDots[nCount - 1].x - vDots[0].x + m_nDotSize;
+			SetFixedWidth(nChartSize);
+			SetFixedHeight(nChartSize);
+
+			NeedParentUpdate();
+			Invalidate();
+		}
+	}
+
+	int GetDots(std::vector<POINT>& vDots)
+	{
+		vDots = m_vDots;
+		return	(int)vDots.size();
+	}
+
+	UINT GetControlFlags() const
+	{
+		if (!IsEnabled()) return CControlUI::GetControlFlags();
+		return UIFLAG_SETCURSOR;
+	}
+
+	bool HitTest(POINT ptDot, POINT ptMouse);
+
+	void DoEvent(TEventUI& event);
+	void PaintBkImage(HDC hDC);
+
+private:
+	std::vector<POINT> m_vDots;
+	int m_nBorderSize;
+	DWORD m_dwBorderColor;
+
+	int m_nDotBorderSize;
+	DWORD m_dwDotBorderColor;
+	int m_nDotLineSize;
+	DWORD m_dwDotLineColor;
+
+	CDuiString m_sDotImage;
+	int m_nDotSize;
+
+	UINT m_uButtonState;
+	POINT m_ptLastPoint;
+	POINT m_ptCurPoint;
+
+	int m_nSelectedDot;
+	POINT m_ptSelectedDot;
+	LPTSTR m_wCursor;
+	int m_nHitKnot;
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
@@ -542,7 +644,7 @@ public:
 	int  CalculateItemTopPos(int nFirstIndex, int nFirstPos, int nItemIndex);
 	CControlUI* CreateNewItem(int nItemIndex,LPVOID lpData);
 
-	void SetPos(RECT rc);
+	void SetPos(RECT rc, bool bNeedInvalidate = true);
 	void DoEvent(TEventUI& event);
 	void SetScrollPos(SIZE szPos);
 
@@ -669,7 +771,7 @@ public:
 	virtual void ReloadData();
 
 	bool Add(CControlUI* pControl);
-	void SetPos(RECT rc);
+	void SetPos(RECT rc, bool bNeedInvalidate = true);
 
 protected: 
 	CVListViewUI* m_pList;

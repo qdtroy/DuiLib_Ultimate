@@ -1300,7 +1300,6 @@ namespace DuiLib {
 			nBorderSize = m_nBorderSize;
 			cxyBorderRound = m_cxyBorderRound;
 			rcBorderSize = m_rcBorderSize;
-
 		}
 		
 		if(m_dwBorderColor != 0 || m_dwFocusBorderColor != 0) {
@@ -1312,7 +1311,7 @@ namespace DuiLib {
 					CRenderEngine::DrawRoundRect(hDC, m_rcItem, nBorderSize, cxyBorderRound.cx, cxyBorderRound.cy, GetAdjustColor(m_dwBorderColor), m_nBorderStyle);
 			}
 			else {
-				if (IsFocused() && m_dwFocusBorderColor != 0 && m_nBorderSize > 0) { 
+				if (IsFocused() && m_dwFocusBorderColor != 0 && nBorderSize > 0) { 
 					CRenderEngine::DrawRect(hDC, m_rcItem, nBorderSize, GetAdjustColor(m_dwFocusBorderColor), m_nBorderStyle);
 				}
 				else if(rcBorderSize.left > 0 || rcBorderSize.top > 0 || rcBorderSize.right > 0 || rcBorderSize.bottom > 0) {

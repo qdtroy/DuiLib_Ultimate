@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Window size="800,572" sizebox="4,4,6,6" roundcorner="0,0" caption="0,0,0,64" bktrans="true" mininfo="400,300" showshadow="true" shadowimage="imgs/main/shadow.png" shadowsize="6" shadowcorner="8,8,8,8">
+<Window size="800,572" sizebox="4,4,6,6" roundcorner="0,0" caption="0,0,0,64" bktrans="false" mininfo="400,300" showshadow="true" shadowimage="imgs/main/shadow.png" shadowsize="6" shadowcorner="8,8,8,8">
   <Font id="0" name="宋体" size="12" default="true" shared="true"/>
   <Font id="1810" name="宋体" size="18" bold="true" shared="true"/>
   

@@ -65,7 +65,7 @@ namespace DuiLib
 			if( IsEnabled() ) {
 				if( m_bShowHtml )
 					CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, sText, m_dwTextColor, \
-					NULL, NULL, nLinks, m_uTextStyle);
+					NULL, NULL, nLinks, m_iFont, m_uTextStyle);
 				else
 					CRenderEngine::DrawText(hDC, m_pManager, rc, sText, m_dwTextColor, \
 					m_iFont, m_uTextStyle);
@@ -73,7 +73,7 @@ namespace DuiLib
 			else {
 				if( m_bShowHtml )
 					CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, sText, m_dwDisabledTextColor, \
-					NULL, NULL, nLinks, m_uTextStyle);
+					NULL, NULL, nLinks, m_iFont, m_uTextStyle);
 				else
 					CRenderEngine::DrawText(hDC, m_pManager, rc, sText, m_dwDisabledTextColor, \
 					m_iFont, m_uTextStyle);

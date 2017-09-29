@@ -1950,7 +1950,7 @@ namespace DuiLib {
 		int nLinks = 0;
 		if( m_bShowHtml )
 			CRenderEngine::DrawHtmlText(hDC, m_pManager, rcText, sText, m_dwTextColor, \
-			NULL, NULL, nLinks, m_uTextStyle);
+			NULL, NULL, nLinks, m_iFont, m_uTextStyle);
 		else
 			CRenderEngine::DrawText(hDC, m_pManager, rcText, sText, m_dwTextColor, \
 			m_iFont, m_uTextStyle);
@@ -2320,7 +2320,7 @@ namespace DuiLib {
 			RECT rcText = { 0, 0, 9999, cXY.cy };
 			if( pInfo->bShowHtml ) {
 				int nLinks = 0;
-				CRenderEngine::DrawHtmlText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, 0, NULL, NULL, nLinks, DT_SINGLELINE | DT_CALCRECT | pInfo->uTextStyle & ~DT_RIGHT & ~DT_CENTER);
+				CRenderEngine::DrawHtmlText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, 0, NULL, NULL, nLinks, pInfo->nFont, DT_SINGLELINE | DT_CALCRECT | pInfo->uTextStyle & ~DT_RIGHT & ~DT_CENTER);
 			}
 			else {
 				CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, 0, pInfo->nFont, DT_SINGLELINE | DT_CALCRECT | pInfo->uTextStyle & ~DT_RIGHT & ~DT_CENTER);
@@ -2364,7 +2364,7 @@ namespace DuiLib {
 
 		if( pInfo->bShowHtml )
 			CRenderEngine::DrawHtmlText(hDC, m_pManager, rcText, sText, iTextColor, \
-			NULL, NULL, nLinks, pInfo->uTextStyle);
+			NULL, NULL, nLinks, pInfo->nFont, pInfo->uTextStyle);
 		else
 			CRenderEngine::DrawText(hDC, m_pManager, rcText, sText, iTextColor, \
 			pInfo->nFont, pInfo->uTextStyle);
@@ -2542,7 +2542,7 @@ namespace DuiLib {
 
 			if( pInfo->bShowHtml )
 				CRenderEngine::DrawHtmlText(hDC, m_pManager, rcItem, strText.GetData(), iTextColor, \
-				&m_rcLinks[m_nLinks], &m_sLinks[m_nLinks], nLinks, pInfo->uTextStyle);
+				&m_rcLinks[m_nLinks], &m_sLinks[m_nLinks], nLinks, pInfo->nFont, pInfo->uTextStyle);
 			else
 				CRenderEngine::DrawText(hDC, m_pManager, rcItem, strText.GetData(), iTextColor, \
 				pInfo->nFont, pInfo->uTextStyle);

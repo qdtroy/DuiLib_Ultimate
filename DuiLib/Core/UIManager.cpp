@@ -705,7 +705,7 @@ namespace DuiLib {
 		m_nOpacity = nOpacity;
 		if( m_hWndPaint != NULL ) {
 			typedef BOOL (__stdcall *PFUNCSETLAYEREDWINDOWATTR)(HWND, COLORREF, BYTE, DWORD);
-			PFUNCSETLAYEREDWINDOWATTR fSetLayeredWindowAttributes;
+			PFUNCSETLAYEREDWINDOWATTR fSetLayeredWindowAttributes = NULL;
 
 			HMODULE hUser32 = ::GetModuleHandle(_T("User32.dll"));
 			if (hUser32)
@@ -1221,6 +1221,14 @@ namespace DuiLib {
 			break;
 		case WM_GETMINMAXINFO:
 			{
+				MONITORINFO Monitor = {};
+				Monitor.cbSize = sizeof(Monitor);
+				::GetMonitorInfo(::MonitorFromWindow(m_hWndPaint, MONITOR_DEFAULTTOPRIMARY), &Monitor);
+				RECT rcWork = Monitor.rcWork;
+				if( Monitor.dwFlags != MONITORINFOF_PRIMARY ) {
+					::OffsetRect(&rcWork, -rcWork.left, -rcWork.top);
+				}
+
 				LPMINMAXINFO lpMMI = (LPMINMAXINFO) lParam;
 				if( m_szMinWindow.cx > 0 ) lpMMI->ptMinTrackSize.x = m_szMinWindow.cx;
 				if( m_szMinWindow.cy > 0 ) lpMMI->ptMinTrackSize.y = m_szMinWindow.cy;

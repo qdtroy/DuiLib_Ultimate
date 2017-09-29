@@ -142,7 +142,7 @@ namespace DuiLib
 
 		if( m_bShowHtml ) {
 			int nLinks = 0;
-			CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, sText, dwTextColor, NULL, NULL, nLinks, uTextStyle);
+			CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, sText, dwTextColor, NULL, NULL, nLinks, m_iFont, uTextStyle);
 		} else {
 			CRenderEngine::DrawText(hDC, m_pManager, rc, sText, dwTextColor, m_iFont, uTextStyle);
 		}

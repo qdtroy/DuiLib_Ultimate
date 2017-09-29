@@ -42,7 +42,7 @@ namespace DuiLib {
 			Invalidate();
 			return;
 		}
-		if( event.Type == UIEVENT_MOUSELEAVE && !IsAnimationRunning( FADE_OUT_ID ) )
+		else if( event.Type == UIEVENT_MOUSELEAVE && !IsAnimationRunning( FADE_OUT_ID ) )
 		{
 			m_bFadeAlpha = 0;
 			m_bMouseLeave = TRUE;
@@ -51,7 +51,7 @@ namespace DuiLib {
 			Invalidate();
 			return;
 		}
-		if( event.Type == UIEVENT_TIMER ) 
+		else if( event.Type == UIEVENT_TIMER ) 
 		{
 			OnTimer(  event.wParam );
 		}
@@ -119,6 +119,20 @@ namespace DuiLib {
 				return;
 			}
 			else {
+				if( m_bMouseHove ) {
+					m_bMouseHove = FALSE;
+					m_sLastImage = m_sHotImage;
+					if( !DrawImage(hDC, (LPCTSTR)m_sNormalImage) ) {}
+					return;
+				}
+
+				if( m_bMouseLeave ) {
+					m_bMouseLeave = FALSE;
+					m_sLastImage = m_sNormalImage;
+					if( !DrawImage(hDC, (LPCTSTR)m_sHotImage) ) {}
+					return;
+				}
+
 				if(m_sLastImage.IsEmpty()) m_sLastImage = m_sNormalImage;
 				if( !DrawImage(hDC, (LPCTSTR)m_sLastImage) ) {}
 				return;

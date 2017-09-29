@@ -109,7 +109,7 @@ namespace DuiLib
 
 			RECT rcText = {0, 0, szAvailable.cx, szAvailable.cy};
 			int nLinks = 0;
-			if( m_bShowHtml ) CRenderEngine::DrawHtmlText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, m_dwTextColor, NULL, NULL, nLinks, DT_CALCRECT | m_uTextStyle);
+			if( m_bShowHtml ) CRenderEngine::DrawHtmlText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, m_dwTextColor, NULL, NULL, nLinks, m_iFont, DT_CALCRECT | m_uTextStyle);
 			else CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, m_dwTextColor, m_iFont, DT_CALCRECT | m_uTextStyle);
 			m_cxyFixed.cx = MulDiv(rcText.right - rcText.left + GetManager()->GetDPIObj()->Scale(m_rcTextPadding.left) + GetManager()->GetDPIObj()->Scale(m_rcTextPadding.right), 100, GetManager()->GetDPIObj()->GetScale());
 		}
@@ -235,7 +235,7 @@ namespace DuiLib
 		if( IsEnabled() ) {
 			if( m_bShowHtml )
 				CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, sText, m_dwTextColor, \
-				NULL, NULL, nLinks, m_uTextStyle);
+				NULL, NULL, nLinks, m_iFont, m_uTextStyle);
 			else
 				CRenderEngine::DrawText(hDC, m_pManager, rc, sText, m_dwTextColor, \
 				m_iFont, m_uTextStyle);
@@ -243,7 +243,7 @@ namespace DuiLib
 		else {
 			if( m_bShowHtml )
 				CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, sText, m_dwDisabledTextColor, \
-				NULL, NULL, nLinks, m_uTextStyle);
+				NULL, NULL, nLinks, m_iFont, m_uTextStyle);
 			else
 				CRenderEngine::DrawText(hDC, m_pManager, rc, sText, m_dwDisabledTextColor, \
 				m_iFont, m_uTextStyle);

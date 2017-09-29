@@ -330,7 +330,7 @@ namespace DuiLib
 			
 			if( m_bShowHtml )
 				CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, sText, IsEnabled()?m_dwTextColor:m_dwDisabledTextColor, \
-				NULL, NULL, nLinks, m_uTextStyle);
+				NULL, NULL, nLinks, m_iFont, m_uTextStyle);
 			else
 				CRenderEngine::DrawText(hDC, m_pManager, rc, sText, IsEnabled()?m_dwTextColor:m_dwDisabledTextColor, \
 				m_iFont, m_uTextStyle);

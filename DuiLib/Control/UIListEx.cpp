@@ -871,7 +871,7 @@ Label_ForeImage:
 		int nLinks = 0;
 		if( m_bShowHtml )
 			CRenderEngine::DrawHtmlText(hDC, m_pManager, rcText, sText, m_dwTextColor, \
-			NULL, NULL, nLinks, DT_SINGLELINE | m_uTextStyle);
+			NULL, NULL, nLinks, m_iFont, DT_SINGLELINE | m_uTextStyle);
 		else
 			CRenderEngine::DrawText(hDC, m_pManager, rcText, sText, m_dwTextColor, \
 			m_iFont, DT_SINGLELINE | m_uTextStyle);
@@ -1294,7 +1294,7 @@ Label_ForeImage:
 			else strText.Assign(GetText(i));
 			if( pInfo->bShowHtml )
 				CRenderEngine::DrawHtmlText(hDC, m_pManager, rcItem, strText.GetData(), iTextColor, \
-				&m_rcLinks[m_nLinks], &m_sLinks[m_nLinks], nLinks, DT_SINGLELINE | pInfo->uTextStyle);
+				&m_rcLinks[m_nLinks], &m_sLinks[m_nLinks], nLinks, pInfo->nFont, DT_SINGLELINE | pInfo->uTextStyle);
 			else
 				CRenderEngine::DrawText(hDC, m_pManager, rcItem, strText.GetData(), iTextColor, \
 				pInfo->nFont, DT_SINGLELINE | pInfo->uTextStyle);

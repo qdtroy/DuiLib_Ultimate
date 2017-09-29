@@ -220,7 +220,7 @@ void CChartViewUI::DoPaintPie(HDC hDC, const RECT& rcPaint)
 				if( m_bShowHtml )
 				{
 					CRenderEngine::DrawHtmlText(hDC, m_pManager, rcText, m_items[i].name, clrColor, \
-						NULL, NULL, nLinks, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+						NULL, NULL, nLinks, m_iFont, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
 				}
 				else
 				{
@@ -310,7 +310,7 @@ void CChartViewUI::DoPaintHistogram(HDC hDC, const RECT& rcPaint)
 			if( m_bShowHtml )
 			{
 				CRenderEngine::DrawHtmlText(hDC, m_pManager, rcText, m_items[i].name, clrColor, \
-					NULL, NULL, nLinks, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+					NULL, NULL, nLinks, m_iFont, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 			}
 			else
 			{

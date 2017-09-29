@@ -1695,7 +1695,7 @@ namespace DuiLib {
 		}
 	}
 
-	void CRenderEngine::DrawHtmlText(HDC hDC, CPaintManagerUI* pManager, RECT& rc, LPCTSTR pstrText, DWORD dwTextColor, RECT* prcLinks, CDuiString* sLinks, int& nLinkRects, UINT uStyle)
+	void CRenderEngine::DrawHtmlText(HDC hDC, CPaintManagerUI* pManager, RECT& rc, LPCTSTR pstrText, DWORD dwTextColor, RECT* prcLinks, CDuiString* sLinks, int& nLinkRects, int iFont, UINT uStyle)
 	{
 		// 考虑到在xml编辑器中使用<>符号不方便，可以使用{}符号代替
 		// 支持标签嵌套（如<l><b>text</b></l>），但是交叉嵌套是应该避免的（如<l><b>text</l></b>）
@@ -1731,8 +1731,12 @@ namespace DuiLib {
 		HRGN hRgn = ::CreateRectRgnIndirect(&rc);
 		if( bDraw ) ::ExtSelectClipRgn(hDC, hRgn, RGN_AND);
 
-		TEXTMETRIC* pTm = &pManager->GetDefaultFontInfo()->tm;
-		HFONT hOldFont = (HFONT) ::SelectObject(hDC, pManager->GetDefaultFontInfo()->hFont);
+		TFontInfo* pDefFontInfo = pManager->GetFontInfo(iFont);
+		if(pDefFontInfo == NULL) {
+			pDefFontInfo = pManager->GetDefaultFontInfo();
+		}
+		TEXTMETRIC* pTm = &pDefFontInfo->tm;
+		HFONT hOldFont = (HFONT) ::SelectObject(hDC, pDefFontInfo->hFont);
 		::SetBkMode(hDC, TRANSPARENT);
 		::SetTextColor(hDC, RGB(GetBValue(dwTextColor), GetGValue(dwTextColor), GetRValue(dwTextColor)));
 		DWORD dwBkColor = pManager->GetDefaultSelectedBkColor();
@@ -1743,7 +1747,7 @@ namespace DuiLib {
 		if( ((uStyle & DT_CENTER) != 0 || (uStyle & DT_RIGHT) != 0 || (uStyle & DT_VCENTER) != 0 || (uStyle & DT_BOTTOM) != 0) && (uStyle & DT_CALCRECT) == 0 ) {
 			RECT rcText = { 0, 0, 9999, 100 };
 			int nLinks = 0;
-			DrawHtmlText(hDC, pManager, rcText, pstrText, dwTextColor, NULL, NULL, nLinks, uStyle | DT_CALCRECT);
+			DrawHtmlText(hDC, pManager, rcText, pstrText, dwTextColor, NULL, NULL, nLinks, iFont, uStyle | DT_CALCRECT);
 			if( (uStyle & DT_SINGLELINE) != 0 ){
 				if( (uStyle & DT_CENTER) != 0 ) {
 					rc.left = rc.left + ((rc.right - rc.left) / 2) - ((rcText.right - rcText.left) / 2);
@@ -1860,7 +1864,7 @@ namespace DuiLib {
 							//}
 							aColorArray.Add((LPVOID)clrColor);
 							::SetTextColor(hDC,  RGB(GetBValue(clrColor), GetGValue(clrColor), GetRValue(clrColor)));
-							TFontInfo* pFontInfo = pManager->GetDefaultFontInfo();
+							TFontInfo* pFontInfo = pDefFontInfo;
 							if( aFontArray.GetSize() > 0 ) pFontInfo = (TFontInfo*)aFontArray.GetAt(aFontArray.GetSize() - 1);
 							if( pFontInfo->bUnderline == false ) {
 								HFONT hFont = pManager->GetFont(pFontInfo->sFontName, pFontInfo->iSize, pFontInfo->bBold, true, pFontInfo->bItalic);
@@ -1878,7 +1882,7 @@ namespace DuiLib {
 					case _T('b'):  // Bold
 						{
 							pstrText++;
-							TFontInfo* pFontInfo = pManager->GetDefaultFontInfo();
+							TFontInfo* pFontInfo = pDefFontInfo;
 							if( aFontArray.GetSize() > 0 ) pFontInfo = (TFontInfo*)aFontArray.GetAt(aFontArray.GetSize() - 1);
 							if( pFontInfo->bBold == false ) {
 								HFONT hFont = pManager->GetFont(pFontInfo->sFontName, pFontInfo->iSize, true, pFontInfo->bUnderline, pFontInfo->bItalic);
@@ -1907,7 +1911,6 @@ namespace DuiLib {
 							while( *pstrText > _T('\0') && *pstrText <= _T(' ') ) pstrText = ::CharNext(pstrText);
 							LPCTSTR pstrTemp = pstrText;
 							int iFont = (int) _tcstol(pstrText, const_cast<LPTSTR*>(&pstrText), 10);
-							//if( isdigit(*pstrText) ) { // debug版本会引起异常
 							if( pstrTemp != pstrText ) {
 								TFontInfo* pFontInfo = pManager->GetFontInfo(iFont);
 								aFontArray.Add(pFontInfo);
@@ -1970,7 +1973,7 @@ namespace DuiLib {
 							}
 							if( sName.IsEmpty() ) { // Italic
 								pstrNextStart = NULL;
-								TFontInfo* pFontInfo = pManager->GetDefaultFontInfo();
+								TFontInfo* pFontInfo = pDefFontInfo;
 								if( aFontArray.GetSize() > 0 ) pFontInfo = (TFontInfo*)aFontArray.GetAt(aFontArray.GetSize() - 1);
 								if( pFontInfo->bItalic == false ) {
 									HFONT hFont = pManager->GetFont(pFontInfo->sFontName, pFontInfo->iSize, pFontInfo->bBold, pFontInfo->bUnderline, true);
@@ -2103,7 +2106,7 @@ namespace DuiLib {
 					case _T('u'):  // Underline text
 						{
 							pstrText++;
-							TFontInfo* pFontInfo = pManager->GetDefaultFontInfo();
+							TFontInfo* pFontInfo = pDefFontInfo;
 							if( aFontArray.GetSize() > 0 ) pFontInfo = (TFontInfo*)aFontArray.GetAt(aFontArray.GetSize() - 1);
 							if( pFontInfo->bUnderline == false ) {
 								HFONT hFont = pManager->GetFont(pFontInfo->sFontName, pFontInfo->iSize, pFontInfo->bBold, true, pFontInfo->bItalic);
@@ -2190,7 +2193,7 @@ namespace DuiLib {
 						pstrText++;
 						aFontArray.Remove(aFontArray.GetSize() - 1);
 						TFontInfo* pFontInfo = (TFontInfo*)aFontArray.GetAt(aFontArray.GetSize() - 1);
-						if( pFontInfo == NULL ) pFontInfo = pManager->GetDefaultFontInfo();
+						if( pFontInfo == NULL ) pFontInfo = pDefFontInfo;
 						if( pTm->tmItalic && pFontInfo->bItalic == false ) {
 							ABC abc;
 							::GetCharABCWidths(hDC, _T(' '), _T(' '), &abc);
@@ -2340,7 +2343,7 @@ namespace DuiLib {
 					if( aColorArray.GetSize() > 0 ) clrColor = (int)aColorArray.GetAt(aColorArray.GetSize() - 1);
 					::SetTextColor(hDC, RGB(GetBValue(clrColor), GetGValue(clrColor), GetRValue(clrColor)));
 					TFontInfo* pFontInfo = (TFontInfo*)aFontArray.GetAt(aFontArray.GetSize() - 1);
-					if( pFontInfo == NULL ) pFontInfo = pManager->GetDefaultFontInfo();
+					if( pFontInfo == NULL ) pFontInfo = pDefFontInfo;
 					pTm = &pFontInfo->tm;
 					::SelectObject(hDC, pFontInfo->hFont);
 					if( bInSelected ) ::SetBkMode(hDC, OPAQUE);

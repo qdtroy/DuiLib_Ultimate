@@ -220,7 +220,7 @@ namespace DuiLib
 	//************************************
 	bool CTreeNodeUI::Add( CControlUI* _pTreeNodeUI )
 	{
-		if (_tcsicmp(_pTreeNodeUI->GetClass(), _T("TreeNodeUI")) == 0)
+		if (NULL != static_cast<CTreeNodeUI*>(_pTreeNodeUI->GetInterface(_T("TreeNode"))))
 			return AddChildNode((CTreeNodeUI*)_pTreeNodeUI);
 		
 		return CListContainerElementUI::Add(_pTreeNodeUI);
@@ -354,7 +354,7 @@ namespace DuiLib
 		if (!_pTreeNodeUI)
 			return FALSE;
 
-		if (_tcsicmp(_pTreeNodeUI->GetClass(), _T("TreeNodeUI")) != 0)
+		if (NULL == static_cast<CTreeNodeUI*>(_pTreeNodeUI->GetInterface(_T("TreeNode"))))
 			return FALSE;
 
 		_pTreeNodeUI = CalLocation(_pTreeNodeUI);
@@ -787,7 +787,7 @@ namespace DuiLib
 	bool CTreeViewUI::Add( CTreeNodeUI* pControl )
 	{
 		if (!pControl) return false;
-		if (_tcsicmp(pControl->GetClass(), _T("TreeNodeUI")) != 0) return false;
+		if (NULL == static_cast<CTreeNodeUI*>(pControl->GetInterface(_T("TreeNode")))) return false;
 
 		pControl->OnNotify += MakeDelegate(this,&CTreeViewUI::OnDBClickItem);
 		pControl->GetFolderButton()->OnNotify += MakeDelegate(this,&CTreeViewUI::OnFolderChanged);
@@ -822,7 +822,7 @@ namespace DuiLib
 	long CTreeViewUI::AddAt( CTreeNodeUI* pControl, int iIndex )
 	{
 		if (!pControl) return -1;
-		if (_tcsicmp(pControl->GetClass(), _T("TreeNodeUI")) != 0) return -1;
+		if (NULL == static_cast<CTreeNodeUI*>(pControl->GetInterface(_T("TreeNode")))) return -1;
 		pControl->OnNotify += MakeDelegate(this,&CTreeViewUI::OnDBClickItem);
 		pControl->GetFolderButton()->OnNotify += MakeDelegate(this,&CTreeViewUI::OnFolderChanged);
 		pControl->GetCheckBox()->OnNotify += MakeDelegate(this,&CTreeViewUI::OnCheckBoxChanged);

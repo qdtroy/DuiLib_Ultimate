@@ -65,37 +65,9 @@ void InitResource()
 		break;
 	}
 }
-void WINAPI WriteWebBrowserRegKey(LPCTSTR lpKey,DWORD dwValue)
-{
-	HKEY hk;
-	//CDuiString str = L"Software\\WOW6432Node\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\";
-	//str += lpKey;
-	//RegCreateKey(HKEY_CURRENT_USER,str.GetData(),&hk);
-	//RegSetValueEx(hk,L"TroyBrowser.exe",NULL,REG_DWORD,(const byte*)&dwValue,4);
-	//RegCloseKey(hk);
-
-	CDuiString str1 = L"Software\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\";
-	str1 += lpKey;
-	RegCreateKey(HKEY_CURRENT_USER,str1.GetData(),&hk);
-	RegSetValueEx(hk,L"TroyBrowser_d.exe",NULL,REG_DWORD,(const byte*)&dwValue,4);
-	RegCloseKey(hk);
-}
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
-	WriteWebBrowserRegKey(L"FEATURE_BLOCK_LMZ_IMG",1);
-	WriteWebBrowserRegKey(L"FEATURE_BLOCK_LMZ_OBJECT",1);
-	WriteWebBrowserRegKey(L"FEATURE_BLOCK_LMZ_SCRIPT",1);
-	WriteWebBrowserRegKey(L"FEATURE_Cross_Domain_Redirect_Mitigation",1);
-	WriteWebBrowserRegKey(L"FEATURE_ENABLE_SCRIPT_PASTE_URLACTION_IF_PROMPT",1);
-	WriteWebBrowserRegKey(L"FEATURE_LOCALMACHINE_LOCKDOWN",1);
-
-	WriteWebBrowserRegKey(L"FEATURE_INTERNET_SHELL_FOLDERS",0);
-	WriteWebBrowserRegKey(L"FEATURE_BROWSER_EMULATION",11000);
-	WriteWebBrowserRegKey(L"FEATURE_ZONE_ELEVATION",1);
-	WriteWebBrowserRegKey(L"FEATURE_SCRIPTURL_MITIGATION",1);
-	WriteWebBrowserRegKey(L"FEATURE_BLOCK_LMZ_SCRIPT",1);
-	WriteWebBrowserRegKey(L"FEATURE_GPU_RENDERING",1);
 
 	HRESULT Hr = ::CoInitialize(NULL);
 	if( FAILED(Hr) ) return 0;

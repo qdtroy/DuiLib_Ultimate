@@ -550,7 +550,7 @@ namespace DuiLib
 		if (!IsResourceText()) return m_sTipValue;
 		return CResourceManager::GetInstance()->GetText(m_sTipValue);
 	}
-
+	                    
 	void CEditUI::SetTipValueColor( LPCTSTR pStrColor )
 	{
 		if( *pStrColor == _T('#')) pStrColor = ::CharNext(pStrColor);

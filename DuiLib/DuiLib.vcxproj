@@ -355,7 +355,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='SDebug|x64'">$(SolutionDir)Lib\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='SDebugA|Win32'">$(SolutionDir)Lib\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='SDebugA|x64'">$(SolutionDir)Lib\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugA|Win32'">$(SolutionDir)Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugA|Win32'">$(SolutionDir)Bin\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugA|x64'">$(SolutionDir)Bin\</OutDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseA|Win32'">$(ProjectName)A</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseA|x64'">$(ProjectName)A</TargetName>

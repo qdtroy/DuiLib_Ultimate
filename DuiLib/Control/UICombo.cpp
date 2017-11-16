@@ -311,7 +311,7 @@ namespace DuiLib {
 
 	UINT CComboUI::GetControlFlags() const
 	{
-		return UIFLAG_TABSTOP;
+		return UIFLAG_TABSTOP | UIFLAG_SETCURSOR;
 	}
 
 	void CComboUI::DoInit()

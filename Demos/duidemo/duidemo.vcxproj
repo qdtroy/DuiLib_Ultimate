@@ -70,10 +70,14 @@
     <ProjectName>duidemo</ProjectName>
     <ProjectGuid>{54019823-E923-44D0-AD60-8EB636D107DC}</ProjectGuid>
     <RootNamespace>360</RootNamespace>
-    <SccProjectName>Svn</SccProjectName>
-    <SccAuxPath>Svn</SccAuxPath>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccProvider>SubversionScc</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

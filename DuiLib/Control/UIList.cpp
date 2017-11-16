@@ -2157,13 +2157,13 @@ namespace DuiLib {
 		TListInfoUI* pInfo = m_pOwner->GetListInfo();
 		DWORD iBackColor = 0;
 		if( !pInfo->bAlternateBk || m_iIndex % 2 == 0 ) iBackColor = pInfo->dwBkColor;
-		if( (m_uButtonState & UISTATE_HOT) != 0 ) {
+		if( (m_uButtonState & UISTATE_HOT) != 0 && pInfo->dwHotBkColor > 0) {
 			iBackColor = pInfo->dwHotBkColor;
 		}
-		if( IsSelected() ) {
+		if( IsSelected() && pInfo->dwSelectedBkColor > 0) {
 			iBackColor = pInfo->dwSelectedBkColor;
 		}
-		if( !IsEnabled() ) {
+		if( !IsEnabled() && pInfo->dwDisabledBkColor > 0) {
 			iBackColor = pInfo->dwDisabledBkColor;
 		}
 
@@ -2898,13 +2898,13 @@ namespace DuiLib {
 		DWORD iBackColor = 0;
 		if( !pInfo->bAlternateBk || m_iIndex % 2 == 0 ) iBackColor = pInfo->dwBkColor;
 
-		if( (m_uButtonState & UISTATE_HOT) != 0 ) {
+		if( (m_uButtonState & UISTATE_HOT) != 0 && pInfo->dwHotBkColor > 0) {
 			iBackColor = pInfo->dwHotBkColor;
 		}
-		if( IsSelected() ) {
+		if( IsSelected() && pInfo->dwSelectedBkColor > 0) {
 			iBackColor = pInfo->dwSelectedBkColor;
 		}
-		if( !IsEnabled() ) {
+		if( !IsEnabled() && pInfo->dwDisabledBkColor > 0) {
 			iBackColor = pInfo->dwDisabledBkColor;
 		}
 		if ( iBackColor != 0 ) {

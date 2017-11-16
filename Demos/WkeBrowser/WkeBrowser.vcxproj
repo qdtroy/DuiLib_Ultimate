@@ -70,10 +70,14 @@
     <ProjectName>WkeBrowser</ProjectName>
     <ProjectGuid>{71A9D549-71E3-463C-979E-3A5F1B76614C}</ProjectGuid>
     <RootNamespace>360</RootNamespace>
-    <SccProjectName>Svn</SccProjectName>
-    <SccAuxPath>Svn</SccAuxPath>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccProvider>SubversionScc</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

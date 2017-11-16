@@ -38,10 +38,14 @@
     <ProjectName>TroyBrowser</ProjectName>
     <ProjectGuid>{54393194-0DDC-47E9-96E9-0D3D87466403}</ProjectGuid>
     <RootNamespace>360</RootNamespace>
-    <SccProjectName>Svn</SccProjectName>
-    <SccAuxPath>Svn</SccAuxPath>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccProvider>SubversionScc</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

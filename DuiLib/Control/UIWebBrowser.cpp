@@ -141,6 +141,9 @@ namespace DuiLib
 			*ppvObject = static_cast<IDispatch*>(this);
 		else if( riid == IID_IServiceProvider)
 			*ppvObject = static_cast<IServiceProvider*>(this);
+		else if(riid == IID_IInternetSecurityManager ) {
+			*ppvObject = static_cast<IInternetSecurityManager*>(this);
+		}
 		else if (riid == IID_IOleCommandTarget)
 			*ppvObject = static_cast<IOleCommandTarget*>(this);
 
@@ -546,7 +549,10 @@ namespace DuiLib
 			*ppvObject = this;
 			return S_OK;
 		}
-
+		if(guidService == SID_SInternetSecurityManager && riid == IID_IInternetSecurityManager) {
+			*ppvObject = this;
+			return S_OK;
+		}
 		return hr;
 	}
 

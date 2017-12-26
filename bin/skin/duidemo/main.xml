@@ -100,7 +100,7 @@
           <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="输入控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <HorizontalLayout height="40" childvalign="vcenter" childpadding="12" hscrollbar="true">
-              <Edit name="edit1" tipvalue="普通" style="edit_style" />
+              <Edit name="edit1" tipvalue="普通" style="edit_style" nativetextcolor="#FF0000"/>
               <Edit name="edit2" tipvalue="只读" text="只读控件" style="edit_style" align="center" readonly="true"/>
               <Edit name="edit3" tipvalue="数字" style="edit_style" numberonly="true"/>
               <Edit name="edit4" tipvalue="密码" style="edit_style" password="true" passwordchar="●"/>
@@ -191,7 +191,7 @@
           <HorizontalLayout height="180" inset="0,6,0,6">
             <Label text="ListView控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF333333" inset="2,2,2,2">
-              <List name="listview" vscrollbar="true" hscrollbar="true" style="list_style" itemvalign="vcenter" scrollstepsize="100">
+              <List name="listview" vscrollbar="true" hscrollbar="true" style="list_style" itemvalign="vcenter" scrollstepsize="100" bordersize="1,1,1,1" bordercolor="#FFFF0000">
                 <ListHeader height="24" menu="true">
                   <ListHeaderItem name="header_name" text="姓名" width="80" hotimage="res='common/list_header_hot.png'" pushedimage="res='common/list_header_pushed.png'" sepimage="res='common/list_header_sep.png'" sepwidth="1"/>
                   <ListHeaderItem text="学号" width="160" hotimage="res='common/list_header_hot.png'" pushedimage="res='common/list_header_pushed.png'" sepimage="res='common/list_header_sep.png'" sepwidth="1"/>

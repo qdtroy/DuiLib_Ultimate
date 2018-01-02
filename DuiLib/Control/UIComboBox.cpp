@@ -102,7 +102,7 @@ namespace DuiLib
 			else {
 				RECT rcOldPos = pControl->GetPos();
 				pControl->SetPos(rcText);
-				pControl->DoPaint(hDC, rcText);
+				pControl->DoPaint(hDC, rcText, NULL);
 				pControl->SetPos(rcOldPos);
 			}
 		}

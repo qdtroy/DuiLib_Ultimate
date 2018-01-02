@@ -1148,9 +1148,9 @@ namespace DuiLib {
 		else CContainerUI::SetAttribute(pstrName, pstrValue);
 	}
 
-	void CComboUI::DoPaint(HDC hDC, const RECT& rcPaint)
+	bool CComboUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 	{
-		CControlUI::DoPaint(hDC, rcPaint);
+		return CControlUI::DoPaint(hDC, rcPaint, pStopControl);
 	}
 
 	void CComboUI::PaintStatusImage(HDC hDC)

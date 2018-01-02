@@ -42,14 +42,15 @@ namespace DuiLib
 		InitGifImage();
 	}
 
-	void CGifAnimUI::DoPaint( HDC hDC, const RECT& rcPaint )
+	bool CGifAnimUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 	{
-		if( !::IntersectRect( &m_rcPaint, &rcPaint, &m_rcItem ) ) return;
+		if( !::IntersectRect( &m_rcPaint, &rcPaint, &m_rcItem ) ) return true;
 		if ( NULL == m_pGifImage )
 		{		
 			InitGifImage();
 		}
 		DrawFrame( hDC );
+		return true;
 	}
 
 	void CGifAnimUI::DoEvent( TEventUI& event )

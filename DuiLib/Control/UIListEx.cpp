@@ -1454,12 +1454,13 @@ Label_ForeImage:
 		m_sCheckBoxForeImage = pStrImage;
 	}
 
-	void CListTextExtElementUI::DoPaint(HDC hDC, const RECT& rcPaint)
+	bool CListTextExtElementUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 	{
-		if( !::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem) ) return;
+		if( !::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem) ) return true;
 		DrawItemBk(hDC, m_rcItem);
 		PaintStatusImage(hDC);
 		DrawItemText(hDC, m_rcItem);
+		return true;
 	}
 	void CListTextExtElementUI::GetCheckBoxRect(int nIndex, RECT &rc)
 	{

@@ -18,15 +18,6 @@
     <Filter Include="3rd">
       <UniqueIdentifier>{b76e2f16-f57a-4850-a20d-1839aaa6240a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3rd\TroyControls">
-      <UniqueIdentifier>{1f2973d2-bc64-46e0-99d4-4c76370ba251}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3rd\TroyControls\Include">
-      <UniqueIdentifier>{a351526a-adce-4745-8638-73712fbb8031}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3rd\TroyControls\Lib">
-      <UniqueIdentifier>{c3fc1a57-0abb-441c-bd03-448e95d85aeb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3rd\Wke">
       <UniqueIdentifier>{a427d539-ea3e-4436-bbe2-ec80ff2edd36}</UniqueIdentifier>
     </Filter>
@@ -67,13 +58,16 @@
     <ClInclude Include="MsgWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="3rd\TroyControls\Include\TroyControls.h">
-      <Filter>3rd\TroyControls\Include</Filter>
-    </ClInclude>
     <ClInclude Include="3rd\Wke\Include\wke.h">
       <Filter>3rd\Wke\Include</Filter>
     </ClInclude>
     <ClInclude Include="WkeWebkit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TroyControls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -102,12 +96,6 @@
   <ItemGroup>
     <Library Include="3rd\Wke\Lib\wke.lib">
       <Filter>3rd\Wke\Lib</Filter>
-    </Library>
-    <Library Include="3rd\TroyControls\lib\TroyControls_d.lib">
-      <Filter>3rd\TroyControls\Lib</Filter>
-    </Library>
-    <Library Include="3rd\TroyControls\lib\TroyControls.lib">
-      <Filter>3rd\TroyControls\Lib</Filter>
     </Library>
   </ItemGroup>
 </Project>

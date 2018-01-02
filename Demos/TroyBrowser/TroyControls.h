@@ -13,8 +13,78 @@
 #define DUI_MSGTYPE_TABINDEXCHANGED			(_T("tabindexchanged"))
 #define DUI_MSGTYPE_TABCLOSED				(_T("tabclosed"))
 #define DUI_MSGTYPE_PAGERCHANGED			(_T("pagerchanged"))
+#define TIMERID_MOVEBANNER	100
 
 extern "C" TROYCONTROLS_API CControlUI* CreateControl(LPCTSTR pstrType);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+
+class CMoveBannerUI : public CHorizontalLayoutUI
+{
+public:
+	CMoveBannerUI();
+	~CMoveBannerUI();
+
+public:
+	void Start();
+	void Stop();
+
+public:
+	LPCTSTR GetClass() const;
+	LPVOID GetInterface(LPCTSTR pstrName);
+	void SetPos(RECT rc, bool bNeedInvalidate = true);
+	void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
+	void SetBkImage(LPCTSTR pStrImage);
+	void PaintBkImage(HDC hDC);
+	void DoEvent(TEventUI& event);
+	void OnTimer(UINT_PTR idEvent);
+
+
+private:
+	bool m_bHoverPause;
+	int m_nElapse;
+	int m_nStep;
+	int m_nCurSpace;
+	int m_nMaxSpace;
+	RECT m_rcImage;
+	SIZE m_szImage;
+	bool m_bHot;
+	TImageInfo* m_pNormal;
+	TImageInfo* m_pHot;
+	HDC m_hNormalDC;
+	HDC m_hHotDC;
+};
+
+class TROYCONTROLS_API CFloatBannerUI : public CHorizontalLayoutUI
+{
+public:
+	CFloatBannerUI();
+	~CFloatBannerUI();
+
+public:
+	void Start();
+	void Stop();
+
+public:
+	LPCTSTR GetClass() const;
+	LPVOID GetInterface(LPCTSTR pstrName);
+	void SetPos(RECT rc, bool bNeedInvalidate = true);
+	void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
+	void SetBkImage(LPCTSTR pStrImage);
+	void DoEvent(TEventUI& event);
+	void OnTimer(UINT_PTR idEvent);
+	bool OnEvent(void* param);
+
+private:
+	bool m_bHoverPause;
+	int m_nElapse;
+	int m_nStep;
+	int m_nCurSpace;
+	int m_nMaxSpace;
+	CControlUI* m_pLeft;
+	CButtonUI* m_pMoveBtn;
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -45,7 +115,7 @@ public:
 	void DoEvent(TEventUI& event);
 
 	void DoInit();
-	void DoPaint(HDC hDC, const RECT& rcPaint);
+	bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 	void DoPostPaint(HDC hDC, const RECT& rcPaint);
 	void PaintStatusImage(HDC hDC);
 	void PaintIcon(HDC hDC);
@@ -777,4 +847,63 @@ protected:
 	CVListViewUI* m_pList;
 	CListHeaderUI* m_pHeader;
 	TListInfoUI m_ListInfo;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////
+//
+
+class TROYCONTROLS_API CListRichElementUI : public CHorizontalLayoutUI, public IListItemUI
+{
+	DECLARE_DUICONTROL(CListRichElementUI)
+public:
+	CListRichElementUI();
+	~CListRichElementUI();
+
+	LPCTSTR GetClass() const;
+	UINT GetControlFlags() const;
+	LPVOID GetInterface(LPCTSTR pstrName);
+
+	int GetIndex() const;
+	void SetIndex(int iIndex);
+
+	IListOwnerUI* GetOwner();
+	void SetOwner(CControlUI* pOwner);
+	void SetVisible(bool bVisible = true);
+	void SetEnabled(bool bEnable = true);
+
+	bool IsSelected() const;
+	bool Select(bool bSelect = true);
+	bool SelectMulti(bool bSelect = true);
+	bool IsExpanded() const;
+	bool Expand(bool bExpand = true);
+
+	void Invalidate(); // 直接CControl::Invalidate会导致滚动条刷新，重写减少刷新区域
+	bool Activate();
+
+	void DoEvent(TEventUI& event);
+	void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
+	bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
+
+	LPCTSTR GetText(int iIndex) const;
+	void SetText(int iIndex, LPCTSTR pstrText);
+
+	CDuiString* GetLinkContent(int iIndex);
+
+	virtual void DrawItemText(HDC hDC, const RECT& rcItem);
+	virtual void DrawItemBk(HDC hDC, const RECT& rcItem);
+
+	void SetPos(RECT rc, bool bNeedInvalidate = true);
+
+protected:
+	int m_iIndex;
+	bool m_bSelected;
+	UINT m_uButtonState;
+	IListUI* m_pOwner;
+
+	enum { MAX_LINK = 8 };
+	int m_nLinks;
+	RECT m_rcLinks[MAX_LINK];
+	CDuiString m_sLinks[MAX_LINK];
+	int m_nHoverLink;
+	CStdPtrArray m_aTexts;
 };

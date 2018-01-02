@@ -424,7 +424,7 @@ namespace DuiLib {
 
 		void DoEvent(TEventUI& event);
 		SIZE EstimateSize(SIZE szAvailable);
-		void DoPaint(HDC hDC, const RECT& rcPaint);
+		bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 
 		void DrawItemText(HDC hDC, const RECT& rcItem);
 	};
@@ -497,7 +497,7 @@ namespace DuiLib {
 
 		void DoEvent(TEventUI& event);
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
-		void DoPaint(HDC hDC, const RECT& rcPaint);
+		bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 
 		virtual void DrawItemText(HDC hDC, const RECT& rcItem);    
 		virtual void DrawItemBk(HDC hDC, const RECT& rcItem);

@@ -236,7 +236,7 @@ namespace DuiLib {
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 	//
-	
+
 	bool DrawImage(HDC hDC, CPaintManagerUI* pManager, const RECT& rc, const RECT& rcPaint, const CDuiString& sImageName, \
 		const CDuiString& sImageResType, RECT rcItem, RECT rcBmpPart, RECT rcCorner, DWORD dwMask, BYTE bFade, \
 		bool bHole, bool bTiledX, bool bTiledY, HINSTANCE instance = NULL)
@@ -926,9 +926,9 @@ namespace DuiLib {
 			if (sStrPath.IsEmpty()) sStrPath = pStrImage;
 			else {
 				/*if (CResourceManager::GetInstance()->GetScale() != 100) {
-					CDuiString sScale;
-					sScale.Format(_T("@%d."), CResourceManager::GetInstance()->GetScale());
-					sStrPath.Replace(_T("."), sScale);
+				CDuiString sScale;
+				sScale.Format(_T("@%d."), CResourceManager::GetInstance()->GetScale());
+				sStrPath.Replace(_T("."), sScale);
 				}*/
 			}
 		}
@@ -1413,7 +1413,7 @@ namespace DuiLib {
 		}
 		bool bRet = DuiLib::DrawImage(hDC, pManager, rcItem, rcPaint, pDrawInfo->sImageName, pDrawInfo->sResType, rcDest, \
 			pDrawInfo->rcSource, pDrawInfo->rcCorner, pDrawInfo->dwMask, pDrawInfo->uFade, pDrawInfo->bHole, pDrawInfo->bTiledX, pDrawInfo->bTiledY, instance);
-		
+
 		return bRet;
 	}
 
@@ -2379,17 +2379,27 @@ namespace DuiLib {
 		::SelectObject(hDC, hOldFont);
 	}
 
-	HBITMAP CRenderEngine::GenerateBitmap(CPaintManagerUI* pManager, CControlUI* pControl, RECT rc)
+	HBITMAP CRenderEngine::GenerateBitmap(CPaintManagerUI* pManager, RECT rc, CControlUI* pStopControl, DWORD dwFilterColor)
 	{
+		if (pManager == NULL) return NULL;
 		int cx = rc.right - rc.left;
 		int cy = rc.bottom - rc.top;
 
+		bool bUseOffscreenBitmap = true;
 		HDC hPaintDC = ::CreateCompatibleDC(pManager->GetPaintDC());
-		HBITMAP hPaintBitmap = ::CreateCompatibleBitmap(pManager->GetPaintDC(), rc.right, rc.bottom);
 		ASSERT(hPaintDC);
-		ASSERT(hPaintBitmap);
+		HBITMAP hPaintBitmap = NULL;
+		//if (pStopControl == NULL && !pManager->IsLayered()) hPaintBitmap = pManager->Get();
+		if( hPaintBitmap == NULL ) {
+			bUseOffscreenBitmap = false;
+			hPaintBitmap = ::CreateCompatibleBitmap(pManager->GetPaintDC(), rc.right, rc.bottom);
+			ASSERT(hPaintBitmap);
+		}
 		HBITMAP hOldPaintBitmap = (HBITMAP) ::SelectObject(hPaintDC, hPaintBitmap);
-		pControl->DoPaint(hPaintDC, rc);
+		if (!bUseOffscreenBitmap) {
+			CControlUI* pRoot = pManager->GetRoot();
+			pRoot->Paint(hPaintDC, rc, pStopControl);
+		}
 
 		BITMAPINFO bmi = { 0 };
 		bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -2408,6 +2418,53 @@ namespace DuiLib {
 		{
 			HBITMAP hOldBitmap = (HBITMAP) ::SelectObject(hCloneDC, hBitmap);
 			::BitBlt(hCloneDC, 0, 0, cx, cy, hPaintDC, rc.left, rc.top, SRCCOPY);
+			RECT rcClone = {0, 0, cx, cy};
+			if (dwFilterColor > 0x00FFFFFF) DrawColor(hCloneDC, rcClone, dwFilterColor);
+			::SelectObject(hCloneDC, hOldBitmap);
+			::DeleteDC(hCloneDC);  
+			::GdiFlush();
+		}
+
+		// Cleanup
+		::SelectObject(hPaintDC, hOldPaintBitmap);
+		if (!bUseOffscreenBitmap) ::DeleteObject(hPaintBitmap);
+		::DeleteDC(hPaintDC);
+
+		return hBitmap;
+	}
+
+	HBITMAP CRenderEngine::GenerateBitmap(CPaintManagerUI* pManager, CControlUI* pControl, RECT rc, DWORD dwFilterColor)
+	{
+		if (pManager == NULL || pControl == NULL) return NULL;
+		int cx = rc.right - rc.left;
+		int cy = rc.bottom - rc.top;
+
+		HDC hPaintDC = ::CreateCompatibleDC(pManager->GetPaintDC());
+		HBITMAP hPaintBitmap = ::CreateCompatibleBitmap(pManager->GetPaintDC(), rc.right, rc.bottom);
+		ASSERT(hPaintDC);
+		ASSERT(hPaintBitmap);
+		HBITMAP hOldPaintBitmap = (HBITMAP) ::SelectObject(hPaintDC, hPaintBitmap);
+		pControl->Paint(hPaintDC, rc, NULL);
+
+		BITMAPINFO bmi = { 0 };
+		bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+		bmi.bmiHeader.biWidth = cx;
+		bmi.bmiHeader.biHeight = cy;
+		bmi.bmiHeader.biPlanes = 1;
+		bmi.bmiHeader.biBitCount = 32;
+		bmi.bmiHeader.biCompression = BI_RGB;
+		bmi.bmiHeader.biSizeImage = cx * cy * sizeof(DWORD);
+		LPDWORD pDest = NULL;
+		HDC hCloneDC = ::CreateCompatibleDC(pManager->GetPaintDC());
+		HBITMAP hBitmap = ::CreateDIBSection(pManager->GetPaintDC(), &bmi, DIB_RGB_COLORS, (LPVOID*) &pDest, NULL, 0);
+		ASSERT(hCloneDC);
+		ASSERT(hBitmap);
+		if( hBitmap != NULL )
+		{
+			HBITMAP hOldBitmap = (HBITMAP) ::SelectObject(hCloneDC, hBitmap);
+			::BitBlt(hCloneDC, 0, 0, cx, cy, hPaintDC, rc.left, rc.top, SRCCOPY);
+			RECT rcClone = {0, 0, cx, cy};
+			if (dwFilterColor > 0x00FFFFFF) DrawColor(hCloneDC, rcClone, dwFilterColor);
 			::SelectObject(hCloneDC, hOldBitmap);
 			::DeleteDC(hCloneDC);  
 			::GdiFlush();
@@ -2419,18 +2476,6 @@ namespace DuiLib {
 		::DeleteDC(hPaintDC);
 
 		return hBitmap;
-	}
-
-	SIZE CRenderEngine::GetTextSize( HDC hDC, CPaintManagerUI* pManager , LPCTSTR pstrText, int iFont, UINT uStyle )
-	{
-		SIZE size = {0,0};
-		ASSERT(::GetObjectType(hDC)==OBJ_DC || ::GetObjectType(hDC)==OBJ_MEMDC);
-		if( pstrText == NULL || pManager == NULL ) return size;
-		::SetBkMode(hDC, TRANSPARENT);
-		HFONT hOldFont = (HFONT)::SelectObject(hDC, pManager->GetFont(iFont));
-		GetTextExtentPoint32(hDC, pstrText, _tcslen(pstrText) , &size);
-		::SelectObject(hDC, hOldFont);
-		return size;
 	}
 
 	void CRenderEngine::CheckAlphaColor(DWORD& dwColor)

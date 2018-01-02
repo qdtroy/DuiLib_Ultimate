@@ -20,6 +20,10 @@ namespace DuiLib
 		LRESULT OnEditChanged(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 	protected:
+		enum { 
+			DEFAULT_TIMERID = 20,
+		};
+
 		CEditUI* m_pOwner;
 		HBRUSH m_hBkBrush;
 		bool m_bInit;
@@ -74,12 +78,19 @@ namespace DuiLib
 		LONG styleValue = ::GetWindowLong(m_hWnd, GWL_STYLE);
 		styleValue |= pOwner->GetWindowStyls();
 		::SetWindowLong(GetHWND(), GWL_STYLE, styleValue);
+		//Styls
 		::ShowWindow(m_hWnd, SW_SHOWNOACTIVATE);
-
-		int cchLen = ::GetWindowTextLength(m_hWnd);
-		if(cchLen <= 0) cchLen = 1;
 		::SetFocus(m_hWnd);
-		::SendMessage(m_hWnd, EM_SETSEL, 0, cchLen);
+		if (m_pOwner->IsAutoSelAll()) {
+			int nSize = GetWindowTextLength(m_hWnd);
+			if( nSize == 0 ) nSize = 1;
+			Edit_SetSel(m_hWnd, 0, nSize);
+		}
+		else {
+			int nSize = GetWindowTextLength(m_hWnd);
+			Edit_SetSel(m_hWnd, nSize, nSize);
+		}
+
 		m_bInit = true;    
 	}
 
@@ -130,7 +141,7 @@ namespace DuiLib
 		// Clear reference and die
 		if( m_hBkBrush != NULL ) ::DeleteObject(m_hBkBrush);
 		if (m_pOwner->GetManager()->IsLayered()) {
-			m_pOwner->GetManager()->RemovePaintChildWnd(hWnd);
+			m_pOwner->GetManager()->RemoveNativeWindow(hWnd);
 		}
 		m_pOwner->m_pWindow = NULL;
 		delete this;
@@ -141,10 +152,10 @@ namespace DuiLib
 		LRESULT lRes = 0;
 		BOOL bHandled = TRUE;
 		if( uMsg == WM_CREATE ) {
-			if( m_pOwner->GetManager()->IsLayered() ) {
-				m_pOwner->GetManager()->AddPaintChildWnd(m_hWnd);
-				::SetTimer(m_hWnd, CARET_TIMERID, ::GetCaretBlinkTime(), NULL);
-			}
+			//m_pOwner->GetManager()->AddNativeWindow(m_pOwner, m_hWnd);
+			//if( m_pOwner->GetManager()->IsLayered() ) {
+			//	::SetTimer(m_hWnd, DEFAULT_TIMERID, ::GetCaretBlinkTime(), NULL);
+			//}
 			bHandled = FALSE;
 		}
 		else if( uMsg == WM_KILLFOCUS ) lRes = OnKillFocus(uMsg, wParam, lParam, bHandled);
@@ -165,35 +176,47 @@ namespace DuiLib
 			}
 		}
 		else if( uMsg == OCM__BASE + WM_CTLCOLOREDIT  || uMsg == OCM__BASE + WM_CTLCOLORSTATIC ) {
-			if( m_pOwner->GetNativeEditBkColor() == 0xFFFFFFFF ) return NULL;
+			//if (m_pOwner->GetManager()->IsLayered() && !m_pOwner->GetManager()->IsPainting()) {
+			//	m_pOwner->GetManager()->AddNativeWindow(m_pOwner, m_hWnd);
+			//}
+			DWORD clrColor = m_pOwner->GetNativeEditBkColor();
+			if( clrColor == 0xFFFFFFFF ) return 0;
 			::SetBkMode((HDC)wParam, TRANSPARENT);
-
-			DWORD dwTextColor;
-			if (m_pOwner->GetNativeEditTextColor() != 0x000000)
-				dwTextColor = m_pOwner->GetNativeEditTextColor();
-			else
-				dwTextColor = m_pOwner->GetTextColor();
-
+			DWORD dwTextColor = m_pOwner->GetTextColor();
 			::SetTextColor((HDC)wParam, RGB(GetBValue(dwTextColor),GetGValue(dwTextColor),GetRValue(dwTextColor)));
-			if( m_hBkBrush == NULL ) {
-				DWORD clrColor = m_pOwner->GetNativeEditBkColor();
-				m_hBkBrush = ::CreateSolidBrush(RGB(GetBValue(clrColor), GetGValue(clrColor), GetRValue(clrColor)));
+			if (clrColor < 0xFF000000) {
+				if (m_hBkBrush != NULL) ::DeleteObject(m_hBkBrush);
+				RECT rcWnd = m_pOwner->GetManager()->GetNativeWindowRect(m_hWnd);
+				HBITMAP hBmpEditBk = CRenderEngine::GenerateBitmap(m_pOwner->GetManager(), rcWnd, m_pOwner, clrColor);
+				m_hBkBrush = ::CreatePatternBrush(hBmpEditBk);
+				::DeleteObject(hBmpEditBk);
+			}
+			else {
+				if (m_hBkBrush == NULL) {
+					m_hBkBrush = ::CreateSolidBrush(RGB(GetBValue(clrColor), GetGValue(clrColor), GetRValue(clrColor)));
+				}
 			}
 			return (LRESULT)m_hBkBrush;
 		}
+		else if( uMsg == WM_PAINT) {
+			//if (m_pOwner->GetManager()->IsLayered()) {
+			//	m_pOwner->GetManager()->AddNativeWindow(m_pOwner, m_hWnd);
+			//}
+			bHandled = FALSE;
+		}
 		else if( uMsg == WM_PRINT ) {
-			if (m_pOwner->GetManager()->IsLayered()) {
-				lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
-				if( m_pOwner->IsEnabled() && m_bDrawCaret ) {
-					RECT rcClient;
-					::GetClientRect(m_hWnd, &rcClient);
-					POINT ptCaret;
-					::GetCaretPos(&ptCaret);
-					RECT rcCaret = { ptCaret.x, ptCaret.y, ptCaret.x, ptCaret.y+rcClient.bottom-rcClient.top };
-					CRenderEngine::DrawLine((HDC)wParam, rcCaret, 1, 0xFF000000);
-				}
-				return lRes;
-			}
+			//if (m_pOwner->GetManager()->IsLayered()) {
+			//	lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
+			//	if( m_pOwner->IsEnabled() && m_bDrawCaret ) {
+			//		RECT rcClient;
+			//		::GetClientRect(m_hWnd, &rcClient);
+			//		POINT ptCaret;
+			//		::GetCaretPos(&ptCaret);
+			//		RECT rcCaret = { ptCaret.x, ptCaret.y, ptCaret.x, ptCaret.y+rcClient.bottom-rcClient.top };
+			//		CRenderEngine::DrawLine((HDC)wParam, rcCaret, 1, 0xFF000000);
+			//	}
+			//	return lRes;
+			//}
 			bHandled = FALSE;
 		}
 		else if( uMsg == WM_TIMER ) {
@@ -215,6 +238,9 @@ namespace DuiLib
 	LRESULT CEditWnd::OnKillFocus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 	{
 		LRESULT lRes = ::DefWindowProc(m_hWnd, uMsg, wParam, lParam);
+		//if ((HWND)wParam != m_pOwner->GetManager()->GetPaintWindow()) {
+		//	::SendMessage(m_pOwner->GetManager()->GetPaintWindow(), WM_KILLFOCUS, wParam, lParam);
+		//}
 		PostMessage(WM_CLOSE);
 		return lRes;
 	}
@@ -242,7 +268,7 @@ namespace DuiLib
 	IMPLEMENT_DUICONTROL(CEditUI)
 
 	CEditUI::CEditUI() : m_pWindow(NULL), m_uMaxChar(255), m_bReadOnly(false), 
-		m_bPasswordMode(false), m_cPasswordChar(_T('*')), m_uButtonState(0), 
+		m_bPasswordMode(false), m_cPasswordChar(_T('*')), m_bAutoSelAll(false), m_uButtonState(0), 
 		m_dwEditbkColor(0xFFFFFFFF), m_dwEditTextColor(0x00000000), m_iWindowStyls(0),m_dwTipValueColor(0xFFBAC0C5)
 	{
 		SetTextPadding(CDuiRect(4, 3, 4, 3));
@@ -319,16 +345,13 @@ namespace DuiLib
 				}
 				else if( m_pWindow != NULL )
 				{
-#if 1
-					int nSize = GetWindowTextLength(*m_pWindow);
-					if( nSize == 0 ) nSize = 1;
-					Edit_SetSel(*m_pWindow, 0, nSize);
-#else
-					POINT pt = event.ptMouse;
-					pt.x -= m_rcItem.left + m_rcTextPadding.left;
-					pt.y -= m_rcItem.top + m_rcTextPadding.top;
-					::SendMessage(*m_pWindow, WM_LBUTTONDOWN, event.wParam, MAKELPARAM(pt.x, pt.y));
-#endif
+					if (!m_bAutoSelAll) {
+						POINT pt = event.ptMouse;
+						pt.x -= m_rcItem.left + m_rcTextPadding.left;
+						pt.y -= m_rcItem.top + m_rcTextPadding.top;
+						Edit_SetSel(*m_pWindow, 0, 0);
+						::SendMessage(*m_pWindow, WM_LBUTTONDOWN, event.wParam, MAKELPARAM(pt.x, pt.y));
+					}
 				}
 			}
 			return;
@@ -347,11 +370,14 @@ namespace DuiLib
 		}
 		if( event.Type == UIEVENT_MOUSEENTER )
 		{
-			if( IsEnabled() ) {
-				m_uButtonState |= UISTATE_HOT;
-				Invalidate();
-			}
-			return;
+			if( ::PtInRect(&m_rcItem, event.ptMouse ) ) {
+                if( IsEnabled() ) {
+                    if( (m_uButtonState & UISTATE_HOT) == 0  ) {
+                        m_uButtonState |= UISTATE_HOT;
+                        Invalidate();
+                    }
+                }
+            }
 		}
 		if( event.Type == UIEVENT_MOUSELEAVE )
 		{
@@ -360,6 +386,20 @@ namespace DuiLib
 				Invalidate();
 			}
 			return;
+
+			//if( !::PtInRect(&m_rcItem, event.ptMouse ) ) {
+   //             if( IsEnabled() ) {
+   //                 if( (m_uButtonState & UISTATE_HOT) != 0  ) {
+   //                     m_uButtonState &= ~UISTATE_HOT;
+   //                     Invalidate();
+   //                 }
+   //             }
+   //             if (m_pManager) m_pManager->RemoveMouseLeaveNeeded(this);
+   //         }
+   //         else {
+   //             if (m_pManager) m_pManager->AddMouseLeaveNeeded(this);
+   //             return;
+   //         }
 		}
 		CLabelUI::DoEvent(event);
 	}
@@ -418,7 +458,7 @@ namespace DuiLib
 
 	bool CEditUI::IsNumberOnly() const
 	{
-		return m_iWindowStyls&ES_NUMBER ? true:false;
+		return (m_iWindowStyls & ES_NUMBER) ? true:false;
 	}
 
 	int CEditUI::GetWindowStyls() const 
@@ -431,8 +471,7 @@ namespace DuiLib
 		if( m_bPasswordMode == bPasswordMode ) return;
 		m_bPasswordMode = bPasswordMode;
 		Invalidate();
-		if( m_pWindow != NULL ) 
-		{
+		if( m_pWindow != NULL ) {
 			LONG styleValue = ::GetWindowLong(*m_pWindow, GWL_STYLE);
 			bPasswordMode ? styleValue |= ES_PASSWORD : styleValue &= ~ES_PASSWORD;
 			::SetWindowLong(*m_pWindow, GWL_STYLE, styleValue);
@@ -523,6 +562,16 @@ namespace DuiLib
 	DWORD CEditUI::GetNativeEditTextColor() const
 	{
 		return m_dwEditTextColor;
+	}
+	
+	bool CEditUI::IsAutoSelAll()
+	{
+		return m_bAutoSelAll;
+	}
+
+	void CEditUI::SetAutoSelAll(bool bAutoSelAll)
+	{
+		m_bAutoSelAll = bAutoSelAll;
 	}
 
 	void CEditUI::SetSel(long nStartChar, long nEndChar)

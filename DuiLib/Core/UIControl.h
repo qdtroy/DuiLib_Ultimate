@@ -181,8 +181,8 @@ namespace DuiLib {
 		CControlUI* ApplyAttributeList(LPCTSTR pstrList);
 
 		virtual SIZE EstimateSize(SIZE szAvailable);
-
-		virtual void DoPaint(HDC hDC, const RECT& rcPaint);
+		virtual bool Paint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl = NULL); // 返回要不要继续绘制
+		virtual bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 		virtual void PaintBkColor(HDC hDC);
 		virtual void PaintBkImage(HDC hDC);
 		virtual void PaintStatusImage(HDC hDC);

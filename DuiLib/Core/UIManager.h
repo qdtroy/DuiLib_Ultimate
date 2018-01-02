@@ -244,6 +244,8 @@ namespace DuiLib {
 		void SetMaxInfo(int cx, int cy);
 		bool IsShowUpdateRect() const;
 		void SetShowUpdateRect(bool show);
+		bool IsNoActivate();
+		void SetNoActivate(bool bNoActivate);
 
 		BYTE GetOpacity() const;
 		void SetOpacity(BYTE nOpacity);
@@ -254,17 +256,11 @@ namespace DuiLib {
 		void SetLayeredInset(RECT& rcLayeredInset);
 		BYTE GetLayeredOpacity();
 		void SetLayeredOpacity(BYTE nOpacity);
-		//LPCTSTR GetLayeredImage();
-		//void SetLayeredImage(LPCTSTR pstrImage);
+		LPCTSTR GetLayeredImage();
+		void SetLayeredImage(LPCTSTR pstrImage);
 
 		CShadowUI* GetShadow();
-		// 光标
-		bool ShowCaret(bool bShow);
-		bool SetCaretPos(CRichEditUI* obj, int x, int y);
-		CRichEditUI* GetCurrentCaretObject();
-		bool CreateCaret(HBITMAP hBmp, int nWidth, int nHeight);
-		void DrawCaret(HDC hDC, const RECT& rcPaint);
-		
+
 		void SetUseGdiplusText(bool bUse);
 		bool IsUseGdiplusText() const;
 		void SetGdiplusTextRenderingHint(int trh);
@@ -405,11 +401,14 @@ namespace DuiLib {
 		bool RemovePostPaint(CControlUI* pControl);
 		bool SetPostPaintIndex(CControlUI* pControl, int iIndex);
 
-		int GetPaintChildWndCount() const;
-		bool AddPaintChildWnd(HWND hChildWnd);
-		bool RemovePaintChildWnd(HWND hChildWnd);
+		int GetNativeWindowCount() const;
+		RECT GetNativeWindowRect(HWND hChildWnd);
+		bool AddNativeWindow(CControlUI* pControl, HWND hChildWnd);
+		bool RemoveNativeWindow(HWND hChildWnd);
 
 		void AddDelayedCleanup(CControlUI* pControl);
+		void AddMouseLeaveNeeded(CControlUI* pControl);
+		bool RemoveMouseLeaveNeeded(CControlUI* pControl);
 
 		bool AddTranslateAccelerator(ITranslateAccelerator *pTranslateAccelerator);
 		bool RemoveTranslateAccelerator(ITranslateAccelerator *pTranslateAccelerator);
@@ -451,6 +450,7 @@ namespace DuiLib {
 
 		static void AdjustSharedImagesHSL();
 		void AdjustImagesHSL();
+		void PostAsyncNotify();
 
 	private:
 		CDuiString m_sName;
@@ -463,34 +463,20 @@ namespace DuiLib {
 		HBITMAP m_hbmpBackground;
 		COLORREF* m_pBackgroundBits;
 
-		CDPI* m_pDPI;
-
-		bool m_bShowUpdateRect;
-		// 是否开启Gdiplus
-		bool m_bUseGdiplusText;
-		int m_trh;
-		ULONG_PTR m_gdiplusToken;
-		Gdiplus::GdiplusStartupInput *m_pGdiplusStartupInput;
-
 		// 提示信息
 		HWND m_hwndTooltip;
 		TOOLINFO m_ToolTip;
-		int m_nTooltipHoverTime;
-		// RichEdit光标
-		RECT m_rtCaret;
-		bool m_bCaretActive;
-		bool m_bCaretShowing;
-		CRichEditUI* m_currentCaretObject;
+		int m_iHoverTime;
+		bool m_bNoActivate;
+		bool m_bShowUpdateRect;
 
-		// 窗口阴影
-		CShadowUI m_shadow;
-		
 		//
 		CControlUI* m_pRoot;
 		CControlUI* m_pFocus;
 		CControlUI* m_pEventHover;
 		CControlUI* m_pEventClick;
 		CControlUI* m_pEventKey;
+		CControlUI* m_pLastToolTip;
 		//
 		POINT m_ptLastMousePos;
 		SIZE m_szMinWindow;
@@ -510,12 +496,13 @@ namespace DuiLib {
 		RECT m_rcLayeredInset;
 		bool m_bLayeredChanged;
 		RECT m_rcLayeredUpdate;
-		//TDrawInfo m_diLayered;
+		TDrawInfo m_diLayered;
 
 		bool m_bMouseTracking;
 		bool m_bMouseCapture;
 		bool m_bIsPainting;
 		bool m_bUsedVirtualWnd;
+		bool m_bAsyncNotifyPosted;
 
 		//
 		CStdPtrArray m_aNotifiers;
@@ -524,22 +511,35 @@ namespace DuiLib {
 		CStdPtrArray m_aPreMessageFilters;
 		CStdPtrArray m_aMessageFilters;
 		CStdPtrArray m_aPostPaintControls;
-		CStdPtrArray m_aChildWnds;
+		CStdPtrArray m_aNativeWindow;
+		CStdPtrArray m_aNativeWindowControl;
 		CStdPtrArray m_aDelayedCleanup;
 		CStdPtrArray m_aAsyncNotify;
 		CStdPtrArray m_aFoundControls;
 		CStdPtrArray m_aFonts;
+		CStdPtrArray m_aNeedMouseLeaveNeeded;
 		CStdStringPtrMap m_mNameHash;
 		CStdStringPtrMap m_mWindowCustomAttrHash;
 		CStdStringPtrMap m_mOptionGroup;
 		
 		bool m_bForceUseSharedRes;
 		TResInfo m_ResInfo;
+		
+		// 窗口阴影
+		CShadowUI m_shadow;
+		
+		// DPI管理器
+		CDPI* m_pDPI;
+		// 是否开启Gdiplus
+		bool m_bUseGdiplusText;
+		int m_trh;
+		ULONG_PTR m_gdiplusToken;
+		Gdiplus::GdiplusStartupInput *m_pGdiplusStartupInput;
 
 		// 拖拽
 		bool m_bDragMode;
 		HBITMAP m_hDragBitmap;
-
+		
 		//
 		static HINSTANCE m_hInstance;
 		static HINSTANCE m_hResourceInstance;

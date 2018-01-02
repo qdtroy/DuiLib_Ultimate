@@ -2,7 +2,7 @@
 
 //////////////////////////////////////////////////////////////////////////
 ///
-#include "3rd/TroyControls/Include/TroyControls.h"
+#include "TroyControls.h"
 #include "WkeWebkit.h"
 
 typedef struct _tagTabInfo

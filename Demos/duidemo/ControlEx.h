@@ -92,7 +92,7 @@ public:
 
 public:
 	virtual void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
-	virtual void DoPaint(HDC hDC, const RECT& rcPaint);
+	virtual bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 	virtual void DoPaintPie(HDC hDC, const RECT& rcPaint);
 	virtual void DoPaintHistogram(HDC hDC, const RECT& rcPaint);
 private:

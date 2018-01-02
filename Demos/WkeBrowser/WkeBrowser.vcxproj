@@ -951,12 +951,13 @@
     <ClCompile Include="WkeWebkit.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="3rd\TroyControls\Include\TroyControls.h" />
     <ClInclude Include="3rd\Wke\Include\wke.h" />
+    <ClInclude Include="Helpers.h" />
     <ClInclude Include="MainWnd.h" />
     <ClInclude Include="MsgWnd.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="TroyControls.h" />
     <ClInclude Include="WkeWebkit.h" />
   </ItemGroup>
   <ItemGroup>
@@ -972,14 +973,6 @@
     <ResourceCompile Include="WkeBrowser.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="3rd\TroyControls\lib\TroyControls.lib">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </Library>
-    <Library Include="3rd\TroyControls\lib\TroyControls_d.lib">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </Library>
     <Library Include="3rd\Wke\Lib\wke.lib">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

@@ -102,10 +102,10 @@ void CChartViewUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	}
 }
 
-void CChartViewUI::DoPaint(HDC hDC, const RECT& rcPaint)
+bool CChartViewUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 {
-	if( !::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem) ) return;
-	CControlUI::DoPaint(hDC, rcPaint);
+	if( !::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem) ) return true;
+	CControlUI::DoPaint(hDC, rcPaint, pStopControl);
 
 	if (CHARTVIEW_PIE == m_ViewStyle)
 	{
@@ -115,6 +115,8 @@ void CChartViewUI::DoPaint(HDC hDC, const RECT& rcPaint)
 	{
 		DoPaintHistogram(hDC, rcPaint);
 	}
+
+	return true;
 }
 
 void CChartViewUI::DoPaintPie(HDC hDC, const RECT& rcPaint)

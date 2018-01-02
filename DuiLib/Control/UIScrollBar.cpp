@@ -600,7 +600,7 @@ namespace DuiLib
 					}
 				}
 			}
-			if( m_pManager != NULL && m_pOwner == NULL ) m_pManager->SendNotify(this, DUI_MSGTYPE_SCROLL);
+			if( m_pManager != NULL) m_pManager->SendNotify(this, DUI_MSGTYPE_SCROLL);
 			return;
 		}
 		if( event.Type == UIEVENT_BUTTONUP )
@@ -720,7 +720,7 @@ namespace DuiLib
 					}
 				}
 			}
-			if( m_pManager != NULL && m_pOwner == NULL ) m_pManager->SendNotify(this, DUI_MSGTYPE_SCROLL);
+			if( m_pManager != NULL ) m_pManager->SendNotify(this, DUI_MSGTYPE_SCROLL);
 			return;
 		}
 		if( event.Type == UIEVENT_MOUSEENTER )
@@ -778,14 +778,17 @@ namespace DuiLib
 		else CControlUI::SetAttribute(pstrName, pstrValue);
 	}
 
-	void CScrollBarUI::DoPaint(HDC hDC, const RECT& rcPaint)
+	bool CScrollBarUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 	{
-		if( !::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem) ) return;
+		PaintBkColor(hDC);
+		PaintBkImage(hDC);
 		PaintBk(hDC);
 		PaintButton1(hDC);
 		PaintButton2(hDC);
 		PaintThumb(hDC);
 		PaintRail(hDC);
+		PaintBorder(hDC);
+		return true;
 	}
 
 	void CScrollBarUI::PaintBk(HDC hDC)

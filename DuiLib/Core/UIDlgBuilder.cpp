@@ -257,6 +257,13 @@ namespace DuiLib {
 						else if( _tcscmp(pstrName, _T("layered")) == 0 || _tcscmp(pstrName, _T("bktrans")) == 0) {
 							pManager->SetLayered(_tcsicmp(pstrValue, _T("true")) == 0);
 						}
+						else if( _tcscmp(pstrName, _T("layeredimage")) == 0 ) {
+							pManager->SetLayered(true);
+							pManager->SetLayeredImage(pstrValue);
+						} 
+						else if( _tcscmp(pstrName, _T("noactivate")) == 0 ) {
+							pManager->SetNoActivate(_tcsicmp(pstrValue, _T("true")) == 0);
+						}
 						else if( _tcsicmp(pstrName, _T("disabledfontcolor")) == 0 ) {
 							if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
 							LPTSTR pstr = NULL;

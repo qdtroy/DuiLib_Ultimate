@@ -100,7 +100,7 @@
           <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="输入控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <HorizontalLayout height="40" childvalign="vcenter" childpadding="12" hscrollbar="true">
-              <Edit name="edit1" tipvalue="普通" style="edit_style" nativetextcolor="#FF0000"/>
+              <Edit name="edit1" tipvalue="普通" style="edit_style" nativebkcolor="#00000000"/>
               <Edit name="edit2" tipvalue="只读" text="只读控件" style="edit_style" align="center" readonly="true"/>
               <Edit name="edit3" tipvalue="数字" style="edit_style" numberonly="true"/>
               <Edit name="edit4" tipvalue="密码" style="edit_style" password="true" passwordchar="●"/>
@@ -111,7 +111,7 @@
           <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="Combo控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <HorizontalLayout height="23" childpadding="12">
-              <Combo name="font_type" font="3" itemfont="3" width="120" style="combo_style" cursor="hand" showshadow="true" textcolor="#FFFFFFFF" dropbox="hscrollbar=&quot;true&quot;" float="true" pos="300,0,400,23">
+              <Combo name="font_type" font="3" width="120" style="combo_style" itemfont="0" cursor="hand" showshadow="true" textcolor="#FFFFFFFF" dropbox="hscrollbar=&quot;true&quot;" float="true" pos="300,0,400,23">
                 <ListLabelElement text="微软雅黑" selected="true" height="23" />
                 <ListLabelElement text="宋体" height="23" width="500" />
                 <ListLabelElement text="黑体" height="23" width="500" />

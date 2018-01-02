@@ -45,6 +45,8 @@ namespace DuiLib
 		void SetNativeEditTextColor( LPCTSTR pStrColor );
 		DWORD GetNativeEditTextColor() const;
 
+		bool IsAutoSelAll();
+		void SetAutoSelAll(bool bAutoSelAll);
 		void SetSel(long nStartChar, long nEndChar);
 		void SetSelAll();
 		void SetReplaceSel(LPCTSTR lpszReplace);
@@ -71,6 +73,7 @@ namespace DuiLib
 		UINT m_uMaxChar;
 		bool m_bReadOnly;
 		bool m_bPasswordMode;
+		bool m_bAutoSelAll;
 		TCHAR m_cPasswordChar;
 		UINT m_uButtonState;
 		CDuiString m_sNormalImage;

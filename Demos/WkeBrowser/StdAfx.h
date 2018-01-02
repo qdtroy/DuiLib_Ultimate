@@ -31,15 +31,15 @@ using namespace DuiLib;
 
 #ifdef _DEBUG
 #   ifdef _UNICODE
-#       pragma comment(lib, "3rd\\troycontrols\\lib\\TroyControls_d.lib")
+#       pragma comment(lib, "lib\\TroyControls_d.lib")
 #   else
-#       pragma comment(lib, "3rd\\troycontrols\\lib\\TroyControlsA_d.lib")
+#       pragma comment(lib, "lib\\TroyControlsA_d.lib")
 #   endif
 #else
 #   ifdef _UNICODE
-#       pragma comment(lib, "3rd\\troycontrols\\lib\\TroyControls.lib")
+#       pragma comment(lib, "lib\\TroyControls.lib")
 #   else
-#       pragma comment(lib, "3rd\\troycontrols\\lib\\TroyControls.lib")
+#       pragma comment(lib, "lib\\TroyControls.lib")
 #   endif
 #endif
 

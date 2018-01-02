@@ -92,9 +92,7 @@ namespace DuiLib
 	void CDateTimeWnd::OnFinalMessage(HWND hWnd)
 	{
 		if( m_hBkBrush != NULL ) ::DeleteObject(m_hBkBrush);
-		if( m_pOwner->GetManager()->IsLayered() ) {
-			m_pOwner->GetManager()->RemovePaintChildWnd(hWnd);
-		} 
+		//m_pOwner->GetManager()->RemoveNativeWindow(hWnd);
 		m_pOwner->m_pWindow = NULL;
 		delete this;
 	}
@@ -103,7 +101,11 @@ namespace DuiLib
 	{
 		LRESULT lRes = 0;
 		BOOL bHandled = TRUE;
-		if (uMsg == WM_KEYDOWN && wParam == VK_ESCAPE)
+		if( uMsg == WM_CREATE ) {
+			//m_pOwner->GetManager()->AddNativeWindow(m_pOwner, m_hWnd);
+			bHandled = FALSE;
+		}
+		else if (uMsg == WM_KEYDOWN && wParam == VK_ESCAPE)
 		{
 			memcpy(&m_pOwner->m_sysTime, &m_oldSysTime, sizeof(SYSTEMTIME));
 			m_pOwner->m_nDTUpdateFlag = DT_UPDATE;
@@ -144,7 +146,7 @@ namespace DuiLib
 		}
 		else if( uMsg == WM_PAINT) {
 			if (m_pOwner->GetManager()->IsLayered()) {
-				m_pOwner->GetManager()->AddPaintChildWnd(m_hWnd);
+				//m_pOwner->GetManager()->AddNativeWindow(m_pOwner, m_hWnd);
 			}
 			bHandled = FALSE;
 		}

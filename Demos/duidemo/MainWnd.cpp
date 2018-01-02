@@ -146,7 +146,7 @@ void CMainWnd::InitWindow()
 	
 	pList->Add(pListItem1);
 	CControlUI* pLabel = pListItem1->FindSubControl(_T("troy"));
-	pLabel->SetText(_T("abc_troy"));
+	if(pLabel != NULL) pLabel->SetText(_T("abc_troy"));
 	for(int i = 0; i < 20; i++)
 	{
 		CListTextElementUI* pItem  = new CListTextElementUI();

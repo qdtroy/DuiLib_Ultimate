@@ -34,21 +34,21 @@ LPVOID AnimLayout::GetInterface(LPCTSTR pstrName)
 	return CVerticalLayoutUI::GetInterface(pstrName);
 }
 
-void AnimLayout::DoPaint(HDC hDC, const RECT& rcPaint)
+bool AnimLayout::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 {
 	if (!m_bPlaying)
 	{
-		__super::DoPaint(hDC, rcPaint);
-		return;
+		return __super::DoPaint(hDC, rcPaint, pStopControl);
 	}
 
 	typedef BOOL(WINAPI *LPALPHABLEND)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);
 	static LPALPHABLEND lpAlphaBlend = (LPALPHABLEND) ::GetProcAddress(::GetModuleHandle(_T("msimg32.dll")), "AlphaBlend");
 
 	BLENDFUNCTION bf = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
-
 	lpAlphaBlend(hDC, m_rcItem.left, m_rcItem.top, m_rcItem.right - m_rcItem.left, m_rcItem.bottom - m_rcItem.top, m_hMemDc,
 		0, 0, m_rcItem.right - m_rcItem.left, m_rcItem.bottom - m_rcItem.top, bf);
+
+	return true;
 
 }
 void RestoreAlphaColor(LPBYTE pBits, int bitsWidth, PRECT rc)
@@ -76,7 +76,7 @@ bool AnimLayout::StartEffect()
 		
 	//LPDWORD pBmpBits = NULL;
 	m_hMemDc = ::CreateCompatibleDC(m_pManager->GetPaintDC());
-	m_hTransBitmap = CRenderEngine::GenerateBitmap(m_pManager, this, m_rcItem); 
+	m_hTransBitmap = CRenderEngine::GenerateBitmap(m_pManager, this, m_rcItem, 0); 
 	if (m_hTransBitmap == NULL)
 		return false;
 	m_hOldBitmap = (HBITMAP) ::SelectObject(m_hMemDc, m_hTransBitmap);

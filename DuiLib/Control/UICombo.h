@@ -116,7 +116,7 @@ namespace DuiLib {
 		void DoEvent(TEventUI& event);
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
-		void DoPaint(HDC hDC, const RECT& rcPaint);
+		bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 		void PaintText(HDC hDC);
 		void PaintStatusImage(HDC hDC);
 

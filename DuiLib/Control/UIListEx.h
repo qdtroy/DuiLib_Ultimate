@@ -258,7 +258,7 @@ namespace DuiLib {
 		SIZE m_cxyCheckBox;
 
 	public:
-		virtual void DoPaint(HDC hDC, const RECT& rcPaint);
+		virtual bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 		virtual void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 		virtual void PaintStatusImage(HDC hDC);
 		BOOL DrawCheckBoxImage(HDC hDC, LPCTSTR pStrImage, LPCTSTR pStrModify, RECT& rcCheckBox);

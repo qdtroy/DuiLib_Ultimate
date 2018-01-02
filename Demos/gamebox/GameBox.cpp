@@ -33,7 +33,7 @@ public:
 		m_pSearchWnd  = new CSearchWnd(m_pm.GetRoot());
 		m_pSearchWnd->Create(m_hWnd,  _T("searchwnd"), WS_POPUP, WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
 		::SetWindowPos(m_pSearchWnd->GetHWND(), NULL, 0,0,1,1, SWP_NOACTIVATE);
-		m_pSearchWnd->ShowWindow(false);
+		m_pSearchWnd->ShowWindow(true);
 
 		// ³õÊ¼»¯¿Ø¼þ
 		m_pGameList = (CTileLayoutUI*)(m_pm.FindControl(_T("gamelist")));
@@ -358,7 +358,22 @@ public:
 	{
 		LRESULT lRes = 0;
 		switch( uMsg ) {
-		
+		case WM_LBUTTONDOWN:
+		case WM_NCLBUTTONDOWN:
+			{
+				m_pSearchWnd->ShowWindow(false);
+				bHandled = FALSE;
+				break;
+			}
+		case WM_ACTIVATEAPP:
+			{
+				if((BOOL)wParam == FALSE && IsWindow(m_pSearchWnd->GetHWND()))
+				{
+					m_pSearchWnd->ShowWindow(false);
+				}
+				bHandled = FALSE;
+				break;
+			}
 		default:
 			bHandled = FALSE;
 		}

@@ -651,7 +651,7 @@ namespace DuiLib {
 		return CListContainerElementUI::GetInterface(pstrName);
 	}
 
-	void CMenuElementUI::DoPaint(HDC hDC, const RECT& rcPaint)
+	bool CMenuElementUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 	{
 		SIZE m_cxyFixed = CMenuElementUI::m_cxyFixed;
 		m_cxyFixed.cx = GetManager()->GetDPIObj()->Scale(m_cxyFixed.cx);
@@ -659,7 +659,8 @@ namespace DuiLib {
 		RECT m_rcLinePadding = CMenuElementUI::m_rcLinePadding;
 		GetManager()->GetDPIObj()->Scale(&m_rcLinePadding);
 
-		if( !::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem) ) return;
+		RECT rcTemp = { 0 };
+		if( !::IntersectRect(&rcTemp, &rcPaint, &m_rcItem) ) return true;
 
 		if(m_bDrawLine)
 		{
@@ -668,17 +669,88 @@ namespace DuiLib {
 		}
 		else
 		{
+			//CMenuElementUI::DrawItemBk(hDC, m_rcItem);
+			//DrawItemText(hDC, m_rcItem);
+			//DrawItemIcon(hDC, m_rcItem);
+			//DrawItemExpland(hDC, m_rcItem);
+			//for (int i = 0; i < GetCount(); ++i)
+			//{
+			//	if (GetItemAt(i)->GetInterface(_T("MenuElement")) == NULL) {
+			//		GetItemAt(i)->DoPaint(hDC, rcPaint);
+			//	}
+			//}
+
+			CRenderClip clip;
+			CRenderClip::GenerateClip(hDC, rcTemp, clip);
 			CMenuElementUI::DrawItemBk(hDC, m_rcItem);
 			DrawItemText(hDC, m_rcItem);
 			DrawItemIcon(hDC, m_rcItem);
 			DrawItemExpland(hDC, m_rcItem);
-			for (int i = 0; i < GetCount(); ++i)
-			{
-				if (GetItemAt(i)->GetInterface(_T("MenuElement")) == NULL) {
-					GetItemAt(i)->DoPaint(hDC, rcPaint);
+
+			if( m_items.GetSize() > 0 ) {
+				RECT rc = m_rcItem;
+				rc.left += m_rcInset.left;
+				rc.top += m_rcInset.top;
+				rc.right -= m_rcInset.right;
+				rc.bottom -= m_rcInset.bottom;
+				if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) rc.right -= m_pVerticalScrollBar->GetFixedWidth();
+				if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) rc.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
+
+				if( !::IntersectRect(&rcTemp, &rcPaint, &rc) ) {
+					for( int it = 0; it < m_items.GetSize(); it++ ) {
+						CControlUI* pControl = static_cast<CControlUI*>(m_items[it]);
+						if( pControl == pStopControl ) return false;
+						if( !pControl->IsVisible() ) continue;
+						if( pControl->GetInterface(_T("MenuElement")) != NULL ) continue;
+						if( !::IntersectRect(&rcTemp, &rcPaint, &pControl->GetPos()) ) continue;
+						if( pControl->IsFloat() ) {
+							if( !::IntersectRect(&rcTemp, &m_rcItem, &pControl->GetPos()) ) continue;
+							if( !pControl->Paint(hDC, rcPaint, pStopControl) ) return false;
+						}
+					}
+				}
+				else {
+					CRenderClip childClip;
+					CRenderClip::GenerateClip(hDC, rcTemp, childClip);
+					for( int it = 0; it < m_items.GetSize(); it++ ) {
+						CControlUI* pControl = static_cast<CControlUI*>(m_items[it]);
+						if( pControl == pStopControl ) return false;
+						if( !pControl->IsVisible() ) continue;
+						if( pControl->GetInterface(_T("MenuElement")) != NULL ) continue;
+						if( !::IntersectRect(&rcTemp, &rcPaint, &pControl->GetPos()) ) continue;
+						if( pControl->IsFloat() ) {
+							if( !::IntersectRect(&rcTemp, &m_rcItem, &pControl->GetPos()) ) continue;
+							CRenderClip::UseOldClipBegin(hDC, childClip);
+							if( !pControl->Paint(hDC, rcPaint, pStopControl) ) return false;
+							CRenderClip::UseOldClipEnd(hDC, childClip);
+						}
+						else {
+							if( !::IntersectRect(&rcTemp, &rc, &pControl->GetPos()) ) continue;
+							if( !pControl->Paint(hDC, rcPaint, pStopControl) ) return false;
+						}
+					}
 				}
 			}
 		}
+
+		if( m_pVerticalScrollBar != NULL ) {
+			if( m_pVerticalScrollBar == pStopControl ) return false;
+			if (m_pVerticalScrollBar->IsVisible()) {
+				if( ::IntersectRect(&rcTemp, &rcPaint, &m_pVerticalScrollBar->GetPos()) ) {
+					if( !m_pVerticalScrollBar->Paint(hDC, rcPaint, pStopControl) ) return false;
+				}
+			}
+		}
+
+		if( m_pHorizontalScrollBar != NULL ) {
+			if( m_pHorizontalScrollBar == pStopControl ) return false;
+			if (m_pHorizontalScrollBar->IsVisible()) {
+				if( ::IntersectRect(&rcTemp, &rcPaint, &m_pHorizontalScrollBar->GetPos()) ) {
+					if( !m_pHorizontalScrollBar->Paint(hDC, rcPaint, pStopControl) ) return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	void CMenuElementUI::DrawItemIcon(HDC hDC, const RECT& rcItem)

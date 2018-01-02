@@ -13,7 +13,7 @@ public:
 
 	virtual LPCTSTR GetClass() const override;
 	virtual LPVOID GetInterface(LPCTSTR pstrName) override;
-	virtual void DoPaint(HDC hDC, const RECT& rcPaint) override;
+	virtual bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl) override;
 	virtual void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue) override;
 
 	bool StartEffect();

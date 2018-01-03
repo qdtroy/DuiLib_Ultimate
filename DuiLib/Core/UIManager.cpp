@@ -998,22 +998,24 @@ namespace DuiLib {
 				::GetClientRect(m_hWndPaint, &rcClient);
 
 				RECT rcPaint = { 0 };
-				if( m_bLayered ) {
-					m_bOffscreenPaint = true;
-					rcPaint = m_rcLayeredUpdate;
-					if( ::IsRectEmpty(&m_rcLayeredUpdate) ) {
-						PAINTSTRUCT ps = { 0 };
-						::BeginPaint(m_hWndPaint, &ps);
-						::EndPaint(m_hWndPaint, &ps);
-						return true;
-					}
-					if( rcPaint.right > rcClient.right ) rcPaint.right = rcClient.right;
-					if( rcPaint.bottom > rcClient.bottom ) rcPaint.bottom = rcClient.bottom;
-					::ZeroMemory(&m_rcLayeredUpdate, sizeof(m_rcLayeredUpdate));
-				}
-				else {
-					if( !::GetUpdateRect(m_hWndPaint, &rcPaint, FALSE) ) return true;
-				}
+				if( !::GetUpdateRect(m_hWndPaint, &rcPaint, FALSE) ) return true;
+
+				//if( m_bLayered ) {
+				//	m_bOffscreenPaint = true;
+				//	rcPaint = m_rcLayeredUpdate;
+				//	if( ::IsRectEmpty(&m_rcLayeredUpdate) ) {
+				//		PAINTSTRUCT ps = { 0 };
+				//		::BeginPaint(m_hWndPaint, &ps);
+				//		::EndPaint(m_hWndPaint, &ps);
+				//		return true;
+				//	}
+				//	if( rcPaint.right > rcClient.right ) rcPaint.right = rcClient.right;
+				//	if( rcPaint.bottom > rcClient.bottom ) rcPaint.bottom = rcClient.bottom;
+				//	::ZeroMemory(&m_rcLayeredUpdate, sizeof(m_rcLayeredUpdate));
+				//}
+				//else {
+				//	if( !::GetUpdateRect(m_hWndPaint, &rcPaint, FALSE) ) return true;
+				//}
 
 				// Set focus to first control?
 				if( m_bFocusNeeded ) {

@@ -1236,9 +1236,9 @@ Label_ForeImage:
 		if( m_pOwner ) pInfo = m_pOwner->GetListInfo();
 
 		SIZE cXY = m_cxyFixed;
-		if( cXY.cy == 0 && m_pManager != NULL ) {
+		if( cXY.cy == 0 && m_pManager != NULL && pInfo != NULL) {
 			cXY.cy = m_pManager->GetFontInfo(pInfo->nFont)->tm.tmHeight + 8;
-			if( pInfo ) cXY.cy += pInfo->rcTextPadding.top + pInfo->rcTextPadding.bottom;
+			cXY.cy += pInfo->rcTextPadding.top + pInfo->rcTextPadding.bottom;
 		}
 
 		return cXY;

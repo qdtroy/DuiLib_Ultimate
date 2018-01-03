@@ -484,7 +484,10 @@ namespace DuiLib {
 #ifdef UNICODE
 			char* pwd = w2a((wchar_t*)password);
 			m_hResourceZip = (HANDLE)OpenZip(sFile.GetData(), pwd);
-			if(pwd) if(pwd) delete[] pwd;
+			if(pwd) {
+				delete[] pwd;
+				pwd = NULL;
+			}
 #else
 			m_hResourceZip = (HANDLE)OpenZip(sFile.GetData(), password);
 #endif

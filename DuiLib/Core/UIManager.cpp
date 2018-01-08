@@ -291,7 +291,10 @@ namespace DuiLib {
 	{
 		// Delete the control-tree structures
 		for( int i = 0; i < m_aDelayedCleanup.GetSize(); i++ ) delete static_cast<CControlUI*>(m_aDelayedCleanup[i]);
+		m_aDelayedCleanup.Resize(0);
 		for( int i = 0; i < m_aAsyncNotify.GetSize(); i++ ) delete static_cast<TNotifyUI*>(m_aAsyncNotify[i]);
+		m_aAsyncNotify.Resize(0);
+
 		m_mNameHash.Resize(0);
 		if( m_pRoot != NULL ) delete m_pRoot;
 

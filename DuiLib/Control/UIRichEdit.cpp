@@ -1,4 +1,6 @@
-#include "stdafx.h"
+#include "StdAfx.h"
+#include "UIRichEdit.h"
+
 #ifdef _USEIMM
 #include <imm.h>
 #pragma comment(lib, "imm32.lib")
@@ -1079,7 +1081,7 @@ err:
 	//
 	//
 	IMPLEMENT_DUICONTROL(CRichEditUI)
-	CRichEditUI::CRichEditUI() : m_pTwh(NULL), m_bVScrollBarFixing(false), m_bWantTab(true), m_bWantReturn(true), 
+		CRichEditUI::CRichEditUI() : m_pTwh(NULL), m_bVScrollBarFixing(false), m_bWantTab(true), m_bWantReturn(true), 
 		m_bWantCtrlReturn(true), m_bTransparent(true), m_bRich(true), m_bReadOnly(false), m_bWordWrap(false), m_dwTextColor(0), m_iFont(-1), 
 		m_iLimitText(cInitTextMax), m_lTwhStyle(ES_MULTILINE), m_bDrawCaret(true), m_bInited(false), m_chLeadByte(0),m_uButtonState(0),
 		m_dwTipValueColor(0xFFBAC0C5), m_uTipValueAlign(DT_SINGLELINE | DT_LEFT)
@@ -1734,7 +1736,7 @@ err:
 		TxSendMessage(EM_STREAMOUT, nFormat, (LPARAM)&es, &lResult);
 		return (long)lResult; 
 	}
-	
+
 	void CRichEditUI::SetAccumulateDBCMode( bool bDBCMode )
 	{
 		m_fAccumulateDBC = bDBCMode;
@@ -1744,7 +1746,7 @@ err:
 	{
 		return m_fAccumulateDBC;
 	}
-	
+
 	void CRichEditUI::DoInit()
 	{
 		if(m_bInited)
@@ -1848,7 +1850,7 @@ err:
 
 	// 多行非rich格式的richedit有一个滚动条bug，在最后一行是空行时，LineDown和SetScrollPos无法滚动到最后
 	// 引入iPos就是为了修正这个bug
-	void CRichEditUI::SetScrollPos(SIZE szPos)
+	void CRichEditUI::SetScrollPos(SIZE szPos, bool bMsg)
 	{
 		int cx = 0;
 		int cy = 0;

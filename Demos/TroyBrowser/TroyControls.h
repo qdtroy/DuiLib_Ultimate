@@ -636,6 +636,9 @@ protected:
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
 //虚拟列表数据源接口
 class IVListDataSource
 {
@@ -681,6 +684,7 @@ public:
 	virtual void RemoveDataAt(int nIndex);
 	virtual void RemoveAllData();
 	virtual bool SortItems(int(__cdecl *_PtFuncCompare)(void* ,const void*,const void*),void* pArgs);
+
 protected:
 	CStdPtrArray  m_arraySelectIndexList;
 	CStdPtrArray  m_arrayDataList;
@@ -716,7 +720,7 @@ public:
 
 	void SetPos(RECT rc, bool bNeedInvalidate = true);
 	void DoEvent(TEventUI& event);
-	void SetScrollPos(SIZE szPos);
+	void SetScrollPos(SIZE szPos, bool bMsg = true);
 
 	void SetShiftStartIndex(int nIndex);
 	int  GetShiftStartIndex();
@@ -796,6 +800,8 @@ public:
 	void SetDisabledItemBkColor(DWORD dwBkColor);
 	void SetDisabledItemImage(LPCTSTR pStrImage);
 	void SetItemLineColor(DWORD dwLineColor);
+	void SetItemShowRowLine(bool bShowLine = false);
+	void SetItemShowColumnLine(bool bShowLine = false);
 	bool IsItemShowHtml();
 	void SetItemShowHtml(bool bShowHtml = true);
 	RECT GetItemTextPadding() const;
@@ -818,7 +824,7 @@ public:
 
 	SIZE GetScrollPos() const;
 	SIZE GetScrollRange() const;
-	void SetScrollPos(SIZE szPos);
+	void SetScrollPos(SIZE szPos, bool bMsg = true);
 	void LineUp();
 	void LineDown();
 	void PageUp();
@@ -849,6 +855,23 @@ protected:
 	TListInfoUI m_ListInfo;
 };
 
+class TROYCONTROLS_API CVBaseListUI : public CVListUI
+{
+public:
+	CVBaseListUI();
+	~CVBaseListUI();
+
+	virtual void Init();
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+	virtual void AddData(LPVOID lpData);	
+	virtual void RemoveData(LPVOID lpData);
+	virtual void RemoveDataAt(int nIndex);
+	virtual void RemoveAllData();
+	virtual int GetSourceItemCount();
+
+protected:
+	CVListDataSource*  m_pDataSourceAll;
+};
 /////////////////////////////////////////////////////////////////////////////////////
 //
 

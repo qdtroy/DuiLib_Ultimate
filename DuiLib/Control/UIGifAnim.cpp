@@ -121,7 +121,7 @@ namespace DuiLib
 
 	void CGifAnimUI::PlayGif()
 	{
-		if (m_bIsPlaying || m_pGifImage == NULL)
+		if (m_bIsPlaying || m_pGifImage == NULL || m_nFrameCount <= 1)
 		{
 			return;
 		}
@@ -167,10 +167,13 @@ namespace DuiLib
 		GUID* pDimensionIDs	=	new GUID[ nCount ];
 		m_pGifImage->GetFrameDimensionsList( pDimensionIDs, nCount );
 		m_nFrameCount	=	m_pGifImage->GetFrameCount( &pDimensionIDs[0] );
-		int nSize		=	m_pGifImage->GetPropertyItemSize( PropertyTagFrameDelay );
-		m_pPropertyItem	=	(Gdiplus::PropertyItem*) malloc( nSize );
-		m_pGifImage->GetPropertyItem( PropertyTagFrameDelay, nSize, m_pPropertyItem );
-		delete  pDimensionIDs;
+		if (m_nFrameCount > 1)
+		{
+			int nSize = m_pGifImage->GetPropertyItemSize(PropertyTagFrameDelay);
+			m_pPropertyItem = (Gdiplus::PropertyItem*) malloc(nSize);
+			m_pGifImage->GetPropertyItem(PropertyTagFrameDelay, nSize, m_pPropertyItem);
+		}
+		delete[]  pDimensionIDs;
 		pDimensionIDs = NULL;
 
 		if (m_bIsAutoSize)

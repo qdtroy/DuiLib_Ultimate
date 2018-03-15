@@ -130,6 +130,8 @@ namespace DuiLib {
 		if( m_sText == pstrText ) return;
 
 		m_sText = pstrText;
+		// ½âÎöxml»»ÐÐ·û
+		m_sText.Replace(_T("{\\n}"), _T("\n"));
 		Invalidate();
 	}
 

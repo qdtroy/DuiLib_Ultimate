@@ -68,7 +68,7 @@
             <Label text="Label演示" cursor="hand" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <HorizontalLayout height="45" childpadding="12">
               <Label text="Label标签控件自动换行测试" width="60" align="left" wordbreak="true" textcolor="#FFFF0000" />
-              <Button text="Button按钮控件自动换行测试" width="60" align="left" wordbreak="true" textcolor="#FF000000" textpadding="6,0,6,0" style="colorbtn_style"/>
+              <Button text="Button按钮{\n}控件自动换行测试" width="60" align="left" wordbreak="true" textcolor="#FF000000" textpadding="6,0,6,0" style="colorbtn_style"/>
               <GroupBox text="Group控件" width="200" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6"/>
             </HorizontalLayout>
           </HorizontalLayout>

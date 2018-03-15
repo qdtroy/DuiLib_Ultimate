@@ -13,7 +13,7 @@
   <VerticalLayout bkimage="file='mainwnd/mainbg.png' corner='2,2,2,2'" inset="1,1,1,1" bordercolor="#EE768D9B" bordersize="1" borderround="5,5" >
     <HorizontalLayout name="sysbar" height="40">
       <HorizontalLayout name="userbar" width="170" inset="78,10">
-        <Button name="login_btn" width="78" height="16" font="1" text="请先登录" textstyle="top,left" textcolor="#FFFFFFFF"/>
+        <Button name="login_btn" bkimage="file='button.png' corner='4,4,4,4'" width="78" height="16" font="1" text="请先登录" textstyle="top,left" textcolor="#FFFFFFFF"/>
       </HorizontalLayout>
 
       <HorizontalLayout name="main_tabbar" inset="0,10" childpadding="-20">

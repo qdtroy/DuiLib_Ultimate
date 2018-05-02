@@ -168,6 +168,7 @@ namespace DuiLib
 	void CButtonUI::SetHotBkColor( DWORD dwColor )
 	{
 		m_dwHotBkColor = dwColor;
+		Invalidate();
 	}
 
 	DWORD CButtonUI::GetHotBkColor() const
@@ -178,13 +179,25 @@ namespace DuiLib
 	void CButtonUI::SetPushedBkColor( DWORD dwColor )
 	{
 		m_dwPushedBkColor = dwColor;
+		Invalidate();
 	}
 
 	DWORD CButtonUI::GetPushedBkColor() const
 	{
 		return m_dwPushedBkColor;
 	}
+		
+	void CButtonUI::SetDisabledBkColor( DWORD dwColor )
+	{
+		m_dwDisabledBkColor = dwColor;
+		Invalidate();
+	}
 
+	DWORD CButtonUI::GetDisabledBkColor() const
+	{
+		return m_dwDisabledBkColor;
+	}
+	
 	void CButtonUI::SetHotTextColor(DWORD dwColor)
 	{
 		m_dwHotTextColor = dwColor;
@@ -369,6 +382,13 @@ namespace DuiLib
 			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
 			SetPushedBkColor(clrColor);
 		}
+		else if( _tcsicmp(pstrName, _T("disabledbkcolor")) == 0 )
+		{
+			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
+			LPTSTR pstr = NULL;
+			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
+			SetDisabledBkColor(clrColor);
+		}
 		else if( _tcsicmp(pstrName, _T("hottextcolor")) == 0 )
 		{
 			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
@@ -446,7 +466,13 @@ namespace DuiLib
 
 	void CButtonUI::PaintBkColor(HDC hDC)
 	{
-		if( (m_uButtonState & UISTATE_PUSHED) != 0 ) {
+		if( (m_uButtonState & UISTATE_DISABLED) != 0 ) {
+			if(m_dwDisabledBkColor != 0) {
+				CRenderEngine::DrawColor(hDC, m_rcPaint, GetAdjustColor(m_dwDisabledBkColor));
+				return;
+			}
+		}
+		else if( (m_uButtonState & UISTATE_PUSHED) != 0 ) {
 			if(m_dwPushedBkColor != 0) {
 				CRenderEngine::DrawColor(hDC, m_rcPaint, GetAdjustColor(m_dwPushedBkColor));
 				return;

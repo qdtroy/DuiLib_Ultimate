@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Window caption="0,0,0,300" size="400,300" mininfo="400,300" sizebox="6,6,6,6" >
+  <VerticalLayout name="root" bkcolor="#EE202223">
+    <VerticalLayout bkcolor="#EEFFFFFF" childalign="center">
+      <Control />
+      <Ring name="ring" text="Ring" textcolor="#FF333333" align="center" valign="vcenter" height="200" width="200" bkimage="common/ring.png"/>
+      <Control />
+    </VerticalLayout>
+  </VerticalLayout>
+</Window>

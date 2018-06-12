@@ -2478,6 +2478,18 @@ namespace DuiLib {
 		return hBitmap;
 	}
 
+	SIZE CRenderEngine::GetTextSize( HDC hDC, CPaintManagerUI* pManager , LPCTSTR pstrText, int iFont, UINT uStyle )
+	{
+		SIZE size = {0,0};
+		ASSERT(::GetObjectType(hDC)==OBJ_DC || ::GetObjectType(hDC)==OBJ_MEMDC);
+		if( pstrText == NULL || pManager == NULL ) return size;
+		::SetBkMode(hDC, TRANSPARENT);
+		HFONT hOldFont = (HFONT)::SelectObject(hDC, pManager->GetFont(iFont));
+		GetTextExtentPoint32(hDC, pstrText, _tcslen(pstrText) , &size);
+		::SelectObject(hDC, hOldFont);
+		return size;
+	}
+
 	void CRenderEngine::CheckAlphaColor(DWORD& dwColor)
 	{
 		//RestoreAlphaColor认为0x00000000是真正的透明，其它都是GDI绘制导致的

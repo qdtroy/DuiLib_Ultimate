@@ -221,6 +221,7 @@ namespace DuiLib {
 	{
 		m_iCurSel = -1;
 		m_iExpandedItem = -1;
+		m_aSelItems.Empty();
 		m_pList->RemoveAll();
 	}
 

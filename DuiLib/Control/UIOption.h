@@ -43,6 +43,9 @@ namespace DuiLib
 		virtual LPCTSTR GetSelectedStateImage();
 		virtual void SetSelectedStateImage(LPCTSTR pStrImage);
 
+		void SetSelectedFont(int index);
+		int GetSelectedFont() const;
+
 		LPCTSTR GetGroup() const;
 		void SetGroup(LPCTSTR pStrGroupName = NULL);
 		bool IsSelected() const;
@@ -58,6 +61,8 @@ namespace DuiLib
 	protected:
 		bool			m_bSelected;
 		CDuiString		m_sGroupName;
+
+		int				m_iSelectedFont;
 
 		DWORD			m_dwSelectedBkColor;
 		DWORD			m_dwSelectedTextColor;

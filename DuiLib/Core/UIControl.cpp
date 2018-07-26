@@ -130,6 +130,8 @@ namespace DuiLib {
 		if( m_sText == pstrText ) return;
 
 		m_sText = pstrText;
+		// ½âÎöxml»»ÐÐ·û
+		m_sText.Replace(_T("{\\n}"), _T("\n"));
 		Invalidate();
 	}
 
@@ -1206,7 +1208,7 @@ namespace DuiLib {
 		//if( OnPaint ) {
 		//	if( !OnPaint(this) ) return true;
 		//}
-		if (!DoPaint(hDC, rcPaint, pStopControl)) return false;
+		if (!DoPaint(hDC, m_rcPaint, pStopControl)) return false;
 		return true;
 	}
 

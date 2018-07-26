@@ -7,7 +7,7 @@
 #include "SkinFrame.h"
 #include "MainWnd.h"
 #include "PopWnd.h"
-
+#include "SplashWnd.h"
 void InitResource()
 {
 	// 资源类型
@@ -88,6 +88,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	CPaintManagerUI::SetInstance(hInstance);
 	// 初始化资源
 	InitResource();
+
+	CSplashWnd::MessageBox(NULL);
+
 	// 创建主窗口
 	CMainWnd* pMainWnd = new CMainWnd();
 	if( pMainWnd == NULL ) return 0;

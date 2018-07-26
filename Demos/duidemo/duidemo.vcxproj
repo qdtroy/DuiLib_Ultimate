@@ -917,6 +917,7 @@
     <ClCompile Include="MsgWnd.cpp" />
     <ClCompile Include="PopWnd.cpp" />
     <ClCompile Include="SkinManager.cpp" />
+    <ClCompile Include="SplashWnd.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -960,6 +961,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="SkinFrame.h" />
     <ClInclude Include="SkinManager.h" />
+    <ClInclude Include="SplashWnd.h" />
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <ItemGroup>
@@ -986,6 +988,7 @@
     <None Include="..\..\bin\skin\duidemo\skin.xml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="..\..\bin\skin\duidemo\splash.xml" />
     <None Include="..\..\bin\skin\duidemo\treeitem.xml">
       <SubType>Designer</SubType>
     </None>

@@ -221,6 +221,7 @@ namespace DuiLib {
 	{
 		m_iCurSel = -1;
 		m_iExpandedItem = -1;
+		m_aSelItems.Empty();
 		m_pList->RemoveAll();
 	}
 
@@ -2898,7 +2899,6 @@ namespace DuiLib {
 
 	void CListContainerElementUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
-		CHorizontalLayoutUI::SetPos(rc, bNeedInvalidate);
 		if( m_pOwner == NULL ) return;
 
 		UINT uListType = m_pOwner->GetListType();
@@ -2920,11 +2920,10 @@ namespace DuiLib {
 				}
 			}
 		}
+		CHorizontalLayoutUI::SetPos(rc, bNeedInvalidate);
 
 		if(uListType != LT_LIST && uListType != LT_TREE) return;
-
 		CListUI* pList = static_cast<CListUI*>(m_pOwner);
-
  		if (uListType == LT_TREE)
  		{
  			pList = (CListUI*)pList->CControlUI::GetInterface(_T("List"));

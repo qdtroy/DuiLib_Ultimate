@@ -884,7 +884,7 @@ namespace DuiLib
 	{
 		if(pControl->GetCountChild() > 0) {
 			int nCount = pControl->GetCountChild();
-			for(int nIndex = 0;nIndex < nCount;nIndex++) {
+			for(int nIndex = nCount - 1; nIndex >= 0; nIndex--) {
 				CTreeNodeUI* pNode = pControl->GetChildNode(nIndex);
 				if(pNode){
 					pControl->Remove(pNode);

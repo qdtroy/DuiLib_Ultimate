@@ -38,6 +38,9 @@
     <ClCompile Include="SkinManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SplashWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControlEx.h">
@@ -62,6 +65,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MsgWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SplashWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -103,6 +109,9 @@
       <Filter>Resources\xmls</Filter>
     </None>
     <None Include="..\..\bin\skin\duidemo\lan_en.xml">
+      <Filter>Resources\xmls</Filter>
+    </None>
+    <None Include="..\..\bin\skin\duidemo\splash.xml">
       <Filter>Resources\xmls</Filter>
     </None>
   </ItemGroup>

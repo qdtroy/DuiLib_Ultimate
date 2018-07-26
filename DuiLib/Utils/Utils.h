@@ -305,32 +305,32 @@ namespace DuiLib
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	//
-	static char* w2a(wchar_t* lpszSrc)
+	static char* w2a(wchar_t* lpszSrc, UINT   CodePage = CP_ACP)
 	{
 		if (lpszSrc != NULL)
 		{
-			int  nANSILen = WideCharToMultiByte(CP_ACP, 0, lpszSrc, -1, NULL, 0, NULL, NULL);
+			int  nANSILen = WideCharToMultiByte(CodePage, 0, lpszSrc, -1, NULL, 0, NULL, NULL);
 			char* pANSI = new char[nANSILen + 1];
 			if (pANSI != NULL)
 			{
 				ZeroMemory(pANSI, nANSILen + 1);
-				WideCharToMultiByte(CP_ACP, 0, lpszSrc, -1, pANSI, nANSILen, NULL, NULL);
+				WideCharToMultiByte(CodePage, 0, lpszSrc, -1, pANSI, nANSILen, NULL, NULL);
 				return pANSI;
 			}
 		}	
 		return NULL;
 	}
 
-	static wchar_t* a2w(char* lpszSrc)
+	static wchar_t* a2w(char* lpszSrc, UINT   CodePage = CP_ACP)
 	{
 		if (lpszSrc != NULL)
 		{
-			int nUnicodeLen = MultiByteToWideChar(CP_ACP, 0, lpszSrc, -1, NULL, 0);
+			int nUnicodeLen = MultiByteToWideChar(CodePage, 0, lpszSrc, -1, NULL, 0);
 			LPWSTR pUnicode = new WCHAR[nUnicodeLen + 1];
 			if (pUnicode != NULL)
 			{
 				ZeroMemory((void*)pUnicode, (nUnicodeLen + 1) * sizeof(WCHAR));
-				MultiByteToWideChar(CP_ACP, 0, lpszSrc,-1, pUnicode, nUnicodeLen);
+				MultiByteToWideChar(CodePage, 0, lpszSrc,-1, pUnicode, nUnicodeLen);
 				return pUnicode;
 			}
 		}

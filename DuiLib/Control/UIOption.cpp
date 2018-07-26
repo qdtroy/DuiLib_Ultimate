@@ -4,7 +4,7 @@
 namespace DuiLib
 {
 	IMPLEMENT_DUICONTROL(COptionUI)
-	COptionUI::COptionUI() : m_bSelected(false), m_dwSelectedTextColor(0), m_dwSelectedBkColor(0), m_nSelectedStateCount(0)
+	COptionUI::COptionUI() : m_bSelected(false) ,m_iSelectedFont(-1), m_dwSelectedTextColor(0), m_dwSelectedBkColor(0), m_nSelectedStateCount(0)
 	{
 	}
 
@@ -197,7 +197,16 @@ namespace DuiLib
 		m_sSelectedStateImage = pStrImage;
 		Invalidate();
 	}
+	void COptionUI::SetSelectedFont(int index)
+	{
+		m_iSelectedFont = index;
+		Invalidate();
+	}
 
+	int COptionUI::GetSelectedFont() const
+	{
+		return m_iSelectedFont;
+	}
 	void COptionUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
 		if( _tcsicmp(pstrName, _T("group")) == 0 ) SetGroup(pstrValue);
@@ -220,6 +229,7 @@ namespace DuiLib
 			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
 			SetSelectedTextColor(clrColor);
 		}
+		else if( _tcsicmp(pstrName, _T("selectedfont")) == 0 ) SetSelectedFont(_ttoi(pstrValue));
 		else CButtonUI::SetAttribute(pstrName, pstrValue);
 	}
 
@@ -317,6 +327,10 @@ namespace DuiLib
 			if( m_dwTextColor == 0 ) m_dwTextColor = m_pManager->GetDefaultFontColor();
 			if( m_dwDisabledTextColor == 0 ) m_dwDisabledTextColor = m_pManager->GetDefaultDisabledColor();
 
+			int iFont = GetFont();
+			if(GetSelectedFont() != -1) {
+				iFont = GetSelectedFont();
+			}
 			CDuiString sText = GetText();
 			if( sText.IsEmpty() ) return;
 			int nLinks = 0;
@@ -330,10 +344,10 @@ namespace DuiLib
 			
 			if( m_bShowHtml )
 				CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, sText, IsEnabled()?m_dwTextColor:m_dwDisabledTextColor, \
-				NULL, NULL, nLinks, m_iFont, m_uTextStyle);
+				NULL, NULL, nLinks, iFont, m_uTextStyle);
 			else
 				CRenderEngine::DrawText(hDC, m_pManager, rc, sText, IsEnabled()?m_dwTextColor:m_dwDisabledTextColor, \
-				m_iFont, m_uTextStyle);
+				iFont, m_uTextStyle);
 
 			m_dwTextColor = oldTextColor;
 		}

@@ -70,6 +70,7 @@ CControlUI* CMainWnd::CreateControl(LPCTSTR pstrClass)
 
 void CMainWnd::InitWindow() 
 {
+	SetIcon(IDR_MAINFRAME);
 	// 多语言接口
 	CResourceManager::GetInstance()->SetTextQueryInterface(this);
 	CResourceManager::GetInstance()->LoadLanguage(_T("lan_cn.xml"));
@@ -441,7 +442,7 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 	else if(sName.CompareNoCase(_T("popwnd_btn")) == 0)
 	{
 		CPopWnd* pPopWnd = new CPopWnd();
-		pPopWnd->Create(m_hWnd, _T("透明窗口演示"), WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW, 0, 0, 800, 572);
+		pPopWnd->Create(m_hWnd, NULL, WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW, 0, 0, 800, 572);
 		pPopWnd->CenterWindow();
 	}
 	else if(sName.CompareNoCase(_T("modal_popwnd_btn")) == 0)

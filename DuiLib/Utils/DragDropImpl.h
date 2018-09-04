@@ -46,7 +46,7 @@ namespace DuiLib {
 	public:
 		bool m_bDropped;
 
-		CIDropSource::CIDropSource():m_cRefCount(0),m_bDropped(false) {}
+		CIDropSource():m_cRefCount(0),m_bDropped(false) {}
 		//IUnknown
 		virtual HRESULT STDMETHODCALLTYPE QueryInterface(
 			/* [in] */ REFIID riid,

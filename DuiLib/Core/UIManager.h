@@ -23,7 +23,7 @@ namespace DuiLib {
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 
-	typedef enum EVENTTYPE_UI
+	enum EVENTTYPE_UI
 	{
 		UIEVENT__FIRST = 1,
 		UIEVENT__KEYBEGIN,
@@ -55,7 +55,7 @@ namespace DuiLib {
 		UIEVENT__LAST,
 	};
 
-	typedef enum MSGTYPE_UI
+	enum MSGTYPE_UI
 	{
 		// 内部保留消息
 		UIMSG_TRAYICON = WM_USER + 1,

@@ -45,7 +45,7 @@
 #elif (!defined _UNICODE) && (!defined _DEBUG) && (defined _WIN64)
 #	pragma comment (lib, "../lib/DuiLibA_64s.lib")
 #elif (!defined _UNICODE) && (!defined _DEBUG) && (!defined _WIN64)
-#	pragma comment (lib, "../lib/DuiLibA.lib")
+#	pragma comment (lib, "../lib/DuiLibA_s.lib")
 #endif
 ```
 

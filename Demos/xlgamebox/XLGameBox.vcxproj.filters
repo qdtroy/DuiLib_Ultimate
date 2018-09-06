@@ -29,9 +29,6 @@
     <ClCompile Include="GameItemUI.cpp">
       <Filter>MyControl</Filter>
     </ClCompile>
-    <ClCompile Include="XUnzip.cpp">
-      <Filter>MyControl</Filter>
-    </ClCompile>
     <ClCompile Include="MainWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

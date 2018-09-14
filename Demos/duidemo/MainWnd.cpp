@@ -144,10 +144,10 @@ void CMainWnd::InitWindow()
 
 	CDialogBuilder builder1;
 	CListContainerElementUI* pListItem1  = (CListContainerElementUI*)builder1.Create(_T("listitem.xml"), NULL, this, &m_pm, NULL);
-	
 	pList->Add(pListItem1);
 	CControlUI* pLabel = pListItem1->FindSubControl(_T("troy"));
 	if(pLabel != NULL) pLabel->SetText(_T("abc_troy"));
+
 	for(int i = 0; i < 20; i++)
 	{
 		CListTextElementUI* pItem  = new CListTextElementUI();

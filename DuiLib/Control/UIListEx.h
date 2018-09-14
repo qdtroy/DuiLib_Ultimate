@@ -202,9 +202,6 @@ namespace DuiLib {
 		CContainerUI* m_pOwner;
 		void SetOwner(CContainerUI* pOwner);
 		CContainerUI* GetOwner();
-
-
-
 	};
 	 
 	/////////////////////////////////////////////////////////////////////////////////////

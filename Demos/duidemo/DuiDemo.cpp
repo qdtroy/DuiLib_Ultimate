@@ -8,6 +8,12 @@
 #include "MainWnd.h"
 #include "PopWnd.h"
 #include "SplashWnd.h"
+
+#define _CRTDBG_MAP_ALLOC
+#include<stdlib.h>
+#include<crtdbg.h>
+
+
 void InitResource()
 {
 	// 资源类型
@@ -79,6 +85,7 @@ void InitResource()
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
+	_CrtDumpMemoryLeaks();
 	// COM
 	HRESULT Hr = ::CoInitialize(NULL);
 	if( FAILED(Hr) ) return 0;

@@ -180,6 +180,18 @@
 
         </VerticalLayout>
         <VerticalLayout name="rich_tab_panel" inset="2,2,2,2" vscrollbar="true">
+
+
+          <Label height="1" bkimage="common/hor_line.png"/>
+          <HorizontalLayout height="180" inset="0,6,0,6">
+            <Label text="瓦片控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
+            <VerticalLayout bordersize="1" bordercolor="#FF333333" inset="2,8,2,8">
+              <TileLayout name="tilelayout" vscrollbar="true" itemsize="100,60" childpadding="10">
+                <Include source="tileitem.xml" count="15"/>
+              </TileLayout>
+            </VerticalLayout>
+          </HorizontalLayout>
+          
           <HorizontalLayout height="120" inset="0,6,0,6">
             <Label text="RichEdit控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF333333" inset="2,2,2,2">
@@ -191,7 +203,7 @@
           <HorizontalLayout height="180" inset="0,6,0,6">
             <Label text="ListView控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF333333" inset="2,2,2,2">
-              <List name="listview" vscrollbar="true" hscrollbar="true" style="list_style" itemvalign="vcenter" scrollstepsize="100" bordersize="1,1,1,1" bordercolor="#FFFF0000">
+              <List name="listview" vscrollbar="true" hscrollbar="true" style="list_style" itemvalign="vcenter" scrollstepsize="100">
                 <ListHeader height="24" menu="true">
                   <ListHeaderItem name="header_name" text="姓名" width="80" hotimage="res='common/list_header_hot.png'" pushedimage="res='common/list_header_pushed.png'" sepimage="res='common/list_header_sep.png'" sepwidth="1"/>
                   <ListHeaderItem text="学号" width="160" hotimage="res='common/list_header_hot.png'" pushedimage="res='common/list_header_pushed.png'" sepimage="res='common/list_header_sep.png'" sepwidth="1"/>
@@ -209,7 +221,7 @@
               <TreeView name="treeview" bkcolor="#ffffffff" visiblefolderbtn="true" visiblecheckbtn="false" vscrollbar="true" >
                 <TreeNode text="A1" itemattr="visible=&quot;true&quot; font=&quot;3&quot;">
                   <Button text="扩展按钮" width="100" />
-                  <!--<TreeNode text="B1" innerstyle="selitemtextcolor=&quot;#FFFF0000&quot; folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" itemattr="font=&quot;3&quot;" >
+                  <TreeNode text="B1" innerstyle="selitemtextcolor=&quot;#FFFF0000&quot; folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" itemattr="font=&quot;3&quot;" >
                     <TreeNode text="C1" innerstyle="selitemtextcolor=&quot;#FFFF0000&quot; folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" >
                       <TreeNode text="D1" horizattr="width=&quot;128&quot; bkcolor=&quot;#FFFF0000&quot;" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" >
                         <HorizontalLayout bkcolor="#FFFF00FF" width="300">
@@ -219,9 +231,9 @@
                     </TreeNode>
                     <Edit text="请输入编辑内容" style="edit_style" tipvalue="扩展文本框"  />
                   </TreeNode>
-                  <Edit text="我是Troy" style="edit_style" tipvalue="扩展文本框" />-->
+                  <Edit text="我是Troy" style="edit_style" tipvalue="扩展文本框" />
                 </TreeNode>
-                <!--<TreeNode text="A2" itemtextcolor="#FFFF0000" itemattr="font=&quot;3&quot;" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='common/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='common/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='common/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='common/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='common/unchecked.png' &quot; selectedimage=&quot;file='common/checked.png' &quot;" >
+                <TreeNode text="A2" itemtextcolor="#FFFF0000" itemattr="font=&quot;3&quot;" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='common/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='common/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='common/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='common/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='common/unchecked.png' &quot; selectedimage=&quot;file='common/checked.png' &quot;" >
                   <TreeNode text="B2" itemattr="font=&quot;3&quot;" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='common/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='common/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='common/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='common/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='common/unchecked.png' &quot; selectedimage=&quot;file='common/checked.png' &quot;" >
                     <TreeNode text="C2" itemattr="font=&quot;3&quot;" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='common/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='common/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='common/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='common/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='common/unchecked.png' &quot; selectedimage=&quot;file='common/checked.png' &quot;" >
                       <TreeNode text="D2" itemattr="font=&quot;3&quot;" folderattr="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='common/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='common/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='common/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='common/treeview_a.png' source='16,0,32,16' &quot;" checkboxattr="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='common/unchecked.png' &quot; selectedimage=&quot;file='common/checked.png' &quot;" >
@@ -232,13 +244,12 @@
                     <CheckBox text="扩展复选框" width="100" />
                   </TreeNode>
                   <CheckBox text="扩展复选框" width="100" />
-                </TreeNode>-->
+                </TreeNode>
               </TreeView>
             </VerticalLayout>
           </HorizontalLayout>
-          <Label height="1" bkimage="common/hor_line.png"/>
-
         </VerticalLayout>
+        
         <VerticalLayout name="ex_tab_panel" inset="2,2,2,2" vscrollbar="true">
           <HorizontalLayout height="220">
             <Label text="颜色控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>

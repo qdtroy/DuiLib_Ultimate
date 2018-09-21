@@ -48,6 +48,8 @@ namespace DuiLib {
 				}
 				pCtrl = pCtrl->GetParent();
 			}
+
+			if( m_pOwner->GetManager() != NULL ) m_pOwner->GetManager()->SendNotify(msg.pSender, DUI_MSGTYPE_CLICK, 0, 0);
 		}
 	}
 
@@ -157,8 +159,10 @@ namespace DuiLib {
 				m_pLayout->Add(static_cast<CControlUI*>(m_pOwner->GetItemAt(i)));
 			}
 			CShadowUI *pShadow = m_pOwner->GetManager()->GetShadow();
-			pShadow->CopyShadow(m_pm.GetShadow());
-			m_pm.GetShadow()->ShowShadow(m_pOwner->IsShowShadow());
+			if(pShadow != NULL && m_pOwner != NULL) {
+				pShadow->CopyShadow(m_pm.GetShadow());
+				m_pm.GetShadow()->ShowShadow(m_pOwner->IsShowShadow());
+			}
 			m_pm.AttachDialog(m_pLayout);
 			m_pm.AddNotifier(this);
 			return 0;
@@ -590,9 +594,13 @@ namespace DuiLib {
 
 	CDuiString CComboUI::GetText() const
 	{
-		if( m_iCurSel < 0 ) return _T("");
-		CControlUI* pControl = static_cast<CControlUI*>(m_items[m_iCurSel]);
-		return pControl->GetText();
+		if( m_iCurSel < 0 || m_iCurSel >= m_items.GetSize()) {
+			return __super::GetText();
+		}
+		else {
+			CControlUI* pControl = static_cast<CControlUI*>(m_items[m_iCurSel]);
+			return pControl->GetText();
+		}
 	}
 
 	void CComboUI::SetEnabled(bool bEnable)

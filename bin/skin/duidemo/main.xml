@@ -111,13 +111,14 @@
           <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="Combo控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <HorizontalLayout height="23" childpadding="12">
-              <Combo name="font_type" font="3" width="120" style="combo_style" itemfont="0" cursor="hand" showshadow="true" textcolor="#FFFFFFFF" dropbox="hscrollbar=&quot;true&quot;" float="true" pos="300,0,400,23">
+              <Combo name="font_type" font="3" width="200" style="combo_style" itemfont="0" cursor="hand" showshadow="true" textcolor="#FFFFFFFF" dropbox="hscrollbar=&quot;true&quot;" float="true" pos="300,0,400,23">
                 <ListLabelElement text="微软雅黑" selected="true" height="23" />
-                <ListLabelElement text="宋体" height="23" width="500" />
-                <ListLabelElement text="黑体" height="23" width="500" />
-                <ListLabelElement text="幼圆" height="23" width="500" />
-                <ListLabelElement text="楷体" height="23" width="500" />
-                <ListContainerElement>
+                <ListLabelElement text="宋体" height="23" />
+                <ListLabelElement text="黑体" height="23" />
+                <ListLabelElement text="幼圆" height="23" />
+                <ListLabelElement text="楷体" height="23" />
+                <ListContainerElement height="30" text="按钮使用例子">
+                  <Label text="按钮使用" autocalcwidth="true"/>
                   <Button name="combo_closebtn" width="39" height="20" tooltip="关闭" normalimage="file='sysbtn/btn_close_normal.png'" hotimage="file='sysbtn/btn_close_highlight.png'" pushedimage="file='sysbtn/btn_close_down.png' "/>
                 </ListContainerElement>
               </Combo>

@@ -179,11 +179,11 @@ namespace DuiLib
 			//if (m_pOwner->GetManager()->IsLayered() && !m_pOwner->GetManager()->IsPainting()) {
 			//	m_pOwner->GetManager()->AddNativeWindow(m_pOwner, m_hWnd);
 			//}
-			DWORD clrColor = m_pOwner->GetNativeEditBkColor();
-			if( clrColor == 0xFFFFFFFF ) return 0;
+
 			::SetBkMode((HDC)wParam, TRANSPARENT);
 			DWORD dwTextColor = m_pOwner->GetTextColor();
 			::SetTextColor((HDC)wParam, RGB(GetBValue(dwTextColor),GetGValue(dwTextColor),GetRValue(dwTextColor)));
+			DWORD clrColor = m_pOwner->GetNativeEditBkColor();
 			if (clrColor < 0xFF000000) {
 				if (m_hBkBrush != NULL) ::DeleteObject(m_hBkBrush);
 				RECT rcWnd = m_pOwner->GetManager()->GetNativeWindowRect(m_hWnd);

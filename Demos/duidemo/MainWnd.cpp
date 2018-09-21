@@ -311,9 +311,6 @@ void CMainWnd::Notify(TNotifyUI& msg)
 {
 	CDuiString name = msg.pSender->GetName();
 	if(msg.sType == _T("windowinit")) {
-		/*if(MSGID_OK != CMsgWnd::MessageBox(m_hWnd, _T("duilib开源项目圈（By Troy）"), _T("查看duilib例子集锦，是否继续？"))) {
-			Close(0);
-		}*/
 	}
 	else if( msg.sType == _T("colorchanged") )
 	{
@@ -326,13 +323,11 @@ void CMainWnd::Notify(TNotifyUI& msg)
 	}
 	else if( msg.sType == _T("showactivex") ) 
 	{
-		if( name.CompareNoCase(_T("ani_flash")) == 0 ) 
-		{
+		if( name.CompareNoCase(_T("ani_flash")) == 0 ) {
 			IShockwaveFlash* pFlash = NULL;
 			CActiveXUI* pActiveX = static_cast<CActiveXUI*>(msg.pSender);
 			pActiveX->GetControl(__uuidof(IShockwaveFlash), (void**)&pFlash);
-			if( pFlash != NULL ) 
-			{
+			if( pFlash != NULL )  {
 				pFlash->put_WMode( _bstr_t(_T("Transparent") ) );
 				pFlash->put_Movie( _bstr_t(CPaintManagerUI::GetInstancePath() + _T("\\skin\\duidemo\\other\\waterdrop.swf")) );
 				pFlash->DisableLocalSecurity();
@@ -351,11 +346,6 @@ void CMainWnd::Notify(TNotifyUI& msg)
 			{
 				::DestroyWindow(m_hWnd);
 			}
-
-			//if(IDYES == MessageBox(m_hWnd, _T("确定退出duidemo演示程序？"), _T("Duilib旗舰版"), MB_YESNO))
-			//{
-			//	::DestroyWindow(m_hWnd);
-			//}
 			return; 
 		}
 		else if( msg.pSender == m_pMinBtn ) { 
@@ -370,7 +360,7 @@ void CMainWnd::Notify(TNotifyUI& msg)
 		// 按钮消息
 		OnLClick(msg.pSender);
 	}
-
+	
 	else if(msg.sType==_T("selectchanged"))
 	{
 		CTabLayoutUI* pTabSwitch = static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("tab_switch")));
@@ -517,6 +507,12 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 	{
 		int nDPI = _ttoi(pControl->GetUserData());
 		m_pm.SetDPI(nDPI);
+	}
+	else if(sName.CompareNoCase(_T("combo_closebtn")) == 0 ) 
+	{
+		CMsgWnd::ShowMessageBox(m_hWnd, _T("Combo按钮点击"), _T("Combo列表项-按钮点击"));
+
+		return; 
 	}
 }
 

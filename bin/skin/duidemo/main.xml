@@ -31,8 +31,8 @@
       <HorizontalLayout name="apptitle" childpadding="6">
         <Container width="64" height="64" bkimage="logo.jpg" />
         <VerticalLayout inset="0,10,0,0" childpadding="5">
-          <Label name="title_lb" text="duilib开源项目圈" valign="vcenter" align="left" wordbreak="true" textcolor="#FFEEEEEE" font="2" tooltip="duilib开源项目圈"/>
-          <HorizontalLayout height="20" childpadding="20">
+          <Label name="title_lb" height="20" text="duilib开源项目圈" valign="vcenter" align="left" wordbreak="true" textcolor="#FFEEEEEE" font="2" tooltip="duilib开源项目圈"/>
+          <HorizontalLayout height="20" childpadding="20" >
             <Button name="homepage_btn" cursor="hand" text="hometext" resourcetext="true" showhtml="true" autocalcwidth="true" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FFFF00FF" font="1" tooltip="官网"/>
             <Button name="qqgroup_btn" cursor="hand" text="加入duilib开源项目圈（261675375）" showhtml="true" tooltip="加入duilib开源项目圈" width="220" autocalcwidth="true" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FFFF00FF" font="1" />
             <Button name="qq_btn" cursor="hand" text="骚扰Troy(QQ：656067418)" width="170" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FFFF00FF" font="1" tooltip="添加Troy为QQ好友" />

@@ -1033,52 +1033,44 @@ namespace DuiLib
 	{
 		CControlUI* pSubControl=NULL;
 		pSubControl=this->FindSubControl(pstrSubControlName);
-		if (pSubControl!=NULL)
-		{
+		if (pSubControl!=NULL) {
 			pSubControl->SetText(pstrText);
 			return TRUE;
 		}
-		else
-			return FALSE;
+		else return FALSE;
 	}
 
 	bool CContainerUI::SetSubControlFixedHeight( LPCTSTR pstrSubControlName,int cy )
 	{
 		CControlUI* pSubControl=NULL;
 		pSubControl=this->FindSubControl(pstrSubControlName);
-		if (pSubControl!=NULL)
-		{
+		if (pSubControl!=NULL) {
 			pSubControl->SetFixedHeight(cy);
 			return TRUE;
 		}
-		else
-			return FALSE;
+		else return FALSE;
 	}
 
 	bool CContainerUI::SetSubControlFixedWdith( LPCTSTR pstrSubControlName,int cx )
 	{
 		CControlUI* pSubControl=NULL;
 		pSubControl=this->FindSubControl(pstrSubControlName);
-		if (pSubControl!=NULL)
-		{
+		if (pSubControl!=NULL) {
 			pSubControl->SetFixedWidth(cx);
 			return TRUE;
 		}
-		else
-			return FALSE;
+		else return FALSE;
 	}
 
 	bool CContainerUI::SetSubControlUserData( LPCTSTR pstrSubControlName,LPCTSTR pstrText )
 	{
 		CControlUI* pSubControl=NULL;
 		pSubControl=this->FindSubControl(pstrSubControlName);
-		if (pSubControl!=NULL)
-		{
+		if (pSubControl!=NULL) {
 			pSubControl->SetUserData(pstrText);
 			return TRUE;
 		}
-		else
-			return FALSE;
+		else return FALSE;
 	}
 
 	DuiLib::CDuiString CContainerUI::GetSubControlText( LPCTSTR pstrSubControlName )
@@ -1095,36 +1087,30 @@ namespace DuiLib
 	{
 		CControlUI* pSubControl=NULL;
 		pSubControl=this->FindSubControl(pstrSubControlName);
-		if (pSubControl==NULL)
-			return -1;
-		else
-			return pSubControl->GetFixedHeight();
+		if (pSubControl==NULL) return -1;
+		else return pSubControl->GetFixedHeight();
 	}
 
 	int CContainerUI::GetSubControlFixedWdith( LPCTSTR pstrSubControlName )
 	{
 		CControlUI* pSubControl=NULL;
 		pSubControl=this->FindSubControl(pstrSubControlName);
-		if (pSubControl==NULL)
-			return -1;
-		else
-			return pSubControl->GetFixedWidth();
+		if (pSubControl==NULL) return -1;
+		else return pSubControl->GetFixedWidth();
 	}
 
 	const CDuiString CContainerUI::GetSubControlUserData( LPCTSTR pstrSubControlName )
 	{
 		CControlUI* pSubControl=NULL;
 		pSubControl=this->FindSubControl(pstrSubControlName);
-		if (pSubControl==NULL)
-			return _T("");
-		else
-			return pSubControl->GetUserData();
+		if (pSubControl==NULL) return _T("");
+		else return pSubControl->GetUserData();
 	}
 
 	CControlUI* CContainerUI::FindSubControl( LPCTSTR pstrSubControlName )
 	{
 		CControlUI* pSubControl=NULL;
-		if(m_pManager != NULL) pSubControl = static_cast<CControlUI*>(m_pManager->FindSubControlByName(this,pstrSubControlName));
+		pSubControl = static_cast<CControlUI*>(GetManager()->FindSubControlByName(this, pstrSubControlName));
 		return pSubControl;
 	}
 

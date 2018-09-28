@@ -33,8 +33,7 @@ namespace DuiLib {
 
 	void CComboWnd::Notify(TNotifyUI& msg)
 	{
-		if (msg.sType == _T("windowinit"))
-		{
+		if (msg.sType == _T("windowinit")) {
 			EnsureVisible(m_iOldSel);
 		}
 		else if(msg.sType == _T("click")) {
@@ -233,8 +232,9 @@ namespace DuiLib {
 
 	void CComboWnd::EnsureVisible(int iIndex)
 	{
-		if( m_pOwner->GetCurSel() < 0 ) return;
-		m_pLayout->FindSelectable(m_pOwner->GetCurSel(), false);
+		int nCurSel = m_pOwner->GetCurSel();
+		if( nCurSel < 0 ) return;
+		m_pLayout->FindSelectable(nCurSel, false);
 		RECT rcItem = m_pLayout->GetItemAt(iIndex)->GetPos();
 		RECT rcList = m_pLayout->GetPos();
 		CScrollBarUI* pHorizontalScrollBar = m_pLayout->GetHorizontalScrollBar();

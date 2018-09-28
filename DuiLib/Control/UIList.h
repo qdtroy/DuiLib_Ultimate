@@ -227,7 +227,7 @@ namespace DuiLib {
 		BOOL SortItems(PULVCompareFunc pfnCompare, UINT_PTR dwData);
 
 		virtual BOOL CheckColumEditable(int nColum) { return FALSE; };
-		virtual CEditUI* GetEditUI() { return NULL; };
+		virtual CRichEditUI* GetEditUI() { return NULL; };
 		virtual BOOL CheckColumComboBoxable(int nColum) { return FALSE; };
 		virtual CComboBoxUI* GetComboBoxUI() { return NULL; };
 

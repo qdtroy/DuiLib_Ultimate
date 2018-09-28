@@ -1824,6 +1824,11 @@ namespace DuiLib {
 				}
 				break;
 			}
+		case WM_KILLFOCUS:
+			{
+				if(IsCaptured()) ReleaseCapture();
+				break;
+			}
 		case WM_NOTIFY:
 			{
 				if( lParam == 0 ) break;

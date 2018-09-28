@@ -321,6 +321,12 @@ void CMainWnd::Notify(TNotifyUI& msg)
 			pRoot->SetBkImage(_T(""));
 		}
 	}
+	else if(msg.sType == DUI_MSGTYPE_ITEMACTIVATE) {
+		if(MSGID_OK == CMsgWnd::MessageBox(m_hWnd, _T("Duilib旗舰版"), _T("确定退出duidemo演示程序？")))
+		{
+			::DestroyWindow(m_hWnd);
+		}
+	}
 	else if( msg.sType == _T("showactivex") ) 
 	{
 		if( name.CompareNoCase(_T("ani_flash")) == 0 ) {

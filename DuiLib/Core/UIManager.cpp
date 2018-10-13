@@ -1856,6 +1856,17 @@ namespace DuiLib {
 				if(lRes != 0) return true;
 			}
 			break;
+		case WM_ACTIVATE:
+			{
+				if (WA_INACTIVE == wParam)
+				{
+					if (IsCaptured())
+					{
+						ReleaseCapture();
+					}
+				}
+			}
+			break;
 		default:
 			break;
 		}

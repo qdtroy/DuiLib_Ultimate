@@ -2736,6 +2736,9 @@ err:
 		else if( uMsg >= WM_MOUSEFIRST && uMsg <= WM_MOUSELAST ) {
 			if( m_pTwh->IsCaptured() ) bHandled = bWasHandled;
 		}
+
+		if (uMsg == WM_MOUSEMOVE) bHandled = false;
+
 		return lResult;
 	}
 

@@ -55,6 +55,7 @@ namespace DuiLib {
 			m_pEditUI->SetMultiLine(false);
 			m_pEditUI->SetWantReturn(true);
 			m_pEditUI->SetFloat(true);
+			m_pEditUI->SetAttribute(_T("autohscroll"), _T("true"));
 			Add(m_pEditUI);
 		}
 		if (m_pComboBoxUI)

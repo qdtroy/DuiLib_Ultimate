@@ -145,13 +145,13 @@ namespace DuiLib
 						m_cxyFixedLast.cx = rcText.right - rcText.left + GetManager()->GetDPIObj()->Scale(m_rcTextPadding.left + m_rcTextPadding.right);
 					}
 					else {
-						m_cxyFixedLast.cx = szAvailable.cx;
+						//m_cxyFixedLast.cx = szAvailable.cx;
 					}
 				}
 			}
 			else {
 				if( m_cxyFixedLast.cx == 0 ) {
-					m_cxyFixedLast.cx = szAvailable.cx;
+					//m_cxyFixedLast.cx = szAvailable.cx;
 				}
 				if(m_cxyFixedLast.cy == 0) {
 					if(m_bAutoCalcHeight) {

@@ -15,6 +15,7 @@ namespace DuiLib
 		, m_dwFocusedTextColor(0)
 		, m_dwHotBkColor(0)
 		, m_dwPushedBkColor(0)
+		, m_dwDisabledBkColor(0)
 		, m_iBindTabIndex(-1)
 		, m_nStateCount(0)
 	{

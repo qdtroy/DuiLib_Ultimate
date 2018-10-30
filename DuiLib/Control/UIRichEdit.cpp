@@ -766,9 +766,9 @@ err:
 		return S_OK;
 	}
 
-	void CTxtWinHost::SetWordWrap(BOOL fWordWrap)
+	void CTxtWinHost::SetWordWrap(BOOL _fWordWrap)
 	{
-		fWordWrap = fWordWrap;
+		fWordWrap = _fWordWrap;
 		pserv->OnTxPropertyBitsChange(TXTBIT_WORDWRAP, fWordWrap ? TXTBIT_WORDWRAP : 0);
 	}
 
@@ -2536,6 +2536,7 @@ err:
 				case WM_LBUTTONDBLCLK:
 				case WM_RBUTTONDOWN:
 				case WM_RBUTTONUP:
+				case WM_MOUSEMOVE:
 					{
 						POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 						CControlUI* pHover = GetManager()->FindControl(pt);

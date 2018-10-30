@@ -111,7 +111,12 @@ namespace DuiLib
 
 	SIZE CLabelUI::EstimateSize(SIZE szAvailable)
 	{
-		if (m_cxyFixed.cx > 0 && m_cxyFixed.cy > 0) return m_cxyFixed;
+		if (m_cxyFixed.cx > 0 && m_cxyFixed.cy > 0) {
+			if (m_pManager != NULL) {
+				return m_pManager->GetDPIObj()->Scale(m_cxyFixed);
+			}
+			return m_cxyFixed;
+		}
 
 		if ((szAvailable.cx != m_szAvailableLast.cx || szAvailable.cy != m_szAvailableLast.cy)) {
 			m_bNeedEstimateSize = true;

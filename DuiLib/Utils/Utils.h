@@ -157,8 +157,8 @@ namespace DuiLib
 		const CDuiString& operator=(const TCHAR ch);
 		const CDuiString& operator=(LPCTSTR pstr);
 #ifdef _UNICODE
-		const CDuiString& CDuiString::operator=(LPCSTR lpStr);
-		const CDuiString& CDuiString::operator+=(LPCSTR lpStr);
+		const CDuiString& operator=(LPCSTR lpStr);
+		const CDuiString& operator+=(LPCSTR lpStr);
 #else
 		const CDuiString& CDuiString::operator=(LPCWSTR lpwStr);
 		const CDuiString& CDuiString::operator+=(LPCWSTR lpwStr);

@@ -221,6 +221,7 @@ namespace DuiLib {
 		m_bUpdateNeeded(false),
 		m_bMouseTracking(false),
 		m_bMouseCapture(false),
+		m_bAsyncNotifyPosted(false),
 		m_bUsedVirtualWnd(false),
 		m_bForceUseSharedRes(false),
 		m_nOpacity(0xFF),
@@ -2115,7 +2116,7 @@ namespace DuiLib {
 		}
 		SetWindowPos(GetPaintWindow(), NULL, prcNewWindow->left, prcNewWindow->top, prcNewWindow->right - prcNewWindow->left, prcNewWindow->bottom - prcNewWindow->top, SWP_NOZORDER | SWP_NOACTIVATE);
 		if (GetRoot() != NULL) GetRoot()->NeedUpdate();
-		::PostMessage(GetPaintWindow(), WM_USER_SET_DPI, 0, 0);
+		::PostMessage(GetPaintWindow(), UIMSG_SET_DPI, 0, 0);
 	}
 
 	void DuiLib::CPaintManagerUI::SetAllDPI(int iDPI)

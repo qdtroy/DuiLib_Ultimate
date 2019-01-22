@@ -88,7 +88,7 @@ void CMainWnd::InitWindow()
 	CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("oneclick_browser2")));
 	pBrowser2->SetWebBrowserEventHandler(this);
 	pBrowser1->NavigateUrl(_T("http://blog.csdn.net/duisharp"));
-	pBrowser2->NavigateUrl(_T("http://www.winradar.com"));
+	pBrowser2->NavigateUrl(_T("https://s.click.taobao.com/nPsXfGw"));
 
 	// ¶¯Ì¬´´½¨Combo
 	CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("font_size")));
@@ -249,7 +249,7 @@ HRESULT STDMETHODCALLTYPE CMainWnd::GetHostInfo(CWebBrowserUI* pWeb,
 	/* [out][in] */ DOCHOSTUIINFO __RPC_FAR *pInfo)
 {
 	if (pInfo != NULL) {
-		pInfo->dwFlags |= DOCHOSTUIFLAG_NO3DBORDER | DOCHOSTUIFLAG_NO3DOUTERBORDER | DOCHOSTUIFLAG_SCROLL_NO;
+		pInfo->dwFlags |= DOCHOSTUIFLAG_NO3DBORDER | DOCHOSTUIFLAG_NO3DOUTERBORDER;
 	}
 	return S_OK;
 }

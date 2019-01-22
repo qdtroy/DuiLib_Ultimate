@@ -306,7 +306,7 @@
 
         </VerticalLayout>
         <VerticalLayout name="split_tab_panel" bkcolor="#FF000000">
-          <VerticalLayout inset="0,0,0,6" sepimm="true" sepheight="6" height="200" minheight="200" maxheight="300">
+          <VerticalLayout inset="0,0,0,6" sepimm="true" sepheight="6" height="100" minheight="100" maxheight="300">
             <WebBrowser name="oneclick_browser1" homepage="about:blank" autonavi="true" delaycreate="false" />
           </VerticalLayout>
           <WebBrowser name="oneclick_browser2" homepage="about:blank" autonavi="true" delaycreate="false"/>

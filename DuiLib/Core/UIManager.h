@@ -119,6 +119,7 @@ namespace DuiLib {
 		bool bUseHSL;
 		CDuiString sResType;
 		DWORD dwMask;
+
 	} TImageInfo;
 
 	typedef struct UILIB_API tagTDrawInfo
@@ -140,6 +141,8 @@ namespace DuiLib {
 		bool bTiledX;
 		bool bTiledY;
 		bool bHSL;
+		SIZE szIcon;
+		CDuiString sIconAlign;
 	} TDrawInfo;
 
 	typedef struct UILIB_API tagTPercentInfo

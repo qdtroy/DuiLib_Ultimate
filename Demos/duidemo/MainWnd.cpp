@@ -497,7 +497,7 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 			//pSubNew->SetName(_T("Menu_Dynamic"));
 			//pSubNew->SetIcon(_T("Virus.png"));
 			//pSubNew->SetIconSize(16,16);
-			//pSubNew->SetOwner(pTempMenu->GetParent());
+			//pSubNew->SetOwner((CControlUI*)pTempMenu->GetOwner());
 			//pTempMenu->Add(pSubNew);
 
 			CMenuElementUI* pNew2 = new CMenuElementUI;

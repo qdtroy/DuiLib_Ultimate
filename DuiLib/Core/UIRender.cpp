@@ -596,8 +596,12 @@ namespace DuiLib {
 	}
 #endif//USE_XIMAGE_EFFECT
 
-	Gdiplus::Image* CRenderEngine::GdiplusLoadImage(LPCTSTR pstrPath)
+	Gdiplus::Image* CRenderEngine::GdiplusLoadImage(LPCTSTR pstrPath1)
 	{
+		tagTDrawInfo drawInfo;
+		drawInfo.Parse(pstrPath1, NULL, NULL);
+		CDuiString sImageName = drawInfo.sImageName;
+
 		LPBYTE pData = NULL;
 		DWORD dwSize = 0;
 
@@ -605,7 +609,7 @@ namespace DuiLib {
 		{
 			CDuiString sFile = CPaintManagerUI::GetResourcePath();
 			if( CPaintManagerUI::GetResourceZip().IsEmpty() ) {
-				sFile += pstrPath;
+				sFile += sImageName;
 				HANDLE hFile = ::CreateFile(sFile.GetData(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, \
 					FILE_ATTRIBUTE_NORMAL, NULL);
 				if( hFile == INVALID_HANDLE_VALUE ) break;
@@ -640,7 +644,7 @@ namespace DuiLib {
 				if( hz == NULL ) break;
 				ZIPENTRY ze; 
 				int i = 0; 
-				CDuiString key = pstrPath;
+				CDuiString key = sImageName;
 				key.Replace(_T("\\"), _T("/"));
 				if( FindZipItem(hz, key, true, &i, &ze) != 0 ) break;
 				dwSize = ze.unc_size;
@@ -661,7 +665,7 @@ namespace DuiLib {
 		while (!pData)
 		{
 			//读不到图片, 则直接去读取bitmap.m_lpstr指向的路径
-			HANDLE hFile = ::CreateFile(pstrPath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+			HANDLE hFile = ::CreateFile(sImageName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 			if( hFile == INVALID_HANDLE_VALUE ) break;
 			dwSize = ::GetFileSize(hFile, NULL);
 			if( dwSize == 0 ) break;
@@ -731,141 +735,14 @@ namespace DuiLib {
 		if ((pManager == NULL) || (hDC == NULL)) 
 			return false;
 
-		// 1、aaa.jpg
-		// 2、file='aaa.jpg' res='' restype='0' dest='0,0,0,0' source='0,0,0,0' corner='0,0,0,0' 
-		// mask='#FF0000' fade='255' hole='FALSE' xtiled='FALSE' ytiled='FALSE'
-
-		CDuiString sImageName = pStrImage;
-		CDuiString sImageResType;
-		RECT rcItem = rc;
-		RECT rcBmpPart = {0};
-		RECT rcCorner = {0};
-		DWORD dwMask = 0;
-		BYTE bFade = 0xFF;
-		bool bHole = false;
-		bool bTiledX = true;
-		bool bTiledY = true;
-		CDuiSize szIcon(0,0);
-
-		int image_count = 0;
-
-		CDuiString sItem;
-		CDuiString sValue;
-		LPTSTR pstr = NULL;
-
-		for( int i = 0; i < 2; ++i,image_count = 0 ) {
-			if( i == 1)
-				pStrImage = pStrModify;
-
-			if( !pStrImage ) continue;
-
-			while( *pStrImage != _T('\0') ) {
-				sItem.Empty();
-				sValue.Empty();
-				while( *pStrImage > _T('\0') && *pStrImage <= _T(' ') ) pStrImage = ::CharNext(pStrImage);
-				while( *pStrImage != _T('\0') && *pStrImage != _T('=') && *pStrImage > _T(' ') ) {
-					LPTSTR pstrTemp = ::CharNext(pStrImage);
-					while( pStrImage < pstrTemp) {
-						sItem += *pStrImage++;
-					}
-				}
-				while( *pStrImage > _T('\0') && *pStrImage <= _T(' ') ) pStrImage = ::CharNext(pStrImage);
-				if( *pStrImage++ != _T('=') ) break;
-				while( *pStrImage > _T('\0') && *pStrImage <= _T(' ') ) pStrImage = ::CharNext(pStrImage);
-				if( *pStrImage++ != _T('\'') ) break;
-				while( *pStrImage != _T('\0') && *pStrImage != _T('\'') ) {
-					LPTSTR pstrTemp = ::CharNext(pStrImage);
-					while( pStrImage < pstrTemp) {
-						sValue += *pStrImage++;
-					}
-				}
-				if( *pStrImage++ != _T('\'') ) 
-					break;
-
-				if( !sValue.IsEmpty() ) 
-				{
-					if( sItem == _T("file") || sItem == _T("res") )
-					{
-						if( image_count > 0 )
-							DuiLib::DrawImage(hDC, pManager, rc, rcPaint, sImageName, sImageResType,
-							rcItem, rcBmpPart, rcCorner, dwMask, bFade, bHole, bTiledX, bTiledY);
-
-						sImageName = sValue;
-						++image_count;
-					}
-					else if( sItem == _T("restype") ) 
-					{
-						if( image_count > 0 )
-							DuiLib::DrawImage(hDC, pManager, rc, rcPaint, sImageName, sImageResType,
-							rcItem, rcBmpPart, rcCorner, dwMask, bFade, bHole, bTiledX, bTiledY);
-
-						sImageResType = sValue;
-						++image_count;
-					}
-					else if( sItem == _T("dest") ) 
-					{
-						rcItem.left = rc.left + _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
-						rcItem.top = rc.top + _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
-						rcItem.right = rc.left + _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);
-
-						if (rcItem.right > rc.right) 
-							rcItem.right = rc.right;
-
-						rcItem.bottom = rc.top + _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
-						if (rcItem.bottom > rc.bottom) 
-							rcItem.bottom = rc.bottom;
-					}
-					else if( sItem == _T("source") ) 
-					{
-						rcBmpPart.left = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
-						rcBmpPart.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
-						rcBmpPart.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
-						rcBmpPart.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);  
-					}
-					else if( sItem == _T("corner") ) 
-					{
-						rcCorner.left = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
-						rcCorner.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
-						rcCorner.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
-						rcCorner.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
-					}
-					else if( sItem == _T("mask") ) 
-					{
-						if( sValue[0] == _T('#')) dwMask = _tcstoul(sValue.GetData() + 1, &pstr, 16);
-						else dwMask = _tcstoul(sValue.GetData(), &pstr, 16);
-					}
-					else if( sItem == _T("fade") ) 
-					{
-						bFade = (BYTE)_tcstoul(sValue.GetData(), &pstr, 10);
-					}
-					else if( sItem == _T("hole") )
-					{
-						bHole = (_tcsicmp(sValue.GetData(), _T("TRUE")) == 0);
-					}
-					else if( sItem == _T("xtiled") ) 
-					{
-						bTiledX = (_tcsicmp(sValue.GetData(), _T("TRUE")) == 0);
-					}
-					else if( sItem == _T("ytiled") )
-					{
-						bTiledY = (_tcsicmp(sValue.GetData(), _T("TRUE")) == 0);
-					}
-					else if( sItem == _T("iconsize") )
-					{
-						szIcon.cx = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);
-						szIcon.cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
-					}
-					else if( sItem == _T("iconalign") )
-					{
-						MakeFitIconDest(rcItem, szIcon, sValue, rcItem);
-					}
-				}
-				if( *pStrImage++ != _T(' ') ) 
-					break;
-			}
+		RECT rcDest = rc;
+		const TDrawInfo* pDrawInfo = pManager->GetDrawInfo(pStrImage, pStrModify);
+		if(!pDrawInfo->sIconAlign.IsEmpty()) {
+			MakeFitIconDest(rc, pDrawInfo->szIcon, pDrawInfo->sIconAlign, rcDest);
 		}
-
-		DuiLib::DrawImage(hDC, pManager, rc, rcPaint, sImageName, sImageResType, rcItem, rcBmpPart, rcCorner, dwMask, bFade, bHole, bTiledX, bTiledY);
+		
+		bool bRet = DuiLib::DrawImage(hDC, pManager, rc, rcPaint, pDrawInfo->sImageName, pDrawInfo->sResType, rcDest, \
+			pDrawInfo->rcSource, pDrawInfo->rcCorner, pDrawInfo->dwMask, pDrawInfo->uFade, pDrawInfo->bHole, pDrawInfo->bTiledX, pDrawInfo->bTiledY);
 
 		return true;
 	}

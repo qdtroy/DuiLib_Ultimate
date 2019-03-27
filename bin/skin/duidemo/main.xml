@@ -69,12 +69,12 @@
             <HorizontalLayout height="45" childpadding="12">
               <Label text="Label标签控件自动换行测试" width="60" align="left" wordbreak="true" textcolor="#FFFF0000" />
               <Button text="Button按钮{\n}控件自动换行测试" width="60" align="left" wordbreak="true" textcolor="#FF000000" textpadding="6,0,6,0" style="colorbtn_style"/>
-              <GroupBox text="Group控件" width="200" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6"/>
+              <GroupBox text="Group控件" width="200" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="3" borderround="6,6"/>
             </HorizontalLayout>
           </HorizontalLayout>
 
           <Label height="1" bkimage="common/hor_line.png"/>
-          <HorizontalLayout height="60" childvalign="vcenter">
+          <HorizontalLayout height="64" childvalign="vcenter">
             <Label text="按钮控件" textcolor="#FF000000" font="font13" width="80"/>
             <HorizontalLayout childvalign="vcenter" childpadding="12" bordersize="1,1,1,1" bordercolor="#0">
               <Button name="button1" text="普通按钮" textcolor="#FF000000" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
@@ -82,6 +82,11 @@
               <Button name="cmdbtn" text="命令按钮(&S)" textcolor="#FF000000" style="btn_style" shortcut="S" width="120"/>
               <Button name="autobtn" text="自适应比例按钮" minwidth="120" colorhsl="true" float="0.7,0,0.9,1" textcolor="#FF000000" bkcolor="#FFFF0000" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
 
+              <Container width="64" height="64">
+                <Button name="autobtn" textcolor="#FF000000" bkimage="logo.jpg" bordercolor="#000199cb" bordersize="1" borderround="64,64"/>
+                <Control mouse="false" bordercolor="#FF666666" bordersize="2" borderround="64,64" />
+              </Container>
+                
             </HorizontalLayout>
           </HorizontalLayout>
           
@@ -302,7 +307,7 @@
           <HorizontalLayout height="100" inset="0,6,0,6">
             <Label text="Gif控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="0" bordercolor="#FF333333" inset="2,2,2,2">
-              <GifAnim name="ani_gif" bkimage="other/checking.gif" width="320"/>
+              <GifAnim name="ani_gif" bkimage="file='other/checking.gif'" width="320"/>
             </VerticalLayout>
           </HorizontalLayout>
 

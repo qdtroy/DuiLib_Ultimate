@@ -1406,7 +1406,7 @@ namespace DuiLib {
 
 	void CRenderEngine::DrawRect(HDC hDC, const RECT& rc, int nSize, DWORD dwPenColor,int nStyle /*= PS_SOLID*/)
 	{
-#if USE_GDI_RENDER
+#ifdef USE_GDI_RENDER
 		ASSERT(::GetObjectType(hDC) == OBJ_DC || ::GetObjectType(hDC) == OBJ_MEMDC);
 		HPEN hPen = ::CreatePen(PS_SOLID | PS_INSIDEFRAME, nSize, RGB(GetBValue(dwPenColor), GetGValue(dwPenColor), GetRValue(dwPenColor)));
 		HPEN hOldPen = (HPEN)::SelectObject(hDC, hPen);
@@ -1424,8 +1424,68 @@ namespace DuiLib {
 #endif
 	}
 
+	// 绘制及填充圆角矩形
+	void DrawRoundRectange(HDC hDC, float x, float y, float nWidth, float nHeight, float arcSize, Gdiplus::Color lineColor, float lineWidth, bool fillPath, Gdiplus::Color fillColor)
+	{
+		// 小矩形的半宽（hew）和半高（heh）
+		float hew = arcSize/2;
+		float heh = arcSize/2;
+
+		// 圆角修正
+		if(fabs(hew-heh)>10)
+		{
+			hew = heh = hew>heh ? heh : hew;
+		}
+
+		// 创建GDI+对象
+		Gdiplus::Graphics  g(hDC);
+
+		//设置画图时的滤波模式为消除锯齿现象
+		g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
+
+		// 绘图路径
+		Gdiplus::GraphicsPath roundRectPath;
+
+		// 保存绘图路径
+		roundRectPath.AddLine(x+hew, y, x+nWidth-hew, y);  // 顶部横线
+		roundRectPath.AddArc(x+nWidth-2*hew, y, 2*hew, 2*heh, 270, 90); // 右上圆角
+
+		roundRectPath.AddLine(x+nWidth, y+heh, x+nWidth, y+nHeight-heh);  // 右侧竖线
+		roundRectPath.AddArc(x+nWidth-2*hew, y+nHeight-2*heh, 2*hew, 2*heh, 0, 90); // 右下圆角
+
+		roundRectPath.AddLine(x+nWidth-hew, y+nHeight, x+hew, y+nHeight);  // 底部横线
+		roundRectPath.AddArc(x, y+nHeight-2*heh, 2*hew, 2*heh, 90, 90); // 左下圆角
+
+		roundRectPath.AddLine(x, y+nHeight-heh, x, y+heh);  // 左侧竖线
+		roundRectPath.AddArc(x, y, 2*hew, 2*heh, 180, 90); // 左上圆角
+
+		//创建画笔
+		Gdiplus::Pen pen(lineColor, lineWidth);
+		g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
+		// 绘制矩形
+		g.DrawPath(&pen, &roundRectPath);
+
+		// 是否填充
+		if(!fillPath)
+		{
+			return;
+		}
+		else if(fillColor.GetAlpha() == 0)
+		{
+			fillColor = lineColor; // 若未指定填充色，则用线条色填充
+		}
+
+		// 创建画刷
+		Gdiplus::SolidBrush brush(fillColor);
+
+		// 填充
+		g.FillPath(&brush, &roundRectPath);
+	}
+
+
 	void CRenderEngine::DrawRoundRect(HDC hDC, const RECT& rc, int nSize, int width, int height, DWORD dwPenColor,int nStyle /*= PS_SOLID*/)
 	{
+#ifdef USE_GDI_RENDER
 		ASSERT(::GetObjectType(hDC)==OBJ_DC || ::GetObjectType(hDC)==OBJ_MEMDC);
 		HPEN hPen = ::CreatePen(nStyle, nSize, RGB(GetBValue(dwPenColor), GetGValue(dwPenColor), GetRValue(dwPenColor)));
 		HPEN hOldPen = (HPEN)::SelectObject(hDC, hPen);
@@ -1433,6 +1493,9 @@ namespace DuiLib {
 		::RoundRect(hDC, rc.left, rc.top, rc.right, rc.bottom, width, height);
 		::SelectObject(hDC, hOldPen);
 		::DeleteObject(hPen);
+#else
+		DrawRoundRectange(hDC, rc.left, rc.top, rc.right - rc.left - 1, rc.bottom - rc.top - 1, width, Gdiplus::Color(dwPenColor), nSize, false, Gdiplus::Color(dwPenColor));
+#endif
 	}
 
 	void CRenderEngine::DrawText(HDC hDC, CPaintManagerUI* pManager, RECT& rc, LPCTSTR pstrText, DWORD dwTextColor, int iFont, UINT uStyle)

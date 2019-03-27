@@ -110,8 +110,11 @@ namespace DuiLib
 	{
 		CControlUI::SetEnabled(bEnable);
 		if( !IsEnabled() ) {
-			if( m_bSelected ) m_uButtonState = UISTATE_SELECTED;
-			else m_uButtonState = 0;
+			if( m_bSelected ) m_uButtonState = UISTATE_DISABLED;
+			else m_uButtonState = UISTATE_DISABLED;
+		}
+		else {
+			m_uButtonState = 0;
 		}
 	}
 

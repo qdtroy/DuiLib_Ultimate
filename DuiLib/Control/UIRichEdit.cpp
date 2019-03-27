@@ -2442,9 +2442,6 @@ err:
 		else if( _tcscmp(pstrName, _T("rich")) == 0 ) {
 			SetRich(_tcscmp(pstrValue, _T("true")) == 0);
 		}
-		else if( _tcscmp(pstrName, _T("multiline")) == 0 ) {
-			if( _tcscmp(pstrValue, _T("false")) == 0 ) m_lTwhStyle &= ~ES_MULTILINE;
-		}
 		else if( _tcscmp(pstrName, _T("readonly")) == 0 ) {
 			if( _tcscmp(pstrValue, _T("true")) == 0 ) { m_lTwhStyle |= ES_READONLY; m_bReadOnly = true; }
 		}

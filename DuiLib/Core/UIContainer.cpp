@@ -485,6 +485,9 @@ namespace DuiLib
 
 	void CContainerUI::EndDown()
 	{
+		if(m_pManager) {
+			::UpdateWindow(m_pManager->GetPaintWindow());
+		}
 		SIZE sz = GetScrollPos();
 		sz.cy = GetScrollRange().cy;
 		SetScrollPos(sz);
@@ -537,6 +540,9 @@ namespace DuiLib
 
 	void CContainerUI::EndRight()
 	{
+		if(m_pManager) {
+			::UpdateWindow(m_pManager->GetPaintWindow());
+		}
 		SIZE sz = GetScrollPos();
 		sz.cx = GetScrollRange().cx;
 		SetScrollPos(sz);

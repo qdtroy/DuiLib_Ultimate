@@ -1432,6 +1432,7 @@ namespace DuiLib {
 			cXY.cx +=  static_cast<CControlUI*>(m_items[it])->EstimateSize(szAvailable).cx;
 		}
 
+		if (cXY.cx < szAvailable.cx) cXY.cx = szAvailable.cx;
 		return cXY;
 	}
 

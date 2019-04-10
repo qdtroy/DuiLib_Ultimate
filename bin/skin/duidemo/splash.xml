@@ -4,7 +4,7 @@
   <VerticalLayout name="root" bkcolor="#EE202223">
     <VerticalLayout bkcolor="#EEFFFFFF" childalign="center">
       <Control />
-      <Ring name="ring" text="Ring" textcolor="#FF333333" align="center" valign="vcenter" height="200" width="200" bkimage="common/ring.png"/>
+      <Ring name="ring" text="正在启动..." textcolor="#FF333333" align="center" valign="vcenter" height="200" width="200" bkimage="common/ring.png"/>
       <Control />
     </VerticalLayout>
   </VerticalLayout>

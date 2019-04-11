@@ -117,8 +117,8 @@
           <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="Combo控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <HorizontalLayout height="23" childpadding="12">
-              <Combo name="font_type" font="3" width="200" style="combo_style" itemfont="0" cursor="hand" showshadow="true" textcolor="#FFFFFFFF" dropbox="hscrollbar=&quot;true&quot;" float="true" pos="300,0,400,23">
-                <ListLabelElement text="微软雅黑" selected="true" height="23" />
+              <Combo name="font_type" font="3" width="200" style="combo_style" itemfont="0" cursor="hand" showshadow="true" textcolor="#FFFFFFFF" dropbox="hscrollbar=&quot;true&quot;" float="false" pos1="300,0,400,23">
+                <ListLabelElement text="微软雅黑" selected="true" height="23" width="200"/>
                 <ListLabelElement text="宋体" height="23" />
                 <ListLabelElement text="黑体" height="23" />
                 <ListLabelElement text="幼圆" height="23" />
@@ -129,7 +129,7 @@
                 </ListContainerElement>
               </Combo>
 
-              <ComboBox name="test" float="true" pos="100,2,0,0" width="230" height="25" bkcolor="#FFEA679F" bordersize="1" bordercolor="0xFFFF0000" vscrollbar="true" hscrollbar="true" >
+              <ComboBox name="test" float="false" pos="100,2,0,0" width="230" height="25" bkcolor="#FFEA679F" bordersize="1" bordercolor="0xFFFF0000" vscrollbar="true" hscrollbar="true" >
                 <ListLabelElement text="11111111111111" selected="true"/>
                 <ListLabelElement text="22222222222222"/>
                 <ListLabelElement text="33333333333333"/>

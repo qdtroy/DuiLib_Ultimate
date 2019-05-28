@@ -87,7 +87,7 @@ void CMainWnd::InitWindow()
 	pBrowser1->SetWebBrowserEventHandler(this);
 	CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("oneclick_browser2")));
 	pBrowser2->SetWebBrowserEventHandler(this);
-	pBrowser1->NavigateUrl(_T("http://blog.csdn.net/duisharp"));
+	pBrowser1->NavigateUrl(_T("https://www.baidu.com"));
 	pBrowser2->NavigateUrl(_T("http://www.winradar.com"));
 
 	// ¶¯Ì¬´´½¨Combo
@@ -100,6 +100,7 @@ void CMainWnd::InitWindow()
 		pElement->SetFixedWidth(120);
 		pFontSize->Add(pElement);
 	}
+
 	CComboUI* pCombo = new CComboUI();
 	pCombo->SetName(_T("mycombo"));
 	pCombo->SetFixedWidth(80);
@@ -449,7 +450,7 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 	else if(sName.CompareNoCase(_T("popwnd_btn")) == 0)
 	{
 		CPopWnd* pPopWnd = new CPopWnd();
-		pPopWnd->Create(m_hWnd, NULL, WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW, 0, 0, 800, 572);
+		pPopWnd->Create(m_hWnd, NULL, WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW | WS_EX_TOPMOST, 0, 0, 800, 572);
 		pPopWnd->CenterWindow();
 	}
 	else if(sName.CompareNoCase(_T("modal_popwnd_btn")) == 0)

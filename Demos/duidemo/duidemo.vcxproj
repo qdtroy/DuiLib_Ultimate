@@ -988,7 +988,9 @@
     <None Include="..\..\bin\skin\duidemo\skin.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\..\bin\skin\duidemo\splash.xml" />
+    <None Include="..\..\bin\skin\duidemo\splash.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\bin\skin\duidemo\tileitem.xml" />
     <None Include="..\..\bin\skin\duidemo\treeitem.xml">
       <SubType>Designer</SubType>

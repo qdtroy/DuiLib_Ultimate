@@ -358,6 +358,7 @@ namespace DuiLib {
 	{
 		return m_rcItem;
 	}
+
 	void CControlUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
 		if( rc.right < rc.left ) rc.right = rc.left;

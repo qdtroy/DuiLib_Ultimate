@@ -113,21 +113,21 @@ namespace DuiLib {
 						rcDest.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 						rcDest.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
 						rcDest.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);  
-						pManager->GetDPIObj()->Scale(&rcDest);
+						if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcDest);
 					}
 					else if( sItem == _T("source") ) {
 						rcSource.left = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
 						rcSource.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 						rcSource.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
 						rcSource.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
-						pManager->GetDPIObj()->Scale(&rcSource);
+						if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcSource);
 					}
 					else if( sItem == _T("corner") ) {
 						rcCorner.left = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
 						rcCorner.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 						rcCorner.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
 						rcCorner.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
-						pManager->GetDPIObj()->Scale(&rcCorner);
+						if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcCorner);
 					}
 					else if( sItem == _T("mask") ) {
 						if( sValue[0] == _T('#')) dwMask = _tcstoul(sValue.GetData() + 1, &pstr, 16);
@@ -148,13 +148,20 @@ namespace DuiLib {
 					else if( sItem == _T("hsl") ) {
 						bHSL = (_tcsicmp(sValue.GetData(), _T("true")) == 0);
 					}
+					else if( sItem == _T("iconsize") ) {
+						szIcon.cx = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);
+						szIcon.cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
+					}
+					else if( sItem == _T("iconalign") ) {
+						sIconAlign = sValue;
+					}
 				}
 				if( *pStrImage++ != _T(' ') ) break;
 			}
 		}
 
 		// 调整DPI资源
-		if (pManager->GetDPIObj()->GetScale() != 100) {
+		if (pManager != NULL && pManager->GetDPIObj()->GetScale() != 100) {
 			CDuiString sScale;
 			sScale.Format(_T("@%d."), pManager->GetDPIObj()->GetScale());
 			sImageName.Replace(_T("."), sScale);
@@ -175,6 +182,8 @@ namespace DuiLib {
 		bTiledX = false;
 		bTiledY = false;
 		bHSL = false;
+		szIcon.cx = szIcon.cy = 0;
+		sIconAlign.Empty();
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -221,6 +230,7 @@ namespace DuiLib {
 		m_bUpdateNeeded(false),
 		m_bMouseTracking(false),
 		m_bMouseCapture(false),
+		m_bAsyncNotifyPosted(false),
 		m_bUsedVirtualWnd(false),
 		m_bForceUseSharedRes(false),
 		m_nOpacity(0xFF),
@@ -2115,7 +2125,7 @@ namespace DuiLib {
 		}
 		SetWindowPos(GetPaintWindow(), NULL, prcNewWindow->left, prcNewWindow->top, prcNewWindow->right - prcNewWindow->left, prcNewWindow->bottom - prcNewWindow->top, SWP_NOZORDER | SWP_NOACTIVATE);
 		if (GetRoot() != NULL) GetRoot()->NeedUpdate();
-		::PostMessage(GetPaintWindow(), WM_USER_SET_DPI, 0, 0);
+		::PostMessage(GetPaintWindow(), UIMSG_SET_DPI, 0, 0);
 	}
 
 	void DuiLib::CPaintManagerUI::SetAllDPI(int iDPI)

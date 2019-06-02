@@ -55,8 +55,6 @@ enum MenuItemDefaultInfo
 
 };
 
-#define WM_MENUCLICK WM_USER + 121  //用来接收按钮单击的消息
-
 
 ///////////////////////////////////////////////
 class MenuMenuReceiverImplBase;

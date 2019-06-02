@@ -2,7 +2,7 @@
 #include "duilib.h"
 #include <sstream>
 
-#define WM_USER_SET_DPI WM_USER + 200
+#define UIMSG_SET_DPI WM_USER + 200
 
 CFrameWnd::CFrameWnd( LPCTSTR pszXMLPath )
 	:  m_strXMLPath(pszXMLPath)
@@ -182,7 +182,7 @@ LRESULT CFrameWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, 
 
 	if (uMsg == WM_CLOSE) {
 		PostQuitMessage(0);
-	}if (uMsg == WM_USER_SET_DPI) {
+	}if (uMsg == UIMSG_SET_DPI) {
 		wstring optionName;
 		wstringstream wss;
 		wss << L"DPI";

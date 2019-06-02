@@ -358,6 +358,7 @@ namespace DuiLib {
 	{
 		return m_rcItem;
 	}
+
 	void CControlUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
 		if( rc.right < rc.left ) rc.right = rc.left;
@@ -876,12 +877,12 @@ namespace DuiLib {
 	void CControlUI::AddCustomAttribute(LPCTSTR pstrName, LPCTSTR pstrAttr)
 	{
 		if( pstrName == NULL || pstrName[0] == _T('\0') || pstrAttr == NULL || pstrAttr[0] == _T('\0') ) return;
-		CDuiString* pCostomAttr = new CDuiString(pstrAttr);
-		if (pCostomAttr != NULL) {
-			if (m_mCustomAttrHash.Find(pstrName) == NULL)
+
+		if (m_mCustomAttrHash.Find(pstrName) == NULL) {
+			CDuiString* pCostomAttr = new CDuiString(pstrAttr);
+			if (pCostomAttr != NULL) {
 				m_mCustomAttrHash.Set(pstrName, (LPVOID)pCostomAttr);
-			else
-				delete pCostomAttr;
+			}
 		}
 	}
 
@@ -917,7 +918,7 @@ namespace DuiLib {
 
 	void CControlUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
-		// 是否样式表
+		// 样式表
 		if(m_pManager != NULL) {
 			LPCTSTR pStyle = m_pManager->GetStyle(pstrValue);
 			if( pStyle != NULL) {
@@ -925,7 +926,11 @@ namespace DuiLib {
 				return;
 			}
 		}
-		if( _tcsicmp(pstrName, _T("pos")) == 0 ) {
+		// 属性
+		if( _tcsicmp(pstrName, _T("innerstyle")) == 0 ) {
+			ApplyAttributeList(pstrValue);
+		}
+		else if( _tcsicmp(pstrName, _T("pos")) == 0 ) {
 			RECT rcPos = { 0 };
 			LPTSTR pstr = NULL;
 			rcPos.left = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);    
@@ -1116,37 +1121,6 @@ namespace DuiLib {
 			else if( _tcsicmp(pstrValue, _T("hand")) == 0 )		SetCursor(DUI_HAND);
 		}
 		else if( _tcsicmp(pstrName, _T("virtualwnd")) == 0 ) SetVirtualWnd(pstrValue);
-		else if( _tcsicmp(pstrName, _T("innerstyle")) == 0 ) {
-			CDuiString sXmlData = pstrValue;
-			sXmlData.Replace(_T("&quot;"), _T("\""));
-			LPCTSTR pstrList = sXmlData.GetData();
-			CDuiString sItem;
-			CDuiString sValue;
-			while( *pstrList != _T('\0') ) {
-				sItem.Empty();
-				sValue.Empty();
-				while( *pstrList != _T('\0') && *pstrList != _T('=') ) {
-					LPTSTR pstrTemp = ::CharNext(pstrList);
-					while( pstrList < pstrTemp) {
-						sItem += *pstrList++;
-					}
-				}
-				ASSERT( *pstrList == _T('=') );
-				if( *pstrList++ != _T('=') ) return;
-				ASSERT( *pstrList == _T('\"') );
-				if( *pstrList++ != _T('\"') ) return;
-				while( *pstrList != _T('\0') && *pstrList != _T('\"') ) {
-					LPTSTR pstrTemp = ::CharNext(pstrList);
-					while( pstrList < pstrTemp) {
-						sValue += *pstrList++;
-					}
-				}
-				ASSERT( *pstrList == _T('\"') );
-				if( *pstrList++ != _T('\"') ) return;
-				SetAttribute(sItem, sValue);
-				if( *pstrList++ != _T(' ') && *pstrList++ != _T(',') ) return;
-			}
-		}
 		else {
 			AddCustomAttribute(pstrName, pstrValue);
 		}
@@ -1205,9 +1179,6 @@ namespace DuiLib {
 	{
 		if (pStopControl == this) return false;
 		if( !::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem) ) return true;
-		//if( OnPaint ) {
-		//	if( !OnPaint(this) ) return true;
-		//}
 		if (!DoPaint(hDC, m_rcPaint, pStopControl)) return false;
 		return true;
 	}

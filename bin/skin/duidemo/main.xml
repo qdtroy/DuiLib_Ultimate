@@ -12,26 +12,27 @@
   <Style name="btnstyle_queding" shared="true" value="stateimage=&quot;res='common/queding.png' corner='6,6,6,6'&quot; statecount=&quot;3&quot; width=&quot;59&quot; height=&quot;23&quot; tooltip=&quot;确定&quot;"  />
   <Style name="btnstyle_quxiao" shared="true" value="stateimage=&quot;res='common/quxiao.png'&quot; statecount=&quot;3&quot; width=&quot;59&quot; height=&quot;23&quot; tooltip=&quot;取消&quot;"  />
 
+  <Style name="option_style" value="cursor=&quot;hand&quot; align=&quot;left&quot; valign=&quot;vcenter&quot;  textcolor=&quot;#FFAFADAD&quot; hottextcolor=&quot;#FFFFFFFF&quot; textpadding=&quot;20,0,6,0&quot;"/>
   <Style name="main_tab" value="textcolor=&quot;#FF386382&quot; font=&quot;2&quot; normalimage=&quot;tabbar_normal.png&quot; hotimage=&quot;tabbar_hover.png&quot; pushedimage=&quot;tabbar_pushed.png&quot; selectedimage=&quot;tabbar_pushed.png&quot; group=&quot;tab_header&quot; " />
   <Style name="colortab_style" shared="true" value="textcolor=&quot;#FFAFADAD&quot; hottextcolor=&quot;#FFFFFFFF&quot; selectedtextcolor=&quot;#FFFFFFFF&quot; textpadding=&quot;6,0,6,0&quot; bkcolor=&quot;#FF2c2c2c&quot; hotbkcolor=&quot;#FF4b4b4b&quot; pushedbkcolor=&quot;#FF424242&quot; selectedbkcolor=&quot;#FF424242&quot; group=&quot;tab_header&quot;"  />
   <Style name="combo_style" value="height=&quot;28&quot; textcolor=&quot;#FFFFFFFF&quot; itemvalign=&quot;vcenter&quot; textpadding=&quot;4,1,28,1&quot; normalimage=&quot;res='common/combo.png' source='0,0,161,28' corner='2,2,28,2'&quot; hotimage=&quot;res='common/combo.png' source='0,28,161,56' corner='2,2,28,2'&quot; pushedimage=&quot;res='common/combo.png' source='0,56,161,84' corner='2,2,28,2'&quot;" />
   <Style name="list_style" value="headerbkimage=&quot;res='common/list_header_bg.png'&quot; itemalign=&quot;center&quot; itemlinecolor=&quot;#FF888888&quot; itemshowrowline=&quot;true&quot; itemshowcolumnline=&quot;true&quot;" />
-  <Style name="edit_style" value="width=&quot;200&quot; height=&quot;24&quot; textpadding=&quot;6,6,6,6&quot; bkcolor=&quot;#FF666666&quot; nativebkcolor=&quot;#FF666666&quot; bkimage=&quot;res='common/edit_bk.png' corner='6,6,6,6'&quot;" />
+  <Style name="edit_style" value="width=&quot;200&quot; height=&quot;26&quot; textpadding=&quot;6,6,6,6&quot; bkcolor=&quot;#FF666666&quot; nativebkcolor=&quot;#FF666666&quot; bkimage=&quot;res='common/edit_bk.png' corner='6,6,6,6'&quot;" />
   <Style name="btn_style" value="drag=&quot;false&quot; height=&quot;30&quot; textpadding=&quot;6,0,6,0&quot; normalimage=&quot;res='common/button_normal.png' corner='4,4,4,4'&quot; hotimage=&quot;res='common/button_hover.png' corner='4,4,4,4'&quot; pushedimage=&quot;res='common/button_pushed.png' corner='4,4,4,4'&quot; focusedimage1=&quot;res='common/button_pushed.png' corner='4,4,4,4'&quot; selectedimage=&quot;res='common/button_pushed.png' corner='4,4,4,4'&quot;"  />
   <Style name="treenode_folder_style" value="padding=&quot;0,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='common/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='common/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='common/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='common/treeview_a.png' source='16,0,32,16' &quot;"/>
   <Style name="treenode_checkbox_style" value="width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='common/unchecked.png' &quot; selectedimage=&quot;file='common/checked.png'&quot;" />
   <Style name="treeview_style" value="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;"/>
   <Style name="listex_item_style" value="checkboxwidth=&quot;16&quot; checkboxheight=&quot;16&quot; checkboxnormalimage=&quot;file='common/unchecked.png'&quot; checkboxselectedimage=&quot;file='common/checked.png'&quot;"/>
   <Style name="colorbtn_style" shared="true" value="textcolor=&quot;#FFAFADAD&quot; hottextcolor=&quot;#FFFFFFFF&quot; textpadding=&quot;6,0,6,0&quot; bkcolor=&quot;#FF2c2c2c&quot; hotbkcolor=&quot;#FF4b4b4b&quot; pushedbkcolor=&quot;#FF424242&quot;"  />
-  <Style name="cb_style" shared="true" value="align=&quot;left&quot; valign=&quot;vcenter&quot; height=&quot;16&quot; textcolor=&quot;#FFAFADAD&quot; hottextcolor=&quot;#FFFFFFFF&quot; textpadding=&quot;20,0,6,0&quot; normalimage=&quot;res='common/cb_normal.png' dest='0,0,16.16'&quot; hotimage=&quot;res='common/cb_hot.png' dest='0,0,16.16'&quot; pushedimage=&quot;res='common/cb_pushed.png' dest='0,0,16.16'&quot; selectedimage=&quot;res='common/cb_selected.png' dest='0,0,16,16'&quot;" />
-  <Style name="radio_style" shared="true" value="align=&quot;left&quot; valign=&quot;vcenter&quot; height=&quot;17&quot; textcolor=&quot;#FFAFADAD&quot; hottextcolor=&quot;#FFFFFFFF&quot; textpadding=&quot;20,0,6,0&quot; stateimage=&quot;res='common/radio_normal.png' dest='0,0,17,17'&quot; statecount=&quot;2&quot; selectedstateimage=&quot;res='common/radio_selected.png' dest='0,0,17,17'&quot; selectedstatecount=&quot;2&quot;" />
+  <Style name="cb_style" shared="true" value="style=&quot;option_style&quot; height=&quot;16&quot; normalimage=&quot;res='common/cb_normal.png' dest='0,0,16.16'&quot; hotimage=&quot;res='common/cb_hot.png' dest='0,0,16.16'&quot; pushedimage=&quot;res='common/cb_pushed.png' dest='0,0,16.16'&quot; selectedimage=&quot;res='common/cb_selected.png' dest='0,0,16,16'&quot;" />
+  <Style name="radio_style" shared="true" value="style=&quot;option_style&quot; height=&quot;17&quot; stateimage=&quot;res='common/radio_normal.png' dest='0,0,17,17'&quot; statecount=&quot;2&quot; selectedstateimage=&quot;res='common/radio_selected.png' dest='0,0,17,17'&quot; selectedstatecount=&quot;2&quot;" />
 
   <VerticalLayout name="root" bkcolor="#FF202223">
     <HorizontalLayout name="appbar" height="64" >
       <HorizontalLayout name="apptitle" childpadding="6">
         <Container width="64" height="64" bkimage="logo.jpg" />
         <VerticalLayout inset="0,10,0,0" childpadding="5">
-          <Label name="title_lb" height="20" text="duilib开源项目圈" valign="vcenter" align="left" wordbreak="true" textcolor="#FFEEEEEE" font="2" tooltip="duilib开源项目圈"/>
+          <Label name="title_lb" height="20" autocalcwidth="true" text="duilib开源项目圈" valign="vcenter" align="left" wordbreak="false" textcolor="#FFEEEEEE" font="2" tooltip="duilib开源项目圈"/>
           <HorizontalLayout height="20" childpadding="20" >
             <Button name="homepage_btn" cursor="hand" text="hometext" resourcetext="true" showhtml="true" autocalcwidth="true" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FFFF00FF" font="1" tooltip="官网"/>
             <Button name="qqgroup_btn" cursor="hand" text="加入duilib开源项目圈（261675375）" showhtml="true" tooltip="加入duilib开源项目圈" width="220" autocalcwidth="true" valign="vcenter" align="left" textcolor="#FFEEEEEE" hottextcolor="#FFFF00FF" font="1" />
@@ -68,20 +69,25 @@
             <Label text="Label演示" cursor="hand" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <HorizontalLayout height="45" childpadding="12">
               <Label text="Label标签控件自动换行测试" width="60" align="left" wordbreak="true" textcolor="#FFFF0000" />
-              <Button text="Button按钮{\n}控件自动换行测试" width="60" align="left" wordbreak="true" textcolor="#FF000000" textpadding="6,0,6,0" style="colorbtn_style"/>
-              <GroupBox text="Group控件" width="200" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6"/>
+              <GroupBox text="Group控件" width="200" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="3" borderround="6,6"/>
             </HorizontalLayout>
           </HorizontalLayout>
 
           <Label height="1" bkimage="common/hor_line.png"/>
-          <HorizontalLayout height="60" childvalign="vcenter">
+          <HorizontalLayout height="64" childvalign="vcenter">
             <Label text="按钮控件" textcolor="#FF000000" font="font13" width="80"/>
             <HorizontalLayout childvalign="vcenter" childpadding="12" bordersize="1,1,1,1" bordercolor="#0">
-              <Button name="button1" text="普通按钮" textcolor="#FF000000" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
-              <Button name="button2" text="图标按钮" textcolor="#FF000000" style="btn_style" height="60" width="100" textpadding="0,0,0,5" align="center" valign="bottom" foreimage="dest='42,7,58,23' res='other/icon.png'" />
+              <Button name="button1" text="普通按钮" textcolor="#FF000000" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true" />
+              <Button name="button2" text="图标按钮" textcolor="#FF000000" style="btn_style" height="40" width="90" textpadding="25,0,0,0" align="center" valign="left" foreimage="dest='6,12,22,28' res='other/icon.png'" />
               <Button name="cmdbtn" text="命令按钮(&S)" textcolor="#FF000000" style="btn_style" shortcut="S" width="120"/>
-              <Button name="autobtn" text="自适应比例按钮" minwidth="120" colorhsl="true" float="0.7,0,0.9,1" textcolor="#FF000000" bkcolor="#FFFF0000" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
+              <Button text="Button按钮{\n}控件自动换行测试" width="60" height="50" align="left" wordbreak="true" endellipsis="true" textcolor="#FF000000" textpadding="6,0,6,0" style="colorbtn_style"/>
+              <Button name="autobtn" text="自适应比例按钮" minwidth="120" colorhsl="true" float="0.7,0.2,0.9,0.8" textcolor="#FF000000" bkcolor="#FFFF5555" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
 
+              <Container width="64" height="64">
+                <Button name="autobtn" textcolor="#FF000000" bkimage="logo.jpg" bordercolor="#FF666666" bordersize="2" borderround="64,64"/>
+                <Control mouse="false" visible="false" bordercolor="#FF666666" bordersize="2" borderround="64,64" />
+              </Container>
+                
             </HorizontalLayout>
           </HorizontalLayout>
           
@@ -111,8 +117,8 @@
           <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="Combo控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <HorizontalLayout height="23" childpadding="12">
-              <Combo name="font_type" font="3" width="200" style="combo_style" itemfont="0" cursor="hand" showshadow="true" textcolor="#FFFFFFFF" dropbox="hscrollbar=&quot;true&quot;" float="true" pos="300,0,400,23">
-                <ListLabelElement text="微软雅黑" selected="true" height="23" />
+              <Combo name="font_type" font="3" width="200" style="combo_style" itemfont="0" cursor="hand" showshadow="true" textcolor="#FFFFFFFF" dropbox="hscrollbar=&quot;true&quot;">
+                <ListLabelElement text="微软雅黑" selected="true" height="23" width="180"/>
                 <ListLabelElement text="宋体" height="23" />
                 <ListLabelElement text="黑体" height="23" />
                 <ListLabelElement text="幼圆" height="23" />
@@ -122,7 +128,16 @@
                   <Button name="combo_closebtn" width="39" height="20" tooltip="关闭" normalimage="file='sysbtn/btn_close_normal.png'" hotimage="file='sysbtn/btn_close_highlight.png'" pushedimage="file='sysbtn/btn_close_down.png' "/>
                 </ListContainerElement>
               </Combo>
-              <MyCombo name="font_size" width="120" style="combo_style" textcolor="#FFFFFFFF" itemtextpadding="23,0,0,0" dropboxsize="0,600" dropbox="bordercolor=&quot;#FF666666&quot; bordersize=&quot;1&quot; bkcolor=&quot;#FF888888&quot;">
+
+              <ComboBox name="test" float="false" pos="100,2,0,0" width="230" height="25" bkcolor="#FFEA679F" bordersize="1" bordercolor="0xFFFF0000" vscrollbar="true" hscrollbar="true" >
+                <ListLabelElement text="11111111111111" selected="true"/>
+                <ListLabelElement text="22222222222222"/>
+                <ListLabelElement text="33333333333333"/>
+                <ListLabelElement text="44444444444444"/>
+                <ListLabelElement text="55555555555555"/>
+              </ComboBox>
+              
+              <Combo name="font_size" width="120" style="combo_style" textcolor="#FFFFFFFF" itemtextpadding="23,0,0,0" dropboxsize="0,600" dropbox="bordercolor=&quot;#FF666666&quot; bordersize=&quot;1&quot; bkcolor=&quot;#FF888888&quot;">
                 <ListLabelElement text="100" selected="true" height="23" />
                 <ListLabelElement text="10" height="23" bkimage="dest='4,7,20,23' res='other/icon.png'" mouse="false"/>
                 <ListLabelElement text="11" height="23" bkimage="dest='4,7,20,23' res='other/icon.png'" />
@@ -140,7 +155,7 @@
                 <ListLabelElement text="24" height="23" bkimage="dest='4,7,20,23' res='other/icon.png'" />
                 <ListLabelElement text="28" height="23" bkimage="dest='4,7,20,23' res='other/icon.png'" />
                 <ListLabelElement text="32" height="23" bkimage="dest='4,7,20,23' res='other/icon.png'" />
-              </MyCombo>
+              </Combo>
             </HorizontalLayout>
           </HorizontalLayout>
 
@@ -196,7 +211,7 @@
           <HorizontalLayout height="120" inset="0,6,0,6">
             <Label text="RichEdit控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="1" bordercolor="#FF333333" inset="2,2,2,2">
-              <RichEdit name="wordedit" font="2" password="false" tipvalue="请输入文字" mutiline="true" autovscroll="true" rich="false" text="duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）" vscrollbar="true" hscrollbar="false" autohscroll="false"/>
+              <RichEdit name="wordedit" textcolor="#FF000001" font="2" password="false" tipvalue="请输入文字" mutiline="true" autovscroll="true" rich="false" text="duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）duilib地址：https://github.com/qdtroy/DuiLib_Ultimate duilib 开源项目交流圈（261675375）" vscrollbar="true" hscrollbar="false" autohscroll="false"/>
             </VerticalLayout>
           </HorizontalLayout>
           
@@ -252,13 +267,13 @@
         </VerticalLayout>
         
         <VerticalLayout name="ex_tab_panel" inset="2,2,2,2" vscrollbar="true">
-          <HorizontalLayout height="220">
+          <HorizontalLayout height="180">
             <Label text="颜色控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
-            <ColorPalette name="Pallet" width="506" height="220" palletheight="200" barheight="14" thumbimage="common/cursor.png" />
+            <ColorPalette name="Pallet" width="400" height="180" palletheight="160" barheight="14" thumbimage="common/cursor.png" />
           </HorizontalLayout>
 
           <Label height="1" bkimage="common/hor_line.png"/>
-          <HorizontalLayout height="200">
+          <HorizontalLayout height="180">
             <Label text="图表控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <VerticalLayout>
               <ChartView name="ChartView_Histpgram" padding="10,10,10,10" view="histpgram" shadowimage="file='common/Histogram_Shadow.png' corner='10,0,10,0'" shadowimageheight="8" pillarimage="file='common/Histogram_Pillar.png' corner='0,7,0,7'" pillarimagewidth="19" showhtml="true" />
@@ -292,7 +307,7 @@
           <HorizontalLayout height="100" inset="0,6,0,6">
             <Label text="Gif控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="0" bordercolor="#FF333333" inset="2,2,2,2">
-              <GifAnim name="ani_gif" bkimage="other/checking.gif" width="320"/>
+              <GifAnim name="ani_gif" bkimage="file='other/checking.gif'" width="150" height="40"/>
             </VerticalLayout>
           </HorizontalLayout>
 
@@ -306,7 +321,7 @@
 
         </VerticalLayout>
         <VerticalLayout name="split_tab_panel" bkcolor="#FF000000">
-          <VerticalLayout inset="0,0,0,6" sepimm="true" sepheight="6" height="200" minheight="200" maxheight="300">
+          <VerticalLayout inset="0,0,0,6" sepimm="true" sepheight="6" height="100" minheight="100" maxheight="300">
             <WebBrowser name="oneclick_browser1" homepage="about:blank" autonavi="true" delaycreate="false" />
           </VerticalLayout>
           <WebBrowser name="oneclick_browser2" homepage="about:blank" autonavi="true" delaycreate="false"/>

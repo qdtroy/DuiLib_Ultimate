@@ -132,7 +132,7 @@ namespace DuiLib
 
 	void CContainerUI::RemoveAll()
 	{
-		for( int it = 0; m_bAutoDestroy && it < m_items.GetSize(); it++ ) {
+ 		for( int it = 0; m_bAutoDestroy && it < m_items.GetSize(); it++ ) {
 			CControlUI* pItem = static_cast<CControlUI*>(m_items[it]);
 			if( m_bDelayedDestroy && m_pManager ) {
 				m_pManager->AddDelayedCleanup(pItem);             
@@ -485,6 +485,9 @@ namespace DuiLib
 
 	void CContainerUI::EndDown()
 	{
+		if(m_pManager) {
+			::UpdateWindow(m_pManager->GetPaintWindow());
+		}
 		SIZE sz = GetScrollPos();
 		sz.cy = GetScrollRange().cy;
 		SetScrollPos(sz);
@@ -537,6 +540,9 @@ namespace DuiLib
 
 	void CContainerUI::EndRight()
 	{
+		if(m_pManager) {
+			::UpdateWindow(m_pManager->GetPaintWindow());
+		}
 		SIZE sz = GetScrollPos();
 		sz.cx = GetScrollRange().cx;
 		SetScrollPos(sz);

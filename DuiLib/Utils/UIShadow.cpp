@@ -132,6 +132,8 @@ LRESULT CALLBACK CShadowUI::ParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 		}
 	case WM_WINDOWPOSCHANGED:
 		RECT WndRect;
+		LPWINDOWPOS pWndPos;
+		pWndPos = (LPWINDOWPOS)lParam;
 		GetWindowRect(hwnd, &WndRect);
 		if (pThis->m_bIsImageMode) {
 			SetWindowPos(pThis->m_hWnd, hwnd, WndRect.left - pThis->m_nSize, WndRect.top - pThis->m_nSize, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
@@ -139,10 +141,25 @@ LRESULT CALLBACK CShadowUI::ParentProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 		else {
 			SetWindowPos(pThis->m_hWnd, hwnd, WndRect.left + pThis->m_nxOffset - pThis->m_nSize, WndRect.top + pThis->m_nyOffset - pThis->m_nSize, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
 		}
+
+		if (pWndPos->flags & SWP_SHOWWINDOW) {
+			if (pThis->m_Status & SS_ENABLED && !(pThis->m_Status & SS_PARENTVISIBLE))
+			{
+				pThis->m_bUpdate = true;
+				::ShowWindow(pThis->m_hWnd, SW_SHOWNOACTIVATE);
+				pThis->m_Status |= SS_VISABLE | SS_PARENTVISIBLE;
+			}
+		}
+		else if (pWndPos->flags & SWP_HIDEWINDOW) {
+			if (pThis->m_Status & SS_ENABLED)
+			{
+				::ShowWindow(pThis->m_hWnd, SW_HIDE);
+				pThis->m_Status &= ~(SS_VISABLE | SS_PARENTVISIBLE);
+			}
+		}
 		break;
 	case WM_MOVE:
-		if(pThis->m_Status & SS_VISABLE)
-		{
+		if(pThis->m_Status & SS_VISABLE) {
 			RECT WndRect;
 			GetWindowRect(hwnd, &WndRect);
 			if (pThis->m_bIsImageMode) {

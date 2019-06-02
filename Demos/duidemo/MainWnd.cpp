@@ -87,7 +87,7 @@ void CMainWnd::InitWindow()
 	pBrowser1->SetWebBrowserEventHandler(this);
 	CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("oneclick_browser2")));
 	pBrowser2->SetWebBrowserEventHandler(this);
-	pBrowser1->NavigateUrl(_T("http://blog.csdn.net/duisharp"));
+	pBrowser1->NavigateUrl(_T("https://www.baidu.com"));
 	pBrowser2->NavigateUrl(_T("http://www.winradar.com"));
 
 	// 动态创建Combo
@@ -100,6 +100,7 @@ void CMainWnd::InitWindow()
 		pElement->SetFixedWidth(120);
 		pFontSize->Add(pElement);
 	}
+
 	CComboUI* pCombo = new CComboUI();
 	pCombo->SetName(_T("mycombo"));
 	pCombo->SetFixedWidth(80);
@@ -249,7 +250,7 @@ HRESULT STDMETHODCALLTYPE CMainWnd::GetHostInfo(CWebBrowserUI* pWeb,
 	/* [out][in] */ DOCHOSTUIINFO __RPC_FAR *pInfo)
 {
 	if (pInfo != NULL) {
-		pInfo->dwFlags |= DOCHOSTUIFLAG_NO3DBORDER | DOCHOSTUIFLAG_NO3DOUTERBORDER | DOCHOSTUIFLAG_SCROLL_NO;
+		pInfo->dwFlags |= DOCHOSTUIFLAG_NO3DBORDER | DOCHOSTUIFLAG_NO3DOUTERBORDER;
 	}
 	return S_OK;
 }
@@ -407,24 +408,35 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 	CDuiString sName = pControl->GetName();
 	if(sName.CompareNoCase(_T("homepage_btn")) == 0)
 	{
+		//
+		//CListUI* pList = static_cast<CListUI*>(m_pm.FindControl(_T("listview")));
+		//CListContainerElementUI* pListItem  = new CListContainerElementUI();
+		//pListItem->SetChildVAlign(DT_VCENTER);
+		//pListItem->SetFixedHeight(30);
+		//pListItem->SetManager(&m_pm, NULL, false);
+		//pListItem->SetFixedWidth(100);
+		//pList->Add(pListItem);
+		//pList->EndDown();
+		//return;
 		// 动态创建Combo
-		CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("mycombo")));
-		if(pFontSize)
-		{
-			pFontSize->RemoveAll();
-			CListLabelElementUI * pElement = new CListLabelElementUI();
-			pElement->SetText(_T("测试长文字"));
-			pElement->SetFixedHeight(30);
-			pElement->SetFixedWidth(120);
-			pFontSize->Add(pElement);
-			pFontSize->NeedParentUpdate();
-		}
+		//CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("mycombo")));
+		//if(pFontSize)
+		//{
+		//	pFontSize->RemoveAll();
+		//	CListLabelElementUI * pElement = new CListLabelElementUI();
+		//	pElement->SetText(_T("测试长文字"));
+		//	pElement->SetFixedHeight(30);
+		//	pElement->SetFixedWidth(120);
+		//	pFontSize->Add(pElement);
+		//	pFontSize->NeedParentUpdate();
+		//}
 		//CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("mycombo")));
 		//if(pFontSize)
 		//{
 		//	pFontSize->SetFixedXY(CDuiSize(pFontSize->GetFixedXY().cx + 5, pFontSize->GetFixedXY().cy));
 		//}
-		//ShellExecute(NULL, _T("open"), _T("https://github.com/qdtroy"), NULL, NULL, SW_SHOW);
+
+		ShellExecute(NULL, _T("open"), _T("https://github.com/qdtroy"), NULL, NULL, SW_SHOW);
 	}
 	else if(sName.CompareNoCase(_T("button1")) == 0)
 	{
@@ -438,7 +450,7 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 	else if(sName.CompareNoCase(_T("popwnd_btn")) == 0)
 	{
 		CPopWnd* pPopWnd = new CPopWnd();
-		pPopWnd->Create(m_hWnd, NULL, WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW, 0, 0, 800, 572);
+		pPopWnd->Create(m_hWnd, NULL, WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW | WS_EX_TOPMOST, 0, 0, 800, 572);
 		pPopWnd->CenterWindow();
 	}
 	else if(sName.CompareNoCase(_T("modal_popwnd_btn")) == 0)
@@ -497,7 +509,7 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 			//pSubNew->SetName(_T("Menu_Dynamic"));
 			//pSubNew->SetIcon(_T("Virus.png"));
 			//pSubNew->SetIconSize(16,16);
-			//pSubNew->SetOwner(pTempMenu->GetParent());
+			//pSubNew->SetOwner((CControlUI*)pTempMenu->GetOwner());
 			//pTempMenu->Add(pSubNew);
 
 			CMenuElementUI* pNew2 = new CMenuElementUI;

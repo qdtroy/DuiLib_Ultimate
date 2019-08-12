@@ -626,12 +626,13 @@ namespace DuiLib
 		if( event.Type == UIEVENT_MOUSEMOVE )
 		{
 			if( (m_uThumbState & UISTATE_CAPTURED) != 0 ) {
-				__int64 fMouseRange = (event.ptMouse.y - m_ptLastMouse.y) * m_nRange;
 				if( !m_bHorizontal ) {
+					__int64 fMouseRange = (event.ptMouse.y - m_ptLastMouse.y) * m_nRange;
 					int vRange = m_rcItem.bottom - m_rcItem.top - (m_rcThumb.bottom - m_rcThumb.top) - 2 * m_cxyFixed.cx;
 					if (vRange != 0) m_nLastScrollOffset = fMouseRange / abs(vRange);
 				}
 				else {
+					__int64 fMouseRange = (event.ptMouse.x - m_ptLastMouse.x) * m_nRange;
 					int hRange = m_rcItem.right - m_rcItem.left - m_rcThumb.right + m_rcThumb.left - 2 * m_cxyFixed.cy;
 					if (hRange != 0) m_nLastScrollOffset = fMouseRange / abs(hRange);
 				}

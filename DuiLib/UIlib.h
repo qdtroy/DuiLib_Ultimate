@@ -5,7 +5,7 @@
 #	if defined(_MSC_VER)
 #		define UILIB_API __declspec(dllexport)
 #	else
-#		define UILIB_API 
+#		define UILIB_API
 #	endif
 #else
 #	if defined(_MSC_VER)

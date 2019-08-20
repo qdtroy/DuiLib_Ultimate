@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\DuiLib\Control\UIActiveX.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIAnimation.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIButton.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIColorPalette.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UICombo.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIComboBox.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIDateTime.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIEdit.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIFadeButton.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIFlash.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIGifAnim.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIGifAnimEx.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIGroupBox.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIHotKey.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIIPAddress.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIIPAddressEx.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UILabel.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIList.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIListEx.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIMenu.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIOption.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIProgress.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIRichEdit.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIRing.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIRollText.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIScrollBar.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UISlider.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIText.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UITreeView.cpp" />
+    <ClCompile Include="..\DuiLib\Control\UIWebBrowser.cpp" />
+    <ClCompile Include="..\DuiLib\Core\ControlFactory.cpp" />
+    <ClCompile Include="..\DuiLib\Core\UIBase.cpp" />
+    <ClCompile Include="..\DuiLib\Core\UIContainer.cpp" />
+    <ClCompile Include="..\DuiLib\Core\UIControl.cpp" />
+    <ClCompile Include="..\DuiLib\Core\UIDlgBuilder.cpp" />
+    <ClCompile Include="..\DuiLib\Core\UIManager.cpp" />
+    <ClCompile Include="..\DuiLib\Core\UIMarkup.cpp" />
+    <ClCompile Include="..\DuiLib\Core\UIRender.cpp" />
+    <ClCompile Include="..\DuiLib\Core\UIResourceManager.cpp" />
+    <ClCompile Include="..\DuiLib\Layout\UIAnimationTabLayout.cpp" />
+    <ClCompile Include="..\DuiLib\Layout\UIChildLayout.cpp" />
+    <ClCompile Include="..\DuiLib\Layout\UIHorizontalLayout.cpp" />
+    <ClCompile Include="..\DuiLib\Layout\UITabLayout.cpp" />
+    <ClCompile Include="..\DuiLib\Layout\UITileLayout.cpp" />
+    <ClCompile Include="..\DuiLib\Layout\UIVerticalLayout.cpp" />
+    <ClCompile Include="..\DuiLib\StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\DuiLib\UILib.cpp" />
+    <ClCompile Include="..\DuiLib\Utils\DPI.cpp" />
+    <ClCompile Include="..\DuiLib\Utils\DragDropImpl.cpp" />
+    <ClCompile Include="..\DuiLib\Utils\TrayIcon.cpp" />
+    <ClCompile Include="..\DuiLib\Utils\UIDelegate.cpp" />
+    <ClCompile Include="..\DuiLib\Utils\UIShadow.cpp" />
+    <ClCompile Include="..\DuiLib\Utils\unzip.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\DuiLib\Utils\Utils.cpp" />
+    <ClCompile Include="..\DuiLib\Utils\WinImplBase.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\DuiLib\Control\UIActiveX.h" />
+    <ClInclude Include="..\DuiLib\Control\UIAnimation.h" />
+    <ClInclude Include="..\DuiLib\Control\UIButton.h" />
+    <ClInclude Include="..\DuiLib\Control\UIColorPalette.h" />
+    <ClInclude Include="..\DuiLib\Control\UICombo.h" />
+    <ClInclude Include="..\DuiLib\Control\UIComboBox.h" />
+    <ClInclude Include="..\DuiLib\Control\UIDateTime.h" />
+    <ClInclude Include="..\DuiLib\Control\UIEdit.h" />
+    <ClInclude Include="..\DuiLib\Control\UIFadeButton.h" />
+    <ClInclude Include="..\DuiLib\Control\UIFlash.h" />
+    <ClInclude Include="..\DuiLib\Control\UIGifAnim.h" />
+    <ClInclude Include="..\DuiLib\Control\UIGifAnimEx.h" />
+    <ClInclude Include="..\DuiLib\Control\UIGroupBox.h" />
+    <ClInclude Include="..\DuiLib\Control\UIHotKey.h" />
+    <ClInclude Include="..\DuiLib\Control\UIIPAddress.h" />
+    <ClInclude Include="..\DuiLib\Control\UIIPAddressEx.h" />
+    <ClInclude Include="..\DuiLib\Control\UILabel.h" />
+    <ClInclude Include="..\DuiLib\Control\UIList.h" />
+    <ClInclude Include="..\DuiLib\Control\UIListEx.h" />
+    <ClInclude Include="..\DuiLib\Control\UIMenu.h" />
+    <ClInclude Include="..\DuiLib\Control\UIOption.h" />
+    <ClInclude Include="..\DuiLib\Control\UIProgress.h" />
+    <ClInclude Include="..\DuiLib\Control\UIRichEdit.h" />
+    <ClInclude Include="..\DuiLib\Control\UIRing.h" />
+    <ClInclude Include="..\DuiLib\Control\UIRollText.h" />
+    <ClInclude Include="..\DuiLib\Control\UIScrollBar.h" />
+    <ClInclude Include="..\DuiLib\Control\UISlider.h" />
+    <ClInclude Include="..\DuiLib\Control\UIText.h" />
+    <ClInclude Include="..\DuiLib\Control\UITreeView.h" />
+    <ClInclude Include="..\DuiLib\Control\UIWebBrowser.h" />
+    <ClInclude Include="..\DuiLib\Core\ControlFactory.h" />
+    <ClInclude Include="..\DuiLib\Core\UIBase.h" />
+    <ClInclude Include="..\DuiLib\Core\UIContainer.h" />
+    <ClInclude Include="..\DuiLib\Core\UIControl.h" />
+    <ClInclude Include="..\DuiLib\Core\UIDefine.h" />
+    <ClInclude Include="..\DuiLib\Core\UIDlgBuilder.h" />
+    <ClInclude Include="..\DuiLib\Core\UIManager.h" />
+    <ClInclude Include="..\DuiLib\Core\UIMarkup.h" />
+    <ClInclude Include="..\DuiLib\Core\UIRender.h" />
+    <ClInclude Include="..\DuiLib\Core\UIResourceManager.h" />
+    <ClInclude Include="..\DuiLib\Layout\UIAnimationTabLayout.h" />
+    <ClInclude Include="..\DuiLib\Layout\UIChildLayout.h" />
+    <ClInclude Include="..\DuiLib\Layout\UIHorizontalLayout.h" />
+    <ClInclude Include="..\DuiLib\Layout\UITabLayout.h" />
+    <ClInclude Include="..\DuiLib\Layout\UITileLayout.h" />
+    <ClInclude Include="..\DuiLib\Layout\UIVerticalLayout.h" />
+    <ClInclude Include="..\DuiLib\StdAfx.h" />
+    <ClInclude Include="..\DuiLib\UIlib.h" />
+    <ClInclude Include="..\DuiLib\Utils\downloadmgr.h" />
+    <ClInclude Include="..\DuiLib\Utils\DPI.h" />
+    <ClInclude Include="..\DuiLib\Utils\DragDropImpl.h" />
+    <ClInclude Include="..\DuiLib\Utils\FlashEventHandler.h" />
+    <ClInclude Include="..\DuiLib\Utils\observer_impl_base.h" />
+    <ClInclude Include="..\DuiLib\Utils\stb_image.h" />
+    <ClInclude Include="..\DuiLib\Utils\TrayIcon.h" />
+    <ClInclude Include="..\DuiLib\Utils\UIDelegate.h" />
+    <ClInclude Include="..\DuiLib\Utils\UIShadow.h" />
+    <ClInclude Include="..\DuiLib\Utils\unzip.h" />
+    <ClInclude Include="..\DuiLib\Utils\Utils.h" />
+    <ClInclude Include="..\DuiLib\Utils\VersionHelpers.h" />
+    <ClInclude Include="..\DuiLib\Utils\WebBrowserEventHandler.h" />
+    <ClInclude Include="..\DuiLib\Utils\WinImplBase.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\DuiLib\Utils\Flash11.tlb" />
+    <None Include="..\DuiLib\Utils\flash11.tlh" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EEBE5A82-A435-49E0-A905-F8BCC2E18A9C}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>DuiLib</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Common\$(ProjectName)\$(Platform)\lib\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)ipch\$(ProjectName)\$(Platform)\lib\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)Common\$(ProjectName)\$(Platform)\lib\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)ipch\$(ProjectName)\$(Platform)\lib\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)Common\$(ProjectName)\$(Platform)\lib\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)ipch\$(ProjectName)\$(Platform)\lib\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Common\$(ProjectName)\$(Platform)\lib\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)ipch\$(ProjectName)\$(Platform)\lib\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>UILIB_STATIC;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
+      <AdditionalIncludeDirectories>.\;$(SolutionDir);$(SolutionDir)..\DuiLib\;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PostBuildEvent>
+      <Command>call $(SolutionDir)Common\xcopy-header.bat $(SolutionDir)..\DuiLib\ $(SolutionDir)\Common\$(ProjectName)\include\</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>UILIB_STATIC;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
+      <AdditionalIncludeDirectories>.\;$(SolutionDir);$(SolutionDir)..\DuiLib\;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PostBuildEvent>
+      <Command>call $(SolutionDir)Common\xcopy-header.bat $(SolutionDir)..\DuiLib\ $(SolutionDir)\Common\$(ProjectName)\include\</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>UILIB_STATIC;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
+      <AdditionalIncludeDirectories>.\;$(SolutionDir);$(SolutionDir)..\DuiLib\;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>call $(SolutionDir)Common\xcopy-header.bat $(SolutionDir)..\DuiLib\ $(SolutionDir)\Common\$(ProjectName)\include\</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>UILIB_STATIC;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
+      <AdditionalIncludeDirectories>.\;$(SolutionDir);$(SolutionDir)..\DuiLib\;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>call $(SolutionDir)Common\xcopy-header.bat $(SolutionDir)..\DuiLib\ $(SolutionDir)\Common\$(ProjectName)\include\</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

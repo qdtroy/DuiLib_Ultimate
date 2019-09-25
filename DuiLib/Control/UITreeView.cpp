@@ -904,8 +904,7 @@ namespace DuiLib
 	bool CTreeViewUI::RemoveAt( int iIndex )
 	{
 		CTreeNodeUI* pItem = (CTreeNodeUI*)GetItemAt(iIndex);
-		if(pItem->GetCountChild())
-			Remove(pItem);
+		Remove(pItem);
 		return TRUE;
 	}
 

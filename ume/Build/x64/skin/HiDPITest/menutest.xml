@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window  showshadow="true" shadowimage="shadow_menu2.png" shadowcorner="30,30,30,30" shadowsize="25" bktrans="true">
+  <Font name="Microsoft Yahei" size="12" id="0" shared="true"/>
+ <Font name="Microsoft Yahei" size="22" />
+
+<!-- Menu标签的属性要通过Default来定义，为了让下级菜单也能拥有同样的外观 -->
+<Default name="Menu" value="bktrans=&quot;true&quot; bordersize=&quot;1&quot; borderround=&quot;0,0&quot; bordercolor=&quot;0xffff0000&quot; inset=&quot;0,3,0,3&quot; itemtextpadding=&quot;40,0,0,0&quot; bkimage=&quot;file='menu_bk.png' corner='16,13,16,13' &quot; itemtextcolor=&quot;0xff555555&quot; itemselectedbkcolor=&quot;0xFFE5E5E5&quot; itemselectedtextcolor=&quot;0xff444444&quot; itemfont=&quot;0&quot;" shared="true" />
+
+
+<Default name="MenuElement" value="linepadding=&quot;40,0,10,0&quot; " />
+
+
+<!-- ExplandIcon属性定义了下级菜单的小图标的样子 -->
+<Default name="ExplandIcon" value="file='menu_expand.png'" shared="true"/>
+<Menu>
+    <MenuElement text="菜单测试0" expland="true" >
+     	 <MenuElement text="菜单测试01" id="102"/>
+     	 <MenuElement text="菜单测试02" />
+    </MenuElement>
+
+    <MenuElement height="120" >
+    	<VerticalLayout bkcolor="#FFFFFFFE">
+            <Button name="Menu_btn" height="118" normalimage="error.png" hotimage="check_hover.png" pushedimage="check_pressed.png"/>
+        </VerticalLayout>
+    </MenuElement>
+
+    <MenuElement name="Menu_Test1" text="菜单测试aaaaaaaaaaaaaaaaaaaaaaaaaaaa3" icon="file='right.png'" iconsize="40,22" checkitem="true" ischeck="true" />
+	<MenuElement name="Menu_Test2" text="菜单测试31" />
+	<MenuElement name="Menu_Test3" text="菜单测试32" icon="file='top_menu_icon_feedback.png'" iconsize="40,22" checkitem="true" ischeck="true" />
+
+	<MenuElement linetype="true" />
+
+    <MenuElement text="菜单测试4" icon="right.png" iconsize="40,22" expland="true" >
+	      <MenuElement text="菜单测试5" expland="true" icon="WebSit.png" >  
+	      	  <MenuElement text="菜单测试6"  icon="Virus.png" />
+	      	  <MenuElement text="菜单测试7" />
+	      </MenuElement>
+	      <MenuElement text="菜单测试8" expland="true"> 
+	      	  <MenuElement text="菜单测试a" />
+	       	  <MenuElement text="菜单测试b" />
+	      </MenuElement>
+    </MenuElement> 
+</Menu>
+</Window>

@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="600,700" sizebox="4,4,4,4" caption="0,0,0,-1" mininfo="600,500" showshadow="true" shadowimage="shadow2.png" shadowcorner="30,30,30,30" shadowsize="25" roundcorner="4,4">
+  <Font name="微软雅黑" size="13" default="true" id="1"/>
+  <Font name="微软雅黑" size="12" id="2"/>
+  <Font name="微软雅黑" size="22"/>
+  <Default name="VScrollBar" value="width=&quot;10&quot; showbutton1=&quot;false&quot; showbutton2=&quot;false&quot; thumbnormalimage=&quot;file='scroll_fore.png'  corner='4,4,4,4' fade='150' &quot; thumbhotimage=&quot;file='scroll_fore.png'  corner='4,4,4,4' &quot; thumbpushedimage=&quot;file='scroll_fore.png'  corner='4,4,4,4' &quot; " />
+  <Style name="main_tab" value="textcolor=&quot;#FF386382&quot; font=&quot;2&quot; normalimage=&quot;tabbar_normal.png&quot; hotimage=&quot;tabbar_hover.png&quot; pushedimage=&quot;tabbar_pushed.png&quot; selectedimage=&quot;tabbar_pushed.png&quot; group=&quot;tab_header&quot; bkcolor=&quot;#ffffff00&quot; selectedbkcolor=&quot;#ffffffff&quot;" />
+
+  <VerticalLayout name="background" width="840" height="320"  bkcolor="#FFffffff" bordercolor="#ff00ffff" >
+    <VerticalLayout >
+      <HorizontalLayout height="31" bkcolor="#FF252A2F" >
+        <HorizontalLayout>
+          <Control width="24" height="26" bkimage="file='title_icon.png' source='0,0,21,21' dest='3,4,24,25' " />
+          <Text text="HiDPI Test" pos="25, 6, 100, 24" float="true" textcolor="#ff5a5e68" font="1" />
+        </HorizontalLayout>
+        <HorizontalLayout width="148" >
+          <Control></Control>
+          <Button name="menubtn" width="27" height="22" normalimage="file='skin_menu.png' source='0,0,26,22'" hotimage="file='skin_menu.png' source='27,0,53,22'" pushedimage="file='skin_menu.png' source='54,0,80,22'"/>
+          <Button name="minbtn" width="27" height="22" normalimage="file='sys_btn_min.png' source='0,0,26,22'" hotimage="file='sys_btn_min.png' source='27,0,53,22'" pushedimage="file='sys_btn_min.png' source='54,0,80,22'"/>
+          <Button name="maxbtn" width="27" height="22" normalimage="file='sys_btn_max.png' source='0,0,26,22'" hotimage="file='sys_btn_max.png' source='27,0,53,22'" pushedimage="file='sys_btn_max.png' source='54,0,80,22'"/>
+          <Button name="restorebtn"  visible="false" width="27" height="22" normalimage="file='sys_btn_restore.png' source='0,0,26,22'" hotimage="file='sys_btn_restore.png' source='27,0,53,22'" pushedimage="file='sys_btn_restore.png' source='54,0,80,22'"/>
+          <Button name="closebtn" width="27" height="22" normalimage="file='sys_btn_close.png' source='0,0,26,22'" hotimage="file='sys_btn_close.png' source='27,0,53,22'" pushedimage="file='sys_btn_close.png' source='54,0,80,22'"/>
+          <Control width="5"></Control>
+        </HorizontalLayout>
+      </HorizontalLayout>
+      <HorizontalLayout height="68" bkcolor="#FFa0a0a0">
+        <HorizontalLayout inset="8,5,0,0" >
+          <Option  pos="10, 10, 90, 70" float="true" valign="bottom" name="discovery" text="Discovery" textcolor="#FF5A5E68" selectedtextcolor="#ffffffff" font="1" textpadding="5,5,5,8" foreimage="file='News.png' dest='25,6,55,36'" normalimage="toolbar_normal.png" hotimage="toolbar_hover.png" pushedimage="toolbar_pushed.png" selectedimage="toolbar_pushed.png" group="quickbar" selected="true"/>
+          <Option  pos="90, 10, 170, 70" float="true" valign="bottom" name="radio" text="Radio" textcolor="#FF5A5E68" selectedtextcolor="#ffffffff" font="1" textpadding="5,5,5,8" foreimage="file='Radio.png' dest='25,6,55,36'" normalimage="toolbar_normal.png" hotimage="toolbar_hover.png" pushedimage="toolbar_pushed.png" selectedimage="toolbar_pushed.png" group="quickbar"/>
+          <Option  pos="170, 10, 250, 70" float="true" valign="bottom" name="setting" text="Setting" textcolor="#FF5A5E68" selectedtextcolor="#ffffffff" font="1" textpadding="5,5,5,8" foreimage="file='Setting.png' dest='25,6,55,36'" normalimage="toolbar_normal.png" hotimage="toolbar_hover.png" pushedimage="toolbar_pushed.png" selectedimage="toolbar_pushed.png" group="quickbar"/>
+        </HorizontalLayout>
+      </HorizontalLayout>
+      <HorizontalLayout height="50" bordercolor="#ffff00FF"  bordersize="0">
+        <Option group="DPIOption"  name="DPI96" padding="10,10,0,0" width="160" height="30"  text="DPI 96  100%" selectedtextcolor="#ff0000ff" textcolor="#FF666666"  bkcolor="#ffeeeeee" selected="true"/>
+        <Option group="DPIOption"  name="DPI120" padding="10,10,0,0" width="160" height="30"  text="DPI 120 125%"  selectedtextcolor="#ff0000ff" textcolor="#FF666666" bkcolor="#ffeeeeee"/>
+        <Option group="DPIOption"  name="DPI144" padding="10,10,0,0" width="160" height="30"  text="DPI 144 150%"  selectedtextcolor="#ff0000ff" textcolor="#FF666666" bkcolor="#ffeeeeee"/>
+        <Control ></Control>
+      </HorizontalLayout>
+      <HorizontalLayout height="50" bordercolor="#ffff00FF"  bordersize="0">
+        <Option group="DPIOption"  name="DPI168" padding="10,10,0,0" width="160" height="30"  text="DPI 168 175%"  selectedtextcolor="#ff0000ff" textcolor="#FF666666" bkcolor="#ffeeeeee"/>
+        <Option group="DPIOption"  name="DPI192" padding="10,10,0,0" width="160" height="30"  text="DPI 192 200%"  selectedtextcolor="#ff0000ff" textcolor="#FF666666" bkcolor="#ffeeeeee"/>
+        <Control ></Control>
+      </HorizontalLayout>
+      <VerticalLayout>
+        <HorizontalLayout >
+          <VerticalLayout padding="10,10,10,10" bordercolor="#ffff00FF"  bordersize="0">
+            <HorizontalLayout height="30" >
+              <Text text="您的电脑已经" padding="2,5,0,0" autocalcwidth="true" height="23" textcolor="#ff000000" font="1" bkcolor="#ffeeeeee"/>
+              <Text text="40" padding="2,0,0,0" autocalcwidth="true" height="27" textcolor="#ffffffff" font="2" bkcolor="#ffee0000"/>
+              <Text text="天没有体检，建议立即体检！" padding="2,5,0,0" autocalcwidth="true" height="23" textcolor="#ff00ff00" font="1" bkcolor="#ff0000ee"/>
+              <Label name="LabelUI15"  text="Available disk space:" visible="true"  autocalcwidth="true" height="18" textcolor="#ff5a5e68" disabledtextcolor="#FFA7A6AA" bkcolor="#ffeeeeff"/>
+              <Label name="Wizard_UsableSpaceLab4Page2" text="17G" visible="true" autocalcwidth="true"  height="18" textcolor="#ff5a5e68" disabledtextcolor="#FFA7A6AA" bkcolor="#ffffeeee"/>
+            </HorizontalLayout>
+             <Progress name="progress"    padding="0,25,0,0"  height="10" bkimage="file='progress_bk.png' corner='5,4,4,5'" foreimage="file='progress_fore.png' corner='5,4,4,5'" min="0" max="100"  hor="true" value="50"/>  
+              <Slider name="progress"    padding="0,25,0,0"  height="20" thumbimage="file='checkbox.png'" thumbhotimage="file='checkbox.png'" thumbpushedimage="file='checkbox.png'" thumbsize="20,20" bkimage="file='progress_bk.png' corner='5,4,4,5'" foreimage="file='progress_fore.png' corner='5,4,4,5'" min="0" max="100"  hor="true" value="80"/>  
+
+             <Control height="10" />    
+
+              <RichEdit name="LicenceRichEdit"  inset="14,4,2,4" text="LicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEditLicenceRichEdit"  bkcolor="#fff0f0f0" textcolor="#ff5a5e68"  multiline="true" vscrollbar="true" autovscroll="true" rich="true" readonly="true" />
+          </VerticalLayout>
+        </HorizontalLayout>
+        
+        <Button name="btnMenu" text="菜单测试" padding="30,0,0,20" width="100" height="40"   bkcolor="#ff888888"/>
+        <Control height="30"></Control>
+      </VerticalLayout>
+    </VerticalLayout>
+  </VerticalLayout>
+</Window>

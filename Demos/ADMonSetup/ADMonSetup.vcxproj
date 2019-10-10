@@ -110,10 +110,10 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugA|Win32'">$(SolutionDir)Bin\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='SDebug|Win32'">$(SolutionDir)Bin\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='SDebugA|Win32'">$(SolutionDir)Bin\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugA|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='SDebug|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='SDebugA|Win32'">$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp\ADMonSetup\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugA|Win32'">$(SolutionDir)temp\ADMonSetup\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='SDebug|Win32'">$(SolutionDir)temp\ADMonSetup\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='SDebugA|Win32'">$(SolutionDir)temp\ADMonSetup\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugA|Win32'">true</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='SDebug|Win32'">true</LinkIncremental>
@@ -122,10 +122,10 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseA|Win32'">$(SolutionDir)Bin\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='SRelease|Win32'">$(SolutionDir)Bin\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='SReleaseA|Win32'">$(SolutionDir)Bin\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseA|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='SRelease|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='SReleaseA|Win32'">$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp\ADMonSetup\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseA|Win32'">$(SolutionDir)temp\ADMonSetup\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='SRelease|Win32'">$(SolutionDir)temp\ADMonSetup\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='SReleaseA|Win32'">$(SolutionDir)temp\ADMonSetup\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseA|Win32'">false</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='SRelease|Win32'">false</LinkIncremental>

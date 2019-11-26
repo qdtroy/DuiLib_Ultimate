@@ -1737,7 +1737,7 @@ namespace DuiLib {
 				TEventUI event = { 0 };
 				event.Type = UIEVENT_SCROLLWHEEL;
 				event.pSender = pControl;
-				event.wParam = MAKELPARAM(zDelta < 0 ? SB_LINEDOWN : SB_LINEUP, 0);
+				event.wParam = MAKEWPARAM(zDelta < 0 ? SB_LINEDOWN : SB_LINEUP, zDelta);
 				event.lParam = lParam;
 				event.ptMouse = pt;
 				event.wKeyState = MapKeyState();

@@ -73,30 +73,31 @@ public:
 			return 1;
 		}
 
-		CString sUrl;
-		sUrl.Format(_T("http://bizhi.baidu.com/wallpaper/getList?type=%s&page=%d&count=%d&g=C_0-D_100825PBN40317ERB89E-M_206A8A1263C4-V_DE5571AC-T_20140714225619485&tn=bdwp&version=2.0.0.1160&_t=%d"), sType, nPage, nCount, GetTickCount());
-		std::string data = WebReadFile(sUrl);
+		//CString sUrl;
+		//sUrl.Format(_T("http://bizhi.baidu.com/wallpaper/getList?type=%s&page=%d&count=%d&g=C_0-D_100825PBN40317ERB89E-M_206A8A1263C4-V_DE5571AC-T_20140714225619485&tn=bdwp&version=2.0.0.1160&_t=%d"), sType, nPage, nCount, GetTickCount());
+		//std::string data = WebReadFile(sUrl);
 
-		Json::Reader reader;
-		Json::Value root;
-		if (!reader.parse(data.c_str(), root, false))
-		{
-			return -1;
-		}
+		//Json::Reader reader;
+		//Json::Value root;
+		//if (!reader.parse(data.c_str(), root, false))
+		//{
+		//	return -1;
+		//}
 
-		string errormsg = root["errormsg"].asString();
-		int errorno = root["errorno"].asInt();
-		if(errorno != 0) return -1;
-		int ntotal = 0;
-		if(root["totalPage"].type() == Json::intValue)
-		{
-			ntotal = root["totalPage"].asInt();
-		}
-		else
-		{
-			string totalpage = root["totalPage"].asString();
-			ntotal = atoi(totalpage.c_str());
-		}
+		//string errormsg = root["errormsg"].asString();
+		//int errorno = root["errorno"].asInt();
+		//if(errorno != 0) return -1;
+		//int ntotal = 0;
+		//if(root["totalPage"].type() == Json::intValue)
+		//{
+		//	ntotal = root["totalPage"].asInt();
+		//}
+		//else
+		//{
+		//	string totalpage = root["totalPage"].asString();
+		//	ntotal = atoi(totalpage.c_str());
+		//}
+		int ntotal = 10;
 		// 分类页数
 		WPPage *pPage = new WPPage;
 		pPage->sType = sType;
@@ -104,9 +105,8 @@ public:
 		m_mapWPPages[sType] = *pPage;
 		::PostMessage(m_hWnd, WM_GETWPPAGE_OK, (WPARAM)pPage, 0);
 
-		int page = root["page"].asInt();
-		Json::Value urls = root["list"];
-		for(int i = 0; i < urls.size(); ++i)
+		/*Json::Value urls = root["list"];
+		for(int i = 0; i < 16; ++i)
 		{
 			Json::Value url = urls[i];
 			WPInfo Info;
@@ -116,8 +116,20 @@ public:
 			Info.thumb_mid = url["thumb_mid"].asString();
 			Info.thumb_nail = url["thumbnail"].asString();
 			m_mapWPInfos[*pKey].push_back(Info);
+		}*/
+		string urls[] = {
+			"http://b-ssl.duitang.com/uploads/item/201707/18/20170718162350_czPrm.thumb.700_0.jpeg",
+		};
+		for(int i = 0; i < 16; ++i)
+		{
+			WPInfo Info;
+			Info.flag = "flag";
+			Info.flag_desc = "简介";
+			Info.id = "id";
+			Info.thumb_mid = urls[rand()%1];
+			Info.thumb_nail = urls[rand()%1];
+			m_mapWPInfos[*pKey].push_back(Info);
 		}
-
 		::PostMessage(m_hWnd, WM_GETWPINFO_OK, (WPARAM)pKey, 0);
 		return 0;
 	}
@@ -136,52 +148,6 @@ public:
 
 		return false;
 	}
-private:
-	static string WebReadFile(CString sUrl)
-	{
-		string data;
-		// 打开http链接
-		HINTERNET hConnect = InternetOpen(NULL, INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0); 
-
-		if (hConnect)
-		{
-			DWORD dwTimeOut = 0;
-			InternetSetOption(hConnect, INTERNET_OPTION_CONNECT_TIMEOUT, &dwTimeOut, sizeof(dwTimeOut));
-
-			HINTERNET hSession = InternetOpenUrl(hConnect, sUrl, NULL, 0, INTERNET_FLAG_TRANSFER_BINARY | INTERNET_FLAG_PRAGMA_NOCACHE, 0);
-			if (hSession)
-			{
-				// 建立数据缓冲区
-				DWORD dwRead = 0;
-				DWORD dwBuffer = 1024 * 1024;
-				char *szBuffer = new char[dwBuffer];
-				memset(szBuffer, 0, dwBuffer);
-
-				if(InternetReadFile(hSession, szBuffer, dwBuffer, &dwRead) && (dwRead > 0))
-				{
-					int nLen = dwRead;
-					char* pBuffer = new char[nLen + 1];
-					memset(pBuffer, 0, nLen + 1);
-					memcpy(pBuffer, szBuffer, nLen);
-					if(pBuffer != NULL)
-					{
-						data = pBuffer;
-					}
-				}
-
-				// 销毁数据缓冲区
-				delete []szBuffer;
-				szBuffer = NULL;
-
-				InternetCloseHandle(hSession);
-			}
-			InternetCloseHandle(hConnect);
-		}
-
-		return data;
-	}
-
-
 private:
 	HWND m_hWnd;
 	std::map<CString, WPPage> m_mapWPPages;

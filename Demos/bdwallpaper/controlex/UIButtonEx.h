@@ -90,28 +90,6 @@ namespace DuiLib
 
 		}
 
-		CString PrepareWPImage()
-		{
-			int cx = GetSystemMetrics(SM_CXSCREEN);
-			int cy = GetSystemMetrics(SM_CYSCREEN);
-			CString sAppPath = CPaintManagerUI::GetInstancePath().GetData();
-			CString sUrl;
-			sUrl.Format(_T("http://bizhi.baidu.com/wallpaper/getWallpaperById?t=%d&name=baiduwp&v=2.0.0.1160&g=C_0-D_100825PBN40317ERB89E-M_206A8A1263C4-V_DE5571AC-T_20140714225619485&x=%d&y=%d&tn=bdwp&dtn=bdwp&uinf=8704-0-8&id=%s&resolution=%d_%d"), GetTickCount(), cx, cy, GetUserData().GetData(), cx, cy);
-			CString sRealUrl = RealWebFile(sUrl);
-			CString sImageName = CrackUrl(sRealUrl);
-			sImageName.Replace(_T("/"), _T("\\"));
-			TCHAR szFile[MAX_PATH] = {0};
-			lstrcpy(szFile, sAppPath);
-			::PathAppend(szFile, sImageName);
-			if(!::PathFileExists(szFile))
-			{
-				CreateDirectory(szFile, NULL);
-				::URLDownloadToFile(NULL, sRealUrl, szFile, 0, NULL);
-			}
-			return szFile;
-
-		}
-
 		BOOL CreateDirectory(LPCTSTR lpPathName, LPSECURITY_ATTRIBUTES lpSecurityAttributes)
 		{
 			TCHAR cPath[MAX_PATH] = {0};
@@ -167,35 +145,6 @@ namespace DuiLib
 			return sInfo;
 		}
 
-		CString RealWebFile(CString sUrl)
-		{
-			CString sRealUrl = sUrl;
-			// ´ò¿ªhttpÁ´½Ó
-			HINTERNET hConnect = InternetOpen(NULL, INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0); 
-
-			if (hConnect)
-			{
-				DWORD dwTimeOut = 0;
-				InternetSetOption(hConnect, INTERNET_OPTION_CONNECT_TIMEOUT, &dwTimeOut, sizeof(dwTimeOut));
-
-				HINTERNET hSession = InternetOpenUrl(hConnect, sUrl, NULL, 0, INTERNET_FLAG_NO_AUTO_REDIRECT | INTERNET_FLAG_RELOAD, 0);
-				if (hSession)
-				{
-					DWORD dwStatus = 0;
-					DWORD dwBuffLen = sizeof(dwStatus);
-					BOOL bSuccess = HttpQueryInfo(hSession, HTTP_QUERY_STATUS_CODE|HTTP_QUERY_FLAG_NUMBER, &dwStatus, &dwBuffLen, 0);
-					if(bSuccess) {
-						sRealUrl = QueryInfo(hSession, HTTP_QUERY_LOCATION);
-					}
-					
-					InternetCloseHandle(hSession);
-				}
-				InternetCloseHandle(hConnect);
-			}
-
-			return sRealUrl;
-		}
-
 		CString CrackUrl(CString sUrl)
 		{
 			URL_COMPONENTS uc;
@@ -228,7 +177,7 @@ namespace DuiLib
 	public:
 		void SetWP()
 		{
-			CString sWPImage = PrepareWPImage();
+			CString sWPImage = PrepareImage();
 			HRESULT hr = S_OK;
 			IActiveDesktop *pIAD = NULL;
 			hr = CoCreateInstance(CLSID_ActiveDesktop, NULL, CLSCTX_INPROC_SERVER, IID_IActiveDesktop, (void**)&pIAD);

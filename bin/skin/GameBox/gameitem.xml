@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Window>
   
-  <GameItem name="gameitem" height="68" width="68" textpadding="0,36,0,0" normalimage="file='button_nor.png' corner='8,8,8,8' fade='200'" hotimage="file='button_hover.png' corner='8,8,8,8' fade='200'" selectedimage="file='button_pushed.png' corner='8,8,8,8' fade='200'" />
+  <GameItem name="gameitem" height="68" width="68" textpadding="0,36,0,0" normalimage="file='button_nor.png' corner='8,8,8,8' fade='200'" hotimage="file='button_hover.png' corner='8,8,8,8' fade='200'" selectedimage="file='button_pushed.png' corner='8,8,8,8' fade='200'" group="gamelist" />
 
 </Window>

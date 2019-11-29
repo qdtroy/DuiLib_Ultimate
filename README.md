@@ -11,6 +11,7 @@
 #### **项目简介** 
 
 DuiLib_Ultimate是duilib库的增强拓展版，库修复了大量用户在使用中反馈的Bug，新增了用户需求的功能，并持续维护更新。
+更多效果例子请查看：https://github.com/qdtroy/DuiLib_Demos
 
 #### **功能简介** 
 

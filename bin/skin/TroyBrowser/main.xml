@@ -49,9 +49,9 @@
         </HorizontalLayout>
       </VerticalLayout>
     </HorizontalLayout>
-    
+
     <BrowserTabBar name="browser_tabbar" height="32" childpadding="2" inset="0,4,0,0">
-      <Button name="newtab" width="18" height="18" normalimage="res='newtab' source='0,0,18,18'" hotimage="res='newtab' source='19,0,37,18'" pushedimage="res='newtab' source='38,0,56,18'"/>
+      <Button name="newtab" width="18" height="18" maxheight="18" padding="0,5" normalimage="res='newtab' source='0,0,18,18'" hotimage="res='newtab' source='19,0,37,18'" pushedimage="res='newtab' source='38,0,56,18'"/>
     </BrowserTabBar>
     
     <VerticalLayout name="body" bkcolor="#FFFFFFFF">

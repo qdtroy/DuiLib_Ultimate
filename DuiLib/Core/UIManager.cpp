@@ -1489,9 +1489,8 @@ namespace DuiLib {
 					dragSrcHelper.InitializeFromBitmap(hBitmap, ptDrag, rc, pdobj); //will own the bmp
 					DWORD dwEffect;
 					HRESULT hr = ::DoDragDrop(pdobj, pdsrc, DROPEFFECT_COPY | DROPEFFECT_MOVE, &dwEffect);
-					if(dwEffect )
-						pdsrc->Release();
-					delete pdsrc;
+					if(dwEffect ) pdsrc->Release();
+					else delete pdsrc;
 					pdobj->Release();
 					m_bDragMode = false;
 					break;

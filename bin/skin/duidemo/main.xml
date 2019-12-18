@@ -85,7 +85,6 @@
 
               <Container width="64" height="64">
                 <Button name="autobtn" textcolor="#FF000000" bkimage="logo.jpg" bordercolor="#FF666666" bordersize="2" borderround="64,64"/>
-                <Control mouse="false" visible="false" bordercolor="#FF666666" bordersize="2" borderround="64,64" />
               </Container>
                 
             </HorizontalLayout>

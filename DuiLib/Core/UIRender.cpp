@@ -1425,21 +1425,11 @@ namespace DuiLib {
 	}
 
 	// 绘制及填充圆角矩形
-	void DrawRoundRectange(HDC hDC, float x, float y, float nWidth, float nHeight, float arcSize, Gdiplus::Color lineColor, float lineWidth, bool fillPath, Gdiplus::Color fillColor)
+	void DrawRoundRectangle(HDC hDC, float x, float y, float width, float height, float arcSize, float lineWidth, Gdiplus::Color lineColor, bool fillPath, Gdiplus::Color fillColor)
 	{
-		// 小矩形的半宽（hew）和半高（heh）
-		float hew = arcSize/2;
-		float heh = arcSize/2;
-
-		// 圆角修正
-		if(fabs(hew-heh)>10)
-		{
-			hew = heh = hew>heh ? heh : hew;
-		}
-
+		float arcDiameter = arcSize * 2;
 		// 创建GDI+对象
 		Gdiplus::Graphics  g(hDC);
-
 		//设置画图时的滤波模式为消除锯齿现象
 		g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
 
@@ -1447,42 +1437,36 @@ namespace DuiLib {
 		Gdiplus::GraphicsPath roundRectPath;
 
 		// 保存绘图路径
-		roundRectPath.AddLine(x+hew, y, x+nWidth-hew, y);  // 顶部横线
-		roundRectPath.AddArc(x+nWidth-2*hew, y, 2*hew, 2*heh, 270, 90); // 右上圆角
+		roundRectPath.AddLine(x + arcSize, y, x + width - arcSize, y);  // 顶部横线
+		roundRectPath.AddArc(x + width - arcDiameter, y, arcDiameter, arcDiameter, 270, 90); // 右上圆角
 
-		roundRectPath.AddLine(x+nWidth, y+heh, x+nWidth, y+nHeight-heh);  // 右侧竖线
-		roundRectPath.AddArc(x+nWidth-2*hew, y+nHeight-2*heh, 2*hew, 2*heh, 0, 90); // 右下圆角
+		roundRectPath.AddLine(x + width, y + arcSize, x + width, y + height - arcSize);  // 右侧竖线
+		roundRectPath.AddArc(x + width - arcDiameter, y + height - arcDiameter, arcDiameter, arcDiameter, 0, 90); // 右下圆角
 
-		roundRectPath.AddLine(x+nWidth-hew, y+nHeight, x+hew, y+nHeight);  // 底部横线
-		roundRectPath.AddArc(x, y+nHeight-2*heh, 2*hew, 2*heh, 90, 90); // 左下圆角
+		roundRectPath.AddLine(x + width - arcSize, y + height, x + arcSize, y + height);  // 底部横线
+		roundRectPath.AddArc(x, y + height - arcDiameter, arcDiameter, arcDiameter, 90, 90); // 左下圆角
 
-		roundRectPath.AddLine(x, y+nHeight-heh, x, y+heh);  // 左侧竖线
-		roundRectPath.AddArc(x, y, 2*hew, 2*heh, 180, 90); // 左上圆角
+		roundRectPath.AddLine(x, y + height - arcSize, x, y + arcSize);  // 左侧竖线
+		roundRectPath.AddArc(x, y, arcDiameter, arcDiameter, 180, 90); // 左上圆角
 
 		//创建画笔
 		Gdiplus::Pen pen(lineColor, lineWidth);
-		g.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
 		// 绘制矩形
 		g.DrawPath(&pen, &roundRectPath);
 
 		// 是否填充
-		if(!fillPath)
-		{
-			return;
-		}
-		else if(fillColor.GetAlpha() == 0)
-		{
-			fillColor = lineColor; // 若未指定填充色，则用线条色填充
-		}
+		if(fillPath) {
+			if(fillColor.GetAlpha() == 0) {
+				fillColor = lineColor; // 若未指定填充色，则用线条色填充
+			}
 
-		// 创建画刷
-		Gdiplus::SolidBrush brush(fillColor);
+			// 创建画刷
+			Gdiplus::SolidBrush brush(fillColor);
 
-		// 填充
-		g.FillPath(&brush, &roundRectPath);
+			// 填充
+			g.FillPath(&brush, &roundRectPath);
+		}
 	}
-
-
 	void CRenderEngine::DrawRoundRect(HDC hDC, const RECT& rc, int nSize, int width, int height, DWORD dwPenColor,int nStyle /*= PS_SOLID*/)
 	{
 #ifdef USE_GDI_RENDER
@@ -1494,7 +1478,7 @@ namespace DuiLib {
 		::SelectObject(hDC, hOldPen);
 		::DeleteObject(hPen);
 #else
-		DrawRoundRectange(hDC, rc.left, rc.top, rc.right - rc.left - 1, rc.bottom - rc.top - 1, width, Gdiplus::Color(dwPenColor), nSize, false, Gdiplus::Color(dwPenColor));
+		DrawRoundRectangle(hDC, rc.left, rc.top, rc.right - rc.left - 1, rc.bottom - rc.top - 1, width / 2, nSize, Gdiplus::Color(dwPenColor), false, Gdiplus::Color(dwPenColor));
 #endif
 	}
 

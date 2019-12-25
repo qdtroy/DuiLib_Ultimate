@@ -82,7 +82,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="..\..\bin\skin\HiDPITest\Main_dlg.xml" />
+    <None Include="..\..\bin\skin\HiDPITest\Main_dlg.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="HiDPITest.ico" />
     <None Include="ReadMe.txt" />
     <None Include="small.ico" />

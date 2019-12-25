@@ -1,0 +1,1 @@
+  duilib_ultimate是基于duilib分支维护，遵循MIT协议，可以任意修改和免费使用（包括商业项目）。如果你的软件使用了duilib_ultimate，请在软件关于或者帮助文档中注明“使用了duilib_ultimate开源UI库”。

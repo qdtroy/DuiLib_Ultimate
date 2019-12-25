@@ -8,10 +8,10 @@
 
   <VerticalLayout name="background" width="840" height="320"  bkcolor="#FFffffff" bordercolor="#ff00ffff" >
     <VerticalLayout >
-      <HorizontalLayout height="31" bkcolor="#FF252A2F" >
+      <HorizontalLayout height="31" bkcolor="#FF333333" >
         <HorizontalLayout>
           <Control width="24" height="26" bkimage="file='title_icon.png' source='0,0,21,21' dest='3,4,24,25' " />
-          <Text text="HiDPI Test" pos="25, 6, 100, 24" float="true" textcolor="#ff5a5e68" font="1" />
+          <Text text="高分屏适配" pos="25, 6, 100, 24" float="true" textcolor="#ff5a5e68" font="1" />
         </HorizontalLayout>
         <HorizontalLayout width="148" >
           <Control></Control>

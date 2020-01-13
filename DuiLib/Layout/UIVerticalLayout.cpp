@@ -102,7 +102,18 @@ namespace DuiLib
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) {
 			iPosY -= m_pVerticalScrollBar->GetScrollPos();
 		}
-
+		else {
+			// 子控件垂直对其方式
+			if(nAdjustables <= 0) {
+				UINT iChildAlign = GetChildVAlign(); 
+				if (iChildAlign == DT_VCENTER) {
+					iPosY += (szAvailable.cy -cyFixed) / 2;
+				}
+				else if (iChildAlign == DT_BOTTOM) {
+					iPosY += (szAvailable.cy - cyFixed);
+				}
+			}
+		}
 		int iEstimate = 0;
 		int iAdjustable = 0;
 		int cyFixedRemaining = cyFixed;

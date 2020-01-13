@@ -91,7 +91,6 @@ namespace DuiLib
 			nEstimateNum++;
 		}
 		cxFixed += (nEstimateNum - 1) * m_iChildPadding;
-
 		// Place elements
 		int cxNeeded = 0;
 		int cxExpand = 0;
@@ -99,8 +98,22 @@ namespace DuiLib
 		// Position the elements
 		SIZE szRemaining = szAvailable;
 		int iPosX = rc.left;
+		
+		// 滚动条
 		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) {
 			iPosX -= m_pHorizontalScrollBar->GetScrollPos();
+		}
+		else {
+			// 子控件横向对其方式
+			if(nAdjustables <= 0) {
+				UINT iChildAlign = GetChildAlign(); 
+				if (iChildAlign == DT_CENTER) {
+					iPosX += (szAvailable.cx -cxFixed) / 2;
+				}
+				else if (iChildAlign == DT_RIGHT) {
+					iPosX += (szAvailable.cx - cxFixed);
+				}
+			}
 		}
 		int iEstimate = 0;
 		int iAdjustable = 0;

@@ -104,12 +104,11 @@
           <Label height="1" bkimage="common/hor_line.png"/>
           <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="输入控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
-            <HorizontalLayout height="28" childvalign="vcenter" childpadding="12" hscrollbar="true" inset="5,5,5,5" bordersize="1" bordercolor="#ffff0000" borderround="28,28">
-              <!--<Edit name="edit1" tipvalue="普通" style="edit_style" nativebkcolor="#00000000"/>
+            <HorizontalLayout childvalign="vcenter" childpadding="12" hscrollbar="true" inset="5,5,5,5" bordersize="0" bordercolor="#ffff0000" borderround="28,28">
+              <Edit name="edit1" tipvalue="普通" style="edit_style" nativebkcolor="#00000000"/>
               <Edit name="edit2" tipvalue="只读" text="只读控件" style="edit_style" align="center" readonly="true"/>
               <Edit name="edit3" tipvalue="数字" style="edit_style" numberonly="true"/>
-              <Edit name="edit4" tipvalue="密码" style="edit_style" password="true" passwordchar="●"/>-->
-
+              <Edit name="edit4" tipvalue="密码" style="edit_style" password="true" passwordchar="●"/>
             </HorizontalLayout>
           </HorizontalLayout>
           <Label height="1" bkimage="common/hor_line.png"/>

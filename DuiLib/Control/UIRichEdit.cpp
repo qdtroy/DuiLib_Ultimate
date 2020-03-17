@@ -1120,6 +1120,19 @@ err:
 		return UIFLAG_SETCURSOR | UIFLAG_TABSTOP;
 	}
 
+	void CRichEditUI::SetEnabled(bool bEnabled)
+	{
+		CContainerUI::SetEnabled(bEnabled);
+		if(m_pTwh) {
+			if(IsEnabled()) {
+				m_pTwh->SetColor(GetTextColor());
+			}
+			else {
+				m_pTwh->SetColor (m_pManager->GetDefaultDisabledColor());
+			}
+		}
+	}
+
 	bool CRichEditUI::IsMultiLine()
 	{
 		return (m_lTwhStyle & ES_MULTILINE) == ES_MULTILINE;

@@ -55,8 +55,11 @@ namespace DuiLib {
 	{
 		struct Imp;
 	public:
-		CUIAnimation(CControlUI* pOwner);
+		CUIAnimation();
 		~CUIAnimation();
+
+	public:
+		void Attach(CControlUI* pOwner);
 
 		virtual BOOL StartAnimation(int nElapse, int nTotalFrame, int nAnimationID = 0, BOOL bLoop = FALSE);
 		virtual void StopAnimation(int nAnimationID = 0);

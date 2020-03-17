@@ -4,8 +4,9 @@
 namespace DuiLib {
 	IMPLEMENT_DUICONTROL(CFadeButtonUI)
 
-	CFadeButtonUI::CFadeButtonUI() : CUIAnimation( &(*this) ), m_bMouseHove( FALSE ), m_bMouseLeave( FALSE )
+	CFadeButtonUI::CFadeButtonUI(): m_bMouseHove( FALSE ), m_bMouseLeave( FALSE )
 	{
+		Attach(this);
 	}
 
 	CFadeButtonUI::~CFadeButtonUI()
@@ -33,25 +34,27 @@ namespace DuiLib {
 
 	void CFadeButtonUI::DoEvent(TEventUI& event)
 	{
-		if( event.Type == UIEVENT_MOUSEENTER && !IsAnimationRunning( FADE_IN_ID ) )
-		{
-			m_bFadeAlpha = 0;
-			m_bMouseHove = TRUE;
-			StopAnimation( FADE_OUT_ID );
-			StartAnimation( FADE_ELLAPSE, FADE_FRAME_COUNT, FADE_IN_ID );
-			Invalidate();
-			return;
+		if(IsEnabled()) {
+			if( event.Type == UIEVENT_MOUSEENTER && !IsAnimationRunning( FADE_IN_ID ) )
+			{
+				m_bFadeAlpha = 0;
+				m_bMouseHove = TRUE;
+				StopAnimation( FADE_OUT_ID );
+				StartAnimation( FADE_ELLAPSE, FADE_FRAME_COUNT, FADE_IN_ID );
+				Invalidate();
+				return;
+			}
+			else if( event.Type == UIEVENT_MOUSELEAVE && !IsAnimationRunning( FADE_OUT_ID ) )
+			{
+				m_bFadeAlpha = 0;
+				m_bMouseLeave = TRUE;
+				StopAnimation(FADE_IN_ID);
+				StartAnimation(FADE_ELLAPSE, FADE_FRAME_COUNT, FADE_OUT_ID);
+				Invalidate();
+				return;
+			}
 		}
-		else if( event.Type == UIEVENT_MOUSELEAVE && !IsAnimationRunning( FADE_OUT_ID ) )
-		{
-			m_bFadeAlpha = 0;
-			m_bMouseLeave = TRUE;
-			StopAnimation(FADE_IN_ID);
-			StartAnimation(FADE_ELLAPSE, FADE_FRAME_COUNT, FADE_OUT_ID);
-			Invalidate();
-			return;
-		}
-		else if( event.Type == UIEVENT_TIMER ) 
+		if( event.Type == UIEVENT_TIMER ) 
 		{
 			OnTimer(  event.wParam );
 		}
@@ -88,7 +91,6 @@ namespace DuiLib {
 				else return;
 			}
 		}
-
 		if( !m_sNormalImage.IsEmpty() ) {
 			if( IsAnimationRunning(FADE_IN_ID) || IsAnimationRunning(FADE_OUT_ID)) {
 				if( m_bMouseHove ) {

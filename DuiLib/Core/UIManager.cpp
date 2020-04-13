@@ -239,6 +239,7 @@ namespace DuiLib {
 		m_bShowUpdateRect(false),
 		m_bUseGdiplusText(false),
 		m_trh(0),
+		m_bDragDrop(false),
 		m_bDragMode(false),
 		m_hDragBitmap(NULL),
 		m_pDPI(NULL),
@@ -368,9 +369,6 @@ namespace DuiLib {
 			m_hDcPaint = ::GetDC(hWnd);
 			m_aPreMessages.Add(this);
 		}
-
-		SetTargetWnd(hWnd);
-		InitDragDrop();
 	}
 
 	void CPaintManagerUI::DeletePtr(void* ptr)
@@ -1553,7 +1551,7 @@ namespace DuiLib {
 				if( pControl->GetManager() != this ) break;
 
 				// 准备拖拽
-				if(pControl->IsDragEnabled()) {
+				if(m_bDragDrop && pControl->IsDragEnabled()) {
 					m_bDragMode = true;
 					if( m_hDragBitmap != NULL ) {
 						::DeleteObject(m_hDragBitmap);
@@ -2034,7 +2032,6 @@ namespace DuiLib {
 		// 销毁资源管理器
 		CResourceManager::GetInstance()->Release();
 		CControlFactory::GetInstance()->Release();
-		//CMenuWnd::DestroyMenu();
 
 		// 清理共享资源
 		// 图片
@@ -3977,34 +3974,45 @@ namespace DuiLib {
 		return GetImageEx(sImageName, sImageResType, dwMask);
 	}
 
-	bool CPaintManagerUI::InitDragDrop()
+	bool CPaintManagerUI::EnableDragDrop(bool bEnable)
 	{
-		AddRef();
+		if(m_bDragDrop == bEanble) return false;
+		m_bDragDrop = bEnable;
 
-		if(FAILED(RegisterDragDrop(m_hWndPaint, this))) //calls addref
-		{
-			DWORD dwError = GetLastError();
-			return false;
+		if(bEnable) {
+			AddRef();
+
+			if(FAILED(RegisterDragDrop(m_hWndPaint, this))) {
+				return false;
+			}
+
+			SetTargetWnd(hWnd);
+
+			FORMATETC ftetc={0};
+			ftetc.cfFormat = CF_BITMAP;
+			ftetc.dwAspect = DVASPECT_CONTENT;
+			ftetc.lindex = -1;
+			ftetc.tymed = TYMED_GDI;
+			AddSuportedFormat(ftetc);
+			ftetc.cfFormat = CF_DIB;
+			ftetc.tymed = TYMED_HGLOBAL;
+			AddSuportedFormat(ftetc);
+			ftetc.cfFormat = CF_HDROP;
+			ftetc.tymed = TYMED_HGLOBAL;
+			AddSuportedFormat(ftetc);
+			ftetc.cfFormat = CF_ENHMETAFILE;
+			ftetc.tymed = TYMED_ENHMF;
+			AddSuportedFormat(ftetc);
 		}
-		else Release(); //i decided to AddRef explicitly after new
-
-		FORMATETC ftetc={0};
-		ftetc.cfFormat = CF_BITMAP;
-		ftetc.dwAspect = DVASPECT_CONTENT;
-		ftetc.lindex = -1;
-		ftetc.tymed = TYMED_GDI;
-		AddSuportedFormat(ftetc);
-		ftetc.cfFormat = CF_DIB;
-		ftetc.tymed = TYMED_HGLOBAL;
-		AddSuportedFormat(ftetc);
-		ftetc.cfFormat = CF_HDROP;
-		ftetc.tymed = TYMED_HGLOBAL;
-		AddSuportedFormat(ftetc);
-		ftetc.cfFormat = CF_ENHMETAFILE;
-		ftetc.tymed = TYMED_ENHMF;
-		AddSuportedFormat(ftetc);
+		else{
+			Release();
+			if(FAILED(RevokeDragDrop(m_hWndPaint))) {
+				return false;
+			}
+		}
 		return true;
 	}
+
 	static WORD DIBNumColors(void* pv) 
 	{     
 		int bits;     
@@ -4152,7 +4160,6 @@ namespace DuiLib {
 							DeleteObject(hBmp);
 					}
 				}
-				//DragFinish(hDrop); // base class calls ReleaseStgMedium
 			}
 			GlobalUnlock(medium.hGlobal);
 		}

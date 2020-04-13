@@ -426,27 +426,22 @@ namespace DuiLib {
 	//////////////////////////////////////////////////////////////////////
 	// CIDropTarget Class
 	//////////////////////////////////////////////////////////////////////
-	CIDropTarget::CIDropTarget(HWND hTargetWnd): 
-	m_hTargetWnd(hTargetWnd),
-		m_cRefCount(0), m_bAllowDrop(false),
-		m_pDropTargetHelper(NULL), m_pSupportedFrmt(NULL)
+	CIDropTarget::CIDropTarget() : m_hTargetWnd(NULL), m_cRefCount(0), m_bAllowDrop(false), m_pDropTargetHelper(NULL), m_pSupportedFrmt(NULL)
 	{
-		if(FAILED(CoCreateInstance(CLSID_DragDropHelper,NULL,CLSCTX_INPROC_SERVER,
-			IID_IDropTargetHelper,(LPVOID*)&m_pDropTargetHelper)))
+		if(FAILED(CoCreateInstance(CLSID_DragDropHelper,NULL,CLSCTX_INPROC_SERVER, IID_IDropTargetHelper,(LPVOID*)&m_pDropTargetHelper))) {
 			m_pDropTargetHelper = NULL;
+		}
 	}
 
 	CIDropTarget::~CIDropTarget()
 	{
-		if(m_pDropTargetHelper != NULL)
-		{
+		if(m_pDropTargetHelper != NULL) {
 			m_pDropTargetHelper->Release();
 			m_pDropTargetHelper = NULL;
 		}
 	}
 
-	HRESULT STDMETHODCALLTYPE CIDropTarget::QueryInterface( /* [in] */ REFIID riid,
-		/* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject)
+	HRESULT STDMETHODCALLTYPE CIDropTarget::QueryInterface( /* [in] */ REFIID riid, /* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject)
 	{
 		*ppvObject = NULL;
 		if (IID_IUnknown==riid || IID_IDropTarget==riid)
@@ -463,12 +458,7 @@ namespace DuiLib {
 	ULONG STDMETHODCALLTYPE CIDropTarget::Release( void)
 	{
 		ATLTRACE("CIDropTarget::Release\n");
-		long nTemp;
-		nTemp = --m_cRefCount;
-		ATLASSERT(nTemp >= 0);
-		if(nTemp==0)
-			delete this;
-		return nTemp;
+		return --m_cRefCount;
 	}
 
 	bool CIDropTarget::QueryDrop(DWORD grfKeyState, LPDWORD pdwEffect)
@@ -485,9 +475,7 @@ namespace DuiLib {
 		//CTRL        -- DROPEFFECT_COPY
 		//SHIFT       -- DROPEFFECT_MOVE
 		//no modifier -- DROPEFFECT_MOVE or whatever is allowed by src
-		*pdwEffect = (grfKeyState & MK_CONTROL) ?
-			( (grfKeyState & MK_SHIFT) ? DROPEFFECT_LINK : DROPEFFECT_COPY ):
-			( (grfKeyState & MK_SHIFT) ? DROPEFFECT_MOVE : 0 );
+		*pdwEffect = (grfKeyState & MK_CONTROL) ? ((grfKeyState & MK_SHIFT) ? DROPEFFECT_LINK : DROPEFFECT_COPY): ((grfKeyState & MK_SHIFT) ? DROPEFFECT_MOVE : 0);
 		if(*pdwEffect == 0) 
 		{
 			// No modifier keys used by user while dragging. 
@@ -520,23 +508,15 @@ namespace DuiLib {
 		/* [out][in] */ DWORD __RPC_FAR *pdwEffect)
 	{
 		ATLTRACE("CIDropTarget::DragEnter\n");
-		if(pDataObj == NULL)
-			return E_INVALIDARG;
+		if(pDataObj == NULL) return E_INVALIDARG;
 
-		if(m_pDropTargetHelper)
+		if(m_pDropTargetHelper) {
 			m_pDropTargetHelper->DragEnter(m_hTargetWnd, pDataObj, (LPPOINT)&pt, *pdwEffect);
-		//IEnumFORMATETC* pEnum;
-		//pDataObj->EnumFormatEtc(DATADIR_GET,&pEnum);
-		//FORMATETC ftm;
-		//for()
-		//pEnum->Next(1,&ftm,0);
-		//pEnum->Release();
+		}
 		m_pSupportedFrmt = NULL;
-		for(int i =0; i<m_formatetc.size(); ++i)
-		{
-			m_bAllowDrop = (pDataObj->QueryGetData(&m_formatetc[i]) == S_OK)?true:false;
-			if(m_bAllowDrop)
-			{
+		for(int i =0; i<m_formatetc.size(); ++i) {
+			m_bAllowDrop = pDataObj->QueryGetData(&m_formatetc[i]) == S_OK;
+			if(m_bAllowDrop) {
 				m_pSupportedFrmt = &m_formatetc[i];
 				break;
 			}
@@ -576,19 +556,14 @@ namespace DuiLib {
 		/* [out][in] */ DWORD __RPC_FAR *pdwEffect)
 	{
 		ATLTRACE("CIDropTarget::Drop\n");
-		if (pDataObj == NULL)
-			return E_INVALIDARG;	
+		if (pDataObj == NULL) return E_INVALIDARG;	
 
-		if(m_pDropTargetHelper)
-			m_pDropTargetHelper->Drop(pDataObj, (LPPOINT)&pt, *pdwEffect);
+		if(m_pDropTargetHelper) m_pDropTargetHelper->Drop(pDataObj, (LPPOINT)&pt, *pdwEffect);
 
-		if(QueryDrop(grfKeyState, pdwEffect))
-		{
-			if(m_bAllowDrop && m_pSupportedFrmt != NULL)
-			{
+		if(QueryDrop(grfKeyState, pdwEffect)) {
+			if(m_bAllowDrop && m_pSupportedFrmt != NULL) {
 				STGMEDIUM medium;
-				if(pDataObj->GetData(m_pSupportedFrmt, &medium) == S_OK)
-				{
+				if(pDataObj->GetData(m_pSupportedFrmt, &medium) == S_OK) {
 					if(OnDrop(m_pSupportedFrmt, medium, pdwEffect)) //does derive class wants us to free medium?
 						ReleaseStgMedium(&medium);
 				}
@@ -599,8 +574,4 @@ namespace DuiLib {
 		m_pSupportedFrmt = NULL;
 		return S_OK;
 	}
-
-	//////////////////////////////////////////////////////////////////////
-	// CIDragSourceHelper Class
-	//////////////////////////////////////////////////////////////////////
 }

@@ -93,6 +93,7 @@ namespace DuiLib
 		DWORD dwTextColor = IsEnabled() ? m_dwTextColor : m_dwDisabledTextColor;
 		CDuiString sText = GetText();
 		if( sText.IsEmpty() ) return;
+
 		RECT rcTextPadding = GetTextPadding();
 		CDuiRect  rcClient;
 		rcClient = m_rcItem;
@@ -111,31 +112,28 @@ namespace DuiLib
 				rcClient.Offset((m_nRollDirection == ROLLTEXT_LEFT?rcClient.GetWidth():-rcClient.GetWidth()), 0);
 				rcClient.Offset((m_nRollDirection == ROLLTEXT_LEFT?-m_nScrollPos:m_nScrollPos), 0);
 				rcClient.right += (m_nText_W_H - rcClient.GetWidth());
-			} else {																		//上下移动
+			}
+			else {																		//上下移动
 				nScrollRange = m_nText_W_H + rcClient.GetHeight();
-
 				rcClient.Offset(0, (m_nRollDirection == ROLLTEXT_UP?rcClient.GetHeight():-rcClient.GetHeight()));
 				rcClient.Offset(0, (m_nRollDirection == ROLLTEXT_UP?-m_nScrollPos:m_nScrollPos));
 				rcClient.bottom += (m_nText_W_H - rcClient.GetHeight());
 			}
 
 			m_nScrollPos += m_nStep;
-			if (m_nScrollPos > nScrollRange)
-			{
+			if (m_nScrollPos > nScrollRange) {
 				m_nScrollPos = 0;
 			}
 		}
 
 		RECT rc = rcClient;
-
 		UINT uTextStyle = DT_WORDBREAK | DT_EDITCONTROL;
-
-		if(m_nText_W_H == 0)
-		{
+		if(m_nText_W_H == 0) {
 			uTextStyle |= DT_CALCRECT;				//第一次计算文本宽度或高度
 			if (m_nRollDirection == ROLLTEXT_LEFT || m_nRollDirection == ROLLTEXT_RIGHT) {	//左面移动
 				rc.right += 10000;
-			} else {																		//上下移动
+			}
+			else {																		//上下移动
 				rc.bottom += 10000;
 			}
 		}
@@ -143,12 +141,12 @@ namespace DuiLib
 		if( m_bShowHtml ) {
 			int nLinks = 0;
 			CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, sText, dwTextColor, NULL, NULL, nLinks, m_iFont, uTextStyle);
-		} else {
+		}
+		else {
 			CRenderEngine::DrawText(hDC, m_pManager, rc, sText, dwTextColor, m_iFont, uTextStyle);
 		}
 
-		if(m_nText_W_H == 0)
-		{
+		if(m_nText_W_H == 0) {
 			m_nText_W_H = (m_nRollDirection == ROLLTEXT_LEFT || m_nRollDirection == ROLLTEXT_RIGHT)?(rc.right - rc.left):(rc.bottom - rc.top);		//计算文本宽度或高度
 		}
 	}

@@ -645,9 +645,9 @@ LRESULT CMainWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 	bHandled = FALSE;
 	return 0;
 }
-
-LRESULT CMainWnd::OnGetMinMaxInfo(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
-{
-	bHandled = FALSE;
-	return 0;
-}
+//
+//LRESULT CMainWnd::OnGetMinMaxInfo(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+//{
+//	bHandled = FALSE;
+//	return 0;
+//}

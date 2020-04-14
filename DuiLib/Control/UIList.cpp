@@ -448,7 +448,9 @@ namespace DuiLib {
 		}
 		int iLastSel = m_iCurSel;
 		m_iCurSel = iIndex;
-		m_aSelItems.Add((LPVOID)iIndex);
+		if(m_aSelItems.Find((LPVOID)iIndex) == -1) {
+			m_aSelItems.Add((LPVOID)iIndex);
+		}
 		EnsureVisible(iIndex);
 		if( bTakeFocus ) pControl->SetFocus();
 		if( m_pManager != NULL && iLastSel != m_iCurSel) {
@@ -472,7 +474,6 @@ namespace DuiLib {
 
 		m_iCurSel = iIndex;
 		m_aSelItems.Add((LPVOID)iIndex);
-		EnsureVisible(iIndex);
 		if( bTakeFocus ) pControl->SetFocus();
 		if( m_pManager != NULL ) {
 			m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMSELECT, iIndex);
@@ -525,6 +526,7 @@ namespace DuiLib {
 
 	void CListUI::SelectAllItems()
 	{
+		m_aSelItems.Empty();
 		for (int i = 0; i < GetCount(); ++i) {
 			CControlUI* pControl = GetItemAt(i);
 			if(pControl == NULL) continue;

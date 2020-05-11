@@ -965,6 +965,7 @@
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\bin\skin\duidemo\color.xml" />
     <None Include="..\..\bin\skin\duidemo\lan_cn.xml">
       <SubType>Designer</SubType>
     </None>

@@ -342,7 +342,18 @@ namespace DuiLib
 	{
 		return !mTreeNodes.IsEmpty();
 	}
-	
+
+
+	long CTreeNodeUI::GetTreeLevel()
+	{
+		long level = 0;
+		CTreeNodeUI* pParentNode = GetParentNode();
+		while(pParentNode != NULL) {
+			level++;
+			pParentNode = pParentNode->GetParentNode();
+		}
+		return level;
+	}
 	//************************************
 	// 函数名称: AddChildNode
 	// 返回类型: bool

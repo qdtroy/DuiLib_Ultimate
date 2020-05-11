@@ -175,7 +175,7 @@ void CMainWnd::InitWindow()
 	CControlUI* pParentItem = NULL;
 	CTreeNodeUI* pTreeItem = (CTreeNodeUI*)builder.Create(_T("treeitem.xml"), NULL, this, &m_pm, pParentItem);
 	if(pParentItem == NULL) pTreeView->Add(pTreeItem);
-
+	long level = pTreeItem->GetTreeLevel();
 	// Í¼±í¿Ø¼þ
 	CChartViewUI *pHistpgramView = static_cast<CChartViewUI*>(m_pm.FindControl(_T("ChartView_Histpgram")));
 	if (NULL != pHistpgramView)

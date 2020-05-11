@@ -194,8 +194,6 @@
 
         </VerticalLayout>
         <VerticalLayout name="rich_tab_panel" inset="2,2,2,2" vscrollbar="true">
-
-
           <Label height="1" bkimage="common/hor_line.png"/>
           <HorizontalLayout height="180" inset="0,6,0,6">
             <Label text="瓦片控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
@@ -265,9 +263,9 @@
         </VerticalLayout>
         
         <VerticalLayout name="ex_tab_panel" inset="2,2,2,2" vscrollbar="true">
-          <HorizontalLayout height="180">
+          <HorizontalLayout height="180" virtualwnd="mainpage" >
             <Label text="颜色控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
-            <ColorPalette name="Pallet" width="400" height="180" palletheight="160" barheight="14" thumbimage="common/cursor.png" />
+            <Include source="xml/color.xml" />
           </HorizontalLayout>
 
           <Label height="1" bkimage="common/hor_line.png"/>

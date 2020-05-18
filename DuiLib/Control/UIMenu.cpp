@@ -669,17 +669,6 @@ namespace DuiLib {
 		}
 		else
 		{
-			//CMenuElementUI::DrawItemBk(hDC, m_rcItem);
-			//DrawItemText(hDC, m_rcItem);
-			//DrawItemIcon(hDC, m_rcItem);
-			//DrawItemExpland(hDC, m_rcItem);
-			//for (int i = 0; i < GetCount(); ++i)
-			//{
-			//	if (GetItemAt(i)->GetInterface(_T("MenuElement")) == NULL) {
-			//		GetItemAt(i)->DoPaint(hDC, rcPaint);
-			//	}
-			//}
-
 			CRenderClip clip;
 			CRenderClip::GenerateClip(hDC, rcTemp, clip);
 			CMenuElementUI::DrawItemBk(hDC, m_rcItem);
@@ -755,27 +744,13 @@ namespace DuiLib {
 
 	void CMenuElementUI::DrawItemIcon(HDC hDC, const RECT& rcItem)
 	{
-		if (!m_strIcon.IsEmpty() && !(m_bCheckItem && !GetChecked()))
-		{
-			SIZE m_cxyFixed = CMenuElementUI::m_cxyFixed;
-			m_cxyFixed.cx = GetManager()->GetDPIObj()->Scale(m_cxyFixed.cx);
-			m_cxyFixed.cy = GetManager()->GetDPIObj()->Scale(m_cxyFixed.cy);
-
-			SIZE m_szIconSize = CMenuElementUI::m_szIconSize;
-			m_szIconSize.cx = GetManager()->GetDPIObj()->Scale(m_szIconSize.cx);
-			m_szIconSize.cy = GetManager()->GetDPIObj()->Scale(m_szIconSize.cy);
+		if (!m_strIcon.IsEmpty() && !(m_bCheckItem && !GetChecked())) {
 			TListInfoUI* pInfo = m_pOwner->GetListInfo();
-			RECT rcTextPadding = pInfo->rcTextPadding;
-			GetManager()->GetDPIObj()->Scale(&rcTextPadding);
-			int padding = (rcTextPadding.left - m_szIconSize.cx) / 2;
-			RECT rcDest =
-			{
-				padding,
-				(m_cxyFixed.cy - m_szIconSize.cy) / 2,
-				padding + m_szIconSize.cx,
-				(m_cxyFixed.cy - m_szIconSize.cy) / 2 + m_szIconSize.cy
+			int padding = (pInfo->rcTextPadding.left - m_szIconSize.cx) / 2;
+			RECT rcDest = {
+				padding, (m_cxyFixed.cy - m_szIconSize.cy) / 2, padding + m_szIconSize.cx, (m_cxyFixed.cy - m_szIconSize.cy) / 2 + m_szIconSize.cy
 			};
-			GetManager()->GetDPIObj()->ScaleBack(&rcDest);
+
 			CDuiString pStrImage;
 			pStrImage.Format(_T("dest='%d,%d,%d,%d'"), rcDest.left, rcDest.top, rcDest.right, rcDest.bottom);
 			DrawImage(hDC, m_strIcon, pStrImage);
@@ -791,23 +766,20 @@ namespace DuiLib {
 			if (strExplandIcon.IsEmpty()) {
 				return;
 			}
-			SIZE m_cxyFixed = CMenuElementUI::m_cxyFixed;
-			m_cxyFixed.cx = GetManager()->GetDPIObj()->Scale(m_cxyFixed.cx);
-			m_cxyFixed.cy = GetManager()->GetDPIObj()->Scale(m_cxyFixed.cy);
-			int padding = GetManager()->GetDPIObj()->Scale(ITEM_DEFAULT_EXPLAND_ICON_WIDTH) / 3;
+			
+			int padding = ITEM_DEFAULT_EXPLAND_ICON_WIDTH / 3;
 			const TDrawInfo* pDrawInfo = GetManager()->GetDrawInfo((LPCTSTR)strExplandIcon, NULL);
 			const TImageInfo *pImageInfo = GetManager()->GetImageEx(pDrawInfo->sImageName, NULL, 0);
 			if (!pImageInfo) {
 				return;
 			}
-			RECT rcDest =
-			{
+			RECT rcDest = {
 				m_cxyFixed.cx - pImageInfo->nX - padding,
 				(m_cxyFixed.cy - pImageInfo->nY) / 2,
 				m_cxyFixed.cx - pImageInfo->nX - padding + pImageInfo->nX,
 				(m_cxyFixed.cy - pImageInfo->nY) / 2 + pImageInfo->nY
 			};
-			GetManager()->GetDPIObj()->ScaleBack(&rcDest);
+
 			CDuiString pStrImage;
 			pStrImage.Format(_T("dest='%d,%d,%d,%d'"), rcDest.left, rcDest.top, rcDest.right, rcDest.bottom);
 			DrawImage(hDC, strExplandIcon, pStrImage);
@@ -852,9 +824,7 @@ namespace DuiLib {
 
 	SIZE CMenuElementUI::EstimateSize(SIZE szAvailable)
 	{
-		SIZE m_cxyFixed = CMenuElementUI::m_cxyFixed;
-		m_cxyFixed.cx = GetManager()->GetDPIObj()->Scale(m_cxyFixed.cx);
-		m_cxyFixed.cy = GetManager()->GetDPIObj()->Scale(m_cxyFixed.cy);
+		SIZE cxyFixed = GetFixedSize();
 		SIZE cXY = {0};
 		for( int it = 0; it < GetCount(); it++ ) {
 			CControlUI* pControl = static_cast<CControlUI*>(GetItemAt(it));
@@ -879,7 +849,7 @@ namespace DuiLib {
 			}
 			CDuiString sText = GetText();
 
-			RECT rcText = { 0, 0, MAX(szAvailable.cx, m_cxyFixed.cx), 9999 };
+			RECT rcText = { 0, 0, MAX(szAvailable.cx, cxyFixed.cx), 9999 };
 			RECT rcTextPadding = pInfo->rcTextPadding;
 			GetManager()->GetDPIObj()->Scale(&rcTextPadding);
 			rcText.left += rcTextPadding.left;
@@ -895,12 +865,12 @@ namespace DuiLib {
 			cXY.cy = rcText.bottom - rcText.top + rcTextPadding.top + rcTextPadding.bottom;
 		}
 
-		if( m_cxyFixed.cy != 0 ) cXY.cy = m_cxyFixed.cy;
-		if ( cXY.cx < m_cxyFixed.cx )
-			cXY.cx =  m_cxyFixed.cx;
+		if( cxyFixed.cy != 0 ) cXY.cy = cxyFixed.cy;
+		if ( cXY.cx < cxyFixed.cx )
+			cXY.cx =  cxyFixed.cx;
 
-		CMenuElementUI::m_cxyFixed.cy = MulDiv(cXY.cy, 100, GetManager()->GetDPIObj()->GetScale());
-		CMenuElementUI::m_cxyFixed.cx = MulDiv(cXY.cx, 100, GetManager()->GetDPIObj()->GetScale());
+		SetFixedWidth(GetManager()->GetDPIObj()->ScaleBack(cXY.cx));
+		SetFixedHeight(GetManager()->GetDPIObj()->ScaleBack(cXY.cy));
 		return cXY;
 	}
 

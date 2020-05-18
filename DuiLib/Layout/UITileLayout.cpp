@@ -22,6 +22,7 @@ namespace DuiLib
 
 	SIZE CTileLayoutUI::GetItemSize() const
 	{
+		if(m_pManager != NULL) return m_pManager->GetDPIObj()->Scale(m_szItem);
 		return m_szItem;
 	}
 
@@ -77,8 +78,9 @@ namespace DuiLib
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) rc.right -= m_pVerticalScrollBar->GetFixedWidth();
 		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) rc.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
 
+		SIZE szItem = GetItemSize();
 		// Position the elements
-		if( m_szItem.cx > 0 ) m_nColumns = (rc.right - rc.left) / m_szItem.cx;
+		if( szItem.cx > 0 ) m_nColumns = (rc.right - rc.left) / szItem.cx;
 		if( m_nColumns == 0 ) m_nColumns = 1;
 
 		int cyNeeded = 0;

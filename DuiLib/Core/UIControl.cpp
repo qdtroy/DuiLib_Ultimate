@@ -444,6 +444,11 @@ namespace DuiLib {
 		NeedParentUpdate();
 	}
 
+	SIZE CControlUI::GetFixedSize() const
+	{
+		if(m_pManager != NULL) return m_pManager->GetDPIObj()->Scale(m_cxyFixed);
+		return m_cxyFixed;
+	}
 	int CControlUI::GetFixedWidth() const
 	{
 		if (m_pManager != NULL) {

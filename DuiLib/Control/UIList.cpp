@@ -2320,16 +2320,7 @@ namespace DuiLib {
 			cXY.cy += pInfo->rcTextPadding.top + pInfo->rcTextPadding.bottom;
 		}
 
-		if( cXY.cx == 0 && m_pManager != NULL ) {
-			//RECT rcText = { 0, 0, 9999, cXY.cy };
-			//if( pInfo->bShowHtml ) {
-			//	int nLinks = 0;
-			//	CRenderEngine::DrawHtmlText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, 0, NULL, NULL, nLinks, pInfo->nFont, DT_SINGLELINE | DT_CALCRECT | pInfo->uTextStyle & ~DT_RIGHT & ~DT_CENTER);
-			//}
-			//else {
-			//	CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, 0, pInfo->nFont, DT_SINGLELINE | DT_CALCRECT | pInfo->uTextStyle & ~DT_RIGHT & ~DT_CENTER);
-			//}
-			//cXY.cx = rcText.right - rcText.left + pInfo->rcTextPadding.left + pInfo->rcTextPadding.right;        
+		if( cXY.cx == 0 && m_pManager != NULL ) {   
 			cXY.cx = szAvailable.cx;
 		}
 
@@ -2360,12 +2351,13 @@ namespace DuiLib {
 		if( !IsEnabled() ) {
 			iTextColor = pInfo->dwDisabledTextColor;
 		}
+		RECT rcTextPadding = GetManager()->GetDPIObj()->Scale(pInfo->rcTextPadding);
 		int nLinks = 0;
 		RECT rcText = rcItem;
-		rcText.left += pInfo->rcTextPadding.left;
-		rcText.right -= pInfo->rcTextPadding.right;
-		rcText.top += pInfo->rcTextPadding.top;
-		rcText.bottom -= pInfo->rcTextPadding.bottom;
+		rcText.left += rcTextPadding.left;
+		rcText.right -= rcTextPadding.right;
+		rcText.top += rcTextPadding.top;
+		rcText.bottom -= rcTextPadding.bottom;
 
 		if( pInfo->bShowHtml )
 			CRenderEngine::DrawHtmlText(hDC, m_pManager, rcText, sText, iTextColor, \

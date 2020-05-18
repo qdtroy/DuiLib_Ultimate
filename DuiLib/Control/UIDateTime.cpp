@@ -46,9 +46,16 @@ namespace DuiLib
 			Create(m_pOwner->GetManager()->GetPaintWindow(), NULL, uStyle, 0, rcPos);
 			SetWindowFont(m_hWnd, m_pOwner->GetManager()->GetFontInfo(m_pOwner->GetFont())->hFont, TRUE);
 		}
-
+		// 使用系统当前时间
 		if (m_pOwner->GetText().IsEmpty()) {
 			::GetLocalTime(&m_pOwner->m_sysTime);
+		}
+		// 显示格式
+		if(m_pOwner->IsShowTime()) {
+			::SendMessage(m_hWnd, DTM_SETFORMAT, 0, LPARAM(_T("yyyy-MM-dd HH:mm:ss")));
+		}
+		else {
+			::SendMessage(m_hWnd, DTM_SETFORMAT, 0, LPARAM(_T("yyyy-MM-dd")));
 		}
 		memcpy(&m_oldSysTime, &m_pOwner->m_sysTime, sizeof(SYSTEMTIME));
 		::SendMessage(m_hWnd, DTM_SETSYSTEMTIME, 0, (LPARAM)&m_pOwner->m_sysTime);
@@ -61,6 +68,11 @@ namespace DuiLib
 	RECT CDateTimeWnd::CalPos()
 	{
 		CDuiRect rcPos = m_pOwner->GetPos();
+		//CDuiRect rcPadding = m_pOwner->GetTextPadding();
+		//rcPos.left += rcPadding.left;
+		//rcPos.top += rcPadding.top;
+		//rcPos.right -= rcPadding.right;
+		//rcPos.bottom -= rcPadding.bottom;
 
 		CControlUI* pParent = m_pOwner;
 		RECT rcParent;
@@ -101,20 +113,14 @@ namespace DuiLib
 	{
 		LRESULT lRes = 0;
 		BOOL bHandled = TRUE;
-		if( uMsg == WM_CREATE ) {
-			//m_pOwner->GetManager()->AddNativeWindow(m_pOwner, m_hWnd);
-			bHandled = FALSE;
-		}
-		else if (uMsg == WM_KEYDOWN && wParam == VK_ESCAPE)
-		{
+		if (uMsg == WM_KEYDOWN && wParam == VK_ESCAPE) {
 			memcpy(&m_pOwner->m_sysTime, &m_oldSysTime, sizeof(SYSTEMTIME));
 			m_pOwner->m_nDTUpdateFlag = DT_UPDATE;
 			m_pOwner->UpdateText();
 			PostMessage(WM_CLOSE);
 			return lRes;
 		}
-		else if(uMsg == OCM_NOTIFY)
-		{
+		else if(uMsg == OCM_NOTIFY) {
 			NMHDR* pHeader=(NMHDR*)lParam;
 			if(pHeader != NULL && pHeader->hwndFrom == m_hWnd) {
 				if(pHeader->code == DTN_DATETIMECHANGE) {
@@ -125,7 +131,6 @@ namespace DuiLib
 				}
 				else if(pHeader->code == DTN_DROPDOWN) {
 					m_bDropOpen = true;
-
 				}
 				else if(pHeader->code == DTN_CLOSEUP) {
 					::SendMessage(m_hWnd, DTM_GETSYSTEMTIME, 0, (LPARAM)&m_pOwner->m_sysTime);
@@ -144,12 +149,6 @@ namespace DuiLib
 			}
 			bHandled = FALSE;
 		}
-		else if( uMsg == WM_PAINT) {
-			if (m_pOwner->GetManager()->IsLayered()) {
-				//m_pOwner->GetManager()->AddNativeWindow(m_pOwner, m_hWnd);
-			}
-			bHandled = FALSE;
-		}
 		else bHandled = FALSE;
 		if( !bHandled ) return CWindowWnd::HandleMessage(uMsg, wParam, lParam);
 		return lRes;
@@ -162,6 +161,7 @@ namespace DuiLib
 	{
 		::GetLocalTime(&m_sysTime);
 		m_bReadOnly = false;
+		m_bShowTime = true;
 		m_pWindow = NULL;
 		m_nDTUpdateFlag=DT_UPDATE;
 		UpdateText();
@@ -193,7 +193,7 @@ namespace DuiLib
 		m_nDTUpdateFlag = DT_NONE;
 	}
 
-	void CDateTimeUI::SetReadOnly(bool bReadOnly)
+	void CDateTimeUI::SetReadOny(bool bReadOnly)
 	{
 		m_bReadOnly = bReadOnly;
 		Invalidate();
@@ -204,6 +204,19 @@ namespace DuiLib
 		return m_bReadOnly;
 	}
 
+	void CDateTimeUI::SetShowTime(bool bShowTime)
+	{
+		if(bShowTime != m_bShowTime) {
+			m_bShowTime = bShowTime;
+			Invalidate();
+		}
+	}
+
+	bool CDateTimeUI::IsShowTime() const
+	{
+		return m_bShowTime;
+	}
+
 	void CDateTimeUI::UpdateText()
 	{
 		if (m_nDTUpdateFlag == DT_DELETE) {
@@ -211,7 +224,12 @@ namespace DuiLib
 		}
 		else if (m_nDTUpdateFlag == DT_UPDATE) {
 			CDuiString sText;
-			sText.SmallFormat(_T("%4d-%02d-%02d"), m_sysTime.wYear, m_sysTime.wMonth, m_sysTime.wDay, m_sysTime.wHour, m_sysTime.wMinute);
+			if(IsShowTime()) {
+				sText.SmallFormat(_T("%4d-%02d-%02d %02d:%02d:%02d"), m_sysTime.wYear, m_sysTime.wMonth, m_sysTime.wDay, m_sysTime.wHour, m_sysTime.wMinute, m_sysTime.wSecond);
+			}
+			else {
+				sText.SmallFormat(_T("%4d-%02d-%02d"), m_sysTime.wYear, m_sysTime.wMonth, m_sysTime.wDay);
+			}
 			SetText(sText);
 		}
 	}
@@ -224,11 +242,6 @@ namespace DuiLib
 			return;
 		}
 
-		if( event.Type == UIEVENT_SETCURSOR && IsEnabled() )
-		{
-			::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(IDC_IBEAM)));
-			return;
-		}
 		if( event.Type == UIEVENT_WINDOWSIZE )
 		{
 			if( m_pWindow != NULL ) m_pManager->SetFocusNeeded(this);
@@ -288,5 +301,22 @@ namespace DuiLib
 		}
 
 		CLabelUI::DoEvent(event);
+	}
+
+	void CDateTimeUI::SetPos(RECT rc, bool bNeedInvalidate)
+	{
+		CControlUI::SetPos(rc, bNeedInvalidate);
+		if( m_pWindow != NULL ) {
+			RECT rcPos = m_pWindow->CalPos();
+			::SetWindowPos(m_pWindow->GetHWND(), NULL, rcPos.left, rcPos.top, rcPos.right - rcPos.left, 
+				rcPos.bottom - rcPos.top, SWP_NOZORDER | SWP_NOACTIVATE);        
+		}
+	}
+
+	void CDateTimeUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
+	{
+		if(lstrcmpi(pstrName, _T("showtime")) == 0) SetShowTime(lstrcmpi(pstrValue, _T("true")) == 0);
+		else if(lstrcmpi(pstrName, _T("readonly")) == 0) SetReadOny(lstrcmpi(pstrValue, _T("true")) == 0);
+		else return CLabelUI::SetAttribute(pstrName, pstrValue);
 	}
 }

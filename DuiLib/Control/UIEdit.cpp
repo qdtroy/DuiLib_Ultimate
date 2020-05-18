@@ -386,20 +386,6 @@ namespace DuiLib
 				Invalidate();
 			}
 			return;
-
-			//if( !::PtInRect(&m_rcItem, event.ptMouse ) ) {
-   //             if( IsEnabled() ) {
-   //                 if( (m_uButtonState & UISTATE_HOT) != 0  ) {
-   //                     m_uButtonState &= ~UISTATE_HOT;
-   //                     Invalidate();
-   //                 }
-   //             }
-   //             if (m_pManager) m_pManager->RemoveMouseLeaveNeeded(this);
-   //         }
-   //         else {
-   //             if (m_pManager) m_pManager->AddMouseLeaveNeeded(this);
-   //             return;
-   //         }
 		}
 		CLabelUI::DoEvent(event);
 	}

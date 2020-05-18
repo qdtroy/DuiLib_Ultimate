@@ -175,7 +175,7 @@
               <IPAddress width="120" bordersize="1" bordercolor="#FF888888" textpadding="5"/>
               <IPAddressEx width="120" cursor="ibeam" bordersize="1" bordercolor="#FF888888" />
               <Label text="日期" autocalcwidth="true"/>
-              <DateTime width="120" bordersize="1" bordercolor="#FF888888" textpadding="3"/>
+              <DateTime width="180" bordersize="1" bordercolor="#FF888888" textpadding="3" />
               <Label text="系统热键" autocalcwidth="true"/>
               <HotKey width="100" bordersize="1" bordercolor="#FF888888"/>
             </HorizontalLayout>

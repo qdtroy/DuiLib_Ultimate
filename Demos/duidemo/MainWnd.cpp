@@ -328,6 +328,11 @@ void CMainWnd::Notify(TNotifyUI& msg)
 			::DestroyWindow(m_hWnd);
 		}
 	}
+	else if(msg.sType == DUI_MSGTYPE_ITEMCLICK) {
+		CListUI* pList = static_cast<CListUI*>(m_pm.FindControl(_T("listview")));
+		CListTextElementUI* pItem = (CListTextElementUI*)msg.pSender;
+		pItem->SetText(0, _T("1111222"));
+	}
 	else if( msg.sType == _T("showactivex") ) 
 	{
 		if( name.CompareNoCase(_T("ani_flash")) == 0 ) {

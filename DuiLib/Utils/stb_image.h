@@ -5324,7 +5324,7 @@ static void *stbi__bmp_load(stbi__context *s, int *x, int *y, int *comp, int req
          psize = (info.offset - info.extra_read - info.hsz) >> 2;
    }
    if (psize == 0) {
-      STBI_ASSERT(info.offset == (s->img_buffer - s->buffer_start));
+      STBI_ASSERT(info.offset == (s->img_buffer - s->img_buffer_original));
    }
 
    if (info.bpp == 24 && ma == 0xff000000)

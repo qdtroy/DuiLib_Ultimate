@@ -943,8 +943,8 @@ namespace DuiLib {
 			rcPos.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);    
 			SIZE szXY = {rcPos.left >= 0 ? rcPos.left : rcPos.right, rcPos.top >= 0 ? rcPos.top : rcPos.bottom};
 			SetFixedXY(szXY);
-			SetFixedWidth(rcPos.right - rcPos.left);
-			SetFixedHeight(rcPos.bottom - rcPos.top);
+			SetFixedWidth(abs(rcPos.right - rcPos.left));
+			SetFixedHeight(abs(rcPos.bottom - rcPos.top));
 		}
 		else if( _tcsicmp(pstrName, _T("float")) == 0 ) {
 			CDuiString nValue = pstrValue;

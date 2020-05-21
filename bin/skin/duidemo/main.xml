@@ -82,6 +82,7 @@
               <Button name="cmdbtn" text="命令按钮(&S)" textcolor="#FF000000" style="btn_style" shortcut="S" width="120"/>
               <Button text="Button按钮{\n}控件自动换行测试" width="60" height="50" align="left" wordbreak="true" endellipsis="true" textcolor="#FF000000" textpadding="6,0,6,0" style="colorbtn_style"/>
               <Button name="autobtn" text="自适应比例按钮" minw1idth="120" colorhsl="true" float="0.7,0.2,0.9,0.8" textcolor="#FF000000" bkcolor="#FFFF5555" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
+              <Button name="floatbtn" text="浮动按钮" colorhsl="true" float="true" pos="-20,0,-80,30" textcolor="#FF000000" bkcolor="#FFFF5555" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
 
               <Container width="64" height="64">
                 <Button name="autobtn" textcolor="#FF000000" bkimage="logo.jpg" bordercolor="#FFFF6666" bordersize="2" borderround="64,64"/>

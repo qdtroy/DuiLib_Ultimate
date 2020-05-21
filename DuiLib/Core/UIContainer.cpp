@@ -946,11 +946,13 @@ namespace DuiLib
 			TPercentInfo rcPercent = pControl->GetFloatPercent();
 			LONG width = m_rcItem.right - m_rcItem.left;
 			LONG height = m_rcItem.bottom - m_rcItem.top;
+			LONG left = szXY.cx < 0 ? m_rcItem.right : m_rcItem.left;
+			LONG top = szXY.cy < 0 ? m_rcItem.bottom : m_rcItem.top;
 			RECT rcCtrl = { 0 };
-			rcCtrl.left = (LONG)(width*rcPercent.left) + szXY.cx+ m_rcItem.left;
-			rcCtrl.top = (LONG)(height*rcPercent.top) + szXY.cy+ m_rcItem.top;
-			rcCtrl.right = (LONG)(width*rcPercent.right) + szXY.cx + sz.cx+ m_rcItem.left;
-			rcCtrl.bottom = (LONG)(height*rcPercent.bottom) + szXY.cy + sz.cy+ m_rcItem.top;
+			rcCtrl.left = (LONG)(width*rcPercent.left) + szXY.cx + left;
+			rcCtrl.top = (LONG)(height*rcPercent.top) + szXY.cy + top;
+			rcCtrl.right = (LONG)(width*rcPercent.right) + szXY.cx + sz.cx + left;
+			rcCtrl.bottom = (LONG)(height*rcPercent.bottom) + szXY.cy + sz.cy + top;
 			pControl->SetPos(rcCtrl, false);
 		}
 	}

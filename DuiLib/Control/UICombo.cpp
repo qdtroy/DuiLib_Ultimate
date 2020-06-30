@@ -277,6 +277,7 @@ namespace DuiLib {
 		, m_iCurSel(-1)
 		, m_uButtonState(0)
 		, m_bScrollSelect(true)
+		, m_bShowShadow(false)
 	{
 		m_szDropBox = CDuiSize(0, 150);
 		::ZeroMemory(&m_rcTextPadding, sizeof(m_rcTextPadding));

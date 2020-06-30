@@ -365,7 +365,7 @@ namespace DuiLib {
 				if( dwSize == 0 ) break;
 				pData = new BYTE[ dwSize ];
 				::CopyMemory(pData, (LPBYTE)::LockResource(hGlobal), dwSize);
-				::FreeResource(hResource);
+				::FreeResource(hGlobal);
 			}
 		} while (0);
 
@@ -545,7 +545,7 @@ namespace DuiLib {
 				if( dwSize == 0 ) break;
 				pData = new BYTE[ dwSize ];
 				::CopyMemory(pData, (LPBYTE)::LockResource(hGlobal), dwSize);
-				::FreeResource(hResource);
+				::FreeResource(hGlobal);
 			}
 		} while (0);
 

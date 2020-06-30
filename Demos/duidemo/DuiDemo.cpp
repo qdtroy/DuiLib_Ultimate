@@ -70,7 +70,7 @@ void InitResource()
 						CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
 					}
 				}
-				::FreeResource(hResource);
+				::FreeResource(hGlobal);
 			}
 		}
 		break;

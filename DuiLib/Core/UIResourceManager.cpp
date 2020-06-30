@@ -41,7 +41,7 @@ namespace DuiLib {
 			if( !m_xml.LoadFromMem((BYTE*)::LockResource(hGlobal), ::SizeofResource(CPaintManagerUI::GetResourceDll(), hResource) )) {
 				return NULL;
 			}
-			::FreeResource(hResource);
+			::FreeResource(hGlobal);
 		}
 
 		return LoadResource(m_xml.GetRoot());

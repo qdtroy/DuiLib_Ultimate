@@ -47,6 +47,7 @@ namespace DuiLib {
 	{
 	public:
 		virtual LPCTSTR GetItemText(CControlUI* pList, int iItem, int iSubItem) = 0;
+		virtual DWORD GetItemTextColor(CControlUI* pList, int iItem, int iSubItem, int iState) = 0;// iState：0-正常、1-激活、2-选择、3-禁用
 	};
 
 	class IListOwnerUI
@@ -447,6 +448,9 @@ namespace DuiLib {
 		LPCTSTR GetText(int iIndex) const;
 		void SetText(int iIndex, LPCTSTR pstrText);
 
+		DWORD GetTextColor(int iIndex) const;
+		void SetTextColor(int iIndex, DWORD dwTextColor);
+
 		void SetOwner(CControlUI* pOwner);
 		CDuiString* GetLinkContent(int iIndex);
 
@@ -463,6 +467,7 @@ namespace DuiLib {
 		int m_nHoverLink;
 		IListUI* m_pOwner;
 		CStdPtrArray m_aTexts;
+		CStdPtrArray m_aTextColors;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////

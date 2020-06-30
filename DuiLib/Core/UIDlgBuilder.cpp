@@ -47,7 +47,7 @@ namespace DuiLib {
 
 			m_pCallback = pCallback;
 			if( !m_xml.LoadFromMem((BYTE*)::LockResource(hGlobal), ::SizeofResource(dll_instence, hResource) )) return NULL;
-			::FreeResource(hResource);
+			::FreeResource(hGlobal);
 			m_pstrtype = type;
 		}
 

@@ -2432,6 +2432,27 @@ namespace DuiLib {
 		Invalidate();
 	}
 
+	DWORD CListTextElementUI::GetTextColor(int iIndex) const
+	{
+		TListInfoUI* pInfo = m_pOwner->GetListInfo();
+		if( iIndex < 0 || iIndex >= pInfo->nColumns || m_aTextColors.GetSize() <= 0 ) return pInfo->dwTextColor;
+
+		DWORD dwColor = (DWORD)m_aTextColors.GetAt(iIndex);
+		return dwColor;
+	}
+
+	void CListTextElementUI::SetTextColor(int iIndex, DWORD dwTextColor)
+	{
+		if( m_pOwner == NULL ) return;
+
+		TListInfoUI* pInfo = m_pOwner->GetListInfo();
+		if( iIndex < 0 || iIndex >= pInfo->nColumns ) return;
+		while( m_aTextColors.GetSize() < pInfo->nColumns ) { m_aTextColors.Add((LPVOID)pInfo->dwTextColor); }
+		m_aTextColors.SetAt(iIndex, (LPVOID)dwTextColor);
+
+		Invalidate();
+	}
+
 	void CListTextElementUI::SetOwner(CControlUI* pOwner)
 	{
 		CListElementUI::SetOwner(pOwner);
@@ -2509,20 +2530,9 @@ namespace DuiLib {
 	void CListTextElementUI::DrawItemText(HDC hDC, const RECT& rcItem)
 	{
 		if( m_pOwner == NULL ) return;
+
 		TListInfoUI* pInfo = m_pOwner->GetListInfo();
-		DWORD iTextColor = pInfo->dwTextColor;
-
-		if( (m_uButtonState & UISTATE_HOT) != 0 ) {
-			iTextColor = pInfo->dwHotTextColor;
-		}
-		if( IsSelected() ) {
-			iTextColor = pInfo->dwSelectedTextColor;
-		}
-		if( !IsEnabled() ) {
-			iTextColor = pInfo->dwDisabledTextColor;
-		}
 		IListCallbackUI* pCallback = m_pOwner->GetTextCallback();
-
 		m_nLinks = 0;
 		int nLinks = lengthof(m_rcLinks);
 		for( int i = 0; i < pInfo->nColumns; i++ )
@@ -2533,10 +2543,37 @@ namespace DuiLib {
 			rcItem.top += pInfo->rcTextPadding.top;
 			rcItem.bottom -= pInfo->rcTextPadding.bottom;
 
+			DWORD iTextColor = pInfo->dwTextColor;
 			CDuiString strText;
-			if( pCallback ) strText = pCallback->GetItemText(this, m_iIndex, i);
-			else strText.Assign(GetText(i));
+			if( pCallback ) {
+				strText = pCallback->GetItemText(this, m_iIndex, i);
+				int iState = 0;
+				if( (m_uButtonState & UISTATE_HOT) != 0 ) {
+					iState = 1;
+				}
+				if( IsSelected() ) {
+					iState = 2;
+				}
+				if( !IsEnabled() ) {
+					iState = 3;
+				}
+				iTextColor = pCallback->GetItemTextColor(this, m_iIndex, i, iState);
+			}
+			else {
+				strText.Assign(GetText(i));
 
+				iTextColor = GetTextColor(i);
+				if( (m_uButtonState & UISTATE_HOT) != 0 ) {
+					iTextColor = pInfo->dwHotTextColor;
+				}
+				if( IsSelected() ) {
+					iTextColor = pInfo->dwSelectedTextColor;
+				}
+				if( !IsEnabled() ) {
+					iTextColor = pInfo->dwDisabledTextColor;
+				}
+
+			}
 			if( pInfo->bShowHtml )
 				CRenderEngine::DrawHtmlText(hDC, m_pManager, rcItem, strText.GetData(), iTextColor, \
 				&m_rcLinks[m_nLinks], &m_sLinks[m_nLinks], nLinks, pInfo->nFont, pInfo->uTextStyle);

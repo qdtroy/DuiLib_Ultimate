@@ -148,12 +148,19 @@ namespace DuiLib {
 					else if( sItem == _T("hsl") ) {
 						bHSL = (_tcsicmp(sValue.GetData(), _T("true")) == 0);
 					}
-					else if( sItem == _T("iconsize") ) {
-						szIcon.cx = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);
-						szIcon.cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
+					else if( sItem == _T("size") ) {
+						szImage.cx = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);
+						szImage.cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
 					}
-					else if( sItem == _T("iconalign") ) {
-						sIconAlign = sValue;
+					else if( sItem == _T("align") ) {
+						sAlign = sValue;
+					}
+					else if( sItem == _T("padding") ) {
+						rcPadding.left = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
+						rcPadding.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
+						rcPadding.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
+						rcPadding.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);  
+						if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcPadding);
 					}
 				}
 				if( *pStrImage++ != _T(' ') ) break;
@@ -182,8 +189,10 @@ namespace DuiLib {
 		bTiledX = false;
 		bTiledY = false;
 		bHSL = false;
-		szIcon.cx = szIcon.cy = 0;
-		sIconAlign.Empty();
+
+		szImage.cx = szImage.cy = 0;
+		sAlign.Empty();
+		memset(&rcPadding, 0, sizeof(RECT));
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////

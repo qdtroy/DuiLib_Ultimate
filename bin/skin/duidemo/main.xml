@@ -78,7 +78,7 @@
             <Label text="按钮控件" textcolor="#FF000000" font="font13" width="80"/>
             <HorizontalLayout childvalign="vcenter" childpadding="12" bordersize="1,1,1,1" bordercolor="#0">
               <Button name="button1" text="普通按钮" textcolor="#FF000000" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true" />
-              <Button name="button2" text="图标按钮" textcolor="#FF000000" style="btn_style" height="40" width="90" textpadding="25,0,0,0" align="center" valign="left" foreimage="dest='6,12,22,28' res='other/icon.png'" />
+              <Button name="button2" text="图标按钮" textcolor="#FF000000" style="btn_style" height="40" width="90" textpadding="25,0,0,0" align="center" valign="left" foreimage="size='16,16' padding='6,12' align='left,top' res='other/icon.png'" />
               <Button name="cmdbtn" text="命令按钮(&S)" textcolor="#FF000000" style="btn_style" shortcut="S" width="120"/>
               <Button text="Button按钮{\n}控件自动换行测试" width="60" height="50" align="left" wordbreak="true" endellipsis="true" textcolor="#FF000000" textpadding="6,0,6,0" style="colorbtn_style"/>
               <Button name="autobtn" text="自适应比例按钮" minw1idth="120" colorhsl="true" float="0.7,0.2,0.9,0.8" textcolor="#FF000000" bkcolor="#FFFF5555" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>

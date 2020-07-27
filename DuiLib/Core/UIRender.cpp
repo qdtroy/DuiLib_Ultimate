@@ -729,55 +729,42 @@ namespace DuiLib {
 		}
 	}
 
-
-	bool CRenderEngine::DrawIconImageString(HDC hDC, CPaintManagerUI* pManager, const RECT& rc, const RECT& rcPaint, LPCTSTR pStrImage, LPCTSTR pStrModify)
+	bool CRenderEngine::MakeImageDest(const RECT& rcControl, const CDuiSize& szImage, const CDuiString& sAlign, const RECT& rcPadding, RECT& rcDest)
 	{
-		if ((pManager == NULL) || (hDC == NULL)) 
-			return false;
-
-		RECT rcDest = rc;
-		const TDrawInfo* pDrawInfo = pManager->GetDrawInfo(pStrImage, pStrModify);
-		if(!pDrawInfo->sIconAlign.IsEmpty()) {
-			MakeFitIconDest(rc, pDrawInfo->szIcon, pDrawInfo->sIconAlign, rcDest);
-		}
-		
-		bool bRet = DuiLib::DrawImage(hDC, pManager, rc, rcPaint, pDrawInfo->sImageName, pDrawInfo->sResType, rcDest, \
-			pDrawInfo->rcSource, pDrawInfo->rcCorner, pDrawInfo->dwMask, pDrawInfo->uFade, pDrawInfo->bHole, pDrawInfo->bTiledX, pDrawInfo->bTiledY);
-
-		return true;
-	}
-
-	bool CRenderEngine::MakeFitIconDest(const RECT& rcControl,const CDuiSize& szIcon, const CDuiString& sAlign, RECT& rcDest)
-	{
-		ASSERT(!sAlign.IsEmpty());
-		if(sAlign == _T("left"))
+		if(sAlign.Find(_T("left")) != -1)
 		{
 			rcDest.left = rcControl.left;  
+			rcDest.right = rcDest.left + szImage.cx;
+		}
+		else if(sAlign.Find(_T("center")) != -1)
+		{
+			rcDest.left = rcControl.left + ((rcControl.right - rcControl.left) - szImage.cx)/2;  
+			rcDest.right = rcDest.left + szImage.cx;
+		}
+		else if(sAlign.Find(_T("right")) != -1)
+		{
+			rcDest.left = rcControl.right - szImage.cx;  
+			rcDest.right = rcDest.left + szImage.cx;
+		}
+
+		if(sAlign.Find(_T("top")) != -1)
+		{
 			rcDest.top = rcControl.top;
-			rcDest.right = rcDest.left + szIcon.cx;
-			rcDest.bottom = rcDest.top + szIcon.cy;
+			rcDest.bottom = rcDest.top + szImage.cy;
 		}
-		else if( sAlign == _T("center") ) 
+		else if(sAlign.Find(_T("vcenter")) != -1)
 		{
-			rcDest.left = rcControl.left + ((rcControl.right - rcControl.left) - szIcon.cx)/2;  
-			rcDest.top = rcControl.top + ((rcControl.bottom - rcControl.top) - szIcon.cy)/2;
-			rcDest.right = rcDest.left + szIcon.cx;
-			rcDest.bottom = rcDest.top + szIcon.cy;
+			rcDest.top = rcControl.top + ((rcControl.bottom - rcControl.top) - szImage.cy)/2;
+			rcDest.bottom = rcDest.top + szImage.cy;
 		}
-		else if( sAlign == _T("vcenter") )
+		else if(sAlign.Find(_T("bottom")) != -1)
 		{
-			rcDest.left = rcControl.left;  
-			rcDest.top = rcControl.top + ((rcControl.bottom - rcControl.top) - szIcon.cy)/2;
-			rcDest.right = rcDest.left + szIcon.cx;
-			rcDest.bottom = rcDest.top + szIcon.cy;
+			rcDest.top = rcControl.bottom - szImage.cy;
+			rcDest.bottom = rcDest.top + rcDest.top;
 		}
-		else if( sAlign == _T("hcenter") )
-		{
-			rcDest.left = rcControl.left + ((rcControl.right - rcControl.left) - szIcon.cx)/2;  
-			rcDest.top = rcControl.top;
-			rcDest.right = rcDest.left + szIcon.cx;
-			rcDest.bottom = rcDest.top + szIcon.cy;
-		}
+
+		::OffsetRect(&rcDest, rcPadding.left, rcPadding.top);		
+		::OffsetRect(&rcDest, -rcPadding.right, -rcPadding.bottom);
 
 		if (rcDest.right > rcControl.right) 
 			rcDest.right = rcControl.right;
@@ -1274,6 +1261,7 @@ namespace DuiLib {
 	{
 		if( pManager == NULL || hDC == NULL || pDrawInfo == NULL ) return false;
 		RECT rcDest = rcItem;
+		// 计算绘制目标区域
 		if( pDrawInfo->rcDest.left != 0 || pDrawInfo->rcDest.top != 0 ||
 			pDrawInfo->rcDest.right != 0 || pDrawInfo->rcDest.bottom != 0 ) {
 				rcDest.left = rcItem.left + pDrawInfo->rcDest.left;
@@ -1283,6 +1271,11 @@ namespace DuiLib {
 				rcDest.bottom = rcItem.top + pDrawInfo->rcDest.bottom;
 				if( rcDest.bottom > rcItem.bottom ) rcDest.bottom = rcItem.bottom;
 		}
+		// 根据对齐方式计算目标区域
+		if(pDrawInfo->szImage.cx > 0 && pDrawInfo->szImage.cy > 0) {
+			MakeImageDest(rcItem, pDrawInfo->szImage, pDrawInfo->sAlign, pDrawInfo->rcPadding, rcDest);
+		}
+
 		bool bRet = DuiLib::DrawImage(hDC, pManager, rcItem, rcPaint, pDrawInfo->sImageName, pDrawInfo->sResType, rcDest, \
 			pDrawInfo->rcSource, pDrawInfo->rcCorner, pDrawInfo->dwMask, pDrawInfo->uFade, pDrawInfo->bHole, pDrawInfo->bTiledX, pDrawInfo->bTiledY, instance);
 

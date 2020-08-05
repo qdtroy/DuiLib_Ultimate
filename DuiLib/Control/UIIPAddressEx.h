@@ -20,7 +20,7 @@ namespace DuiLib
         void DoEvent(TEventUI& event);
         void PaintText(HDC hDC);
 
-        void SetIP(LPCWSTR lpIP);
+        void SetIP(LPCTSTR lpIP);
         CDuiString GetIP();
 
     private:

@@ -338,7 +338,7 @@ namespace DuiLib {
 		return m_iCurSel;
 	}
 
-	bool CComboUI::SelectItem(int iIndex, bool bTakeFocus)
+	bool CComboUI::SelectItem( int iIndex, bool bTakeFocus)
 	{
 		if( iIndex == m_iCurSel ) return true;
 		int iOldSel = m_iCurSel;

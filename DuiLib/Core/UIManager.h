@@ -12,7 +12,7 @@ namespace DuiLib {
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
-	enum UILIB_RESTYPE
+	enum  UILIB_RESTYPE
 	{
 		UILIB_FILE=1,		// 来自磁盘文件
 		UILIB_ZIP,			// 来自磁盘zip压缩包
@@ -22,7 +22,7 @@ namespace DuiLib {
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 
-	typedef enum EVENTTYPE_UI
+	enum EVENTTYPE_UI
 	{
 		UIEVENT__FIRST = 1,
 		UIEVENT__KEYBEGIN,
@@ -58,7 +58,7 @@ namespace DuiLib {
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 	// 内部保留的消息
-	typedef enum MSGTYPE_UI
+	enum MSGTYPE_UI
 	{
 		UIMSG_TRAYICON = WM_USER + 1,// 托盘消息
 		UIMSG_SET_DPI,				 // DPI
@@ -68,30 +68,30 @@ namespace DuiLib {
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
+	enum {
+		// Flags for CControlUI::GetControlFlags()
+		UIFLAG_TABSTOP		=	0x00000001,
+		UIFLAG_SETCURSOR  	=	0x00000002,
+		UIFLAG_WANTRETURN	=	0x00000004,
 
-	// Flags for CControlUI::GetControlFlags()
-#define UIFLAG_TABSTOP       0x00000001
-#define UIFLAG_SETCURSOR     0x00000002
-#define UIFLAG_WANTRETURN    0x00000004
+		// Flags for FindControl()
+		UIFIND_ALL          =	 0x00000000,
+		UIFIND_VISIBLE      =	 0x00000001,
+		UIFIND_ENABLED      =	 0x00000002,
+		UIFIND_HITTEST      =	 0x00000004,
+		UIFIND_UPDATETEST   =	 0x00000008,
+		UIFIND_TOP_FIRST    =	 0x00000010,
+		UIFIND_ME_FIRST     =	 0x80000000,
 
-	// Flags for FindControl()
-#define UIFIND_ALL           0x00000000
-#define UIFIND_VISIBLE       0x00000001
-#define UIFIND_ENABLED       0x00000002
-#define UIFIND_HITTEST       0x00000004
-#define UIFIND_UPDATETEST    0x00000008
-#define UIFIND_TOP_FIRST     0x00000010
-#define UIFIND_ME_FIRST      0x80000000
-
-	// Flags used for controlling the paint
-#define UISTATE_FOCUSED      0x00000001
-#define UISTATE_SELECTED     0x00000002
-#define UISTATE_DISABLED     0x00000004
-#define UISTATE_HOT          0x00000008
-#define UISTATE_PUSHED       0x00000010
-#define UISTATE_READONLY     0x00000020
-#define UISTATE_CAPTURED     0x00000040
-
+		// Flags used for controlling the paint
+		UISTATE_FOCUSED     =	 0x00000001,
+		UISTATE_SELECTED    =	 0x00000002,
+		UISTATE_DISABLED	=	 0x00000004,
+		UISTATE_HOT         =	 0x00000008,
+		UISTATE_PUSHED      =	 0x00000010,
+		UISTATE_READONLY    =	 0x00000020,
+		UISTATE_CAPTURED    =	 0x00000040,
+	};
 
 
 	/////////////////////////////////////////////////////////////////////////////////////

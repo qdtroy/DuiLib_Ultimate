@@ -89,12 +89,12 @@ namespace DuiLib
 		if( m_pOwner != NULL ) m_pOwner->NeedUpdate(); else NeedParentUpdate();
 	}
 
-	int CScrollBarUI::GetScrollRange() const
+	LONG CScrollBarUI::GetScrollRange() const
 	{
 		return m_nRange;
 	}
 
-	void CScrollBarUI::SetScrollRange(int nRange)
+	void CScrollBarUI::SetScrollRange(LONG nRange)
 	{
 		if( m_nRange == nRange ) return;
 
@@ -104,12 +104,12 @@ namespace DuiLib
 		SetPos(m_rcItem);
 	}
 
-	int CScrollBarUI::GetScrollPos() const
+	LONG CScrollBarUI::GetScrollPos() const
 	{
 		return m_nScrollPos;
 	}
 
-	void CScrollBarUI::SetScrollPos(int nPos)
+	void CScrollBarUI::SetScrollPos(LONG nPos)
 	{
 		if( m_nScrollPos == nPos ) return;
 
@@ -119,12 +119,12 @@ namespace DuiLib
 		SetPos(m_rcItem);
 	}
 
-	int CScrollBarUI::GetLineSize() const
+	LONG CScrollBarUI::GetLineSize() const
 	{
 		return m_nLineSize;
 	}
 
-	void CScrollBarUI::SetLineSize(int nSize)
+	void CScrollBarUI::SetLineSize(LONG nSize)
 	{
 		m_nLineSize = nSize;
 	}
@@ -409,14 +409,14 @@ namespace DuiLib
 				m_rcThumb.top = rc.top;
 				m_rcThumb.bottom = rc.top + cxyFixed.cy;
 				if( m_nRange > 0 ) {
-					int cxThumb = cx * (rc.right - rc.left) / (m_nRange + rc.right - rc.left);
+					LONG cxThumb = cx * (rc.right - rc.left) / (m_nRange + rc.right - rc.left);
 					if( cxThumb < cxyFixed.cy ) cxThumb = cxyFixed.cy;
 
-					m_rcThumb.left = m_nScrollPos * (cx - cxThumb) / m_nRange + m_rcButton1.right;
-					m_rcThumb.right = m_rcThumb.left + cxThumb;
+					m_rcThumb.left	= (LONG)(m_nScrollPos * (cx - cxThumb) / m_nRange + m_rcButton1.right);
+					m_rcThumb.right = (LONG)(m_rcThumb.left + cxThumb);
 					if( m_rcThumb.right > m_rcButton2.left ) {
-						m_rcThumb.left = m_rcButton2.left - cxThumb;
-						m_rcThumb.right = m_rcButton2.left;
+						m_rcThumb.left	= (LONG)m_rcButton2.left - (LONG)cxThumb;
+						m_rcThumb.right = (LONG)m_rcButton2.left;
 					}
 				}
 				else {
@@ -482,13 +482,14 @@ namespace DuiLib
 				m_rcThumb.left = rc.left;
 				m_rcThumb.right = rc.left + cxyFixed.cx;
 				if( m_nRange > 0 ) {
-					int cyThumb = cy * (rc.bottom - rc.top) / (m_nRange + rc.bottom - rc.top);
-					if( cyThumb < cxyFixed.cx ) cyThumb = cxyFixed.cx;
+					LONG cyThumb = cy * (rc.bottom - rc.top) / (m_nRange + rc.bottom - rc.top);
+					if((LONG)cyThumb < cxyFixed.cx ) 
+						cyThumb = cxyFixed.cx;
 
-					m_rcThumb.top = (m_nScrollPos * 1.0f / m_nRange) * (cy - cyThumb) + m_rcButton1.bottom;
-					m_rcThumb.bottom = m_rcThumb.top + cyThumb;
+					m_rcThumb.top = LONG( (m_nScrollPos * 1.0f / m_nRange) * (cy - cyThumb) + m_rcButton1.bottom );
+					m_rcThumb.bottom = m_rcThumb.top + (LONG)cyThumb;
 					if( m_rcThumb.bottom > m_rcButton2.top ) {
-						m_rcThumb.top = m_rcButton2.top - cyThumb;
+						m_rcThumb.top = m_rcButton2.top - (LONG)cyThumb;
 						m_rcThumb.bottom = m_rcButton2.top;
 					}
 				}
@@ -628,7 +629,7 @@ namespace DuiLib
 		{
 			if( (m_uThumbState & UISTATE_CAPTURED) != 0 ) {
 				if( !m_bHorizontal ) {
-					__int64 fMouseRange = (event.ptMouse.y - m_ptLastMouse.y) * m_nRange;
+					LONG fMouseRange = (event.ptMouse.y - m_ptLastMouse.y) * m_nRange;
 					int nBtnSize = 0;
 					if(GetShowButton1()) nBtnSize += m_cxyFixed.cx;
 					if(GetShowButton2()) nBtnSize += m_cxyFixed.cx;
@@ -638,7 +639,7 @@ namespace DuiLib
 					}
 				}
 				else {
-					__int64 fMouseRange = (event.ptMouse.x - m_ptLastMouse.x) * m_nRange;
+					LONG fMouseRange = (event.ptMouse.x - m_ptLastMouse.x) * m_nRange;
 					int nBtnSize = 0;
 					if(GetShowButton1()) nBtnSize += m_cxyFixed.cy;
 					if(GetShowButton2()) nBtnSize += m_cxyFixed.cy;
@@ -672,13 +673,23 @@ namespace DuiLib
 			++m_nScrollRepeatDelay;
 			if( (m_uThumbState & UISTATE_CAPTURED) != 0 ) {
 				if( !m_bHorizontal ) {
-					if( m_pOwner != NULL ) m_pOwner->SetScrollPos(CDuiSize(m_pOwner->GetScrollPos().cx, \
-						m_nLastScrollPos + m_nLastScrollOffset)); 
-					else SetScrollPos(m_nLastScrollPos + m_nLastScrollOffset);
+					if( m_pOwner != NULL )
+						m_pOwner->SetScrollPos(
+							CDuiSize(
+								(LONG)m_pOwner->GetScrollPos().cx, 
+								(LONG)m_nLastScrollPos + (LONG)m_nLastScrollOffset)
+						); 
+					else 
+						SetScrollPos(m_nLastScrollPos + m_nLastScrollOffset);
 				}
 				else {
-					if( m_pOwner != NULL ) m_pOwner->SetScrollPos(CDuiSize(m_nLastScrollPos + m_nLastScrollOffset, \
-						m_pOwner->GetScrollPos().cy)); 
+					if( m_pOwner != NULL )
+						m_pOwner->SetScrollPos(
+							CDuiSize(
+								(LONG)m_nLastScrollPos + (LONG)m_nLastScrollOffset,
+								(LONG)m_pOwner->GetScrollPos().cy
+							)
+						);
 					else SetScrollPos(m_nLastScrollPos + m_nLastScrollOffset);
 				}
 				Invalidate();

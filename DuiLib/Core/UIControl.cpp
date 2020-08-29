@@ -820,7 +820,7 @@ namespace DuiLib {
 				::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(GetCursor())));
 			}
 			else {
-				::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(IDC_ARROW)));
+				::SetCursor(::LoadCursor(NULL, (IDC_ARROW)));//MAKEINTRESOURCE
 			}
 			return;
 		}
@@ -1293,9 +1293,9 @@ namespace DuiLib {
 			//»­Ô²½Ç±ß¿ò
 			if(nBorderSize > 0 && ( cxyBorderRound.cx > 0 || cxyBorderRound.cy > 0 )) {
 				if (IsFocused() && m_dwFocusBorderColor != 0)
-					CRenderEngine::DrawRoundRect(hDC, m_rcItem, nBorderSize, cxyBorderRound.cx, cxyBorderRound.cy, GetAdjustColor(m_dwFocusBorderColor), m_nBorderStyle);
+					CRenderEngine::DrawRoundRect(hDC, m_rcItem, (float)nBorderSize, (float)cxyBorderRound.cx, (float)cxyBorderRound.cy, GetAdjustColor(m_dwFocusBorderColor), m_nBorderStyle);
 				else
-					CRenderEngine::DrawRoundRect(hDC, m_rcItem, nBorderSize, cxyBorderRound.cx, cxyBorderRound.cy, GetAdjustColor(m_dwBorderColor), m_nBorderStyle);
+					CRenderEngine::DrawRoundRect(hDC, m_rcItem, (float)nBorderSize, (float)cxyBorderRound.cx, (float)cxyBorderRound.cy, GetAdjustColor(m_dwBorderColor), m_nBorderStyle);
 			}
 			else {
 				if (IsFocused() && m_dwFocusBorderColor != 0 && nBorderSize > 0) { 

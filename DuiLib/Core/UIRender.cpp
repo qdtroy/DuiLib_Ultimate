@@ -1460,7 +1460,7 @@ namespace DuiLib {
 			g.FillPath(&brush, &roundRectPath);
 		}
 	}
-	void CRenderEngine::DrawRoundRect(HDC hDC, const RECT& rc, int nSize, int width, int height, DWORD dwPenColor,int nStyle /*= PS_SOLID*/)
+	void CRenderEngine::DrawRoundRect(HDC hDC, const RECT& rc, float nSize, float width, float height, DWORD dwPenColor, int nStyle /*= PS_SOLID*/)
 	{
 #ifdef USE_GDI_RENDER
 		ASSERT(::GetObjectType(hDC)==OBJ_DC || ::GetObjectType(hDC)==OBJ_MEMDC);
@@ -1471,7 +1471,18 @@ namespace DuiLib {
 		::SelectObject(hDC, hOldPen);
 		::DeleteObject(hPen);
 #else
-		DrawRoundRectangle(hDC, rc.left, rc.top, rc.right - rc.left - 1, rc.bottom - rc.top - 1, width / 2, nSize, Gdiplus::Color(dwPenColor), false, Gdiplus::Color(dwPenColor));
+		DrawRoundRectangle(
+			hDC,
+			(float)rc.left,
+			(float)rc.top,
+			(float)rc.right - (float)rc.left - 1.0f,
+			(float)rc.bottom - (float)rc.top - 1.0f,
+			width / 2.0f,
+			nSize,
+			Gdiplus::Color(Gdiplus::ARGB(dwPenColor)),
+			false,
+			Gdiplus::Color(dwPenColor)
+		);
 #endif
 	}
 

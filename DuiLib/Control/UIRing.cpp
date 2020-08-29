@@ -51,7 +51,7 @@ namespace DuiLib
 			RECT rcItem = m_rcItem;
 			int iWidth = rcItem.right - rcItem.left;
 			int iHeight = rcItem.bottom - rcItem.top;
-			Gdiplus::PointF centerPos(rcItem.left + iWidth/2, rcItem.top + iHeight/2);
+			Gdiplus::PointF centerPos(rcItem.left + iWidth/2.0f, rcItem.top + iHeight/2.0f);//提高了运算的精确度
 
 			Gdiplus::Graphics graphics(hDC);
 			graphics.TranslateTransform(centerPos.X,centerPos.Y);

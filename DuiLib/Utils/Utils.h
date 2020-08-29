@@ -42,7 +42,7 @@ namespace DuiLib
 		CDuiSize();
 		CDuiSize(const SIZE& src);
 		CDuiSize(const RECT rc);
-		CDuiSize(int cx, int cy);
+		CDuiSize(LONG cx, LONG cy);
 	};
 
 
@@ -94,9 +94,9 @@ namespace DuiLib
 		LPVOID operator[] (int nIndex) const;
 
 	protected:
-		LPVOID* m_ppVoid;
-		int m_nCount;
-		int m_nAllocated;
+		LPVOID*			m_ppVoid;
+		int				m_nCount;
+		int				m_nAllocated;
 	};
 
 
@@ -133,7 +133,7 @@ namespace DuiLib
 	class UILIB_API CDuiString
 	{
 	public:
-		enum { MAX_LOCAL_STRING_LEN = 63 };
+		enum { MAX_LOCAL_STRING_LEN = 255 };
 
 		CDuiString();
 		CDuiString(const TCHAR ch);
@@ -178,6 +178,7 @@ namespace DuiLib
 
 		int Compare(LPCTSTR pstr) const;
 		int CompareNoCase(LPCTSTR pstr) const;
+		bool Match(const CDuiString &regex);
 
 		void MakeUpper();
 		void MakeLower();
@@ -193,7 +194,21 @@ namespace DuiLib
 
 		int __cdecl Format(LPCTSTR pstrFormat, ...);
 		int __cdecl SmallFormat(LPCTSTR pstrFormat, ...);
-
+		
+		inline std::vector<CDuiString> Split(const CDuiString &sp)
+		{
+			std::vector<CDuiString> vResults;
+			int pos = this->Find(sp, 0);
+			while (pos >= 0)
+			{
+				CDuiString t = this->Left(pos);
+				vResults.push_back(t);
+				*this = this->Right(this->GetLength() - pos - sp.GetLength());
+				pos = this->Find(sp);
+			}
+			vResults.push_back(*this);
+			return vResults;
+		}
 	protected:
 		int __cdecl InnerFormat(LPCTSTR pstrFormat, va_list Args);
 
@@ -201,6 +216,10 @@ namespace DuiLib
 		LPTSTR m_pstr;
 		TCHAR m_szBuffer[MAX_LOCAL_STRING_LEN + 1];
 	};
+
+	inline CDuiString operator ""__uis(const TCHAR* str, size_t) {
+		return CDuiString(str);
+	}
 
 	static std::vector<CDuiString> StrSplit(CDuiString text, CDuiString sp)
 	{

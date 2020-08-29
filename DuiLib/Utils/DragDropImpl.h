@@ -25,7 +25,7 @@ namespace DuiLib {
 	private:
 		ULONG           m_cRefCount;
 		FormatEtcArray  m_pFmtEtc;
-		int           m_iCur;
+		unsigned int	m_iCur;
 
 	public:
 		CEnumFormatEtc(const FormatEtcArray& ArrFE);

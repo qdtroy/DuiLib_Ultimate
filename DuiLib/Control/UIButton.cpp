@@ -41,7 +41,7 @@ namespace DuiLib
 	void CButtonUI::DoEvent(TEventUI& event)
 	{
 		if( !IsMouseEnabled() && event.Type > UIEVENT__MOUSEBEGIN && event.Type < UIEVENT__MOUSEEND ) {
-			if( m_pParent != NULL ) m_pParent->DoEvent(event);
+			if( m_pParent != nullptr ) m_pParent->DoEvent(event);
 			else CLabelUI::DoEvent(event);
 			return;
 		}
@@ -116,7 +116,7 @@ namespace DuiLib
 	bool CButtonUI::Activate()
 	{
 		if( !CControlUI::Activate() ) return false;
-		if( m_pManager != NULL )
+		if( m_pManager != nullptr )
 		{
 			m_pManager->SendNotify(this, DUI_MSGTYPE_CLICK);
 			BindTriggerTabSel();
@@ -336,7 +336,7 @@ namespace DuiLib
 	void CButtonUI::BindTriggerTabSel( int _SetSelectIndex /*= -1*/ )
 	{
 		LPCTSTR pstrName = GetBindTabLayoutName();
-		if(pstrName == NULL || (GetBindTabLayoutIndex() < 0 && _SetSelectIndex < 0))
+		if(pstrName == nullptr || (GetBindTabLayoutIndex() < 0 && _SetSelectIndex < 0))
 			return;
 
 		CTabLayoutUI* pTabLayout = static_cast<CTabLayoutUI*>(GetManager()->FindControl(pstrName));
@@ -375,42 +375,42 @@ namespace DuiLib
 		else if( _tcsicmp(pstrName, _T("hotbkcolor")) == 0 )
 		{
 			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
-			LPTSTR pstr = NULL;
+			LPTSTR pstr = nullptr;
 			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
 			SetHotBkColor(clrColor);
 		}
 		else if( _tcsicmp(pstrName, _T("pushedbkcolor")) == 0 )
 		{
 			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
-			LPTSTR pstr = NULL;
+			LPTSTR pstr = nullptr;
 			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
 			SetPushedBkColor(clrColor);
 		}
 		else if( _tcsicmp(pstrName, _T("disabledbkcolor")) == 0 )
 		{
 			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
-			LPTSTR pstr = NULL;
+			LPTSTR pstr = nullptr;
 			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
 			SetDisabledBkColor(clrColor);
 		}
 		else if( _tcsicmp(pstrName, _T("hottextcolor")) == 0 )
 		{
 			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
-			LPTSTR pstr = NULL;
+			LPTSTR pstr = nullptr;
 			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
 			SetHotTextColor(clrColor);
 		}
 		else if( _tcsicmp(pstrName, _T("pushedtextcolor")) == 0 )
 		{
 			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
-			LPTSTR pstr = NULL;
+			LPTSTR pstr = nullptr;
 			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
 			SetPushedTextColor(clrColor);
 		}
 		else if( _tcsicmp(pstrName, _T("focusedtextcolor")) == 0 )
 		{
 			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
-			LPTSTR pstr = NULL;
+			LPTSTR pstr = nullptr;
 			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
 			SetFocusedTextColor(clrColor);
 		}
@@ -462,7 +462,7 @@ namespace DuiLib
 
 		if( m_bShowHtml )
 			CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, sText, clrColor, \
-			NULL, NULL, nLinks, iFont, m_uTextStyle);
+			nullptr, nullptr, nLinks, iFont, m_uTextStyle);
 		else
 			CRenderEngine::DrawText(hDC, m_pManager, rc, sText, clrColor, \
 			iFont, m_uTextStyle);
@@ -499,7 +499,7 @@ namespace DuiLib
 			TDrawInfo info;
 			info.Parse(m_sStateImage, _T(""), m_pManager);
 			const TImageInfo* pImage = m_pManager->GetImageEx(info.sImageName, info.sResType, info.dwMask, info.bHSL);
-			if(m_sNormalImage.IsEmpty() && pImage != NULL)
+			if(m_sNormalImage.IsEmpty() && pImage != nullptr)
 			{
 				SIZE szImage = {pImage->nX, pImage->nY};
 				SIZE szStatus = {pImage->nX / m_nStateCount, pImage->nY};

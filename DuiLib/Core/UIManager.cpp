@@ -1045,8 +1045,8 @@ namespace DuiLib {
 				SetPainting(true);
 
 				bool bNeedSizeMsg = false;
-				DWORD dwWidth = rcClient.right - rcClient.left;
-				DWORD dwHeight = rcClient.bottom - rcClient.top;
+				LONG dwWidth = rcClient.right - rcClient.left;
+				LONG dwHeight = rcClient.bottom - rcClient.top;
 
 				SetPainting(true);
 				if( m_bUpdateNeeded ) {
@@ -1192,8 +1192,8 @@ namespace DuiLib {
 						RECT rcWnd = { 0 };
 						::GetWindowRect(m_hWndPaint, &rcWnd);
 						if(!m_diLayered.sDrawString.IsEmpty()) {
-							DWORD dwWidth = rcClient.right - rcClient.left;
-							DWORD dwHeight = rcClient.bottom - rcClient.top;
+							LONG dwWidth = rcClient.right - rcClient.left;
+							LONG dwHeight = rcClient.bottom - rcClient.top;
 							RECT rcLayeredClient = rcClient;
 							rcLayeredClient.left += m_rcLayeredInset.left;
 							rcLayeredClient.top += m_rcLayeredInset.top;

@@ -1865,20 +1865,20 @@ err:
 	// 引入iPos就是为了修正这个bug
 	void CRichEditUI::SetScrollPos(SIZE szPos, bool bMsg)
 	{
-		int cx = 0;
-		int cy = 0;
+		LONG cx = 0;
+		LONG cy = 0;
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) {
-			int iLastScrollPos = m_pVerticalScrollBar->GetScrollPos();
+			LONG iLastScrollPos = m_pVerticalScrollBar->GetScrollPos();
 			m_pVerticalScrollBar->SetScrollPos(szPos.cy);
 			cy = m_pVerticalScrollBar->GetScrollPos() - iLastScrollPos;
 		}
 		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) {
-			int iLastScrollPos = m_pHorizontalScrollBar->GetScrollPos();
+			LONG iLastScrollPos = m_pHorizontalScrollBar->GetScrollPos();
 			m_pHorizontalScrollBar->SetScrollPos(szPos.cx);
 			cx = m_pHorizontalScrollBar->GetScrollPos() - iLastScrollPos;
 		}
 		if( cy != 0 ) {
-			int iPos = 0;
+			LONG iPos = 0;
 			if( m_pTwh && !m_bRich && m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) 
 				iPos = m_pVerticalScrollBar->GetScrollPos();
 			WPARAM wParam = MAKEWPARAM(SB_THUMBPOSITION, m_pVerticalScrollBar->GetScrollPos());
@@ -1901,7 +1901,7 @@ err:
 
 	void CRichEditUI::LineDown()
 	{
-		int iPos = 0;
+		LONG iPos = 0;
 		if( m_pTwh && !m_bRich && m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) 
 			iPos = m_pVerticalScrollBar->GetScrollPos();
 		TxSendMessage(WM_VSCROLL, SB_LINEDOWN, 0L, 0);
@@ -2072,26 +2072,26 @@ err:
 		bool bVScrollBarVisiable = false;
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) {
 			bVScrollBarVisiable = true;
-			rc.top -= m_pVerticalScrollBar->GetScrollPos();
-			rc.bottom -= m_pVerticalScrollBar->GetScrollPos();
-			rc.bottom += m_pVerticalScrollBar->GetScrollRange();
-			rc.right -= m_pVerticalScrollBar->GetFixedWidth();
-			rcScrollView.right -= m_pVerticalScrollBar->GetFixedWidth();
+			rc.top				-= (LONG)m_pVerticalScrollBar->GetScrollPos();
+			rc.bottom			-= (LONG)m_pVerticalScrollBar->GetScrollPos();
+			rc.bottom			+= (LONG)m_pVerticalScrollBar->GetScrollRange();
+			rc.right			-= (LONG)m_pVerticalScrollBar->GetFixedWidth();
+			rcScrollView.right	-= (LONG)m_pVerticalScrollBar->GetFixedWidth();
 		}
 		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) {
-			rc.left -= m_pHorizontalScrollBar->GetScrollPos();
-			rc.right -= m_pHorizontalScrollBar->GetScrollPos();
-			rc.right += m_pHorizontalScrollBar->GetScrollRange();
-			rc.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
-			rcScrollView.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
+			rc.left				-= (LONG)m_pHorizontalScrollBar->GetScrollPos();
+			rc.right			-= (LONG)m_pHorizontalScrollBar->GetScrollPos();
+			rc.right			+= (LONG)m_pHorizontalScrollBar->GetScrollRange();
+			rc.bottom			-= (LONG)m_pHorizontalScrollBar->GetFixedHeight();
+			rcScrollView.bottom -= (LONG)m_pHorizontalScrollBar->GetFixedHeight();
 		}
 
 		if( m_pTwh != NULL ) {
 			RECT rcScrollTextView = rcScrollView;
-			rcScrollTextView.left += m_rcTextPadding.left;
-			rcScrollTextView.right -= m_rcTextPadding.right;
-			rcScrollTextView.top += m_rcTextPadding.top;
-			rcScrollTextView.bottom -= m_rcTextPadding.bottom;
+			rcScrollTextView.left	+= (LONG)m_rcTextPadding.left;
+			rcScrollTextView.right	-= (LONG)m_rcTextPadding.right;
+			rcScrollTextView.top	+= (LONG)m_rcTextPadding.top;
+			rcScrollTextView.bottom -= (LONG)m_rcTextPadding.bottom;
 			RECT rcText = rc;
 			rcText.left += m_rcTextPadding.left;
 			rcText.right -= m_rcTextPadding.right;

@@ -362,31 +362,35 @@ namespace DuiLib
 	SIZE CContainerUI::GetScrollPos() const
 	{
 		SIZE sz = {0, 0};
-		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) sz.cy = m_pVerticalScrollBar->GetScrollPos();
-		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) sz.cx = m_pHorizontalScrollBar->GetScrollPos();
+		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) 
+			sz.cy = (LONG)m_pVerticalScrollBar->GetScrollPos();
+		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() )
+			sz.cx = (LONG)m_pHorizontalScrollBar->GetScrollPos();
 		return sz;
 	}
 
 	SIZE CContainerUI::GetScrollRange() const
 	{
 		SIZE sz = {0, 0};
-		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) sz.cy = m_pVerticalScrollBar->GetScrollRange();
-		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) sz.cx = m_pHorizontalScrollBar->GetScrollRange();
+		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) 
+			sz.cy = (LONG)m_pVerticalScrollBar->GetScrollRange();
+		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) 
+			sz.cx = (LONG)m_pHorizontalScrollBar->GetScrollRange();
 		return sz;
 	}
 
 	void CContainerUI::SetScrollPos(SIZE szPos, bool bMsg)
 	{
-		int cx = 0;
-		int cy = 0;
+		int64_t cx = 0;
+		int64_t cy = 0;
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) {
-			int iLastScrollPos = m_pVerticalScrollBar->GetScrollPos();
+			int64_t iLastScrollPos = m_pVerticalScrollBar->GetScrollPos();
 			m_pVerticalScrollBar->SetScrollPos(szPos.cy);
 			cy = m_pVerticalScrollBar->GetScrollPos() - iLastScrollPos;
 		}
 
 		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) {
-			int iLastScrollPos = m_pHorizontalScrollBar->GetScrollPos();
+			int64_t iLastScrollPos = m_pHorizontalScrollBar->GetScrollPos();
 			m_pHorizontalScrollBar->SetScrollPos(szPos.cx);
 			cx = m_pHorizontalScrollBar->GetScrollPos() - iLastScrollPos;
 		}
@@ -395,15 +399,17 @@ namespace DuiLib
 
 		RECT rcPos;
 		for( int it2 = 0; it2 < m_items.GetSize(); it2++ ) {
-			CControlUI* pControl = static_cast<CControlUI*>(m_items[it2]);
-			if( !pControl->IsVisible() ) continue;
-			if( pControl->IsFloat() ) continue;
+			CControlUI* pControl = (CControlUI*)m_items[it2];
+			if( !pControl->IsVisible() )
+				continue;
+			if( pControl->IsFloat() )
+				continue;
 
 			rcPos = pControl->GetPos();
-			rcPos.left -= cx;
-			rcPos.right -= cx;
-			rcPos.top -= cy;
-			rcPos.bottom -= cy;
+			rcPos.left		-=	(LONG)cx;
+			rcPos.right		-=	(LONG)cx;
+			rcPos.top		-=	(LONG)cy;
+			rcPos.bottom	-=	(LONG)cy;
 			pControl->SetPos(rcPos);
 		}
 

@@ -51,7 +51,7 @@ namespace DuiLib
 		if( event.Type == UIEVENT_SETCURSOR ) {
 			for( int i = 0; i < m_nLinks; i++ ) {
 				if( ::PtInRect(&m_rcLinks[i], event.ptMouse) ) {
-					::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(IDC_HAND)));
+					::SetCursor(::LoadCursor(NULL, (IDC_HAND)));//MAKEINTRESOURCE
 					return;
 				}
 			}
@@ -121,12 +121,15 @@ namespace DuiLib
 		else {
 			CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, m_dwTextColor, m_iFont, DT_CALCRECT | m_uTextStyle);
 		}
-		SIZE cXY = {rcText.right - rcText.left + m_rcTextPadding.left + m_rcTextPadding.right,
-			rcText.bottom - rcText.top + m_rcTextPadding.top + m_rcTextPadding.bottom};
+		SIZE cXY = 
+			{
+				rcText.right - rcText.left + m_rcTextPadding.left + m_rcTextPadding.right,
+				rcText.bottom - rcText.top + m_rcTextPadding.top + m_rcTextPadding.bottom
+			};
 		
 		if (m_bAutoCalcWidth)
 		{
-			m_cxyFixed.cx = MulDiv(cXY.cx, 100.0, GetManager()->GetDPIObj()->GetScale());
+			m_cxyFixed.cx = MulDiv((int)cXY.cx, 100, (int)GetManager()->GetDPIObj()->GetScale());
 		}
 
 		return CControlUI::EstimateSize(szAvailable);

@@ -742,7 +742,7 @@ namespace DuiLib {
 			else
 				rcSeparator.right+=4;
 			if( IsEnabled() && m_bDragable && ::PtInRect(&rcSeparator, event.ptMouse) ) {
-				::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(IDC_SIZEWE)));
+				::SetCursor(::LoadCursor(NULL, (IDC_SIZEWE)));//MAKEINTRESOURCE
 				return;
 			}
 		}
@@ -1136,7 +1136,7 @@ Label_ForeImage:
 		if( event.Type == UIEVENT_SETCURSOR ) {
 			for( int i = 0; i < m_nLinks; i++ ) {
 				if( ::PtInRect(&m_rcLinks[i], event.ptMouse) ) {
-					::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(IDC_HAND)));
+					::SetCursor(::LoadCursor(NULL, (IDC_HAND))); //MAKEINTRESOURCE
 					return;
 				}
 			}      

@@ -1168,16 +1168,16 @@ namespace DuiLib {
 
 	void CListBodyUI::SetScrollPos(SIZE szPos, bool bMsg)
 	{
-		int cx = 0;
-		int cy = 0;
+		int64_t cx = 0;
+		int64_t cy = 0;
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) {
-			int iLastScrollPos = m_pVerticalScrollBar->GetScrollPos();
+			int64_t iLastScrollPos = m_pVerticalScrollBar->GetScrollPos();
 			m_pVerticalScrollBar->SetScrollPos(szPos.cy);
 			cy = m_pVerticalScrollBar->GetScrollPos() - iLastScrollPos;
 		}
 
 		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) {
-			int iLastScrollPos = m_pHorizontalScrollBar->GetScrollPos();
+			int64_t iLastScrollPos = m_pHorizontalScrollBar->GetScrollPos();
 			m_pHorizontalScrollBar->SetScrollPos(szPos.cx);
 			cx = m_pHorizontalScrollBar->GetScrollPos() - iLastScrollPos;
 		}
@@ -1189,10 +1189,10 @@ namespace DuiLib {
 			if( pControl->IsFloat() ) continue;
 
 			rcPos = pControl->GetPos();
-			rcPos.left -= cx;
-			rcPos.right -= cx;
-			rcPos.top -= cy;
-			rcPos.bottom -= cy;
+			rcPos.left	 -= (LONG)cx;
+			rcPos.right	 -= (LONG)cx;
+			rcPos.top	 -= (LONG)cy;
+			rcPos.bottom -= (LONG)cy;
 			pControl->SetPos(rcPos, true);
 		}
 
@@ -1213,9 +1213,9 @@ namespace DuiLib {
 				if( !pControl->IsVisible() ) continue;
 				if( pControl->IsFloat() ) continue;
 
-				RECT rcPos = pControl->GetPos();
-				rcPos.left -= cx;
-				rcPos.right -= cx;
+				RECT rcPos	= pControl->GetPos();
+				rcPos.left	-= (LONG)cx;
+				rcPos.right	-= (LONG)cx;
 				pControl->SetPos(rcPos);
 				pInfo->rcColumn[i] = pControl->GetPos();
 			}
@@ -1244,7 +1244,7 @@ namespace DuiLib {
 		// Determine the minimum size
 		SIZE szAvailable = { rc.right - rc.left, rc.bottom - rc.top };
 		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) 
-			szAvailable.cx += m_pHorizontalScrollBar->GetScrollRange();
+			szAvailable.cx += (LONG)m_pHorizontalScrollBar->GetScrollRange();
 
 		int cxNeeded = 0;
 		int nAdjustables = 0;
@@ -1279,9 +1279,9 @@ namespace DuiLib {
 				cxNeeded = MAX(0, pHeader->EstimateSize(CDuiSize(rc.right - rc.left, rc.bottom - rc.top)).cx);
 				if ( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible())
 				{
-					int nOffset = m_pHorizontalScrollBar->GetScrollPos();
+					int64_t nOffset = m_pHorizontalScrollBar->GetScrollPos();
 					RECT rcHeader = pHeader->GetPos();
-					rcHeader.left = rc.left - nOffset;
+					rcHeader.left = rc.left - (LONG)nOffset;
 					pHeader->SetPos(rcHeader);
 				}
 			}
@@ -1293,11 +1293,11 @@ namespace DuiLib {
 		if( nAdjustables > 0 ) cyExpand = MAX(0, (szAvailable.cy - cyFixed) / nAdjustables);
 		// Position the elements
 		SIZE szRemaining = szAvailable;
-		int iPosY = rc.top;
+		int64_t iPosY = rc.top;
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) {
 			iPosY -= m_pVerticalScrollBar->GetScrollPos();
 		}
-		int iPosX = rc.left;
+		int64_t iPosX = rc.left;
 		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) {
 			iPosX -= m_pHorizontalScrollBar->GetScrollPos();
 		}
@@ -1335,7 +1335,7 @@ namespace DuiLib {
 			if( sz.cx < pControl->GetMinWidth() ) sz.cx = pControl->GetMinWidth();
 			if( sz.cx > pControl->GetMaxWidth() ) sz.cx = pControl->GetMaxWidth();
 
-			RECT rcCtrl = { iPosX + rcPadding.left, iPosY + rcPadding.top, iPosX + rcPadding.left + sz.cx, iPosY + sz.cy + rcPadding.top + rcPadding.bottom };
+			RECT rcCtrl = { (LONG)iPosX + rcPadding.left, (LONG)iPosY + rcPadding.top, (LONG)iPosX + rcPadding.left + sz.cx, (LONG)iPosY + sz.cy + rcPadding.top + rcPadding.bottom };
 			pControl->SetPos(rcCtrl);
 
 			iPosY += sz.cy + m_iChildPadding + rcPadding.top + rcPadding.bottom;
@@ -1868,7 +1868,7 @@ namespace DuiLib {
 			else
 				rcSeparator.right+=4;
 			if( IsEnabled() && m_bDragable && ::PtInRect(&rcSeparator, event.ptMouse) ) {
-				::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(IDC_SIZEWE)));
+				::SetCursor(::LoadCursor(NULL, (IDC_SIZEWE))); //MAKEINTRESOURCE
 				return;
 			}
 		}
@@ -2477,7 +2477,7 @@ namespace DuiLib {
 		if( event.Type == UIEVENT_SETCURSOR ) {
 			for( int i = 0; i < m_nLinks; i++ ) {
 				if( ::PtInRect(&m_rcLinks[i], event.ptMouse) ) {
-					::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(IDC_HAND)));
+					::SetCursor(::LoadCursor(NULL, (IDC_HAND)));//MAKEINTRESOURCE
 					return;
 				}
 			}      

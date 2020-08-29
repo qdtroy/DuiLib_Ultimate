@@ -262,23 +262,24 @@ namespace DuiLib{
 	void CHotKeyUI::DoEvent(TEventUI& event)
 	{
 		if( !IsMouseEnabled() && event.Type > UIEVENT__MOUSEBEGIN && event.Type < UIEVENT__MOUSEEND ) {
-			if( m_pParent != NULL ) m_pParent->DoEvent(event);
+			if( m_pParent != nullptr ) m_pParent->DoEvent(event);
 			else CLabelUI::DoEvent(event);
 			return;
 		}
 
 		if( event.Type == UIEVENT_SETCURSOR && IsEnabled() )
 		{
-			::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(IDC_IBEAM)));
+			//MAKEINTRESOURCE
+			::SetCursor(::LoadCursor((HINSTANCE)nullptr, (IDC_IBEAM)));
 			return;
 		}
 		if( event.Type == UIEVENT_WINDOWSIZE )
 		{
-			if( m_pWindow != NULL ) m_pManager->SetFocusNeeded(this);
+			if( m_pWindow != nullptr ) m_pManager->SetFocusNeeded(this);
 		}
 		if( event.Type == UIEVENT_SCROLLWHEEL )
 		{
-			if( m_pWindow != NULL ) return;
+			if( m_pWindow != nullptr ) return;
 		}
 		if( event.Type == UIEVENT_SETFOCUS && IsEnabled() ) 
 		{

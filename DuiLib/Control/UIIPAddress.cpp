@@ -10,7 +10,7 @@ DWORD GetLocalIpAddress()
 	char local[255] = {0};   
 	gethostname(local, sizeof(local));   
 	hostent* ph = gethostbyname(local);   
-	if (ph == NULL)   
+	if (ph == nullptr)   
 		return 0;   
 	in_addr addr;   
 	memcpy(&addr, ph->h_addr_list[0], sizeof(in_addr));   
@@ -21,11 +21,13 @@ DWORD GetLocalIpAddress()
 namespace DuiLib
 {
 	//CDateTimeUI::m_nDTUpdateFlag
-#define IP_NONE   0
-#define IP_UPDATE 1
-#define IP_DELETE 2
-#define IP_KEEP   3
-
+	enum IP_STATE
+	{
+		IP_NONE   =		0,
+		IP_UPDATE = 	1,
+		IP_DELETE =		2,
+		IP_KEEP	  =		3,
+	};
 	class CIPAddressWnd : public CWindowWnd
 	{
 	public:
@@ -47,7 +49,7 @@ namespace DuiLib
 		bool m_bInit;
 	};
 
-	CIPAddressWnd::CIPAddressWnd() : m_pOwner(NULL), m_hBkBrush(NULL), m_bInit(false)
+	CIPAddressWnd::CIPAddressWnd() : m_pOwner(nullptr), m_hBkBrush(nullptr), m_bInit(false)
 	{
 	}
 
@@ -56,7 +58,7 @@ namespace DuiLib
 		m_pOwner = pOwner;
 		m_pOwner->m_nIPUpdateFlag = IP_NONE;
 
-		if (m_hWnd == NULL)
+		if (m_hWnd == nullptr)
 		{
 			INITCOMMONCONTROLSEX   CommCtrl;
 			CommCtrl.dwSize=sizeof(CommCtrl);
@@ -65,7 +67,7 @@ namespace DuiLib
 			{
 				RECT rcPos = CalPos();
 				UINT uStyle = WS_CHILD | WS_TABSTOP | WS_GROUP;
-				Create(m_pOwner->GetManager()->GetPaintWindow(), NULL, uStyle, 0, rcPos);
+				Create(m_pOwner->GetManager()->GetPaintWindow(), nullptr, uStyle, 0, rcPos);
 			}
 			SetWindowFont(m_hWnd, m_pOwner->GetManager()->GetFontInfo(m_pOwner->GetFont())->hFont, TRUE);
 		}
@@ -98,8 +100,8 @@ namespace DuiLib
 	void CIPAddressWnd::OnFinalMessage(HWND /*hWnd*/)
 	{
 		// Clear reference and die
-		if( m_hBkBrush != NULL ) ::DeleteObject(m_hBkBrush);
-		m_pOwner->m_pWindow = NULL;
+		if( m_hBkBrush != nullptr ) ::DeleteObject(m_hBkBrush);
+		m_pOwner->m_pWindow = nullptr;
 		delete this;
 	}
 
@@ -171,7 +173,7 @@ namespace DuiLib
 	{
 		m_dwIP = GetLocalIpAddress();
 		m_bReadOnly = false;
-		m_pWindow = NULL;
+		m_pWindow = nullptr;
 		m_nIPUpdateFlag=IP_UPDATE;
 		UpdateText();
 		m_nIPUpdateFlag = IP_NONE;
@@ -227,23 +229,24 @@ namespace DuiLib
 	void CIPAddressUI::DoEvent(TEventUI& event)
 	{
 		if( !IsMouseEnabled() && event.Type > UIEVENT__MOUSEBEGIN && event.Type < UIEVENT__MOUSEEND ) {
-			if( m_pParent != NULL ) m_pParent->DoEvent(event);
+			if( m_pParent != nullptr ) m_pParent->DoEvent(event);
 			else CLabelUI::DoEvent(event);
 			return;
 		}
 
 		if( event.Type == UIEVENT_SETCURSOR && IsEnabled() )
 		{
-			::SetCursor(::LoadCursor(NULL, MAKEINTRESOURCE(IDC_IBEAM)));
+			//MAKEINTRESOURCE
+			::SetCursor(::LoadCursor(nullptr, (IDC_IBEAM)));
 			return;
 		}
 		if( event.Type == UIEVENT_WINDOWSIZE )
 		{
-			if( m_pWindow != NULL ) m_pManager->SetFocusNeeded(this);
+			if( m_pWindow != nullptr ) m_pManager->SetFocusNeeded(this);
 		}
 		if( event.Type == UIEVENT_SCROLLWHEEL )
 		{
-			if( m_pWindow != NULL ) return;
+			if( m_pWindow != nullptr ) return;
 		}
 		if( event.Type == UIEVENT_SETFOCUS && IsEnabled() ) 
 		{
@@ -264,12 +267,12 @@ namespace DuiLib
 		{
 			if( IsEnabled() ) {
 				GetManager()->ReleaseCapture();
-				if( IsFocused() && m_pWindow == NULL )
+				if( IsFocused() && m_pWindow == nullptr )
 				{
 					m_pWindow = new CIPAddressWnd();
 					ASSERT(m_pWindow);
 				}
-				if( m_pWindow != NULL )
+				if( m_pWindow != nullptr )
 				{
 					m_pWindow->Init(this);
 					m_pWindow->ShowWindow();

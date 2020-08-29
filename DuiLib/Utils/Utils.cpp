@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Utils.h"
+#include <regex>
 
 namespace DuiLib
 {
@@ -53,7 +54,7 @@ namespace DuiLib
 		cy = rc.bottom - rc.top;
 	}
 
-	CDuiSize::CDuiSize(int _cx, int _cy)
+	CDuiSize::CDuiSize(LONG _cx, LONG _cy)
 	{
 		cx = _cx;
 		cy = _cy;
@@ -623,6 +624,13 @@ namespace DuiLib
 	int CDuiString::CompareNoCase(LPCTSTR lpsz) const 
 	{ 
 		return _tcsicmp(m_pstr, lpsz); 
+	}
+
+	bool CDuiString::Match(const CDuiString & re) {
+		using namespace std;
+		using tregex = basic_regex<TCHAR>;
+		tregex reg(re);
+		return regex_match((LPCTSTR)*this, reg);
 	}
 
 	void CDuiString::MakeUpper() 

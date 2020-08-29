@@ -23,12 +23,12 @@ namespace DuiLib
 
 		bool IsHorizontal();
 		void SetHorizontal(bool bHorizontal = true);
-		int GetScrollRange() const;
-		void SetScrollRange(int nRange);
-		int GetScrollPos() const;
-		void SetScrollPos(int nPos);
-		int GetLineSize() const;
-		void SetLineSize(int nSize);
+		LONG GetScrollRange() const;
+		void SetScrollRange(LONG nRange);
+		LONG GetScrollPos() const;
+		void SetScrollPos(LONG nPos);
+		LONG GetLineSize() const;
+		void SetLineSize(LONG nSize);
 
 		bool GetShowButton1();
 		void SetShowButton1(bool bShow);
@@ -100,14 +100,14 @@ namespace DuiLib
 		};
 
 		bool m_bHorizontal;
-		__int64 m_nRange;
-		__int64 m_nScrollPos;
-		int m_nLineSize;
+		LONG m_nRange;
+		LONG m_nScrollPos;
+		LONG m_nLineSize;
 		CContainerUI* m_pOwner;
 		POINT m_ptLastMouse;
-		int m_nLastScrollPos;
-		int m_nLastScrollOffset;
-		int m_nScrollRepeatDelay;
+		LONG m_nLastScrollPos;
+		LONG m_nLastScrollOffset;
+		LONG m_nScrollRepeatDelay;
 
 		CDuiString m_sBkNormalImage;
 		CDuiString m_sBkHotImage;

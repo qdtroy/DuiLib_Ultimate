@@ -107,9 +107,9 @@ namespace DuiLib
 			if( cxyBorderRound.cx > 0 || cxyBorderRound.cy > 0 )//»­Ô²½Ç±ß¿ò
 			{
 				if (IsFocused() && m_dwFocusBorderColor != 0)
-					CRenderEngine::DrawRoundRect(hDC, rcItem, nBorderSize, cxyBorderRound.cx, cxyBorderRound.cy, GetAdjustColor(m_dwFocusBorderColor));
+					CRenderEngine::DrawRoundRect(hDC, rcItem, (float)nBorderSize, (float)cxyBorderRound.cx, (float)cxyBorderRound.cy, GetAdjustColor(m_dwFocusBorderColor));
 				else
-					CRenderEngine::DrawRoundRect(hDC, rcItem, nBorderSize, cxyBorderRound.cx, cxyBorderRound.cy, GetAdjustColor(m_dwBorderColor));
+					CRenderEngine::DrawRoundRect(hDC, rcItem, (float)nBorderSize, (float)cxyBorderRound.cx, (float)cxyBorderRound.cy, GetAdjustColor(m_dwBorderColor));
 			}
 			else
 			{

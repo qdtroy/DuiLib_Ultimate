@@ -68,6 +68,7 @@ namespace DuiLib
 			if( ::PtInRect(&m_rcItem, event.ptMouse) && IsEnabled() ) {
 				m_uButtonState |= UISTATE_PUSHED | UISTATE_CAPTURED;
 				Invalidate();
+				if(IsRichEvent()) m_pManager->SendNotify(this, DUI_MSGTYPE_BUTTONDOWN);
 			}
 			return;
 		}	
@@ -101,6 +102,8 @@ namespace DuiLib
 			if( IsEnabled() ) {
 				m_uButtonState |= UISTATE_HOT;
 				Invalidate();
+
+				if(IsRichEvent()) m_pManager->SendNotify(this, DUI_MSGTYPE_MOUSEENTER);
 			}
 		}
 		if( event.Type == UIEVENT_MOUSELEAVE )
@@ -108,6 +111,8 @@ namespace DuiLib
 			if( IsEnabled() ) {
 				m_uButtonState &= ~UISTATE_HOT;
 				Invalidate();
+
+				if(IsRichEvent()) m_pManager->SendNotify(this, DUI_MSGTYPE_MOUSELEAVE);
 			}
 		}
 		CLabelUI::DoEvent(event);

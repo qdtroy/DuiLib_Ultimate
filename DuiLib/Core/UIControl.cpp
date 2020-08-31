@@ -17,6 +17,7 @@ namespace DuiLib {
 		m_bFloat(false),
 		m_uFloatAlign(0),
 		m_bSetPos(false),
+		m_bRichEvent(false),
 		m_bDragEnabled(false),
 		m_bDropEnabled(false),
 		m_bResourceText(false),
@@ -165,6 +166,17 @@ namespace DuiLib {
 	void CControlUI::SetDropEnable(bool bDrop)
 	{
 		m_bDropEnabled = bDrop;
+	}
+
+
+	bool CControlUI::IsRichEvent() const
+	{
+		return m_bRichEvent;
+	}
+
+	void CControlUI::SetRichEvent(bool bEnable)
+	{
+		m_bRichEvent = bEnable;
 	}
 
 	LPCTSTR CControlUI::GetGradient()
@@ -1098,6 +1110,7 @@ namespace DuiLib {
 		else if( _tcsicmp(pstrName, _T("drag")) == 0 ) SetDragEnable(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("drop")) == 0 ) SetDropEnable(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("resourcetext")) == 0 ) SetResourceText(_tcsicmp(pstrValue, _T("true")) == 0);
+		else if( _tcsicmp(pstrName, _T("richevent")) == 0 ) SetRichEvent(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("text")) == 0 ) SetText(pstrValue);
 		else if( _tcsicmp(pstrName, _T("tooltip")) == 0 ) SetToolTip(pstrValue);
 		else if( _tcsicmp(pstrName, _T("userdata")) == 0 ) SetUserData(pstrValue);

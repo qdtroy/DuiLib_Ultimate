@@ -2145,7 +2145,8 @@ namespace DuiLib {
 		// An important twist: The list-item will send the event not to its immediate
 		// parent but to the "attached" list. A list may actually embed several components
 		// in its path to the item, but key-presses etc. needs to go to the actual list.
-		if( m_pOwner != NULL ) m_pOwner->DoEvent(event); else CControlUI::DoEvent(event);
+		if( m_pOwner != NULL ) m_pOwner->DoEvent(event); 
+		else CControlUI::DoEvent(event);
 	}
 
 	void CListElementUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
@@ -2226,7 +2227,7 @@ namespace DuiLib {
 	//
 	IMPLEMENT_DUICONTROL(CListLabelElementUI)
 
-		CListLabelElementUI::CListLabelElementUI()
+	CListLabelElementUI::CListLabelElementUI()
 	{
 	}
 
@@ -2273,6 +2274,7 @@ namespace DuiLib {
 				else {
 					Select();
 				}
+				if(IsRichEvent()) m_pManager->SendNotify(this, DUI_MSGTYPE_BUTTONDOWN);
 			}
 			return;
 		}
@@ -2294,6 +2296,7 @@ namespace DuiLib {
 			if( IsEnabled() ) {
 				m_uButtonState |= UISTATE_HOT;
 				Invalidate();
+				if(IsRichEvent()) m_pManager->SendNotify(this, DUI_MSGTYPE_MOUSEENTER);
 			}
 			return;
 		}
@@ -2302,6 +2305,7 @@ namespace DuiLib {
 			if( (m_uButtonState & UISTATE_HOT) != 0 ) {
 				m_uButtonState &= ~UISTATE_HOT;
 				Invalidate();
+				if(IsRichEvent()) m_pManager->SendNotify(this, DUI_MSGTYPE_MOUSELEAVE);
 			}
 			return;
 		}
@@ -2782,6 +2786,8 @@ namespace DuiLib {
 					SelectMulti(!IsSelected());
 				}
 				else Select();
+
+				if(IsRichEvent()) m_pManager->SendNotify(this, DUI_MSGTYPE_BUTTONDOWN);
 			}
 			return;
 		}
@@ -2816,6 +2822,8 @@ namespace DuiLib {
 			if( IsEnabled() ) {
 				m_uButtonState |= UISTATE_HOT;
 				Invalidate();
+
+				if(IsRichEvent()) m_pManager->SendNotify(this, DUI_MSGTYPE_MOUSEENTER);
 			}
 			return;
 		}
@@ -2824,6 +2832,8 @@ namespace DuiLib {
 			if( (m_uButtonState & UISTATE_HOT) != 0 ) {
 				m_uButtonState &= ~UISTATE_HOT;
 				Invalidate();
+
+				if(IsRichEvent()) m_pManager->SendNotify(this, DUI_MSGTYPE_MOUSELEAVE);
 			}
 			return;
 		}
@@ -2843,7 +2853,8 @@ namespace DuiLib {
 		// An important twist: The list-item will send the event not to its immediate
 		// parent but to the "attached" list. A list may actually embed several components
 		// in its path to the item, but key-presses etc. needs to go to the actual list.
-		if( m_pOwner != NULL ) m_pOwner->DoEvent(event); else CControlUI::DoEvent(event);
+		if( m_pOwner != NULL ) m_pOwner->DoEvent(event);
+		else CControlUI::DoEvent(event);
 	}
 
 	void CListContainerElementUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)

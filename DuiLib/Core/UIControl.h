@@ -47,6 +47,8 @@ namespace DuiLib {
 		virtual bool IsDropEnabled() const;
 		virtual void SetDropEnable(bool bDrop);
 
+		virtual bool IsRichEvent() const;
+		virtual void SetRichEvent(bool bEnable);
 		// 图形相关
 		LPCTSTR GetGradient();
 		void SetGradient(LPCTSTR pStrImage);
@@ -222,13 +224,14 @@ namespace DuiLib {
 		bool m_bInternVisible;
 		bool m_bEnabled;
 		bool m_bMouseEnabled;
-		bool m_bKeyboardEnabled ;
+		bool m_bKeyboardEnabled;
 		bool m_bFocused;
 		bool m_bFloat;
 		TPercentInfo m_piFloatPercent;
 		UINT m_uFloatAlign;
 		bool m_bSetPos; // 防止SetPos循环调用
 
+		bool m_bRichEvent;
 		bool m_bDragEnabled;
 		bool m_bDropEnabled;
 

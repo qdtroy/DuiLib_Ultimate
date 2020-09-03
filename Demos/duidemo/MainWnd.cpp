@@ -163,22 +163,26 @@ void CMainWnd::InitWindow()
 	}
 
 	CTreeViewUI* pTreeView = static_cast<CTreeViewUI*>(m_pm.FindControl(_T("treeview")));
+
 	CTreeNodeUI* pItem  = new CTreeNodeUI();
 	pItem->SetFixedHeight(30);
 	pItem->SetItemText(_T("动态添加"));
-	pTreeView->AddAt(pItem, 3);
+	pTreeView->AddAt(pItem, 0);
 	COptionUI* pRadio = new COptionUI();
 	pRadio->SetText(_T("单选按钮"));
 	pItem->Add(pRadio);
 	pRadio->SetAttribute(_T("Style"), _T("cb_style"));
 	pItem->SetAttribute(_T("itemattr"), _T("valign=&quot;center&quot;"));
-	pItem->SetAttribute(_T("Style"), _T("treeview_style"));
+	pItem->SetAttribute(_T("Style"), _T("treeview_item_style"));
 
 	CDialogBuilder builder;
 	CControlUI* pParentItem = NULL;
 	CTreeNodeUI* pTreeItem = (CTreeNodeUI*)builder.Create(_T("treeitem.xml"), NULL, this, &m_pm, pParentItem);
 	if(pParentItem == NULL) pTreeView->Add(pTreeItem);
 	long level = pTreeItem->GetTreeLevel();
+	pTreeView->SetItemExpand(false, NULL);
+
+
 	// 图表控件
 	CChartViewUI *pHistpgramView = static_cast<CChartViewUI*>(m_pm.FindControl(_T("ChartView_Histpgram")));
 	if (NULL != pHistpgramView)
@@ -334,7 +338,10 @@ void CMainWnd::Notify(TNotifyUI& msg)
 	else if(msg.sType == DUI_MSGTYPE_ITEMCLICK) {
 		CListUI* pList = static_cast<CListUI*>(m_pm.FindControl(_T("listview")));
 		CListTextElementUI* pItem = (CListTextElementUI*)msg.pSender;
-		pItem->SetText(0, _T("1111222"));
+		if(pList->GetItemIndex(pItem) != -1) {
+
+			pItem->SetText(0, _T("1111222"));
+		}
 	}
 	else if( msg.sType == _T("showactivex") ) 
 	{

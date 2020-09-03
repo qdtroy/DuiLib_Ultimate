@@ -811,6 +811,12 @@ namespace DuiLib
 
 		CListUI::Add(pControl);
 
+		int nLevel = pControl->GetTreeLevel();
+		int nFolderWidth = pControl->GetFolderButton()->GetFixedWidth();
+		if(nFolderWidth <= 0) nFolderWidth = 16;
+		if(!pControl->GetFolderButton()->IsVisible()) nFolderWidth = 0;
+		pControl->GetFolderButton()->SetPadding(CDuiRect(nLevel * nFolderWidth, 0, 0, 0));
+
 		if(pControl->GetCountChild() > 0) {
 			int nCount = pControl->GetCountChild();
 			for(int nIndex = 0;nIndex < nCount;nIndex++) {
@@ -844,6 +850,13 @@ namespace DuiLib
 			pControl->SetMinWidth(m_uItemMinWidth);
 		}
 		CListUI::AddAt(pControl, iIndex);
+
+		int nLevel = pControl->GetTreeLevel();
+		int nFolderWidth = pControl->GetFolderButton()->GetFixedWidth();
+		if(nFolderWidth <= 0) nFolderWidth = 16;
+		if(!pControl->GetFolderButton()->IsVisible()) nFolderWidth = 0;
+		pControl->GetFolderButton()->SetPadding(CDuiRect(nLevel * nFolderWidth, 0, 0, 0));
+
 		if(pControl->GetCountChild() > 0) {
 			int nCount = pControl->GetCountChild();
 			for(int nIndex = 0; nIndex < nCount; nIndex++) {
@@ -869,7 +882,7 @@ namespace DuiLib
 	bool CTreeViewUI::AddAt( CTreeNodeUI* pControl, CTreeNodeUI* _IndexNode )
 	{
 		if(!_IndexNode && !pControl)
-			return FALSE;
+			return false;
 
 		int nItemIndex = -1;
 		for(int nIndex = 0;nIndex < GetCount();nIndex++) {
@@ -880,9 +893,18 @@ namespace DuiLib
 		}
 
 		if(nItemIndex == -1)
-			return FALSE;
+			return false;
 
-		return AddAt(pControl,nItemIndex) >= 0;
+		bool bRet = AddAt(pControl,nItemIndex) >= 0;
+		if(bRet) {
+			int nLevel = pControl->GetTreeLevel();
+			int nFolderWidth = pControl->GetFolderButton()->GetFixedWidth();
+			if(nFolderWidth <= 0) nFolderWidth = 16;
+			if(!pControl->GetFolderButton()->IsVisible()) nFolderWidth = 0;
+			pControl->GetFolderButton()->SetPadding(CDuiRect(nLevel * nFolderWidth, 0, 0, 0));
+		}
+
+		return bRet;
 	}
 
 	//************************************
@@ -1056,9 +1078,9 @@ namespace DuiLib
 			int nCount = GetCount();
 			while(nIndex < nCount) {
 				CTreeNodeUI* pItem = (CTreeNodeUI*)GetItemAt(nIndex);
-				pItem->SetVisible(_Expanded);
+				pItem->GetFolderButton()->Selected(!_Expanded);
 				if(pItem->GetCountChild() && !pItem->GetFolderButton()->IsSelected()) {
-					SetItemExpand(_Expanded,pItem);
+					SetItemExpand(_Expanded, pItem);
 				}
 				nIndex++;
 			}

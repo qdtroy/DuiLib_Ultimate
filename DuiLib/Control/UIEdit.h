@@ -56,6 +56,8 @@ namespace DuiLib
 		void SetTipValueColor(LPCTSTR pStrColor);
 		DWORD GetTipValueColor();
 
+		HWND GetHWND();
+
 		void SetPos(RECT rc, bool bNeedInvalidate = true);
 		void Move(SIZE szOffset, bool bNeedInvalidate = true);
 		void SetVisible(bool bVisible = true);

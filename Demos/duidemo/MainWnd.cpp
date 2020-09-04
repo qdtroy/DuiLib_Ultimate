@@ -320,6 +320,10 @@ void CMainWnd::Notify(TNotifyUI& msg)
 	CDuiString name = msg.pSender->GetName();
 	if(msg.sType == _T("windowinit")) {
 	}
+	else if( msg.sType == _T("textchanged") )
+	{
+		CEditUI* pEdit = (CEditUI*)msg.pSender;
+	}
 	else if( msg.sType == _T("colorchanged") )
 	{
 		CControlUI* pRoot = m_pm.FindControl(_T("root"));
@@ -370,12 +374,18 @@ void CMainWnd::Notify(TNotifyUI& msg)
 			}
 			return; 
 		}
-		else if( msg.pSender == m_pMinBtn ) { 
-			SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0); return; }
+		else if( msg.pSender == m_pMinBtn ) {
+			SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0);
+			return;
+		}
 		else if( msg.pSender == m_pMaxBtn ) { 
-			SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0); return; }
+			SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0); 
+			return; 
+		}
 		else if( msg.pSender == m_pRestoreBtn ) { 
-			SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0); return; }
+			SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0); 
+			return;
+		}
 		else if( msg.pSender == m_pSkinBtn ) {
 			new CSkinFrame(m_hWnd, m_pSkinBtn);
 		}

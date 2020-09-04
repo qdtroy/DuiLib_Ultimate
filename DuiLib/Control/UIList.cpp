@@ -263,6 +263,28 @@ namespace DuiLib {
 		if( !m_pHeader->IsVisible() ) m_pHeader->Move(szOffset, false);
 	}
 
+
+	void CListUI::BeginDrag(POINT ptMouse)
+	{
+		
+	}
+
+	void CListUI::Draging(POINT ptMouse)
+	{
+	}
+
+	// мов╖
+	void CListUI::EndDrag(POINT ptMouse)
+	{
+		
+	}
+
+	CControlUI* CListUI::ItemFromPoint(POINT ptMouse)
+	{
+		return NULL;
+	}
+
+
 	int CListUI::GetMinSelItemIndex()
 	{
 		if (m_aSelItems.GetSize() <= 0)

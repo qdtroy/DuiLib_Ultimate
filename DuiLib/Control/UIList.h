@@ -232,12 +232,6 @@ namespace DuiLib {
 		virtual BOOL CheckColumComboBoxable(int nColum) { return FALSE; };
 		virtual CComboBoxUI* GetComboBoxUI() { return NULL; };
 
-		// мов╖
-		void EndDrag(POINT ptMouse);
-		void BeginDrag(POINT ptMouse);
-		void Draging(POINT ptMouse);
-		CControlUI* ItemFromPoint(POINT ptMouse);
-
 	protected:
 		int GetMinSelItemIndex();
 		int GetMaxSelItemIndex();
@@ -246,7 +240,6 @@ namespace DuiLib {
 		bool m_bFixedScrollbar;
 		bool m_bScrollSelect;
 		bool m_bMultiSel;
-		bool m_bDragSel;
 		int m_iCurSel;
 		int m_iFirstSel;
 		CStdPtrArray m_aSelItems;
@@ -256,11 +249,6 @@ namespace DuiLib {
 		CListBodyUI* m_pList;
 		CListHeaderUI* m_pHeader;
 		TListInfoUI m_ListInfo;
-
-		POINT m_ptFirst;
-		CControlUI* m_pFirstItem;
-		CControlUI* m_pLastItem;
-		CControlUI* m_pSelMask;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -294,6 +282,7 @@ namespace DuiLib {
 		DECLARE_DUICONTROL(CListHeaderUI)
 	public:
 		CListHeaderUI();
+		virtual ~CListHeaderUI();
 
 		LPCTSTR GetClass() const;
 		LPVOID GetInterface(LPCTSTR pstrName);
@@ -305,6 +294,8 @@ namespace DuiLib {
 		void SetScaleHeader(bool bIsScale);
 		bool IsScaleHeader() const;
 
+		void DoInit();
+		void DoPostPaint(HDC hDC, const RECT& rcPaint);
 	private:
 		bool m_bIsScaleHeader;
 	};

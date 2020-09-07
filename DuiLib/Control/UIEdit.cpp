@@ -241,7 +241,7 @@ namespace DuiLib
 	//
 	IMPLEMENT_DUICONTROL(CEditUI)
 
-	CEditUI::CEditUI() : m_pWindow(NULL), m_uMaxChar(255), m_bReadOnly(false), 
+		CEditUI::CEditUI() : m_pWindow(NULL), m_uMaxChar(255), m_bReadOnly(false), 
 		m_bPasswordMode(false), m_cPasswordChar(_T('*')), m_bAutoSelAll(false), m_uButtonState(0), 
 		m_dwEditbkColor(0xFFFFFFFF), m_dwEditTextColor(0x00000000), m_iWindowStyls(0),m_dwTipValueColor(0xFFBAC0C5)
 	{
@@ -345,13 +345,13 @@ namespace DuiLib
 		if( event.Type == UIEVENT_MOUSEENTER )
 		{
 			if( ::PtInRect(&m_rcItem, event.ptMouse ) ) {
-                if( IsEnabled() ) {
-                    if( (m_uButtonState & UISTATE_HOT) == 0  ) {
-                        m_uButtonState |= UISTATE_HOT;
-                        Invalidate();
-                    }
-                }
-            }
+				if( IsEnabled() ) {
+					if( (m_uButtonState & UISTATE_HOT) == 0  ) {
+						m_uButtonState |= UISTATE_HOT;
+						Invalidate();
+					}
+				}
+			}
 		}
 		if( event.Type == UIEVENT_MOUSELEAVE )
 		{
@@ -523,7 +523,7 @@ namespace DuiLib
 	{
 		return m_dwEditTextColor;
 	}
-	
+
 	bool CEditUI::IsAutoSelAll()
 	{
 		return m_bAutoSelAll;
@@ -559,7 +559,7 @@ namespace DuiLib
 		if (!IsResourceText()) return m_sTipValue;
 		return CResourceManager::GetInstance()->GetText(m_sTipValue);
 	}
-	                    
+
 	void CEditUI::SetTipValueColor( LPCTSTR pStrColor )
 	{
 		if( *pStrColor == _T('#')) pStrColor = ::CharNext(pStrColor);
@@ -573,7 +573,7 @@ namespace DuiLib
 	{
 		return m_dwTipValueColor;
 	}
-	
+
 	HWND CEditUI::GetHWND()
 	{
 		if(m_pWindow != NULL) {

@@ -2371,6 +2371,8 @@ namespace DuiLib {
 		if (event.Type == UIEVENT_BUTTONDOWN)
 		{
 			if (IsEnabled()) {
+				if(IsRichEvent()) m_pManager->SendNotify(this, DUI_MSGTYPE_BUTTONDOWN);
+
 				// 多选
 				if ((GetKeyState(VK_CONTROL) & 0x8000) || (GetKeyState(VK_SHIFT) & 0x8000)) {
 					if (m_pOwner != NULL) m_pOwner->SelectMultiItem(m_iIndex);
@@ -2393,6 +2395,7 @@ namespace DuiLib {
 			if (IsEnabled()) {
 				m_uButtonState |= UISTATE_HOT;
 				Invalidate();
+				if(IsRichEvent()) m_pManager->SendNotify(this, DUI_MSGTYPE_MOUSEENTER);
 			}
 			return;
 		}
@@ -2401,6 +2404,7 @@ namespace DuiLib {
 			if ((m_uButtonState & UISTATE_HOT) != 0) {
 				m_uButtonState &= ~UISTATE_HOT;
 				Invalidate();
+				if(IsRichEvent()) m_pManager->SendNotify(this, DUI_MSGTYPE_MOUSELEAVE);
 			}
 			return;
 		}
@@ -2883,6 +2887,8 @@ namespace DuiLib {
 		if (event.Type == UIEVENT_BUTTONDOWN)
 		{
 			if (IsEnabled()) {
+				if(IsRichEvent()) m_pManager->SendNotify(this, DUI_MSGTYPE_BUTTONDOWN);
+
 				// 多选
 				if ((GetKeyState(VK_CONTROL) & 0x8000) || (GetKeyState(VK_SHIFT) & 0x8000)) {
 					if (m_pOwner != NULL) m_pOwner->SelectMultiItem(m_iIndex);
@@ -2923,6 +2929,7 @@ namespace DuiLib {
 			if (IsEnabled()) {
 				m_uButtonState |= UISTATE_HOT;
 				Invalidate();
+				if(IsRichEvent()) m_pManager->SendNotify(this, DUI_MSGTYPE_MOUSEENTER);
 			}
 			return;
 		}
@@ -2931,6 +2938,7 @@ namespace DuiLib {
 			if ((m_uButtonState & UISTATE_HOT) != 0) {
 				m_uButtonState &= ~UISTATE_HOT;
 				Invalidate();
+				if(IsRichEvent()) m_pManager->SendNotify(this, DUI_MSGTYPE_MOUSELEAVE);
 			}
 			return;
 		}

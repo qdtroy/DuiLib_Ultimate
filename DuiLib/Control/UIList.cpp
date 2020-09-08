@@ -1483,14 +1483,13 @@ namespace DuiLib {
 	//
 	IMPLEMENT_DUICONTROL(CListHeaderUI)
 
-		CListHeaderUI::CListHeaderUI() :
+	CListHeaderUI::CListHeaderUI() :
 	m_bIsScaleHeader(false)
 	{
 	}
 
 	CListHeaderUI::~CListHeaderUI()
 	{
-		if(m_pManager) m_pManager->RemovePostPaint(this);
 	}
 
 	LPCTSTR CListHeaderUI::GetClass() const
@@ -1648,14 +1647,11 @@ namespace DuiLib {
 
 	void CListHeaderUI::DoInit()
 	{
-		if(m_pManager)m_pManager->AddPostPaint(this);
 
 	}
 	void CListHeaderUI::DoPostPaint(HDC hDC, const RECT& rcPaint) 
 	{
-		if (IsVisible()) {
-			CListHeaderUI::DoPaint(hDC, rcPaint, NULL);
-		}
+
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////

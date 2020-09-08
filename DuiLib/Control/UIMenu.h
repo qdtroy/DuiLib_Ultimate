@@ -55,7 +55,6 @@ enum MenuItemDefaultInfo
 
 };
 
-
 ///////////////////////////////////////////////
 class MenuMenuReceiverImplBase;
 class MenuMenuObserverImplBase

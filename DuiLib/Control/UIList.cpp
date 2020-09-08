@@ -1934,6 +1934,7 @@ namespace DuiLib {
 		if (event.Type == UIEVENT_MOUSEMOVE)
 		{
 			if ((m_uButtonState & UISTATE_CAPTURED) != 0) {
+				RECT rcPadding = GetPadding();
 				RECT rc = m_rcItem;
 				if (m_iSepWidth >= 0) {
 					rc.right -= ptLastMouse.x - event.ptMouse.x;
@@ -1942,8 +1943,8 @@ namespace DuiLib {
 					rc.left -= ptLastMouse.x - event.ptMouse.x;
 				}
 
-				if (rc.right - rc.left > GetMinWidth()) {
-					m_cxyFixed.cx = rc.right - rc.left;
+				if (rc.right - rc.left - rcPadding.right > GetMinWidth()) {
+					m_cxyFixed.cx = rc.right - rc.left - rcPadding.right;
 					ptLastMouse = event.ptMouse;
 					if (GetParent())
 						GetParent()->NeedParentUpdate();

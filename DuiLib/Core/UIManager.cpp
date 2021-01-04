@@ -1652,11 +1652,13 @@ namespace DuiLib {
 			break;
 		case WM_RBUTTONUP:
 			{
+				if(m_bMouseCapture) ReleaseCapture();
+
 				POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 				m_ptLastMousePos = pt;
 				m_pEventClick = FindControl(pt);
 				if(m_pEventClick == NULL) break;
-				ReleaseCapture();
+
 				TEventUI event = { 0 };
 				event.Type = UIEVENT_RBUTTONUP;
 				event.pSender = m_pEventClick;
@@ -1692,11 +1694,11 @@ namespace DuiLib {
 			break;
 		case WM_MBUTTONUP:
 			{
+				if(m_bMouseCapture) ReleaseCapture();
 				POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 				m_ptLastMousePos = pt;
 				m_pEventClick = FindControl(pt);
 				if(m_pEventClick == NULL) break;
-				ReleaseCapture();
 
 				TEventUI event = { 0 };
 				event.Type = UIEVENT_MBUTTONUP;

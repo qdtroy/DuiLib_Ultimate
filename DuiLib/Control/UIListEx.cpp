@@ -377,7 +377,7 @@ namespace DuiLib {
 
 	LPCTSTR CListContainerHeaderItemUI::GetClass() const
 	{
-		return _T("ListContainerHeaderItemUI");
+		return _T("ListContainerHeaderItem");
 	}
 
 	LPVOID CListContainerHeaderItemUI::GetInterface(LPCTSTR pstrName)

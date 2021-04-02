@@ -38,7 +38,7 @@ namespace DuiLib
 
 	LPCTSTR CFlashUI::GetClass() const
 	{
-		return DUI_CTR_FLASH;
+		return _T("FlashUI");
 	}
 
 	LPVOID CFlashUI::GetInterface( LPCTSTR pstrName )

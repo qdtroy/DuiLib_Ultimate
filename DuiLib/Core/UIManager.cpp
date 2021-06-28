@@ -652,7 +652,10 @@ namespace DuiLib {
 
 	RECT& CPaintManagerUI::GetSizeBox()
 	{
-		return m_rcSizeBox;
+		RECT rcSizeBox = m_rcSizeBox;
+		GetDPIObj()->Scale(&rcSizeBox);
+
+		return rcSizeBox;
 	}
 
 	void CPaintManagerUI::SetSizeBox(RECT& rcSizeBox)
@@ -662,7 +665,10 @@ namespace DuiLib {
 
 	RECT& CPaintManagerUI::GetCaptionRect()
 	{
-		return m_rcCaption;
+		RECT rcCaption = m_rcCaption;
+		GetDPIObj()->Scale(&rcCaption);
+
+		return rcCaption;
 	}
 
 	void CPaintManagerUI::SetCaptionRect(RECT& rcCaption)
@@ -670,9 +676,12 @@ namespace DuiLib {
 		m_rcCaption = rcCaption;
 	}
 
-	SIZE CPaintManagerUI::GetRoundCorner() const
+	SIZE CPaintManagerUI::GetRoundCorner()
 	{
-		return m_szRoundCorner;
+		SIZE szRoundCorner = m_szRoundCorner;
+		GetDPIObj()->Scale(&szRoundCorner);
+
+		return szRoundCorner;
 	}
 
 	void CPaintManagerUI::SetRoundCorner(int cx, int cy)
@@ -681,9 +690,11 @@ namespace DuiLib {
 		m_szRoundCorner.cy = cy;
 	}
 
-	SIZE CPaintManagerUI::GetMinInfo() const
+	SIZE CPaintManagerUI::GetMinInfo()
 	{
-		return m_szMinWindow;
+		SIZE szMinWindow = m_szMinWindow;
+		GetDPIObj()->Scale(&szMinWindow);
+		return szMinWindow;
 	}
 
 	void CPaintManagerUI::SetMinInfo(int cx, int cy)
@@ -693,9 +704,11 @@ namespace DuiLib {
 		m_szMinWindow.cy = cy;
 	}
 
-	SIZE CPaintManagerUI::GetMaxInfo() const
+	SIZE CPaintManagerUI::GetMaxInfo()
 	{
-		return m_szMaxWindow;
+		SIZE szMaxWindow = m_szMaxWindow;
+		GetDPIObj()->Scale(&szMaxWindow);
+		return szMaxWindow;
 	}
 
 	void CPaintManagerUI::SetMaxInfo(int cx, int cy)

@@ -341,11 +341,6 @@ void CMainWnd::Notify(TNotifyUI& msg)
 	}
 	else if(msg.sType == DUI_MSGTYPE_ITEMCLICK) {
 		CListUI* pList = static_cast<CListUI*>(m_pm.FindControl(_T("listview")));
-		CListTextElementUI* pItem = (CListTextElementUI*)msg.pSender;
-		if(pList->GetItemIndex(pItem) != -1) {
-
-			pItem->SetText(0, _T("1111222"));
-		}
 	}
 	else if( msg.sType == _T("showactivex") ) 
 	{

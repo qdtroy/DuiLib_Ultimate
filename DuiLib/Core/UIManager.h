@@ -245,11 +245,11 @@ namespace DuiLib {
 		void SetSizeBox(RECT& rcSizeBox);
 		RECT& GetCaptionRect();
 		void SetCaptionRect(RECT& rcCaption);
-		SIZE GetRoundCorner() const;
+		SIZE GetRoundCorner();
 		void SetRoundCorner(int cx, int cy);
-		SIZE GetMinInfo() const;
+		SIZE GetMinInfo();
 		void SetMinInfo(int cx, int cy);
-		SIZE GetMaxInfo() const;
+		SIZE GetMaxInfo();
 		void SetMaxInfo(int cx, int cy);
 		bool IsShowUpdateRect() const;
 		void SetShowUpdateRect(bool show);

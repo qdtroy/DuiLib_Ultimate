@@ -163,10 +163,10 @@ namespace DuiLib
 				::InvalidateRect(m_hWnd, &rcClient, FALSE);
 			}
 		}
-		else if( uMsg == WM_KEYDOWN && TCHAR(wParam) == VK_RETURN ){
+		else if( uMsg == WM_KEYDOWN && wParam == VK_RETURN ){
 			m_pOwner->GetManager()->SendNotify(m_pOwner, DUI_MSGTYPE_RETURN);
 		}
-		else if( uMsg == WM_KEYDOWN && TCHAR(wParam) == VK_TAB ){
+		else if( uMsg == WM_KEYDOWN && wParam == VK_TAB ){
 			if (m_pOwner->GetManager()->IsLayered()) {
 				m_pOwner->GetManager()->SetNextTabControl();
 			}

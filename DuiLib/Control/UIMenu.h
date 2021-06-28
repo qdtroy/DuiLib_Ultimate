@@ -359,6 +359,7 @@ public:
 	RECT GetLinePadding() const;
 	void SetIcon(LPCTSTR strIcon);
 	void SetIconSize(LONG cx, LONG cy);
+	SIZE GetIconSize();
 	void DrawItemIcon(HDC hDC, const RECT& rcItem);
 	void SetChecked(bool bCheck = true);
 	bool GetChecked() const;

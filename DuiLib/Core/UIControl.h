@@ -78,6 +78,7 @@ namespace DuiLib {
 		void SetBorderSize(int nSize);
 		DWORD GetBorderColor() const;
 		void SetBorderColor(DWORD dwBorderColor);
+		RECT GetBorderRectSize() const;
 		void SetBorderSize(RECT rc);
 		int GetLeftBorderSize() const;
 		void SetLeftBorderSize(int nSize);

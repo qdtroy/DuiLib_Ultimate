@@ -1312,11 +1312,13 @@ namespace DuiLib {
 		CControlUI::SetPos(rc, bNeedInvalidate);
 		rc = m_rcItem;
 
+		int iChildPadding = GetChildPadding();
+		RECT rcInset = GetInset();
 		// Adjust for inset
-		rc.left += m_rcInset.left;
-		rc.top += m_rcInset.top;
-		rc.right -= m_rcInset.right;
-		rc.bottom -= m_rcInset.bottom;
+		rc.left += rcInset.left;
+		rc.top += rcInset.top;
+		rc.right -= rcInset.right;
+		rc.bottom -= rcInset.bottom;
 		if (m_pOwner->IsFixedScrollbar() && m_pVerticalScrollBar) rc.right -= m_pVerticalScrollBar->GetFixedWidth();
 		else if (m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible()) rc.right -= m_pVerticalScrollBar->GetFixedWidth();
 		if (m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible()) rc.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
@@ -1351,7 +1353,7 @@ namespace DuiLib {
 			cxNeeded = MAX(cxNeeded, sz.cx);
 			nEstimateNum++;
 		}
-		cyFixed += (nEstimateNum - 1) * m_iChildPadding;
+		cyFixed += (nEstimateNum - 1) * iChildPadding;
 
 		if (m_pOwner) {
 			CListHeaderUI* pHeader = m_pOwner->GetHeader();
@@ -1420,9 +1422,9 @@ namespace DuiLib {
 
 			iPosY += sz.cy + m_iChildPadding + rcPadding.top + rcPadding.bottom;
 			cyNeeded += sz.cy + rcPadding.top + rcPadding.bottom;
-			szRemaining.cy -= sz.cy + m_iChildPadding + rcPadding.bottom;
+			szRemaining.cy -= sz.cy + iChildPadding + rcPadding.bottom;
 		}
-		cyNeeded += (nEstimateNum - 1) * m_iChildPadding;
+		cyNeeded += (nEstimateNum - 1) * iChildPadding;
 
 		if (m_pHorizontalScrollBar != NULL) {
 			if (cxNeeded > rc.right - rc.left) {
@@ -1526,16 +1528,18 @@ namespace DuiLib {
 		CControlUI::SetPos(rc, bNeedInvalidate);
 		rc = m_rcItem;
 
+		RECT rcInset = GetInset();
 		// Adjust for inset
-		rc.left += m_rcInset.left;
-		rc.top += m_rcInset.top;
-		rc.right -= m_rcInset.right;
-		rc.bottom -= m_rcInset.bottom;
+		rc.left += rcInset.left;
+		rc.top += rcInset.top;
+		rc.right -= rcInset.right;
+		rc.bottom -= rcInset.bottom;
 
 		if (m_items.GetSize() == 0) {
 			return;
 		}
 
+		int iChildPadding = GetChildPadding();
 		// Determine the width of elements that are sizeable
 		SIZE szAvailable = { rc.right - rc.left, rc.bottom - rc.top };
 		int nAdjustables = 0;
@@ -1556,7 +1560,7 @@ namespace DuiLib {
 			cxFixed += sz.cx + pControl->GetPadding().left + pControl->GetPadding().right;
 			nEstimateNum++;
 		}
-		cxFixed += (nEstimateNum - 1) * m_iChildPadding;
+		cxFixed += (nEstimateNum - 1) * iChildPadding;
 
 		int cxExpand = 0;
 		int cxNeeded = 0;
@@ -1626,7 +1630,7 @@ namespace DuiLib {
 			cxNeeded += sz.cx + rcPadding.left + rcPadding.right;
 			szRemaining.cx -= sz.cx + m_iChildPadding + rcPadding.right;
 		}
-		cxNeeded += (nEstimateNum - 1) * m_iChildPadding;
+		cxNeeded += (nEstimateNum - 1) * iChildPadding;
 	}
 
 	void CListHeaderUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
@@ -1737,7 +1741,9 @@ namespace DuiLib {
 
 	RECT CListHeaderItemUI::GetTextPadding() const
 	{
-		return m_rcTextPadding;
+		RECT rcTextPadding = m_rcTextPadding;
+		if(m_pManager != NULL) m_pManager->GetDPIObj()->Scale(&rcTextPadding);
+		return rcTextPadding;
 	}
 
 	void CListHeaderItemUI::SetTextPadding(RECT rc)

@@ -85,7 +85,9 @@ namespace DuiLib
 
 	RECT CLabelUI::GetTextPadding() const
 	{
-		return m_rcTextPadding;
+		RECT rcTextPadding = m_rcTextPadding;
+		if(m_pManager != NULL) m_pManager->GetDPIObj()->Scale(&rcTextPadding);
+		return rcTextPadding;
 	}
 
 	void CLabelUI::SetTextPadding(RECT rc)

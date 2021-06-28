@@ -33,12 +33,11 @@ namespace DuiLib
 		rc = m_rcItem;
 
 		// Adjust for inset
-		RECT m_rcInset = CVerticalLayoutUI::m_rcInset;
-		GetManager()->GetDPIObj()->Scale(&m_rcInset);
-		rc.left += m_rcInset.left;
-		rc.top += m_rcInset.top;
-		rc.right -= m_rcInset.right;
-		rc.bottom -= m_rcInset.bottom;
+		RECT rcInset = GetInset();
+		rc.left += rcInset.left;
+		rc.top += rcInset.top;
+		rc.right -= rcInset.right;
+		rc.bottom -= rcInset.bottom;
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) rc.right -= m_pVerticalScrollBar->GetFixedWidth();
 		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) rc.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
 
@@ -47,6 +46,7 @@ namespace DuiLib
 			return;
 		}
 
+		int iChildPadding = GetChildPadding();
 		// Determine the minimum size
 		SIZE szAvailable = { rc.right - rc.left, rc.bottom - rc.top };
 		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) 
@@ -90,7 +90,7 @@ namespace DuiLib
 			cxNeeded = MAX(cxNeeded, sz.cx + rcPadding.left + rcPadding.right);
 			nEstimateNum++;
 		}
-		cyFixed += (nEstimateNum - 1) * m_iChildPadding;
+		cyFixed += (nEstimateNum - 1) * iChildPadding;
 
 		// Place elements
 		int cyNeeded = 0;
@@ -138,7 +138,7 @@ namespace DuiLib
 			if (szControlAvailable.cx > iControlMaxWidth) szControlAvailable.cx = iControlMaxWidth;
 			if (szControlAvailable.cy > iControlMaxHeight) szControlAvailable.cy = iControlMaxHeight;
 			cyFixedRemaining = cyFixedRemaining - (rcPadding.top + rcPadding.bottom);
-			if (iEstimate > 1) cyFixedRemaining = cyFixedRemaining - m_iChildPadding;
+			if (iEstimate > 1) cyFixedRemaining = cyFixedRemaining - iChildPadding;
 			SIZE sz = pControl->EstimateSize(szControlAvailable);
 			if( sz.cy == 0 ) {
 				iAdjustable++;
@@ -189,11 +189,11 @@ namespace DuiLib
 				pControl->SetPos(rcCtrl, false);
 			}
 
-			iPosY += sz.cy + m_iChildPadding + rcPadding.top + rcPadding.bottom;
+			iPosY += sz.cy + iChildPadding + rcPadding.top + rcPadding.bottom;
 			cyNeeded += sz.cy + rcPadding.top + rcPadding.bottom;
-			szRemaining.cy -= sz.cy + m_iChildPadding + rcPadding.bottom;
+			szRemaining.cy -= sz.cy + iChildPadding + rcPadding.bottom;
 		}
-		cyNeeded += (nEstimateNum - 1) * m_iChildPadding;
+		cyNeeded += (nEstimateNum - 1) * iChildPadding;
 
 		// Process the scrollbar
 		ProcessScrollBar(rc, cxNeeded, cyNeeded);
@@ -214,6 +214,7 @@ namespace DuiLib
 
 	int CVerticalLayoutUI::GetSepHeight() const
 	{
+		if(m_pManager != NULL) m_pManager->GetDPIObj()->Scale(m_iSepHeight);
 		return m_iSepHeight;
 	}
 

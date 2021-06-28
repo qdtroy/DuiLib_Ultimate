@@ -413,6 +413,7 @@ namespace DuiLib {
 
 	DWORD CListContainerHeaderItemUI::GetSepWidth() const
 	{
+		if(m_pManager != NULL) m_pManager->GetDPIObj()->Scale(m_iSepWidth);
 		return m_iSepWidth;
 	}
 
@@ -445,7 +446,9 @@ namespace DuiLib {
 
 	RECT CListContainerHeaderItemUI::GetTextPadding() const
 	{
-		return m_rcTextPadding;
+		RECT rcTextPadding = m_rcTextPadding;
+		if(m_pManager != NULL) m_pManager->GetDPIObj()->Scale(&rcTextPadding);
+		return rcTextPadding;
 	}
 
 	void CListContainerHeaderItemUI::SetTextPadding(RECT rc)

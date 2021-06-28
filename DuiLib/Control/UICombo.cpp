@@ -681,7 +681,9 @@ namespace DuiLib {
 
 	RECT CComboUI::GetTextPadding() const
 	{
-		return m_rcTextPadding;
+		RECT rcTextPadding = m_rcTextPadding;
+		if(m_pManager != NULL) m_pManager->GetDPIObj()->Scale(&rcTextPadding);
+		return rcTextPadding;
 	}
 
 	void CComboUI::SetTextPadding(RECT rc)

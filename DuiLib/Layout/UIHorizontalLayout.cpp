@@ -33,12 +33,11 @@ namespace DuiLib
 		rc = m_rcItem;
 
 		// Adjust for inset
-		RECT m_rcInset = CHorizontalLayoutUI::m_rcInset;
-		GetManager()->GetDPIObj()->Scale(&m_rcInset);
-		rc.left += m_rcInset.left;
-		rc.top += m_rcInset.top;
-		rc.right -= m_rcInset.right;
-		rc.bottom -= m_rcInset.bottom;
+		RECT rcInset = GetInset();
+		rc.left += rcInset.left;
+		rc.top += rcInset.top;
+		rc.right -= rcInset.right;
+		rc.bottom -= rcInset.bottom;
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) rc.right -= m_pVerticalScrollBar->GetFixedWidth();
 		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) rc.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
 
@@ -47,6 +46,7 @@ namespace DuiLib
 			return;
 		}
 
+		int iChildPadding = GetChildPadding();
 		// Determine the minimum size
 		SIZE szAvailable = { rc.right - rc.left, rc.bottom - rc.top };
 		//if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) 
@@ -90,8 +90,7 @@ namespace DuiLib
 			cyNeeded = MAX(cyNeeded, sz.cy + rcPadding.top + rcPadding.bottom);
 			nEstimateNum++;
 		}
-		cxFixed += (nEstimateNum - 1) * m_iChildPadding;
-
+		cxFixed += (nEstimateNum - 1) * iChildPadding;
 		// Place elements
 		int cxNeeded = 0;
 		int cxExpand = 0;
@@ -99,8 +98,22 @@ namespace DuiLib
 		// Position the elements
 		SIZE szRemaining = szAvailable;
 		int iPosX = rc.left;
+		
+		// 滚动条
 		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) {
 			iPosX -= m_pHorizontalScrollBar->GetScrollPos();
+		}
+		else {
+			// 子控件横向对其方式
+			if(nAdjustables <= 0) {
+				UINT iChildAlign = GetChildAlign(); 
+				if (iChildAlign == DT_CENTER) {
+					iPosX += (szAvailable.cx -cxFixed) / 2;
+				}
+				else if (iChildAlign == DT_RIGHT) {
+					iPosX += (szAvailable.cx - cxFixed);
+				}
+			}
 		}
 		int iEstimate = 0;
 		int iAdjustable = 0;
@@ -126,7 +139,7 @@ namespace DuiLib
 			if (szControlAvailable.cx > iControlMaxWidth) szControlAvailable.cx = iControlMaxWidth;
 			if (szControlAvailable.cy > iControlMaxHeight) szControlAvailable.cy = iControlMaxHeight;
 			cxFixedRemaining = cxFixedRemaining - (rcPadding.left + rcPadding.right);
-			if (iEstimate > 1) cxFixedRemaining = cxFixedRemaining - m_iChildPadding;
+			if (iEstimate > 1) cxFixedRemaining = cxFixedRemaining - iChildPadding;
 			SIZE sz = pControl->EstimateSize(szControlAvailable);
 			if( sz.cx == 0 ) {
 				iAdjustable++;
@@ -178,11 +191,11 @@ namespace DuiLib
 				pControl->SetPos(rcCtrl, false);
 			}
 
-			iPosX += sz.cx + m_iChildPadding + rcPadding.left + rcPadding.right;
+			iPosX += sz.cx + iChildPadding + rcPadding.left + rcPadding.right;
 			cxNeeded += sz.cx + rcPadding.left + rcPadding.right;
-			szRemaining.cx -= sz.cx + m_iChildPadding + rcPadding.right;
+			szRemaining.cx -= sz.cx + iChildPadding + rcPadding.right;
 		}
-		cxNeeded += (nEstimateNum - 1) * m_iChildPadding;
+		cxNeeded += (nEstimateNum - 1) * iChildPadding;
 
 		// Process the scrollbar
 		ProcessScrollBar(rc, cxNeeded, cyNeeded);

@@ -168,8 +168,9 @@ namespace DuiLib
 
 	RECT CContainerUI::GetInset() const
 	{
-		if(m_pManager) return m_pManager->GetDPIObj()->Scale(m_rcInset);
-		return m_rcInset;
+		RECT rcInset = m_rcInset;
+		if(m_pManager) m_pManager->GetDPIObj()->Scale(&rcInset);
+		return rcInset;
 	}
 
 	void CContainerUI::SetInset(RECT rcInset)
@@ -461,7 +462,8 @@ namespace DuiLib
 	void CContainerUI::PageUp()
 	{
 		SIZE sz = GetScrollPos();
-		int iOffset = m_rcItem.bottom - m_rcItem.top - m_rcInset.top - m_rcInset.bottom;
+		RECT rcInset = GetInset();
+		int iOffset = m_rcItem.bottom - m_rcItem.top - rcInset.top - rcInset.bottom;
 		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) iOffset -= m_pHorizontalScrollBar->GetFixedHeight();
 		sz.cy -= iOffset;
 		SetScrollPos(sz);
@@ -470,7 +472,8 @@ namespace DuiLib
 	void CContainerUI::PageDown()
 	{
 		SIZE sz = GetScrollPos();
-		int iOffset = m_rcItem.bottom - m_rcItem.top - m_rcInset.top - m_rcInset.bottom;
+		RECT rcInset = GetInset();
+		int iOffset = m_rcItem.bottom - m_rcItem.top - rcInset.top - rcInset.bottom;
 		if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) iOffset -= m_pHorizontalScrollBar->GetFixedHeight();
 		sz.cy += iOffset;
 		SetScrollPos(sz);
@@ -516,7 +519,8 @@ namespace DuiLib
 	void CContainerUI::PageLeft()
 	{
 		SIZE sz = GetScrollPos();
-		int iOffset = m_rcItem.right - m_rcItem.left - m_rcInset.left - m_rcInset.right;
+		RECT rcInset = GetInset();
+		int iOffset = m_rcItem.right - m_rcItem.left - rcInset.left - rcInset.right;
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) iOffset -= m_pVerticalScrollBar->GetFixedWidth();
 		sz.cx -= iOffset;
 		SetScrollPos(sz);
@@ -525,7 +529,8 @@ namespace DuiLib
 	void CContainerUI::PageRight()
 	{
 		SIZE sz = GetScrollPos();
-		int iOffset = m_rcItem.right - m_rcItem.left - m_rcInset.left - m_rcInset.right;
+		RECT rcInset = GetInset();
+		int iOffset = m_rcItem.right - m_rcItem.left - rcInset.left - rcInset.right;
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) iOffset -= m_pVerticalScrollBar->GetFixedWidth();
 		sz.cx += iOffset;
 		SetScrollPos(sz);
@@ -946,11 +951,13 @@ namespace DuiLib
 			TPercentInfo rcPercent = pControl->GetFloatPercent();
 			LONG width = m_rcItem.right - m_rcItem.left;
 			LONG height = m_rcItem.bottom - m_rcItem.top;
+			LONG left = szXY.cx < 0 ? m_rcItem.right : m_rcItem.left;
+			LONG top = szXY.cy < 0 ? m_rcItem.bottom : m_rcItem.top;
 			RECT rcCtrl = { 0 };
-			rcCtrl.left = (LONG)(width*rcPercent.left) + szXY.cx+ m_rcItem.left;
-			rcCtrl.top = (LONG)(height*rcPercent.top) + szXY.cy+ m_rcItem.top;
-			rcCtrl.right = (LONG)(width*rcPercent.right) + szXY.cx + sz.cx+ m_rcItem.left;
-			rcCtrl.bottom = (LONG)(height*rcPercent.bottom) + szXY.cy + sz.cy+ m_rcItem.top;
+			rcCtrl.left = (LONG)(width*rcPercent.left) + szXY.cx + left;
+			rcCtrl.top = (LONG)(height*rcPercent.top) + szXY.cy + top;
+			rcCtrl.right = (LONG)(width*rcPercent.right) + szXY.cx + sz.cx + left;
+			rcCtrl.bottom = (LONG)(height*rcPercent.bottom) + szXY.cy + sz.cy + top;
 			pControl->SetPos(rcCtrl, false);
 		}
 	}

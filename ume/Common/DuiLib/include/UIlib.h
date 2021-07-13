@@ -44,6 +44,7 @@
 #include <malloc.h>
 #include <comdef.h>
 #include <gdiplus.h>
+#include <string>
 
 #include "Utils/Utils.h"
 #include "Utils/unzip.h"

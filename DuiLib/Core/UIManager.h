@@ -141,8 +141,10 @@ namespace DuiLib {
 		bool bTiledX;
 		bool bTiledY;
 		bool bHSL;
-		SIZE szIcon;
-		CDuiString sIconAlign;
+
+		CDuiSize szImage;
+		RECT rcPadding;
+		CDuiString sAlign;
 	} TDrawInfo;
 
 	typedef struct UILIB_API tagTPercentInfo
@@ -243,11 +245,11 @@ namespace DuiLib {
 		void SetSizeBox(RECT& rcSizeBox);
 		RECT& GetCaptionRect();
 		void SetCaptionRect(RECT& rcCaption);
-		SIZE GetRoundCorner() const;
+		SIZE GetRoundCorner();
 		void SetRoundCorner(int cx, int cy);
-		SIZE GetMinInfo() const;
+		SIZE GetMinInfo();
 		void SetMinInfo(int cx, int cy);
-		SIZE GetMaxInfo() const;
+		SIZE GetMaxInfo();
 		void SetMaxInfo(int cx, int cy);
 		bool IsShowUpdateRect() const;
 		void SetShowUpdateRect(bool show);
@@ -361,7 +363,7 @@ namespace DuiLib {
 		const TImageInfo* GetImageString(LPCTSTR pStrImage, LPCTSTR pStrModify = NULL);
 
 		// ³õÊ¼»¯ÍÏ×§
-		bool InitDragDrop();
+		bool EnableDragDrop(bool bEnable);
 		virtual bool OnDrop(FORMATETC* pFmtEtc, STGMEDIUM& medium,DWORD *pdwEffect);
 
 		bool AttachDialog(CControlUI* pControl);
@@ -544,6 +546,7 @@ namespace DuiLib {
 		Gdiplus::GdiplusStartupInput *m_pGdiplusStartupInput;
 
 		// ÍÏ×§
+		bool m_bDragDrop;
 		bool m_bDragMode;
 		HBITMAP m_hDragBitmap;
 		

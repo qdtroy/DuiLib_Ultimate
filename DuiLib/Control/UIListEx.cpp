@@ -377,7 +377,7 @@ namespace DuiLib {
 
 	LPCTSTR CListContainerHeaderItemUI::GetClass() const
 	{
-		return _T("ListContainerHeaderItem");
+		return _T("ListContainerHeaderItemUI");
 	}
 
 	LPVOID CListContainerHeaderItemUI::GetInterface(LPCTSTR pstrName)
@@ -413,6 +413,7 @@ namespace DuiLib {
 
 	DWORD CListContainerHeaderItemUI::GetSepWidth() const
 	{
+		if(m_pManager != NULL) m_pManager->GetDPIObj()->Scale(m_iSepWidth);
 		return m_iSepWidth;
 	}
 
@@ -445,7 +446,9 @@ namespace DuiLib {
 
 	RECT CListContainerHeaderItemUI::GetTextPadding() const
 	{
-		return m_rcTextPadding;
+		RECT rcTextPadding = m_rcTextPadding;
+		if(m_pManager != NULL) m_pManager->GetDPIObj()->Scale(&rcTextPadding);
+		return rcTextPadding;
 	}
 
 	void CListContainerHeaderItemUI::SetTextPadding(RECT rc)
@@ -1009,6 +1012,7 @@ Label_ForeImage:
 	}
 	int CListContainerHeaderItemUI::GetCheckBoxWidth() const
 	{
+		if(m_pManager) m_pManager->GetDPIObj()->Scale(m_cxyCheckBox.cx);
 		return m_cxyCheckBox.cx;
 	}
 
@@ -1020,6 +1024,7 @@ Label_ForeImage:
 
 	int CListContainerHeaderItemUI::GetCheckBoxHeight()  const 
 	{
+		if(m_pManager) m_pManager->GetDPIObj()->Scale(m_cxyCheckBox.cy);
 		return m_cxyCheckBox.cy;
 	}
 

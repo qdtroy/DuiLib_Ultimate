@@ -1104,7 +1104,7 @@ err:
 
 	LPCTSTR CRichEditUI::GetClass() const
 	{
-		return DUI_CTR_RICHEDIT;
+		return _T("RichEditUI");
 	}
 
 	LPVOID CRichEditUI::GetInterface(LPCTSTR pstrName)
@@ -1118,6 +1118,19 @@ err:
 		if( !IsEnabled() ) return CControlUI::GetControlFlags();
 
 		return UIFLAG_SETCURSOR | UIFLAG_TABSTOP;
+	}
+
+	void CRichEditUI::SetEnabled(bool bEnabled)
+	{
+		CContainerUI::SetEnabled(bEnabled);
+		if(m_pTwh) {
+			if(IsEnabled()) {
+				m_pTwh->SetColor(GetTextColor());
+			}
+			else {
+				m_pTwh->SetColor (m_pManager->GetDefaultDisabledColor());
+			}
+		}
 	}
 
 	bool CRichEditUI::IsMultiLine()
@@ -1779,7 +1792,7 @@ err:
 	HRESULT CRichEditUI::TxSendMessage(UINT msg, WPARAM wparam, LPARAM lparam, LRESULT *plresult) const
 	{
 		if( m_pTwh ) {
-			if( msg == WM_KEYDOWN && TCHAR(wparam) == VK_RETURN ) {
+			if( msg == WM_KEYDOWN && wparam == VK_RETURN ) {
 				if( !m_bWantReturn || (::GetKeyState(VK_CONTROL) < 0 && !m_bWantCtrlReturn) ) {
 					if( m_pManager != NULL ) m_pManager->SendNotify((CControlUI*)this, DUI_MSGTYPE_RETURN);
 					return S_OK;
@@ -2050,10 +2063,11 @@ err:
 		CControlUI::SetPos(rc, bNeedInvalidate);
 		rc = m_rcItem;
 
-		rc.left += m_rcInset.left;
-		rc.top += m_rcInset.top;
-		rc.right -= m_rcInset.right;
-		rc.bottom -= m_rcInset.bottom;
+		RECT rcInset = GetInset();
+		rc.left += rcInset.left;
+		rc.top += rcInset.top;
+		rc.right -= rcInset.right;
+		rc.bottom -= rcInset.bottom;
 
 		RECT rcScrollView = rc;
 		bool bVScrollBarVisiable = false;
@@ -2146,10 +2160,11 @@ err:
 		CContainerUI::Move(szOffset, bNeedInvalidate);
 		if( m_pTwh != NULL ) {
 			RECT rc = m_rcItem;
-			rc.left += m_rcInset.left;
-			rc.top += m_rcInset.top;
-			rc.right -= m_rcInset.right;
-			rc.bottom -= m_rcInset.bottom;
+			RECT rcInset = GetInset();
+			rc.left += rcInset.left;
+			rc.top += rcInset.top;
+			rc.right -= rcInset.right;
+			rc.bottom -= rcInset.bottom;
 
 			if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) rc.right -= m_pVerticalScrollBar->GetFixedWidth();
 			if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) rc.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
@@ -2205,10 +2220,11 @@ err:
 
 		if( m_items.GetSize() > 0 ) {
 			RECT rc = m_rcItem;
-			rc.left += m_rcInset.left;
-			rc.top += m_rcInset.top;
-			rc.right -= m_rcInset.right;
-			rc.bottom -= m_rcInset.bottom;
+			RECT rcInset = GetInset();
+			rc.left += rcInset.left;
+			rc.top += rcInset.top;
+			rc.right -= rcInset.right;
+			rc.bottom -= rcInset.bottom;
 			if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) rc.right -= m_pVerticalScrollBar->GetFixedWidth();
 			if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) rc.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
 
@@ -2281,10 +2297,11 @@ err:
 			DWORD dwTextColor = GetTipValueColor();
 			CDuiString sTipValue = GetTipValue();
 			RECT rc = m_rcItem;
-			rc.left += m_rcTextPadding.left;
-			rc.right -= m_rcTextPadding.right;
-			rc.top += m_rcTextPadding.top;
-			rc.bottom -= m_rcTextPadding.bottom;
+			RECT rcTextPadding = GetTextPadding();
+			rc.left += rcTextPadding.left;
+			rc.right -= rcTextPadding.right;
+			rc.top += rcTextPadding.top;
+			rc.bottom -= rcTextPadding.bottom;
 			UINT uTextAlign = GetTipValueAlign();
 			if(IsMultiLine()) uTextAlign |= DT_TOP;
 			else uTextAlign |= DT_VCENTER;
@@ -2339,7 +2356,9 @@ err:
 
 	RECT CRichEditUI::GetTextPadding() const
 	{
-		return m_rcTextPadding;
+		RECT rcTextPadding = m_rcTextPadding;
+		if(m_pManager) m_pManager->GetDPIObj()->Scale(&rcTextPadding);
+		return rcTextPadding;
 	}
 
 	void CRichEditUI::SetTextPadding(RECT rc)
@@ -2603,6 +2622,11 @@ err:
 		}
 #endif
 		else if( uMsg == WM_CONTEXTMENU ) {
+			// RichEdit是否支持右键菜单，使用menu属性来控制
+			if(!IsContextMenuUsed()) {
+				bWasHandled = false;
+				return 0;
+			}
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			::ScreenToClient(GetManager()->GetPaintWindow(), &pt);
 			CControlUI* pHover = GetManager()->FindControl(pt);

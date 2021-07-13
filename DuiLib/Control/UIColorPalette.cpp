@@ -32,7 +32,7 @@ namespace DuiLib {
 		float G = (float)(GetGValue(clr) / 255.0f);
 		float B = (float)(GetBValue(clr) / 255.0f);
 
-		float H, S, L;
+		float H = 0, S = 0, L = 0;
 
 		float fMin = min(R, min(G, B));		//Min. value of RGB
 		float fMax = max(R, max(G, B));		//Max. value of RGB

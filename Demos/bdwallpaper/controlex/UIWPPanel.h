@@ -28,11 +28,11 @@ namespace DuiLib
 		{
 			CControlUI::SetPos(rc, bNeedInvalidate);
 			RECT rcItem = m_rcItem;
-
-			rcItem.left += m_rcInset.left;
-			rcItem.top += m_rcInset.top;
-			rcItem.right -= m_rcInset.right;
-			rcItem.bottom -= m_rcInset.bottom;
+			RECT rcInset = GetInset();
+			rcItem.left += rcInset.left;
+			rcItem.top += rcInset.top;
+			rcItem.right -= rcInset.right;
+			rcItem.bottom -= rcInset.bottom;
 
 			int nWidth = rcItem.right - rcItem.left;
 			int nHeight = rcItem.bottom - rcItem.top;

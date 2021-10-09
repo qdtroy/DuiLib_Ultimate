@@ -751,7 +751,7 @@ class TROYCONTROLS_API CVListUI : public CVerticalLayoutUI, public IListUI
 {
 public:
 	CVListUI();
-	~CVListUI();
+	virtual ~CVListUI();
 
 	LPCTSTR GetClass() const;
 	UINT GetControlFlags() const;
@@ -859,7 +859,7 @@ class TROYCONTROLS_API CVBaseListUI : public CVListUI
 {
 public:
 	CVBaseListUI();
-	~CVBaseListUI();
+	virtual ~CVBaseListUI();
 
 	virtual void Init();
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
@@ -929,4 +929,293 @@ protected:
 	CDuiString m_sLinks[MAX_LINK];
 	int m_nHoverLink;
 	CStdPtrArray m_aTexts;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////
+//
+class CDragListHeaderUI;
+
+class TROYCONTROLS_API CDragListUI : public CListUI
+{
+	DECLARE_DUICONTROL(CDragListUI)
+
+public:
+	CDragListUI();
+
+	LPCTSTR GetClass() const;
+	LPVOID GetInterface(LPCTSTR pstrName);
+
+	bool Add(CControlUI* pControl);
+	bool AddAt(CControlUI* pControl, int iIndex);
+	bool Remove(CControlUI* pControl);
+
+public:
+	void SetDragCtrl(CControlUI* pDrag);
+	void Move(CControlUI* dstParent, CControlUI* pNode);
+	void EndDrag(CControlUI* dstParent);
+	void BeginDrag(CControlUI* pNode, POINT pt);
+	void Draging(POINT pt);
+	// 列交换
+	void Switch(int from, int to);
+
+protected:
+	CControlUI* m_pDragingCtrl;
+	CControlUI* m_pNodeNeedMove;
+	SIZE m_szDragOffset;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////
+//
+class TROYCONTROLS_API CDragListHeaderUI : public CListHeaderUI
+{
+	DECLARE_DUICONTROL(CDragListHeaderUI)
+
+public:
+	CDragListHeaderUI();
+
+	LPCTSTR GetClass() const;
+	LPVOID GetInterface(LPCTSTR pstrName);
+
+public:
+	void SetOwner(CDragListUI* pOwner);
+	void SetDragCtrl(CControlUI* pDrag);
+	void Move(CControlUI* dstParent, CControlUI* pNode);
+	void EndDrag(CControlUI* dstParent);
+	void BeginDrag(CControlUI* pNode, POINT pt);
+	void Draging(POINT pt);
+
+protected:
+	CDragListUI* m_pOwner;
+	CControlUI* m_pDragingCtrl;
+	CControlUI* m_pNodeNeedMove;
+	SIZE m_szDragOffset;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////
+//
+class TROYCONTROLS_API CDragListHeaderItemUI : public CListHeaderItemUI
+{
+	DECLARE_DUICONTROL(CDragListHeaderItemUI)
+
+public:
+	CDragListHeaderItemUI();
+	~CDragListHeaderItemUI() {}
+
+	LPCTSTR GetClass() const;
+	LPVOID GetInterface(LPCTSTR pstrName);
+	
+	void DoEvent(TEventUI& event);
+
+protected:
+	CDragListHeaderItemUI* ItemFromPoint(POINT pt);
+};
+
+/////////////////////////////////////////////////////////////////////////////////////
+//
+class TROYCONTROLS_API CDragListElementUI : public CListContainerElementUI
+{
+	DECLARE_DUICONTROL(CDragListElementUI)
+
+public:
+	CDragListElementUI();
+
+	LPCTSTR GetClass() const;
+	LPVOID GetInterface(LPCTSTR pstrName);
+
+	void DoEvent(TEventUI& event);
+
+	void Switch(int from, int to);
+protected:
+	CDragListElementUI* ItemFromPoint(POINT pt);
+};
+/////////////////////////////////////////////////////////////////////////////////////
+//
+
+class CListFooterUI;
+class TROYCONTROLS_API CPageListUI : public CListUI
+{
+	DECLARE_DUICONTROL(CPageListUI)
+
+public:
+	CPageListUI();
+
+	LPCTSTR GetClass() const;
+	UINT GetControlFlags() const;
+	LPVOID GetInterface(LPCTSTR pstrName);
+
+	CListFooterUI* GetFooter() const;
+	void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
+	int GetItemIndex(CControlUI* pControl) const;
+	bool SetItemIndex(CControlUI* pControl, int iIndex);
+	bool Add(CControlUI* pControl);
+	bool AddAt(CControlUI* pControl, int iIndex);
+	bool Remove(CControlUI* pControl);
+
+protected:
+	CListFooterUI* m_pFooter;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////
+//
+
+class TROYCONTROLS_API CListFooterUI : public CHorizontalLayoutUI
+{
+	DECLARE_DUICONTROL(CListFooterUI)
+
+public:
+	CListFooterUI();
+	~CListFooterUI();
+
+public:
+	LPCTSTR GetClass() const;
+	LPVOID GetInterface(LPCTSTR pstrName);
+
+	SIZE EstimateSize(SIZE szAvailable);
+	void SetOwner(CListUI* pOwner);
+
+public:
+	void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
+	void SetPrevBtnStyle(LPCTSTR pstrStyle);
+	void SetNextBtnStyle(LPCTSTR pstrStyle);
+	void SetPageBtnStyle(LPCTSTR pstrStyle);
+
+public:
+	void SetPageCount(int nCount);
+	int GetPageCount() const;
+	// 序号从0开始
+	void SetCurPage(int nPage);
+	int GetCurPage();
+	// 序号从0开始
+	void SetCurGroup(int nPage);
+	int GetCurGroup();
+
+public:
+	bool OnPagerNotify(void* param);
+
+protected:
+	CListUI* m_pOwner;
+	int m_nPageCount;
+	int m_nCurPage;
+	int m_nGroupCount;
+	int m_nCurGroup;
+	CControlUI* m_pPagerLeft;
+	CButtonUI* m_pPagePrevBtn;
+	CButtonUI* m_pPageNextBtn;
+	CStdPtrArray m_aPageBtns;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////
+//
+
+class TROYCONTROLS_API CTrackListUI : public CListUI
+{
+	DECLARE_DUICONTROL(CTrackListUI)
+
+public:
+	CTrackListUI();
+
+	LPCTSTR GetClass() const;
+	LPVOID GetInterface(LPCTSTR pstrName);
+
+public:
+	void SetDragSelect(bool bDragSel);
+	bool IsDragSelect() const;
+
+	void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
+
+	bool SelectItem(int iIndex, bool bTakeFocus = false);
+	bool SelectMultiItem(int iIndex, bool bTakeFocus = false);
+public:
+	// 拖拽
+	virtual void EndDrag(POINT ptMouse);
+	virtual void BeginDrag(POINT ptMouse);
+	virtual void Draging(POINT ptMouse);
+	virtual CControlUI* ItemFromPoint(POINT ptMouse);
+
+protected:
+	bool m_bDragSel;
+	POINT m_ptFirst;
+	CControlUI* m_pFirstItem;
+	CControlUI* m_pLastItem;
+	CControlUI* m_pSelMask;
+};
+
+class TROYCONTROLS_API CTrackListLabelElementUI : public CListLabelElementUI
+{
+	DECLARE_DUICONTROL(CTrackListLabelElementUI)
+public:
+	CTrackListLabelElementUI();
+
+	LPCTSTR GetClass() const;
+	LPVOID GetInterface(LPCTSTR pstrName);
+
+	void DoEvent(TEventUI& event);
+};
+
+class TROYCONTROLS_API CTrackListContainerElementUI : public CListContainerElementUI
+{
+	DECLARE_DUICONTROL(CTrackListContainerElementUI)
+public:
+	CTrackListContainerElementUI();
+
+	LPCTSTR GetClass() const;
+	LPVOID GetInterface(LPCTSTR pstrName);
+
+	void DoEvent(TEventUI& event);
+};
+
+////////////////////////////////////////////////////////////////////////////
+//
+typedef struct tagCHARTITEM
+{
+	CDuiString name;
+	double value;
+	DWORD color;
+} CHARTITEM, *PCHARTITEM;
+
+class TROYCONTROLS_API CChartViewUI : public CControlUI
+{
+public:
+	DECLARE_DUICONTROL(CChartViewUI)
+public:
+	CChartViewUI(void);
+	~CChartViewUI(void);
+
+	bool Add(LPCTSTR name, double value);
+	bool AddAt(LPCTSTR name, double value, int iIndex);
+	bool AddMulti(LPCTSTR name, double value, DWORD color, int nLine);
+
+public:
+	virtual void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
+	bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
+	virtual void DoPaintMultiLine(HDC hDC, const RECT& rcPaint);
+
+	void SetMultiGridLine(bool bGrid);
+	void SetMultiGridLineColor(DWORD dwColor);
+	void SetMultiTickLineColor(DWORD dwColor);
+
+private:
+	std::vector<CHARTITEM> m_items;
+	DWORD m_dwTextColor;
+	DWORD m_dwDisabledTextColor;
+	bool m_bShowHtml;
+	bool m_bShowText;
+	int m_iFont;
+	bool m_bMultiGrid;
+	DWORD m_dwMultiGridColor;
+	DWORD m_dwMultiTickColor;
+	std::map<int, std::vector<CHARTITEM>>	m_mapMulti;
+};
+
+
+////////////////////////////////////////////////////////////////////////////
+//
+class TROYCONTROLS_API CEditExUI : public CEditUI
+{
+public:
+	DECLARE_DUICONTROL(CEditExUI)
+
+public:
+	void ShowBalloonTip(LPCTSTR lpszTitle, LPCTSTR lpszText, INT ttiIcon);
+	void HideBalloonTip();
 };

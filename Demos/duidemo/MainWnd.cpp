@@ -88,7 +88,7 @@ void CMainWnd::InitWindow()
 	CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("oneclick_browser2")));
 	pBrowser2->SetWebBrowserEventHandler(this);
 	pBrowser1->NavigateUrl(_T("https://www.baidu.com"));
-	pBrowser2->NavigateUrl(_T("http://www.winradar.com"));
+	pBrowser2->NavigateUrl(_T("https://pbsz.ebank.cmbchina.com/CmbBank_GenShell/UI/GenShellPC/Login/Login.aspx"));
 
 	// 动态创建Combo
 	CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("font_size")));
@@ -157,24 +157,31 @@ void CMainWnd::InitWindow()
 		pItem->SetText(0, _T("张三"));
 		pItem->SetText(1, _T("1000"));
 		pItem->SetText(2, _T("100"));
+		pItem->SetTextColor(0, 0xff0000ff);
+		pItem->SetTextColor(1, 0xffff0000);
+		pItem->SetTextColor(2, 0xffffff00);
 	}
 
 	CTreeViewUI* pTreeView = static_cast<CTreeViewUI*>(m_pm.FindControl(_T("treeview")));
+
 	CTreeNodeUI* pItem  = new CTreeNodeUI();
 	pItem->SetFixedHeight(30);
 	pItem->SetItemText(_T("动态添加"));
-	pTreeView->AddAt(pItem, 3);
+	pTreeView->AddAt(pItem, 0);
 	COptionUI* pRadio = new COptionUI();
 	pRadio->SetText(_T("单选按钮"));
 	pItem->Add(pRadio);
 	pRadio->SetAttribute(_T("Style"), _T("cb_style"));
 	pItem->SetAttribute(_T("itemattr"), _T("valign=&quot;center&quot;"));
-	pItem->SetAttribute(_T("Style"), _T("treeview_style"));
+	pItem->SetAttribute(_T("Style"), _T("treeview_item_style"));
 
 	CDialogBuilder builder;
 	CControlUI* pParentItem = NULL;
 	CTreeNodeUI* pTreeItem = (CTreeNodeUI*)builder.Create(_T("treeitem.xml"), NULL, this, &m_pm, pParentItem);
 	if(pParentItem == NULL) pTreeView->Add(pTreeItem);
+	long level = pTreeItem->GetTreeLevel();
+	pTreeView->SetItemExpand(false, NULL);
+
 
 	// 图表控件
 	CChartViewUI *pHistpgramView = static_cast<CChartViewUI*>(m_pm.FindControl(_T("ChartView_Histpgram")));
@@ -313,6 +320,10 @@ void CMainWnd::Notify(TNotifyUI& msg)
 	CDuiString name = msg.pSender->GetName();
 	if(msg.sType == _T("windowinit")) {
 	}
+	else if( msg.sType == _T("textchanged") )
+	{
+		CEditUI* pEdit = (CEditUI*)msg.pSender;
+	}
 	else if( msg.sType == _T("colorchanged") )
 	{
 		CControlUI* pRoot = m_pm.FindControl(_T("root"));
@@ -327,6 +338,9 @@ void CMainWnd::Notify(TNotifyUI& msg)
 		{
 			::DestroyWindow(m_hWnd);
 		}
+	}
+	else if(msg.sType == DUI_MSGTYPE_ITEMCLICK) {
+		CListUI* pList = static_cast<CListUI*>(m_pm.FindControl(_T("listview")));
 	}
 	else if( msg.sType == _T("showactivex") ) 
 	{
@@ -355,12 +369,18 @@ void CMainWnd::Notify(TNotifyUI& msg)
 			}
 			return; 
 		}
-		else if( msg.pSender == m_pMinBtn ) { 
-			SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0); return; }
+		else if( msg.pSender == m_pMinBtn ) {
+			SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0);
+			return;
+		}
 		else if( msg.pSender == m_pMaxBtn ) { 
-			SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0); return; }
+			SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0); 
+			return; 
+		}
 		else if( msg.pSender == m_pRestoreBtn ) { 
-			SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0); return; }
+			SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0); 
+			return;
+		}
 		else if( msg.pSender == m_pSkinBtn ) {
 			new CSkinFrame(m_hWnd, m_pSkinBtn);
 		}
@@ -645,9 +665,9 @@ LRESULT CMainWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 	bHandled = FALSE;
 	return 0;
 }
-
-LRESULT CMainWnd::OnGetMinMaxInfo(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
-{
-	bHandled = FALSE;
-	return 0;
-}
+//
+//LRESULT CMainWnd::OnGetMinMaxInfo(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+//{
+//	bHandled = FALSE;
+//	return 0;
+//}

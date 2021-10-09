@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window >
+  <ColorPalette name="Pallet" width="400" height="180" palletheight="160" barheight="14" thumbimage="common/cursor.png" />
+</Window>

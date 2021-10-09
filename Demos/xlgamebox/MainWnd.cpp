@@ -288,7 +288,7 @@ void CMainWnd::InitWindow()
 	CWebBrowserUI* pWebHome = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("main_web_home")));
 	CWebBrowserUI* pWebSearch = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("main_web_search")));
 	CWebBrowserUI* pWebPhone = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("main_web_phone")));
-	pWebHome->Navigate2(_T("http://www.baidu.com"));
+	pWebHome->Navigate2(_T("https://www.baidu.com/s?ie=UTF-8&wd=qdtroy"));
 	pWebSearch->Navigate2(_T("http://www.github.com"));
 	pWebPhone->Navigate2(_T("http://www.winrdar.com"));
 }

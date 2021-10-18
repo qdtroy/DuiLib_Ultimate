@@ -300,6 +300,9 @@ namespace DuiLib {
 		m_ListInfo.bMultiExpandable = false;
 		::ZeroMemory(&m_ListInfo.rcTextPadding, sizeof(m_ListInfo.rcTextPadding));
 		::ZeroMemory(&m_ListInfo.rcColumn, sizeof(m_ListInfo.rcColumn));
+
+		m_pCompareFunc = NULL;
+		m_compareData = NULL;
 	}
 
 	LPCTSTR CComboUI::GetClass() const
@@ -1244,4 +1247,89 @@ namespace DuiLib {
 		}
 	}
 
+	BOOL CComboUI::SortItems(PULVCompareFunc pfnCompare, UINT_PTR dwData)
+	{
+		if (!pfnCompare)
+			return FALSE;
+		m_pCompareFunc = pfnCompare;
+		m_compareData = dwData;
+
+		qsort_s(m_items.GetData(), m_items.GetSize(), sizeof(CControlUI*), CComboUI::ItemComareFunc, this);
+		IListItemUI* pItem = NULL;
+		for (int i = 0; i < m_items.GetSize(); ++i)
+		{
+			pItem = (IListItemUI*)(static_cast<CControlUI*>(m_items[i])->GetInterface(TEXT("ListItem")));
+			if (pItem)
+			{
+				pItem->SetIndex(i);
+				pItem->Select(false);
+			}
+		}
+
+		if (m_pManager)
+		{
+			SetPos(GetPos());
+			Invalidate();
+		}
+
+		return TRUE;
+	}
+
+	static int __cdecl ComareFunc(void* pvlocale, const void* item1, const void* item2)
+	{
+		CComboUI* pThis = (CComboUI*)pvlocale;
+
+		if (!pThis || !item1 || !item2)
+			return 0;
+
+		CControlUI* pControl1 = *(CControlUI**)item1;
+		CControlUI* pControl2 = *(CControlUI**)item2;
+		if (!pControl1 || !pControl2)
+		{
+			return 0;
+		}
+		return pControl1->GetText().Compare(pControl2->GetText());
+	}
+
+	void CComboUI::SortItems()
+	{
+		qsort_s(m_items.GetData(), m_items.GetSize(), sizeof(CControlUI*), ComareFunc, this);
+		IListItemUI* pItem = NULL;
+		for (int i = 0; i < m_items.GetSize(); ++i)
+		{
+			pItem = (IListItemUI*)(static_cast<CControlUI*>(m_items[i])->GetInterface(TEXT("ListItem")));
+			if (pItem)
+			{
+				pItem->SetIndex(i);
+				pItem->Select(false);
+			}
+		}
+
+		if (m_pManager)
+		{
+			SetPos(GetPos());
+			Invalidate();
+		}
+
+		return ;
+	}
+
+	int __cdecl CComboUI::ItemComareFunc(void* pvlocale, const void* item1, const void* item2)
+	{
+		CComboUI* pThis = (CComboUI*)pvlocale;
+		if (!pThis || !item1 || !item2)
+			return 0;
+		return pThis->ItemComareFunc(item1, item2);
+	}
+
+	int __cdecl CComboUI::ItemComareFunc(const void* item1, const void* item2)
+	{
+		if (!m_pCompareFunc)
+		{
+			return 0;
+		}
+		CControlUI* pControl1 = *(CControlUI**)item1;
+		CControlUI* pControl2 = *(CControlUI**)item2;
+		return m_pCompareFunc((UINT_PTR)pControl1, (UINT_PTR)pControl2, m_compareData);
+	}
 } // namespace DuiLib

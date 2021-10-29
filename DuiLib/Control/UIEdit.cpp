@@ -42,12 +42,6 @@ namespace DuiLib
 		UINT uStyle = 0;
 		if(m_pOwner->GetManager()->IsLayered()) {
 			uStyle = WS_POPUP | ES_AUTOHSCROLL | WS_VISIBLE;
-			RECT rcWnd={0};
-			::GetWindowRect(m_pOwner->GetManager()->GetPaintWindow(), &rcWnd);
-			rcPos.left += rcWnd.left;
-			rcPos.right += rcWnd.left;
-			rcPos.top += rcWnd.top - 1;
-			rcPos.bottom += rcWnd.top - 1;
 		}
 		else {
 			uStyle = WS_CHILD | ES_AUTOHSCROLL;
@@ -120,6 +114,15 @@ namespace DuiLib
 				rcPos.left = rcPos.top = rcPos.right = rcPos.bottom = 0;
 				break;
 			}
+		}
+
+		if (m_pOwner->GetManager()->IsLayered()) {
+			RECT rcWnd = { 0 };
+			::GetWindowRect(m_pOwner->GetManager()->GetPaintWindow(), &rcWnd);
+			rcPos.left += rcWnd.left;
+			rcPos.right += rcWnd.left;
+			rcPos.top += rcWnd.top - 1;
+			rcPos.bottom += rcWnd.top - 1;
 		}
 
 		return rcPos;

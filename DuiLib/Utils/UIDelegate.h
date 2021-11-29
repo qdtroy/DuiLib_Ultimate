@@ -5,7 +5,7 @@
 
 namespace DuiLib {
 
-class UILIB_API CDelegateBase	 
+class UILIB_API CDelegateBase
 {
 public:
     CDelegateBase(void* pObject, void* pFn);
@@ -25,19 +25,19 @@ private:
     void* m_pFn;
 };
 
-class CDelegateStatic: public CDelegateBase
+class CDelegateStatic : public CDelegateBase
 {
-    typedef bool (*Fn)(void*);
+    typedef bool(*Fn)(void*);
 public:
-    CDelegateStatic(Fn pFn) : CDelegateBase(NULL, pFn) { } 
-    CDelegateStatic(const CDelegateStatic& rhs) : CDelegateBase(rhs) { } 
+    CDelegateStatic(Fn pFn) : CDelegateBase(NULL, pFn) { }
+    CDelegateStatic(const CDelegateStatic& rhs) : CDelegateBase(rhs) { }
     virtual CDelegateBase* Copy() const { return new CDelegateStatic(*this); }
 
 protected:
     virtual bool Invoke(void* param)
     {
         Fn pFn = (Fn)GetFn();
-        return (*pFn)(param); 
+        return (*pFn)(param);
     }
 };
 
@@ -47,15 +47,15 @@ class CDelegate : public CDelegateBase
     typedef bool (T::* Fn)(void*);
 public:
     CDelegate(O* pObj, Fn pFn) : CDelegateBase(pObj, &pFn), m_pFn(pFn) { }
-    CDelegate(const CDelegate& rhs) : CDelegateBase(rhs) { m_pFn = rhs.m_pFn; } 
+    CDelegate(const CDelegate& rhs) : CDelegateBase(rhs) { m_pFn = rhs.m_pFn; }
     virtual CDelegateBase* Copy() const { return new CDelegate(*this); }
 
 protected:
     virtual bool Invoke(void* param)
     {
-        O* pObject = (O*) GetObject();
-        return (pObject->*m_pFn)(param); 
-    }  
+        O* pObject = (O*)GetObject();
+        return (pObject->*m_pFn)(param);
+    }
 
 private:
     Fn m_pFn;
@@ -67,14 +67,14 @@ CDelegate<O, T> MakeDelegate(O* pObject, bool (T::* pFn)(void*))
     return CDelegate<O, T>(pObject, pFn);
 }
 
-inline CDelegateStatic MakeDelegate(bool (*pFn)(void*))
+inline CDelegateStatic MakeDelegate(bool(*pFn)(void*))
 {
-    return CDelegateStatic(pFn); 
+    return CDelegateStatic(pFn);
 }
 
 class UILIB_API CEventSource
 {
-    typedef bool (*FnType)(void*);
+    typedef bool(*FnType)(void*);
 public:
     ~CEventSource();
     operator bool();
@@ -83,7 +83,7 @@ public:
     void operator-= (const CDelegateBase& d);
     void operator-= (FnType pFn);
     bool operator() (void* param);
-	void Clear();
+    void Clear();
 
 protected:
     CStdPtrArray m_aDelegates;

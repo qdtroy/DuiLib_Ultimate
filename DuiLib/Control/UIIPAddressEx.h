@@ -5,40 +5,39 @@
 
 //给该控件添加一个属性dtstyle
 
-namespace DuiLib
+namespace DuiLib {
+
+/// IP输入控件
+class UILIB_API CIPAddressExUI : public CEditUI
 {
-	
-    /// IP输入控件
-    class UILIB_API CIPAddressExUI : public CEditUI
-    {
-		DECLARE_DUICONTROL(CIPAddressExUI)
-    public:
-        CIPAddressExUI();
-        LPCTSTR GetClass() const;
-        LPVOID GetInterface(LPCTSTR pstrName);
-        UINT GetControlFlags() const;
-        void DoEvent(TEventUI& event);
-        void PaintText(HDC hDC);
+    DECLARE_DUICONTROL(CIPAddressExUI)
+public:
+    CIPAddressExUI();
+    LPCTSTR GetClass() const;
+    LPVOID GetInterface(LPCTSTR pstrName);
+    UINT GetControlFlags() const;
+    void DoEvent(TEventUI& event);
+    void PaintText(HDC hDC);
 
-        void SetIP(LPCTSTR lpIP);
-        CDuiString GetIP();
+    void SetIP(LPCTSTR lpIP);
+    CDuiString GetIP();
 
-    private:
-        void CharToInt();
-        void GetNumInput(TCHAR chKey);
-        void UpdateText();
-        void IncNum();
-        void DecNum();
+private:
+    void CharToInt();
+    void GetNumInput(TCHAR chKey);
+    void UpdateText();
+    void IncNum();
+    void DecNum();
 
-    protected:
-        int m_nFirst;
-        int m_nSecond;
-        int m_nThird;
-        int m_nFourth;
-        int m_nActiveSection;
+protected:
+    int m_nFirst;
+    int m_nSecond;
+    int m_nThird;
+    int m_nFourth;
+    int m_nActiveSection;
 
-        TCHAR m_chNum;
-        CDuiString m_strNum;
-    };
+    TCHAR m_chNum;
+    CDuiString m_strNum;
+};
 }
 #endif // __UIIPADDRESSEX_H__

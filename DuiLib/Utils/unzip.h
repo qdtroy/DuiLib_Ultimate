@@ -18,17 +18,18 @@ typedef DWORD ZRESULT;
 // return codes from any of the zip functions. Listed later.
 
 typedef struct
-{ int index;                 // index of this file within the zip
-  TCHAR name[MAX_PATH];      // filename within the zip
-  DWORD attr;                // attributes, as in GetFileAttributes.
-  FILETIME atime,ctime,mtime;// access, create, modify filetimes
-  long comp_size;            // sizes of item, compressed and uncompressed. These
-  long unc_size;             // may be -1 if not yet known (e.g. being streamed in)
+{
+    int index;                 // index of this file within the zip
+    TCHAR name[MAX_PATH];      // filename within the zip
+    DWORD attr;                // attributes, as in GetFileAttributes.
+    FILETIME atime, ctime, mtime;// access, create, modify filetimes
+    long comp_size;            // sizes of item, compressed and uncompressed. These
+    long unc_size;             // may be -1 if not yet known (e.g. being streamed in)
 } ZIPENTRY;
 
 
-HZIP OpenZip(const TCHAR *fn, const char *password=NULL);
-HZIP OpenZip(void *z, unsigned int len, const char *password=NULL);
+HZIP OpenZip(const TCHAR *fn, const char *password = NULL);
+HZIP OpenZip(void *z, unsigned int len, const char *password = NULL);
 HZIP OpenZipHandle(HANDLE h, const char *password);
 // OpenZip - opens a zip file and returns a handle with which you can
 // subsequently examine its contents. You can open a zip file from:

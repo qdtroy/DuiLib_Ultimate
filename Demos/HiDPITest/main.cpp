@@ -6,15 +6,15 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
     ::CoInitialize(NULL);
 
     CPaintManagerUI::SetInstance(hInstance);
-	CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath() + _T("skin\\HiDPITest"));
+    CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath() + _T("skin\\HiDPITest"));
 
-	CFrameWnd *pFrame = new CFrameWnd(_T("Main_dlg.xml"));
+    CFrameWnd *pFrame = new CFrameWnd(_T("Main_dlg.xml"));
     pFrame->Create(NULL, _T("HiDPI Demo Window1"), UI_WNDSTYLE_FRAME, WS_EX_WINDOWEDGE);
-	pFrame->ShowWindow();
-	pFrame->setDPI(CDPI::GetMainMonitorDPI());
-	pFrame->CenterWindow();
+    pFrame->ShowWindow();
+    pFrame->setDPI(CDPI::GetMainMonitorDPI());
+    pFrame->CenterWindow();
 
-	CPaintManagerUI::MessageLoop();
+    CPaintManagerUI::MessageLoop();
 
     delete pFrame;
 

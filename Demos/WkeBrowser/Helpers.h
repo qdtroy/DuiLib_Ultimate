@@ -14,7 +14,7 @@
 class TROYCONTROLS_API CIEJSHelper
 {
 public:
-	static void ExecScript(CComQIPtr<IHTMLWindow2> pHtmlWindow2, CString sJSCode);
-	static void ParseDom(std::vector<CComQIPtr<IWebBrowser2>> vBrowsers, CString frameName, CString showjq, CString addjs);
-	static BOOL ExcuteJS(IWebBrowser2* pWeb2, CString sScript);
+    static void ExecScript(CComQIPtr<IHTMLWindow2> pHtmlWindow2, CString sJSCode);
+    static void ParseDom(std::vector<CComQIPtr<IWebBrowser2>> vBrowsers, CString frameName, CString showjq, CString addjs);
+    static BOOL ExcuteJS(IWebBrowser2* pWeb2, CString sScript);
 };

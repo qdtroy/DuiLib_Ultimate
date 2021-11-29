@@ -3,23 +3,22 @@
 
 #pragma once
 
-namespace DuiLib
+namespace DuiLib {
+class UILIB_API CChildLayoutUI : public CContainerUI
 {
-	class UILIB_API CChildLayoutUI : public CContainerUI
-	{
-		DECLARE_DUICONTROL(CChildLayoutUI)
-	public:
-		CChildLayoutUI();
+    DECLARE_DUICONTROL(CChildLayoutUI)
+public:
+    CChildLayoutUI();
 
-		void Init();
-		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
-		void SetChildLayoutXML(CDuiString pXML);
-		CDuiString GetChildLayoutXML();
-		virtual LPVOID GetInterface(LPCTSTR pstrName);
-		virtual LPCTSTR GetClass() const;
+    void Init();
+    void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
+    void SetChildLayoutXML(CDuiString pXML);
+    CDuiString GetChildLayoutXML();
+    virtual LPVOID GetInterface(LPCTSTR pstrName);
+    virtual LPCTSTR GetClass() const;
 
-	private:
-		CDuiString m_pstrXMLFile;
-	};
+private:
+    CDuiString m_pstrXMLFile;
+};
 } // namespace DuiLib
 #endif // __UICHILDLAYOUT_H__

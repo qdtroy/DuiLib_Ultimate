@@ -12,249 +12,249 @@ Author: Leon Finker  1/2001
 #include <vector>
 
 namespace DuiLib {
-	////////////////////////////////////////////////////////////////////////////////
-	///
-	typedef std::vector<FORMATETC> FormatEtcArray;
-	typedef std::vector<FORMATETC*> PFormatEtcArray;
-	typedef std::vector<STGMEDIUM*> PStgMediumArray;
-	
-	////////////////////////////////////////////////////////////////////////////////
-	///
-	class UILIB_API CEnumFormatEtc : public IEnumFORMATETC
-	{
-	private:
-		ULONG           m_cRefCount;
-		FormatEtcArray  m_pFmtEtc;
-		int           m_iCur;
+////////////////////////////////////////////////////////////////////////////////
+///
+typedef std::vector<FORMATETC> FormatEtcArray;
+typedef std::vector<FORMATETC*> PFormatEtcArray;
+typedef std::vector<STGMEDIUM*> PStgMediumArray;
 
-	public:
-		CEnumFormatEtc(const FormatEtcArray& ArrFE);
-		CEnumFormatEtc(const PFormatEtcArray& ArrFE);
-		//IUnknown members
-		STDMETHOD(QueryInterface)(REFIID, void FAR* FAR*);
-		STDMETHOD_(ULONG, AddRef)(void);
-		STDMETHOD_(ULONG, Release)(void);
+////////////////////////////////////////////////////////////////////////////////
+///
+class UILIB_API CEnumFormatEtc : public IEnumFORMATETC
+{
+private:
+    ULONG           m_cRefCount;
+    FormatEtcArray  m_pFmtEtc;
+    int           m_iCur;
 
-		//IEnumFORMATETC members
-		STDMETHOD(Next)(ULONG, LPFORMATETC, ULONG FAR *);
-		STDMETHOD(Skip)(ULONG);
-		STDMETHOD(Reset)(void);
-		STDMETHOD(Clone)(IEnumFORMATETC FAR * FAR*);
-	};
-	
-	////////////////////////////////////////////////////////////////////////////////
-	///
-	class UILIB_API CIDropSource : public IDropSource
-	{
-		long m_cRefCount;
-	public:
-		bool m_bDropped;
-		CIDropSource():m_cRefCount(0),m_bDropped(false) {}
-		//IUnknown
-		virtual HRESULT STDMETHODCALLTYPE QueryInterface(
-			/* [in] */ REFIID riid,
-			/* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject);        
-		virtual ULONG STDMETHODCALLTYPE AddRef( void);
-		virtual ULONG STDMETHODCALLTYPE Release( void);
-		//IDropSource
-		virtual HRESULT STDMETHODCALLTYPE QueryContinueDrag( 
-			/* [in] */ BOOL fEscapePressed,
-			/* [in] */ DWORD grfKeyState);
+public:
+    CEnumFormatEtc(const FormatEtcArray& ArrFE);
+    CEnumFormatEtc(const PFormatEtcArray& ArrFE);
+    //IUnknown members
+    STDMETHOD(QueryInterface)(REFIID, void FAR* FAR*);
+    STDMETHOD_(ULONG, AddRef)(void);
+    STDMETHOD_(ULONG, Release)(void);
 
-		virtual HRESULT STDMETHODCALLTYPE GiveFeedback( 
-			/* [in] */ DWORD dwEffect);
-	};
-	
-	////////////////////////////////////////////////////////////////////////////////
-	///
-	class UILIB_API CIDataObject : public IDataObject//,public IAsyncOperation
-	{
-		CIDropSource* m_pDropSource;
-		long m_cRefCount;
-		PFormatEtcArray m_ArrFormatEtc;
-		PStgMediumArray m_StgMedium;
+    //IEnumFORMATETC members
+    STDMETHOD(Next)(ULONG, LPFORMATETC, ULONG FAR *);
+    STDMETHOD(Skip)(ULONG);
+    STDMETHOD(Reset)(void);
+    STDMETHOD(Clone)(IEnumFORMATETC FAR * FAR*);
+};
 
-	public:
-		CIDataObject(CIDropSource* pDropSource);
-		~CIDataObject();
-		void CopyMedium(STGMEDIUM* pMedDest, STGMEDIUM* pMedSrc, FORMATETC* pFmtSrc);
-		//IUnknown
-		virtual HRESULT STDMETHODCALLTYPE QueryInterface(
-			/* [in] */ REFIID riid,
-			/* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject);        
-		virtual ULONG STDMETHODCALLTYPE AddRef( void);
-		virtual ULONG STDMETHODCALLTYPE Release( void);
+////////////////////////////////////////////////////////////////////////////////
+///
+class UILIB_API CIDropSource : public IDropSource
+{
+    long m_cRefCount;
+public:
+    bool m_bDropped;
+    CIDropSource() :m_cRefCount(0), m_bDropped(false) {}
+    //IUnknown
+    virtual HRESULT STDMETHODCALLTYPE QueryInterface(
+        /* [in] */ REFIID riid,
+        /* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject);
+    virtual ULONG STDMETHODCALLTYPE AddRef(void);
+    virtual ULONG STDMETHODCALLTYPE Release(void);
+    //IDropSource
+    virtual HRESULT STDMETHODCALLTYPE QueryContinueDrag(
+        /* [in] */ BOOL fEscapePressed,
+        /* [in] */ DWORD grfKeyState);
 
-		//IDataObject
-		virtual /* [local] */ HRESULT STDMETHODCALLTYPE GetData( 
-			/* [unique][in] */ FORMATETC __RPC_FAR *pformatetcIn,
-			/* [out] */ STGMEDIUM __RPC_FAR *pmedium);
+    virtual HRESULT STDMETHODCALLTYPE GiveFeedback(
+        /* [in] */ DWORD dwEffect);
+};
 
-		virtual /* [local] */ HRESULT STDMETHODCALLTYPE GetDataHere( 
-			/* [unique][in] */ FORMATETC __RPC_FAR *pformatetc,
-			/* [out][in] */ STGMEDIUM __RPC_FAR *pmedium);
+////////////////////////////////////////////////////////////////////////////////
+///
+class UILIB_API CIDataObject : public IDataObject//,public IAsyncOperation
+{
+    CIDropSource* m_pDropSource;
+    long m_cRefCount;
+    PFormatEtcArray m_ArrFormatEtc;
+    PStgMediumArray m_StgMedium;
 
-		virtual HRESULT STDMETHODCALLTYPE QueryGetData( 
-			/* [unique][in] */ FORMATETC __RPC_FAR *pformatetc);
+public:
+    CIDataObject(CIDropSource* pDropSource);
+    ~CIDataObject();
+    void CopyMedium(STGMEDIUM* pMedDest, STGMEDIUM* pMedSrc, FORMATETC* pFmtSrc);
+    //IUnknown
+    virtual HRESULT STDMETHODCALLTYPE QueryInterface(
+        /* [in] */ REFIID riid,
+        /* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject);
+    virtual ULONG STDMETHODCALLTYPE AddRef(void);
+    virtual ULONG STDMETHODCALLTYPE Release(void);
 
-		virtual HRESULT STDMETHODCALLTYPE GetCanonicalFormatEtc( 
-			/* [unique][in] */ FORMATETC __RPC_FAR *pformatectIn,
-			/* [out] */ FORMATETC __RPC_FAR *pformatetcOut);
+    //IDataObject
+    virtual /* [local] */ HRESULT STDMETHODCALLTYPE GetData(
+        /* [unique][in] */ FORMATETC __RPC_FAR *pformatetcIn,
+        /* [out] */ STGMEDIUM __RPC_FAR *pmedium);
 
-		virtual /* [local] */ HRESULT STDMETHODCALLTYPE SetData( 
-			/* [unique][in] */ FORMATETC __RPC_FAR *pformatetc,
-			/* [unique][in] */ STGMEDIUM __RPC_FAR *pmedium,
-			/* [in] */ BOOL fRelease);
+    virtual /* [local] */ HRESULT STDMETHODCALLTYPE GetDataHere(
+        /* [unique][in] */ FORMATETC __RPC_FAR *pformatetc,
+        /* [out][in] */ STGMEDIUM __RPC_FAR *pmedium);
 
-		virtual HRESULT STDMETHODCALLTYPE EnumFormatEtc( 
-			/* [in] */ DWORD dwDirection,
-			/* [out] */ IEnumFORMATETC __RPC_FAR *__RPC_FAR *ppenumFormatEtc);
+    virtual HRESULT STDMETHODCALLTYPE QueryGetData(
+        /* [unique][in] */ FORMATETC __RPC_FAR *pformatetc);
 
-		virtual HRESULT STDMETHODCALLTYPE DAdvise( 
-			/* [in] */ FORMATETC __RPC_FAR *pformatetc,
-			/* [in] */ DWORD advf,
-			/* [unique][in] */ IAdviseSink __RPC_FAR *pAdvSink,
-			/* [out] */ DWORD __RPC_FAR *pdwConnection);
+    virtual HRESULT STDMETHODCALLTYPE GetCanonicalFormatEtc(
+        /* [unique][in] */ FORMATETC __RPC_FAR *pformatectIn,
+        /* [out] */ FORMATETC __RPC_FAR *pformatetcOut);
 
-		virtual HRESULT STDMETHODCALLTYPE DUnadvise( 
-			/* [in] */ DWORD dwConnection);
+    virtual /* [local] */ HRESULT STDMETHODCALLTYPE SetData(
+        /* [unique][in] */ FORMATETC __RPC_FAR *pformatetc,
+        /* [unique][in] */ STGMEDIUM __RPC_FAR *pmedium,
+        /* [in] */ BOOL fRelease);
 
-		virtual HRESULT STDMETHODCALLTYPE EnumDAdvise( 
-			/* [out] */ IEnumSTATDATA __RPC_FAR *__RPC_FAR *ppenumAdvise);
+    virtual HRESULT STDMETHODCALLTYPE EnumFormatEtc(
+        /* [in] */ DWORD dwDirection,
+        /* [out] */ IEnumFORMATETC __RPC_FAR *__RPC_FAR *ppenumFormatEtc);
 
-		//IAsyncOperation
-		//virtual HRESULT STDMETHODCALLTYPE SetAsyncMode( 
-		//    /* [in] */ BOOL fDoOpAsync)
-		//{
-		//	return E_NOTIMPL;
-		//}
-		//
-		//virtual HRESULT STDMETHODCALLTYPE GetAsyncMode( 
-		//    /* [out] */ BOOL __RPC_FAR *pfIsOpAsync)
-		//{
-		//	return E_NOTIMPL;
-		//}
-		//
-		//virtual HRESULT STDMETHODCALLTYPE StartOperation( 
-		//    /* [optional][unique][in] */ IBindCtx __RPC_FAR *pbcReserved)
-		//{
-		//	return E_NOTIMPL;
-		//}
-		//
-		//virtual HRESULT STDMETHODCALLTYPE InOperation( 
-		//    /* [out] */ BOOL __RPC_FAR *pfInAsyncOp)
-		//{
-		//	return E_NOTIMPL;
-		//}
-		//
-		//virtual HRESULT STDMETHODCALLTYPE EndOperation( 
-		//    /* [in] */ HRESULT hResult,
-		//    /* [unique][in] */ IBindCtx __RPC_FAR *pbcReserved,
-		//    /* [in] */ DWORD dwEffects)
-		//{
-		//	return E_NOTIMPL;
-		//}
-	};
+    virtual HRESULT STDMETHODCALLTYPE DAdvise(
+        /* [in] */ FORMATETC __RPC_FAR *pformatetc,
+        /* [in] */ DWORD advf,
+        /* [unique][in] */ IAdviseSink __RPC_FAR *pAdvSink,
+        /* [out] */ DWORD __RPC_FAR *pdwConnection);
 
-	////////////////////////////////////////////////////////////////////////////////
-	///
-	class UILIB_API CIDropTarget : public IDropTarget
-	{
-	public:
-		CIDropTarget();
-		virtual ~CIDropTarget();
+    virtual HRESULT STDMETHODCALLTYPE DUnadvise(
+        /* [in] */ DWORD dwConnection);
 
-	public:
-		void SetTargetWnd(HWND hWnd) { m_hTargetWnd = hWnd; }
-		void AddSuportedFormat(FORMATETC& ftetc) { m_formatetc.push_back(ftetc); }
-		
-	public:
-		//return values: true - release the medium. false - don't release the medium 
-		virtual bool OnDrop(FORMATETC* pFmtEtc, STGMEDIUM& medium,DWORD *pdwEffect) = 0;
+    virtual HRESULT STDMETHODCALLTYPE EnumDAdvise(
+        /* [out] */ IEnumSTATDATA __RPC_FAR *__RPC_FAR *ppenumAdvise);
 
-		virtual HRESULT STDMETHODCALLTYPE QueryInterface( 
-			/* [in] */ REFIID riid,
-			/* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject);
-		virtual ULONG STDMETHODCALLTYPE AddRef( void) { return ++m_cRefCount; }
-		virtual ULONG STDMETHODCALLTYPE Release( void);
+    //IAsyncOperation
+    //virtual HRESULT STDMETHODCALLTYPE SetAsyncMode( 
+    //    /* [in] */ BOOL fDoOpAsync)
+    //{
+    //	return E_NOTIMPL;
+    //}
+    //
+    //virtual HRESULT STDMETHODCALLTYPE GetAsyncMode( 
+    //    /* [out] */ BOOL __RPC_FAR *pfIsOpAsync)
+    //{
+    //	return E_NOTIMPL;
+    //}
+    //
+    //virtual HRESULT STDMETHODCALLTYPE StartOperation( 
+    //    /* [optional][unique][in] */ IBindCtx __RPC_FAR *pbcReserved)
+    //{
+    //	return E_NOTIMPL;
+    //}
+    //
+    //virtual HRESULT STDMETHODCALLTYPE InOperation( 
+    //    /* [out] */ BOOL __RPC_FAR *pfInAsyncOp)
+    //{
+    //	return E_NOTIMPL;
+    //}
+    //
+    //virtual HRESULT STDMETHODCALLTYPE EndOperation( 
+    //    /* [in] */ HRESULT hResult,
+    //    /* [unique][in] */ IBindCtx __RPC_FAR *pbcReserved,
+    //    /* [in] */ DWORD dwEffects)
+    //{
+    //	return E_NOTIMPL;
+    //}
+};
 
-		bool QueryDrop(DWORD grfKeyState, LPDWORD pdwEffect);
-		virtual HRESULT STDMETHODCALLTYPE DragEnter(
-			/* [unique][in] */ IDataObject __RPC_FAR *pDataObj,
-			/* [in] */ DWORD grfKeyState,
-			/* [in] */ POINTL pt,
-			/* [out][in] */ DWORD __RPC_FAR *pdwEffect);
-		virtual HRESULT STDMETHODCALLTYPE DragOver( 
-			/* [in] */ DWORD grfKeyState,
-			/* [in] */ POINTL pt,
-			/* [out][in] */ DWORD __RPC_FAR *pdwEffect);
-		virtual HRESULT STDMETHODCALLTYPE DragLeave( void);    
-		virtual HRESULT STDMETHODCALLTYPE Drop(
-			/* [unique][in] */ IDataObject __RPC_FAR *pDataObj,
-			/* [in] */ DWORD grfKeyState,
-			/* [in] */ POINTL pt,
-			/* [out][in] */ DWORD __RPC_FAR *pdwEffect);
+////////////////////////////////////////////////////////////////////////////////
+///
+class UILIB_API CIDropTarget : public IDropTarget
+{
+public:
+    CIDropTarget();
+    virtual ~CIDropTarget();
 
-	protected:
-		HWND m_hTargetWnd;
+public:
+    void SetTargetWnd(HWND hWnd) { m_hTargetWnd = hWnd; }
+    void AddSuportedFormat(FORMATETC& ftetc) { m_formatetc.push_back(ftetc); }
 
-	private:
-		DWORD m_cRefCount;
-		bool m_bAllowDrop;
-		struct IDropTargetHelper *m_pDropTargetHelper;
-		FormatEtcArray m_formatetc;
-		FORMATETC* m_pSupportedFrmt;
-	};
+public:
+    //return values: true - release the medium. false - don't release the medium 
+    virtual bool OnDrop(FORMATETC* pFmtEtc, STGMEDIUM& medium, DWORD *pdwEffect) = 0;
 
-	////////////////////////////////////////////////////////////////////////////////
-	///
-	class UILIB_API CDragSourceHelper
-	{
-	public:
-		CDragSourceHelper()
-		{
-			m_pDragSourceHelper = NULL;
-			CoCreateInstance(CLSID_DragDropHelper, NULL, CLSCTX_INPROC_SERVER, IID_IDragSourceHelper, (void**)&m_pDragSourceHelper);
-		}
+    virtual HRESULT STDMETHODCALLTYPE QueryInterface(
+        /* [in] */ REFIID riid,
+        /* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject);
+    virtual ULONG STDMETHODCALLTYPE AddRef(void) { return ++m_cRefCount; }
+    virtual ULONG STDMETHODCALLTYPE Release(void);
 
-		virtual ~CDragSourceHelper()
-		{
-			if( m_pDragSourceHelper!= NULL ) {
-				m_pDragSourceHelper->Release();
-				m_pDragSourceHelper=NULL;
-			}
-		}
+    bool QueryDrop(DWORD grfKeyState, LPDWORD pdwEffect);
+    virtual HRESULT STDMETHODCALLTYPE DragEnter(
+        /* [unique][in] */ IDataObject __RPC_FAR *pDataObj,
+        /* [in] */ DWORD grfKeyState,
+        /* [in] */ POINTL pt,
+        /* [out][in] */ DWORD __RPC_FAR *pdwEffect);
+    virtual HRESULT STDMETHODCALLTYPE DragOver(
+        /* [in] */ DWORD grfKeyState,
+        /* [in] */ POINTL pt,
+        /* [out][in] */ DWORD __RPC_FAR *pdwEffect);
+    virtual HRESULT STDMETHODCALLTYPE DragLeave(void);
+    virtual HRESULT STDMETHODCALLTYPE Drop(
+        /* [unique][in] */ IDataObject __RPC_FAR *pDataObj,
+        /* [in] */ DWORD grfKeyState,
+        /* [in] */ POINTL pt,
+        /* [out][in] */ DWORD __RPC_FAR *pdwEffect);
 
-	public:
-		// IDragSourceHelper
-		HRESULT InitializeFromBitmap(HBITMAP hBitmap,  POINT& pt, RECT& rc,	IDataObject* pDataObject, COLORREF crColorKey = GetSysColor(COLOR_WINDOW))
-		{
-			if(m_pDragSourceHelper == NULL) {
-				return E_FAIL;
-			}
+protected:
+    HWND m_hTargetWnd;
 
-			SHDRAGIMAGE di;
-			BITMAP bm;
-			GetObject(hBitmap, sizeof(bm), &bm);
-			di.sizeDragImage.cx = bm.bmWidth;
-			di.sizeDragImage.cy = bm.bmHeight;
-			di.hbmpDragImage = hBitmap;
-			di.crColorKey = crColorKey; 
-			di.ptOffset.x = pt.x - rc.left;
-			di.ptOffset.y = pt.y - rc.top;
-			return m_pDragSourceHelper->InitializeFromBitmap(&di, pDataObject);
-		}
+private:
+    DWORD m_cRefCount;
+    bool m_bAllowDrop;
+    struct IDropTargetHelper *m_pDropTargetHelper;
+    FormatEtcArray m_formatetc;
+    FORMATETC* m_pSupportedFrmt;
+};
 
-		HRESULT InitializeFromWindow(HWND hwnd, POINT& pt,IDataObject* pDataObject)
-		{		
-			if(m_pDragSourceHelper == NULL) {
-				return E_FAIL;
-			}
-			return m_pDragSourceHelper->InitializeFromWindow(hwnd, &pt, pDataObject);
-		}
-		
-	private:
-		IDragSourceHelper* m_pDragSourceHelper;
-	};
+////////////////////////////////////////////////////////////////////////////////
+///
+class UILIB_API CDragSourceHelper
+{
+public:
+    CDragSourceHelper()
+    {
+        m_pDragSourceHelper = NULL;
+        CoCreateInstance(CLSID_DragDropHelper, NULL, CLSCTX_INPROC_SERVER, IID_IDragSourceHelper, (void**)&m_pDragSourceHelper);
+    }
+
+    virtual ~CDragSourceHelper()
+    {
+        if (m_pDragSourceHelper != NULL) {
+            m_pDragSourceHelper->Release();
+            m_pDragSourceHelper = NULL;
+        }
+    }
+
+public:
+    // IDragSourceHelper
+    HRESULT InitializeFromBitmap(HBITMAP hBitmap, POINT& pt, RECT& rc, IDataObject* pDataObject, COLORREF crColorKey = GetSysColor(COLOR_WINDOW))
+    {
+        if (m_pDragSourceHelper == NULL) {
+            return E_FAIL;
+        }
+
+        SHDRAGIMAGE di;
+        BITMAP bm;
+        GetObject(hBitmap, sizeof(bm), &bm);
+        di.sizeDragImage.cx = bm.bmWidth;
+        di.sizeDragImage.cy = bm.bmHeight;
+        di.hbmpDragImage = hBitmap;
+        di.crColorKey = crColorKey;
+        di.ptOffset.x = pt.x - rc.left;
+        di.ptOffset.y = pt.y - rc.top;
+        return m_pDragSourceHelper->InitializeFromBitmap(&di, pDataObject);
+    }
+
+    HRESULT InitializeFromWindow(HWND hwnd, POINT& pt, IDataObject* pDataObject)
+    {
+        if (m_pDragSourceHelper == NULL) {
+            return E_FAIL;
+        }
+        return m_pDragSourceHelper->InitializeFromWindow(hwnd, &pt, pDataObject);
+    }
+
+private:
+    IDragSourceHelper* m_pDragSourceHelper;
+};
 }
 #endif //__DRAGDROPIMPL_H__

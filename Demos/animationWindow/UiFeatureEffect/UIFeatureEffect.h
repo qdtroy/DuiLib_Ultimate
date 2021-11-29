@@ -95,37 +95,37 @@
 class CWndEffect : public IUIEffect
 {
 public:
-	CWndEffect();
-	~CWndEffect();	
+    CWndEffect();
+    ~CWndEffect();
 public:
-	//IUIEffect
-	BOOL AppendAnimation(AnimationParam &aParam);
-	BOOL DependAnimation(WPARAM effectKey);
-	BOOL ClearAllAnimation();
-	BOOL Animation(IUIEffectCallBack *iDrawEffect,DWORD frameSpin);
-	// 初始化支持的动画
-	static DWORD InitSurportAnimationType(const char *& strAnimationType);
+    //IUIEffect
+    BOOL AppendAnimation(AnimationParam &aParam);
+    BOOL DependAnimation(WPARAM effectKey);
+    BOOL ClearAllAnimation();
+    BOOL Animation(IUIEffectCallBack *iDrawEffect, DWORD frameSpin);
+    // 初始化支持的动画
+    static DWORD InitSurportAnimationType(const char *& strAnimationType);
 private:
-	// 计算动画过程
-	void ComputeAnimation(IUIEffectCallBack *iDrawEffect,DWORD timeElapse);
-	// 清理执行结束的动画
-	void CleanFinishedAnimation(IUIEffectCallBack *iDrawEffect);
+    // 计算动画过程
+    void ComputeAnimation(IUIEffectCallBack *iDrawEffect, DWORD timeElapse);
+    // 清理执行结束的动画
+    void CleanFinishedAnimation(IUIEffectCallBack *iDrawEffect);
 private:
-	std::vector<InternalAnimationParam>				m_animationContainer;				// 动画参数容器
-	std::vector<InternalAnimationParam>::iterator	m_itAnimation;						// 枚举器
-	static const char *								m_animation;						// 动画名称，以\0分割,\0\0结束
-	ULONG_PTR m_gdiplusToken;															// gdiplus 
+    std::vector<InternalAnimationParam>				m_animationContainer;				// 动画参数容器
+    std::vector<InternalAnimationParam>::iterator	m_itAnimation;						// 枚举器
+    static const char *								m_animation;						// 动画名称，以\0分割,\0\0结束
+    ULONG_PTR m_gdiplusToken;															// gdiplus 
 };
- 
+
 // 所有支持的动画
-const char* CWndEffect::m_animation =  "向左翻转\0向右翻转\0向下翻转\0向上翻转\0马赛克\0向左滑动\0向右滑动\0向上滑动\0向下滑动\0水平带状滑动\0垂直带状滑动\0水平百叶\0垂直百叶\0不等高水平百叶\0不等宽垂直百叶\0向左擦除\0向右擦除\0向上擦除\0向下擦除\0向左惯性滑动\0向右惯性滑动\0向上惯性滑动\0向下惯性滑动\0淡出/淡入\0放大\0缩小\0摆出/摆入\0漏斗\0噪声\0左立方体\0右立方体\0上立方体\0下立方体\0向左渐变擦除\0向右渐变擦除\0向上渐变擦除\0向下渐变擦除\0向左推挤\0向右推挤\0向上推挤\0向下推挤\0溶解\0幕\0右三棱柱\0左三棱柱\0上三棱柱\0下三棱柱\0左内立方体\0右内立方体\0上内立方体\0下内立方体\0空间左移\0空间右移\0空间上移\0空间下移\0分块翻转\0空间向左旋转\0空间向右旋转\0空间向上旋转\0空间向下旋转\0开/关门\0漩涡\0打散\0褪色\0左下角阻尼滑动\0右下角阻尼滑动\0左上角阻尼滑动\0右上角阻尼滑动\0向左阻尼滑动\0向右阻尼滑动\0向上阻尼滑动\0向下阻尼滑动\0环形擦除\0风车\0卷页\0模糊淡入/出\0水波\0拖尾\0垂直折叠\0水平折叠\0\0";
+const char* CWndEffect::m_animation = "向左翻转\0向右翻转\0向下翻转\0向上翻转\0马赛克\0向左滑动\0向右滑动\0向上滑动\0向下滑动\0水平带状滑动\0垂直带状滑动\0水平百叶\0垂直百叶\0不等高水平百叶\0不等宽垂直百叶\0向左擦除\0向右擦除\0向上擦除\0向下擦除\0向左惯性滑动\0向右惯性滑动\0向上惯性滑动\0向下惯性滑动\0淡出/淡入\0放大\0缩小\0摆出/摆入\0漏斗\0噪声\0左立方体\0右立方体\0上立方体\0下立方体\0向左渐变擦除\0向右渐变擦除\0向上渐变擦除\0向下渐变擦除\0向左推挤\0向右推挤\0向上推挤\0向下推挤\0溶解\0幕\0右三棱柱\0左三棱柱\0上三棱柱\0下三棱柱\0左内立方体\0右内立方体\0上内立方体\0下内立方体\0空间左移\0空间右移\0空间上移\0空间下移\0分块翻转\0空间向左旋转\0空间向右旋转\0空间向上旋转\0空间向下旋转\0开/关门\0漩涡\0打散\0褪色\0左下角阻尼滑动\0右下角阻尼滑动\0左上角阻尼滑动\0右上角阻尼滑动\0向左阻尼滑动\0向右阻尼滑动\0向上阻尼滑动\0向下阻尼滑动\0环形擦除\0风车\0卷页\0模糊淡入/出\0水波\0拖尾\0垂直折叠\0水平折叠\0\0";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class CAlphaBlendImpl : public IImageProcess
 {
-	// alpha 混合
-	BOOL AlphaBlend(BYTE *desData, int desStride, int desLeft, int desTop, int desWidth, int desHeight, BYTE *srcData, int srcStride, int srcLeft, int srcTop, int srcWidth, int srcHeight, BYTE sourceAlpha = 255, int interpolationMode = 0);
-	// 图片缩放
-	BOOL ImageScale(BYTE *DataDes, int desWidth, int desHeight, BYTE *DataSrc, int srcStride, int srcLeft, int srcTop, int srcWidth, int srcHeight, int interpolationMode = 0);
+    // alpha 混合
+    BOOL AlphaBlend(BYTE *desData, int desStride, int desLeft, int desTop, int desWidth, int desHeight, BYTE *srcData, int srcStride, int srcLeft, int srcTop, int srcWidth, int srcHeight, BYTE sourceAlpha = 255, int interpolationMode = 0);
+    // 图片缩放
+    BOOL ImageScale(BYTE *DataDes, int desWidth, int desHeight, BYTE *DataSrc, int srcStride, int srcLeft, int srcTop, int srcWidth, int srcHeight, int interpolationMode = 0);
 };

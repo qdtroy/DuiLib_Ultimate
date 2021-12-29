@@ -76,7 +76,7 @@ namespace DuiLib {
 
 		bool GetScrollSelect();
 		void SetScrollSelect(bool bScrollSelect);
-		
+
 		void SetItemFont(int index);
 		void SetItemTextStyle(UINT uStyle);
 		RECT GetItemTextPadding() const;
@@ -121,6 +121,18 @@ namespace DuiLib {
 		bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 		void PaintText(HDC hDC);
 		void PaintStatusImage(HDC hDC);
+
+	public:
+		void SortItems();
+		BOOL SortItems(PULVCompareFunc pfnCompare, UINT_PTR dwData);
+
+	protected:
+		static int __cdecl ItemComareFunc(void* pvlocale, const void* item1, const void* item2);
+		int __cdecl ItemComareFunc(const void* item1, const void* item2);
+
+	protected:
+		PULVCompareFunc m_pCompareFunc;
+		UINT_PTR m_compareData;
 
 	protected:
 		CComboWnd* m_pWindow;

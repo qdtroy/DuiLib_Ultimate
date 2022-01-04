@@ -31,6 +31,10 @@ namespace DuiLib {
 		DWORD dwDisabledTextColor;
 		DWORD dwDisabledBkColor;
 		CDuiString sDisabledImage;
+		CDuiString sForeImage;
+		CDuiString sHotForeImage;
+		CDuiString sSelectedForeImage;
+
 		DWORD dwLineColor;
 		bool bShowRowLine;
 		bool bShowColumnLine;
@@ -129,9 +133,6 @@ namespace DuiLib {
 		void UnSelectAllItems();
 		int GetSelectItemCount() const;
 		int GetNextSelItem(int nItem) const;
-
-		bool IsFixedScrollbar();
-		void SetFixedScrollbar(bool bFixed);
 
 		CListHeaderUI* GetHeader() const;  
 		CContainerUI* GetList() const;
@@ -237,7 +238,6 @@ namespace DuiLib {
 		int GetMaxSelItemIndex();
 
 	protected:
-		bool m_bFixedScrollbar;
 		bool m_bScrollSelect;
 		bool m_bMultiSel;
 		int m_iCurSel;
@@ -304,7 +304,7 @@ namespace DuiLib {
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 
-	class UILIB_API CListHeaderItemUI : public CContainerUI
+	class UILIB_API CListHeaderItemUI : public CHorizontalLayoutUI
 	{
 		DECLARE_DUICONTROL(CListHeaderItemUI)
 

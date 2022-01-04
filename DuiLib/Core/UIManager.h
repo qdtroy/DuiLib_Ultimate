@@ -212,7 +212,11 @@ namespace DuiLib {
 		virtual LRESULT TranslateAccelerator(MSG *pMsg) = 0;
 	};
 
-
+	class IDragDropUI
+	{
+	public:
+		virtual bool OnDragDrop(CControlUI* pControl) { return false; }
+	};
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 	typedef CControlUI* (*LPCREATECONTROL)(LPCTSTR pstrType);
@@ -241,9 +245,9 @@ namespace DuiLib {
 		SIZE GetClientSize() const;
 		SIZE GetInitSize();
 		void SetInitSize(int cx, int cy);
-		RECT& GetSizeBox();
+		RECT GetSizeBox();
 		void SetSizeBox(RECT& rcSizeBox);
-		RECT& GetCaptionRect();
+		RECT GetCaptionRect();
 		void SetCaptionRect(RECT& rcCaption);
 		SIZE GetRoundCorner();
 		void SetRoundCorner(int cx, int cy);
@@ -251,7 +255,7 @@ namespace DuiLib {
 		void SetMinInfo(int cx, int cy);
 		SIZE GetMaxInfo();
 		void SetMaxInfo(int cx, int cy);
-		bool IsShowUpdateRect() const;
+		bool IsShowUpdateRect();
 		void SetShowUpdateRect(bool show);
 		bool IsNoActivate();
 		void SetNoActivate(bool bNoActivate);
@@ -364,6 +368,7 @@ namespace DuiLib {
 
 		// ³õÊ¼»¯ÍÏ×§
 		bool EnableDragDrop(bool bEnable);
+		void SetDragDrop(IDragDropUI* pDragDrop);
 		virtual bool OnDrop(FORMATETC* pFmtEtc, STGMEDIUM& medium,DWORD *pdwEffect);
 
 		bool AttachDialog(CControlUI* pControl);
@@ -549,7 +554,7 @@ namespace DuiLib {
 		bool m_bDragDrop;
 		bool m_bDragMode;
 		HBITMAP m_hDragBitmap;
-		
+		IDragDropUI *m_pDragDrop;
 		//
 		static HINSTANCE m_hInstance;
 		static HINSTANCE m_hResourceInstance;

@@ -59,6 +59,22 @@ namespace DuiLib
 		Selected(m_bSelected);
 	}
 
+	LPCTSTR COptionUI::GetGroupType() const
+	{
+		return m_sGroupType;
+	}
+
+	void COptionUI::SetGroupType(LPCTSTR pStrGroupType)
+	{
+		if( pStrGroupType == NULL ) {
+			if( m_sGroupType.IsEmpty() ) return;
+			m_sGroupType.Empty();
+		}
+		else {
+			m_sGroupType = pStrGroupType;
+		}
+	}
+
 	bool COptionUI::IsSelected() const
 	{
 		return m_bSelected;
@@ -78,10 +94,15 @@ namespace DuiLib
 					CStdPtrArray* aOptionGroup = m_pManager->GetOptionGroup(m_sGroupName);
 					for( int i = 0; i < aOptionGroup->GetSize(); i++ ) {
 						COptionUI* pControl = static_cast<COptionUI*>(aOptionGroup->GetAt(i));
-						if( pControl != this ) {
+						if( pControl != this && (m_sGroupType.IsEmpty() || m_sGroupType.CompareNoCase(pControl->GetGroupType()) != 0)) {
 							pControl->Selected(false, bMsg);
 						}
 					}
+					if(bMsg) {
+						m_pManager->SendNotify(this, DUI_MSGTYPE_SELECTCHANGED);
+					}
+				}
+				else {
 					if(bMsg) {
 						m_pManager->SendNotify(this, DUI_MSGTYPE_SELECTCHANGED);
 					}
@@ -100,9 +121,12 @@ namespace DuiLib
 	bool COptionUI::Activate()
 	{
 		if( !CButtonUI::Activate() ) return false;
-		if( !m_sGroupName.IsEmpty() ) Selected(true);
+		if( !m_sGroupName.IsEmpty() ) {
+			Selected(true);
+		}
 		else Selected(!m_bSelected);
-
+		
+		Invalidate();
 		return true;
 	}
 
@@ -217,6 +241,7 @@ namespace DuiLib
 	void COptionUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
 		if( _tcsicmp(pstrName, _T("group")) == 0 ) SetGroup(pstrValue);
+		else if( _tcsicmp(pstrName, _T("grouptype")) == 0 ) SetGroupType(pstrValue);
 		else if( _tcsicmp(pstrName, _T("selected")) == 0 ) Selected(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("selectedimage")) == 0 ) SetSelectedImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("selectedhotimage")) == 0 ) SetSelectedHotImage(pstrValue);
@@ -272,27 +297,26 @@ namespace DuiLib
 							int iRight = iLeft + szStatus.cx;
 							int iTop = rcSrc.top;
 							int iBottom = iTop + szStatus.cy;
-							m_sSelectedImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom);
+							m_sSelectedImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d' corner='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom, info.rcCorner.left, info.rcCorner.top, info.rcCorner.right, info.rcCorner.bottom);
 						}
 						if(m_nSelectedStateCount > 1) {
 							int iLeft = rcSrc.left + 1 * szStatus.cx;
 							int iRight = iLeft + szStatus.cx;
 							int iTop = rcSrc.top;
 							int iBottom = iTop + szStatus.cy;
-							m_sSelectedHotImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom);
-							m_sSelectedPushedImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom);
+							m_sSelectedHotImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d' corner='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom, info.rcCorner.left, info.rcCorner.top, info.rcCorner.right, info.rcCorner.bottom);
+							m_sSelectedPushedImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d' corner='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom, info.rcCorner.left, info.rcCorner.top, info.rcCorner.right, info.rcCorner.bottom);
 						}
 						if(m_nSelectedStateCount > 2) {
 							int iLeft = rcSrc.left + 2 * szStatus.cx;
 							int iRight = iLeft + szStatus.cx;
 							int iTop = rcSrc.top;
 							int iBottom = iTop + szStatus.cy;
-							m_sSelectedPushedImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom);
+							m_sSelectedPushedImage.Format(_T("res='%s' restype='%s' dest='%d,%d,%d,%d' source='%d,%d,%d,%d' corner='%d,%d,%d,%d'"), info.sImageName.GetData(), info.sResType.GetData(), info.rcDest.left, info.rcDest.top, info.rcDest.right, info.rcDest.bottom, iLeft, iTop, iRight, iBottom, info.rcCorner.left, info.rcCorner.top, info.rcCorner.right, info.rcCorner.bottom);
 						}
 					}
 				}
 			}
-
 
 			if( (m_uButtonState & UISTATE_PUSHED) != 0 && !m_sSelectedPushedImage.IsEmpty()) {
 				if( !DrawImage(hDC, (LPCTSTR)m_sSelectedPushedImage) ) {}

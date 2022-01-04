@@ -71,7 +71,7 @@ namespace DuiLib{
 				::InvalidateRect(m_hWnd, &rcClient, FALSE);
 			}
 		}
-		else if( uMsg == WM_KEYDOWN && wParam == VK_RETURN ) {
+		else if( uMsg == WM_KEYDOWN && TCHAR(wParam) == VK_RETURN ) {
 			m_pOwner->GetManager()->SendNotify(m_pOwner, _T("return"));
 		}
 		else if ( (uMsg == WM_NCACTIVATE) || (uMsg == WM_NCACTIVATE) || (uMsg == WM_NCCALCSIZE) )

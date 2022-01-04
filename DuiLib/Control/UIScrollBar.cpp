@@ -7,7 +7,7 @@ namespace DuiLib
 
 	CScrollBarUI::CScrollBarUI() : m_bHorizontal(false), m_nRange(0), m_nScrollPos(0), m_nLineSize(8), 
 		m_pOwner(NULL), m_nLastScrollPos(0), m_nLastScrollOffset(0), m_nScrollRepeatDelay(0), m_uButton1State(0), \
-		m_uButton2State(0), m_uThumbState(0), m_bShowButton1(true), m_bShowButton2(true)
+		m_uButton2State(0), m_uThumbState(0), m_bShowButton1(true), m_bShowButton2(true), m_bShow(true)
 	{
 		m_cxyFixed.cx = DEFAULT_SCROLLBAR_SIZE;
 		m_ptLastMouse.x = m_ptLastMouse.y = 0;
@@ -368,6 +368,17 @@ namespace DuiLib
 	void CScrollBarUI::SetBkDisabledImage(LPCTSTR pStrImage)
 	{
 		m_sBkDisabledImage = pStrImage;
+		Invalidate();
+	}
+
+	bool CScrollBarUI::GetShow()
+	{
+		return m_bShow;
+	}
+
+	void CScrollBarUI::SetShow(bool bShow)
+	{
+		m_bShow = bShow;
 		Invalidate();
 	}
 
@@ -791,6 +802,8 @@ namespace DuiLib
 
 	bool CScrollBarUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 	{
+		if(!GetShow()) return true;
+
 		PaintBkColor(hDC);
 		PaintBkImage(hDC);
 		PaintBk(hDC);

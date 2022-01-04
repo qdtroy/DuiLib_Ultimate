@@ -14,7 +14,6 @@ namespace DuiLib {
 		, m_iExpandedItem(-1)
 		, m_bMultiSel(false)
 		, m_iFirstSel(-1)
-		, m_bFixedScrollbar(false)
 	{
 		m_pList = new CListBodyUI(this);
 		m_pHeader = new CListHeaderUI;
@@ -383,17 +382,6 @@ namespace DuiLib {
 		CVerticalLayoutUI::DoEvent(event);
 	}
 
-	bool CListUI::IsFixedScrollbar()
-	{
-		return m_bFixedScrollbar;
-	}
-
-	void CListUI::SetFixedScrollbar(bool bFixed)
-	{
-		m_bFixedScrollbar = bFixed;
-		Invalidate();
-	}
-
 	CListHeaderUI* CListUI::GetHeader() const
 	{
 		return m_pHeader;
@@ -506,6 +494,9 @@ namespace DuiLib {
 				if (!pListItem->SelectMulti(false)) return false;
 				if (m_iCurSel == iIndex) m_iCurSel = -1;
 				m_aSelItems.Remove(aIndex);
+				if (m_pManager != NULL) {
+					m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMSELECT, -1);
+				}
 			}
 			else {
 				if (!pListItem->SelectMulti(true)) return false;
@@ -586,6 +577,11 @@ namespace DuiLib {
 				if (m_iCurSel == iSelIndex) m_iCurSel = -1;
 				m_aSelItems.Remove(i);
 			}
+			if(IsMultiSelect()) {
+				if (m_pManager != NULL) {
+					m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMSELECT, -1, -1);
+				}
+			}
 		}
 		else {
 			if (iIndex < 0) return false;
@@ -618,6 +614,12 @@ namespace DuiLib {
 				m_aSelItems.Add((LPVOID)i);
 			}
 			m_iCurSel = i;
+		}
+
+		if(IsMultiSelect()) {
+			if (m_pManager != NULL) {
+				m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMSELECT, -1, -1);
+			}
 		}
 	}
 
@@ -970,7 +972,6 @@ namespace DuiLib {
 		if (_tcsicmp(pstrName, _T("header")) == 0) GetHeader()->SetVisible(_tcsicmp(pstrValue, _T("hidden")) != 0);
 		else if (_tcsicmp(pstrName, _T("headerbkimage")) == 0) GetHeader()->SetBkImage(pstrValue);
 		else if (_tcsicmp(pstrName, _T("scrollselect")) == 0) SetScrollSelect(_tcsicmp(pstrValue, _T("true")) == 0);
-		else if (_tcsicmp(pstrName, _T("fixedscrollbar")) == 0) SetFixedScrollbar(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if (_tcsicmp(pstrName, _T("multiexpanding")) == 0) SetMultiExpanding(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if (_tcsicmp(pstrName, _T("itemfont")) == 0) m_ListInfo.nFont = _ttoi(pstrValue);
 		else if (_tcsicmp(pstrName, _T("itemalign")) == 0) {
@@ -1028,6 +1029,9 @@ namespace DuiLib {
 		}
 		else if (_tcsicmp(pstrName, _T("itembkimage")) == 0) SetItemBkImage(pstrValue);
 		else if (_tcsicmp(pstrName, _T("itemaltbk")) == 0) SetAlternateBk(_tcsicmp(pstrValue, _T("true")) == 0);
+		else if( _tcsicmp(pstrName, _T("itemforeimage")) == 0 ) {m_ListInfo.sForeImage = pstrValue; Invalidate();}
+		else if( _tcsicmp(pstrName, _T("itemhotforeimage")) == 0 ) {m_ListInfo.sHotForeImage = pstrValue; Invalidate();}
+		else if( _tcsicmp(pstrName, _T("itemselectedforeimage")) == 0 ) {m_ListInfo.sSelectedForeImage = pstrValue; Invalidate();}
 		else if (_tcsicmp(pstrName, _T("itemselectedtextcolor")) == 0) {
 			if (*pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
 			LPTSTR pstr = NULL;
@@ -1078,6 +1082,7 @@ namespace DuiLib {
 		else if (_tcsicmp(pstrName, _T("itemshowhtml")) == 0) SetItemShowHtml(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if (_tcscmp(pstrName, _T("multiselect")) == 0) SetMultiSelect(_tcscmp(pstrValue, _T("true")) == 0);
 		else if (_tcscmp(pstrName, _T("itemrselected")) == 0) SetItemRSelected(_tcscmp(pstrValue, _T("true")) == 0);
+
 		else CVerticalLayoutUI::SetAttribute(pstrName, pstrValue);
 	}
 
@@ -1187,6 +1192,7 @@ namespace DuiLib {
 			return FALSE;
 		return m_pList->SortItems(pfnCompare, dwData);
 	}
+
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 	//
@@ -1310,8 +1316,8 @@ namespace DuiLib {
 	void CListBodyUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
 		CControlUI::SetPos(rc, bNeedInvalidate);
-		rc = m_rcItem;
 
+		// Adjust for inset
 		int iChildPadding = GetChildPadding();
 		RECT rcInset = GetInset();
 		// Adjust for inset
@@ -1319,6 +1325,7 @@ namespace DuiLib {
 		rc.top += rcInset.top;
 		rc.right -= rcInset.right;
 		rc.bottom -= rcInset.bottom;
+
 		if (m_pOwner->IsFixedScrollbar() && m_pVerticalScrollBar) rc.right -= m_pVerticalScrollBar->GetFixedWidth();
 		else if (m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible()) rc.right -= m_pVerticalScrollBar->GetFixedWidth();
 		if (m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible()) rc.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
@@ -1420,7 +1427,7 @@ namespace DuiLib {
 			RECT rcCtrl = { iPosX + rcPadding.left, iPosY + rcPadding.top, iPosX + rcPadding.left + sz.cx, iPosY + sz.cy + rcPadding.top + rcPadding.bottom };
 			pControl->SetPos(rcCtrl);
 
-			iPosY += sz.cy + m_iChildPadding + rcPadding.top + rcPadding.bottom;
+			iPosY += sz.cy + iChildPadding + rcPadding.top + rcPadding.bottom;
 			cyNeeded += sz.cy + rcPadding.top + rcPadding.bottom;
 			szRemaining.cy -= sz.cy + iChildPadding + rcPadding.bottom;
 		}
@@ -1626,9 +1633,9 @@ namespace DuiLib {
 
 			RECT rcCtrl = { iPosX + rcPadding.left, rc.top + rcPadding.top, iPosX + sz.cx + rcPadding.left + rcPadding.right, rc.top + rcPadding.top + sz.cy };
 			pControl->SetPos(rcCtrl);
-			iPosX += sz.cx + m_iChildPadding + rcPadding.left + rcPadding.right;
+			iPosX += sz.cx + iChildPadding + rcPadding.left + rcPadding.right;
 			cxNeeded += sz.cx + rcPadding.left + rcPadding.right;
-			szRemaining.cx -= sz.cx + m_iChildPadding + rcPadding.right;
+			szRemaining.cx -= sz.cx + iChildPadding + rcPadding.right;
 		}
 		cxNeeded += (nEstimateNum - 1) * iChildPadding;
 	}
@@ -1709,6 +1716,7 @@ namespace DuiLib {
 
 	DWORD CListHeaderItemUI::GetSepWidth() const
 	{
+		if(m_pManager != NULL) return m_pManager->GetDPIObj()->Scale(m_iSepWidth);
 		return m_iSepWidth;
 	}
 
@@ -1884,7 +1892,7 @@ namespace DuiLib {
 			SetScale(_tcstol(pstrValue, &pstr, 10));
 
 		}
-		else CContainerUI::SetAttribute(pstrName, pstrValue);
+		else CHorizontalLayoutUI::SetAttribute(pstrName, pstrValue);
 	}
 
 	void CListHeaderItemUI::DoEvent(TEventUI& event)
@@ -1986,13 +1994,13 @@ namespace DuiLib {
 			}
 			return;
 		}
-		CContainerUI::DoEvent(event);
+		CHorizontalLayoutUI::DoEvent(event);
 	}
 
 	SIZE CListHeaderItemUI::EstimateSize(SIZE szAvailable)
 	{
 		if (m_cxyFixed.cy == 0) return CDuiSize(m_cxyFixed.cx, m_pManager->GetDefaultFontInfo()->tm.tmHeight + 14);
-		return CContainerUI::EstimateSize(szAvailable);
+		return CHorizontalLayoutUI::EstimateSize(szAvailable);
 	}
 
 	RECT CListHeaderItemUI::GetThumbRect() const
@@ -2702,7 +2710,7 @@ namespace DuiLib {
 	//
 	IMPLEMENT_DUICONTROL(CListContainerElementUI)
 
-		CListContainerElementUI::CListContainerElementUI() :
+	CListContainerElementUI::CListContainerElementUI() :
 	m_iIndex(-1),
 		m_pOwner(NULL),
 		m_bSelected(false),
@@ -2849,6 +2857,7 @@ namespace DuiLib {
 
 		if (bSelect == m_bSelected) return true;
 		m_bSelected = bSelect;
+
 		Invalidate();
 		return true;
 	}
@@ -2980,7 +2989,35 @@ namespace DuiLib {
 
 	void CListContainerElementUI::DrawItemText(HDC hDC, const RECT& rcItem)
 	{
-		return;
+		CDuiString sText = GetText();
+		if (sText.IsEmpty()) return;
+
+		if (m_pOwner == NULL) return;
+		TListInfoUI* pInfo = m_pOwner->GetListInfo();
+		DWORD iTextColor = pInfo->dwTextColor;
+		if ((m_uButtonState & UISTATE_HOT) != 0) {
+			iTextColor = pInfo->dwHotTextColor;
+		}
+		if (IsSelected()) {
+			iTextColor = pInfo->dwSelectedTextColor;
+		}
+		if (!IsEnabled()) {
+			iTextColor = pInfo->dwDisabledTextColor;
+		}
+		int nLinks = 0;
+		RECT rcText = rcItem;
+		RECT rcTextPadding = GetManager()->GetDPIObj()->Scale(pInfo->rcTextPadding);
+		rcText.left += rcTextPadding.left;
+		rcText.right -= rcTextPadding.right;
+		rcText.top += rcTextPadding.top;
+		rcText.bottom -= rcTextPadding.bottom;
+
+		if (pInfo->bShowHtml)
+			CRenderEngine::DrawHtmlText(hDC, m_pManager, rcText, sText, iTextColor, \
+			NULL, NULL, nLinks, pInfo->nFont, pInfo->uTextStyle);
+		else
+			CRenderEngine::DrawText(hDC, m_pManager, rcText, sText, iTextColor, \
+			pInfo->nFont, pInfo->uTextStyle);
 	}
 
 	void CListContainerElementUI::DrawItemBk(HDC hDC, const RECT& rcItem)
@@ -2991,11 +3028,16 @@ namespace DuiLib {
 		DWORD iBackColor = 0;
 		if (!pInfo->bAlternateBk || m_iIndex % 2 == 0) iBackColor = pInfo->dwBkColor;
 
+		CDuiString sForeImage = pInfo->sForeImage;
 		if ((m_uButtonState & UISTATE_HOT) != 0 && pInfo->dwHotBkColor > 0) {
 			iBackColor = pInfo->dwHotBkColor;
+			if(!pInfo->sHotForeImage.IsEmpty()) {
+				sForeImage = pInfo->sHotForeImage;
+			}
 		}
 		if (IsSelected() && pInfo->dwSelectedBkColor > 0) {
 			iBackColor = pInfo->dwSelectedBkColor;
+			
 		}
 		if (!IsEnabled() && pInfo->dwDisabledBkColor > 0) {
 			iBackColor = pInfo->dwDisabledBkColor;
@@ -3012,26 +3054,39 @@ namespace DuiLib {
 		}
 		if (IsSelected()) {
 			if (!pInfo->sSelectedImage.IsEmpty()) {
-				if (!DrawImage(hDC, (LPCTSTR)pInfo->sSelectedImage)) {}
-				else return;
+				bool bDrawOk = DrawImage(hDC, (LPCTSTR)pInfo->sSelectedImage);
+				if(!pInfo->sSelectedForeImage.IsEmpty()) {
+					DrawImage(hDC, (LPCTSTR)pInfo->sSelectedForeImage);
+				}
+				if(bDrawOk) return;
 			}
 		}
 		if ((m_uButtonState & UISTATE_HOT) != 0) {
 			if (!pInfo->sHotImage.IsEmpty()) {
-				if (!DrawImage(hDC, (LPCTSTR)pInfo->sHotImage)) {}
-				else return;
+				bool bDrawOk = DrawImage(hDC, (LPCTSTR)pInfo->sHotImage);
+				if(!pInfo->sHotForeImage.IsEmpty()) {
+					DrawImage(hDC, (LPCTSTR)pInfo->sHotForeImage);
+				}
+				if(bDrawOk) return;
 			}
 		}
+
 		if (!m_sBkImage.IsEmpty()) {
 			if (!pInfo->bAlternateBk || m_iIndex % 2 == 0) {
 				if (!DrawImage(hDC, (LPCTSTR)m_sBkImage)) {}
+
+				if(!pInfo->sForeImage.IsEmpty()) {
+					DrawImage(hDC, (LPCTSTR)pInfo->sForeImage);
+				}
 			}
 		}
 
 		if (m_sBkImage.IsEmpty()) {
 			if (!pInfo->sBkImage.IsEmpty()) {
-				if (!DrawImage(hDC, (LPCTSTR)pInfo->sBkImage)) {}
-				else return;
+				bool bDrawOk = DrawImage(hDC, (LPCTSTR)pInfo->sBkImage);
+				if(!pInfo->sForeImage.IsEmpty()) {
+					DrawImage(hDC, (LPCTSTR)pInfo->sForeImage);
+				}
 			}
 		}
 

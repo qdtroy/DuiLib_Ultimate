@@ -322,7 +322,7 @@
           <HorizontalLayout height="200" inset="0,6,0,6">
             <Label text="Flash控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="0" bordercolor="#FF333333" inset="2,2,2,2" bkimage="res='other/water_bg.jpg' corner='0,360,480,0'">
-              <ActiveX name="ani_flash" clsid="{D27CDB6E-AE6D-11CF-96B8-444553540000}" mouse="true"/>
+              <!--<ActiveX name="ani_flash" clsid="{D27CDB6E-AE6D-11CF-96B8-444553540000}" mouse="true"/>-->
             </VerticalLayout>
           </HorizontalLayout>
 

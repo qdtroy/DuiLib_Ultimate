@@ -305,6 +305,8 @@ namespace DuiLib {
 		Gdiplus::GdiplusStartup( &m_gdiplusToken, m_pGdiplusStartupInput, NULL); // 加载GDI接口
 
 		CShadowUI::Initialize(m_hInstance);
+
+		m_pDragDrop = NULL;
 	}
 
 	CPaintManagerUI::~CPaintManagerUI()
@@ -650,12 +652,9 @@ namespace DuiLib {
 		}
 	}
 
-	RECT& CPaintManagerUI::GetSizeBox()
+	RECT CPaintManagerUI::GetSizeBox()
 	{
-		RECT rcSizeBox = m_rcSizeBox;
-		GetDPIObj()->Scale(&rcSizeBox);
-
-		return rcSizeBox;
+		return GetDPIObj()->Scale(m_rcSizeBox);
 	}
 
 	void CPaintManagerUI::SetSizeBox(RECT& rcSizeBox)
@@ -663,12 +662,9 @@ namespace DuiLib {
 		m_rcSizeBox = rcSizeBox;
 	}
 
-	RECT& CPaintManagerUI::GetCaptionRect()
+	RECT CPaintManagerUI::GetCaptionRect()
 	{
-		RECT rcCaption = m_rcCaption;
-		GetDPIObj()->Scale(&rcCaption);
-
-		return rcCaption;
+		return GetDPIObj()->Scale(m_rcCaption);
 	}
 
 	void CPaintManagerUI::SetCaptionRect(RECT& rcCaption)
@@ -678,10 +674,7 @@ namespace DuiLib {
 
 	SIZE CPaintManagerUI::GetRoundCorner()
 	{
-		SIZE szRoundCorner = m_szRoundCorner;
-		GetDPIObj()->Scale(&szRoundCorner);
-
-		return szRoundCorner;
+		return GetDPIObj()->Scale(m_szRoundCorner);
 	}
 
 	void CPaintManagerUI::SetRoundCorner(int cx, int cy)
@@ -692,9 +685,7 @@ namespace DuiLib {
 
 	SIZE CPaintManagerUI::GetMinInfo()
 	{
-		SIZE szMinWindow = m_szMinWindow;
-		GetDPIObj()->Scale(&szMinWindow);
-		return szMinWindow;
+		return GetDPIObj()->Scale(m_szMinWindow);
 	}
 
 	void CPaintManagerUI::SetMinInfo(int cx, int cy)
@@ -706,9 +697,7 @@ namespace DuiLib {
 
 	SIZE CPaintManagerUI::GetMaxInfo()
 	{
-		SIZE szMaxWindow = m_szMaxWindow;
-		GetDPIObj()->Scale(&szMaxWindow);
-		return szMaxWindow;
+		return GetDPIObj()->Scale(m_szMaxWindow);
 	}
 
 	void CPaintManagerUI::SetMaxInfo(int cx, int cy)
@@ -718,7 +707,7 @@ namespace DuiLib {
 		m_szMaxWindow.cy = cy;
 	}
 
-	bool CPaintManagerUI::IsShowUpdateRect() const
+	bool CPaintManagerUI::IsShowUpdateRect()
 	{
 		return m_bShowUpdateRect;
 	}
@@ -1466,7 +1455,15 @@ namespace DuiLib {
 				// 拖拽事件
 				if(bNeedDrag && m_bDragMode && wParam == MK_LBUTTON)
 				{
+					// 释放Capture
 					::ReleaseCapture();
+					// 接口
+					if(m_pDragDrop != NULL && m_pDragDrop->OnDragDrop(m_pEventClick)) {
+
+						m_bDragMode = false;
+						break;
+					}
+
 					CIDropSource* pdsrc = new CIDropSource;
 					if(pdsrc == NULL) return 0;
 					pdsrc->AddRef();
@@ -1479,13 +1476,14 @@ namespace DuiLib {
 					STGMEDIUM medium = {0};
 					fmtetc.dwAspect = DVASPECT_CONTENT;
 					fmtetc.lindex = -1;
-					//////////////////////////////////////
 					fmtetc.cfFormat = CF_BITMAP;
-					fmtetc.tymed = TYMED_GDI;			
-					medium.tymed = TYMED_GDI;
+					fmtetc.tymed = TYMED_GDI;
+
+					//////////////////////////////////////
 					HBITMAP hBitmap = (HBITMAP)OleDuplicateData(m_hDragBitmap, fmtetc.cfFormat, NULL);
 					medium.hBitmap = hBitmap;
-					pdobj->SetData(&fmtetc,&medium,FALSE);
+					pdobj->SetData(&fmtetc, &medium, FALSE);
+
 					//////////////////////////////////////
 					BITMAP bmap;
 					GetObject(hBitmap, sizeof(BITMAP), &bmap);
@@ -1515,6 +1513,7 @@ namespace DuiLib {
 					m_bDragMode = false;
 					break;
 				}
+
 				TEventUI event = { 0 };
 				event.ptMouse = pt;
 				event.wParam = wParam;
@@ -1608,7 +1607,7 @@ namespace DuiLib {
 				CControlUI* pControl = FindControl(pt);
 				if( pControl == NULL ) break;
 				if( pControl->GetManager() != this ) break;
-				SetCapture();
+				//SetCapture();
 				TEventUI event = { 0 };
 				event.Type = UIEVENT_DBLCLICK;
 				event.pSender = pControl;
@@ -3479,9 +3478,8 @@ namespace DuiLib {
 
 	const TDrawInfo* CPaintManagerUI::GetDrawInfo(LPCTSTR pStrImage, LPCTSTR pStrModify)
 	{
-		CDuiString sStrImage = pStrImage;
-		CDuiString sStrModify = pStrModify;
-		CDuiString sKey = sStrImage + sStrModify;
+		CDuiString sKey;
+		sKey.Format(_T("%s%s"), pStrImage == NULL ? _T("") : pStrImage, pStrModify == NULL ? _T("") : pStrModify);
 		TDrawInfo* pDrawInfo = static_cast<TDrawInfo*>(m_ResInfo.m_DrawInfoHash.Find(sKey));
 		if(pDrawInfo == NULL && !sKey.IsEmpty()) {
 			pDrawInfo = new TDrawInfo();
@@ -3493,9 +3491,8 @@ namespace DuiLib {
 
 	void CPaintManagerUI::RemoveDrawInfo(LPCTSTR pStrImage, LPCTSTR pStrModify)
 	{
-		CDuiString sStrImage = pStrImage;
-		CDuiString sStrModify = pStrModify;
-		CDuiString sKey = sStrImage + sStrModify;
+		CDuiString sKey;
+		sKey.Format(_T("%s%s"), pStrImage == NULL ? _T("") : pStrImage, pStrModify == NULL ? _T("") : pStrModify);
 		TDrawInfo* pDrawInfo = static_cast<TDrawInfo*>(m_ResInfo.m_DrawInfoHash.Find(sKey));
 		if(pDrawInfo != NULL) {
 			m_ResInfo.m_DrawInfoHash.Remove(sKey);
@@ -4035,6 +4032,11 @@ namespace DuiLib {
 			}
 		}
 		return true;
+	}
+
+	void CPaintManagerUI::SetDragDrop(IDragDropUI* pDragDrop)
+	{
+		m_pDragDrop = pDragDrop;
 	}
 
 	static WORD DIBNumColors(void* pv) 

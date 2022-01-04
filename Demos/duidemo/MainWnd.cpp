@@ -88,7 +88,7 @@ void CMainWnd::InitWindow()
 	CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("oneclick_browser2")));
 	pBrowser2->SetWebBrowserEventHandler(this);
 	pBrowser1->NavigateUrl(_T("https://www.baidu.com"));
-	pBrowser2->NavigateUrl(_T("https://pbsz.ebank.cmbchina.com/CmbBank_GenShell/UI/GenShellPC/Login/Login.aspx"));
+	pBrowser2->NavigateUrl(_T("https://blog.csdn.net/duisharp/"));
 
 	// ¶¯Ì¬´´½¨Combo
 	CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("font_size")));
@@ -344,20 +344,20 @@ void CMainWnd::Notify(TNotifyUI& msg)
 	}
 	else if( msg.sType == _T("showactivex") ) 
 	{
-		if( name.CompareNoCase(_T("ani_flash")) == 0 ) {
-			IShockwaveFlash* pFlash = NULL;
-			CActiveXUI* pActiveX = static_cast<CActiveXUI*>(msg.pSender);
-			pActiveX->GetControl(__uuidof(IShockwaveFlash), (void**)&pFlash);
-			if( pFlash != NULL )  {
-				pFlash->put_WMode( _bstr_t(_T("Transparent") ) );
-				pFlash->put_Movie( _bstr_t(CPaintManagerUI::GetInstancePath() + _T("\\skin\\duidemo\\other\\waterdrop.swf")) );
-				pFlash->DisableLocalSecurity();
-				pFlash->put_AllowScriptAccess(L"always");
-				BSTR response;
-				pFlash->CallFunction(L"<invoke name=\"setButtonText\" returntype=\"xml\"><arguments><string>Click me!</string></arguments></invoke>", &response);
-				pFlash->Release();
-			}  
-		}
+		//if( name.CompareNoCase(_T("ani_flash")) == 0 ) {
+		//	IShockwaveFlash* pFlash = NULL;
+		//	CActiveXUI* pActiveX = static_cast<CActiveXUI*>(msg.pSender);
+		//	pActiveX->GetControl(__uuidof(IShockwaveFlash), (void**)&pFlash);
+		//	if( pFlash != NULL )  {
+		//		pFlash->put_WMode( _bstr_t(_T("Transparent") ) );
+		//		pFlash->put_Movie( _bstr_t(CPaintManagerUI::GetInstancePath() + _T("\\skin\\duidemo\\other\\waterdrop.swf")) );
+		//		pFlash->DisableLocalSecurity();
+		//		pFlash->put_AllowScriptAccess(L"always");
+		//		BSTR response;
+		//		pFlash->CallFunction(L"<invoke name=\"setButtonText\" returntype=\"xml\"><arguments><string>Click me!</string></arguments></invoke>", &response);
+		//		pFlash->Release();
+		//	}  
+		//}
 	}
 	else if( msg.sType == _T("click") )
 	{

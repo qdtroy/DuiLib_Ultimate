@@ -47,7 +47,11 @@ namespace DuiLib {
 		virtual bool IsDropEnabled() const;
 		virtual void SetDropEnable(bool bDrop);
 
+		virtual bool IsRichEvent() const;
+		virtual void SetRichEvent(bool bEnable);
 		// 图形相关
+		LPCTSTR GetGradient();
+		void SetGradient(LPCTSTR pStrImage);
 		DWORD GetBkColor() const;
 		void SetBkColor(DWORD dwBackColor);
 		DWORD GetBkColor2() const;
@@ -74,6 +78,7 @@ namespace DuiLib {
 		void SetBorderSize(int nSize);
 		DWORD GetBorderColor() const;
 		void SetBorderColor(DWORD dwBorderColor);
+		RECT GetBorderRectSize() const;
 		void SetBorderSize(RECT rc);
 		int GetLeftBorderSize() const;
 		void SetLeftBorderSize(int nSize);
@@ -100,6 +105,7 @@ namespace DuiLib {
 		virtual void SetPadding(RECT rcPadding); // 设置外边距，由上层窗口绘制
 		virtual SIZE GetFixedXY() const;         // 实际大小位置使用GetPos获取，这里得到的是预设的参考值
 		virtual void SetFixedXY(SIZE szXY);      // 仅float为true时有效
+		virtual SIZE GetFixedSize() const;
 		virtual int GetFixedWidth() const;       // 实际大小位置使用GetPos获取，这里得到的是预设的参考值
 		virtual void SetFixedWidth(int cx);      // 预设的参考值
 		virtual int GetFixedHeight() const;      // 实际大小位置使用GetPos获取，这里得到的是预设的参考值
@@ -179,8 +185,8 @@ namespace DuiLib {
 		CControlUI* ApplyAttributeList(LPCTSTR pstrList);
 
 		virtual SIZE EstimateSize(SIZE szAvailable);
-
-		virtual void DoPaint(HDC hDC, const RECT& rcPaint);
+		virtual bool Paint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl = NULL); // 返回要不要继续绘制
+		virtual bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 		virtual void PaintBkColor(HDC hDC);
 		virtual void PaintBkImage(HDC hDC);
 		virtual void PaintStatusImage(HDC hDC);
@@ -219,13 +225,14 @@ namespace DuiLib {
 		bool m_bInternVisible;
 		bool m_bEnabled;
 		bool m_bMouseEnabled;
-		bool m_bKeyboardEnabled ;
+		bool m_bKeyboardEnabled;
 		bool m_bFocused;
 		bool m_bFloat;
 		TPercentInfo m_piFloatPercent;
 		UINT m_uFloatAlign;
 		bool m_bSetPos; // 防止SetPos循环调用
 
+		bool m_bRichEvent;
 		bool m_bDragEnabled;
 		bool m_bDropEnabled;
 
@@ -236,6 +243,7 @@ namespace DuiLib {
 		CDuiString m_sUserData;
 		UINT_PTR m_pTag;
 
+		CDuiString m_sGradient;
 		DWORD m_dwBackColor;
 		DWORD m_dwBackColor2;
 		DWORD m_dwBackColor3;

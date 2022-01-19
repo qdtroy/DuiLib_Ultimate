@@ -30,7 +30,7 @@ private:
     CWkeWebkitUI* m_pWebBrowser;
 };  
 
-CDuiString sHomePage = _T("http://www.baidu.com");
+CDuiString sHomePage = _T("http://www.winradar.com");
 //////////////////////////////////////////////////////////////////////////
 ///
 

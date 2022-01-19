@@ -11,6 +11,7 @@ namespace DuiLib
 		LT_LIST = 0,
 		LT_COMBO,
 		LT_TREE,
+		LT_MENU,
 	};
 
 	// 鼠标光标定义
@@ -75,6 +76,7 @@ namespace DuiLib
 #define DUI_MSGTYPE_RETURN                 (_T("return"))
 #define DUI_MSGTYPE_SCROLL                 (_T("scroll"))
 
+#define DUI_MSGTYPE_PREDROPDOWN            (_T("predropdown"))
 #define DUI_MSGTYPE_DROPDOWN               (_T("dropdown"))
 #define DUI_MSGTYPE_SETFOCUS               (_T("setfocus"))
 

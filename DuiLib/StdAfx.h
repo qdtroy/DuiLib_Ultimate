@@ -49,7 +49,7 @@
 
 // Required for VS 2008 (fails on XP and Win2000 without this fix)
 #ifndef _WIN32_WINNT
-#define _WIN32_WINNT _WIN32_WINNT_WINXP//0x0500
+#define _WIN32_WINNT _WIN32_WINNT_WINXP//0x0501
 #endif
 
 //#define USE_XIMAGE_EFFECT //使用ximage的gif控件CGifAnimExUI开关，提升性能,默认不使用

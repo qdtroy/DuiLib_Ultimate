@@ -2,8 +2,6 @@
 #define __UIRICHEDIT_H__
 
 #pragma once
-#include <Imm.h>
-#pragma comment(lib,"imm32.lib")
 
 namespace DuiLib {
 
@@ -11,7 +9,7 @@ namespace DuiLib {
 
 	class UILIB_API CRichEditUI : public CContainerUI, public IMessageFilterUI
 	{
-	DECLARE_DUICONTROL(CRichEditUI)
+		DECLARE_DUICONTROL(CRichEditUI)
 	public:
 		CRichEditUI();
 		~CRichEditUI();
@@ -20,6 +18,7 @@ namespace DuiLib {
 		LPVOID GetInterface(LPCTSTR pstrName);
 		UINT GetControlFlags() const;
 
+		void SetEnabled(bool bEnabled);
 		bool IsMultiLine();
 		void SetMultiLine(bool bMultiLine);
 		bool IsWantTab();
@@ -28,16 +27,17 @@ namespace DuiLib {
 		void SetWantReturn(bool bWantReturn = true);
 		bool IsWantCtrlReturn();
 		void SetWantCtrlReturn(bool bWantCtrlReturn = true);
+		bool IsTransparent();
+		void SetTransparent(bool bTransparent = true);
 		bool IsRich();
 		void SetRich(bool bRich = true);
 		bool IsReadOnly();
 		void SetReadOnly(bool bReadOnly = true);
-		bool GetWordWrap();
+		bool IsWordWrap();
 		void SetWordWrap(bool bWordWrap = true);
 		int GetFont();
 		void SetFont(int index);
 		void SetFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic);
-		void SetEnabled(bool bEnabled);
 		LONG GetWinStyle();
 		void SetWinStyle(LONG lStyle);
 		DWORD GetTextColor();
@@ -47,7 +47,7 @@ namespace DuiLib {
 		long GetTextLength(DWORD dwFlags = GTL_DEFAULT) const;
 		CDuiString GetText() const;
 		void SetText(LPCTSTR pstrText);
-		bool GetModify() const;
+		bool IsModify() const;
 		void SetModify(bool bModified = true) const;
 		void GetSel(CHARRANGE &cr) const;
 		void GetSel(long& nStartChar, long& nEndChar) const;
@@ -92,6 +92,7 @@ namespace DuiLib {
 		int LineIndex(int nLine = -1) const;
 		int LineLength(int nLine = -1) const;
 		bool LineScroll(int nLines, int nChars = 0);
+		CDuiPoint GetCharPos(long lChar) const;
 		long LineFromChar(long nIndex) const;
 		CDuiPoint PosFromChar(UINT nChar) const;
 		int CharFromPos(CDuiPoint pt) const;
@@ -102,13 +103,32 @@ namespace DuiLib {
 		void SetAccumulateDBCMode(bool bDBCMode);
 		bool IsAccumulateDBCMode();
 
+		RECT GetTextPadding() const;
+		void SetTextPadding(RECT rc);
+		LPCTSTR GetNormalImage();
+		void SetNormalImage(LPCTSTR pStrImage);
+		LPCTSTR GetHotImage();
+		void SetHotImage(LPCTSTR pStrImage);
+		LPCTSTR GetFocusedImage();
+		void SetFocusedImage(LPCTSTR pStrImage);
+		LPCTSTR GetDisabledImage();
+		void SetDisabledImage(LPCTSTR pStrImage);
+		void PaintStatusImage(HDC hDC);
+
+		void SetTipValue(LPCTSTR pStrTipValue);
+		LPCTSTR GetTipValue();
+		void SetTipValueColor(LPCTSTR pStrColor);
+		DWORD GetTipValueColor();
+		void SetTipValueAlign(UINT uAlign);
+		UINT GetTipValueAlign();
+
 		void DoInit();
+		bool SetDropAcceptFile(bool bAccept);
 		// 注意：TxSendMessage和SendMessage是有区别的，TxSendMessage没有multibyte和unicode自动转换的功能，
 		// 而richedit2.0内部是以unicode实现的，在multibyte程序中，必须自己处理unicode到multibyte的转换
-		bool SetDropAcceptFile(bool bAccept);
 		virtual HRESULT TxSendMessage(UINT msg, WPARAM wparam, LPARAM lparam, LRESULT *plresult) const; 
 		IDropTarget* GetTxDropTarget();
-		virtual bool OnTxViewChanged(BOOL bUpdate);
+		virtual bool OnTxViewChanged();
 		virtual void OnTxNotify(DWORD iNotify, void *pv);
 
 		void SetScrollPos(SIZE szPos, bool bMsg = true);
@@ -129,37 +149,23 @@ namespace DuiLib {
 		void SetPos(RECT rc, bool bNeedInvalidate = true);
 		void Move(SIZE szOffset, bool bNeedInvalidate = true);
 		void DoEvent(TEventUI& event);
-		void DoPaint(HDC hDC, const RECT& rcPaint);
-
-		LPCTSTR GetNormalImage();
-		void SetNormalImage(LPCTSTR pStrImage);
-		LPCTSTR GetHotImage();
-		void SetHotImage(LPCTSTR pStrImage);
-		LPCTSTR GetFocusedImage();
-		void SetFocusedImage(LPCTSTR pStrImage);
-		LPCTSTR GetDisabledImage();
-		void SetDisabledImage(LPCTSTR pStrImage);
-		void PaintStatusImage(HDC hDC);
-		RECT GetTextPadding() const;
-		void SetTextPadding(RECT rc);
-
-		void SetTipValue(LPCTSTR pStrTipValue);
-		LPCTSTR GetTipValue();
-		void SetTipValueColor(LPCTSTR pStrColor);
-		DWORD GetTipValueColor();
-		void SetTipValueAlign(UINT uAlign);
-		UINT GetTipValueAlign();
+		bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
 		LRESULT MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
 
 	protected:
+		enum { 
+			DEFAULT_TIMERID = 20,
+		};
+
 		CTxtWinHost* m_pTwh;
 		bool m_bVScrollBarFixing;
 		bool m_bWantTab;
 		bool m_bWantReturn;
 		bool m_bWantCtrlReturn;
+		bool m_bTransparent;
 		bool m_bRich;
 		bool m_bReadOnly;
 		bool m_bWordWrap;
@@ -169,16 +175,17 @@ namespace DuiLib {
 		LONG m_lTwhStyle;
 		bool m_bDrawCaret;
 		bool m_bInited;
+
 		bool  m_fAccumulateDBC ; // TRUE - need to cumulate ytes from 2 WM_CHAR msgs
 		// we are in this mode when we receive VK_PROCESSKEY
 		UINT m_chLeadByte; // use when we are in _fAccumulateDBC mode
 
+		RECT m_rcTextPadding;
 		UINT m_uButtonState;
 		CDuiString m_sNormalImage;
 		CDuiString m_sHotImage;
 		CDuiString m_sFocusedImage;
 		CDuiString m_sDisabledImage;
-		RECT m_rcTextPadding;
 		CDuiString m_sTipValue;
 		DWORD m_dwTipValueColor;
 		UINT m_uTipValueAlign;

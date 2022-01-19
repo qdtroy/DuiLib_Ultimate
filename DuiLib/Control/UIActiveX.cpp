@@ -37,6 +37,10 @@ namespace DuiLib {
 		LRESULT OnPrint(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 	protected:
+		enum { 
+			DEFAULT_TIMERID = 20,
+		};
+
 		CActiveXCtrl* m_pOwner;
 		int m_iLayeredTick;
 		bool m_bDrawCaret;
@@ -775,7 +779,7 @@ namespace DuiLib {
 	void CActiveXWnd::OnFinalMessage(HWND hWnd)
 	{
 		if( m_pOwner->m_pOwner->GetManager()->IsLayered() ) {
-			m_pOwner->m_pOwner->GetManager()->RemovePaintChildWnd(hWnd);
+			m_pOwner->m_pOwner->GetManager()->RemoveNativeWindow(hWnd);
 		}
 	}
 
@@ -824,9 +828,9 @@ namespace DuiLib {
 
 	LRESULT CActiveXWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 	{
-		if (wParam == CARET_TIMERID) {
+		if (wParam == DEFAULT_TIMERID) {
 			if (m_pOwner->m_pOwner->GetManager()->IsLayered()) {
-				m_pOwner->m_pOwner->GetManager()->AddPaintChildWnd(m_hWnd);
+				//m_pOwner->m_pOwner->GetManager()->AddNativeWindow(m_pOwner->m_pOwner, m_hWnd);
 				m_iLayeredTick += 1;
 				if (m_iLayeredTick >= 10) {
 					m_iLayeredTick = 0;
@@ -1009,14 +1013,13 @@ namespace DuiLib {
 		}
 	}
 
-	void CActiveXUI::DoPaint(HDC hDC, const RECT& rcPaint)
+	bool CActiveXUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 	{
-		if( !::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem) ) return;
-
 		if( m_pControl != NULL && m_pControl->m_bWindowless && m_pControl->m_pViewObject != NULL )
 		{
 			m_pControl->m_pViewObject->Draw(DVASPECT_CONTENT, -1, NULL, NULL, NULL, hDC, (RECTL*) &m_rcItem, (RECTL*) &m_rcItem, NULL, NULL); 
 		}
+		return true;
 	}
 
 	void CActiveXUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
@@ -1024,7 +1027,6 @@ namespace DuiLib {
 		if( _tcscmp(pstrName, _T("clsid")) == 0 ) CreateControl(pstrValue);
 		else if( _tcscmp(pstrName, _T("modulename")) == 0 ) SetModuleName(pstrValue);
 		else if( _tcscmp(pstrName, _T("delaycreate")) == 0 ) SetDelayCreate(_tcscmp(pstrValue, _T("true")) == 0);
-		//else if( _tcscmp(pstrName, _T("mfc")) == 0 ) SetMFC(_tcscmp(pstrValue, _T("true")) == 0);
 		else CControlUI::SetAttribute(pstrName, pstrValue);
 	}
 
@@ -1123,7 +1125,7 @@ namespace DuiLib {
 	void CActiveXUI::ReleaseControl()
 	{
 		// ÒÆ³ýÏûÏ¢Á´
-		m_pManager->RemoveMessageFilter(this);
+		if(m_pManager != NULL) m_pManager->RemoveMessageFilter(this);
 
 		if( m_pUnk != NULL ) {
 			IObjectWithSite* pSite = NULL;
@@ -1208,7 +1210,7 @@ namespace DuiLib {
 		if( (dwMiscStatus & OLEMISC_INVISIBLEATRUNTIME) == 0 ) {
 			try
 			{
-				Hr = m_pUnk->DoVerb(OLEIVERB_INPLACEACTIVATE, NULL, pOleClientSite, 0, m_pManager->GetPaintWindow(), &m_rcItem);
+				if(m_pManager != NULL) Hr = m_pUnk->DoVerb(OLEIVERB_INPLACEACTIVATE, NULL, pOleClientSite, 0, m_pManager->GetPaintWindow(), &m_rcItem);
 			}
 			catch (...)
 			{

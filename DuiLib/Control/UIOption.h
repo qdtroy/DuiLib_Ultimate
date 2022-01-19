@@ -10,7 +10,7 @@ namespace DuiLib
 		DECLARE_DUICONTROL(COptionUI)
 	public:
 		COptionUI();
-		~COptionUI();
+		virtual ~COptionUI();
 
 		LPCTSTR GetClass() const;
 		LPVOID GetInterface(LPCTSTR pstrName);
@@ -38,10 +38,21 @@ namespace DuiLib
 		LPCTSTR GetSelectedForedImage();
 		void SetSelectedForedImage(LPCTSTR pStrImage);
 
+		void SetSelectedStateCount(int nCount);
+		int GetSelectedStateCount() const;
+		virtual LPCTSTR GetSelectedStateImage();
+		virtual void SetSelectedStateImage(LPCTSTR pStrImage);
+
+		void SetSelectedFont(int index);
+		int GetSelectedFont() const;
+
 		LPCTSTR GetGroup() const;
 		void SetGroup(LPCTSTR pStrGroupName = NULL);
+		LPCTSTR GetGroupType() const;
+		void SetGroupType(LPCTSTR pStrGroupType = NULL);
+
 		bool IsSelected() const;
-		virtual void Selected(bool bSelected);
+		virtual void Selected(bool bSelected, bool bMsg = true);
 
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
@@ -53,6 +64,9 @@ namespace DuiLib
 	protected:
 		bool			m_bSelected;
 		CDuiString		m_sGroupName;
+		CDuiString		m_sGroupType;
+
+		int				m_iSelectedFont;
 
 		DWORD			m_dwSelectedBkColor;
 		DWORD			m_dwSelectedTextColor;
@@ -61,11 +75,16 @@ namespace DuiLib
 		CDuiString		m_sSelectedHotImage;
 		CDuiString		m_sSelectedPushedImage;
 		CDuiString		m_sSelectedForeImage;
+
+		int m_nSelectedStateCount;
+		CDuiString m_sSelectedStateImage;
 	};
 
 	class UILIB_API CCheckBoxUI : public COptionUI
 	{
 		DECLARE_DUICONTROL(CCheckBoxUI)
+	public:
+		CCheckBoxUI();
 
 	public:
 		virtual LPCTSTR GetClass() const;
@@ -73,15 +92,15 @@ namespace DuiLib
 
 		void SetCheck(bool bCheck);
 		bool GetCheck() const;
-	protected:
-		bool m_bAutoCheck; 
 
 	public:
-		CCheckBoxUI();
 		virtual void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 		void SetAutoCheck(bool bEnable);
 		virtual void DoEvent(TEventUI& event);
-		virtual void Selected(bool bSelected);
+		virtual void Selected(bool bSelected, bool bMsg = true);
+
+	protected:
+		bool m_bAutoCheck; 
 	};
 } // namespace DuiLib
 

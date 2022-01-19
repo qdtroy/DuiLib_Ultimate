@@ -47,7 +47,7 @@ namespace DuiLib {
 
 			m_pCallback = pCallback;
 			if( !m_xml.LoadFromMem((BYTE*)::LockResource(hGlobal), ::SizeofResource(dll_instence, hResource) )) return NULL;
-			::FreeResource(hResource);
+			::FreeResource(hGlobal);
 			m_pstrtype = type;
 		}
 
@@ -133,7 +133,7 @@ namespace DuiLib {
 					}
 					if( id >= 0 ) {
 						pManager->AddFont(id, pFontName, size, bold, underline, italic, shared);
-						if( defaultfont ) pManager->SetDefaultFont(pFontName, pManager->GetDPIObj()->Scale(size), bold, underline, italic, shared);
+						if( defaultfont ) pManager->SetDefaultFont(pFontName, size, bold, underline, italic, shared);
 					}
 				}
 				else if( _tcsicmp(pstrClass, _T("Default")) == 0 ) {
@@ -178,6 +178,20 @@ namespace DuiLib {
 					}
 					if( pName ) {
 						pManager->AddStyle(pName, pStyle, shared);
+					}
+				}
+				else if (_tcsicmp(pstrClass, _T("Import")) == 0) {
+					nAttributes = node.GetAttributeCount();
+					LPCTSTR pstrPath = NULL;
+					for (int i = 0; i < nAttributes; i++) {
+						pstrName = node.GetAttributeName(i);
+						pstrValue = node.GetAttributeValue(i);
+						if (_tcsicmp(pstrName, _T("fontfile")) == 0) {
+							pstrPath = pstrValue;
+						}
+					}
+					if (pstrPath) {
+						pManager->AddFontArray(pstrPath);
 					}
 				}
 			}
@@ -242,6 +256,13 @@ namespace DuiLib {
 						} 
 						else if( _tcscmp(pstrName, _T("layered")) == 0 || _tcscmp(pstrName, _T("bktrans")) == 0) {
 							pManager->SetLayered(_tcsicmp(pstrValue, _T("true")) == 0);
+						}
+						else if( _tcscmp(pstrName, _T("layeredimage")) == 0 ) {
+							pManager->SetLayered(true);
+							pManager->SetLayeredImage(pstrValue);
+						} 
+						else if( _tcscmp(pstrName, _T("noactivate")) == 0 ) {
+							pManager->SetNoActivate(_tcsicmp(pstrValue, _T("true")) == 0);
 						}
 						else if( _tcsicmp(pstrName, _T("disabledfontcolor")) == 0 ) {
 							if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
@@ -315,6 +336,9 @@ namespace DuiLib {
 						else if( _tcsicmp(pstrName, _T("textrenderinghint")) == 0 ) {
 							pManager->SetGdiplusTextRenderingHint(_ttoi(pstrValue));
 						} 
+						else if( _tcsicmp(pstrName, _T("tooltiphovertime")) == 0 ) {
+							pManager->SetHoverTime(_ttoi(pstrValue));
+						} 
 					}
 				}
 			}
@@ -347,6 +371,7 @@ namespace DuiLib {
 				|| _tcsicmp(pstrClass, _T("Default")) == 0 || _tcsicmp(pstrClass, _T("Style")) == 0 ) continue;
 
 			CControlUI* pControl = NULL;
+			if (_tcsicmp(pstrClass, _T("Import")) == 0) continue;
 			if( _tcsicmp(pstrClass, _T("Include")) == 0 ) {
 				if( !node.HasAttributes() ) continue;
 				int count = 1;
@@ -463,8 +488,6 @@ namespace DuiLib {
 			}
 			// Process attributes
 			if( node.HasAttributes() ) {
-				TCHAR szValue[500] = { 0 };
-				SIZE_T cchLen = lengthof(szValue) - 1;
 				// Set ordinary attributes
 				int nAttributes = node.GetAttributeCount();
 				for( int i = 0; i < nAttributes; i++ ) {

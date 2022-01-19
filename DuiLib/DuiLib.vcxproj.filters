@@ -47,9 +47,6 @@
     <ClCompile Include="Utils\Utils.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\XUnzip.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
     <ClCompile Include="Core\UIBase.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
@@ -200,6 +197,9 @@
     <ClCompile Include="Control\UIRing.cpp">
       <Filter>Source Files\Control</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\unzip.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h">
@@ -334,9 +334,6 @@
     <ClInclude Include="Layout\UIAnimationTabLayout.h">
       <Filter>Header Files\Layout</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\stb_image.h">
-      <Filter>Source Files\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Core\UIResourceManager.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
@@ -384,6 +381,12 @@
     </ClInclude>
     <ClInclude Include="Control\UIRing.h">
       <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\unzip.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\stb_image.h">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -68,13 +68,19 @@ namespace DuiLib {
 		virtual void SetDelayedDestroy(bool bDelayed);
 		virtual bool IsMouseChildEnabled() const;
 		virtual void SetMouseChildEnabled(bool bEnable = true);
+		
+		bool IsFixedScrollbar();
+		void SetFixedScrollbar(bool bFixed);
+
+		bool IsShowScrollbar();
+		void SetShowScrollbar(bool bShow);
 
 		virtual int FindSelectable(int iIndex, bool bForward = true) const;
 
 		RECT GetClientPos() const;
 		void SetPos(RECT rc, bool bNeedInvalidate = true);
 		void Move(SIZE szOffset, bool bNeedInvalidate = true);
-		void DoPaint(HDC hDC, const RECT& rcPaint);
+		bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
@@ -127,6 +133,8 @@ namespace DuiLib {
 		bool m_bDelayedDestroy;
 		bool m_bMouseChildEnabled;
 		int	 m_nScrollStepSize;
+		bool m_bFixedScrollbar;
+		bool m_bShowScrollbar;
 
 		CScrollBarUI* m_pVerticalScrollBar;
 		CScrollBarUI* m_pHorizontalScrollBar;

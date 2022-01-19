@@ -122,11 +122,11 @@ namespace DuiLib
 
 		RECT rc = {0};
 		if( m_bHorizontal ) {
-			rc.right = (m_nValue - m_nMin) * (m_rcItem.right - m_rcItem.left) / (m_nMax - m_nMin);
+			rc.right = (m_nValue - m_nMin) * (m_rcItem.right - m_rcItem.left) * 1.0f / (m_nMax - m_nMin);
 			rc.bottom = m_rcItem.bottom - m_rcItem.top;
 		}
 		else {
-			rc.top = (m_rcItem.bottom - m_rcItem.top) * (m_nMax - m_nValue) / (m_nMax - m_nMin);
+			rc.top = (m_rcItem.bottom - m_rcItem.top) * (m_nMax - m_nValue) * 1.0f / (m_nMax - m_nMin);
 			rc.right = m_rcItem.right - m_rcItem.left;
 			rc.bottom = m_rcItem.bottom - m_rcItem.top;
 		}

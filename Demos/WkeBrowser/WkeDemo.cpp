@@ -60,7 +60,7 @@ void InitResource()
 						CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
 					}
 				}
-				::FreeResource(hResource);
+				::FreeResource(hGlobal);
 			}
 		}
 		break;
@@ -89,8 +89,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	pMainWnd->CenterWindow();
 	// 启动消息循环
 	CPaintManagerUI::MessageLoop();
-	delete pMainWnd;
-	pMainWnd = NULL;
 	// 释放资源
 	CResourceManager::GetInstance()->Release();
 

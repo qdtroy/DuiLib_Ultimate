@@ -32,6 +32,10 @@ namespace DuiLib
 		virtual void SetDisabledImage(LPCTSTR pStrImage);
 		virtual LPCTSTR GetHotForeImage();
 		virtual void SetHotForeImage(LPCTSTR pStrImage);
+		void SetStateCount(int nCount);
+		int GetStateCount() const;
+		virtual LPCTSTR GetStateImage();
+		virtual void SetStateImage(LPCTSTR pStrImage);
 
 		void BindTabIndex(int _BindTabIndex);
 		void BindTabLayoutName(LPCTSTR _TabLayoutName);
@@ -40,10 +44,19 @@ namespace DuiLib
 		int	 GetBindTabLayoutIndex();
 		LPCTSTR GetBindTabLayoutName();
 
+		void SetHotFont(int index);
+		int GetHotFont() const;
+		void SetPushedFont(int index);
+		int GetPushedFont() const;
+		void SetFocusedFont(int index);
+		int GetFocusedFont() const;
+
 		void SetHotBkColor(DWORD dwColor);
 		DWORD GetHotBkColor() const;
 		void SetPushedBkColor(DWORD dwColor);
 		DWORD GetPushedBkColor() const;
+		void SetDisabledBkColor(DWORD dwColor);
+		DWORD GetDisabledBkColor() const;
 		void SetHotTextColor(DWORD dwColor);
 		DWORD GetHotTextColor() const;
 		void SetPushedTextColor(DWORD dwColor);
@@ -61,8 +74,13 @@ namespace DuiLib
 	protected:
 		UINT m_uButtonState;
 
+		int		m_iHotFont;
+		int		m_iPushedFont;
+		int		m_iFocusedFont;
+
 		DWORD m_dwHotBkColor;
 		DWORD m_dwPushedBkColor;
+		DWORD m_dwDisabledBkColor;
 		DWORD m_dwHotTextColor;
 		DWORD m_dwPushedTextColor;
 		DWORD m_dwFocusedTextColor;
@@ -74,6 +92,8 @@ namespace DuiLib
 		CDuiString m_sPushedForeImage;
 		CDuiString m_sFocusedImage;
 		CDuiString m_sDisabledImage;
+		int m_nStateCount;
+		CDuiString m_sStateImage;
 
 		int			m_iBindTabIndex;
 		CDuiString	m_sBindTabLayoutName;

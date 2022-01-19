@@ -5,7 +5,7 @@
 #	if defined(_MSC_VER)
 #		define UILIB_API __declspec(dllexport)
 #	else
-#		define UILIB_API 
+#		define UILIB_API
 #	endif
 #else
 #	if defined(_MSC_VER)
@@ -17,7 +17,11 @@
 #endif
 #define UILIB_COMDAT __declspec(selectany)
 
+#pragma warning(disable:4505)
 #pragma warning(disable:4251)
+#pragma warning(disable:4189)
+#pragma warning(disable:4121)
+#pragma warning(disable:4100)
 
 #if defined _M_IX86
 #pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
@@ -42,6 +46,7 @@
 #include <gdiplus.h>
 
 #include "Utils/Utils.h"
+#include "Utils/unzip.h"
 #include "Utils/VersionHelpers.h"
 #include "Core/UIMarkup.h"
 #include "Utils/observer_impl_base.h"

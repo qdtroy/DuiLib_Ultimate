@@ -60,6 +60,7 @@ namespace DuiLib {
 
 		// Position the popup window in absolute space
 		SIZE szDrop = m_pOwner->GetDropBoxSize();
+		RECT rcInset = m_pOwner->GetDropBoxInset();
 		RECT rcOwner = pOwner->GetPos();
 		RECT rc = rcOwner;
 		rc.top = rc.bottom;		// 父窗口left、bottom位置作为弹出窗口起点
@@ -67,14 +68,14 @@ namespace DuiLib {
 		if( szDrop.cx > 0 ) rc.right = rc.left + szDrop.cx;	// 计算弹出窗口宽度
 
 		SIZE szAvailable = { rc.right - rc.left, rc.bottom - rc.top };
-		int cyFixed = 0;
+		int cyFixed = rcInset.top;
 		for( int it = 0; it < pOwner->GetCount(); it++ ) {
 			CControlUI* pControl = static_cast<CControlUI*>(pOwner->GetItemAt(it));
 			if( !pControl->IsVisible() ) continue;
 			SIZE sz = pControl->EstimateSize(szAvailable);
 			cyFixed += sz.cy;
 		}
-		cyFixed += 4; // CVerticalLayoutUI 默认的Inset 调整
+		cyFixed += 4;
 		rc.bottom = rc.top + MIN(cyFixed, szDrop.cy);
 
 		::MapWindowRect(pOwner->GetManager()->GetPaintWindow(), HWND_DESKTOP, &rc);
@@ -137,6 +138,7 @@ namespace DuiLib {
 		if( uMsg == WM_CREATE ) {
 			m_pm.SetForceUseSharedRes(true);
 			m_pm.Init(m_hWnd);
+			m_pm.SetLayered(true);
 			// The trick is to add the items to the new container. Their owner gets
 			// reassigned by this operation - which is why it is important to reassign
 			// the items back to the righfull owner/manager when the window closes.
@@ -156,6 +158,9 @@ namespace DuiLib {
 			for( int i = 0; i < m_pOwner->GetCount(); i++ ) {
 				m_pLayout->Add(static_cast<CControlUI*>(m_pOwner->GetItemAt(i)));
 			}
+			CShadowUI *pShadow = m_pOwner->GetManager()->GetShadow();
+			pShadow->CopyShadow(m_pm.GetShadow());
+			m_pm.GetShadow()->ShowShadow(m_pOwner->IsShowShadow());
 			m_pm.AttachDialog(m_pLayout);
 			m_pm.AddNotifier(this);
 			return 0;
@@ -250,7 +255,14 @@ namespace DuiLib {
 #if(_WIN32_WINNT >= 0x0501)
 	UINT CComboWnd::GetClassStyle() const
 	{
-		return __super::GetClassStyle() | CS_DROPSHADOW;
+		return __super::GetClassStyle();
+		if(m_pOwner->IsShowShadow()) {
+			return __super::GetClassStyle();
+
+		}
+		else {
+			return __super::GetClassStyle() | CS_DROPSHADOW;
+		}
 	}
 #endif
 	////////////////////////////////////////////////////////
@@ -265,9 +277,11 @@ namespace DuiLib {
 		, m_iCurSel(-1)
 		, m_uButtonState(0)
 		, m_bScrollSelect(true)
+		, m_bShowShadow(false)
 	{
 		m_szDropBox = CDuiSize(0, 150);
 		::ZeroMemory(&m_rcTextPadding, sizeof(m_rcTextPadding));
+		::ZeroMemory(&m_rcDropBox, sizeof(m_rcDropBox));
 
 		m_ListInfo.nColumns = 0;
 		m_ListInfo.nFont = -1;
@@ -286,6 +300,9 @@ namespace DuiLib {
 		m_ListInfo.bMultiExpandable = false;
 		::ZeroMemory(&m_ListInfo.rcTextPadding, sizeof(m_ListInfo.rcTextPadding));
 		::ZeroMemory(&m_ListInfo.rcColumn, sizeof(m_ListInfo.rcColumn));
+
+		m_pCompareFunc = NULL;
+		m_compareData = NULL;
 	}
 
 	LPCTSTR CComboUI::GetClass() const
@@ -302,7 +319,7 @@ namespace DuiLib {
 
 	UINT CComboUI::GetControlFlags() const
 	{
-		return UIFLAG_TABSTOP;
+		return UIFLAG_TABSTOP | UIFLAG_SETCURSOR;
 	}
 
 	void CComboUI::DoInit()
@@ -569,6 +586,7 @@ namespace DuiLib {
 	bool CComboUI::Activate()
 	{
 		if( !CControlUI::Activate() ) return false;
+		if( m_pManager != NULL ) m_pManager->SendNotify(this, DUI_MSGTYPE_PREDROPDOWN);
 		if( m_pWindow ) return true;
 		m_pWindow = new CComboWnd();
 		ASSERT(m_pWindow);
@@ -611,6 +629,15 @@ namespace DuiLib {
 		m_szDropBox = szDropBox;
 	}
 
+	RECT CComboUI::GetDropBoxInset() const
+	{
+		return m_rcDropBox;
+	}
+
+	void CComboUI::SetDropBoxInset(RECT rcDropBox)
+	{
+		m_rcDropBox = rcDropBox;
+	}
 	void CComboUI::SetTextStyle(UINT uStyle)
 	{
 		m_uTextStyle = uStyle;
@@ -657,7 +684,9 @@ namespace DuiLib {
 
 	RECT CComboUI::GetTextPadding() const
 	{
-		return m_rcTextPadding;
+		RECT rcTextPadding = m_rcTextPadding;
+		if(m_pManager != NULL) m_pManager->GetDPIObj()->Scale(&rcTextPadding);
+		return rcTextPadding;
 	}
 
 	void CComboUI::SetTextPadding(RECT rc)
@@ -676,6 +705,19 @@ namespace DuiLib {
 		if( m_bShowHtml == bShowHtml ) return;
 
 		m_bShowHtml = bShowHtml;
+		Invalidate();
+	}
+
+	bool CComboUI::IsShowShadow()
+	{
+		return m_bShowShadow;
+	}
+
+	void CComboUI::SetShowShadow(bool bShow)
+	{
+		if( m_bShowShadow == bShow ) return;
+
+		m_bShowShadow = bShow;
 		Invalidate();
 	}
 
@@ -743,7 +785,6 @@ namespace DuiLib {
 	{
 		m_bScrollSelect = bScrollSelect;
 	}
-
 
 	void CComboUI::SetItemFont(int index)
 	{
@@ -923,13 +964,15 @@ namespace DuiLib {
 
 	void CComboUI::SetPos(RECT rc, bool bNeedInvalidate)
 	{
-		// 隐藏下拉窗口
-		if(m_pWindow && ::IsWindow(m_pWindow->GetHWND())) m_pWindow->Close();
-		// 所有元素大小置为0
-		RECT rcNull = { 0 };
-		for( int i = 0; i < m_items.GetSize(); i++ ) static_cast<CControlUI*>(m_items[i])->SetPos(rcNull);
-		// 调整位置
-		CControlUI::SetPos(rc, bNeedInvalidate);
+		if(!::EqualRect(&rc, &m_rcItem)) {
+			// 隐藏下拉窗口
+			if(m_pWindow && ::IsWindow(m_pWindow->GetHWND())) m_pWindow->Close();
+			// 所有元素大小置为0
+			RECT rcNull = { 0 };
+			for( int i = 0; i < m_items.GetSize(); i++ ) static_cast<CControlUI*>(m_items[i])->SetPos(rcNull);
+			// 调整位置
+			CControlUI::SetPos(rc, bNeedInvalidate);
+		}
 	}
 
 	void CComboUI::Move(SIZE szOffset, bool bNeedInvalidate)
@@ -1003,6 +1046,7 @@ namespace DuiLib {
 			SetTextPadding(rcTextPadding);
 		}
 		else if( _tcsicmp(pstrName, _T("showhtml")) == 0 ) SetShowHtml(_tcsicmp(pstrValue, _T("true")) == 0);
+		else if( _tcsicmp(pstrName, _T("showshadow")) == 0 ) SetShowShadow(_tcsicmp(pstrValue, _T("true")) == 0);
 		else if( _tcsicmp(pstrName, _T("normalimage")) == 0 ) SetNormalImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("hotimage")) == 0 ) SetHotImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("pushedimage")) == 0 ) SetPushedImage(pstrValue);
@@ -1018,7 +1062,16 @@ namespace DuiLib {
 			szDropBoxSize.cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 			SetDropBoxSize(szDropBoxSize);
 		}
-		else if( _tcsicmp(pstrName, _T("itemfont")) == 0 ) m_ListInfo.nFont = _ttoi(pstrValue);
+		else if( _tcsicmp(pstrName, _T("dropboxinset")) == 0 ) {
+			RECT rcTextPadding = { 0 };
+			LPTSTR pstr = NULL;
+			rcTextPadding.left = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);    
+			rcTextPadding.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
+			rcTextPadding.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
+			rcTextPadding.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);    
+			SetDropBoxInset(rcTextPadding);
+		}
+		else if( _tcsicmp(pstrName, _T("itemfont")) == 0 ) SetItemFont(_ttoi(pstrValue));
 		else if( _tcsicmp(pstrName, _T("itemalign")) == 0 ) {
 			if( _tcsstr(pstrValue, _T("left")) != NULL ) {
 				m_ListInfo.uTextStyle &= ~(DT_CENTER | DT_RIGHT);
@@ -1031,6 +1084,20 @@ namespace DuiLib {
 			if( _tcsstr(pstrValue, _T("right")) != NULL ) {
 				m_ListInfo.uTextStyle &= ~(DT_LEFT | DT_CENTER);
 				m_ListInfo.uTextStyle |= DT_RIGHT;
+			}
+		}
+		else if( _tcsicmp(pstrName, _T("itemvalign")) == 0 ) {
+			if( _tcsstr(pstrValue, _T("top")) != NULL ) {
+				m_ListInfo.uTextStyle &= ~(DT_VCENTER | DT_BOTTOM);
+				m_ListInfo.uTextStyle |= DT_TOP;
+			}
+			if( _tcsstr(pstrValue, _T("vcenter")) != NULL ) {
+				m_ListInfo.uTextStyle &= ~(DT_TOP | DT_BOTTOM | DT_WORDBREAK);
+				m_ListInfo.uTextStyle |= DT_VCENTER | DT_SINGLELINE;
+			}
+			if( _tcsstr(pstrValue, _T("bottom")) != NULL ) {
+				m_ListInfo.uTextStyle &= ~(DT_TOP | DT_VCENTER);
+				m_ListInfo.uTextStyle |= DT_BOTTOM;
 			}
 		}
 		else if( _tcsicmp(pstrName, _T("itemendellipsis")) == 0 ) {
@@ -1109,9 +1176,9 @@ namespace DuiLib {
 		else CContainerUI::SetAttribute(pstrName, pstrValue);
 	}
 
-	void CComboUI::DoPaint(HDC hDC, const RECT& rcPaint)
+	bool CComboUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 	{
-		CControlUI::DoPaint(hDC, rcPaint);
+		return CControlUI::DoPaint(hDC, rcPaint, pStopControl);
 	}
 
 	void CComboUI::PaintStatusImage(HDC hDC)
@@ -1168,16 +1235,101 @@ namespace DuiLib {
 		int nLinks = 0;
 		if( IsEnabled() ) {
 			if( m_bShowHtml )
-				CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, sText, m_dwTextColor, NULL, NULL, nLinks, m_uTextStyle);
+				CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, sText, m_dwTextColor, NULL, NULL, nLinks, m_iFont, m_uTextStyle);
 			else
 				CRenderEngine::DrawText(hDC, m_pManager, rc, sText, m_dwTextColor, m_iFont, m_uTextStyle);
 		}
 		else {
 			if( m_bShowHtml )
-				CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, sText, m_dwDisabledTextColor, NULL, NULL, nLinks, m_uTextStyle);
+				CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, sText, m_dwDisabledTextColor, NULL, NULL, nLinks, m_iFont, m_uTextStyle);
 			else
 				CRenderEngine::DrawText(hDC, m_pManager, rc, sText, m_dwDisabledTextColor, m_iFont, m_uTextStyle);
 		}
 	}
 
+	BOOL CComboUI::SortItems(PULVCompareFunc pfnCompare, UINT_PTR dwData)
+	{
+		if (!pfnCompare)
+			return FALSE;
+		m_pCompareFunc = pfnCompare;
+		m_compareData = dwData;
+
+		qsort_s(m_items.GetData(), m_items.GetSize(), sizeof(CControlUI*), CComboUI::ItemComareFunc, this);
+		IListItemUI* pItem = NULL;
+		for (int i = 0; i < m_items.GetSize(); ++i)
+		{
+			pItem = (IListItemUI*)(static_cast<CControlUI*>(m_items[i])->GetInterface(TEXT("ListItem")));
+			if (pItem)
+			{
+				pItem->SetIndex(i);
+				pItem->Select(false);
+			}
+		}
+
+		if (m_pManager)
+		{
+			SetPos(GetPos());
+			Invalidate();
+		}
+
+		return TRUE;
+	}
+
+	static int __cdecl ComareFunc(void* pvlocale, const void* item1, const void* item2)
+	{
+		CComboUI* pThis = (CComboUI*)pvlocale;
+
+		if (!pThis || !item1 || !item2)
+			return 0;
+
+		CControlUI* pControl1 = *(CControlUI**)item1;
+		CControlUI* pControl2 = *(CControlUI**)item2;
+		if (!pControl1 || !pControl2)
+		{
+			return 0;
+		}
+		return pControl1->GetText().Compare(pControl2->GetText());
+	}
+
+	void CComboUI::SortItems()
+	{
+		qsort_s(m_items.GetData(), m_items.GetSize(), sizeof(CControlUI*), ComareFunc, this);
+		IListItemUI* pItem = NULL;
+		for (int i = 0; i < m_items.GetSize(); ++i)
+		{
+			pItem = (IListItemUI*)(static_cast<CControlUI*>(m_items[i])->GetInterface(TEXT("ListItem")));
+			if (pItem)
+			{
+				pItem->SetIndex(i);
+				pItem->Select(false);
+			}
+		}
+
+		if (m_pManager)
+		{
+			SetPos(GetPos());
+			Invalidate();
+		}
+
+		return ;
+	}
+
+	int __cdecl CComboUI::ItemComareFunc(void* pvlocale, const void* item1, const void* item2)
+	{
+		CComboUI* pThis = (CComboUI*)pvlocale;
+		if (!pThis || !item1 || !item2)
+			return 0;
+		return pThis->ItemComareFunc(item1, item2);
+	}
+
+	int __cdecl CComboUI::ItemComareFunc(const void* item1, const void* item2)
+	{
+		if (!m_pCompareFunc)
+		{
+			return 0;
+		}
+		CControlUI* pControl1 = *(CControlUI**)item1;
+		CControlUI* pControl2 = *(CControlUI**)item2;
+		return m_pCompareFunc((UINT_PTR)pControl1, (UINT_PTR)pControl2, m_compareData);
+	}
 } // namespace DuiLib

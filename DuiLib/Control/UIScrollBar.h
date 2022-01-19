@@ -79,11 +79,14 @@ namespace DuiLib
 		LPCTSTR GetBkDisabledImage();
 		void SetBkDisabledImage(LPCTSTR pStrImage);
 
+		bool GetShow();
+		void SetShow(bool bShow);
+
 		void SetPos(RECT rc, bool bNeedInvalidate = true);
 		void DoEvent(TEventUI& event);
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
-		void DoPaint(HDC hDC, const RECT& rcPaint);
+		bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 
 		void PaintBk(HDC hDC);
 		void PaintButton1(HDC hDC);
@@ -92,19 +95,18 @@ namespace DuiLib
 		void PaintRail(HDC hDC);
 
 	protected:
-
 		enum
 		{ 
 			DEFAULT_SCROLLBAR_SIZE = 16,
 			DEFAULT_TIMERID = 10,
 		};
-
+		bool m_bShow;
 		bool m_bHorizontal;
-		int m_nRange;
-		int m_nScrollPos;
+		__int64 m_nRange;
+		__int64 m_nScrollPos;
 		int m_nLineSize;
 		CContainerUI* m_pOwner;
-		POINT ptLastMouse;
+		POINT m_ptLastMouse;
 		int m_nLastScrollPos;
 		int m_nLastScrollOffset;
 		int m_nScrollRepeatDelay;

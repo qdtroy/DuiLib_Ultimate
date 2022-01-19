@@ -491,6 +491,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ControlEx.cpp" />
     <ClCompile Include="GameBox.cpp" />
     <ClCompile Include="GameItemUI.cpp" />
     <ClCompile Include="ShortCutUI.cpp" />
@@ -512,21 +513,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SReleaseA|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseA|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="XUnzip.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SDebug|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SDebugA|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugA|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SRelease|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='SReleaseA|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseA|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControlEx.h" />
     <ClInclude Include="GameItemUI.h" />
-    <ClInclude Include="LableEx.h" />
+    <ClInclude Include="LabelEx.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SearchWnd.h" />
     <ClInclude Include="ShortCutUI.h" />
@@ -534,7 +525,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\bin\skin\GameBox\gameitem.xml" />
-    <None Include="..\..\bin\skin\GameBox\search.xml" />
+    <None Include="..\..\bin\skin\GameBox\search.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\bin\skin\GameBox\searchitem.xml" />
     <None Include="..\..\bin\skin\GameBox\shortcut.xml" />
     <None Include="..\..\bin\skin\GameBox\shortcutwnd.xml" />

@@ -37,11 +37,15 @@ namespace DuiLib {
 		void SetTextPadding(RECT rc);
 		bool IsShowHtml();
 		void SetShowHtml(bool bShowHtml = true);
+		bool IsShowShadow();
+		void SetShowShadow(bool bShow = true);
 
 		CDuiString GetDropBoxAttributeList();
 		void SetDropBoxAttributeList(LPCTSTR pstrList);
 		SIZE GetDropBoxSize() const;
 		void SetDropBoxSize(SIZE szDropBox);
+		RECT GetDropBoxInset() const;
+		void SetDropBoxInset(RECT szDropBox);
 
 		UINT GetListType();
 		TListInfoUI* GetListInfo();
@@ -72,7 +76,7 @@ namespace DuiLib {
 
 		bool GetScrollSelect();
 		void SetScrollSelect(bool bScrollSelect);
-		
+
 		void SetItemFont(int index);
 		void SetItemTextStyle(UINT uStyle);
 		RECT GetItemTextPadding() const;
@@ -114,9 +118,21 @@ namespace DuiLib {
 		void DoEvent(TEventUI& event);
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
-		void DoPaint(HDC hDC, const RECT& rcPaint);
+		bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 		void PaintText(HDC hDC);
 		void PaintStatusImage(HDC hDC);
+
+	public:
+		void SortItems();
+		BOOL SortItems(PULVCompareFunc pfnCompare, UINT_PTR dwData);
+
+	protected:
+		static int __cdecl ItemComareFunc(void* pvlocale, const void* item1, const void* item2);
+		int __cdecl ItemComareFunc(const void* item1, const void* item2);
+
+	protected:
+		PULVCompareFunc m_pCompareFunc;
+		UINT_PTR m_compareData;
 
 	protected:
 		CComboWnd* m_pWindow;
@@ -128,8 +144,10 @@ namespace DuiLib {
 		UINT	m_uTextStyle;
 		RECT	m_rcTextPadding;
 		bool	m_bShowHtml;
+		bool	m_bShowShadow;
 		CDuiString m_sDropBoxAttributes;
 		SIZE m_szDropBox;
+		RECT m_rcDropBox;
 		UINT m_uButtonState;
 
 		CDuiString m_sNormalImage;

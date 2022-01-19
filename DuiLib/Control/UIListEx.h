@@ -35,12 +35,12 @@ namespace DuiLib {
 		void InitListCtrl();
 
 	protected:
-		CEditUI*		m_pEditUI;
+		CRichEditUI*		m_pEditUI;
 		CComboBoxUI*	m_pComboBoxUI;
 
 	public:
 		virtual BOOL CheckColumEditable(int nColum);
-		virtual CEditUI* GetEditUI();
+		virtual CRichEditUI* GetEditUI();
 
 		virtual BOOL CheckColumComboBoxable(int nColum);
 		virtual CComboBoxUI* GetComboBoxUI();
@@ -202,9 +202,6 @@ namespace DuiLib {
 		CContainerUI* m_pOwner;
 		void SetOwner(CContainerUI* pOwner);
 		CContainerUI* GetOwner();
-
-
-
 	};
 	 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -258,7 +255,7 @@ namespace DuiLib {
 		SIZE m_cxyCheckBox;
 
 	public:
-		virtual void DoPaint(HDC hDC, const RECT& rcPaint);
+		virtual bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 		virtual void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 		virtual void PaintStatusImage(HDC hDC);
 		BOOL DrawCheckBoxImage(HDC hDC, LPCTSTR pStrImage, LPCTSTR pStrModify, RECT& rcCheckBox);

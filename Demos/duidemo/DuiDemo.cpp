@@ -7,15 +7,15 @@
 #include "SkinFrame.h"
 #include "MainWnd.h"
 #include "PopWnd.h"
+#include "SplashWnd.h"
+
+#define _CRTDBG_MAP_ALLOC
+#include<stdlib.h>
+#include<crtdbg.h>
+
 
 void InitResource()
-{	
-	HINSTANCE hDll=::LoadLibrary(_T("DllRes_d.dll"));
-	if(hDll)
-	{
-		CPaintManagerUI::SetResourceDll(hDll);
-	}
-
+{
 	// 资源类型
 #ifdef _DEBUG
 	CPaintManagerUI::SetResourceType(UILIB_FILE);
@@ -47,7 +47,9 @@ void InitResource()
 		{
 			strResourcePath += _T("skin\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
-			CPaintManagerUI::SetResourceZip(_T("skin.zip"), true);
+			// 加密
+			CPaintManagerUI::SetResourceZip(_T("duidemo_pwd.zip"), true, _T("duilib_ultimate"));
+			//CPaintManagerUI::SetResourceZip(_T("duidemo.zip"), true);
 			// 加载资源管理器
 			CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
 			break;
@@ -56,7 +58,6 @@ void InitResource()
 		{
 			strResourcePath += _T("skin\\duidemo\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
-
 			HRSRC hResource = ::FindResource(CPaintManagerUI::GetResourceDll(), _T("IDR_ZIPRES"), _T("ZIPRES"));
 			if( hResource != NULL ) {
 				DWORD dwSize = 0;
@@ -69,7 +70,7 @@ void InitResource()
 						CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
 					}
 				}
-				::FreeResource(hResource);
+				::FreeResource(hGlobal);
 			}
 		}
 		break;
@@ -77,11 +78,15 @@ void InitResource()
 
 	// 注册控件
 	REGIST_DUICONTROL(CCircleProgressUI);
+	REGIST_DUICONTROL(CMyComboUI);
 	REGIST_DUICONTROL(CChartViewUI);
+	REGIST_DUICONTROL(CWndUI);
 }
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
+	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//_CrtDumpMemoryLeaks();
 	// COM
 	HRESULT Hr = ::CoInitialize(NULL);
 	if( FAILED(Hr) ) return 0;
@@ -91,6 +96,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	CPaintManagerUI::SetInstance(hInstance);
 	// 初始化资源
 	InitResource();
+
+
+	CSplashWnd::MessageBox(NULL);
+
 	// 创建主窗口
 	CMainWnd* pMainWnd = new CMainWnd();
 	if( pMainWnd == NULL ) return 0;
@@ -101,11 +110,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	// 销毁窗口
 	delete pMainWnd;
 	pMainWnd = NULL;
-	// 销毁资源管理器
-	CResourceManager::GetInstance()->Release();
+	// 清理资源
+	CPaintManagerUI::Term();
 	// OLE
 	OleUninitialize();
 	// COM
 	::CoUninitialize();
+
 	return 0;
 }

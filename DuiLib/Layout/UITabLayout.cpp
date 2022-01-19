@@ -141,11 +141,12 @@ namespace DuiLib
 		CControlUI::SetPos(rc, bNeedInvalidate);
 		rc = m_rcItem;
 
+		RECT rcInset = GetInset();
 		// Adjust for inset
-		rc.left += m_rcInset.left;
-		rc.top += m_rcInset.top;
-		rc.right -= m_rcInset.right;
-		rc.bottom -= m_rcInset.bottom;
+		rc.left += rcInset.left;
+		rc.top += rcInset.top;
+		rc.right -= rcInset.right;
+		rc.bottom -= rcInset.bottom;
 
 		for( int it = 0; it < m_items.GetSize(); it++ ) {
 			CControlUI* pControl = static_cast<CControlUI*>(m_items[it]);

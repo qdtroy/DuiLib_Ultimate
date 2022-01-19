@@ -70,10 +70,14 @@
     <ProjectName>WkeBrowser</ProjectName>
     <ProjectGuid>{71A9D549-71E3-463C-979E-3A5F1B76614C}</ProjectGuid>
     <RootNamespace>360</RootNamespace>
-    <SccProjectName>Svn</SccProjectName>
-    <SccAuxPath>Svn</SccAuxPath>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccProvider>SubversionScc</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -947,19 +951,19 @@
     <ClCompile Include="WkeWebkit.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="3rd\TroyControls\Include\TroyControls.h" />
     <ClInclude Include="3rd\Wke\Include\wke.h" />
+    <ClInclude Include="Helpers.h" />
     <ClInclude Include="MainWnd.h" />
     <ClInclude Include="MsgWnd.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="TroyControls.h" />
     <ClInclude Include="WkeWebkit.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\bin\skin\WkeBrowser\main.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\..\bin\skin\WkeBrowser\main_encode.xml" />
     <None Include="..\..\bin\skin\WkeBrowser\msg.xml" />
     <None Include="..\..\bin\skin\WkeBrowser\res.xml" />
     <None Include="Res\WkeBrowser.ico" />
@@ -969,14 +973,6 @@
     <ResourceCompile Include="WkeBrowser.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="3rd\TroyControls\lib\TroyControls.lib">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </Library>
-    <Library Include="3rd\TroyControls\lib\TroyControls_d.lib">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </Library>
     <Library Include="3rd\Wke\Lib\wke.lib">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

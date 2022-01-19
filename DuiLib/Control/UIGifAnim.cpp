@@ -42,14 +42,15 @@ namespace DuiLib
 		InitGifImage();
 	}
 
-	void CGifAnimUI::DoPaint( HDC hDC, const RECT& rcPaint )
+	bool CGifAnimUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 	{
-		if( !::IntersectRect( &m_rcPaint, &rcPaint, &m_rcItem ) ) return;
+		if( !::IntersectRect( &m_rcPaint, &rcPaint, &m_rcItem ) ) return true;
 		if ( NULL == m_pGifImage )
 		{		
 			InitGifImage();
 		}
 		DrawFrame( hDC );
+		return true;
 	}
 
 	void CGifAnimUI::DoEvent( TEventUI& event )
@@ -120,7 +121,7 @@ namespace DuiLib
 
 	void CGifAnimUI::PlayGif()
 	{
-		if (m_bIsPlaying || m_pGifImage == NULL)
+		if (m_bIsPlaying || m_pGifImage == NULL || m_nFrameCount <= 1)
 		{
 			return;
 		}
@@ -166,10 +167,13 @@ namespace DuiLib
 		GUID* pDimensionIDs	=	new GUID[ nCount ];
 		m_pGifImage->GetFrameDimensionsList( pDimensionIDs, nCount );
 		m_nFrameCount	=	m_pGifImage->GetFrameCount( &pDimensionIDs[0] );
-		int nSize		=	m_pGifImage->GetPropertyItemSize( PropertyTagFrameDelay );
-		m_pPropertyItem	=	(Gdiplus::PropertyItem*) malloc( nSize );
-		m_pGifImage->GetPropertyItem( PropertyTagFrameDelay, nSize, m_pPropertyItem );
-		delete  pDimensionIDs;
+		if (m_nFrameCount > 1)
+		{
+			int nSize = m_pGifImage->GetPropertyItemSize(PropertyTagFrameDelay);
+			m_pPropertyItem = (Gdiplus::PropertyItem*) malloc(nSize);
+			m_pGifImage->GetPropertyItem(PropertyTagFrameDelay, nSize, m_pPropertyItem);
+		}
+		delete[]  pDimensionIDs;
 		pDimensionIDs = NULL;
 
 		if (m_bIsAutoSize)

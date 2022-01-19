@@ -2,7 +2,6 @@
 #define __UIMANAGER_H__
 
 #pragma once
-#define WM_USER_SET_DPI WM_USER + 200
 namespace DuiLib {
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -55,13 +54,18 @@ namespace DuiLib {
 		UIEVENT__LAST,
 	};
 
+
+	/////////////////////////////////////////////////////////////////////////////////////
+	//
+	// 内部保留的消息
 	typedef enum MSGTYPE_UI
 	{
-		// 内部保留消息
-		UIMSG_TRAYICON = WM_USER + 1,
-		// 程序自定义消息
-		UIMSG_USER = WM_USER + 100,
+		UIMSG_TRAYICON = WM_USER + 1,// 托盘消息
+		UIMSG_SET_DPI,				 // DPI
+		WM_MENUCLICK,				 // 菜单消息
+		UIMSG_USER = WM_USER + 100,	 // 程序自定义消息
 	};
+
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 
@@ -115,12 +119,13 @@ namespace DuiLib {
 		bool bUseHSL;
 		CDuiString sResType;
 		DWORD dwMask;
+
 	} TImageInfo;
 
 	typedef struct UILIB_API tagTDrawInfo
 	{
 		tagTDrawInfo();
-		void Parse(LPCTSTR pStrImage, LPCTSTR pStrModify, CPaintManagerUI *paintManager);
+		void Parse(LPCTSTR pStrImage, LPCTSTR pStrModify, CPaintManagerUI *pManager);
 		void Clear();
 
 		CDuiString sDrawString;
@@ -136,6 +141,10 @@ namespace DuiLib {
 		bool bTiledX;
 		bool bTiledY;
 		bool bHSL;
+
+		CDuiSize szImage;
+		RECT rcPadding;
+		CDuiString sAlign;
 	} TDrawInfo;
 
 	typedef struct UILIB_API tagTPercentInfo
@@ -203,7 +212,11 @@ namespace DuiLib {
 		virtual LRESULT TranslateAccelerator(MSG *pMsg) = 0;
 	};
 
-
+	class IDragDropUI
+	{
+	public:
+		virtual bool OnDragDrop(CControlUI* pControl) { return false; }
+	};
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 	typedef CControlUI* (*LPCREATECONTROL)(LPCTSTR pstrType);
@@ -225,8 +238,6 @@ namespace DuiLib {
 		HDC GetPaintDC() const;
 		HWND GetPaintWindow() const;
 		HWND GetTooltipWindow() const;
-		int GetTooltipWindowWidth() const;
-		void SetTooltipWindowWidth(int iWidth);
 		int GetHoverTime() const;
 		void SetHoverTime(int iTime);
 
@@ -234,18 +245,20 @@ namespace DuiLib {
 		SIZE GetClientSize() const;
 		SIZE GetInitSize();
 		void SetInitSize(int cx, int cy);
-		RECT& GetSizeBox();
+		RECT GetSizeBox();
 		void SetSizeBox(RECT& rcSizeBox);
-		RECT& GetCaptionRect();
+		RECT GetCaptionRect();
 		void SetCaptionRect(RECT& rcCaption);
-		SIZE GetRoundCorner() const;
+		SIZE GetRoundCorner();
 		void SetRoundCorner(int cx, int cy);
-		SIZE GetMinInfo() const;
+		SIZE GetMinInfo();
 		void SetMinInfo(int cx, int cy);
-		SIZE GetMaxInfo() const;
+		SIZE GetMaxInfo();
 		void SetMaxInfo(int cx, int cy);
-		bool IsShowUpdateRect() const;
+		bool IsShowUpdateRect();
 		void SetShowUpdateRect(bool show);
+		bool IsNoActivate();
+		void SetNoActivate(bool bNoActivate);
 
 		BYTE GetOpacity() const;
 		void SetOpacity(BYTE nOpacity);
@@ -256,17 +269,11 @@ namespace DuiLib {
 		void SetLayeredInset(RECT& rcLayeredInset);
 		BYTE GetLayeredOpacity();
 		void SetLayeredOpacity(BYTE nOpacity);
-		//LPCTSTR GetLayeredImage();
-		//void SetLayeredImage(LPCTSTR pstrImage);
+		LPCTSTR GetLayeredImage();
+		void SetLayeredImage(LPCTSTR pstrImage);
 
 		CShadowUI* GetShadow();
-		// 光标
-		bool ShowCaret(bool bShow);
-		bool SetCaretPos(CRichEditUI* obj, int x, int y);
-		CRichEditUI* GetCurrentCaretObject();
-		bool CreateCaret(HBITMAP hBmp, int nWidth, int nHeight);
-		void DrawCaret(HDC hDC, const RECT& rcPaint);
-		
+
 		void SetUseGdiplusText(bool bUse);
 		bool IsUseGdiplusText() const;
 		void SetGdiplusTextRenderingHint(int trh);
@@ -278,14 +285,15 @@ namespace DuiLib {
 		static HINSTANCE GetResourceDll();
 		static const CDuiString& GetResourcePath();
 		static const CDuiString& GetResourceZip();
+		static const CDuiString& GetResourceZipPwd();
 		static bool IsCachedResourceZip();
 		static HANDLE GetResourceZipHandle();
 		static void SetInstance(HINSTANCE hInst);
 		static void SetCurrentPath(LPCTSTR pStrPath);
 		static void SetResourceDll(HINSTANCE hInst);
 		static void SetResourcePath(LPCTSTR pStrPath);
-		static void SetResourceZip(LPVOID pVoid, unsigned int len);
-		static void SetResourceZip(LPCTSTR pstrZip, bool bCachedResourceZip = false);
+		static void SetResourceZip(LPVOID pVoid, unsigned int len, LPCTSTR password = NULL);
+		static void SetResourceZip(LPCTSTR pstrZip, bool bCachedResourceZip = false, LPCTSTR password = NULL);
 		static void SetResourceType(int nType);
 		static int GetResourceType();
 		static bool GetHSL(short* H, short* S, short* L);
@@ -298,7 +306,7 @@ namespace DuiLib {
 
 		bool IsForceUseSharedRes() const;
 		void SetForceUseSharedRes(bool bForce);
-
+		// 注意：只支持简单类型指针，因为只释放内存，不会调用类对象的析构函数
 		void DeletePtr(void* ptr);
 
 		DWORD GetDefaultDisabledColor() const;
@@ -314,6 +322,7 @@ namespace DuiLib {
 		TFontInfo* GetDefaultFontInfo();
 		void SetDefaultFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared = false);
 		DWORD GetCustomFontCount(bool bShared = false) const;
+		void AddFontArray(LPCTSTR pstrPath);
 		HFONT AddFont(int id, LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared = false);
 		HFONT GetFont(int id);
 		HFONT GetFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic);
@@ -358,7 +367,8 @@ namespace DuiLib {
 		const TImageInfo* GetImageString(LPCTSTR pStrImage, LPCTSTR pStrModify = NULL);
 
 		// 初始化拖拽
-		bool InitDragDrop();
+		bool EnableDragDrop(bool bEnable);
+		void SetDragDrop(IDragDropUI* pDragDrop);
 		virtual bool OnDrop(FORMATETC* pFmtEtc, STGMEDIUM& medium,DWORD *pdwEffect);
 
 		bool AttachDialog(CControlUI* pControl);
@@ -405,11 +415,14 @@ namespace DuiLib {
 		bool RemovePostPaint(CControlUI* pControl);
 		bool SetPostPaintIndex(CControlUI* pControl, int iIndex);
 
-		int GetPaintChildWndCount() const;
-		bool AddPaintChildWnd(HWND hChildWnd);
-		bool RemovePaintChildWnd(HWND hChildWnd);
+		int GetNativeWindowCount() const;
+		RECT GetNativeWindowRect(HWND hChildWnd);
+		bool AddNativeWindow(CControlUI* pControl, HWND hChildWnd);
+		bool RemoveNativeWindow(HWND hChildWnd);
 
 		void AddDelayedCleanup(CControlUI* pControl);
+		void AddMouseLeaveNeeded(CControlUI* pControl);
+		bool RemoveMouseLeaveNeeded(CControlUI* pControl);
 
 		bool AddTranslateAccelerator(ITranslateAccelerator *pTranslateAccelerator);
 		bool RemoveTranslateAccelerator(ITranslateAccelerator *pTranslateAccelerator);
@@ -451,6 +464,7 @@ namespace DuiLib {
 
 		static void AdjustSharedImagesHSL();
 		void AdjustImagesHSL();
+		void PostAsyncNotify();
 
 	private:
 		CDuiString m_sName;
@@ -463,34 +477,20 @@ namespace DuiLib {
 		HBITMAP m_hbmpBackground;
 		COLORREF* m_pBackgroundBits;
 
-		CDPI* m_pDPI;
-
-		bool m_bShowUpdateRect;
-		// 是否开启Gdiplus
-		bool m_bUseGdiplusText;
-		int m_trh;
-		ULONG_PTR m_gdiplusToken;
-		Gdiplus::GdiplusStartupInput *m_pGdiplusStartupInput;
-
 		// 提示信息
 		HWND m_hwndTooltip;
 		TOOLINFO m_ToolTip;
-		
-		// RichEdit光标
-		RECT m_rtCaret;
-		bool m_bCaretActive;
-		bool m_bCaretShowing;
-		CRichEditUI* m_currentCaretObject;
+		int m_iHoverTime;
+		bool m_bNoActivate;
+		bool m_bShowUpdateRect;
 
-		// 窗口阴影
-		CShadowUI m_shadow;
-		
 		//
 		CControlUI* m_pRoot;
 		CControlUI* m_pFocus;
 		CControlUI* m_pEventHover;
 		CControlUI* m_pEventClick;
 		CControlUI* m_pEventKey;
+		CControlUI* m_pLastToolTip;
 		//
 		POINT m_ptLastMousePos;
 		SIZE m_szMinWindow;
@@ -510,12 +510,13 @@ namespace DuiLib {
 		RECT m_rcLayeredInset;
 		bool m_bLayeredChanged;
 		RECT m_rcLayeredUpdate;
-		//TDrawInfo m_diLayered;
+		TDrawInfo m_diLayered;
 
 		bool m_bMouseTracking;
 		bool m_bMouseCapture;
 		bool m_bIsPainting;
 		bool m_bUsedVirtualWnd;
+		bool m_bAsyncNotifyPosted;
 
 		//
 		CStdPtrArray m_aNotifiers;
@@ -524,26 +525,42 @@ namespace DuiLib {
 		CStdPtrArray m_aPreMessageFilters;
 		CStdPtrArray m_aMessageFilters;
 		CStdPtrArray m_aPostPaintControls;
-		CStdPtrArray m_aChildWnds;
+		CStdPtrArray m_aNativeWindow;
+		CStdPtrArray m_aNativeWindowControl;
 		CStdPtrArray m_aDelayedCleanup;
 		CStdPtrArray m_aAsyncNotify;
 		CStdPtrArray m_aFoundControls;
+		CStdPtrArray m_aFonts;
+		CStdPtrArray m_aNeedMouseLeaveNeeded;
 		CStdStringPtrMap m_mNameHash;
 		CStdStringPtrMap m_mWindowCustomAttrHash;
 		CStdStringPtrMap m_mOptionGroup;
 		
 		bool m_bForceUseSharedRes;
 		TResInfo m_ResInfo;
+		
+		// 窗口阴影
+		CShadowUI m_shadow;
+		
+		// DPI管理器
+		CDPI* m_pDPI;
+		// 是否开启Gdiplus
+		bool m_bUseGdiplusText;
+		int m_trh;
+		ULONG_PTR m_gdiplusToken;
+		Gdiplus::GdiplusStartupInput *m_pGdiplusStartupInput;
 
 		// 拖拽
+		bool m_bDragDrop;
 		bool m_bDragMode;
 		HBITMAP m_hDragBitmap;
-
+		IDragDropUI *m_pDragDrop;
 		//
 		static HINSTANCE m_hInstance;
 		static HINSTANCE m_hResourceInstance;
 		static CDuiString m_pStrResourcePath;
 		static CDuiString m_pStrResourceZip;
+		static CDuiString m_pStrResourceZipPwd;
 		static HANDLE m_hResourceZip;
 		static bool m_bCachedResourceZip;
 		static int m_nResType;

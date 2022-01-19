@@ -220,7 +220,7 @@ namespace DuiLib
 	//************************************
 	bool CTreeNodeUI::Add( CControlUI* _pTreeNodeUI )
 	{
-		if (_tcsicmp(_pTreeNodeUI->GetClass(), _T("TreeNodeUI")) == 0)
+		if (NULL != static_cast<CTreeNodeUI*>(_pTreeNodeUI->GetInterface(_T("TreeNode"))))
 			return AddChildNode((CTreeNodeUI*)_pTreeNodeUI);
 		
 		return CListContainerElementUI::Add(_pTreeNodeUI);
@@ -342,7 +342,18 @@ namespace DuiLib
 	{
 		return !mTreeNodes.IsEmpty();
 	}
-	
+
+
+	long CTreeNodeUI::GetTreeLevel()
+	{
+		long level = 0;
+		CTreeNodeUI* pParentNode = GetParentNode();
+		while(pParentNode != NULL) {
+			level++;
+			pParentNode = pParentNode->GetParentNode();
+		}
+		return level;
+	}
 	//************************************
 	// 函数名称: AddChildNode
 	// 返回类型: bool
@@ -354,7 +365,7 @@ namespace DuiLib
 		if (!_pTreeNodeUI)
 			return FALSE;
 
-		if (_tcsicmp(_pTreeNodeUI->GetClass(), _T("TreeNodeUI")) != 0)
+		if (NULL == static_cast<CTreeNodeUI*>(_pTreeNodeUI->GetInterface(_T("TreeNode"))))
 			return FALSE;
 
 		_pTreeNodeUI = CalLocation(_pTreeNodeUI);
@@ -787,7 +798,7 @@ namespace DuiLib
 	bool CTreeViewUI::Add( CTreeNodeUI* pControl )
 	{
 		if (!pControl) return false;
-		if (_tcsicmp(pControl->GetClass(), _T("TreeNodeUI")) != 0) return false;
+		if (NULL == static_cast<CTreeNodeUI*>(pControl->GetInterface(_T("TreeNode")))) return false;
 
 		pControl->OnNotify += MakeDelegate(this,&CTreeViewUI::OnDBClickItem);
 		pControl->GetFolderButton()->OnNotify += MakeDelegate(this,&CTreeViewUI::OnFolderChanged);
@@ -799,6 +810,12 @@ namespace DuiLib
 			pControl->SetMinWidth(m_uItemMinWidth);
 
 		CListUI::Add(pControl);
+
+		int nLevel = pControl->GetTreeLevel();
+		int nFolderWidth = pControl->GetFolderButton()->GetFixedWidth();
+		if(nFolderWidth <= 0) nFolderWidth = 16;
+		if(!pControl->GetFolderButton()->IsVisible()) nFolderWidth = 0;
+		pControl->GetFolderButton()->SetPadding(CDuiRect(nLevel * nFolderWidth, 0, 0, 0));
 
 		if(pControl->GetCountChild() > 0) {
 			int nCount = pControl->GetCountChild();
@@ -822,7 +839,7 @@ namespace DuiLib
 	long CTreeViewUI::AddAt( CTreeNodeUI* pControl, int iIndex )
 	{
 		if (!pControl) return -1;
-		if (_tcsicmp(pControl->GetClass(), _T("TreeNodeUI")) != 0) return -1;
+		if (NULL == static_cast<CTreeNodeUI*>(pControl->GetInterface(_T("TreeNode")))) return -1;
 		pControl->OnNotify += MakeDelegate(this,&CTreeViewUI::OnDBClickItem);
 		pControl->GetFolderButton()->OnNotify += MakeDelegate(this,&CTreeViewUI::OnFolderChanged);
 		pControl->GetCheckBox()->OnNotify += MakeDelegate(this,&CTreeViewUI::OnCheckBoxChanged);
@@ -833,6 +850,13 @@ namespace DuiLib
 			pControl->SetMinWidth(m_uItemMinWidth);
 		}
 		CListUI::AddAt(pControl, iIndex);
+
+		int nLevel = pControl->GetTreeLevel();
+		int nFolderWidth = pControl->GetFolderButton()->GetFixedWidth();
+		if(nFolderWidth <= 0) nFolderWidth = 16;
+		if(!pControl->GetFolderButton()->IsVisible()) nFolderWidth = 0;
+		pControl->GetFolderButton()->SetPadding(CDuiRect(nLevel * nFolderWidth, 0, 0, 0));
+
 		if(pControl->GetCountChild() > 0) {
 			int nCount = pControl->GetCountChild();
 			for(int nIndex = 0; nIndex < nCount; nIndex++) {
@@ -858,7 +882,7 @@ namespace DuiLib
 	bool CTreeViewUI::AddAt( CTreeNodeUI* pControl, CTreeNodeUI* _IndexNode )
 	{
 		if(!_IndexNode && !pControl)
-			return FALSE;
+			return false;
 
 		int nItemIndex = -1;
 		for(int nIndex = 0;nIndex < GetCount();nIndex++) {
@@ -869,9 +893,18 @@ namespace DuiLib
 		}
 
 		if(nItemIndex == -1)
-			return FALSE;
+			return false;
 
-		return AddAt(pControl,nItemIndex) >= 0;
+		bool bRet = AddAt(pControl,nItemIndex) >= 0;
+		if(bRet) {
+			int nLevel = pControl->GetTreeLevel();
+			int nFolderWidth = pControl->GetFolderButton()->GetFixedWidth();
+			if(nFolderWidth <= 0) nFolderWidth = 16;
+			if(!pControl->GetFolderButton()->IsVisible()) nFolderWidth = 0;
+			pControl->GetFolderButton()->SetPadding(CDuiRect(nLevel * nFolderWidth, 0, 0, 0));
+		}
+
+		return bRet;
 	}
 
 	//************************************
@@ -884,7 +917,7 @@ namespace DuiLib
 	{
 		if(pControl->GetCountChild() > 0) {
 			int nCount = pControl->GetCountChild();
-			for(int nIndex = 0;nIndex < nCount;nIndex++) {
+			for(int nIndex = nCount - 1; nIndex >= 0; nIndex--) {
 				CTreeNodeUI* pNode = pControl->GetChildNode(nIndex);
 				if(pNode){
 					pControl->Remove(pNode);
@@ -904,8 +937,7 @@ namespace DuiLib
 	bool CTreeViewUI::RemoveAt( int iIndex )
 	{
 		CTreeNodeUI* pItem = (CTreeNodeUI*)GetItemAt(iIndex);
-		if(pItem->GetCountChild())
-			Remove(pItem);
+		Remove(pItem);
 		return TRUE;
 	}
 
@@ -1046,9 +1078,9 @@ namespace DuiLib
 			int nCount = GetCount();
 			while(nIndex < nCount) {
 				CTreeNodeUI* pItem = (CTreeNodeUI*)GetItemAt(nIndex);
-				pItem->SetVisible(_Expanded);
+				pItem->GetFolderButton()->Selected(!_Expanded);
 				if(pItem->GetCountChild() && !pItem->GetFolderButton()->IsSelected()) {
-					SetItemExpand(_Expanded,pItem);
+					SetItemExpand(_Expanded, pItem);
 				}
 				nIndex++;
 			}

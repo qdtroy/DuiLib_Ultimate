@@ -55,7 +55,7 @@ namespace DuiLib {
 		void SetInternVisible(bool bVisible = true);
 		void SetPos(RECT rc, bool bNeedInvalidate = true);
 		void Move(SIZE szOffset, bool bNeedInvalidate = true);
-		void DoPaint(HDC hDC, const RECT& rcPaint);
+		bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 

@@ -3,10 +3,53 @@
 #include "MainWnd.h"
 #include "SkinFrame.h"
 
+//////////////////////////////////////////////////////////////////////////
+///
+
+DUI_BEGIN_MESSAGE_MAP(CMainPage, CNotifyPump)
+	DUI_ON_MSGTYPE(DUI_MSGTYPE_CLICK,OnClick)
+	DUI_ON_MSGTYPE(DUI_MSGTYPE_SELECTCHANGED,OnSelectChanged)
+	DUI_ON_MSGTYPE(DUI_MSGTYPE_ITEMCLICK,OnItemClick)
+DUI_END_MESSAGE_MAP()
+
+CMainPage::CMainPage()
+{
+	m_pPaintManager = NULL;
+}
+
+void CMainPage::SetPaintMagager(CPaintManagerUI* pPaintMgr)
+{
+	m_pPaintManager = pPaintMgr;
+}
+
+void CMainPage::OnClick(TNotifyUI& msg)
+{
+
+}
+
+void CMainPage::OnSelectChanged( TNotifyUI &msg )
+{
+
+}
+
+void CMainPage::OnItemClick( TNotifyUI &msg )
+{
+
+}
+
+//////////////////////////////////////////////////////////////////////////
+///
+DUI_BEGIN_MESSAGE_MAP(CMainWnd, WindowImplBase)
+DUI_END_MESSAGE_MAP()
+
 CMainWnd::CMainWnd() 
 {
 	m_pMenu = NULL;
+
+	m_MainPage.SetPaintMagager(&m_pm);
+	AddVirtualWnd(_T("mainpage"),&m_MainPage);
 }
+
 CMainWnd::~CMainWnd()
 {
 	CMenuWnd::DestroyMenu();
@@ -14,8 +57,9 @@ CMainWnd::~CMainWnd()
 		delete m_pMenu;
 		m_pMenu = NULL;
 	}
-
+	RemoveVirtualWnd(_T("mainpage"));
 }
+
 CControlUI* CMainWnd::CreateControl(LPCTSTR pstrClass)
 {
 	if(lstrcmpi(pstrClass, _T("CircleProgress" )) == 0) {
@@ -26,6 +70,7 @@ CControlUI* CMainWnd::CreateControl(LPCTSTR pstrClass)
 
 void CMainWnd::InitWindow() 
 {
+	SetIcon(IDR_MAINFRAME);
 	// 多语言接口
 	CResourceManager::GetInstance()->SetTextQueryInterface(this);
 	CResourceManager::GetInstance()->LoadLanguage(_T("lan_cn.xml"));
@@ -42,8 +87,8 @@ void CMainWnd::InitWindow()
 	pBrowser1->SetWebBrowserEventHandler(this);
 	CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("oneclick_browser2")));
 	pBrowser2->SetWebBrowserEventHandler(this);
-	pBrowser1->NavigateUrl(_T("http://blog.csdn.net/duisharp"));
-	pBrowser2->NavigateUrl(_T("http://www.51haoliandan.com"));
+	pBrowser1->NavigateUrl(_T("https://www.baidu.com"));
+	pBrowser2->NavigateUrl(_T("https://blog.csdn.net/duisharp/"));
 
 	// 动态创建Combo
 	CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("font_size")));
@@ -55,6 +100,7 @@ void CMainWnd::InitWindow()
 		pElement->SetFixedWidth(120);
 		pFontSize->Add(pElement);
 	}
+
 	CComboUI* pCombo = new CComboUI();
 	pCombo->SetName(_T("mycombo"));
 	pCombo->SetFixedWidth(80);
@@ -82,6 +128,7 @@ void CMainWnd::InitWindow()
 	pListItem->SetChildVAlign(DT_VCENTER);
 	pListItem->SetFixedHeight(30);
 	pListItem->SetManager(&m_pm, NULL, false);
+	pListItem->SetFixedWidth(100);
 	pList->Add(pListItem);
 	CButtonUI* pBtn1 = new CButtonUI();
 	pBtn1->SetManager(&m_pm, NULL, false);
@@ -98,6 +145,9 @@ void CMainWnd::InitWindow()
 
 	CDialogBuilder builder1;
 	CListContainerElementUI* pListItem1  = (CListContainerElementUI*)builder1.Create(_T("listitem.xml"), NULL, this, &m_pm, NULL);
+	
+	CControlUI* pLabel = pListItem1->FindSubControl(_T("troy"));
+	if(pLabel != NULL) pLabel->SetText(_T("abc_troy"));
 	pList->Add(pListItem1);
 	for(int i = 0; i < 20; i++)
 	{
@@ -107,24 +157,31 @@ void CMainWnd::InitWindow()
 		pItem->SetText(0, _T("张三"));
 		pItem->SetText(1, _T("1000"));
 		pItem->SetText(2, _T("100"));
+		pItem->SetTextColor(0, 0xff0000ff);
+		pItem->SetTextColor(1, 0xffff0000);
+		pItem->SetTextColor(2, 0xffffff00);
 	}
 
 	CTreeViewUI* pTreeView = static_cast<CTreeViewUI*>(m_pm.FindControl(_T("treeview")));
+
 	CTreeNodeUI* pItem  = new CTreeNodeUI();
 	pItem->SetFixedHeight(30);
 	pItem->SetItemText(_T("动态添加"));
-	pTreeView->AddAt(pItem, 3);
+	pTreeView->AddAt(pItem, 0);
 	COptionUI* pRadio = new COptionUI();
 	pRadio->SetText(_T("单选按钮"));
 	pItem->Add(pRadio);
 	pRadio->SetAttribute(_T("Style"), _T("cb_style"));
 	pItem->SetAttribute(_T("itemattr"), _T("valign=&quot;center&quot;"));
-	pItem->SetAttribute(_T("Style"), _T("treeview_style"));
+	pItem->SetAttribute(_T("Style"), _T("treeview_item_style"));
 
 	CDialogBuilder builder;
 	CControlUI* pParentItem = NULL;
 	CTreeNodeUI* pTreeItem = (CTreeNodeUI*)builder.Create(_T("treeitem.xml"), NULL, this, &m_pm, pParentItem);
 	if(pParentItem == NULL) pTreeView->Add(pTreeItem);
+	long level = pTreeItem->GetTreeLevel();
+	pTreeView->SetItemExpand(false, NULL);
+
 
 	// 图表控件
 	CChartViewUI *pHistpgramView = static_cast<CChartViewUI*>(m_pm.FindControl(_T("ChartView_Histpgram")));
@@ -200,7 +257,7 @@ HRESULT STDMETHODCALLTYPE CMainWnd::GetHostInfo(CWebBrowserUI* pWeb,
 	/* [out][in] */ DOCHOSTUIINFO __RPC_FAR *pInfo)
 {
 	if (pInfo != NULL) {
-		pInfo->dwFlags |= DOCHOSTUIFLAG_NO3DBORDER | DOCHOSTUIFLAG_NO3DOUTERBORDER | DOCHOSTUIFLAG_SCROLL_NO;
+		pInfo->dwFlags |= DOCHOSTUIFLAG_NO3DBORDER | DOCHOSTUIFLAG_NO3DOUTERBORDER;
 	}
 	return S_OK;
 }
@@ -262,9 +319,10 @@ void CMainWnd::Notify(TNotifyUI& msg)
 {
 	CDuiString name = msg.pSender->GetName();
 	if(msg.sType == _T("windowinit")) {
-		if(MSGID_OK != CMsgWnd::MessageBox(m_hWnd, _T("duilib开源项目圈（By Troy）"), _T("查看duilib例子集锦，是否继续？"))) {
-			Close(0);
-		}
+	}
+	else if( msg.sType == _T("textchanged") )
+	{
+		CEditUI* pEdit = (CEditUI*)msg.pSender;
 	}
 	else if( msg.sType == _T("colorchanged") )
 	{
@@ -275,48 +333,61 @@ void CMainWnd::Notify(TNotifyUI& msg)
 			pRoot->SetBkImage(_T(""));
 		}
 	}
+	else if(msg.sType == DUI_MSGTYPE_ITEMACTIVATE) {
+		if(MSGID_OK == CMsgWnd::MessageBox(m_hWnd, _T("Duilib旗舰版"), _T("确定退出duidemo演示程序？")))
+		{
+			::DestroyWindow(m_hWnd);
+		}
+	}
+	else if(msg.sType == DUI_MSGTYPE_ITEMCLICK) {
+		CListUI* pList = static_cast<CListUI*>(m_pm.FindControl(_T("listview")));
+	}
 	else if( msg.sType == _T("showactivex") ) 
 	{
-		if( name.CompareNoCase(_T("ani_flash")) == 0 ) 
-		{
-			IShockwaveFlash* pFlash = NULL;
-			CActiveXUI* pActiveX = static_cast<CActiveXUI*>(msg.pSender);
-			pActiveX->GetControl(__uuidof(IShockwaveFlash), (void**)&pFlash);
-			if( pFlash != NULL ) 
-			{
-				pFlash->put_WMode( _bstr_t(_T("Transparent") ) );
-				pFlash->put_Movie( _bstr_t(CPaintManagerUI::GetInstancePath() + _T("\\skin\\duidemo\\other\\waterdrop.swf")) );
-				pFlash->DisableLocalSecurity();
-				pFlash->put_AllowScriptAccess(L"always");
-				BSTR response;
-				pFlash->CallFunction(L"<invoke name=\"setButtonText\" returntype=\"xml\"><arguments><string>Click me!</string></arguments></invoke>", &response);
-				pFlash->Release();
-			}  
-		}
+		//if( name.CompareNoCase(_T("ani_flash")) == 0 ) {
+		//	IShockwaveFlash* pFlash = NULL;
+		//	CActiveXUI* pActiveX = static_cast<CActiveXUI*>(msg.pSender);
+		//	pActiveX->GetControl(__uuidof(IShockwaveFlash), (void**)&pFlash);
+		//	if( pFlash != NULL )  {
+		//		pFlash->put_WMode( _bstr_t(_T("Transparent") ) );
+		//		pFlash->put_Movie( _bstr_t(CPaintManagerUI::GetInstancePath() + _T("\\skin\\duidemo\\other\\waterdrop.swf")) );
+		//		pFlash->DisableLocalSecurity();
+		//		pFlash->put_AllowScriptAccess(L"always");
+		//		BSTR response;
+		//		pFlash->CallFunction(L"<invoke name=\"setButtonText\" returntype=\"xml\"><arguments><string>Click me!</string></arguments></invoke>", &response);
+		//		pFlash->Release();
+		//	}  
+		//}
 	}
 	else if( msg.sType == _T("click") )
 	{
 		if( name.CompareNoCase(_T("closebtn")) == 0 ) 
 		{
-			if(IDYES == MessageBox(m_hWnd, _T("确定退出duidemo演示程序？"), _T("Duilib旗舰版"), MB_YESNO))
+			if(MSGID_OK == CMsgWnd::MessageBox(m_hWnd, _T("Duilib旗舰版"), _T("确定退出duidemo演示程序？")))
 			{
 				::DestroyWindow(m_hWnd);
 			}
 			return; 
 		}
-		else if( msg.pSender == m_pMinBtn ) { 
-			SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0); return; }
+		else if( msg.pSender == m_pMinBtn ) {
+			SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0);
+			return;
+		}
 		else if( msg.pSender == m_pMaxBtn ) { 
-			SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0); return; }
+			SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0); 
+			return; 
+		}
 		else if( msg.pSender == m_pRestoreBtn ) { 
-			SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0); return; }
+			SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0); 
+			return;
+		}
 		else if( msg.pSender == m_pSkinBtn ) {
 			new CSkinFrame(m_hWnd, m_pSkinBtn);
 		}
 		// 按钮消息
 		OnLClick(msg.pSender);
 	}
-
+	
 	else if(msg.sType==_T("selectchanged"))
 	{
 		CTabLayoutUI* pTabSwitch = static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("tab_switch")));
@@ -334,17 +405,57 @@ void CMainWnd::Notify(TNotifyUI& msg)
 		pPro1->SetValue(pSlider->GetValue());
 		pPro2->SetValue(pSlider->GetValue());
 	}
+	else if(msg.sType == _T("predropdown") && name == _T("font_size"))
+	{
+		CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("font_size")));
+		if(pFontSize)
+		{
+			pFontSize->RemoveAll();
+			for(int i = 0; i < 10; i++) {
+				CListLabelElementUI * pElement = new CListLabelElementUI();
+				pElement->SetText(_T("测试长文字"));
+				pElement->SetFixedHeight(30);
+				pFontSize->Add(pElement);
+			}
+			pFontSize->SelectItem(0);
+		}
+	}
+
+	return WindowImplBase::Notify(msg);
 }
 void CMainWnd::OnLClick(CControlUI *pControl)
 {
 	CDuiString sName = pControl->GetName();
 	if(sName.CompareNoCase(_T("homepage_btn")) == 0)
 	{
+		//
+		//CListUI* pList = static_cast<CListUI*>(m_pm.FindControl(_T("listview")));
+		//CListContainerElementUI* pListItem  = new CListContainerElementUI();
+		//pListItem->SetChildVAlign(DT_VCENTER);
+		//pListItem->SetFixedHeight(30);
+		//pListItem->SetManager(&m_pm, NULL, false);
+		//pListItem->SetFixedWidth(100);
+		//pList->Add(pListItem);
+		//pList->EndDown();
+		//return;
+		// 动态创建Combo
+		//CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("mycombo")));
+		//if(pFontSize)
+		//{
+		//	pFontSize->RemoveAll();
+		//	CListLabelElementUI * pElement = new CListLabelElementUI();
+		//	pElement->SetText(_T("测试长文字"));
+		//	pElement->SetFixedHeight(30);
+		//	pElement->SetFixedWidth(120);
+		//	pFontSize->Add(pElement);
+		//	pFontSize->NeedParentUpdate();
+		//}
 		//CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("mycombo")));
 		//if(pFontSize)
 		//{
 		//	pFontSize->SetFixedXY(CDuiSize(pFontSize->GetFixedXY().cx + 5, pFontSize->GetFixedXY().cy));
 		//}
+
 		ShellExecute(NULL, _T("open"), _T("https://github.com/qdtroy"), NULL, NULL, SW_SHOW);
 	}
 	else if(sName.CompareNoCase(_T("button1")) == 0)
@@ -359,7 +470,7 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 	else if(sName.CompareNoCase(_T("popwnd_btn")) == 0)
 	{
 		CPopWnd* pPopWnd = new CPopWnd();
-		pPopWnd->Create(m_hWnd, _T("透明窗口演示"), WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW, 0, 0, 800, 572);
+		pPopWnd->Create(m_hWnd, NULL, WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW | WS_EX_TOPMOST, 0, 0, 800, 572);
 		pPopWnd->CenterWindow();
 	}
 	else if(sName.CompareNoCase(_T("modal_popwnd_btn")) == 0)
@@ -388,16 +499,18 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 	}
 	else if(sName.CompareNoCase(_T("menubtn")) == 0)
 	{
+		CMenuWnd::GetGlobalContextMenuObserver().SetMenuCheckInfo(&m_MenuInfos);
+
 		if(m_pMenu != NULL) {
 			delete m_pMenu;
 			m_pMenu = NULL;
 		}
 		m_pMenu = new CMenuWnd();
-		CMenuWnd::GetGlobalContextMenuObserver().SetMenuCheckInfo(&m_MenuInfos);
 		CDuiPoint point;
 		::GetCursorPos(&point);
-
 		m_pMenu->Init(NULL, _T("menu.xml"), point, &m_pm);
+		// 设置状态
+		CMenuWnd::SetMenuItemInfo(_T("qianting"), true);
 
 		CMenuUI* rootMenu = m_pMenu->GetMenuUI();
 		if (rootMenu != NULL)
@@ -416,7 +529,7 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 			//pSubNew->SetName(_T("Menu_Dynamic"));
 			//pSubNew->SetIcon(_T("Virus.png"));
 			//pSubNew->SetIconSize(16,16);
-			//pSubNew->SetOwner(pTempMenu->GetParent());
+			//pSubNew->SetOwner((CControlUI*)pTempMenu->GetOwner());
 			//pTempMenu->Add(pSubNew);
 
 			CMenuElementUI* pNew2 = new CMenuElementUI;
@@ -432,6 +545,12 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 	{
 		int nDPI = _ttoi(pControl->GetUserData());
 		m_pm.SetDPI(nDPI);
+	}
+	else if(sName.CompareNoCase(_T("combo_closebtn")) == 0 ) 
+	{
+		CMsgWnd::ShowMessageBox(m_hWnd, _T("Combo按钮点击"), _T("Combo列表项-按钮点击"));
+
+		return; 
 	}
 }
 
@@ -456,6 +575,15 @@ LRESULT CMainWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 	else if(uMsg == WM_TIMER)
 	{
 		bHandled = FALSE;
+	}
+	else if(uMsg == WM_SHOWWINDOW)
+	{
+		bHandled = FALSE;
+		m_pMinBtn->NeedParentUpdate();
+		InvalidateRect(m_hWnd, NULL, TRUE);
+	}
+	else if(uMsg == WM_SYSKEYDOWN || uMsg == WM_KEYDOWN) {
+		int a = 0;
 	}
 	else if (uMsg == WM_MENUCLICK)
 	{
@@ -503,10 +631,6 @@ LRESULT CMainWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 				CMsgWnd::MessageBox(m_hWnd, NULL, sText);
 			}
 		}
-		if(m_pMenu != NULL) {
-			delete m_pMenu;
-			m_pMenu = NULL;
-		}
 		bHandled = TRUE;
 		return 0;
 	}
@@ -541,8 +665,9 @@ LRESULT CMainWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 	bHandled = FALSE;
 	return 0;
 }
-
-LRESULT CMainWnd::OnGetMinMaxInfo(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
-{
-	return 0;
-}
+//
+//LRESULT CMainWnd::OnGetMinMaxInfo(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+//{
+//	bHandled = FALSE;
+//	return 0;
+//}

@@ -25,7 +25,7 @@ namespace DuiLib
 		virtual void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 		virtual void SetVisible(bool bVisible = true);
 		virtual void SetInternVisible(bool bVisible = true);
-		virtual void DoPaint(HDC hDC, const RECT& rcPaint);
+		virtual bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 		virtual void DoEvent(TEventUI& event);
 	public:
 		void StartAnim();

@@ -35,9 +35,6 @@
     <ClCompile Include="MainWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="helper\XUnzip.cpp">
-      <Filter>Helper</Filter>
-    </ClCompile>
     <ClCompile Include="helper\jsoncpp\json_reader.cpp">
       <Filter>Helper\jsoncpp</Filter>
     </ClCompile>

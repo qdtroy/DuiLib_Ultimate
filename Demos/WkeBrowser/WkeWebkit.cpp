@@ -163,9 +163,9 @@ void CWkeWebkitUI::SetPos(RECT rc, bool bNeedUpdate/* = true*/)
 	wkeResize(m_pWebView, rc.right - rc.left, rc.bottom - rc.top);	
 }
 
-void CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint)
+bool CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 {	
-	CControlUI::DoPaint(hDC, rcPaint);
+	CControlUI::DoPaint(hDC, rcPaint, pStopControl);
 
 	if (m_RendData.pixels == NULL) {
 		BITMAPINFO bi;
@@ -185,6 +185,8 @@ void CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint)
 	}		
 	wkePaint2(m_pWebView, m_RendData.pixels, 0);
 	::BitBlt(hDC, m_RendData.rt.left, m_RendData.rt.top, m_RendData.rt.right - m_RendData.rt.left, m_RendData.rt.bottom - m_RendData.rt.top, m_RendData.hDC, 0, 0, SRCCOPY);
+
+	return true;
 }
 
 void CWkeWebkitUI::InitializeWebkit()

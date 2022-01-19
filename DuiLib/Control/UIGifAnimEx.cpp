@@ -164,10 +164,13 @@ namespace DuiLib
 		__super::SetInternVisible(bVisible);
 		m_pImp->EventSetVisible(bVisible);
 	}
-	void CGifAnimExUI::DoPaint( HDC hDC, const RECT& rcPaint )
+
+	bool CGifAnimExUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 	{
-		if( !::IntersectRect( &m_rcPaint, &rcPaint, &m_rcItem ) ) return;
+		if( !::IntersectRect( &m_rcPaint, &rcPaint, &m_rcItem ) ) return true;
 		m_pImp->DrawFrame( hDC,rcPaint,m_rcItem);
+
+		return true;
 	}
 	void CGifAnimExUI::DoEvent( TEventUI& event )
 	{

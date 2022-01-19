@@ -5,6 +5,29 @@
 #include "ControlEx.h"
 #include "SkinManager.h"
 
+//////////////////////////////////////////////////////////////////////////
+///
+
+class CMainPage : public CNotifyPump
+{
+public:
+	CMainPage();
+
+public:
+	void SetPaintMagager(CPaintManagerUI* pPaintMgr);
+
+	DUI_DECLARE_MESSAGE_MAP()
+	virtual void OnClick(TNotifyUI& msg);
+	virtual void OnSelectChanged( TNotifyUI &msg );
+	virtual void OnItemClick( TNotifyUI &msg );
+
+private:
+	CPaintManagerUI* m_pPaintManager;
+};
+
+//////////////////////////////////////////////////////////////////////////
+///
+
 class CMainWnd : public WindowImplBase, public CWebBrowserEventHandler, public SkinChangedReceiver
 {
 public:
@@ -27,8 +50,11 @@ public:// UI通知消息
 	void Notify(TNotifyUI& msg);
 	void OnLClick(CControlUI *pControl);
 
+	DUI_DECLARE_MESSAGE_MAP()
+	
+
 public:// 系统消息
-	LRESULT OnGetMinMaxInfo(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	//LRESULT OnGetMinMaxInfo(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled);
 	LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
@@ -46,4 +72,7 @@ private:// UI变量
 	CMenuWnd* m_pMenu;
 	CStdStringPtrMap m_MenuInfos;
 	CTrayIcon m_trayIcon;
+
+public:
+	CMainPage m_MainPage;
 };

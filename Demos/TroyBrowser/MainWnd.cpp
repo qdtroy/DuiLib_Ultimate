@@ -30,7 +30,7 @@ private:
     CWebBrowserUI* m_pWebBrowser;
 };  
 
-CDuiString sHomePage = _T("http://www.51haoliandan.com");
+CDuiString sHomePage = _T("http://www.winradar.com");
 //////////////////////////////////////////////////////////////////////////
 ///
 

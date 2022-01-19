@@ -69,7 +69,7 @@ protected:
 	virtual LPVOID GetInterface(LPCTSTR pstrName);
 	virtual void DoInit();
 	virtual void SetPos(RECT rc, bool bNeedUpdate = true);
-	virtual void DoPaint(HDC hDC, const RECT& rcPaint);
+	virtual bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 	virtual void DoEvent(TEventUI& event);	
 
 public:

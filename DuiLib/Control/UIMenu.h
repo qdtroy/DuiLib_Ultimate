@@ -55,9 +55,6 @@ enum MenuItemDefaultInfo
 
 };
 
-#define WM_MENUCLICK WM_USER + 121  //用来接收按钮单击的消息
-
-
 ///////////////////////////////////////////////
 class MenuMenuReceiverImplBase;
 class MenuMenuObserverImplBase
@@ -241,7 +238,6 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////
 //
 
-
 class CListUI;
 class CMenuWnd;
 class UILIB_API CMenuUI : public CListUI
@@ -253,6 +249,7 @@ public:
 	CMenuWnd*	m_pWindow;
     LPCTSTR GetClass() const;
     LPVOID GetInterface(LPCTSTR pstrName);
+	UINT GetListType();
 
 	virtual void DoEvent(TEventUI& event);
 
@@ -263,7 +260,7 @@ public:
     virtual bool SetItemIndex(CControlUI* pControl, int iIndex);
     virtual bool Remove(CControlUI* pControl);
 
-	SIZE EstimateSize(SIZE szAvailable) override;
+	SIZE EstimateSize(SIZE szAvailable);
 
 	void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue) ;
 };
@@ -280,12 +277,11 @@ public:
 		static MenuObserverImpl s_context_menu_observer;
 		return s_context_menu_observer;
 	}
-
 	static CMenuWnd* CreateMenu(CMenuElementUI* pOwner, STRINGorID xml, POINT point,
 		CPaintManagerUI* pMainPaintManager, CStdStringPtrMap* pMenuCheckInfo = NULL,
 		DWORD dwAlignment = eMenuAlignment_Left | eMenuAlignment_Top);
-
 	static void DestroyMenu();
+	static MenuItemInfo* SetMenuItemInfo(LPCTSTR pstrName, bool bChecked);
 
 public:
 	CMenuWnd();
@@ -347,7 +343,7 @@ public:
 
     LPCTSTR GetClass() const;
     LPVOID GetInterface(LPCTSTR pstrName);
-    void DoPaint(HDC hDC, const RECT& rcPaint);
+    bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 	void DrawItemText(HDC hDC, const RECT& rcItem);
 	SIZE EstimateSize(SIZE szAvailable);
 
@@ -363,6 +359,7 @@ public:
 	RECT GetLinePadding() const;
 	void SetIcon(LPCTSTR strIcon);
 	void SetIconSize(LONG cx, LONG cy);
+	SIZE GetIconSize();
 	void DrawItemIcon(HDC hDC, const RECT& rcItem);
 	void SetChecked(bool bCheck = true);
 	bool GetChecked() const;

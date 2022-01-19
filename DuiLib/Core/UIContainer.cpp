@@ -17,7 +17,9 @@ namespace DuiLib
 		m_bMouseChildEnabled(true),
 		m_pVerticalScrollBar(NULL),
 		m_pHorizontalScrollBar(NULL),
-		m_nScrollStepSize(0)
+		m_nScrollStepSize(0),
+		m_bFixedScrollbar(false),
+		m_bShowScrollbar(true)
 	{
 		::ZeroMemory(&m_rcInset, sizeof(m_rcInset));
 	}
@@ -132,7 +134,7 @@ namespace DuiLib
 
 	void CContainerUI::RemoveAll()
 	{
-		for( int it = 0; m_bAutoDestroy && it < m_items.GetSize(); it++ ) {
+ 		for( int it = 0; m_bAutoDestroy && it < m_items.GetSize(); it++ ) {
 			CControlUI* pItem = static_cast<CControlUI*>(m_items[it]);
 			if( m_bDelayedDestroy && m_pManager ) {
 				m_pManager->AddDelayedCleanup(pItem);             
@@ -221,6 +223,30 @@ namespace DuiLib
 	void CContainerUI::SetMouseChildEnabled(bool bEnable)
 	{
 		m_bMouseChildEnabled = bEnable;
+	}
+	
+	bool CContainerUI::IsFixedScrollbar()
+	{
+		return m_bFixedScrollbar;
+	}
+
+	void CContainerUI::SetFixedScrollbar(bool bFixed)
+	{
+		m_bFixedScrollbar = bFixed;
+		Invalidate();
+	}
+
+	bool CContainerUI::IsShowScrollbar()
+	{
+		return m_bShowScrollbar;
+	}
+
+	void CContainerUI::SetShowScrollbar(bool bShow)
+	{
+		m_bShowScrollbar = bShow;
+		
+		if( m_pVerticalScrollBar != NULL ) m_pVerticalScrollBar->SetShow(bShow);
+		if( m_pHorizontalScrollBar != NULL ) m_pHorizontalScrollBar->SetShow(bShow);
 	}
 
 	void CContainerUI::SetVisible(bool bVisible)
@@ -485,6 +511,9 @@ namespace DuiLib
 
 	void CContainerUI::EndDown()
 	{
+		if(m_pManager) {
+			::UpdateWindow(m_pManager->GetPaintWindow());
+		}
 		SIZE sz = GetScrollPos();
 		sz.cy = GetScrollRange().cy;
 		SetScrollPos(sz);
@@ -513,7 +542,9 @@ namespace DuiLib
 	void CContainerUI::PageLeft()
 	{
 		SIZE sz = GetScrollPos();
-		int iOffset = m_rcItem.right - m_rcItem.left - m_rcInset.left - m_rcInset.right;
+
+		RECT rcInset = GetInset();
+		int iOffset = m_rcItem.right - m_rcItem.left - rcInset.left - rcInset.right;
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) iOffset -= m_pVerticalScrollBar->GetFixedWidth();
 		sz.cx -= iOffset;
 		SetScrollPos(sz);
@@ -522,7 +553,9 @@ namespace DuiLib
 	void CContainerUI::PageRight()
 	{
 		SIZE sz = GetScrollPos();
-		int iOffset = m_rcItem.right - m_rcItem.left - m_rcInset.left - m_rcInset.right;
+
+		RECT rcInset = GetInset();
+		int iOffset = m_rcItem.right - m_rcItem.left - rcInset.left - rcInset.right;
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) iOffset -= m_pVerticalScrollBar->GetFixedWidth();
 		sz.cx += iOffset;
 		SetScrollPos(sz);
@@ -537,6 +570,9 @@ namespace DuiLib
 
 	void CContainerUI::EndRight()
 	{
+		if(m_pManager) {
+			::UpdateWindow(m_pManager->GetPaintWindow());
+		}
 		SIZE sz = GetScrollPos();
 		sz.cx = GetScrollRange().cx;
 		SetScrollPos(sz);
@@ -553,6 +589,8 @@ namespace DuiLib
 				if( pDefaultAttributes ) {
 					m_pVerticalScrollBar->ApplyAttributeList(pDefaultAttributes);
 				}
+
+				m_pVerticalScrollBar->SetShow(m_bShowScrollbar);
 			}
 		}
 		else if( !bEnableVertical && m_pVerticalScrollBar ) {
@@ -571,6 +609,8 @@ namespace DuiLib
 				if( pDefaultAttributes ) {
 					m_pHorizontalScrollBar->ApplyAttributeList(pDefaultAttributes);
 				}
+
+				m_pHorizontalScrollBar->SetShow(m_bShowScrollbar);
 			}
 		}
 		else if( !bEnableHorizontal && m_pHorizontalScrollBar ) {
@@ -618,10 +658,12 @@ namespace DuiLib
 	RECT CContainerUI::GetClientPos() const
 	{
 		RECT rc = m_rcItem;
-		rc.left += m_rcInset.left;
-		rc.top += m_rcInset.top;
-		rc.right -= m_rcInset.right;
-		rc.bottom -= m_rcInset.bottom;
+
+		RECT rcInset = GetInset();
+		rc.left += rcInset.left;
+		rc.top += rcInset.top;
+		rc.right -= rcInset.right;
+		rc.bottom -= rcInset.bottom;
 
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) {
 			rc.top -= m_pVerticalScrollBar->GetScrollPos();
@@ -655,10 +697,11 @@ namespace DuiLib
 		if( m_items.IsEmpty() ) return;
 
 		rc = m_rcItem;
-		rc.left += m_rcInset.left;
-		rc.top += m_rcInset.top;
-		rc.right -= m_rcInset.right;
-		rc.bottom -= m_rcInset.bottom;
+		RECT rcInset = GetInset();
+		rc.left += rcInset.left;
+		rc.top += rcInset.top;
+		rc.right -= rcInset.right;
+		rc.bottom -= rcInset.bottom;
 
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) {
 			rc.top -= m_pVerticalScrollBar->GetScrollPos();
@@ -747,6 +790,8 @@ namespace DuiLib
 			else if( _tcscmp(pstrValue, _T("bottom")) == 0 ) m_iChildVAlign = DT_BOTTOM;
 		}
 		else if( _tcsicmp(pstrName, _T("scrollstepsize")) == 0 ) SetScrollStepSize(_ttoi(pstrValue));
+		else if (_tcsicmp(pstrName, _T("fixedscrollbar")) == 0) SetFixedScrollbar(_tcsicmp(pstrValue, _T("true")) == 0);
+		else if (_tcsicmp(pstrName, _T("showscrollbar")) == 0) SetShowScrollbar(_tcsicmp(pstrValue, _T("true")) == 0);
 		else CControlUI::SetAttribute(pstrName, pstrValue);
 	}
 
@@ -782,10 +827,13 @@ namespace DuiLib
 
 		if( (uFlags & UIFIND_HITTEST) == 0 || IsMouseChildEnabled() ) {
 			RECT rc = m_rcItem;
-			rc.left += m_rcInset.left;
-			rc.top += m_rcInset.top;
-			rc.right -= m_rcInset.right;
-			rc.bottom -= m_rcInset.bottom;
+			
+			RECT rcInset = GetInset();
+			rc.left += rcInset.left;
+			rc.top += rcInset.top;
+			rc.right -= rcInset.right;
+			rc.bottom -= rcInset.bottom;
+
 			if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) rc.right -= m_pVerticalScrollBar->GetFixedWidth();
 			if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) rc.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
 			if( (uFlags & UIFIND_TOP_FIRST) != 0 ) {
@@ -934,11 +982,13 @@ namespace DuiLib
 			TPercentInfo rcPercent = pControl->GetFloatPercent();
 			LONG width = m_rcItem.right - m_rcItem.left;
 			LONG height = m_rcItem.bottom - m_rcItem.top;
+			LONG left = szXY.cx < 0 ? m_rcItem.right : m_rcItem.left;
+			LONG top = szXY.cy < 0 ? m_rcItem.bottom : m_rcItem.top;
 			RECT rcCtrl = { 0 };
-			rcCtrl.left = (LONG)(width*rcPercent.left) + szXY.cx+ m_rcItem.left;
-			rcCtrl.top = (LONG)(height*rcPercent.top) + szXY.cy+ m_rcItem.top;
-			rcCtrl.right = (LONG)(width*rcPercent.right) + szXY.cx + sz.cx+ m_rcItem.left;
-			rcCtrl.bottom = (LONG)(height*rcPercent.bottom) + szXY.cy + sz.cy+ m_rcItem.top;
+			rcCtrl.left = (LONG)(width*rcPercent.left) + szXY.cx + left;
+			rcCtrl.top = (LONG)(height*rcPercent.top) + szXY.cy + top;
+			rcCtrl.right = (LONG)(width*rcPercent.right) + szXY.cx + sz.cx + left;
+			rcCtrl.bottom = (LONG)(height*rcPercent.bottom) + szXY.cy + sz.cy + top;
 			pControl->SetPos(rcCtrl, false);
 		}
 	}
@@ -1033,52 +1083,44 @@ namespace DuiLib
 	{
 		CControlUI* pSubControl=NULL;
 		pSubControl=this->FindSubControl(pstrSubControlName);
-		if (pSubControl!=NULL)
-		{
+		if (pSubControl!=NULL) {
 			pSubControl->SetText(pstrText);
 			return TRUE;
 		}
-		else
-			return FALSE;
+		else return FALSE;
 	}
 
 	bool CContainerUI::SetSubControlFixedHeight( LPCTSTR pstrSubControlName,int cy )
 	{
 		CControlUI* pSubControl=NULL;
 		pSubControl=this->FindSubControl(pstrSubControlName);
-		if (pSubControl!=NULL)
-		{
+		if (pSubControl!=NULL) {
 			pSubControl->SetFixedHeight(cy);
 			return TRUE;
 		}
-		else
-			return FALSE;
+		else return FALSE;
 	}
 
 	bool CContainerUI::SetSubControlFixedWdith( LPCTSTR pstrSubControlName,int cx )
 	{
 		CControlUI* pSubControl=NULL;
 		pSubControl=this->FindSubControl(pstrSubControlName);
-		if (pSubControl!=NULL)
-		{
+		if (pSubControl!=NULL) {
 			pSubControl->SetFixedWidth(cx);
 			return TRUE;
 		}
-		else
-			return FALSE;
+		else return FALSE;
 	}
 
 	bool CContainerUI::SetSubControlUserData( LPCTSTR pstrSubControlName,LPCTSTR pstrText )
 	{
 		CControlUI* pSubControl=NULL;
 		pSubControl=this->FindSubControl(pstrSubControlName);
-		if (pSubControl!=NULL)
-		{
+		if (pSubControl!=NULL) {
 			pSubControl->SetUserData(pstrText);
 			return TRUE;
 		}
-		else
-			return FALSE;
+		else return FALSE;
 	}
 
 	DuiLib::CDuiString CContainerUI::GetSubControlText( LPCTSTR pstrSubControlName )
@@ -1095,36 +1137,30 @@ namespace DuiLib
 	{
 		CControlUI* pSubControl=NULL;
 		pSubControl=this->FindSubControl(pstrSubControlName);
-		if (pSubControl==NULL)
-			return -1;
-		else
-			return pSubControl->GetFixedHeight();
+		if (pSubControl==NULL) return -1;
+		else return pSubControl->GetFixedHeight();
 	}
 
 	int CContainerUI::GetSubControlFixedWdith( LPCTSTR pstrSubControlName )
 	{
 		CControlUI* pSubControl=NULL;
 		pSubControl=this->FindSubControl(pstrSubControlName);
-		if (pSubControl==NULL)
-			return -1;
-		else
-			return pSubControl->GetFixedWidth();
+		if (pSubControl==NULL) return -1;
+		else return pSubControl->GetFixedWidth();
 	}
 
 	const CDuiString CContainerUI::GetSubControlUserData( LPCTSTR pstrSubControlName )
 	{
 		CControlUI* pSubControl=NULL;
 		pSubControl=this->FindSubControl(pstrSubControlName);
-		if (pSubControl==NULL)
-			return _T("");
-		else
-			return pSubControl->GetUserData();
+		if (pSubControl==NULL) return _T("");
+		else return pSubControl->GetUserData();
 	}
 
 	CControlUI* CContainerUI::FindSubControl( LPCTSTR pstrSubControlName )
 	{
 		CControlUI* pSubControl=NULL;
-		if(m_pManager != NULL) pSubControl = static_cast<CControlUI*>(m_pManager->FindSubControlByName(this,pstrSubControlName));
+		pSubControl = static_cast<CControlUI*>(GetManager()->FindSubControlByName(this, pstrSubControlName));
 		return pSubControl;
 	}
 

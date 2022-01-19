@@ -510,7 +510,9 @@
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\bin\skin\TroyBrowser\main.xml" />
+    <None Include="..\..\bin\skin\TroyBrowser\main.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\bin\skin\TroyBrowser\res.xml" />
     <None Include="Res\TroyBrowser.ico" />
     <None Include="Res\TroyBrowser.zip" />

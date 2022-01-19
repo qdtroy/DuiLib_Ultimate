@@ -46,6 +46,7 @@ public:
 			CDialogBuilder builder;
 			CControlUI* pGameItem = static_cast<CControlUI*>(builder.Create(_T("gameitem.xml"), (UINT)0, &callback, &m_pm));
 			m_pGameList->Add(pGameItem);
+			pGameItem->SetForeImage(_T("file='icon1.png' dest='20,5,50,35'")); 
 			CDuiString sText;
 			sText.Format(_T("游戏%d"), i);
 			pGameItem->SetText(sText);
@@ -57,7 +58,7 @@ public:
 				CDialogBuilder builder;
 				CControlUI* pGameItem = static_cast<CControlUI*>(builder.Create(_T("gameitem.xml"), (UINT)0, &callback, &m_pm));
 				m_pFindList->Add(pGameItem);
-
+				pGameItem->SetForeImage(_T("file='icon1.png' dest='20,5,50,35'")); 
 				CDuiString sText;
 				sText.Format(_T("查找-游戏%d"), i);
 				pGameItem->SetText(sText);
@@ -152,7 +153,7 @@ public:
 		sUrl.Format(_T("http://www.baidu.com/s?wd=%s"), sText);
 
 		CWebBrowserUI* pBrowser = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("baidubrowser")));
-		//pBrowser->Navigate2(sUrl);
+		pBrowser->Navigate2(sUrl);
 	}
 	void OnSearchItemSelect(CControlUI *pControl)
 	{
@@ -169,11 +170,11 @@ public:
 			CContainerUI *pContainer = static_cast<CContainerUI*>(pControl);
 			CDuiString sText = pContainer->FindSubControl(_T("searchitem_text"))->GetText();
 
-			CDuiString sUrl;
-			sUrl.Format(_T("http://www.baidu.com/s?wd=%s"), sText);
+			//CDuiString sUrl;
+			//sUrl.Format(_T("http://www.baidu.com/s?wd=%s"), sText);
 
-			CWebBrowserUI* pBrowser = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("baidubrowser")));
-			pBrowser->Navigate2(sUrl);
+			//CWebBrowserUI* pBrowser = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("baidubrowser")));
+			//pBrowser->Navigate2(sUrl);
 		}
 	}
 
@@ -207,12 +208,14 @@ public:
 					CDialogBuilder builder;
 					CContainerUI* pGameItem = static_cast<CContainerUI*>(builder.Create(_T("gameitem.xml"), (UINT)0, &callback));
 					m_pGameList->Add(pGameItem);
+					pGameItem->SetForeImage(_T("file='icon1.png' dest='20,5,50,35'")); 
+					
+					CDuiString sText;
+					sText.Format(_T("游戏%d_%d"), nID, i);
+					pGameItem->SetText(sText);
+					//CLabelUI *pIcon = static_cast<CLabelUI*>(pGameItem->FindSubControl(_T("gameitem_icon")));
+					//CLabelUI *pText = static_cast<CLabelUI*>(pGameItem->FindSubControl(_T("gameitem_text")));
 
-					CLabelUI *pIcon = static_cast<CLabelUI*>(pGameItem->FindSubControl(_T("gameitem_icon")));
-					CLabelUI *pText = static_cast<CLabelUI*>(pGameItem->FindSubControl(_T("gameitem_text")));
-
-					//CDuiString sText;
-					//sText.Format(_T("游戏%d_%d"), nID, i);
 					//pText->SetText(sText);
 				}
 			}
@@ -442,7 +445,7 @@ void InitResource()
 						CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
 					}
 				}
-				::FreeResource(hResource);
+				::FreeResource(hGlobal);
 			}
 		}
 		break;

@@ -7,7 +7,7 @@
       <HorizontalLayout name="apptitle" childpadding="6">
         <Container padding="2,3,0,0" width="64" height="64" bkimage="logo.jpg" />
         <VerticalLayout>
-          <Button name="homepage_btn" text="透明窗口演示 v1.0" valign="vcenter" align="left" textcolor="#FF333333" hottextcolor="#FF0000FF" font="1" tooltip="官网"/>
+          <Button name="homepage_btn" text="透明窗口演示 v1.0" valign="vcenter" align="left" textcolor="#FF333333" hottextcolor="#FF0000FF" font="1" tooltip="官网" autocalcwidth="true"/>
           <Label text="duilib开源项目圈（261675375）- By Troy(QQ：656067418)" align="left" textcolor="#FFFF0000"/>
         </VerticalLayout>
       </HorizontalLayout>

@@ -2,7 +2,6 @@
 #define __UIMANAGER_H__
 
 #pragma once
-#define WM_USER_SET_DPI WM_USER + 200
 namespace DuiLib {
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -55,13 +54,18 @@ namespace DuiLib {
 		UIEVENT__LAST,
 	};
 
+
+	/////////////////////////////////////////////////////////////////////////////////////
+	//
+	// 内部保留的消息
 	typedef enum MSGTYPE_UI
 	{
-		// 内部保留消息
-		UIMSG_TRAYICON = WM_USER + 1,
-		// 程序自定义消息
-		UIMSG_USER = WM_USER + 100,
+		UIMSG_TRAYICON = WM_USER + 1,// 托盘消息
+		UIMSG_SET_DPI,				 // DPI
+		WM_MENUCLICK,				 // 菜单消息
+		UIMSG_USER = WM_USER + 100,	 // 程序自定义消息
 	};
+
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 
@@ -115,12 +119,13 @@ namespace DuiLib {
 		bool bUseHSL;
 		CDuiString sResType;
 		DWORD dwMask;
+
 	} TImageInfo;
 
 	typedef struct UILIB_API tagTDrawInfo
 	{
 		tagTDrawInfo();
-		void Parse(LPCTSTR pStrImage, LPCTSTR pStrModify, CPaintManagerUI *paintManager);
+		void Parse(LPCTSTR pStrImage, LPCTSTR pStrModify, CPaintManagerUI *pManager);
 		void Clear();
 
 		CDuiString sDrawString;
@@ -136,6 +141,10 @@ namespace DuiLib {
 		bool bTiledX;
 		bool bTiledY;
 		bool bHSL;
+
+		CDuiSize szImage;
+		RECT rcPadding;
+		CDuiString sAlign;
 	} TDrawInfo;
 
 	typedef struct UILIB_API tagTPercentInfo
@@ -203,7 +212,11 @@ namespace DuiLib {
 		virtual LRESULT TranslateAccelerator(MSG *pMsg) = 0;
 	};
 
-
+	class IDragDropUI
+	{
+	public:
+		virtual bool OnDragDrop(CControlUI* pControl) { return false; }
+	};
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 	typedef CControlUI* (*LPCREATECONTROL)(LPCTSTR pstrType);
@@ -232,17 +245,17 @@ namespace DuiLib {
 		SIZE GetClientSize() const;
 		SIZE GetInitSize();
 		void SetInitSize(int cx, int cy);
-		RECT& GetSizeBox();
+		RECT GetSizeBox();
 		void SetSizeBox(RECT& rcSizeBox);
-		RECT& GetCaptionRect();
+		RECT GetCaptionRect();
 		void SetCaptionRect(RECT& rcCaption);
-		SIZE GetRoundCorner() const;
+		SIZE GetRoundCorner();
 		void SetRoundCorner(int cx, int cy);
-		SIZE GetMinInfo() const;
+		SIZE GetMinInfo();
 		void SetMinInfo(int cx, int cy);
-		SIZE GetMaxInfo() const;
+		SIZE GetMaxInfo();
 		void SetMaxInfo(int cx, int cy);
-		bool IsShowUpdateRect() const;
+		bool IsShowUpdateRect();
 		void SetShowUpdateRect(bool show);
 		bool IsNoActivate();
 		void SetNoActivate(bool bNoActivate);
@@ -293,7 +306,7 @@ namespace DuiLib {
 
 		bool IsForceUseSharedRes() const;
 		void SetForceUseSharedRes(bool bForce);
-
+		// 注意：只支持简单类型指针，因为只释放内存，不会调用类对象的析构函数
 		void DeletePtr(void* ptr);
 
 		DWORD GetDefaultDisabledColor() const;
@@ -354,7 +367,8 @@ namespace DuiLib {
 		const TImageInfo* GetImageString(LPCTSTR pStrImage, LPCTSTR pStrModify = NULL);
 
 		// 初始化拖拽
-		bool InitDragDrop();
+		bool EnableDragDrop(bool bEnable);
+		void SetDragDrop(IDragDropUI* pDragDrop);
 		virtual bool OnDrop(FORMATETC* pFmtEtc, STGMEDIUM& medium,DWORD *pdwEffect);
 
 		bool AttachDialog(CControlUI* pControl);
@@ -537,9 +551,10 @@ namespace DuiLib {
 		Gdiplus::GdiplusStartupInput *m_pGdiplusStartupInput;
 
 		// 拖拽
+		bool m_bDragDrop;
 		bool m_bDragMode;
 		HBITMAP m_hDragBitmap;
-		
+		IDragDropUI *m_pDragDrop;
 		//
 		static HINSTANCE m_hInstance;
 		static HINSTANCE m_hResourceInstance;

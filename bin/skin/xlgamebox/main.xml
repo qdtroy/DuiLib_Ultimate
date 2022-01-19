@@ -13,7 +13,7 @@
   <VerticalLayout bkimage="file='mainwnd/mainbg.png' corner='2,2,2,2'" inset="1,1,1,1" bordercolor="#EE768D9B" bordersize="1" borderround="5,5" >
     <HorizontalLayout name="sysbar" height="40">
       <HorizontalLayout name="userbar" width="170" inset="78,10">
-        <Button name="login_btn" width="78" height="16" font="1" text="请先登录" textstyle="top,left" textcolor="#FFFFFFFF"/>
+        <Button name="login_btn" bkimage="file='button.png' corner='4,4,4,4'" width="78" height="16" font="1" text="请先登录" textstyle="top,left" textcolor="#FFFFFFFF"/>
       </HorizontalLayout>
 
       <HorizontalLayout name="main_tabbar" inset="0,10" childpadding="-20">
@@ -55,13 +55,13 @@
     <TabLayout name="body_tablayout" inset="0,0,2,0">
       <HorizontalLayout name="body_main" visible="true">
         <VerticalLayout name="body_main_left" width="322">
-          
+          <WebBrowser name="main_web_left" homepage="https://www.baidu.com/s?wd=qdtroy" autonavi="true"/>
         </VerticalLayout>
 
         <TabLayout name="body_main_tablayout">
-          <WebBrowser name="main_web_home" homepage="http://v2.boxpage.niu.xunlei.com/v3/index.html?timestamp=1399907545" autonavi="true"/>
-          <WebBrowser name="main_web_search" homepage="http://v2.boxpage.niu.xunlei.com/v3/all.html?timestamp=1399943857" autonavi="true"/>
-          <WebBrowser name="main_web_phone" homepage="http://niu.xunlei.com/mobilegame.html?type=gamebox&timestamp=1399943950" autonavi="true"/>
+          <WebBrowser name="main_web_home" homepage="http://www.winradar.com" autonavi="true"/>
+          <WebBrowser name="main_web_search" homepage="https://blog.csdn.net/duisharp" autonavi="true"/>
+          <WebBrowser name="main_web_phone" homepage="https://www.gitee.com/qdtroy" autonavi="true"/>
         </TabLayout>
       </HorizontalLayout>
     </TabLayout>

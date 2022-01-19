@@ -44,10 +44,19 @@ namespace DuiLib
 		int	 GetBindTabLayoutIndex();
 		LPCTSTR GetBindTabLayoutName();
 
+		void SetHotFont(int index);
+		int GetHotFont() const;
+		void SetPushedFont(int index);
+		int GetPushedFont() const;
+		void SetFocusedFont(int index);
+		int GetFocusedFont() const;
+
 		void SetHotBkColor(DWORD dwColor);
 		DWORD GetHotBkColor() const;
 		void SetPushedBkColor(DWORD dwColor);
 		DWORD GetPushedBkColor() const;
+		void SetDisabledBkColor(DWORD dwColor);
+		DWORD GetDisabledBkColor() const;
 		void SetHotTextColor(DWORD dwColor);
 		DWORD GetHotTextColor() const;
 		void SetPushedTextColor(DWORD dwColor);
@@ -65,8 +74,13 @@ namespace DuiLib
 	protected:
 		UINT m_uButtonState;
 
+		int		m_iHotFont;
+		int		m_iPushedFont;
+		int		m_iFocusedFont;
+
 		DWORD m_dwHotBkColor;
 		DWORD m_dwPushedBkColor;
+		DWORD m_dwDisabledBkColor;
 		DWORD m_dwHotTextColor;
 		DWORD m_dwPushedTextColor;
 		DWORD m_dwFocusedTextColor;

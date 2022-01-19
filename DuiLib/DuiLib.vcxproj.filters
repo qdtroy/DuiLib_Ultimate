@@ -334,9 +334,6 @@
     <ClInclude Include="Layout\UIAnimationTabLayout.h">
       <Filter>Header Files\Layout</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\stb_image.h">
-      <Filter>Source Files\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Core\UIResourceManager.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
@@ -386,6 +383,9 @@
       <Filter>Header Files\Control</Filter>
     </ClInclude>
     <ClInclude Include="Utils\unzip.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\stb_image.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>

@@ -165,7 +165,7 @@ namespace DuiLib
 		}
 
 		RECT rcCaption = m_pm.GetCaptionRect();
-		if (-1 == rcCaption.bottom)
+		if (0 > rcCaption.bottom)
 		{
 			rcCaption.bottom = rcClient.bottom;
 		}

@@ -5,12 +5,12 @@ namespace DuiLib {
 	IMPLEMENT_DUICONTROL(CAnimationTabLayoutUI)
 
 	CAnimationTabLayoutUI::CAnimationTabLayoutUI() : 
-		CUIAnimation( this ), 
 		m_bIsVerticalDirection( false ), 
 		m_nPositiveDirection( 1 ),
 		m_pCurrentControl( NULL ),
 		m_bControlVisibleFlag( false )
 	{
+		Attach(this);
 	}
 
 	LPCTSTR CAnimationTabLayoutUI::GetClass() const

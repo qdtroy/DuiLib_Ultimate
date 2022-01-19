@@ -766,9 +766,9 @@ err:
 		return S_OK;
 	}
 
-	void CTxtWinHost::SetWordWrap(BOOL fWordWrap)
+	void CTxtWinHost::SetWordWrap(BOOL _fWordWrap)
 	{
-		fWordWrap = fWordWrap;
+		fWordWrap = _fWordWrap;
 		pserv->OnTxPropertyBitsChange(TXTBIT_WORDWRAP, fWordWrap ? TXTBIT_WORDWRAP : 0);
 	}
 
@@ -1104,7 +1104,7 @@ err:
 
 	LPCTSTR CRichEditUI::GetClass() const
 	{
-		return DUI_CTR_RICHEDIT;
+		return _T("RichEditUI");
 	}
 
 	LPVOID CRichEditUI::GetInterface(LPCTSTR pstrName)
@@ -1118,6 +1118,19 @@ err:
 		if( !IsEnabled() ) return CControlUI::GetControlFlags();
 
 		return UIFLAG_SETCURSOR | UIFLAG_TABSTOP;
+	}
+
+	void CRichEditUI::SetEnabled(bool bEnabled)
+	{
+		CContainerUI::SetEnabled(bEnabled);
+		if(m_pTwh) {
+			if(IsEnabled()) {
+				m_pTwh->SetColor(GetTextColor());
+			}
+			else {
+				m_pTwh->SetColor (m_pManager->GetDefaultDisabledColor());
+			}
+		}
 	}
 
 	bool CRichEditUI::IsMultiLine()
@@ -1767,7 +1780,7 @@ err:
 			m_pTwh->GetTextServices()->TxSendMessage(EM_SETEVENTMASK, 0, ENM_DROPFILES|ENM_LINK|ENM_CHANGE, &lResult);
 			m_pTwh->OnTxInPlaceActivate(NULL);
 			m_pManager->AddMessageFilter(this);
-			if( m_pManager->IsLayered() ) m_pManager->SetTimer(this, DEFAULT_TIMERID, ::GetCaretBlinkTime());
+			m_pManager->SetTimer(this, DEFAULT_TIMERID, ::GetCaretBlinkTime());
 			if (!m_bEnabled) {
 				m_pTwh->SetColor(m_pManager->GetDefaultDisabledColor());
 			}
@@ -1779,7 +1792,7 @@ err:
 	HRESULT CRichEditUI::TxSendMessage(UINT msg, WPARAM wparam, LPARAM lparam, LRESULT *plresult) const
 	{
 		if( m_pTwh ) {
-			if( msg == WM_KEYDOWN && TCHAR(wparam) == VK_RETURN ) {
+			if( msg == WM_KEYDOWN && wparam == VK_RETURN ) {
 				if( !m_bWantReturn || (::GetKeyState(VK_CONTROL) < 0 && !m_bWantCtrlReturn) ) {
 					if( m_pManager != NULL ) m_pManager->SendNotify((CControlUI*)this, DUI_MSGTYPE_RETURN);
 					return S_OK;
@@ -1985,13 +1998,12 @@ err:
 		}
 		else if( event.Type == UIEVENT_TIMER ) {
 			if( event.wParam == DEFAULT_TIMERID ) {
-				if( m_pTwh && m_pManager->IsLayered() && IsFocused() ) {
+				if(m_pManager->IsLayered() && IsFocused() && m_pTwh && m_pTwh->IsShowCaret()) {
 					if (::GetFocus() != m_pManager->GetPaintWindow()) return;
 					m_bDrawCaret = !m_bDrawCaret;
 					POINT ptCaret;
 					::GetCaretPos(&ptCaret);
-					RECT rcCaret = { ptCaret.x, ptCaret.y, ptCaret.x + m_pTwh->GetCaretWidth(), 
-						ptCaret.y + m_pTwh->GetCaretHeight() };
+					RECT rcCaret = { ptCaret.x, ptCaret.y, ptCaret.x + m_pTwh->GetCaretWidth(), ptCaret.y + m_pTwh->GetCaretHeight() };
 					RECT rcTemp = rcCaret;
 					if( !::IntersectRect(&rcCaret, &rcTemp, &m_rcItem) ) return;
 					CControlUI* pParent = this;
@@ -2005,11 +2017,16 @@ err:
 					}                    
 					m_pManager->Invalidate(rcCaret);
 				}
+				else if(IsFocused() && m_pTwh) {
+					if (::GetFocus() != m_pManager->GetPaintWindow()) return;
+					if(m_pTwh->IsShowCaret()) m_pTwh->TxShowCaret(FALSE);
+					else m_pTwh->TxShowCaret(TRUE);
+				}
 				return;
 			}
-			if( m_pTwh ) {
+			else if( m_pTwh ) {
 				m_pTwh->GetTextServices()->TxSendMessage(WM_TIMER, event.wParam, event.lParam, 0);
-			} 
+			}
 			return;
 		}
 		if( event.Type == UIEVENT_SCROLLWHEEL ) {
@@ -2038,7 +2055,6 @@ err:
 
 	SIZE CRichEditUI::EstimateSize(SIZE szAvailable)
 	{
-		//return CDuiSize(m_rcItem); // 这种方式在第一次设置大小之后就大小不变了
 		return CContainerUI::EstimateSize(szAvailable);
 	}
 
@@ -2047,13 +2063,13 @@ err:
 		CControlUI::SetPos(rc, bNeedInvalidate);
 		rc = m_rcItem;
 
-		rc.left += m_rcInset.left;
-		rc.top += m_rcInset.top;
-		rc.right -= m_rcInset.right;
-		rc.bottom -= m_rcInset.bottom;
+		RECT rcInset = GetInset();
+		rc.left += rcInset.left;
+		rc.top += rcInset.top;
+		rc.right -= rcInset.right;
+		rc.bottom -= rcInset.bottom;
 
 		RECT rcScrollView = rc;
-
 		bool bVScrollBarVisiable = false;
 		if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) {
 			bVScrollBarVisiable = true;
@@ -2144,10 +2160,11 @@ err:
 		CContainerUI::Move(szOffset, bNeedInvalidate);
 		if( m_pTwh != NULL ) {
 			RECT rc = m_rcItem;
-			rc.left += m_rcInset.left;
-			rc.top += m_rcInset.top;
-			rc.right -= m_rcInset.right;
-			rc.bottom -= m_rcInset.bottom;
+			RECT rcInset = GetInset();
+			rc.left += rcInset.left;
+			rc.top += rcInset.top;
+			rc.right -= rcInset.right;
+			rc.bottom -= rcInset.bottom;
 
 			if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) rc.right -= m_pVerticalScrollBar->GetFixedWidth();
 			if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) rc.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
@@ -2203,10 +2220,11 @@ err:
 
 		if( m_items.GetSize() > 0 ) {
 			RECT rc = m_rcItem;
-			rc.left += m_rcInset.left;
-			rc.top += m_rcInset.top;
-			rc.right -= m_rcInset.right;
-			rc.bottom -= m_rcInset.bottom;
+			RECT rcInset = GetInset();
+			rc.left += rcInset.left;
+			rc.top += rcInset.top;
+			rc.right -= rcInset.right;
+			rc.bottom -= rcInset.bottom;
 			if( m_pVerticalScrollBar && m_pVerticalScrollBar->IsVisible() ) rc.right -= m_pVerticalScrollBar->GetFixedWidth();
 			if( m_pHorizontalScrollBar && m_pHorizontalScrollBar->IsVisible() ) rc.bottom -= m_pHorizontalScrollBar->GetFixedHeight();
 
@@ -2244,12 +2262,15 @@ err:
 			}
 		}
 
-		if( m_pTwh && m_pTwh->IsShowCaret() && m_pManager->IsLayered() && IsFocused() && m_bDrawCaret ) {
-			POINT ptCaret;
-			::GetCaretPos(&ptCaret);
-			if( ::PtInRect(&m_rcItem, ptCaret) ) {
-				RECT rcCaret = { ptCaret.x, ptCaret.y, ptCaret.x, ptCaret.y + m_pTwh->GetCaretHeight() };
-				CRenderEngine::DrawLine(hDC, rcCaret, m_pTwh->GetCaretWidth(), 0xFF000000);
+		if(m_pManager->IsLayered() && IsFocused() && m_pTwh && m_pTwh->IsShowCaret()) {
+			if(m_bDrawCaret) {
+				POINT ptCaret;
+				::GetCaretPos(&ptCaret);
+				if( ::PtInRect(&m_rcItem, ptCaret) ) {
+					RECT rcCaret = { ptCaret.x, ptCaret.y, ptCaret.x, ptCaret.y + m_pTwh->GetCaretHeight() };
+					DWORD dwTextColor = GetTextColor();
+					CRenderEngine::DrawLine(hDC, rcCaret, m_pTwh->GetCaretWidth(), dwTextColor);
+				}
 			}
 		}
 
@@ -2276,10 +2297,11 @@ err:
 			DWORD dwTextColor = GetTipValueColor();
 			CDuiString sTipValue = GetTipValue();
 			RECT rc = m_rcItem;
-			rc.left += m_rcTextPadding.left;
-			rc.right -= m_rcTextPadding.right;
-			rc.top += m_rcTextPadding.top;
-			rc.bottom -= m_rcTextPadding.bottom;
+			RECT rcTextPadding = GetTextPadding();
+			rc.left += rcTextPadding.left;
+			rc.right -= rcTextPadding.right;
+			rc.top += rcTextPadding.top;
+			rc.bottom -= rcTextPadding.bottom;
 			UINT uTextAlign = GetTipValueAlign();
 			if(IsMultiLine()) uTextAlign |= DT_TOP;
 			else uTextAlign |= DT_VCENTER;
@@ -2334,7 +2356,9 @@ err:
 
 	RECT CRichEditUI::GetTextPadding() const
 	{
-		return m_rcTextPadding;
+		RECT rcTextPadding = m_rcTextPadding;
+		if(m_pManager) m_pManager->GetDPIObj()->Scale(&rcTextPadding);
+		return rcTextPadding;
 	}
 
 	void CRichEditUI::SetTextPadding(RECT rc)
@@ -2346,6 +2370,7 @@ err:
 	void CRichEditUI::SetTipValue( LPCTSTR pStrTipValue )
 	{
 		m_sTipValue	= pStrTipValue;
+		Invalidate();
 	}
 
 	LPCTSTR CRichEditUI::GetTipValue()
@@ -2360,6 +2385,7 @@ err:
 		DWORD clrColor = _tcstoul(pStrColor, &pstr, 16);
 
 		m_dwTipValueColor = clrColor;
+		Invalidate();
 	}
 
 	DWORD CRichEditUI::GetTipValueColor()
@@ -2441,9 +2467,6 @@ err:
 		}
 		else if( _tcscmp(pstrName, _T("rich")) == 0 ) {
 			SetRich(_tcscmp(pstrValue, _T("true")) == 0);
-		}
-		else if( _tcscmp(pstrName, _T("multiline")) == 0 ) {
-			if( _tcscmp(pstrValue, _T("false")) == 0 ) m_lTwhStyle &= ~ES_MULTILINE;
 		}
 		else if( _tcscmp(pstrName, _T("readonly")) == 0 ) {
 			if( _tcscmp(pstrValue, _T("true")) == 0 ) { m_lTwhStyle |= ES_READONLY; m_bReadOnly = true; }
@@ -2536,6 +2559,7 @@ err:
 				case WM_LBUTTONDBLCLK:
 				case WM_RBUTTONDOWN:
 				case WM_RBUTTONUP:
+				case WM_MOUSEMOVE:
 					{
 						POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 						CControlUI* pHover = GetManager()->FindControl(pt);
@@ -2598,6 +2622,11 @@ err:
 		}
 #endif
 		else if( uMsg == WM_CONTEXTMENU ) {
+			// RichEdit是否支持右键菜单，使用menu属性来控制
+			if(!IsContextMenuUsed()) {
+				bWasHandled = false;
+				return 0;
+			}
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			::ScreenToClient(GetManager()->GetPaintWindow(), &pt);
 			CControlUI* pHover = GetManager()->FindControl(pt);

@@ -20,9 +20,6 @@
     <ClCompile Include="StdAfx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XUnzip.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameItemUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

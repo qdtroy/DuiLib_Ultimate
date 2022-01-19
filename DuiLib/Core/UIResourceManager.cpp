@@ -41,7 +41,7 @@ namespace DuiLib {
 			if( !m_xml.LoadFromMem((BYTE*)::LockResource(hGlobal), ::SizeofResource(CPaintManagerUI::GetResourceDll(), hResource) )) {
 				return NULL;
 			}
-			::FreeResource(hResource);
+			::FreeResource(hGlobal);
 		}
 
 		return LoadResource(m_xml.GetRoot());
@@ -224,8 +224,11 @@ namespace DuiLib {
 		CDuiString *lpstrFind = static_cast<CDuiString *>(m_mTextResourceHashMap.Find(lpstrId));
 		if (lpstrFind == NULL && m_pQuerypInterface)
 		{
-			lpstrFind = new CDuiString(m_pQuerypInterface->QueryControlText(lpstrId, lpstrType));
-			m_mTextResourceHashMap.Insert(lpstrId, (LPVOID)lpstrFind);
+			LPCTSTR lpText = m_pQuerypInterface->QueryControlText(lpstrId, lpstrType);
+			if(lpText != NULL) {
+				lpstrFind = new CDuiString(lpText);
+				m_mTextResourceHashMap.Insert(lpstrId, (LPVOID)lpstrFind);
+			}
 		}
 		return lpstrFind == NULL ? lpstrId : *lpstrFind;
 	}

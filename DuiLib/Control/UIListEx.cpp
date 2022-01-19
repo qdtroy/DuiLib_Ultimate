@@ -40,17 +40,22 @@ namespace DuiLib {
 			m_bAddMessageFilter = TRUE;
 		}
 	}
-	CEditUI* CListExUI::GetEditUI()
+	CRichEditUI* CListExUI::GetEditUI()
 	{
 		if (m_pEditUI == NULL)
 		{
-			m_pEditUI = new CEditUI;
+			m_pEditUI = new CRichEditUI;
 			m_pEditUI->SetName(_T("ListEx_Edit"));
-			LPCTSTR pDefaultAttributes = GetManager()->GetDefaultAttributeList(_T("Edit"));
+			LPCTSTR pDefaultAttributes = GetManager()->GetDefaultAttributeList(_T("RichEdit"));
 			if( pDefaultAttributes ) {
 				m_pEditUI->ApplyAttributeList(pDefaultAttributes);
 			}
-
+			m_pEditUI->SetBkColor(0xFFFFFFFF);
+			m_pEditUI->SetRich(false);
+			m_pEditUI->SetMultiLine(false);
+			m_pEditUI->SetWantReturn(true);
+			m_pEditUI->SetFloat(true);
+			m_pEditUI->SetAttribute(_T("autohscroll"), _T("true"));
 			Add(m_pEditUI);
 		}
 		if (m_pComboBoxUI)
@@ -157,7 +162,7 @@ namespace DuiLib {
 				//隐藏编辑框
 				RECT rc = {0,0,0,0};
 				m_pEditUI->SetPos(rc);
-
+				m_pEditUI->SetVisible(false);
 			}
 		}
 		else if (_tcsicmp(strName, _T("ListEx_Combo")) == 0 && m_pComboBoxUI && m_nRow >= 0 && m_nColum >= 0)
@@ -198,6 +203,8 @@ namespace DuiLib {
 		if(m_pEditUI)
 		{	
 			m_pEditUI->SetPos(rc);
+
+			m_pEditUI->SetVisible(false);
 		}
 
 		if(m_pComboBoxUI)
@@ -222,6 +229,8 @@ namespace DuiLib {
 			if (m_pEditUI)
 			{
 				m_pEditUI->SetPos(rc);
+
+				m_pEditUI->SetVisible(false);
 			}
 			if (m_pComboBoxUI)
 			{
@@ -234,13 +243,18 @@ namespace DuiLib {
 			{
 				//保存当前行列
 				SetEditRowAndColum(nIndex, nColum);
-
+				
+				m_pEditUI->SetVisible(true);
+				//移动位置
+				m_pEditUI->SetFixedWidth(lpRCColum->right - lpRCColum->left);
+				m_pEditUI->SetFixedHeight(lpRCColum->bottom - lpRCColum->top);
+				m_pEditUI->SetFixedXY(CDuiSize(lpRCColum->left,lpRCColum->top));
+				SIZE szTextSize = CRenderEngine::GetTextSize(m_pManager->GetPaintDC(), m_pManager, _T("TTT"), m_ListInfo.nFont, DT_CALCRECT | DT_SINGLELINE);
+				m_pEditUI->SetTextPadding(CDuiRect(2, (lpRCColum->bottom - lpRCColum->top - szTextSize.cy) / 2, 2, 0));
 				//设置文字
 				m_pEditUI->SetText(lpstrText);
 
-				//移动位置
-				m_pEditUI->SetVisible(TRUE);
-				m_pEditUI->SetPos(*lpRCColum);
+				m_pEditUI->SetFocus();
 			}
 			else if(CheckColumComboBoxable(nColum) && GetComboBoxUI())
 			{
@@ -268,6 +282,8 @@ namespace DuiLib {
 				if (m_pEditUI)
 				{
 					m_pEditUI->SetPos(rc);
+
+					m_pEditUI->SetVisible(false);
 				}
 				if (m_pComboBoxUI)
 				{
@@ -315,7 +331,7 @@ namespace DuiLib {
 	}
 	void CListExUI::DoEvent(TEventUI& event)
 	{
-		if (event.Type == UIEVENT_BUTTONDOWN)
+		if (event.Type == UIEVENT_BUTTONDOWN || event.Type == UIEVENT_SCROLLWHEEL)
 		{
 			HideEditAndComboCtrl();
 		}
@@ -361,7 +377,7 @@ namespace DuiLib {
 
 	LPCTSTR CListContainerHeaderItemUI::GetClass() const
 	{
-		return _T("ListContainerHeaderItem");
+		return _T("ListContainerHeaderItemUI");
 	}
 
 	LPVOID CListContainerHeaderItemUI::GetInterface(LPCTSTR pstrName)
@@ -397,6 +413,7 @@ namespace DuiLib {
 
 	DWORD CListContainerHeaderItemUI::GetSepWidth() const
 	{
+		if(m_pManager != NULL) m_pManager->GetDPIObj()->Scale(m_iSepWidth);
 		return m_iSepWidth;
 	}
 
@@ -429,7 +446,9 @@ namespace DuiLib {
 
 	RECT CListContainerHeaderItemUI::GetTextPadding() const
 	{
-		return m_rcTextPadding;
+		RECT rcTextPadding = m_rcTextPadding;
+		if(m_pManager != NULL) m_pManager->GetDPIObj()->Scale(&rcTextPadding);
+		return rcTextPadding;
 	}
 
 	void CListContainerHeaderItemUI::SetTextPadding(RECT rc)
@@ -993,6 +1012,7 @@ Label_ForeImage:
 	}
 	int CListContainerHeaderItemUI::GetCheckBoxWidth() const
 	{
+		if(m_pManager) m_pManager->GetDPIObj()->Scale(m_cxyCheckBox.cx);
 		return m_cxyCheckBox.cx;
 	}
 
@@ -1004,6 +1024,7 @@ Label_ForeImage:
 
 	int CListContainerHeaderItemUI::GetCheckBoxHeight()  const 
 	{
+		if(m_pManager) m_pManager->GetDPIObj()->Scale(m_cxyCheckBox.cy);
 		return m_cxyCheckBox.cy;
 	}
 
@@ -1155,13 +1176,12 @@ Label_ForeImage:
 		//检查是否需要显示编辑框或者组合框	
 		CListExUI * pListCtrl = (CListExUI *)m_pOwner;
 		int nColum = HitTestColum(event.ptMouse);
-		if(event.Type == UIEVENT_BUTTONDOWN && m_pOwner->IsFocused())
+		if(event.Type == UIEVENT_BUTTONUP && m_pOwner->IsFocused())
 		{
 			RECT rc = {0,0,0,0};
 			if (nColum >= 0)
 			{
 				GetColumRect(nColum, rc);
-				::InflateRect(&rc, -2, -2);
 			}
 
 			pListCtrl->OnListItemClicked(GetIndex(), nColum, &rc, GetText(nColum));
@@ -1533,10 +1553,13 @@ Label_ForeImage:
 	void CListTextExtElementUI::GetColumRect(int nColum, RECT &rc)
 	{
 		TListInfoUI* pInfo = m_pOwner->GetListInfo();
-		rc.left = pInfo->rcColumn[nColum].left;
-		rc.top  = m_rcItem.top;
-		rc.right = pInfo->rcColumn[nColum].right;
-		rc.bottom = m_rcItem.bottom;
+		RECT rcOwnerPos = m_pOwner->GetPos();
+
+		rc.left = pInfo->rcColumn[nColum].left + 1;
+		rc.top  = 1;
+		rc.right = pInfo->rcColumn[nColum].right - 1;
+		rc.bottom = m_rcItem.bottom - m_rcItem.top - 1;
+		OffsetRect(&rc, -rcOwnerPos.left, m_rcItem.top - rcOwnerPos.top);
 	}
 
 	void CListTextExtElementUI::SetColumItemColor(int nColum, DWORD iBKColor)

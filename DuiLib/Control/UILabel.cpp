@@ -6,12 +6,16 @@ namespace DuiLib
 {
 	IMPLEMENT_DUICONTROL(CLabelUI)
 
-	CLabelUI::CLabelUI() : m_uTextStyle(DT_VCENTER | DT_SINGLELINE), m_dwTextColor(0), 
+		CLabelUI::CLabelUI() : m_uTextStyle(DT_VCENTER | DT_SINGLELINE), m_dwTextColor(0), 
 		m_dwDisabledTextColor(0),
 		m_iFont(-1),
 		m_bShowHtml(false),
-		m_bAutoCalcWidth(false)
+		m_bAutoCalcWidth(false),
+		m_bAutoCalcHeight(false),
+		m_bNeedEstimateSize(false)
 	{
+		m_cxyFixedLast.cx = m_cxyFixedLast.cy = 0;
+		m_szAvailableLast.cx = m_szAvailableLast.cy = 0;
 		::ZeroMemory(&m_rcTextPadding, sizeof(m_rcTextPadding));
 	}
 
@@ -29,7 +33,7 @@ namespace DuiLib
 		if( _tcsicmp(pstrName, _T("Label")) == 0 ) return static_cast<CLabelUI*>(this);
 		return CControlUI::GetInterface(pstrName);
 	}
-	
+
 	UINT CLabelUI::GetControlFlags() const
 	{
 		return IsEnabled() ? UIFLAG_SETCURSOR : 0;
@@ -70,6 +74,7 @@ namespace DuiLib
 	void CLabelUI::SetFont(int index)
 	{
 		m_iFont = index;
+		m_bNeedEstimateSize = true;
 		Invalidate();
 	}
 
@@ -80,12 +85,15 @@ namespace DuiLib
 
 	RECT CLabelUI::GetTextPadding() const
 	{
-		return m_rcTextPadding;
+		RECT rcTextPadding = m_rcTextPadding;
+		if(m_pManager != NULL) m_pManager->GetDPIObj()->Scale(&rcTextPadding);
+		return rcTextPadding;
 	}
 
 	void CLabelUI::SetTextPadding(RECT rc)
 	{
 		m_rcTextPadding = rc;
+		m_bNeedEstimateSize = true;
 		Invalidate();
 	}
 
@@ -99,23 +107,67 @@ namespace DuiLib
 		if( m_bShowHtml == bShowHtml ) return;
 
 		m_bShowHtml = bShowHtml;
+		m_bNeedEstimateSize = true;
 		Invalidate();
 	}
 
 	SIZE CLabelUI::EstimateSize(SIZE szAvailable)
 	{
-		if (m_bAutoCalcWidth) {
-			CDuiString sText = GetText();
-
-			RECT rcText = {0, 0, szAvailable.cx, szAvailable.cy};
-			int nLinks = 0;
-			if( m_bShowHtml ) CRenderEngine::DrawHtmlText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, m_dwTextColor, NULL, NULL, nLinks, m_iFont, DT_CALCRECT | m_uTextStyle);
-			else CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, m_dwTextColor, m_iFont, DT_CALCRECT | m_uTextStyle);
-			m_cxyFixed.cx = MulDiv(rcText.right - rcText.left + GetManager()->GetDPIObj()->Scale(m_rcTextPadding.left) + GetManager()->GetDPIObj()->Scale(m_rcTextPadding.right), 100, GetManager()->GetDPIObj()->GetScale());
+		RECT rcTextPadding = GetTextPadding();
+		if (m_cxyFixed.cx > 0 && m_cxyFixed.cy > 0) {
+			return GetFixedSize();
 		}
 
-		if( m_cxyFixed.cy == 0 ) return CDuiSize(GetManager()->GetDPIObj()->Scale(m_cxyFixed.cx), m_pManager->GetFontInfo(GetFont())->tm.tmHeight + 4);
-		return CControlUI::EstimateSize(szAvailable);
+		if ((szAvailable.cx != m_szAvailableLast.cx || szAvailable.cy != m_szAvailableLast.cy)) {
+			m_bNeedEstimateSize = true;
+		}
+
+		if (m_bNeedEstimateSize) {
+			CDuiString sText = GetText();
+			m_bNeedEstimateSize = false;
+			m_szAvailableLast = szAvailable;
+			m_cxyFixedLast = GetFixedSize();
+			// 自动计算宽度
+			if ((m_uTextStyle & DT_SINGLELINE) != 0) {
+				// 高度
+				if (m_cxyFixedLast.cy == 0) {
+					m_cxyFixedLast.cy = m_pManager->GetFontInfo(m_iFont)->tm.tmHeight + 8;
+					m_cxyFixedLast.cy += rcTextPadding.top + rcTextPadding.bottom;
+				}
+				// 宽度
+				if (m_cxyFixedLast.cx == 0) {
+					if(m_bAutoCalcWidth) {
+						RECT rcText = { 0, 0, 9999, m_cxyFixedLast.cy };
+						if( m_bShowHtml ) {
+							int nLinks = 0;
+							CRenderEngine::DrawHtmlText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, 0, NULL, NULL, nLinks, m_iFont, DT_CALCRECT | m_uTextStyle & ~DT_RIGHT & ~DT_CENTER);
+						}
+						else {
+							CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, 0, m_iFont, DT_CALCRECT | m_uTextStyle & ~DT_RIGHT & ~DT_CENTER);
+						}
+						m_cxyFixedLast.cx = rcText.right - rcText.left + GetManager()->GetDPIObj()->Scale(m_rcTextPadding.left + m_rcTextPadding.right);
+					}
+				}
+			}
+			// 自动计算高度
+			else if(m_cxyFixedLast.cy == 0) {
+				if(m_bAutoCalcHeight) {
+					RECT rcText = { 0, 0, m_cxyFixedLast.cx, 9999 };
+					rcText.left += rcTextPadding.left;
+					rcText.right -= rcTextPadding.right;
+					if( m_bShowHtml ) {
+						int nLinks = 0;
+						CRenderEngine::DrawHtmlText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, 0, NULL, NULL, nLinks, m_iFont, DT_CALCRECT | m_uTextStyle & ~DT_RIGHT & ~DT_CENTER);
+					}
+					else {
+						CRenderEngine::DrawText(m_pManager->GetPaintDC(), m_pManager, rcText, sText, 0, m_iFont, DT_CALCRECT | m_uTextStyle & ~DT_RIGHT & ~DT_CENTER);
+					}
+					m_cxyFixedLast.cy = rcText.bottom - rcText.top + rcTextPadding.top + rcTextPadding.bottom;
+				}
+			}
+
+		}
+		return m_cxyFixedLast;
 	}
 
 	void CLabelUI::DoEvent(TEventUI& event)
@@ -213,6 +265,9 @@ namespace DuiLib
 		else if( _tcsicmp(pstrName, _T("autocalcwidth")) == 0 ) {
 			SetAutoCalcWidth(_tcsicmp(pstrValue, _T("true")) == 0);
 		}
+		else if( _tcsicmp(pstrName, _T("autocalcheight")) == 0 ) {
+			SetAutoCalcHeight(_tcsicmp(pstrValue, _T("true")) == 0);
+		}
 		else CControlUI::SetAttribute(pstrName, pstrValue);
 	}
 
@@ -260,10 +315,20 @@ namespace DuiLib
 		m_bAutoCalcWidth = bAutoCalcWidth;
 	}
 
+	bool CLabelUI::GetAutoCalcHeight() const
+	{
+		return m_bAutoCalcHeight;
+	}
+
+	void CLabelUI::SetAutoCalcHeight(bool bAutoCalcHeight)
+	{
+		m_bAutoCalcHeight = bAutoCalcHeight;
+	}
+
 	void CLabelUI::SetText( LPCTSTR pstrText )
 	{
 		CControlUI::SetText(pstrText);
-		if(GetAutoCalcWidth()) {
+		if(GetAutoCalcWidth() || GetAutoCalcHeight()) {
 			NeedParentUpdate();
 		}
 	}

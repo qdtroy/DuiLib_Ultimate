@@ -12,11 +12,14 @@ Author: Leon Finker  1/2001
 #include <vector>
 
 namespace DuiLib {
+	////////////////////////////////////////////////////////////////////////////////
+	///
 	typedef std::vector<FORMATETC> FormatEtcArray;
 	typedef std::vector<FORMATETC*> PFormatEtcArray;
 	typedef std::vector<STGMEDIUM*> PStgMediumArray;
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
+	///
 	class UILIB_API CEnumFormatEtc : public IEnumFORMATETC
 	{
 	private:
@@ -38,15 +41,15 @@ namespace DuiLib {
 		STDMETHOD(Reset)(void);
 		STDMETHOD(Clone)(IEnumFORMATETC FAR * FAR*);
 	};
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	////////////////////////////////////////////////////////////////////////////////
+	///
 	class UILIB_API CIDropSource : public IDropSource
 	{
 		long m_cRefCount;
 	public:
 		bool m_bDropped;
-
-		CIDropSource::CIDropSource():m_cRefCount(0),m_bDropped(false) {}
+		CIDropSource():m_cRefCount(0),m_bDropped(false) {}
 		//IUnknown
 		virtual HRESULT STDMETHODCALLTYPE QueryInterface(
 			/* [in] */ REFIID riid,
@@ -61,8 +64,9 @@ namespace DuiLib {
 		virtual HRESULT STDMETHODCALLTYPE GiveFeedback( 
 			/* [in] */ DWORD dwEffect);
 	};
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	////////////////////////////////////////////////////////////////////////////////
+	///
 	class UILIB_API CIDataObject : public IDataObject//,public IAsyncOperation
 	{
 		CIDropSource* m_pDropSource;
@@ -152,23 +156,19 @@ namespace DuiLib {
 		//}
 	};
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
+	///
 	class UILIB_API CIDropTarget : public IDropTarget
 	{
-		DWORD m_cRefCount;
-		bool m_bAllowDrop;
-		struct IDropTargetHelper *m_pDropTargetHelper;
-		FormatEtcArray m_formatetc;
-		FORMATETC* m_pSupportedFrmt;
-	protected:
-		HWND m_hTargetWnd;
 	public:
-
-		CIDropTarget(HWND m_hTargetWnd = NULL);
+		CIDropTarget();
 		virtual ~CIDropTarget();
-		void AddSuportedFormat(FORMATETC& ftetc) { m_formatetc.push_back(ftetc); }
-		void SetTargetWnd(HWND hWnd) { m_hTargetWnd = hWnd; }
 
+	public:
+		void SetTargetWnd(HWND hWnd) { m_hTargetWnd = hWnd; }
+		void AddSuportedFormat(FORMATETC& ftetc) { m_formatetc.push_back(ftetc); }
+		
+	public:
 		//return values: true - release the medium. false - don't release the medium 
 		virtual bool OnDrop(FORMATETC* pFmtEtc, STGMEDIUM& medium,DWORD *pdwEffect) = 0;
 
@@ -194,43 +194,47 @@ namespace DuiLib {
 			/* [in] */ DWORD grfKeyState,
 			/* [in] */ POINTL pt,
 			/* [out][in] */ DWORD __RPC_FAR *pdwEffect);
+
+	protected:
+		HWND m_hTargetWnd;
+
+	private:
+		DWORD m_cRefCount;
+		bool m_bAllowDrop;
+		struct IDropTargetHelper *m_pDropTargetHelper;
+		FormatEtcArray m_formatetc;
+		FORMATETC* m_pSupportedFrmt;
 	};
 
+	////////////////////////////////////////////////////////////////////////////////
+	///
 	class UILIB_API CDragSourceHelper
 	{
-		IDragSourceHelper* pDragSourceHelper;
 	public:
 		CDragSourceHelper()
 		{
-			if(FAILED(CoCreateInstance(CLSID_DragDropHelper,
-				NULL,
-				CLSCTX_INPROC_SERVER,
-				IID_IDragSourceHelper,
-				(void**)&pDragSourceHelper)))
-				pDragSourceHelper = NULL;
+			m_pDragSourceHelper = NULL;
+			CoCreateInstance(CLSID_DragDropHelper, NULL, CLSCTX_INPROC_SERVER, IID_IDragSourceHelper, (void**)&m_pDragSourceHelper);
 		}
+
 		virtual ~CDragSourceHelper()
 		{
-			if( pDragSourceHelper!= NULL )
-			{
-				pDragSourceHelper->Release();
-				pDragSourceHelper=NULL;
+			if( m_pDragSourceHelper!= NULL ) {
+				m_pDragSourceHelper->Release();
+				m_pDragSourceHelper=NULL;
 			}
 		}
 
+	public:
 		// IDragSourceHelper
-		HRESULT InitializeFromBitmap(HBITMAP hBitmap, 
-			POINT& pt,	// cursor position in client coords of the window
-			RECT& rc,	// selected item's bounding rect
-			IDataObject* pDataObject,
-			COLORREF crColorKey=GetSysColor(COLOR_WINDOW)// color of the window used for transparent effect.
-			)
+		HRESULT InitializeFromBitmap(HBITMAP hBitmap,  POINT& pt, RECT& rc,	IDataObject* pDataObject, COLORREF crColorKey = GetSysColor(COLOR_WINDOW))
 		{
-			if(pDragSourceHelper == NULL)
+			if(m_pDragSourceHelper == NULL) {
 				return E_FAIL;
+			}
 
 			SHDRAGIMAGE di;
-			BITMAP      bm;
+			BITMAP bm;
 			GetObject(hBitmap, sizeof(bm), &bm);
 			di.sizeDragImage.cx = bm.bmWidth;
 			di.sizeDragImage.cy = bm.bmHeight;
@@ -238,14 +242,19 @@ namespace DuiLib {
 			di.crColorKey = crColorKey; 
 			di.ptOffset.x = pt.x - rc.left;
 			di.ptOffset.y = pt.y - rc.top;
-			return pDragSourceHelper->InitializeFromBitmap(&di, pDataObject);
+			return m_pDragSourceHelper->InitializeFromBitmap(&di, pDataObject);
 		}
+
 		HRESULT InitializeFromWindow(HWND hwnd, POINT& pt,IDataObject* pDataObject)
 		{		
-			if(pDragSourceHelper == NULL)
+			if(m_pDragSourceHelper == NULL) {
 				return E_FAIL;
-			return pDragSourceHelper->InitializeFromWindow(hwnd, &pt, pDataObject);
+			}
+			return m_pDragSourceHelper->InitializeFromWindow(hwnd, &pt, pDataObject);
 		}
+		
+	private:
+		IDragSourceHelper* m_pDragSourceHelper;
 	};
 }
 #endif //__DRAGDROPIMPL_H__

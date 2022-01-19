@@ -7,17 +7,14 @@ namespace DuiLib{
 	void CHotKeyWnd::Init(CHotKeyUI * pOwner)
 	{
 		m_pOwner = pOwner;
-		do 
-		{
-			if (NULL == m_pOwner)
-			{
+		do  {
+			if (NULL == m_pOwner) {
 				break;
 			}
 			RECT rcPos = CalPos();
 			UINT uStyle = WS_CHILD | ES_AUTOHSCROLL;
 			HWND hWnd = Create(m_pOwner->GetManager()->GetPaintWindow(), NULL, uStyle, 0, rcPos);
-			if (!IsWindow(hWnd))
-			{
+			if (!IsWindow(hWnd)) {
 				break;
 			}
 			SetWindowFont(m_hWnd, m_pOwner->GetManager()->GetFontInfo(m_pOwner->GetFont())->hFont, TRUE);
@@ -52,7 +49,6 @@ namespace DuiLib{
 	{
 		return _T("HotKeyClass");
 	}
-
 
 	void CHotKeyWnd::OnFinalMessage(HWND /*hWnd*/)
 	{
@@ -130,13 +126,11 @@ namespace DuiLib{
 		if( !m_bInit ) return 0;
 		if( m_pOwner == NULL ) return 0;
 		GetHotKey(m_pOwner->m_wVirtualKeyCode, m_pOwner->m_wModifiers);
-		if (m_pOwner->m_wVirtualKeyCode == 0)
-		{
+		if (m_pOwner->m_wVirtualKeyCode == 0) {
 			m_pOwner->m_sText = _T("нч");
 			m_pOwner->m_wModifiers = 0;
 		}
-		else
-		{
+		else {
 			m_pOwner->m_sText = GetHotKeyName();
 		}
 		m_pOwner->GetManager()->SendNotify(m_pOwner, _T("textchanged"));
@@ -158,8 +152,6 @@ namespace DuiLib{
 
 	void CHotKeyWnd::GetHotKey(WORD &wVirtualKeyCode, WORD &wModifiers) const
 	{
-		//ASSERT(::IsWindow(m_hWnd));
-		//LRESULT dw = ::SendMessage(m_hWnd, HKM_GETHOTKEY, 0, 0L);
 		DWORD dw = GetHotKey();
 		wVirtualKeyCode = LOBYTE(LOWORD(dw));
 		wModifiers = HIBYTE(LOWORD(dw));
@@ -296,16 +288,17 @@ namespace DuiLib{
 			m_pWindow->Init(this);
 			Invalidate();
 		}
+
 		if( event.Type == UIEVENT_KILLFOCUS && IsEnabled() ) 
 		{
 			Invalidate();
 		}
+
 		if( event.Type == UIEVENT_BUTTONDOWN || event.Type == UIEVENT_DBLCLICK || event.Type == UIEVENT_RBUTTONDOWN) 
 		{
 			if( IsEnabled() ) {
 				GetManager()->ReleaseCapture();
-				if( IsFocused() && m_pWindow == NULL )
-				{
+				if( IsFocused() && m_pWindow == NULL ) {
 					m_pWindow = new CHotKeyWnd();
 					ASSERT(m_pWindow);
 					m_pWindow->Init(this);
@@ -498,14 +491,10 @@ namespace DuiLib{
 		rc.right -= m_rcTextPadding.right;
 		rc.top += m_rcTextPadding.top;
 		rc.bottom -= m_rcTextPadding.bottom;
-		if( IsEnabled() ) {
-			CRenderEngine::DrawText(hDC, m_pManager, rc, sText, m_dwTextColor, \
-				m_iFont, DT_SINGLELINE | m_uTextStyle);
-		}
-		else {
-			CRenderEngine::DrawText(hDC, m_pManager, rc, sText, m_dwDisabledTextColor, \
-				m_iFont, DT_SINGLELINE | m_uTextStyle);
-		}
+		DWORD dwTextColor = m_dwTextColor;
+		if(!IsEnabled())dwTextColor = m_dwDisabledTextColor;
+
+		CRenderEngine::DrawText(hDC, m_pManager, rc, sText, dwTextColor, m_iFont, DT_SINGLELINE | m_uTextStyle);
 	}
 
 	DWORD CHotKeyUI::GetHotKey() const

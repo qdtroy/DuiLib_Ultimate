@@ -288,9 +288,9 @@ void CMainWnd::InitWindow()
 	CWebBrowserUI* pWebHome = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("main_web_home")));
 	CWebBrowserUI* pWebSearch = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("main_web_search")));
 	CWebBrowserUI* pWebPhone = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("main_web_phone")));
-	pWebHome->Navigate2(_T("http://v2.boxpage.niu.xunlei.com/v3/index.html?timestamp=1399907545"));
-	pWebSearch->Navigate2(_T("http://v2.boxpage.niu.xunlei.com/v3/index.html?timestamp=1399907545"));
-	pWebPhone->Navigate2(_T("http://v2.boxpage.niu.xunlei.com/v3/index.html?timestamp=1399907545"));
+	pWebHome->Navigate2(_T("https://www.baidu.com/s?ie=UTF-8&wd=qdtroy"));
+	pWebSearch->Navigate2(_T("http://www.github.com"));
+	pWebPhone->Navigate2(_T("http://www.winrdar.com"));
 }
 
 LRESULT CMainWnd::OnMouseHover(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)

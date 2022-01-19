@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Window  showshadow="true" >
+<Window bktrans="true" showshadow="true" >
 <Font name="微软雅黑" size="12" bold="false" default="true" />
 <Font shared="true" id="30" name="微软雅黑" size="12" bold="true"/>
 
 <!-- Menu样式 -->
-<Default name="Menu" shared="true" value="itemfont=&quot;30&quot; bordersize=&quot;1&quot; borderround=&quot;2,2&quot; bordercolor=&quot;0x303132&quot; inset=&quot;2,2,2,2&quot; itemtextpadding=&quot;30,0,0,0&quot; bkimage=&quot;file='menu/menu_bk.png' corner='26,2,2,2' source='6,6,44,24'&quot; itemhottextcolor=&quot;0xFFFF0000&quot; itemselectedbkcolor=&quot;0xFF338ACA&quot;" />
+<Default name="Menu" shared="true" value="itemfont=&quot;30&quot; bordersize=&quot;1&quot; borderround=&quot;2,2&quot; bordercolor=&quot;0x303132&quot; inset=&quot;2,2,2,2&quot; itemtextpadding=&quot;30,0,0,0&quot; bkimage=&quot;file='menu/menu_bk.png' corner='26,2,2,2' source='6,6,44,24'&quot; itemhottextcolor=&quot;0xFFFF0000&quot; itemhotbkcolor=&quot;0xFF338ACA&quot; itemselectedtextcolor=&quot;0xFFFF0000&quot; itemselectedbkcolor=&quot;0xFF338ACA&quot;" />
 <!-- ExplandIcon样式 -->
 <Default name="ExplandIcon" shared="true" value="menu/menu_expand.png" />
 

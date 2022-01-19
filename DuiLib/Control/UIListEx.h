@@ -35,12 +35,12 @@ namespace DuiLib {
 		void InitListCtrl();
 
 	protected:
-		CEditUI*		m_pEditUI;
+		CRichEditUI*		m_pEditUI;
 		CComboBoxUI*	m_pComboBoxUI;
 
 	public:
 		virtual BOOL CheckColumEditable(int nColum);
-		virtual CEditUI* GetEditUI();
+		virtual CRichEditUI* GetEditUI();
 
 		virtual BOOL CheckColumComboBoxable(int nColum);
 		virtual CComboBoxUI* GetComboBoxUI();
@@ -202,9 +202,6 @@ namespace DuiLib {
 		CContainerUI* m_pOwner;
 		void SetOwner(CContainerUI* pOwner);
 		CContainerUI* GetOwner();
-
-
-
 	};
 	 
 	/////////////////////////////////////////////////////////////////////////////////////

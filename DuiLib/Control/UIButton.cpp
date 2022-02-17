@@ -16,6 +16,9 @@ namespace DuiLib
 		, m_dwHotBkColor(0)
 		, m_dwPushedBkColor(0)
 		, m_dwDisabledBkColor(0)
+		, m_dwHotBorderColor(0)
+		, m_dwPushedBorderColor(0)
+		, m_dwDisabledBorderColor(0)
 		, m_iBindTabIndex(-1)
 		, m_nStateCount(0)
 	{
@@ -237,6 +240,45 @@ namespace DuiLib
 		return m_dwFocusedTextColor;
 	}
 
+	void CButtonUI::SetHotBorderColor(DWORD dwColor)
+	{
+		if (m_dwHotBorderColor == dwColor) return;
+
+		m_dwHotBorderColor = dwColor;
+		Invalidate();
+	}
+
+	DWORD CButtonUI::GetHotBorderColor() const
+	{
+		return m_dwHotBorderColor;
+	}
+
+	void CButtonUI::SetPushedBorderColor(DWORD dwColor)
+	{
+		if (m_dwPushedBorderColor == dwColor) return;
+
+		m_dwPushedBorderColor = dwColor;
+		Invalidate();
+	}
+
+	DWORD CButtonUI::GetPushedBorderColor() const
+	{
+		return m_dwPushedBorderColor;
+	}
+
+	void CButtonUI::SetDisabledBorderColor(DWORD dwColor)
+	{
+		if (m_dwDisabledBorderColor == dwColor) return;
+
+		m_dwDisabledBorderColor = dwColor;
+		Invalidate();
+	}
+
+	DWORD CButtonUI::GetDisabledBorderColor() const
+	{
+		return m_dwDisabledBorderColor;
+	}
+
 	LPCTSTR CButtonUI::GetNormalImage()
 	{
 		return m_sNormalImage;
@@ -419,6 +461,27 @@ namespace DuiLib
 			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
 			SetFocusedTextColor(clrColor);
 		}
+		else if (_tcscmp(pstrName, _T("hotbordercolor")) == 0)
+		{
+			if (*pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
+			LPTSTR pstr = NULL;
+			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
+			SetHotBorderColor(clrColor);
+		}
+		else if (_tcscmp(pstrName, _T("pushedbordercolor")) == 0)
+		{
+			if (*pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
+			LPTSTR pstr = NULL;
+			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
+			SetPushedBorderColor(clrColor);
+		}
+		else if (_tcscmp(pstrName, _T("disabledbordercolor")) == 0)
+		{
+			if (*pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
+			LPTSTR pstr = NULL;
+			DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
+			SetDisabledBorderColor(clrColor);
+		}
 		else if( _tcsicmp(pstrName, _T("hotfont")) == 0 ) SetHotFont(_ttoi(pstrValue));
 		else if( _tcsicmp(pstrName, _T("pushedfont")) == 0 ) SetPushedFont(_ttoi(pstrValue));
 		else if( _tcsicmp(pstrName, _T("focuedfont")) == 0 ) SetFocusedFont(_ttoi(pstrValue));
@@ -581,6 +644,29 @@ namespace DuiLib
 		}
 	}
 
+	void CButtonUI::PaintBorder(HDC hDC)
+	{
+		if ((m_uButtonState & UISTATE_DISABLED) != 0) {
+			if (m_dwDisabledBorderColor != 0) {
+				DrawBorder(hDC, m_rcItem, GetAdjustColor(m_dwDisabledBorderColor), m_nBorderSize, m_rcBorderSize, m_cxyBorderRound, m_nBorderStyle);
+				return;
+			}
+		}
+		else if ((m_uButtonState & UISTATE_PUSHED) != 0) {
+			if (m_dwPushedBorderColor != 0) {
+				DrawBorder(hDC, m_rcItem, GetAdjustColor(m_dwPushedBorderColor), m_nBorderSize, m_rcBorderSize, m_cxyBorderRound, m_nBorderStyle);
+				return;
+			}
+		}
+		else if ((m_uButtonState & UISTATE_HOT) != 0) {
+			if (m_dwHotBorderColor != 0) {
+				DrawBorder(hDC, m_rcItem, GetAdjustColor(m_dwHotBorderColor), m_nBorderSize, m_rcBorderSize, m_cxyBorderRound, m_nBorderStyle);
+				return;
+			}
+		}
+		return CControlUI::PaintBorder(hDC);
+	}
+
 	void CButtonUI::PaintForeImage(HDC hDC)
 	{
 		if( (m_uButtonState & UISTATE_PUSHED) != 0 ) {
@@ -599,4 +685,46 @@ namespace DuiLib
 			if( !DrawImage(hDC, (LPCTSTR)m_sForeImage) ) {}
 		}
 	}
+
+	void CButtonUI::DrawBorder(HDC hDC, const RECT& rcItem, const DWORD& dwBorderColor, const int& nBorderSize, const RECT& rcBorderSize, const SIZE& cxyBorderRound, const int& nBorderStyle)
+	{
+		if (dwBorderColor != 0) {
+			//»­Ô²½Ç±ß¿ò
+			if (nBorderSize > 0 && (cxyBorderRound.cx > 0 || cxyBorderRound.cy > 0)) {
+					CRenderEngine::DrawRoundRect(hDC, rcItem, nBorderSize, cxyBorderRound.cx, cxyBorderRound.cy, GetAdjustColor(dwBorderColor), nBorderStyle);
+			}
+			else {
+				if (rcBorderSize.left > 0 || rcBorderSize.top > 0 || rcBorderSize.right > 0 || rcBorderSize.bottom > 0) {
+					RECT rcBorder;
+
+					if (rcBorderSize.left > 0) {
+						rcBorder = rcItem;
+						rcBorder.right = rcBorder.left;
+						CRenderEngine::DrawLine(hDC, rcBorder, rcBorderSize.left, GetAdjustColor(dwBorderColor), nBorderStyle);
+					}
+					if (rcBorderSize.top > 0) {
+						rcBorder = rcItem;
+						rcBorder.bottom = rcBorder.top;
+						CRenderEngine::DrawLine(hDC, rcBorder, rcBorderSize.top, GetAdjustColor(dwBorderColor), nBorderStyle);
+					}
+					if (rcBorderSize.right > 0) {
+						rcBorder = rcItem;
+						rcBorder.right -= 1;
+						rcBorder.left = rcBorder.right;
+						CRenderEngine::DrawLine(hDC, rcBorder, rcBorderSize.right, GetAdjustColor(dwBorderColor), nBorderStyle);
+					}
+					if (rcBorderSize.bottom > 0) {
+						rcBorder = rcItem;
+						rcBorder.bottom -= 1;
+						rcBorder.top = rcBorder.bottom;
+						CRenderEngine::DrawLine(hDC, rcBorder, rcBorderSize.bottom, GetAdjustColor(dwBorderColor), nBorderStyle);
+					}
+				}
+				else if (nBorderSize > 0) {
+					CRenderEngine::DrawRect(hDC, rcItem, nBorderSize, GetAdjustColor(dwBorderColor), nBorderStyle);
+				}
+			}
+		}
+	}
+
 }

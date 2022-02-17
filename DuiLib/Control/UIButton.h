@@ -63,14 +63,24 @@ namespace DuiLib
 		DWORD GetPushedTextColor() const;
 		void SetFocusedTextColor(DWORD dwColor);
 		DWORD GetFocusedTextColor() const;
+
+		void SetHotBorderColor(DWORD dwColor);
+		DWORD GetHotBorderColor() const;
+		void SetPushedBorderColor(DWORD dwColor);
+		DWORD GetPushedBorderColor() const;
+		void SetDisabledBorderColor(DWORD dwColor);
+		DWORD GetDisabledBorderColor() const;
+
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
 		void PaintText(HDC hDC);
 
 		void PaintBkColor(HDC hDC);
 		void PaintStatusImage(HDC hDC);
+		void PaintBorder(HDC hDC);
 		void PaintForeImage(HDC hDC);
 
+		void DrawBorder(HDC hDC, const RECT& rcItem, const DWORD& dwBorderColor, const int& nBorderSize, const RECT& rcBorderSize, const SIZE& cxyBorderRound, const int& nBorderStyle);
 	protected:
 		UINT m_uButtonState;
 
@@ -84,6 +94,9 @@ namespace DuiLib
 		DWORD m_dwHotTextColor;
 		DWORD m_dwPushedTextColor;
 		DWORD m_dwFocusedTextColor;
+		DWORD m_dwHotBorderColor;
+		DWORD m_dwPushedBorderColor;
+		DWORD m_dwDisabledBorderColor;
 
 		CDuiString m_sNormalImage;
 		CDuiString m_sHotImage;

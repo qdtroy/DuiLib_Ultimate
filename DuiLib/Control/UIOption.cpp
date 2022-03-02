@@ -130,18 +130,6 @@ namespace DuiLib
 		return true;
 	}
 
-	void COptionUI::SetEnabled(bool bEnable)
-	{
-		CControlUI::SetEnabled(bEnable);
-		if( !IsEnabled() ) {
-			if( m_bSelected ) m_uButtonState = UISTATE_DISABLED;
-			else m_uButtonState = UISTATE_DISABLED;
-		}
-		else {
-			m_uButtonState = 0;
-		}
-	}
-
 	LPCTSTR COptionUI::GetSelectedImage()
 	{
 		return m_sSelectedImage;

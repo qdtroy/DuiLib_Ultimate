@@ -146,13 +146,19 @@ namespace DuiLib
 
 	int  CDPI::Scale(int iValue)
 	{
+		int iResult = iValue;
 		if (m_Awareness == PROCESS_DPI_UNAWARE) {
 			return iValue;
 		}
-		if (m_Awareness == PROCESS_SYSTEM_DPI_AWARE) {
-			return MulDiv(iValue, m_nScaleFactorSDA, 100);
+		else if (m_Awareness == PROCESS_SYSTEM_DPI_AWARE) {
+			iResult = MulDiv(iValue, m_nScaleFactorSDA, 100);
 		}
-		return MulDiv(iValue, m_nScaleFactor, 100);
+		else{
+			iResult = MulDiv(iValue, m_nScaleFactor, 100);
+		}
+		if(iValue > 0 && iResult == 0) iResult = 1;
+		if(iValue < 0 && iResult == 0) iResult = -1;
+		return iResult;
 	}
 
 	int  CDPI::ScaleBack(int iValue) {

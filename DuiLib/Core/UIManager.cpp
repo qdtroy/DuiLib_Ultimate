@@ -36,6 +36,8 @@ namespace DuiLib {
 		return uState;
 	}
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///
 	typedef struct tagFINDTABINFO
 	{
 		CControlUI* pFocus;
@@ -60,6 +62,16 @@ namespace DuiLib {
 	} TIMERINFO;
 
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///
+	tagTImageInfo::tagTImageInfo()
+	{
+		pImage = NULL;
+		hBitmap = NULL;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///
 	tagTDrawInfo::tagTDrawInfo()
 	{
 		Clear();
@@ -134,7 +146,14 @@ namespace DuiLib {
 						else dwMask = _tcstoul(sValue.GetData(), &pstr, 16);
 					}
 					else if( sItem == _T("fade") ) {
-						uFade = (BYTE)_tcstoul(sValue.GetData(), &pstr, 10);
+						uFade = (UINT)_tcstoul(sValue.GetData(), &pstr, 10);
+					}
+					else if( sItem == _T("rotate") ) {
+						uRotate = (UINT)_tcstoul(sValue.GetData(), &pstr, 10);
+						bGdiplus = true;
+					}
+					else if( sItem == _T("gdiplus") ) {
+						bGdiplus = (_tcsicmp(sValue.GetData(), _T("true")) == 0);
 					}
 					else if( sItem == _T("hole") ) {
 						bHole = (_tcsicmp(sValue.GetData(), _T("true")) == 0);
@@ -185,17 +204,20 @@ namespace DuiLib {
 		memset(&rcCorner, 0, sizeof(RECT));
 		dwMask = 0;
 		uFade = 255;
+		uRotate = 0;
 		bHole = false;
 		bTiledX = false;
 		bTiledY = false;
 		bHSL = false;
+		bGdiplus = false;
 
 		szImage.cx = szImage.cy = 0;
 		sAlign.Empty();
 		memset(&rcPadding, 0, sizeof(RECT));
 	}
 
-	/////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///
 	typedef BOOL (__stdcall *PFUNCUPDATELAYEREDWINDOW)(HWND, HDC, POINT*, SIZE*, HDC, POINT*, COLORREF, BLENDFUNCTION*, DWORD);
 	PFUNCUPDATELAYEREDWINDOW g_fUpdateLayeredWindow = NULL;
 
@@ -3190,11 +3212,11 @@ namespace DuiLib {
 		return data;
 	}
 
-	const TImageInfo* CPaintManagerUI::GetImageEx(LPCTSTR bitmap, LPCTSTR type, DWORD mask, bool bUseHSL, HINSTANCE instance)
+	const TImageInfo* CPaintManagerUI::GetImageEx(LPCTSTR bitmap, LPCTSTR type, DWORD mask, bool bUseHSL, bool bGdiplus, HINSTANCE instance)
 	{
 		const TImageInfo* data = GetImage(bitmap);
 		if( !data ) {
-			if( AddImage(bitmap, type, mask, bUseHSL, false, instance) ) {
+			if( AddImage(bitmap, type, mask, bUseHSL, bGdiplus, false, instance) ) {
 				if (m_bForceUseSharedRes) data = static_cast<TImageInfo*>(m_SharedResInfo.m_ImageHash.Find(bitmap));
 				else data = static_cast<TImageInfo*>(m_ResInfo.m_ImageHash.Find(bitmap)); 
 			}
@@ -3203,7 +3225,7 @@ namespace DuiLib {
 		return data;
 	}
 
-	const TImageInfo* CPaintManagerUI::AddImage(LPCTSTR bitmap, LPCTSTR type, DWORD mask, bool bUseHSL, bool bShared, HINSTANCE instance)
+	const TImageInfo* CPaintManagerUI::AddImage(LPCTSTR bitmap, LPCTSTR type, DWORD mask, bool bUseHSL, bool bGdiplus, bool bShared, HINSTANCE instance)
 	{
 		if( bitmap == NULL || bitmap[0] == _T('\0') ) return NULL;
 
@@ -3212,11 +3234,23 @@ namespace DuiLib {
 			if( isdigit(*bitmap) ) {
 				LPTSTR pstr = NULL;
 				int iIndex = _tcstol(bitmap, &pstr, 10);
-				data = CRenderEngine::LoadImage(iIndex, type, mask, instance);
+				
+				data = bGdiplus ? CRenderEngine::GdiplusLoadImage(iIndex, type, mask, instance) : CRenderEngine::LoadImage(iIndex, type, mask, instance);
 			}
 		}
 		else {
-			data = CRenderEngine::LoadImage(bitmap, NULL, mask, instance);
+			data = bGdiplus ? CRenderEngine::GdiplusLoadImage(bitmap, NULL, mask, instance) : CRenderEngine::LoadImage(bitmap, NULL, mask, instance);
+			if(!data) {
+				CDuiString sImageName = bitmap;
+				int iAtIdx = sImageName.ReverseFind(_T('@'));
+				int iDotIdx = sImageName.ReverseFind(_T('.'));
+				if(iAtIdx != -1 && iDotIdx != -1) {
+					CDuiString sExe = sImageName.Mid(iDotIdx);
+					sImageName = sImageName.Left(iAtIdx) + sExe;
+					data = bGdiplus ? CRenderEngine::GdiplusLoadImage(sImageName.GetData(), NULL, mask, instance) : CRenderEngine::LoadImage(sImageName.GetData(), NULL, mask, instance);
+				}
+			}
+
 		}
 
 		if( data == NULL ) {
@@ -3411,6 +3445,7 @@ namespace DuiLib {
 
 					CRenderEngine::FreeImage(data, false);
 					data->hBitmap = pNewData->hBitmap;
+					data->pImage = pNewData->pImage;
 					data->pBits = pNewData->pBits;
 					data->nX = pNewData->nX;
 					data->nY = pNewData->nY;
@@ -3937,62 +3972,6 @@ namespace DuiLib {
 			}
 			m_ResInfo.m_StyleHash.RemoveAll();
 		}
-	}
-
-	const TImageInfo* CPaintManagerUI::GetImageString(LPCTSTR pStrImage, LPCTSTR pStrModify)
-	{
-		CDuiString sImageName = pStrImage;
-		CDuiString sImageResType = _T("");
-		DWORD dwMask = 0;
-		CDuiString sItem;
-		CDuiString sValue;
-		LPTSTR pstr = NULL;
-
-		for( int i = 0; i < 2; ++i) {
-			if( i == 1)
-				pStrImage = pStrModify;
-
-			if( !pStrImage ) continue;
-
-			while( *pStrImage != _T('\0') ) {
-				sItem.Empty();
-				sValue.Empty();
-				while( *pStrImage > _T('\0') && *pStrImage <= _T(' ') ) pStrImage = ::CharNext(pStrImage);
-				while( *pStrImage != _T('\0') && *pStrImage != _T('=') && *pStrImage > _T(' ') ) {
-					LPTSTR pstrTemp = ::CharNext(pStrImage);
-					while( pStrImage < pstrTemp) {
-						sItem += *pStrImage++;
-					}
-				}
-				while( *pStrImage > _T('\0') && *pStrImage <= _T(' ') ) pStrImage = ::CharNext(pStrImage);
-				if( *pStrImage++ != _T('=') ) break;
-				while( *pStrImage > _T('\0') && *pStrImage <= _T(' ') ) pStrImage = ::CharNext(pStrImage);
-				if( *pStrImage++ != _T('\'') ) break;
-				while( *pStrImage != _T('\0') && *pStrImage != _T('\'') ) {
-					LPTSTR pstrTemp = ::CharNext(pStrImage);
-					while( pStrImage < pstrTemp) {
-						sValue += *pStrImage++;
-					}
-				}
-				if( *pStrImage++ != _T('\'') ) break;
-				if( !sValue.IsEmpty() ) {
-					if( sItem == _T("file") || sItem == _T("res") ) {
-						sImageName = sValue;
-					}
-					else if( sItem == _T("restype") ) {
-						sImageResType = sValue;
-					}
-					else if( sItem == _T("mask") ) 
-					{
-						if( sValue[0] == _T('#')) dwMask = _tcstoul(sValue.GetData() + 1, &pstr, 16);
-						else dwMask = _tcstoul(sValue.GetData(), &pstr, 16);
-					}
-
-				}
-				if( *pStrImage++ != _T(' ') ) break;
-			}
-		}
-		return GetImageEx(sImageName, sImageResType, dwMask);
 	}
 
 	bool CPaintManagerUI::EnableDragDrop(bool bEnable)

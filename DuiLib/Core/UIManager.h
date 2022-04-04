@@ -92,8 +92,6 @@ namespace DuiLib {
 #define UISTATE_READONLY     0x00000020
 #define UISTATE_CAPTURED     0x00000040
 
-
-
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 
@@ -110,6 +108,8 @@ namespace DuiLib {
 
 	typedef struct UILIB_API tagTImageInfo
 	{
+		tagTImageInfo();
+		Gdiplus::Image* pImage;
 		HBITMAP hBitmap;
 		LPBYTE pBits;
 		LPBYTE pSrcBits;
@@ -136,11 +136,13 @@ namespace DuiLib {
 		RECT rcSource;
 		RECT rcCorner;
 		DWORD dwMask;
-		BYTE uFade;
+		UINT uFade;
+		UINT uRotate;
 		bool bHole;
 		bool bTiledX;
 		bool bTiledY;
 		bool bHSL;
+		bool bGdiplus;
 
 		CDuiSize szImage;
 		RECT rcPadding;
@@ -335,8 +337,8 @@ namespace DuiLib {
 		TFontInfo* GetFontInfo(HFONT hFont);
 
 		const TImageInfo* GetImage(LPCTSTR bitmap);
-		const TImageInfo* GetImageEx(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false, HINSTANCE instance = NULL);
-		const TImageInfo* AddImage(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false, bool bShared = false, HINSTANCE instance = NULL);
+		const TImageInfo* GetImageEx(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false, bool bGdiplus = false, HINSTANCE instance = NULL);
+		const TImageInfo* AddImage(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false, bool bGdiplus = false, bool bShared = false, HINSTANCE instance = NULL);
 		const TImageInfo* AddImage(LPCTSTR bitmap, HBITMAP hBitmap, int iWidth, int iHeight, bool bAlpha, bool bShared = false);
 		void RemoveImage(LPCTSTR bitmap, bool bShared = false);
 		void RemoveAllImages(bool bShared = false);
@@ -364,7 +366,6 @@ namespace DuiLib {
 		const CStdStringPtrMap& GetStyles(bool bShared = false) const;
 		void RemoveAllStyle(bool bShared = false);
 
-		const TImageInfo* GetImageString(LPCTSTR pStrImage, LPCTSTR pStrModify = NULL);
 
 		// ³õÊ¼»¯ÍÏ×§
 		bool EnableDragDrop(bool bEnable);

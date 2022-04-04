@@ -30,7 +30,7 @@
   <VerticalLayout name="root" bkcolor="#FF202223">
     <HorizontalLayout name="appbar" height="64" >
       <HorizontalLayout name="apptitle" childpadding="6">
-        <Container width="64" height="64" bkimage="logo.jpg" />
+        <Container width="64" height="64" bkimage="res='logo.jpg' rotate='180' fade='200'" />
         <VerticalLayout inset="0,10,0,0" childpadding="5">
           <Label name="title_lb" height="20" autocalcwidth="true" text="duilib开源项目圈" valign="vcenter" align="left" wordbreak="false" textcolor="#FFEEEEEE" font="2" tooltip="duilib开源项目圈"/>
           <HorizontalLayout height="20" childpadding="20" >

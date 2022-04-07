@@ -598,7 +598,8 @@ namespace DuiLib {
 
 	CDuiString CComboUI::GetText() const
 	{
-		if( m_iCurSel < 0 ) return _T("");
+		if( m_iCurSel < 0 ) return CControlUI::GetText();
+
 		CControlUI* pControl = static_cast<CControlUI*>(m_items[m_iCurSel]);
 		return pControl->GetText();
 	}

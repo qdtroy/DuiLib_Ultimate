@@ -243,7 +243,7 @@ namespace DuiLib {
 			rcDest.left = rcControl.left;  
 			rcDest.right = rcDest.left + szImage.cx;
 		}
-		else if(sAlign.Find(_T("center")) != -1)
+		else if(sAlign.Find(_T("hcenter")) != -1)
 		{
 			rcDest.left = rcControl.left + ((rcControl.right - rcControl.left) - szImage.cx)/2;  
 			rcDest.right = rcDest.left + szImage.cx;
@@ -1139,7 +1139,9 @@ namespace DuiLib {
 		}
 		// 根据对齐方式计算目标区域
 		if(pDrawInfo->szImage.cx > 0 && pDrawInfo->szImage.cy > 0) {
-			DuiLib::MakeImageDest(rcItem, pDrawInfo->szImage, pDrawInfo->sAlign, pDrawInfo->rcPadding, rcDest);
+			SIZE szImage = pManager->GetDPIObj()->Scale(pDrawInfo->szImage);
+			RECT rcPadding = pManager->GetDPIObj()->Scale(pDrawInfo->rcPadding);
+			DuiLib::MakeImageDest(rcItem, szImage, pDrawInfo->sAlign, rcPadding, rcDest);
 		}
 
 		bool bRet = DuiLib::DrawImage(hDC, pManager, rcItem, rcPaint, pDrawInfo->sImageName, pDrawInfo->sResType, rcDest, \

@@ -48,6 +48,7 @@ namespace DuiLib {
 				}
 				pCtrl = pCtrl->GetParent();
 			}
+			if( m_pOwner->GetManager() != NULL ) m_pOwner->GetManager()->SendNotify(msg.pSender, DUI_MSGTYPE_CLICK, 0, 0);
 		}
 	}
 

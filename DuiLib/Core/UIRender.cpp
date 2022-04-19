@@ -2567,7 +2567,7 @@ namespace DuiLib {
 		lpbiSrc->bmiHeader.biPlanes = 1;
 		lpbiSrc->bmiHeader.biBitCount = 32;
 		lpbiSrc->bmiHeader.biCompression = BI_RGB;
-		lpbiSrc->bmiHeader.biSizeImage = cx * cy;
+		lpbiSrc->bmiHeader.biSizeImage = abs(cx * cy);
 		lpbiSrc->bmiHeader.biXPelsPerMeter = 0;
 		lpbiSrc->bmiHeader.biYPelsPerMeter = 0;
 		lpbiSrc->bmiHeader.biClrUsed = 0;

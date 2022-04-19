@@ -660,7 +660,64 @@ namespace DuiLib
 		return CDuiString(m_pstr + iPos, iLength);
 	}
 
-	int CDuiString::Find(TCHAR ch, int iPos /*= 0*/) const
+	CDuiString& CDuiString::TrimLeft()
+    {
+        // find first non-space character
+
+        LPTSTR psz = this->m_pstr;
+
+        while (::_istspace(*psz))
+        {
+            psz = ::CharNext(psz);
+        }
+
+        if (psz != this->m_pstr)
+        {
+            int iFirst = int(psz - this->m_pstr);
+			Assign(psz, this->GetLength() - iFirst);
+        }
+
+        return(*this);
+    }
+
+    CDuiString& CDuiString::TrimRight()
+    {
+        LPTSTR psz = this->m_pstr;
+		LPTSTR pszLast = NULL;
+
+        while (*psz != 0)
+        {
+            if (::_istspace(*psz))
+            {
+                if (pszLast == NULL)
+                    pszLast = psz;
+            }
+            else
+            {
+                pszLast = NULL;
+            }
+            psz = ::CharNext(psz);
+        }
+
+        if (pszLast != NULL)
+        {
+            // truncate at trailing space start
+            int iLast = int(pszLast - this->GetData());
+
+            this->SetAt(iLast, 0);
+        }
+
+        return(*this);
+    }
+
+	CDuiString& CDuiString::Trim()
+    {
+		TrimLeft();
+		TrimRight();
+		return(*this);
+    }
+
+    int CDuiString::Find(TCHAR ch, int iPos /*= 0*/) const
 	{
 		ASSERT(iPos>=0 && iPos<=GetLength());
 		if( iPos != 0 && (iPos < 0 || iPos >= GetLength()) ) return -1;

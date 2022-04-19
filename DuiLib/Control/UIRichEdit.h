@@ -131,6 +131,7 @@ namespace DuiLib {
 		virtual bool OnTxViewChanged();
 		virtual void OnTxNotify(DWORD iNotify, void *pv);
 
+		CDuiSize GetNaturalSize(LONG width, LONG height);
 		void SetScrollPos(SIZE szPos, bool bMsg = true);
 		void LineUp();
 		void LineDown();

@@ -68,7 +68,8 @@ namespace DuiLib
 				m_fCurAngle = 0;
 			}
 			m_fCurAngle += 36.0;
-			Invalidate();
+			//Invalidate();
+			NeedParentUpdate();
 		}
 		else {
 			CLabelUI::DoEvent(event);

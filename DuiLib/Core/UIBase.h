@@ -79,6 +79,7 @@ namespace DuiLib {
 		void Unsubclass();
 		void ShowWindow(bool bShow = true, bool bTakeFocus = true);
 		UINT ShowModal();
+    	void ShowModalFake();
 		void Close(UINT nRet = IDOK);
 		void CenterWindow();	// 居中，支持扩展屏幕
 		void SetIcon(UINT nRes);
@@ -103,6 +104,7 @@ namespace DuiLib {
 		WNDPROC m_OldWndProc;
 		bool m_bSubclassed;
 		bool m_bUnicode;
+		bool m_bFakeModal;
 	};
 
 } // namespace DuiLib

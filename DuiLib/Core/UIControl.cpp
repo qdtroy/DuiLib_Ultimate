@@ -1158,10 +1158,12 @@ namespace DuiLib {
 			}
 		}
 		CDuiString sXmlData = pstrValue;
-		sXmlData.Trim();
         sXmlData.Replace(_T("&quot;"), _T("\""));
-        sXmlData.Replace(_T("\r\n"), _T(" "));
+        sXmlData.Replace(_T("\r"), _T(" "));
+        sXmlData.Replace(_T("\n"), _T(" "));
         sXmlData.Replace(_T("\t"), _T(" "));
+        sXmlData.Trim();
+
 		LPCTSTR pstrList = sXmlData.GetData();
 		// 解析样式属性
 		CDuiString sItem;

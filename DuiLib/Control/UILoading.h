@@ -1,9 +1,6 @@
 #ifndef __UILoadingCircle_H
 #define __UILoadingCircle_H
 
-#include <mutex>
-#include <condition_variable>
-
 namespace DuiLib
 {
 
@@ -35,26 +32,25 @@ protected:
 	void ThreadAni();
 	Gdiplus::Color* GenerateColorsPallet(Gdiplus::Color _objColor, bool _blnShadeColor, int _intNbSpoke);
 
+	static DWORD WINAPI _ThreadFun(LPVOID p);
 protected:
 	int                 m_nNumber;
 	int                 m_nTime;
-	std::atomic<bool>   m_bStop;
-	std::atomic<bool>   m_bExit;
-	std::thread*        m_pTrdAni;
+	bool				m_bStop;
+	bool				m_bExit;
+	HANDLE				m_pTrdAni;
 
-	int m_NumberOfSpoke = 10;//辐条数量
-	int m_SpokeThickness = 4;//辐条粗细
+	int m_NumberOfSpoke;//辐条数量
+	int m_SpokeThickness;//辐条粗细
 	int m_ProgressValue;//------------------------
-	int m_OuterCircleRadius = 10;//外圈
-	int m_InnerCircleRadius = 8;//内圈
+	int m_OuterCircleRadius;//外圈
+	int m_InnerCircleRadius;//内圈
 	Gdiplus::PointF m_CenterPoint;//二维平面的点
 	Gdiplus::Color m_Color;
 	Gdiplus::Color* m_Colors;
 	double* m_Angles;
 
-	std::condition_variable m_condQueue;
-	std::mutex m_mutx;
-	std::unique_lock<std::mutex>* m_pLock;
+	HANDLE m_condQueue;//事件通知
 };
 
 CControlUI* CreateLoadingControl(LPCTSTR pstrType);

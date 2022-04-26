@@ -2,7 +2,6 @@
 #include "UILoading.h"
 #include <functional>
 #include <Gdiplus.h>
-#include <thread>
 
 using namespace DuiLib;
 using namespace Gdiplus;
@@ -53,13 +52,18 @@ IMPLEMENT_DUICONTROL(CLoadingUI)
 
 CLoadingUI::CLoadingUI()
 	: m_pTrdAni(NULL)
+	, m_bExit(false)
 	, m_bStop(false)
 	, m_nTime(100)
 	, m_nNumber(0)
 	, m_Angles(nullptr)
 	, m_Colors(nullptr)
+	, m_NumberOfSpoke(10)
+	, m_SpokeThickness(4)
+	, m_OuterCircleRadius(10)
+	, m_InnerCircleRadius(8)
 {
-
+	m_condQueue = ::CreateEvent(0,0,0,0);
 }
 
 CLoadingUI::~CLoadingUI()
@@ -68,13 +72,15 @@ CLoadingUI::~CLoadingUI()
 	{
 		m_bStop = true;
         m_bExit = true;
-        m_condQueue.notify_all();
-		if (m_pTrdAni->joinable())
-		{
-			m_pTrdAni->join();
-		}
-        delete m_pTrdAni;
+        ::WaitForSingleObject(m_condQueue, INFINITE);
+        CloseHandle(m_pTrdAni);
 		m_pTrdAni = nullptr;
+	}
+	
+	if(m_condQueue)
+	{
+		CloseHandle(m_condQueue);
+		m_condQueue = nullptr;
 	}
 
     if(m_Angles) delete m_Angles;
@@ -197,14 +203,24 @@ Color* CLoadingUI::GenerateColorsPallet(Color _objColor, bool _blnShadeColor, in
 	return objColors;
 }
 
+DWORD WINAPI CLoadingUI::_ThreadFun(LPVOID p)
+{
+	CLoadingUI* pThis = (CLoadingUI*)p;
+	if(pThis)
+	{
+		pThis->ThreadAni();
+	}
+	return 0;
+}
+
 void CLoadingUI::Start()
 {
 	if (m_nTime > 0 && m_pTrdAni == NULL)
 	{
-		m_pTrdAni = new std::thread(std::bind(&CLoadingUI::ThreadAni, this));
+		m_pTrdAni = CreateThread(0,0,&CLoadingUI::_ThreadFun,this,0,0);
 	}
 	m_bStop = false;
-	m_condQueue.notify_all();
+	SetEvent(m_condQueue);
 }
 
 void CLoadingUI::Stop()
@@ -214,12 +230,11 @@ void CLoadingUI::Stop()
 
 void CLoadingUI::ThreadAni()
 {
-	std::unique_lock<std::mutex> lock(m_mutx);
 	while (!m_bExit)
 	{
 		if (m_bStop)
 		{
-			m_condQueue.wait(lock);
+			::WaitForSingleObject(m_condQueue,INFINITE);
 		}
 
 		if (m_bExit)
@@ -228,7 +243,7 @@ void CLoadingUI::ThreadAni()
 		}
 		m_ProgressValue = ++m_ProgressValue % m_NumberOfSpoke;
 		Invalidate();
-		std::this_thread::sleep_for(std::chrono::milliseconds(m_nTime));
+		Sleep(m_nTime);
 	}
 }
 

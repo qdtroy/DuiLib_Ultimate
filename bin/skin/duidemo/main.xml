@@ -84,6 +84,7 @@
               <Button name="autobtn" text="自适应比例按钮" minw1idth="120" colorhsl="true" float="0.7,0.2,0.9,0.8" textcolor="#FF000000" bkcolor="#FFFF5555" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
               <Button name="floatbtn" text="浮动按钮" colorhsl="true" float="true" pos="-20,0,-80,30" textcolor="#FF000000" bkcolor="#FFFF5555" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
 
+              <Loading name="loading" width="64" height="64" time="50" color="0xffffff00" />
               <Container width="64" height="64">
                 <Button name="autobtn" textcolor="#FF000000" bkimage="logo.jpg" bordercolor="#FFFF6666" bordersize="2" borderround="64,64"/>
               </Container>

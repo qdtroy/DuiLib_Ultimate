@@ -345,6 +345,17 @@ namespace DuiLib
 		Invalidate();
 	}
 
+    LPCTSTR CButtonUI::GetPushedForeImage()
+    {
+        return m_sPushedForeImage;
+    }
+
+    void CButtonUI::SetPushedForeImage(LPCTSTR pStrImage)
+    {
+        m_sPushedForeImage = pStrImage;
+        Invalidate();
+    }
+
 	void CButtonUI::SetStateCount(int nCount)
 	{
 		m_nStateCount = nCount;
@@ -414,7 +425,8 @@ namespace DuiLib
 		else if( _tcsicmp(pstrName, _T("pushedimage")) == 0 ) SetPushedImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("focusedimage")) == 0 ) SetFocusedImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("disabledimage")) == 0 ) SetDisabledImage(pstrValue);
-		else if( _tcsicmp(pstrName, _T("hotforeimage")) == 0 ) SetHotForeImage(pstrValue);
+        else if (_tcsicmp(pstrName, _T("hotforeimage")) == 0) SetHotForeImage(pstrValue);
+        else if (_tcsicmp(pstrName, _T("pushedforeimage")) == 0) SetPushedForeImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("stateimage")) == 0 ) SetStateImage(pstrValue);
 		else if( _tcsicmp(pstrName, _T("statecount")) == 0 ) SetStateCount(_ttoi(pstrValue));
 		else if( _tcsicmp(pstrName, _T("bindtabindex")) == 0 ) BindTabIndex(_ttoi(pstrValue));

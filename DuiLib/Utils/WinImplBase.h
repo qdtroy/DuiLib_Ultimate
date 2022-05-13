@@ -1,5 +1,3 @@
-#include "StdAfx.h"
-
 #ifndef WIN_IMPL_BASE_HPP
 #define WIN_IMPL_BASE_HPP
 

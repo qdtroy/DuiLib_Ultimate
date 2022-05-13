@@ -1158,7 +1158,12 @@ namespace DuiLib {
 			}
 		}
 		CDuiString sXmlData = pstrValue;
-		sXmlData.Replace(_T("&quot;"), _T("\""));
+        sXmlData.Replace(_T("&quot;"), _T("\""));
+        sXmlData.Replace(_T("\r"), _T(" "));
+        sXmlData.Replace(_T("\n"), _T(" "));
+        sXmlData.Replace(_T("\t"), _T(" "));
+        sXmlData.Trim();
+
 		LPCTSTR pstrList = sXmlData.GetData();
 		// 解析样式属性
 		CDuiString sItem;
@@ -1166,12 +1171,16 @@ namespace DuiLib {
 		while( *pstrList != _T('\0') ) {
 			sItem.Empty();
 			sValue.Empty();
+            while (*pstrList != _T('\0')  && (*pstrList == _T(' ')) )
+            {
+				pstrList++;
+            }
 			while( *pstrList != _T('\0') && *pstrList != _T('=') ) {
 				LPTSTR pstrTemp = ::CharNext(pstrList);
 				while( pstrList < pstrTemp) {
 					sItem += *pstrList++;
 				}
-			}
+			}			
 			ASSERT( *pstrList == _T('=') );
 			if( *pstrList++ != _T('=') ) return this;
 			ASSERT( *pstrList == _T('\"') );
@@ -1190,7 +1199,7 @@ namespace DuiLib {
 				return this;
 			}else
 			{
-				++pstrList;
+                ++pstrList;
 			}
 		}
 		return this;

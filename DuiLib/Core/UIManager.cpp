@@ -1,6 +1,10 @@
 #include "StdAfx.h"
 #include <zmouse.h>
 
+#pragma warning(push)
+#pragma warning(disable:4838 4244)
+
+
 namespace DuiLib {
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -229,6 +233,7 @@ namespace DuiLib {
 	CDuiString CPaintManagerUI::m_pStrResourceZipPwd;  //Garfield 20160325 带密码zip包解密
 	HANDLE CPaintManagerUI::m_hResourceZip = NULL;
 	bool CPaintManagerUI::m_bCachedResourceZip = true;
+	BYTE* CPaintManagerUI::m_cbZipBuf = nullptr;
 	int CPaintManagerUI::m_nResType = UILIB_FILE;
 	TResInfo CPaintManagerUI::m_SharedResInfo;
 	HINSTANCE CPaintManagerUI::m_hInstance = NULL;
@@ -495,19 +500,30 @@ namespace DuiLib {
 			m_hResourceZip = NULL;
 		}
 		m_pStrResourceZip = _T("membuffer");
+        if (m_cbZipBuf)
+        {
+            delete[] m_cbZipBuf;
+            m_cbZipBuf = nullptr;
+        }
+        if (!m_cbZipBuf)
+        {
+            m_cbZipBuf = new BYTE[len];
+            memcpy(m_cbZipBuf, pVoid, len);
+        }
+
 		m_bCachedResourceZip = true;
 		m_pStrResourceZipPwd = password;  //Garfield 20160325 带密码zip包解密
 		if( m_bCachedResourceZip ) 
 		{
 #ifdef UNICODE
 			char* pwd = w2a((wchar_t*)password);
-			m_hResourceZip = (HANDLE)OpenZip(pVoid, len, pwd);
+			m_hResourceZip = (HANDLE)OpenZip(m_cbZipBuf, len, pwd);
 			if(pwd) {
 				delete[] pwd;
 				pwd = NULL;
 			}
 #else
-			m_hResourceZip = (HANDLE)OpenZip(pVoid, len, password);
+			m_hResourceZip = (HANDLE)OpenZip(m_cbZipBuf, len, password);
 #endif
 		}
 	}
@@ -865,13 +881,14 @@ namespace DuiLib {
 		return m_trh;
 	}
 
-	bool CPaintManagerUI::PreMessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& /*lRes*/)
+	bool CPaintManagerUI::PreMessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lRes)
 	{
 		for( int i = 0; i < m_aPreMessageFilters.GetSize(); i++ ) 
 		{
 			bool bHandled = false;
 			LRESULT lResult = static_cast<IMessageFilterUI*>(m_aPreMessageFilters[i])->MessageHandler(uMsg, wParam, lParam, bHandled);
 			if( bHandled ) {
+				lRes = lResult;
 				return true;
 			}
 		}
@@ -887,7 +904,7 @@ namespace DuiLib {
 						return false;
 					}
 					SetNextTabControl(::GetKeyState(VK_SHIFT) >= 0);
-					return true;
+					return false;
 				}
 			}
 			break;
@@ -2139,6 +2156,12 @@ namespace DuiLib {
 			CloseZip((HZIP)m_hResourceZip);
 			m_hResourceZip = NULL;
 		}
+
+        if (m_cbZipBuf)
+        {
+            delete[] m_cbZipBuf;
+            m_cbZipBuf = nullptr;
+        }
 	}
 
 	CDPI * DuiLib::CPaintManagerUI::GetDPIObj()
@@ -3974,6 +3997,62 @@ namespace DuiLib {
 		}
 	}
 
+	const TImageInfo* CPaintManagerUI::GetImageString(LPCTSTR pStrImage, LPCTSTR pStrModify)
+	{
+		CDuiString sImageName = pStrImage;
+		CDuiString sImageResType = _T("");
+		DWORD dwMask = 0;
+		CDuiString sItem;
+		CDuiString sValue;
+		LPTSTR pstr = NULL;
+
+		for( int i = 0; i < 2; ++i) {
+			if( i == 1)
+				pStrImage = pStrModify;
+
+			if( !pStrImage ) continue;
+
+			while( *pStrImage != _T('\0') ) {
+				sItem.Empty();
+				sValue.Empty();
+				while( *pStrImage > _T('\0') && *pStrImage <= _T(' ') ) pStrImage = ::CharNext(pStrImage);
+				while( *pStrImage != _T('\0') && *pStrImage != _T('=') && *pStrImage > _T(' ') ) {
+					LPTSTR pstrTemp = ::CharNext(pStrImage);
+					while( pStrImage < pstrTemp) {
+						sItem += *pStrImage++;
+					}
+				}
+				while( *pStrImage > _T('\0') && *pStrImage <= _T(' ') ) pStrImage = ::CharNext(pStrImage);
+				if( *pStrImage++ != _T('=') ) break;
+				while( *pStrImage > _T('\0') && *pStrImage <= _T(' ') ) pStrImage = ::CharNext(pStrImage);
+				if( *pStrImage++ != _T('\'') ) break;
+				while( *pStrImage != _T('\0') && *pStrImage != _T('\'') ) {
+					LPTSTR pstrTemp = ::CharNext(pStrImage);
+					while( pStrImage < pstrTemp) {
+						sValue += *pStrImage++;
+					}
+				}
+				if( *pStrImage++ != _T('\'') ) break;
+				if( !sValue.IsEmpty() ) {
+					if( sItem == _T("file") || sItem == _T("res") ) {
+						sImageName = sValue;
+					}
+					else if( sItem == _T("restype") ) {
+						sImageResType = sValue;
+					}
+					else if( sItem == _T("mask") ) 
+					{
+						if( sValue[0] == _T('#')) dwMask = _tcstoul(sValue.GetData() + 1, &pstr, 16);
+						else dwMask = _tcstoul(sValue.GetData(), &pstr, 16);
+					}
+
+				}
+				if( *pStrImage++ != _T(' ') ) break;
+			}
+		}
+		return GetImageEx(sImageName, sImageResType, dwMask);
+	}
+
 	bool CPaintManagerUI::EnableDragDrop(bool bEnable)
 	{
 		if(m_bDragDrop == bEnable) return false;
@@ -4171,3 +4250,5 @@ namespace DuiLib {
 		return true; //let base free the medium
 	}
 } // namespace DuiLib
+
+#pragma warning(pop)

@@ -366,6 +366,7 @@ namespace DuiLib {
 		const CStdStringPtrMap& GetStyles(bool bShared = false) const;
 		void RemoveAllStyle(bool bShared = false);
 
+		const TImageInfo* GetImageString(LPCTSTR pStrImage, LPCTSTR pStrModify = NULL);
 
 		// ³õÊ¼»¯ÍÏ×§
 		bool EnableDragDrop(bool bEnable);
@@ -563,6 +564,8 @@ namespace DuiLib {
 		static CDuiString m_pStrResourceZip;
 		static CDuiString m_pStrResourceZipPwd;
 		static HANDLE m_hResourceZip;
+        static BYTE* m_cbZipBuf;
+
 		static bool m_bCachedResourceZip;
 		static int m_nResType;
 		static TResInfo m_SharedResInfo;

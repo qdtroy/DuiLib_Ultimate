@@ -200,6 +200,9 @@
     <ClCompile Include="Utils\unzip.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Control\UILoading.cpp">
+      <Filter>Source Files\Control</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h">
@@ -387,6 +390,9 @@
     </ClInclude>
     <ClInclude Include="Utils\stb_image.h">
       <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Control\UILoading.h">
+      <Filter>Header Files\Control</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

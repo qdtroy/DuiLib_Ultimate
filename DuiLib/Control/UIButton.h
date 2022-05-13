@@ -32,6 +32,8 @@ namespace DuiLib
 		virtual void SetDisabledImage(LPCTSTR pStrImage);
 		virtual LPCTSTR GetHotForeImage();
 		virtual void SetHotForeImage(LPCTSTR pStrImage);
+        virtual LPCTSTR GetPushedForeImage();
+        virtual void SetPushedForeImage(LPCTSTR pStrImage);
 		void SetStateCount(int nCount);
 		int GetStateCount() const;
 		virtual LPCTSTR GetStateImage();

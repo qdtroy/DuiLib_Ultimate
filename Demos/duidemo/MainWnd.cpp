@@ -90,6 +90,9 @@ void CMainWnd::InitWindow()
 	pBrowser1->NavigateUrl(_T("https://www.baidu.com"));
 	pBrowser2->NavigateUrl(_T("https://blog.csdn.net/duisharp/"));
 
+	CLoadingUI* loading = static_cast<CLoadingUI*>(m_pm.FindControl(_T("loading")));
+	loading->Start();
+
 	// ¶¯Ì¬´´½¨Combo
 	CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("font_size")));
 	if(pFontSize)

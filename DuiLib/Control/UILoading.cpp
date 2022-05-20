@@ -245,6 +245,8 @@ void CLoadingUI::ThreadAni()
 		Invalidate();
 		Sleep(m_nTime);
 	}
+
+	SetEvent(m_condQueue);
 }
 
 void CLoadingUI::Init()

@@ -72,7 +72,8 @@ CLoadingUI::~CLoadingUI()
 	{
 		m_bStop = true;
         m_bExit = true;
-        ::WaitForSingleObject(m_condQueue, INFINITE);
+        SetEvent(m_condQueue);
+        ::WaitForSingleObject(m_pTrdAni, INFINITE);
         CloseHandle(m_pTrdAni);
 		m_pTrdAni = nullptr;
 	}
@@ -245,8 +246,6 @@ void CLoadingUI::ThreadAni()
 		Invalidate();
 		Sleep(m_nTime);
 	}
-
-	SetEvent(m_condQueue);
 }
 
 void CLoadingUI::Init()

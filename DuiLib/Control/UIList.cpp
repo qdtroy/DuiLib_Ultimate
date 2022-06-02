@@ -358,6 +358,7 @@ namespace DuiLib {
 				{
 					//全选
 					if (IsMultiSelect() && (GetKeyState(VK_CONTROL) & 0x8000)) {
+                        UnSelectAllItems();
 						SelectAllItems();
 					}
 					return;
@@ -450,14 +451,17 @@ namespace DuiLib {
 		}
 		int iLastSel = m_iCurSel;
 		m_iCurSel = iIndex;
-		m_aSelItems.Add((LPVOID)iIndex);
+		//如果已经选中了就无需要再重复加入by nakkler
+		if(m_aSelItems.Find((LPVOID)iIndex)==-1)
+            m_aSelItems.Add((LPVOID)iIndex);
 
-		EnsureVisible(iIndex);
-		if (bTakeFocus) pControl->SetFocus();
-		if (m_pManager != NULL && iLastSel != m_iCurSel) {
-			m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMSELECT, iIndex);
-		}
-
+        EnsureVisible(iIndex);
+        if (bTakeFocus) pControl->SetFocus();
+        if (m_pManager != NULL && iLastSel != m_iCurSel)
+        {
+            m_pManager->SendNotify(this, DUI_MSGTYPE_ITEMSELECT, iIndex);
+        }
+		
 		return true;
 	}
 

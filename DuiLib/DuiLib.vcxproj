@@ -1032,6 +1032,8 @@
     <ClInclude Include="Utils\DPI.h" />
     <ClInclude Include="Utils\DragDropImpl.h" />
     <ClInclude Include="Utils\FlashEventHandler.h" />
+    <ClInclude Include="Utils\nanosvg.h" />
+    <ClInclude Include="Utils\nanosvgrast.h" />
     <ClInclude Include="Utils\observer_impl_base.h" />
     <ClInclude Include="Utils\stb_image.h" />
     <ClInclude Include="Utils\TrayIcon.h" />

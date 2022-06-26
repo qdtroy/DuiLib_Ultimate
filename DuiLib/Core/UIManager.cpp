@@ -72,6 +72,7 @@ namespace DuiLib {
 	{
 		pImage = NULL;
 		hBitmap = NULL;
+		pSvg = NULL;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -120,6 +121,10 @@ namespace DuiLib {
 				if( !sValue.IsEmpty() ) {
 					if( sItem == _T("file") || sItem == _T("res") ) {
 						sImageName = sValue;
+						
+						if(sImageName.Find(_T(".svg")) != -1) {
+							bSvg = true;
+						}
 					}
 					else if( sItem == _T("restype") ) {
 						sResType = sValue;
@@ -191,7 +196,7 @@ namespace DuiLib {
 		}
 
 		// 调整DPI资源
-		if (pManager != NULL && pManager->GetDPIObj()->GetScale() != 100) {
+		if (!bSvg && pManager != NULL && pManager->GetDPIObj()->GetScale() != 100) {
 			CDuiString sScale;
 			sScale.Format(_T("@%d."), pManager->GetDPIObj()->GetScale());
 			sImageName.Replace(_T("."), sScale);
@@ -214,6 +219,7 @@ namespace DuiLib {
 		bTiledY = false;
 		bHSL = false;
 		bGdiplus = false;
+		bSvg = false;
 
 		szImage.cx = szImage.cy = 0;
 		sAlign.Empty();
@@ -2904,6 +2910,7 @@ namespace DuiLib {
 
 		return hFont;
 	}
+
 	void CPaintManagerUI::AddFontArray(LPCTSTR pstrPath) {
 		LPBYTE pData = NULL;
 		DWORD dwSize = 0;
@@ -3228,18 +3235,18 @@ namespace DuiLib {
 		return pFontInfo;
 	}
 
-	const TImageInfo* CPaintManagerUI::GetImage(LPCTSTR bitmap)
+	TImageInfo* CPaintManagerUI::GetImage(LPCTSTR bitmap)
 	{
 		TImageInfo* data = static_cast<TImageInfo*>(m_ResInfo.m_ImageHash.Find(bitmap));
 		if( !data ) data = static_cast<TImageInfo*>(m_SharedResInfo.m_ImageHash.Find(bitmap));
 		return data;
 	}
 
-	const TImageInfo* CPaintManagerUI::GetImageEx(LPCTSTR bitmap, LPCTSTR type, DWORD mask, bool bUseHSL, bool bGdiplus, HINSTANCE instance)
+	TImageInfo* CPaintManagerUI::GetImageEx(LPCTSTR bitmap, LPCTSTR type, DWORD mask, bool bUseHSL, bool bGdiplus, bool bSvg, HINSTANCE instance)
 	{
-		const TImageInfo* data = GetImage(bitmap);
+		TImageInfo* data = GetImage(bitmap);
 		if( !data ) {
-			if( AddImage(bitmap, type, mask, bUseHSL, bGdiplus, false, instance) ) {
+			if( AddImage(bitmap, type, mask, bUseHSL, bGdiplus, bSvg, false, instance) ) {
 				if (m_bForceUseSharedRes) data = static_cast<TImageInfo*>(m_SharedResInfo.m_ImageHash.Find(bitmap));
 				else data = static_cast<TImageInfo*>(m_ResInfo.m_ImageHash.Find(bitmap)); 
 			}
@@ -3247,8 +3254,36 @@ namespace DuiLib {
 
 		return data;
 	}
+	
+	void CPaintManagerUI::ModifyImage(LPCTSTR bitmap, TImageInfo* data, bool bShared)
+	{
+		if (bShared || m_bForceUseSharedRes) {
+			TImageInfo* pOldImageInfo = static_cast<TImageInfo*>(m_SharedResInfo.m_ImageHash.Find(bitmap));
+			if (pOldImageInfo) {
+				CRenderEngine::FreeImage(pOldImageInfo);
+				m_SharedResInfo.m_ImageHash.Remove(bitmap);
+			}
 
-	const TImageInfo* CPaintManagerUI::AddImage(LPCTSTR bitmap, LPCTSTR type, DWORD mask, bool bUseHSL, bool bGdiplus, bool bShared, HINSTANCE instance)
+			if( !m_SharedResInfo.m_ImageHash.Insert(bitmap, data) ) {
+				CRenderEngine::FreeImage(data);
+				data = NULL;
+			}
+		}
+		else {
+			TImageInfo* pOldImageInfo = static_cast<TImageInfo*>(m_ResInfo.m_ImageHash.Find(bitmap));
+			if (pOldImageInfo) {
+				CRenderEngine::FreeImage(pOldImageInfo);
+				m_ResInfo.m_ImageHash.Remove(bitmap);
+			}
+
+			if( !m_ResInfo.m_ImageHash.Insert(bitmap, data) ) {
+				CRenderEngine::FreeImage(data);
+				data = NULL;
+			}
+		}
+	}
+
+	const TImageInfo* CPaintManagerUI::AddImage(LPCTSTR bitmap, LPCTSTR type, DWORD mask, bool bUseHSL, bool bGdiplus, bool bSvg, bool bShared, HINSTANCE instance)
 	{
 		if( bitmap == NULL || bitmap[0] == _T('\0') ) return NULL;
 
@@ -3257,8 +3292,8 @@ namespace DuiLib {
 			if( isdigit(*bitmap) ) {
 				LPTSTR pstr = NULL;
 				int iIndex = _tcstol(bitmap, &pstr, 10);
-				
-				data = bGdiplus ? CRenderEngine::GdiplusLoadImage(iIndex, type, mask, instance) : CRenderEngine::LoadImage(iIndex, type, mask, instance);
+				if(bSvg) data = CRenderEngine::SvgLoadImage(iIndex, type, mask, instance);
+				else data = bGdiplus ? CRenderEngine::GdiplusLoadImage(iIndex, type, mask, instance) : CRenderEngine::LoadImage(iIndex, type, mask, instance);
 			}
 		}
 		else {
@@ -3270,31 +3305,32 @@ namespace DuiLib {
 				if(iAtIdx != -1 && iDotIdx != -1) {
 					CDuiString sExe = sImageName.Mid(iDotIdx);
 					sImageName = sImageName.Left(iAtIdx) + sExe;
-					data = bGdiplus ? CRenderEngine::GdiplusLoadImage(sImageName.GetData(), NULL, mask, instance) : CRenderEngine::LoadImage(sImageName.GetData(), NULL, mask, instance);
+					if(bSvg) data = CRenderEngine::SvgLoadImage(sImageName.GetData(), NULL, mask, instance);
+					else data = bGdiplus ? CRenderEngine::GdiplusLoadImage(sImageName.GetData(), NULL, mask, instance) : CRenderEngine::LoadImage(sImageName.GetData(), NULL, mask, instance);
 				}
 			}
-
 		}
 
 		if( data == NULL ) {
 			return NULL;
 		}
+
 		data->bUseHSL = bUseHSL;
 		if( type != NULL ) data->sResType = type;
-		data->dwMask = mask;
-		if( data->bUseHSL ) {
-			data->pSrcBits = new BYTE[data->nX * data->nY * 4];
-			::CopyMemory(data->pSrcBits, data->pBits, data->nX * data->nY * 4);
+		if(!bSvg) {
+			data->dwMask = mask;
+			if( data->bUseHSL ) {
+				data->pSrcBits = new BYTE[data->nX * data->nY * 4];
+				::CopyMemory(data->pSrcBits, data->pBits, data->nX * data->nY * 4);
+			}
+			else data->pSrcBits = NULL;
+			if( m_bUseHSL ) CRenderEngine::AdjustImage(true, data, m_H, m_S, m_L);
 		}
-		else data->pSrcBits = NULL;
-		if( m_bUseHSL ) CRenderEngine::AdjustImage(true, data, m_H, m_S, m_L);
-		if (data)
-		{
-			if (bShared || m_bForceUseSharedRes)
-			{
+
+		if (data) {
+			if (bShared || m_bForceUseSharedRes) {
 				TImageInfo* pOldImageInfo = static_cast<TImageInfo*>(m_SharedResInfo.m_ImageHash.Find(bitmap));
-				if (pOldImageInfo)
-				{
+				if (pOldImageInfo) {
 					CRenderEngine::FreeImage(pOldImageInfo);
 					m_SharedResInfo.m_ImageHash.Remove(bitmap);
 				}
@@ -3304,11 +3340,9 @@ namespace DuiLib {
 					data = NULL;
 				}
 			}
-			else
-			{
+			else {
 				TImageInfo* pOldImageInfo = static_cast<TImageInfo*>(m_ResInfo.m_ImageHash.Find(bitmap));
-				if (pOldImageInfo)
-				{
+				if (pOldImageInfo) {
 					CRenderEngine::FreeImage(pOldImageInfo);
 					m_ResInfo.m_ImageHash.Remove(bitmap);
 				}

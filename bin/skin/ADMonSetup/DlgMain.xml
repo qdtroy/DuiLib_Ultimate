@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="544,394" caption="22,22,22,50" roundcorner="5,5" bktrans="true">
+    <Font name="微软雅黑" size="14" bold="false" italic="false" />
+    <Font name="微软雅黑" size="12" bold="false" italic="false" />
+    <VerticalLayout bkimage="bg.png">
+        <VerticalLayout float="true" pos="21,21,0,0" width="502" height="352">
+            <HorizontalLayout width="502" height="227">
+                <Label text="视频广告过滤大师" float="true" pos="12,6,0,0" width="120" height="18" textcolor="#00FFFFFF" disabledtextcolor="#FFA7A6AA" font="0" />
+                <Button name="minbtn" tooltip="最小化" float="true" pos="438,0,0,0" width="30" height="20" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;sys_min.png&apos; source=&apos;0,0,30,20&apos; corner=&apos;4,4,4,4&apos;" hotimage="file=&apos;sys_min.png&apos; source=&apos;30,0,60,20&apos; corner=&apos;4,4,4,4&apos;" pushedimage="file=&apos;sys_min.png&apos; source=&apos;60,0,90,20&apos; corner=&apos;4,4,4,4&apos;" />
+                <Button name="closebtn" tooltip="关闭" float="true" pos="467,0,0,0" width="35" height="20" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;sys_close.png&apos; source=&apos;0,0,35,20&apos; corner=&apos;4,4,4,4&apos;" hotimage="file=&apos;sys_close.png&apos; source=&apos;35,0,70,20&apos; corner=&apos;4,4,4,4&apos;" pushedimage="file=&apos;sys_close.png&apos; source=&apos;70,0,105,20&apos; corner=&apos;4,4,4,4&apos;" />
+            </HorizontalLayout>
+			<HorizontalLayout width="502" height="125">
+				<AnimationTabLayout name="stepTabLayout">
+					<HorizontalLayout width="502" height="125">
+						<Button name="BtnOneClick" float="true" pos="177,15,0,0" width="153" height="47" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="oneclick.png" hotimage="file=&apos;oneclick.png&apos; fade=&apos;215&apos;" disabledimage="oneclick_dis.png" />
+						<Button name="BtnOverwrite" visible="false" float="true" pos="177,15,0,0" width="153" height="47" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="overwrite.png" hotimage="file=&apos;overwrite.png&apos; fade=&apos;215&apos;" disabledimage="overwrite_dis.png" />
+						<Option name="OptAddToAuto" float="true" pos="12,82,0,0" width="16" height="16" selected="true" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="noselect.png" selectedimage="select.png" />
+						<Option name="Optlicense" float="true" pos="12,102,0,0" width="16" height="16" selected="true" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="noselect.png" selectedimage="select.png" />
+						<Label name="TextAuto" text="开机自启动" float="true" pos="36,82,0,0" width="100" height="18" textcolor="#00808080" disabledtextcolor="#FFA7A6AA" font="1" />
+						<Label text="已阅读并同意" float="true" pos="36,102,0,0" width="85" height="18" textcolor="#00808080" disabledtextcolor="#FFA7A6AA" font="1" />
+						<Button name="btnlicense" text="许可协议" float="true" pos="115,102,0,0" width="55" height="18" textcolor="#0050CEDD" disabledtextcolor="#FFA7A6AA" font="1" align="center" />
+					</HorizontalLayout>
+				    <HorizontalLayout width="502" height="125">
+						<Progress name="install" float="true" pos="41,68,0,0" width="422" height="10" bkimage="progressb.png" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" foreimage="progressf.png" min="0" max="100" value="50" hor="true" />
+						<Label name="textProgress" float="true" pos="41,42,0,0" width="407" height="20" textcolor="#00808080" disabledtextcolor="#FFA7A6AA" font="1" />
+					</HorizontalLayout>
+				</AnimationTabLayout>
+			</HorizontalLayout>
+        </VerticalLayout>
+    </VerticalLayout>
+</Window>

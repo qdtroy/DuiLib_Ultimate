@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="800,600" sizebox="4,4,4,4" caption="0,0,0,-1" mininfo="600,500" showshadow="true" shadowimage="shadow2.png" shadowcorner="30,30,30,30" shadowsize="25" roundcorner="4,4">
+<Font name="微软雅黑" size="14" default="true"/>
+<Font name="微软雅黑" size="13"/>
+<Font name="微软雅黑" size="22"/>
+<VerticalLayout name="background" width="840" height="320"  bkcolor="#FFffffff" bordercolor="#ff00ffff" >
+    <VerticalLayout >
+        <HorizontalLayout height="31" bkcolor="#FF252A2F" >
+            <HorizontalLayout name="" inset="8,6,10,0">
+                <Text text="Duilib HiDPI Demo Window2" textcolor="#ffffffff" font="1"></Text>
+            </HorizontalLayout>  
+            <HorizontalLayout width="148" >
+                <Control></Control>
+                <Button name="menubtn" width="27" height="22" normalimage="file='skin_menu.png' source='0,0,26,22'" hotimage="file='skin_menu.png' source='27,0,53,22'" pushedimage="file='skin_menu.png' source='54,0,80,22'"/>
+
+                <Button name="minbtn" width="27" height="22" normalimage="file='sys_btn_min.png' source='0,0,26,22'" hotimage="file='sys_btn_min.png' source='27,0,53,22'" pushedimage="file='sys_btn_min.png' source='54,0,80,22'"/>
+                <Button name="maxbtn" width="27" height="22" normalimage="file='sys_btn_max.png' source='0,0,26,22'" hotimage="file='sys_btn_max.png' source='27,0,53,22'" pushedimage="file='sys_btn_max.png' source='54,0,80,22'"/>
+                <Button name="restorebtn"  visible="false" width="27" height="22" normalimage="file='sys_btn_restore.png' source='0,0,26,22'" hotimage="file='sys_btn_restore.png' source='27,0,53,22'" pushedimage="file='sys_btn_restore.png' source='54,0,80,22'"/>
+                 <Button name="closebtn" width="27" height="22" normalimage="file='sys_btn_close.png' source='0,0,26,22'" hotimage="file='sys_btn_close.png' source='27,0,53,22'" pushedimage="file='sys_btn_close.png' source='54,0,80,22'"/>
+                  <Control width="5"></Control>
+            </HorizontalLayout>
+              
+        </HorizontalLayout>
+
+
+  
+
+     <HorizontalLayout height="50" bordercolor="#ffff00FF"  bordersize="0">
+                    <Option group="DPIOption"  name="DPI96" padding="10,10,0,0" width="160" height="30"  text="DPI 96  100%" selectedtextcolor="#ff0000ff" textcolor="#FF666666"  bkcolor="#ffeeeeee" selected="true"/>
+                    <Option group="DPIOption"  name="DPI120" padding="10,10,0,0" width="160" height="30"  text="DPI 120 125%"  selectedtextcolor="#ff0000ff" textcolor="#FF666666" bkcolor="#ffeeeeee"/>
+                    <Option group="DPIOption"  name="DPI144" padding="10,10,0,0" width="160" height="30"  text="DPI 144 150%"  selectedtextcolor="#ff0000ff" textcolor="#FF666666" bkcolor="#ffeeeeee"/>
+                    
+                    <Control ></Control>
+    </HorizontalLayout>
+
+     <HorizontalLayout height="50" bordercolor="#ffff00FF"  bordersize="0">
+                    
+                     <Option group="DPIOption"  name="DPI168" padding="10,10,0,0" width="160" height="30"  text="DPI 168 175%"  selectedtextcolor="#ff0000ff" textcolor="#FF666666" bkcolor="#ffeeeeee"/>
+                    <Option group="DPIOption"  name="DPI192" padding="10,10,0,0" width="160" height="30"  text="DPI 192 200%"  selectedtextcolor="#ff0000ff" textcolor="#FF666666" bkcolor="#ffeeeeee"/>
+                    <Control ></Control>
+    </HorizontalLayout>
+
+        <VerticalLayout>
+            <HorizontalLayout >  
+                
+                <VerticalLayout padding="10,10,10,10" bordercolor="#ffff0000"  bordersize="1">
+                    <HorizontalLayout bordercolor="#ffffff00"  bordersize="1" height="27">
+                        <Text text="您的电脑已经" padding="2,5,0,0" autocalcwidth="true" height="23" textcolor="#ff000000" font="1" bkcolor="#ffeeeeee"/>
+                        <Text text="40" padding="2,0,0,0" autocalcwidth="true" height="27" textcolor="#ffffffff" font="2" bkcolor="#ffee0000"/>
+                        <Text text="天没有体检，建议立即体检！" padding="2,5,0,0" autocalcwidth="true" height="23" textcolor="#ff00ff00" font="1" bkcolor="#ff0000ee"/>
+                    </HorizontalLayout>
+                    <Text text="系统可能已经存在大量风险，安全性和性能都在急速下降，" padding="0,0,0,0" autocalcwidth="true" height="28" textcolor="#00555555"  font="2" bordercolor="#ff0000FF"  bordersize="1"/>
+                    <Text text="建议您每天坚持电脑体检，提高电脑的安全和性能" padding="0,0,0,0" autocalcwidth="true" height="18" textcolor="#00555555"  font="1" bordercolor="#ffff00FF"  bordersize="1"/> 
+                    <Control></Control>
+                </VerticalLayout>
+                     
+            </HorizontalLayout>
+            <Button name="btnMenu" text="菜单测试" padding="30,0,0,20" width="100" height="40"   bkcolor="#ff888888"/>
+             <Control height="30"></Control>
+        </VerticalLayout>
+        
+    </VerticalLayout>
+</VerticalLayout>
+</Window>

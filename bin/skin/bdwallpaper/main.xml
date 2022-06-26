@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window corner="5,5" caption="0,0,0,32" mininfo="884,652" showdirty="false" virtualwnd="true">
+  <Font name="宋体" size="12" default="true"/>
+  <Font name="宋体" size="12" bold="true" />
+  <Font name="宋体" size="13" bold="true" />
+  <Font name="宋体" size="14" bold="true" />
+  <Font name="宋体" size="22" bold="true" italic="true"/>
+  <Font name="宋体" size="12" />
+  <Default name="VScrollBar" value="button1normalimage=&quot;file='common/scrollbar.bmp' source='0,90,16,106' mask='#FFFF00FF'&quot; button1hotimage=&quot;file='common/scrollbar.bmp' source='18,90,34,106' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='common/scrollbar.bmp' source='36,90,52,106' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='common/scrollbar.bmp' source='54,90,70,106' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='common/scrollbar.bmp' source='0,108,16,124' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='common/scrollbar.bmp' source='18,108,34,124' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='common/scrollbar.bmp' source='36,108,52,124' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='common/scrollbar.bmp' source='54,108,70,124' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='common/scrollbar.bmp' source='0,126,16,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='common/scrollbar.bmp' source='18,126,34,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;file='common/scrollbar.bmp' source='36,126,52,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='common/scrollbar.bmp' source='54,126,70,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='common/scrollbar.bmp' source='0,144,16,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='common/scrollbar.bmp' source='18,144,34,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='common/scrollbar.bmp' source='36,144,52,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='common/scrollbar.bmp' source='54,144,70,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='common/scrollbar.bmp' source='0,162,16,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='common/scrollbar.bmp' source='18,162,34,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='common/scrollbar.bmp' source='36,162,52,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='common/scrollbar.bmp' source='54,162,70,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; " />
+  <Default name="HScrollBar" value="button1normalimage=&quot;file='common/scrollbar.bmp' source='0,0,16,16' mask='#FFFF00FF'&quot; button1hotimage=&quot;file='common/scrollbar.bmp' source='18,0,34,16' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='common/scrollbar.bmp' source='36,0,52,16' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='common/scrollbar.bmp' source='54,0,70,16' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='common/scrollbar.bmp' source='0,18,16,34' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='common/scrollbar.bmp' source='18,18,34,34' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='common/scrollbar.bmp' source='36,18,52,34' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='common/scrollbar.bmp' source='54,18,70,34' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='common/scrollbar.bmp' source='0,36,16,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='common/scrollbar.bmp' source='18,36,34,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;file='common/scrollbar.bmp' source='36,36,52,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='common/scrollbar.bmp' source='54,36,70,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='common/scrollbar.bmp' source='0,54,16,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='common/scrollbar.bmp' source='18,54,34,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='common/scrollbar.bmp' source='36,54,52,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='common/scrollbar.bmp' source='54,54,70,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='common/scrollbar.bmp' source='0,72,16,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='common/scrollbar.bmp' source='18,72,34,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='common/scrollbar.bmp' source='36,72,52,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='common/scrollbar.bmp' source='54,72,70,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; " />
+ 
+  <VerticalLayout bkimage="file='main/286.bmp' corner='4,4,4,4'" inset="1,1,1,1" >
+    <HorizontalLayout name="sysbar" height="37" bkimage="file='main/239.bmp' corner='1,2,1,2'">
+      <Label bkimage="main/219.bmp" width="35" height="30"/>
+      <HorizontalLayout inset="10,7,0,0">
+        <Label float="true" pos="0,7,100,37" bkimage="main/256.bmp"/>
+        <Label bkimage="file='main/263.bmp' dest='0,8,13,21'" font="1" text="百度壁纸 - By Troy(656067418)" textcolor="#FF4c8bda" textpadding="16,0,0,0"/>
+      </HorizontalLayout>
+      <HorizontalLayout name="sysbtn" width="145" height="30" childpadding="3">
+        <Button name="menubtn" width="34" height="30" normalimage="main/216.bmp" hotimage="main/217.bmp" pushedimage="main/215.bmp" virtualwnd="mainpage"/>
+        <Button name="setbtn" width="34" height="30" normalimage="main/213.bmp" hotimage="main/214.bmp" pushedimage="main/212.bmp"/>
+        <Button name="minbtn" width="34" height="30" normalimage="main/209.bmp" hotimage="main/210.bmp" pushedimage="main/211.bmp"/>
+        <Button name="closebtn" width="34" height="30" normalimage="main/206.bmp" hotimage="main/207.bmp" pushedimage="main/208.bmp" tooltip="关闭"/>
+      </HorizontalLayout>
+    </HorizontalLayout>
+    <HorizontalLayout name="tabbar" height="35" childpadding="5" inset="20,5,20,5" bkimage="file='main/240.bmp' corner='0,2,0,2'">
+    </HorizontalLayout>
+    
+    <TabLayout name="wp_tablayout" height="536" bkcolor="#FFEAEAEA" inset="6,6,6,6" />
+
+    <Label height="1" bkimage="file='main/218.bmp' corner='1,0,1,0'"/>
+    <HorizontalLayout name="statusbar" height="29" childpadding="3" bkcolor="#FFFAFAFA">
+      
+    </HorizontalLayout>
+  </VerticalLayout>
+
+</Window>

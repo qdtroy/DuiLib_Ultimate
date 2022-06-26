@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window size="300,180" roundcorner="5,5" caption="0,0,0,30">
+  <VerticalLayout bkcolor="#FF60B1FE" bordercolor="#FF768D9B" bordersize="0" borderround="5,5" inset="1,0,1,0">
+    <HorizontalLayout name="appbar" height="24">
+      <HorizontalLayout name="apptitle">
+        <Container width="22" height="22" bkimage="file='icon.png' source='0,0,64,64' dest='5,4,21,20' " />
+        <Label text="网吧游戏客户端" pos="22, 3, 200, 22" float="true" textcolor="#FF447AA1" font="0" />
+      </HorizontalLayout>
+
+      <Button name="closebtn" width="45" maxwidth="45" maxheight="17" normalimage="file='sys_dlg_close.png' source='90,0,135,17'" hotimage="file='sys_dlg_close.png' source='45,0,90,17'" pushedimage="file='sys_dlg_close.png' source='0,0,45,17'"/>
+    </HorizontalLayout>
+    <GifAni height="120" bkimage="loading.gif" />
+    <Label text="正在从服务器获取更新..."  height="36" align="center"/>
+  </VerticalLayout>
+</Window>

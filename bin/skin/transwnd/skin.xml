@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window caption="0,0,0,415" size="600,384" mininfo="600,384" sizebox="6,6,6,6" bktrans="true" textrenderinghint="3">
+  <Font id="0" name="微软雅黑" size="18" default="true"/>
+  
+  <VerticalLayout bkimage="res='bg.png' corner='6,97,6,29' fade='128'">
+    <HorizontalLayout name="appbar" height="64" inset="0,-1">
+      <HorizontalLayout name="apptitle" childpadding="6">
+        <Container padding="2,3,0,0" width="64" height="64" bkimage="logo.jpg" />
+        <VerticalLayout>
+          <Button name="homepage_btn" text="透明窗口演示 v1.0" valign="vcenter" align="left" textcolor="#FF333333" hottextcolor="#FF0000FF" font="1" tooltip="官网" autocalcwidth="true"/>
+          <Label text="duilib开源项目圈（261675375）- By Troy(QQ：656067418)" align="left" textcolor="#FFFF0000"/>
+        </VerticalLayout>
+      </HorizontalLayout>
+
+      <Button name="minbtn" width="28" height="20" tooltip="最小化" normalimage="file='sysbtn/btn_mini_normal.png'" hotimage="file='sysbtn/btn_mini_highlight.png'" pushedimage="file='sysbtn/btn_mini_down.png' "/>
+      <Button name="maxbtn" width="28" height="20" tooltip="最大化" normalimage="file='sysbtn/btn_max_normal.png'" hotimage="file='sysbtn/btn_max_highlight.png'" pushedimage="file='sysbtn/btn_max_down.png' "/>
+      <Button name="restorebtn" width="28" height="20" tooltip="还原" visible="false" normalimage="file='sysbtn/btn_restore_normal.png'" hotimage="file='sysbtn/btn_restore_highlight.png'" pushedimage="file='sysbtn/btn_restore_down.png' "/>
+      <Button name="closebtn" width="39" height="20" tooltip="关闭" normalimage="file='sysbtn/btn_close_normal.png'" hotimage="file='sysbtn/btn_close_highlight.png'" pushedimage="file='sysbtn/btn_close_down.png' "/>
+    </HorizontalLayout>
+
+    <VerticalLayout>
+      
+    </VerticalLayout>
+  </VerticalLayout>
+</Window>

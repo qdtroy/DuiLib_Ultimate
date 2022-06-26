@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window sizebox="4,4,6,6" roundcorner="5,5" caption="0,0,0,90" mininfo="640,480">
+  <Font name="宋体" size="13" bold="true" />
+  <Font name="宋体" size="12" bold="true" />
+  <Font name="宋体" size="12" />
+  <Font name="宋体" size="14" bold="true" />
+  <Font name="宋体" size="22" bold="true" italic="true"/>
+  <Font name="宋体" size="12" />
+  <Default name="VScrollBar" value="button1normalimage=&quot;file='scrollbar.bmp' source='0,90,16,106' mask='#FFFF00FF'&quot; button1hotimage=&quot;file='scrollbar.bmp' source='18,90,34,106' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='scrollbar.bmp' source='36,90,52,106' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='scrollbar.bmp' source='54,90,70,106' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='scrollbar.bmp' source='0,108,16,124' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='scrollbar.bmp' source='18,108,34,124' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='scrollbar.bmp' source='36,108,52,124' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='scrollbar.bmp' source='54,108,70,124' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='scrollbar.bmp' source='0,126,16,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='scrollbar.bmp' source='18,126,34,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;file='scrollbar.bmp' source='36,126,52,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='scrollbar.bmp' source='54,126,70,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='scrollbar.bmp' source='0,144,16,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='scrollbar.bmp' source='18,144,34,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='scrollbar.bmp' source='36,144,52,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='scrollbar.bmp' source='54,144,70,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='scrollbar.bmp' source='0,162,16,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='scrollbar.bmp' source='18,162,34,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='scrollbar.bmp' source='36,162,52,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='scrollbar.bmp' source='54,162,70,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; " />
+  <Default name="HScrollBar" value="button1normalimage=&quot;file='scrollbar.bmp' source='0,0,16,16' mask='#FFFF00FF'&quot; button1hotimage=&quot;file='scrollbar.bmp' source='18,0,34,16' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='scrollbar.bmp' source='36,0,52,16' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='scrollbar.bmp' source='54,0,70,16' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='scrollbar.bmp' source='0,18,16,34' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='scrollbar.bmp' source='18,18,34,34' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='scrollbar.bmp' source='36,18,52,34' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='scrollbar.bmp' source='54,18,70,34' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='scrollbar.bmp' source='0,36,16,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='scrollbar.bmp' source='18,36,34,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;file='scrollbar.bmp' source='36,36,52,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='scrollbar.bmp' source='54,36,70,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='scrollbar.bmp' source='0,54,16,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='scrollbar.bmp' source='18,54,34,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='scrollbar.bmp' source='36,54,52,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='scrollbar.bmp' source='54,54,70,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='scrollbar.bmp' source='0,72,16,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='scrollbar.bmp' source='18,72,34,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='scrollbar.bmp' source='36,72,52,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='scrollbar.bmp' source='54,72,70,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; " />
+  
+  <VerticalLayout bkcolor="#FF60B1FE" bordercolor="#FF768D9B" bordersize="0" borderround="5,5" inset="1,0,1,0">
+    <HorizontalLayout name="appbar" height="24">
+      <HorizontalLayout name="apptitle">
+        <Container width="22" height="22" bkimage="file='icon.png' source='0,0,64,64' dest='5,4,21,20' " />
+        <Label text="网吧游戏客户端" pos="22, 3, 200, 22" float="true" textcolor="#FF447AA1" font="0" />
+      </HorizontalLayout>
+      
+      <HorizontalLayout name="appbtn" width="126" inset="0,1,0,0">
+        <Button name="menubtn" maxwidth="26" maxheight="17" normalimage="file='sys_dlg_menu.png' source='52,0,78,17'" hotimage="file='sys_dlg_menu.png' source='26,0,52,17'" pushedimage="file='sys_dlg_menu.png' source='0,0,26,17'"/>
+        <Button name="minbtn" maxwidth="26" maxheight="17" normalimage="file='sys_dlg_min.png' source='52,0,78,17'" hotimage="file='sys_dlg_min.png' source='26,0,52,17'" pushedimage="file='sys_dlg_min.png' source='0,0,26,17'"/>
+        <Button name="maxbtn" maxwidth="26" maxheight="17" normalimage="file='sys_dlg_max.png' source='52,0,78,17'" hotimage="file='sys_dlg_max.png' source='26,0,52,18'" pushedimage="file='sys_dlg_max.png' source='0,0,26,17'"/>
+        <Button name="restorebtn" visible="false" maxwidth="26" maxheight="17" normalimage="file='sys_dlg_restore.png' source='52,0,78,17'" hotimage="file='sys_dlg_restore.png' source='26,0,52,17'" pushedimage="file='sys_dlg_restore.png' source='0,0,26,17'" />
+        <Button name="closebtn" maxwidth="45" maxheight="17" normalimage="file='sys_dlg_close.png' source='90,0,135,17'" hotimage="file='sys_dlg_close.png' source='45,0,90,17'" pushedimage="file='sys_dlg_close.png' source='0,0,45,17'"/>
+      </HorizontalLayout>
+    </HorizontalLayout>
+
+    <HorizontalLayout name="appad" height="60" inset="6,0,6,0">
+      <HorizontalLayout name="ad_one" width="200" bordercolor="#FF768D9B" bordersize="0" bkimage="file='ad_one.png'">
+       
+      </HorizontalLayout>
+      
+      <HorizontalLayout />
+      <HorizontalLayout name="ad_two" width="500" bordercolor="#FF768D9B" bordersize="0" bkimage="file='ad_two.png'">
+        
+      </HorizontalLayout>
+      <HorizontalLayout />
+      
+    </HorizontalLayout>
+    
+    <HorizontalLayout name="body" bkcolor="#FFFFFFFF">
+      <VerticalLayout name="body.left" width="230">
+        <HorizontalLayout height="30" inset="6,3,0,0" bkimage="file='header_bk.png' corner='4,4,4,4'">
+          <Label text="游戏列表"/>
+          <Button name="foldbtn" width="75" height="24" visible="true" text="全部收起" textpadding="4, 0, 20, 0" normalimage="file='fold_nor.png' corner='2,0,20,0'" hotimage="file='fold_hover.png' corner='2,0,20,0'" pushedimage="file='fold_pushed.png' corner='2,0,20,0'"/>
+          <Button name="unfoldbtn" width="75" height="24" visible="false" text="全部展开" textpadding="4, 0, 20, 0" normalimage="file='unfold_nor.png' corner='2,0,20,0'" hotimage="file='unfold_hover.png' corner='2,0,20,0'" pushedimage="file='unfold_pushed.png' corner='2,0,20,0'"/>
+        </HorizontalLayout>
+        <HorizontalLayout bkcolor="#FFFFFFFF">
+          <GameList name="categorylist" bkcolor="#FFF6F9FF" inset="1,1,1,1" header="hidden" itemhotimage="file='tree_hot.bmp' corner='2,1,2,1' " itemselectedimage="file='tree_select.bmp' corner='2,1,2,1'" itemlinecolor="#FFE4EAF2" itemshowhtml="true" vscrollbar="true" hscrollbar="true" vscrollbarstyle="width=&quot;6&quot; showbutton1=&quot;false&quot; showbutton2=&quot;false&quot;">
+          </GameList>
+          <HorizontalLayout width="1" bkcolor="#dd1B4876">
+          </HorizontalLayout>
+        </HorizontalLayout>
+      </VerticalLayout>
+     
+      <VerticalLayout name="body.right">
+        <HorizontalLayout height="30" bkimage="file='header_bk.png' corner='4,4,4,4'" inset="6,3,0,0">
+          <Option width="78" text="游戏列表" name="game_tab" textcolor="#FF386382" font="2" normalimage="tabbar_normal.png" hotimage="tabbar_hover.png" pushedimage="tabbar_pushed.png" selectedimage="tabbar_pushed.png" group="contenttab" selected="true"/>
+          <Option width="78" text="百度搜索" name="baidu_tab" textcolor="#FF386382" font="2" normalimage="tabbar_normal.png" hotimage="tabbar_hover.png" pushedimage="tabbar_pushed.png" selectedimage="tabbar_pushed.png" group="contenttab"/>
+          <HorizontalLayout />
+          <HorizontalLayout height="27" width="250" bkimage="file='findedit.png' corner='20,8,100,8'" inset="1,1,1,1">
+            <Edit visible="true" name="search_edit" inset="4,1,4,1" height="27" text="网页搜索" />
+            <Button name="searchbtn" showhtml="true" height="27" width="24" text="{i search_btn.png}{/i}" />
+          </HorizontalLayout>
+        </HorizontalLayout>
+
+        <TabLayout name="switch">
+          <TileLayout name="gamelist" itemsize="70,70" inset="8,8,8,8" childpadding="12" vscrollbar="true">
+
+          </TileLayout>
+
+          <!--<WebBrowser name="baidubrowser"  url="www.baidu.com" autonavi="true"/>-->
+        </TabLayout>
+       
+
+        <VerticalLayout height="140">
+          <HorizontalLayout height="34" bkimage="file='header_bk.png' corner='4,4,4,4'" inset="6,0,0,0">
+            <HorizontalLayout  width="60"/>
+            <HorizontalLayout height="27" width="250" bkimage="file='findedit.png' corner='20,8,100,8'" padding="0,4,0,3" inset="1,1,1,1">
+              <Edit visible="true" name="find_edit" inset="4,1,4,1" height="27" text="查找游戏" />
+              <Button name="findbtn" showhtml="true" height="27" width="24" text="{i search_btn.png}{/i}" />
+            </HorizontalLayout>
+            <HorizontalLayout name="shortcutlist" childpadding="6" inset="6,1,0,1">
+              
+            </HorizontalLayout>
+            <Button name="shortcut_more" height="34" width="36" text="更多" normalimage="file='button_nor.png' fade='200'" hotimage="file='button_hover.png' fade='200'" pushedimage="file='button_pushed.png' fade='200' " />
+            <HorizontalLayout width="60" />
+          </HorizontalLayout>
+          
+          <HorizontalLayout name="pushlist" hscrollbar="true" childpadding="20" inset="0,15,0,0">
+            
+          </HorizontalLayout>
+        </VerticalLayout>
+      </VerticalLayout>
+      
+    </HorizontalLayout>
+    
+    <HorizontalLayout height="4">
+    </HorizontalLayout>
+  </VerticalLayout>
+</Window>

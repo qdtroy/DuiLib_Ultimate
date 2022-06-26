@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{c75b9d7c-452a-4867-a585-e8aee4a05f51}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{249f81db-516d-4a60-9882-d3fd674e412c}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{5323114f-c462-496c-8a26-5f0586629382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\xmls">
+      <UniqueIdentifier>{495d8e73-881d-481f-83d1-3ca5ee46318e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd">
+      <UniqueIdentifier>{b76e2f16-f57a-4850-a20d-1839aaa6240a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\Wke">
+      <UniqueIdentifier>{a427d539-ea3e-4436-bbe2-ec80ff2edd36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\Wke\Include">
+      <UniqueIdentifier>{0ffff1f2-e1b9-41a6-958a-355ed13e49b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd\Wke\Lib">
+      <UniqueIdentifier>{30b8c3cb-8c53-45bf-904b-212aa72ec6e9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MsgWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WkeDemo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WkeWebkit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MsgWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="3rd\Wke\Include\wke.h">
+      <Filter>3rd\Wke\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="WkeWebkit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TroyControls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\WkeBrowser.ico">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="Res\WkeBrowser.zip">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="..\..\bin\skin\WkeBrowser\main.xml">
+      <Filter>Resources\xmls</Filter>
+    </None>
+    <None Include="..\..\bin\skin\WkeBrowser\msg.xml">
+      <Filter>Resources\xmls</Filter>
+    </None>
+    <None Include="..\..\bin\skin\WkeBrowser\res.xml">
+      <Filter>Resources\xmls</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WkeBrowser.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="3rd\Wke\Lib\wke.lib">
+      <Filter>3rd\Wke\Lib</Filter>
+    </Library>
+  </ItemGroup>
+</Project>

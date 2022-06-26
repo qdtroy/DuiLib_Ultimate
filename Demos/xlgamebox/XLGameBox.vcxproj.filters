@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{c75b9d7c-452a-4867-a585-e8aee4a05f51}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{249f81db-516d-4a60-9882-d3fd674e412c}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{057557f5-517e-47cf-a695-8b482beaf54a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyControl">
+      <UniqueIdentifier>{effdb570-d6be-45fe-9ac5-7dedf6a14a93}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="XLGameBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShortCutUI.cpp">
+      <Filter>MyControl</Filter>
+    </ClCompile>
+    <ClCompile Include="GameItemUI.cpp">
+      <Filter>MyControl</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlEx.h">
+      <Filter>MyControl</Filter>
+    </ClInclude>
+    <ClInclude Include="ShortCutUI.h">
+      <Filter>MyControl</Filter>
+    </ClInclude>
+    <ClInclude Include="GameItemUI.h">
+      <Filter>MyControl</Filter>
+    </ClInclude>
+    <ClInclude Include="MainWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\XLGameBox.ico">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="..\..\bin\skin\XLGameBox\main.xml">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="Res\xlgamebox.zip">
+      <Filter>Resources</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="XLGameBox.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{c75b9d7c-452a-4867-a585-e8aee4a05f51}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{249f81db-516d-4a60-9882-d3fd674e412c}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{057557f5-517e-47cf-a695-8b482beaf54a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ControlEx">
+      <UniqueIdentifier>{effdb570-d6be-45fe-9ac5-7dedf6a14a93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helper">
+      <UniqueIdentifier>{8b578ff8-5c34-471e-8ab6-0dccfac7dbb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\skin">
+      <UniqueIdentifier>{ff8c0161-870e-4f0d-abcb-a2e94b301694}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helper\jsoncpp">
+      <UniqueIdentifier>{ce067cf0-2c17-4761-9766-9a8cbab56a7c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BDWallPaper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="helper\jsoncpp\json_reader.cpp">
+      <Filter>Helper\jsoncpp</Filter>
+    </ClCompile>
+    <ClCompile Include="helper\jsoncpp\json_value.cpp">
+      <Filter>Helper\jsoncpp</Filter>
+    </ClCompile>
+    <ClCompile Include="helper\jsoncpp\json_writer.cpp">
+      <Filter>Helper\jsoncpp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="helper\jsoncpp\autolink.h">
+      <Filter>Helper\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="helper\jsoncpp\config.h">
+      <Filter>Helper\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="helper\jsoncpp\features.h">
+      <Filter>Helper\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="helper\jsoncpp\forwards.h">
+      <Filter>Helper\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="helper\jsoncpp\json.h">
+      <Filter>Helper\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="helper\jsoncpp\json_batchallocator.h">
+      <Filter>Helper\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="helper\jsoncpp\reader.h">
+      <Filter>Helper\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="helper\jsoncpp\value.h">
+      <Filter>Helper\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="helper\jsoncpp\writer.h">
+      <Filter>Helper\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="DataMgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="controlex\ControlInclude.h">
+      <Filter>ControlEx</Filter>
+    </ClInclude>
+    <ClInclude Include="controlex\UIButtonEx.h">
+      <Filter>ControlEx</Filter>
+    </ClInclude>
+    <ClInclude Include="controlex\UILableEx.h">
+      <Filter>ControlEx</Filter>
+    </ClInclude>
+    <ClInclude Include="controlex\UIWPPanel.h">
+      <Filter>ControlEx</Filter>
+    </ClInclude>
+    <ClInclude Include="helper\Utils.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\BDWallPaper.ico">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="..\..\bin\skin\bdwallpaper\main.xml">
+      <Filter>Resources\skin</Filter>
+    </None>
+    <None Include="helper\jsoncpp\json_valueiterator.inl">
+      <Filter>Helper\jsoncpp</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BDWallPaper.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

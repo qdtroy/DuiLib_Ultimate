@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window caption="0,0,0,40" size="400,195" showshadow="true" shadowimage="main/shadow.png" shadowsize="6" shadowcorner="8,8,8,8">
+  <Font id="0" name="微软雅黑" size="12" default="true"/>
+  <Font id="1" name="微软雅黑" size="14"/>
+
+  <VerticalLayout bkcolor="#FFFFFFFF" bordersize="1" bordercolor="#FF1f93e8">
+    <HorizontalLayout name="appbar" height="36" inset="6,-1" bkcolor="#aa1f93e8">
+    	<Label name="MessageTitle" valign="vcenter" text="提示" textcolor="#FFFFFFFF" font="1" />
+      <Button name="closebtn" width="39" height="20" tooltip="关闭" normalimage="file='sysbtn/btn_close_normal.png'" hotimage="file='sysbtn/btn_close_highlight.png'" pushedimage="file='sysbtn/btn_close_down.png'"/>
+    </HorizontalLayout>
+    <Control height="1" bkcolor="#FF1f93e8"/>
+    <VerticalLayout inset="20,10,20,10">
+      <Label name="MessageText" font="1" align="left" valign="vcenter"/>
+    </VerticalLayout>
+    <HorizontalLayout height="60" inset="10,10,10,10">
+      <Control />
+      <Button name="confirm_btn" text="确定" height="30" width="75" align="center" valign="vcenter" textcolor="#FF555555" textpadding="6,0,6,0" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'"/>
+      <Control width="20"/>
+      <Button name="cancel_btn" text="取消" height="30" width="75" align="center" valign="vcenter" textcolor="#FF555555" textpadding="6,0,6,0" normalimage="res='button_normal.png' corner='4,4,4,4'" hotimage="res='button_hover.png' corner='4,4,4,4'" pushedimage="res='button_pushed.png' corner='4,4,4,4'"/>
+      <Control width="30"/>
+    </HorizontalLayout>
+  </VerticalLayout>
+</Window>

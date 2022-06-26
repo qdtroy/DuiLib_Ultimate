@@ -772,7 +772,7 @@ namespace DuiLib {
 			SIZE cxyFixed = GetManager()->GetDPIObj()->Scale(m_cxyFixed);
 			int padding = GetManager()->GetDPIObj()->Scale(ITEM_DEFAULT_EXPLAND_ICON_WIDTH) / 3;
 			const TDrawInfo* pDrawInfo = GetManager()->GetDrawInfo((LPCTSTR)strExplandIcon, NULL);
-			const TImageInfo *pImageInfo = GetManager()->GetImageEx(pDrawInfo->sImageName, NULL, 0, false, pDrawInfo->bGdiplus, pDrawInfo->bSvg);
+			const TImageInfo *pImageInfo = GetManager()->GetImageEx(pDrawInfo->sImageName, NULL, 0, false, pDrawInfo->bGdiplus);
 			if (!pImageInfo) {
 				return;
 			}

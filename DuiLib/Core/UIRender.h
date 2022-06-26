@@ -50,9 +50,6 @@ namespace DuiLib {
 		static void GdiplusDrawImage(HDC hDC, Gdiplus::Image* image, const RECT& rc, const RECT& rcPaint, const RECT& rcBmpPart, bool bAlpha, UINT uFade = 255, UINT uRotate = 0);
 		static void GdiplusDrawText(HDC hDC, CPaintManagerUI* pManager, RECT& rc, LPCTSTR pstrText, DWORD dwTextColor, int iFont, UINT uStyle);
 
-		static TImageInfo* SvgLoadImage(STRINGorID bitmap, LPCTSTR type, DWORD mask, HINSTANCE instance);
-		static void SvgDrawImage(HDC hDC, void* image, const RECT& rc, const RECT& rcPaint, const RECT& rcBmpPart, bool bAlpha, UINT uFade = 255, UINT uRotate = 0);
-
 		// 以下函数中的颜色参数alpha值无效
 		// 图元绘制
 		static void DrawColor(HDC hDC, const RECT& rc, DWORD color);

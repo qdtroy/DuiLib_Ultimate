@@ -394,11 +394,5 @@
     <ClInclude Include="Control\UILoading.h">
       <Filter>Header Files\Control</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\nanosvg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\nanosvgrast.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

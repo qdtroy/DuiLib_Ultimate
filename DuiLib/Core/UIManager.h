@@ -109,8 +109,6 @@ namespace DuiLib {
 	typedef struct UILIB_API tagTImageInfo
 	{
 		tagTImageInfo();
-
-		void* pSvg;
 		Gdiplus::Image* pImage;
 		HBITMAP hBitmap;
 		LPBYTE pBits;
@@ -145,7 +143,6 @@ namespace DuiLib {
 		bool bTiledY;
 		bool bHSL;
 		bool bGdiplus;
-		bool bSvg;
 
 		CDuiSize szImage;
 		RECT rcPadding;
@@ -339,11 +336,10 @@ namespace DuiLib {
 		TFontInfo* GetFontInfo(int id);
 		TFontInfo* GetFontInfo(HFONT hFont);
 
-		TImageInfo* GetImage(LPCTSTR bitmap);
-		TImageInfo* GetImageEx(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false, bool bGdiplus = false, bool bSvg = false, HINSTANCE instance = NULL);
-		const TImageInfo* AddImage(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false, bool bGdiplus = false, bool bSvg = false, bool bShared = false, HINSTANCE instance = NULL);
+		const TImageInfo* GetImage(LPCTSTR bitmap);
+		const TImageInfo* GetImageEx(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false, bool bGdiplus = false, HINSTANCE instance = NULL);
+		const TImageInfo* AddImage(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false, bool bGdiplus = false, bool bShared = false, HINSTANCE instance = NULL);
 		const TImageInfo* AddImage(LPCTSTR bitmap, HBITMAP hBitmap, int iWidth, int iHeight, bool bAlpha, bool bShared = false);
-		void ModifyImage(LPCTSTR bitmap, TImageInfo* data, bool bShared = false);
 		void RemoveImage(LPCTSTR bitmap, bool bShared = false);
 		void RemoveAllImages(bool bShared = false);
 		static void ReloadSharedImages();

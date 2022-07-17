@@ -522,6 +522,10 @@ namespace DuiLib {
 		}
 		if( event.Type == UIEVENT_KEYDOWN )
 		{
+			if (!IsKeyboardEnabled())
+			{
+				return;
+			}
 			switch( event.chKey ) {
 			case VK_F4:
 				Activate();

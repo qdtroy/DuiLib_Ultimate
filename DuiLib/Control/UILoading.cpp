@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "UILoading.h"
-#include <functional>
 #include <Gdiplus.h>
 
 using namespace DuiLib;
@@ -51,38 +50,22 @@ double* GetSpokesAngles(int _intNumberSpoke)
 IMPLEMENT_DUICONTROL(CLoadingUI)
 
 CLoadingUI::CLoadingUI()
-	: m_pTrdAni(NULL)
-	, m_bExit(false)
-	, m_bStop(false)
+	: m_bStop(true)
 	, m_nTime(100)
 	, m_nNumber(0)
 	, m_Angles(nullptr)
 	, m_Colors(nullptr)
 	, m_NumberOfSpoke(10)
 	, m_SpokeThickness(4)
-	, m_OuterCircleRadius(10)
-	, m_InnerCircleRadius(8)
+	, m_OuterCircleRadius( 10)
+	, m_InnerCircleRadius (8)
 {
-	m_condQueue = ::CreateEvent(0,0,0,0);
+
 }
 
 CLoadingUI::~CLoadingUI()
 {
-	if (m_pTrdAni)
-	{
-		m_bStop = true;
-        m_bExit = true;
-        SetEvent(m_condQueue);
-        ::WaitForSingleObject(m_pTrdAni, INFINITE);
-        CloseHandle(m_pTrdAni);
-		m_pTrdAni = nullptr;
-	}
-	
-	if(m_condQueue)
-	{
-		CloseHandle(m_condQueue);
-		m_condQueue = nullptr;
-	}
+	Stop();
 
     if(m_Angles) delete m_Angles;
     if(m_Colors) delete m_Colors;
@@ -204,56 +187,44 @@ Color* CLoadingUI::GenerateColorsPallet(Color _objColor, bool _blnShadeColor, in
 	return objColors;
 }
 
-DWORD WINAPI CLoadingUI::_ThreadFun(LPVOID p)
-{
-	CLoadingUI* pThis = (CLoadingUI*)p;
-	if(pThis)
-	{
-		pThis->ThreadAni();
-	}
-	return 0;
-}
-
 void CLoadingUI::Start()
 {
-	if (m_nTime > 0 && m_pTrdAni == NULL)
+	if (m_nTime > 0 && m_pManager && m_bStop == true)
 	{
-		m_pTrdAni = CreateThread(0,0,&CLoadingUI::_ThreadFun,this,0,0);
+		m_pManager->SetTimer(this, kTimerLoadingId, m_nTime);
 	}
 	m_bStop = false;
-	SetEvent(m_condQueue);
 }
 
 void CLoadingUI::Stop()
 {
 	m_bStop = true;
-}
-
-void CLoadingUI::ThreadAni()
-{
-	while (!m_bExit)
+	if (m_pManager)
 	{
-		if (m_bStop)
-		{
-			::WaitForSingleObject(m_condQueue,INFINITE);
-		}
-
-		if (m_bExit)
-		{
-			break;
-		}
-		m_ProgressValue = ++m_ProgressValue % m_NumberOfSpoke;
-		Invalidate();
-		Sleep(m_nTime);
+		m_pManager->KillTimer(this, kTimerLoadingId);
 	}
 }
 
 void CLoadingUI::Init()
 {
+	CControlUI::Init();
 	m_Angles = GetSpokesAngles(m_NumberOfSpoke);
-	m_Colors = GenerateColorsPallet(m_Color, !m_bStop, m_NumberOfSpoke);
+	m_Colors = GenerateColorsPallet(m_Color, true, m_NumberOfSpoke);
+	Start();
 }
 
+void DuiLib::CLoadingUI::DoEvent(TEventUI& event)
+{
+    if (event.Type == UIEVENT_TIMER && event.wParam == kTimerLoadingId)
+    {
+        m_ProgressValue = ++m_ProgressValue % m_NumberOfSpoke;
+        Invalidate();
+    }
+    else
+    {
+        CControlUI::DoEvent(event);
+    }
+}
 
 CControlUI* CreateLoadingControl(LPCTSTR pstrType)
 {

@@ -20,8 +20,8 @@ CDelegateBase::~CDelegateBase()
 }
 
 bool CDelegateBase::Equals(const CDelegateBase& rhs) const 
-{
-    return m_pObject == rhs.m_pObject && m_pFn == rhs.m_pFn; 
+{    
+    return m_pObject == rhs.m_pObject && GetFn() == rhs.GetFn();
 }
 
 bool CDelegateBase::operator() (void* param) 
@@ -29,7 +29,7 @@ bool CDelegateBase::operator() (void* param)
     return Invoke(param); 
 }
 
-void* CDelegateBase::GetFn() 
+void* CDelegateBase::GetFn() const
 {
     return m_pFn; 
 }

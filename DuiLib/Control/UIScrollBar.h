@@ -79,6 +79,9 @@ namespace DuiLib
 		LPCTSTR GetBkDisabledImage();
 		void SetBkDisabledImage(LPCTSTR pStrImage);
 
+		bool GetShow();
+		void SetShow(bool bShow);
+
 		void SetPos(RECT rc, bool bNeedInvalidate = true);
 		void DoEvent(TEventUI& event);
 		void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
@@ -92,13 +95,12 @@ namespace DuiLib
 		void PaintRail(HDC hDC);
 
 	protected:
-
 		enum
 		{ 
 			DEFAULT_SCROLLBAR_SIZE = 16,
 			DEFAULT_TIMERID = 10,
 		};
-
+		bool m_bShow;
 		bool m_bHorizontal;
 		__int64 m_nRange;
 		__int64 m_nScrollPos;

@@ -160,7 +160,10 @@ namespace DuiLib
 
 	void CGifAnimUI::InitGifImage()
 	{
-		m_pGifImage = CRenderEngine::GdiplusLoadImage(GetBkImage());
+		TImageInfo* pImageInfo = CRenderEngine::GdiplusLoadImage(GetBkImage());
+		if(pImageInfo == NULL) return;
+
+		m_pGifImage = pImageInfo->pImage;
 		if ( NULL == m_pGifImage ) return;
 		UINT nCount	= 0;
 		nCount	=	m_pGifImage->GetFrameDimensionsCount();

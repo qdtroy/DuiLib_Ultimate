@@ -92,8 +92,6 @@ namespace DuiLib {
 #define UISTATE_READONLY     0x00000020
 #define UISTATE_CAPTURED     0x00000040
 
-
-
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 
@@ -110,6 +108,8 @@ namespace DuiLib {
 
 	typedef struct UILIB_API tagTImageInfo
 	{
+		tagTImageInfo();
+		Gdiplus::Image* pImage;
 		HBITMAP hBitmap;
 		LPBYTE pBits;
 		LPBYTE pSrcBits;
@@ -136,11 +136,13 @@ namespace DuiLib {
 		RECT rcSource;
 		RECT rcCorner;
 		DWORD dwMask;
-		BYTE uFade;
+		UINT uFade;
+		UINT uRotate;
 		bool bHole;
 		bool bTiledX;
 		bool bTiledY;
 		bool bHSL;
+		bool bGdiplus;
 
 		CDuiSize szImage;
 		RECT rcPadding;
@@ -212,7 +214,11 @@ namespace DuiLib {
 		virtual LRESULT TranslateAccelerator(MSG *pMsg) = 0;
 	};
 
-
+	class IDragDropUI
+	{
+	public:
+		virtual bool OnDragDrop(CControlUI* pControl) { return false; }
+	};
 	/////////////////////////////////////////////////////////////////////////////////////
 	//
 	typedef CControlUI* (*LPCREATECONTROL)(LPCTSTR pstrType);
@@ -241,9 +247,9 @@ namespace DuiLib {
 		SIZE GetClientSize() const;
 		SIZE GetInitSize();
 		void SetInitSize(int cx, int cy);
-		RECT& GetSizeBox();
+		RECT GetSizeBox();
 		void SetSizeBox(RECT& rcSizeBox);
-		RECT& GetCaptionRect();
+		RECT GetCaptionRect();
 		void SetCaptionRect(RECT& rcCaption);
 		SIZE GetRoundCorner();
 		void SetRoundCorner(int cx, int cy);
@@ -251,7 +257,7 @@ namespace DuiLib {
 		void SetMinInfo(int cx, int cy);
 		SIZE GetMaxInfo();
 		void SetMaxInfo(int cx, int cy);
-		bool IsShowUpdateRect() const;
+		bool IsShowUpdateRect();
 		void SetShowUpdateRect(bool show);
 		bool IsNoActivate();
 		void SetNoActivate(bool bNoActivate);
@@ -331,8 +337,8 @@ namespace DuiLib {
 		TFontInfo* GetFontInfo(HFONT hFont);
 
 		const TImageInfo* GetImage(LPCTSTR bitmap);
-		const TImageInfo* GetImageEx(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false, HINSTANCE instance = NULL);
-		const TImageInfo* AddImage(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false, bool bShared = false, HINSTANCE instance = NULL);
+		const TImageInfo* GetImageEx(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false, bool bGdiplus = false, HINSTANCE instance = NULL);
+		const TImageInfo* AddImage(LPCTSTR bitmap, LPCTSTR type = NULL, DWORD mask = 0, bool bUseHSL = false, bool bGdiplus = false, bool bShared = false, HINSTANCE instance = NULL);
 		const TImageInfo* AddImage(LPCTSTR bitmap, HBITMAP hBitmap, int iWidth, int iHeight, bool bAlpha, bool bShared = false);
 		void RemoveImage(LPCTSTR bitmap, bool bShared = false);
 		void RemoveAllImages(bool bShared = false);
@@ -364,6 +370,7 @@ namespace DuiLib {
 
 		// ³õÊ¼»¯ÍÏ×§
 		bool EnableDragDrop(bool bEnable);
+		void SetDragDrop(IDragDropUI* pDragDrop);
 		virtual bool OnDrop(FORMATETC* pFmtEtc, STGMEDIUM& medium,DWORD *pdwEffect);
 
 		bool AttachDialog(CControlUI* pControl);
@@ -549,7 +556,7 @@ namespace DuiLib {
 		bool m_bDragDrop;
 		bool m_bDragMode;
 		HBITMAP m_hDragBitmap;
-		
+		IDragDropUI *m_pDragDrop;
 		//
 		static HINSTANCE m_hInstance;
 		static HINSTANCE m_hResourceInstance;
@@ -557,6 +564,8 @@ namespace DuiLib {
 		static CDuiString m_pStrResourceZip;
 		static CDuiString m_pStrResourceZipPwd;
 		static HANDLE m_hResourceZip;
+        static BYTE* m_cbZipBuf;
+
 		static bool m_bCachedResourceZip;
 		static int m_nResType;
 		static TResInfo m_SharedResInfo;

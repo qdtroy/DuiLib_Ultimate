@@ -218,6 +218,8 @@ public:
 
 	virtual void RemoveObserver()
 	{
+		if (!pObservers_) return;
+
 		ObserversVector::iterator it = pObservers_->begin();
 		for (; it != pObservers_->end(); ++it)
 		{

@@ -46,17 +46,17 @@ namespace DuiLib
 
 	LRESULT WindowImplBase::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM /*lParam*/, bool& /*bHandled*/)
 	{
-		if (uMsg == WM_KEYDOWN)
-		{
-			switch (wParam)
-			{
-			case VK_RETURN:
-			case VK_ESCAPE:
-				return ResponseDefaultKeyEvent(wParam);
-			default:
-				break;
-			}
-		}
+        if (uMsg == WM_KEYDOWN)
+        {
+            switch (wParam)
+            {
+            case VK_RETURN:
+            case VK_ESCAPE:
+                return ResponseDefaultKeyEvent(wParam);
+            default:
+                break;
+            }
+        }
 		return FALSE;
 	}
 

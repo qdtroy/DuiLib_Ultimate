@@ -30,7 +30,7 @@
   <VerticalLayout name="root" bkcolor="#FF202223">
     <HorizontalLayout name="appbar" height="64" >
       <HorizontalLayout name="apptitle" childpadding="6">
-        <Container width="64" height="64" bkimage="logo.jpg" />
+        <Container width="64" height="64" bkimage="res='logo.jpg' rotate='180' fade='200'" />
         <VerticalLayout inset="0,10,0,0" childpadding="5">
           <Label name="title_lb" height="20" autocalcwidth="true" text="duilib开源项目圈" valign="vcenter" align="left" wordbreak="false" textcolor="#FFEEEEEE" font="2" tooltip="duilib开源项目圈"/>
           <HorizontalLayout height="20" childpadding="20" >
@@ -84,6 +84,7 @@
               <Button name="autobtn" text="自适应比例按钮" minw1idth="120" colorhsl="true" float="0.7,0.2,0.9,0.8" textcolor="#FF000000" bkcolor="#FFFF5555" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
               <Button name="floatbtn" text="浮动按钮" colorhsl="true" float="true" pos="-20,0,-80,30" textcolor="#FF000000" bkcolor="#FFFF5555" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
 
+              <Loading name="loading" width="64" height="64" time="50" color="0xffffff00" />
               <Container width="64" height="64">
                 <Button name="autobtn" textcolor="#FF000000" bkimage="logo.jpg" bordercolor="#FFFF6666" bordersize="2" borderround="64,64"/>
               </Container>
@@ -322,7 +323,7 @@
           <HorizontalLayout height="200" inset="0,6,0,6">
             <Label text="Flash控件" textcolor="#FF000000" glowsize="0" font="font13" width="80"/>
             <VerticalLayout bordersize="0" bordercolor="#FF333333" inset="2,2,2,2" bkimage="res='other/water_bg.jpg' corner='0,360,480,0'">
-              <ActiveX name="ani_flash" clsid="{D27CDB6E-AE6D-11CF-96B8-444553540000}" mouse="true"/>
+              <!--<ActiveX name="ani_flash" clsid="{D27CDB6E-AE6D-11CF-96B8-444553540000}" mouse="true"/>-->
             </VerticalLayout>
           </HorizontalLayout>
 

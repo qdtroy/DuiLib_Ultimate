@@ -163,10 +163,10 @@ namespace DuiLib
 				::InvalidateRect(m_hWnd, &rcClient, FALSE);
 			}
 		}
-		else if( uMsg == WM_KEYDOWN && wParam == VK_RETURN ){
+		else if( uMsg == WM_KEYDOWN && TCHAR(wParam) == VK_RETURN ){
 			m_pOwner->GetManager()->SendNotify(m_pOwner, DUI_MSGTYPE_RETURN);
 		}
-		else if( uMsg == WM_KEYDOWN && wParam == VK_TAB ){
+		else if( uMsg == WM_KEYDOWN && TCHAR(wParam) == VK_TAB ){
 			if (m_pOwner->GetManager()->IsLayered()) {
 				m_pOwner->GetManager()->SetNextTabControl();
 			}
@@ -320,9 +320,10 @@ namespace DuiLib
 				else if( m_pWindow != NULL )
 				{
 					if (!m_bAutoSelAll) {
+						RECT rcTextPadding = GetTextPadding();
 						POINT pt = event.ptMouse;
-						pt.x -= m_rcItem.left + m_rcTextPadding.left;
-						pt.y -= m_rcItem.top + m_rcTextPadding.top;
+						pt.x -= m_rcItem.left + rcTextPadding.left;
+						pt.y -= m_rcItem.top + rcTextPadding.top;
 						Edit_SetSel(*m_pWindow, 0, 0);
 						::SendMessage(*m_pWindow, WM_LBUTTONDOWN, event.wParam, MAKELPARAM(pt.x, pt.y));
 					}
@@ -700,11 +701,12 @@ namespace DuiLib
 			}
 		}
 
+		RECT rcTextPadding = GetTextPadding();
 		RECT rc = m_rcItem;
-		rc.left += m_rcTextPadding.left;
-		rc.right -= m_rcTextPadding.right;
-		rc.top += m_rcTextPadding.top;
-		rc.bottom -= m_rcTextPadding.bottom;
+		rc.left += rcTextPadding.left;
+		rc.right -= rcTextPadding.right;
+		rc.top += rcTextPadding.top;
+		rc.bottom -= rcTextPadding.bottom;
 		if( IsEnabled() ) {
 			CRenderEngine::DrawText(hDC, m_pManager, rc, sDrawText, mCurTextColor, \
 				m_iFont, DT_SINGLELINE | m_uTextStyle);

@@ -1861,6 +1861,37 @@ err:
 		}
 	}
 
+    CDuiSize CRichEditUI::GetNaturalSize(LONG width, LONG height)
+    {
+        if (width < 0)
+        {
+            width = 0;
+        }
+        if (height < 0)
+        {
+            height = 0;
+        }
+        CDuiSize sz(0, 0);
+        LONG lWidth = width;
+        LONG lHeight = height;
+        SIZEL szExtent = { -1, -1 };
+
+        if (m_pTwh)
+        {
+            m_pTwh->GetTextServices()->TxGetNaturalSize(
+                DVASPECT_CONTENT,
+                m_pManager->GetPaintDC(),
+                NULL,
+                NULL,
+                TXTNS_FITTOCONTENT,
+                &szExtent,
+                &lWidth,
+                &lHeight);
+        }
+        sz.cx = (int)lWidth;
+        sz.cy = (int)lHeight;
+        return sz;
+    }
 	// 多行非rich格式的richedit有一个滚动条bug，在最后一行是空行时，LineDown和SetScrollPos无法滚动到最后
 	// 引入iPos就是为了修正这个bug
 	void CRichEditUI::SetScrollPos(SIZE szPos, bool bMsg)

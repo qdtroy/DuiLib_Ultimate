@@ -48,6 +48,7 @@ namespace DuiLib {
 				}
 				pCtrl = pCtrl->GetParent();
 			}
+			if( m_pOwner->GetManager() != NULL ) m_pOwner->GetManager()->SendNotify(msg.pSender, DUI_MSGTYPE_CLICK, 0, 0);
 		}
 	}
 
@@ -521,6 +522,10 @@ namespace DuiLib {
 		}
 		if( event.Type == UIEVENT_KEYDOWN )
 		{
+			if (!IsKeyboardEnabled())
+			{
+				return;
+			}
 			switch( event.chKey ) {
 			case VK_F4:
 				Activate();
@@ -598,7 +603,8 @@ namespace DuiLib {
 
 	CDuiString CComboUI::GetText() const
 	{
-		if( m_iCurSel < 0 ) return _T("");
+		if( m_iCurSel < 0 ) return CControlUI::GetText();
+
 		CControlUI* pControl = static_cast<CControlUI*>(m_items[m_iCurSel]);
 		return pControl->GetText();
 	}

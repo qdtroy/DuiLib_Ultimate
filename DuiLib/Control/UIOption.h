@@ -10,7 +10,7 @@ namespace DuiLib
 		DECLARE_DUICONTROL(COptionUI)
 	public:
 		COptionUI();
-		~COptionUI();
+		virtual ~COptionUI();
 
 		LPCTSTR GetClass() const;
 		LPVOID GetInterface(LPCTSTR pstrName);
@@ -18,7 +18,6 @@ namespace DuiLib
 		void SetManager(CPaintManagerUI* pManager, CControlUI* pParent, bool bInit = true);
 
 		bool Activate();
-		void SetEnabled(bool bEnable = true);
 
 		LPCTSTR GetSelectedImage();
 		void SetSelectedImage(LPCTSTR pStrImage);
@@ -48,6 +47,9 @@ namespace DuiLib
 
 		LPCTSTR GetGroup() const;
 		void SetGroup(LPCTSTR pStrGroupName = NULL);
+		LPCTSTR GetGroupType() const;
+		void SetGroupType(LPCTSTR pStrGroupType = NULL);
+
 		bool IsSelected() const;
 		virtual void Selected(bool bSelected, bool bMsg = true);
 
@@ -61,6 +63,7 @@ namespace DuiLib
 	protected:
 		bool			m_bSelected;
 		CDuiString		m_sGroupName;
+		CDuiString		m_sGroupType;
 
 		int				m_iSelectedFont;
 

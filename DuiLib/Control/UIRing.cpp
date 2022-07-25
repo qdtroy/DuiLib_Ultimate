@@ -68,7 +68,8 @@ namespace DuiLib
 				m_fCurAngle = 0;
 			}
 			m_fCurAngle += 36.0;
-			Invalidate();
+			//Invalidate();
+			NeedParentUpdate();
 		}
 		else {
 			CLabelUI::DoEvent(event);
@@ -77,7 +78,10 @@ namespace DuiLib
 
 	void CRingUI::InitImage()
 	{
-		m_pBkimage = CRenderEngine::GdiplusLoadImage(GetBkImage());
+		TImageInfo* pImageInfo = CRenderEngine::GdiplusLoadImage(GetBkImage());
+		if(pImageInfo == NULL) return;
+
+		m_pBkimage = pImageInfo->pImage;
 		if ( NULL == m_pBkimage ) return;
 		if(m_pManager) m_pManager->SetTimer(this, RING_TIMERID, 100);
 	}

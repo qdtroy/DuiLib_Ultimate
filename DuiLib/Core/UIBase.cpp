@@ -213,7 +213,7 @@ void CNotifyPump::NotifyPump(TNotifyUI& msg)
 
 //////////////////////////////////////////////////////////////////////////
 ///
-CWindowWnd::CWindowWnd() : m_hWnd(NULL), m_OldWndProc(::DefWindowProc), m_bSubclassed(false), m_bUnicode(false)
+CWindowWnd::CWindowWnd() : m_hWnd(NULL), m_OldWndProc(::DefWindowProc), m_bSubclassed(false), m_bUnicode(false), m_bFakeModal(false)
 {
 }
 
@@ -314,7 +314,7 @@ UINT CWindowWnd::ShowModal()
     MSG msg = { 0 };
     while( ::IsWindow(m_hWnd) && ::GetMessage(&msg, NULL, 0, 0) ) {
         if( msg.message == WM_CLOSE && msg.hwnd == m_hWnd ) {
-            nRet = msg.wParam;
+            nRet = (int)msg.wParam;
             ::EnableWindow(hWndParent, TRUE);
             ::SetFocus(hWndParent);
         }
@@ -326,14 +326,34 @@ UINT CWindowWnd::ShowModal()
     }
     ::EnableWindow(hWndParent, TRUE);
     ::SetFocus(hWndParent);
-    if( msg.message == WM_QUIT ) ::PostQuitMessage(msg.wParam);
+    if( msg.message == WM_QUIT ) ::PostQuitMessage((int)msg.wParam);
     return nRet;
+}
+
+void CWindowWnd::ShowModalFake()
+{
+    ASSERT(::IsWindow(m_hWnd));
+    auto p_hwnd = GetWindowOwner(m_hWnd);
+    ASSERT(::IsWindow(p_hwnd));
+    ASSERT(p_hwnd);
+    ::EnableWindow(p_hwnd, FALSE);
+    ShowWindow();
+    m_bFakeModal = true;
 }
 
 void CWindowWnd::Close(UINT nRet)
 {
+    if (m_bFakeModal)
+    {
+        auto parent_hwnd = GetWindowOwner(m_hWnd);
+        ASSERT(::IsWindow(parent_hwnd));
+        ::EnableWindow(parent_hwnd, TRUE);
+        ::SetFocus(parent_hwnd);
+        m_bFakeModal = false;
+    }
+
     ASSERT(::IsWindow(m_hWnd));
-    if( !::IsWindow(m_hWnd) ) return;
+    if (!::IsWindow(m_hWnd)) return;
     PostMessage(WM_CLOSE, (WPARAM)nRet, 0L);
 }
 

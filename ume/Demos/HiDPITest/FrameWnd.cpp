@@ -49,8 +49,8 @@ LRESULT CFrameWnd::OnDPIChanged(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 
 	bHandled = false;
 
-	wstring optionName;
-	wstringstream wss;
+	std::wstring optionName;
+	std::wstringstream wss;
 	wss << L"DPI";
 	wss << m_pm.GetDPIObj()->GetDPI();
 	wss >> optionName;
@@ -183,8 +183,8 @@ LRESULT CFrameWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, 
 	if (uMsg == WM_CLOSE) {
 		PostQuitMessage(0);
 	}if (uMsg == UIMSG_SET_DPI) {
-		wstring optionName;
-		wstringstream wss;
+		std::wstring optionName;
+		std::wstringstream wss;
 		wss << L"DPI";
 		wss << m_pm.GetDPIObj()->GetDPI();
 		wss >> optionName;

@@ -2,7 +2,7 @@
 #define UITreeView_h__
 
 #include <vector>
-using namespace std;
+//using namespace std;
 
 #pragma once
 
@@ -39,7 +39,7 @@ namespace DuiLib
 		void CheckBoxSelected(bool _Selected);
 		bool IsCheckBoxSelected() const;
 		bool IsHasChild() const;
-		long GetTreeLevel() const;
+		long GetTreeLevel();
 		bool AddChildNode(CTreeNodeUI* _pTreeNodeUI);
 		bool RemoveAt(CTreeNodeUI* _pTreeNodeUI);
 		void SetParentNode(CTreeNodeUI* _pParentTreeNode);

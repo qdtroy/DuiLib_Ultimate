@@ -1,7 +1,7 @@
 #pragma once
 #define UILIB_STATIC
 
-using namespace std;
+//using namespace std;
 
 #include "DuiLib\include\UIlib.h"
 using namespace DuiLib;

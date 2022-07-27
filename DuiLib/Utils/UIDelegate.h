@@ -16,7 +16,7 @@ public:
     virtual CDelegateBase* Copy() const = 0; // add const for gcc
 
 protected:
-    void* GetFn();
+    virtual void* GetFn() const;
     void* GetObject();
     virtual bool Invoke(void* param) = 0;
 
@@ -49,6 +49,7 @@ public:
     CDelegate(O* pObj, Fn pFn) : CDelegateBase(pObj, &pFn), m_pFn(pFn) { }
     CDelegate(const CDelegate& rhs) : CDelegateBase(rhs) { m_pFn = rhs.m_pFn; } 
     virtual CDelegateBase* Copy() const { return new CDelegate(*this); }
+    virtual void* GetFn() const { return *(void**)&m_pFn; }
 
 protected:
     virtual bool Invoke(void* param)
@@ -60,6 +61,7 @@ protected:
 private:
     Fn m_pFn;
 };
+
 
 template <class O, class T>
 CDelegate<O, T> MakeDelegate(O* pObject, bool (T::* pFn)(void*))

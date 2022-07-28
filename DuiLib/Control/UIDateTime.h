@@ -23,8 +23,9 @@ namespace DuiLib
 
 		void SetReadOny(bool bReadOnly);
 		bool IsReadOnly() const;
-		void SetShowTime(bool bShowTime);
-		bool IsShowTime() const;
+
+		void SetTimeFormat(LPCTSTR pstrFormat = _T("yyyy-MM-dd HH:mm:ss"));
+		CDuiString GetTimeFormat() const;
 
 		void UpdateText();
 
@@ -37,7 +38,7 @@ namespace DuiLib
 		SYSTEMTIME m_sysTime;
 		int m_nDTUpdateFlag;
 		bool m_bReadOnly;
-		bool m_bShowTime;
+		CDuiString m_sTimeFormat;
 		CDateTimeWnd* m_pWindow;
 	};
 }

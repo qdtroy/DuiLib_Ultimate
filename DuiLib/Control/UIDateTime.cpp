@@ -205,6 +205,10 @@ namespace DuiLib
 	{
 		m_sTimeFormat = pstrFormat;
 		Invalidate();
+
+		m_nDTUpdateFlag = DT_UPDATE;
+		UpdateText();
+		m_nDTUpdateFlag = DT_NONE;
 	}
 
 	CDuiString CDateTimeUI::GetTimeFormat() const

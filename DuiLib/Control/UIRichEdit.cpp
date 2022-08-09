@@ -2119,17 +2119,19 @@ err:
 		}
 
 		if( m_pTwh != NULL ) {
+			RECT rcTextPadding = GetTextPadding();
 			RECT rcScrollTextView = rcScrollView;
-			rcScrollTextView.left += m_rcTextPadding.left;
-			rcScrollTextView.right -= m_rcTextPadding.right;
-			rcScrollTextView.top += m_rcTextPadding.top;
-			rcScrollTextView.bottom -= m_rcTextPadding.bottom;
+			rcScrollTextView.left += rcTextPadding.left;
+			rcScrollTextView.right -= rcTextPadding.right;
+			rcScrollTextView.top += rcTextPadding.top;
+			rcScrollTextView.bottom -= rcTextPadding.bottom;
 			RECT rcText = rc;
-			rcText.left += m_rcTextPadding.left;
-			rcText.right -= m_rcTextPadding.right;
-			rcText.top += m_rcTextPadding.top;
-			rcText.bottom -= m_rcTextPadding.bottom;
+			rcText.left += rcTextPadding.left;
+			rcText.right -= rcTextPadding.right;
+			rcText.top += rcTextPadding.top;
+			rcText.bottom -= rcTextPadding.bottom;
 			m_pTwh->SetClientRect(&rcScrollTextView);
+
 			if( bVScrollBarVisiable && (!m_pVerticalScrollBar->IsVisible() || m_bVScrollBarFixing) ) {
 				LONG lWidth = rcText.right - rcText.left + m_pVerticalScrollBar->GetFixedWidth();
 				LONG lHeight = 0;

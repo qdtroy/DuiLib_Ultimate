@@ -51,12 +51,8 @@ namespace DuiLib
 			::GetLocalTime(&m_pOwner->m_sysTime);
 		}
 		// ÏÔÊ¾¸ñÊ½
-		if(m_pOwner->IsShowTime()) {
-			::SendMessage(m_hWnd, DTM_SETFORMAT, 0, LPARAM(_T("yyyy-MM-dd HH:mm:ss")));
-		}
-		else {
-			::SendMessage(m_hWnd, DTM_SETFORMAT, 0, LPARAM(_T("yyyy-MM-dd")));
-		}
+		CDuiString sTimeFormat = m_pOwner->GetTimeFormat();
+		::SendMessage(m_hWnd, DTM_SETFORMAT, 0, LPARAM(sTimeFormat.GetData()));
 		memcpy(&m_oldSysTime, &m_pOwner->m_sysTime, sizeof(SYSTEMTIME));
 		::SendMessage(m_hWnd, DTM_SETSYSTEMTIME, 0, (LPARAM)&m_pOwner->m_sysTime);
 		::ShowWindow(m_hWnd, SW_SHOWNOACTIVATE);
@@ -161,8 +157,9 @@ namespace DuiLib
 	{
 		::GetLocalTime(&m_sysTime);
 		m_bReadOnly = false;
-		m_bShowTime = true;
+		m_sTimeFormat = _T("yyyy-MM-dd HH:mm:ss");
 		m_pWindow = NULL;
+
 		m_nDTUpdateFlag=DT_UPDATE;
 		UpdateText();
 		m_nDTUpdateFlag = DT_NONE;
@@ -204,17 +201,19 @@ namespace DuiLib
 		return m_bReadOnly;
 	}
 
-	void CDateTimeUI::SetShowTime(bool bShowTime)
+	void CDateTimeUI::SetTimeFormat(LPCTSTR pstrFormat)
 	{
-		if(bShowTime != m_bShowTime) {
-			m_bShowTime = bShowTime;
-			Invalidate();
-		}
+		m_sTimeFormat = pstrFormat;
+		Invalidate();
+
+		m_nDTUpdateFlag = DT_UPDATE;
+		UpdateText();
+		m_nDTUpdateFlag = DT_NONE;
 	}
 
-	bool CDateTimeUI::IsShowTime() const
+	CDuiString CDateTimeUI::GetTimeFormat() const
 	{
-		return m_bShowTime;
+		return m_sTimeFormat;
 	}
 
 	void CDateTimeUI::UpdateText()
@@ -224,11 +223,14 @@ namespace DuiLib
 		}
 		else if (m_nDTUpdateFlag == DT_UPDATE) {
 			CDuiString sText;
-			if(IsShowTime()) {
-				sText.SmallFormat(_T("%4d-%02d-%02d %02d:%02d:%02d"), m_sysTime.wYear, m_sysTime.wMonth, m_sysTime.wDay, m_sysTime.wHour, m_sysTime.wMinute, m_sysTime.wSecond);
+			if(m_sTimeFormat.CompareNoCase(_T("yyyy-MM-dd")) == 0) {
+				sText.SmallFormat(_T("%4d-%02d-%02d"), m_sysTime.wYear, m_sysTime.wMonth, m_sysTime.wDay);
+			}
+			else if(m_sTimeFormat.CompareNoCase(_T("HH:mm:ss")) == 0) {
+				sText.SmallFormat(_T("%02d:%02d:%02d"),  m_sysTime.wHour, m_sysTime.wMinute, m_sysTime.wSecond);
 			}
 			else {
-				sText.SmallFormat(_T("%4d-%02d-%02d"), m_sysTime.wYear, m_sysTime.wMonth, m_sysTime.wDay);
+				sText.SmallFormat(_T("%4d-%02d-%02d %02d:%02d:%02d"), m_sysTime.wYear, m_sysTime.wMonth, m_sysTime.wDay, m_sysTime.wHour, m_sysTime.wMinute, m_sysTime.wSecond);
 			}
 			SetText(sText);
 		}
@@ -315,7 +317,7 @@ namespace DuiLib
 
 	void CDateTimeUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
-		if(lstrcmpi(pstrName, _T("showtime")) == 0) SetShowTime(lstrcmpi(pstrValue, _T("true")) == 0);
+		if(lstrcmpi(pstrName, _T("timeformat")) == 0) SetTimeFormat(pstrValue);
 		else if(lstrcmpi(pstrName, _T("readonly")) == 0) SetReadOny(lstrcmpi(pstrValue, _T("true")) == 0);
 		else return CLabelUI::SetAttribute(pstrName, pstrValue);
 	}

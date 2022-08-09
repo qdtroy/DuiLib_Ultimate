@@ -86,7 +86,7 @@
 
               <Loading name="loading" width="64" height="64" time="50" color="0xffffff00" />
               <Container width="64" height="64">
-                <Button name="autobtn" textcolor="#FF000000" bkimage="logo.jpg" bordercolor="#FFFF6666" bordersize="2" borderround="64,64"/>
+                <Button name="autobtn" textcolor="#FF000000" bkimage="logo.jpg" bordercolor="#FFFF6666" bordersize="2" borderround="64,64" borderstyle="2"/>
               </Container>
                 
             </HorizontalLayout>

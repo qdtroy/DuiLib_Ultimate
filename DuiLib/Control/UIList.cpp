@@ -172,6 +172,10 @@ namespace DuiLib {
 				pListItem->SetIndex(i);
 			}
 		}
+		int idx = m_aSelItems.Find((LPVOID)m_iCurSel);
+		if(idx != -1) {
+			m_aSelItems.SetAt(idx, (LPVOID*)(m_iCurSel + 1));
+		}
 		if (m_iCurSel >= iIndex) m_iCurSel += 1;
 		return true;
 	}
@@ -198,6 +202,12 @@ namespace DuiLib {
 		if (iIndex == m_iCurSel && m_iCurSel >= 0) {
 			int iSel = m_iCurSel;
 			m_iCurSel = -1;
+
+			int idx = m_aSelItems.Find((LPVOID)iSel);
+			if(idx != -1) {
+				m_aSelItems.Remove(idx);
+			}
+
 			SelectItem(FindSelectable(iSel, false));
 		}
 		else if (iIndex < m_iCurSel) m_iCurSel -= 1;
@@ -217,6 +227,12 @@ namespace DuiLib {
 		if (iIndex == m_iCurSel && m_iCurSel >= 0) {
 			int iSel = m_iCurSel;
 			m_iCurSel = -1;
+
+			int idx = m_aSelItems.Find((LPVOID)iSel);
+			if(idx != -1) {
+				m_aSelItems.Remove(idx);
+			}
+
 			SelectItem(FindSelectable(iSel, false));
 		}
 		else if (iIndex < m_iCurSel) m_iCurSel -= 1;
@@ -440,7 +456,9 @@ namespace DuiLib {
 		if (iIndex < 0) return false;
 		// 已经选择
 		int aIndex = m_aSelItems.Find((LPVOID)iIndex);
-		if (aIndex != -1) return true;
+		if (aIndex != -1) {
+			return true;
+		}
 		// 选择当前列表项
 		CControlUI* pControl = GetItemAt(iIndex);
 		if (pControl == NULL) return false;

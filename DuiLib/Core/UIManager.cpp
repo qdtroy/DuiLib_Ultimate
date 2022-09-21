@@ -260,6 +260,7 @@ namespace DuiLib {
 		m_pFocus(NULL),
 		m_pEventHover(NULL),
 		m_pEventClick(NULL),
+		m_pEventRClick(NULL),
 		m_pEventKey(NULL),
 		m_bFirstLayout(true),
 		m_bFocusNeeded(false),
@@ -1698,7 +1699,7 @@ namespace DuiLib {
 				event.wKeyState = (WORD)wParam;
 				event.dwTimestamp = ::GetTickCount();
 				pControl->Event(event);
-				m_pEventClick = pControl;
+				m_pEventRClick = pControl;
 			}
 			break;
 		case WM_RBUTTONUP:
@@ -1707,8 +1708,8 @@ namespace DuiLib {
 
 				POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 				m_ptLastMousePos = pt;
-				m_pEventClick = FindControl(pt);
-				if(m_pEventClick == NULL) break;
+				m_pEventRClick = FindControl(pt);
+				if(m_pEventRClick == NULL) break;
 
 				TEventUI event = { 0 };
 				event.Type = UIEVENT_RBUTTONUP;
@@ -1718,7 +1719,7 @@ namespace DuiLib {
 				event.ptMouse = pt;
 				event.wKeyState = (WORD)wParam;
 				event.dwTimestamp = ::GetTickCount();
-				m_pEventClick->Event(event);
+				m_pEventRClick->Event(event);
 			}
 			break;
 		case WM_MBUTTONDOWN:
@@ -1768,19 +1769,19 @@ namespace DuiLib {
 				POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 				::ScreenToClient(m_hWndPaint, &pt);
 				m_ptLastMousePos = pt;
-				if( m_pEventClick == NULL ) break;
+				if( m_pEventRClick == NULL ) break;
 				ReleaseCapture();
 				TEventUI event = { 0 };
 				event.Type = UIEVENT_CONTEXTMENU;
-				event.pSender = m_pEventClick;
+				event.pSender = m_pEventRClick;
 				event.wParam = wParam;
 				event.lParam = lParam;
 				event.ptMouse = pt;
 				event.wKeyState = (WORD)wParam;
-				event.lParam = (LPARAM)m_pEventClick;
+				event.lParam = (LPARAM)m_pEventRClick;
 				event.dwTimestamp = ::GetTickCount();
-				m_pEventClick->Event(event);
-				m_pEventClick = NULL;
+				m_pEventRClick->Event(event);
+				m_pEventRClick = NULL;
 			}
 			break;
 		case WM_MOUSEWHEEL:

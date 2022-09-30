@@ -77,17 +77,17 @@ namespace DuiLib
 		}	
 		if( event.Type == UIEVENT_MOUSEMOVE )
 		{
-			if (m_pManager->IsCaptured())
-			{
-				if( (m_uButtonState & UISTATE_CAPTURED) != 0 ) {
-					if( ::PtInRect(&m_rcItem, event.ptMouse) ) m_uButtonState |= UISTATE_PUSHED;
-					else m_uButtonState &= ~UISTATE_PUSHED;
-					Invalidate();
-				}
-			}			
+            if ((m_uButtonState & UISTATE_CAPTURED) != 0)
+            {
+                if (::PtInRect(&m_rcItem, event.ptMouse))
+                    m_uButtonState |= UISTATE_PUSHED;
+                else m_uButtonState &= ~UISTATE_PUSHED;
+                Invalidate();
+            }
+
 			return;
 		}
-		if( event.Type == UIEVENT_BUTTONUP )
+		if( event.Type == UIEVENT_BUTTONUP)
 		{
 			if( (m_uButtonState & UISTATE_CAPTURED) != 0 ) {
 				m_uButtonState &= ~(UISTATE_PUSHED | UISTATE_CAPTURED);

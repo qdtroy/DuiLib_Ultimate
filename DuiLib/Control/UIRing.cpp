@@ -52,11 +52,15 @@ namespace DuiLib
 			int iWidth = rcItem.right - rcItem.left;
 			int iHeight = rcItem.bottom - rcItem.top;
 			Gdiplus::PointF centerPos(rcItem.left + iWidth/2, rcItem.top + iHeight/2);
+			
+			// 解决偶数时抖动问题
+			if ((iWidth % 2) == 0) centerPos.X -= 0.5;
+			if ((iHeight % 2) == 0) centerPos.Y -= 0.5;
 
 			Gdiplus::Graphics graphics(hDC);
 			graphics.TranslateTransform(centerPos.X,centerPos.Y);
 			graphics.RotateTransform(m_fCurAngle);
-			graphics.TranslateTransform(-centerPos.X, -centerPos.Y);//��ԭԴ��
+			graphics.TranslateTransform(-centerPos.X, -centerPos.Y);//»¹Ô­Ô´µã
 			graphics.DrawImage(m_pBkimage,rcItem.left,rcItem.top,iWidth,iHeight);
 		}
 	}

@@ -1026,6 +1026,12 @@ namespace DuiLib {
 					event.pSender = m_pEventClick;
 					m_pEventClick->Event(event);
 				}
+                if (m_pEventRClick != NULL)
+                {
+                    event.Type = UIEVENT_RBUTTONUP;
+                    event.pSender = m_pEventClick;
+                    m_pEventRClick->Event(event);
+                }
 
 				SetFocus(NULL);
 
@@ -1713,7 +1719,7 @@ namespace DuiLib {
 
 				TEventUI event = { 0 };
 				event.Type = UIEVENT_RBUTTONUP;
-				event.pSender = m_pEventClick;
+				event.pSender = m_pEventRClick;
 				event.wParam = wParam;
 				event.lParam = lParam;
 				event.ptMouse = pt;
@@ -1970,7 +1976,8 @@ namespace DuiLib {
 		SetFocus(NULL);
 		m_pEventKey = NULL;
 		m_pEventHover = NULL;
-		m_pEventClick = NULL;
+        m_pEventClick = NULL;
+        m_pEventRClick = NULL;
 		// Remove the existing control-tree. We might have gotten inside this function as
 		// a result of an event fired or similar, so we cannot just delete the objects and
 		// pull the internal memory of the calling code. We'll delay the cleanup.
@@ -2001,7 +2008,8 @@ namespace DuiLib {
 	{
 		if( pControl == m_pEventKey ) m_pEventKey = NULL;
 		if( pControl == m_pEventHover ) m_pEventHover = NULL;
-		if( pControl == m_pEventClick ) m_pEventClick = NULL;
+        if (pControl == m_pEventClick) m_pEventClick = NULL;
+        if (pControl == m_pEventRClick) m_pEventRClick = NULL;
 		if( pControl == m_pFocus ) m_pFocus = NULL;
 		KillTimer(pControl);
 		const CDuiString& sName = pControl->GetName();

@@ -919,6 +919,7 @@
   <ItemGroup>
     <ClCompile Include="Control\UIIPAddressEx.cpp" />
     <ClCompile Include="Control\UILoading.cpp" />
+    <ClCompile Include="Control\UIPageControl.cpp" />
     <ClCompile Include="Control\UIRollText.cpp" />
     <ClCompile Include="Control\UIAnimation.cpp" />
     <ClCompile Include="Control\UIColorPalette.cpp" />
@@ -1011,6 +1012,7 @@
   <ItemGroup>
     <ClInclude Include="Control\UIIPAddressEx.h" />
     <ClInclude Include="Control\UILoading.h" />
+    <ClInclude Include="Control\UIPageControl.h" />
     <ClInclude Include="Control\UIRollText.h" />
     <ClInclude Include="Control\UIAnimation.h" />
     <ClInclude Include="Control\UIColorPalette.h" />

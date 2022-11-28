@@ -1367,5 +1367,17 @@
     <Attribute name="expland" default="false" type="BOOL" comment="是否显示下级菜单的小三角图片（需要通过Default标签设置ExplandIcon属性图片的路径）"/>
     <Attribute name="height" default="30" type="INT" comment="菜单项高度（分割线默认高度是6）"/>
   </MenuElement>
-
+  <PageControl parent="CHorizontalLayoutUI" notifies="click select changed DUI_MSGTYPE_PAGECHANED">
+    <maxpage default="1,5" type="INT" comment="最大页码1,最大显示页码5" />
+    <font default="-1" type="INT" comment="字体" />
+    <pageselectedtextcolor default="0xFF4EB857" type="DWORD" comment="选中页颜色" />
+    <pageselectedbkcolor default="0x00000000" type="DWORD" comment="选中页背景颜色" />
+    <pagetextcolor default="0xff000000" type="DWORD" comment="页字体颜色" />
+    <pagebkcolor default="0x00000000" type="DWORD" comment="页背景颜色" />
+    <pagehotbkcolor default="0x00000000" type="DWORD" comment="页hot文字颜色" />
+    <pagehottextcolor default="0x00000000" type="DWORD" comment="页hot背景颜色" />
+    <gotoeditbordercolor default="0x00000000" type="DWORD" comment="goto编辑框边框颜色" />
+    <gotoeditbordersize default="1" type="INT" comment="oto编辑框线宽" />
+    <editmaxchar default="2" type="INT" comment="页码编辑框默认最大2字符" />
+  </PageControl>
 </Controls>

@@ -60,7 +60,7 @@ namespace DuiLib
 			Gdiplus::Graphics graphics(hDC);
 			graphics.TranslateTransform(centerPos.X,centerPos.Y);
 			graphics.RotateTransform(m_fCurAngle);
-			graphics.TranslateTransform(-centerPos.X, -centerPos.Y);//»¹Ô­Ô´µã
+			graphics.TranslateTransform(-centerPos.X, -centerPos.Y);//还原源点
 			graphics.DrawImage(m_pBkimage,rcItem.left,rcItem.top,iWidth,iHeight);
 		}
 	}

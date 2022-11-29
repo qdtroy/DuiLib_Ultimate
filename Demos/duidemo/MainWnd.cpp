@@ -93,34 +93,37 @@ void CMainWnd::InitWindow()
 	CLoadingUI* loading = static_cast<CLoadingUI*>(m_pm.FindControl(_T("loading")));
 	loading->Start();
 
-	// 动态创建Combo
-	CComboUI* pFontSize = static_cast<CComboUI*>(m_pm.FindControl(_T("font_size")));
-	if(pFontSize)
+	// 长文字Combo
+	CComboUI* long_text = static_cast<CComboUI*>(m_pm.FindControl(_T("long_text")));
+	if(long_text)
 	{
-		CListLabelElementUI * pElement = new CListLabelElementUI();
-		pElement->SetText(_T("测试长文字"));
-		pElement->SetFixedHeight(30);
-		pElement->SetFixedWidth(120);
-		pFontSize->Add(pElement);
+		for(int i = 0; i < 20; i++) {
+			CListLabelElementUI * pElement = new CListLabelElementUI();
+			pElement->SetText(_T("测试长文字测试长文字测试长文字测试长文字"));
+			pElement->SetFixedHeight(30);
+			long_text->Add(pElement);
+			if(i == 0) pElement->Select(true);
+		}
 	}
 
+	// 动态创建Combo
 	CComboUI* pCombo = new CComboUI();
 	pCombo->SetName(_T("mycombo"));
-	pCombo->SetFixedWidth(80);
+	pCombo->SetFixedWidth(180);
 	pCombo->ApplyAttributeList(m_pm.GetStyle(_T("combo_style")));
 	pCombo->SetAttribute(_T("endellipsis"), _T("true"));
 	pCombo->SetAttribute(_T("itemendellipsis"), _T("true"));
-	CContainerUI* pParent = (CContainerUI*)pFontSize->GetParent();
+	CContainerUI* pParent = (CContainerUI*)long_text->GetParent();
 	pParent->Add(pCombo);
 	if(pCombo)
 	{
 		pCombo->SetFloat(true);
-		pCombo->SetFixedXY(CDuiSize(140,0));
+		pCombo->SetFixedXY(CDuiSize(600,0));
 		pCombo->SetItemFont(2);
 		CListLabelElementUI * pElement = new CListLabelElementUI();
 		pElement->SetText(_T("动态数据动态数据"));
 		pElement->SetFixedHeight(30);
-		pElement->SetFixedWidth(120);
+		pElement->SetFixedWidth(0);
 		pCombo->Add(pElement);
 		pCombo->SelectItem(0);
 	}
@@ -311,7 +314,7 @@ LPCTSTR CMainWnd::QueryControlText(LPCTSTR lpstrId, LPCTSTR lpstrType)
 			return _T("Duilib 使用演示 v1.1");
 		}
 		else if(lstrcmpi(lpstrId, _T("hometext")) == 0) {
-			return _T("{a}演示官网{/a}");
+			return _T("{a}开源官网{/a}");
 		}
 	}
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Window >
-  <VerticalLayout width="80" height="100" childalign="center">
-    <Button name="tileimage" style="btn_style" width="80" height="80" foreimage="res='logo.jpg' fade='128'"/>
+  <VerticalLayout width="60" height="60" childalign="center">
+    <Button name="tileimage" style="btn_style" width="40" height="40" foreimage="res='logo.jpg' fade='128'"/>
     <Label name="tiletext" height="20" text="我是瓦片" align="center"/>
   </VerticalLayout>
 </Window>

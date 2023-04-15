@@ -1966,6 +1966,11 @@ namespace DuiLib {
 		::InvalidateRect(m_hWndPaint, &rcItem, FALSE);
 	}
 
+	bool CPaintManagerUI::IsValid()
+	{
+		return m_hWndPaint != NULL && m_pRoot != NULL;
+	}
+
 	bool CPaintManagerUI::AttachDialog(CControlUI* pControl)
 	{
 		ASSERT(::IsWindow(m_hWndPaint));

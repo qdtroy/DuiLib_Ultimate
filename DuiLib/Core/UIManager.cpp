@@ -129,21 +129,21 @@ namespace DuiLib {
 						rcDest.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 						rcDest.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
 						rcDest.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);  
-						if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcDest);
+						//if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcDest);
 					}
 					else if( sItem == _T("source") ) {
 						rcSource.left = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
 						rcSource.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 						rcSource.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
 						rcSource.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
-						if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcSource);
+						//if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcSource);
 					}
 					else if( sItem == _T("corner") ) {
 						rcCorner.left = _tcstol(sValue.GetData(), &pstr, 10);  ASSERT(pstr);    
 						rcCorner.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 						rcCorner.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
 						rcCorner.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
-						if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcCorner);
+						//if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcCorner);
 					}
 					else if( sItem == _T("mask") ) {
 						if( sValue[0] == _T('#')) dwMask = _tcstoul(sValue.GetData() + 1, &pstr, 16);
@@ -183,7 +183,7 @@ namespace DuiLib {
 						rcPadding.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 						rcPadding.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
 						rcPadding.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);  
-						if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcPadding);
+						//if(pManager != NULL) pManager->GetDPIObj()->Scale(&rcPadding);
 					}
 				}
 				if( *pStrImage++ != _T(' ') ) break;

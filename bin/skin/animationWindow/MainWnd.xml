@@ -7,7 +7,7 @@
  <AnimLayout name="vlayout_background" bkimage="file='bk\background.png' dest='0,0,357,220'" >
     <HorizontalLayout height="74"> <!-- 标题栏 -->
         <HorizontalLayout name="hlayout_title" >
-            <Label text="Redrain 窗体动画 Demo" padding="14,0,0,0" width="200" height="31" font="1" textcolor="#FFFF0000"/>
+            <Label text="窗体动画 Demo" padding="14,0,0,0" width="200" height="31" font="1" textcolor="#FFFF0000"/>
         </HorizontalLayout>
         <Button name="closebtn" width="45" height="29" normalimage="file='title\close.png' source='0,0,45,29'" hotimage="file='title\close.png' source='45,0,90,29'" pushedimage="file='title\close.png' source='90,0,135,29'" />    
     </HorizontalLayout>

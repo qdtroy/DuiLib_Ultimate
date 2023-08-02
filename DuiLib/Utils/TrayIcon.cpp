@@ -35,6 +35,26 @@ namespace DuiLib
 		m_bEnabled = true;
 	}
 
+	void CTrayIcon::CreateTrayIcon(HWND _RecvHwnd, LPCTSTR file, LPCTSTR _ToolTipText, UINT _Message)
+	{
+		if (!_RecvHwnd || _IconIDResource <= 0)
+		{
+			return;
+		}
+		if (_Message != 0) m_uMessage = _Message;
+		HINSTANCE instance = CPaintManagerUI::GetInstance();
+		m_hIcon = (HICON)::LoadImage(instance, file, IMAGE_ICON, 0, 0, LR_LOADFROMFILE);
+		m_trayData.cbSize = sizeof(NOTIFYICONDATA);
+		m_trayData.hWnd = _RecvHwnd;
+		m_trayData.uID = 0;
+		m_trayData.hIcon = m_hIcon;
+		m_trayData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
+		m_trayData.uCallbackMessage = m_uMessage;
+		if (_ToolTipText) _tcscpy(m_trayData.szTip, _ToolTipText);
+		Shell_NotifyIcon(NIM_ADD, &m_trayData);
+		m_bEnabled = true;
+	}
+
 	void CTrayIcon::DeleteTrayIcon()
 	{
 		Shell_NotifyIcon(NIM_DELETE, &m_trayData);

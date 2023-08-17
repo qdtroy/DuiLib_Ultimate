@@ -135,7 +135,8 @@ namespace DuiLib {
 	m_pOwner(NULL),
 		m_pLayout(),
 		m_xml(_T("")),
-		isClosing(false)
+		isClosing(false),
+		m_bCaptured(false)
 	{
 		m_dwAlignment = eMenuAlignment_Left | eMenuAlignment_Top;
 	}
@@ -601,12 +602,24 @@ namespace DuiLib {
 				m_pOwner->SetFocus();
 			}
 			break;
-		case WM_RBUTTONDOWN:
 		case WM_CONTEXTMENU:
 		case WM_RBUTTONUP:
-		case WM_RBUTTONDBLCLK:
-			return 0L;
+			if(m_bCaptured) {
+				m_bCaptured = false;
+				ReleaseCapture();
+				if( m_pOwner != NULL )
+				{
+					m_pOwner->SetManager(m_pOwner->GetManager(), m_pOwner->GetParent(), false);
+					m_pOwner->SetPos(m_pOwner->GetPos());
+					m_pOwner->SetFocus();
+				}
+			}
 			break;
+		case WM_RBUTTONDOWN:
+		case WM_RBUTTONDBLCLK:
+			m_bCaptured = true;
+			SetCapture(m_hWnd);
+			return 0L;
 		default:
 			bHandled = FALSE;
 			break;

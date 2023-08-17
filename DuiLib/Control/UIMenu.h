@@ -325,7 +325,7 @@ public:
 	void setDPI(int DPI);
 
 public:
-
+	bool m_bCaptured;
 	POINT			m_BasedPoint;
 	STRINGorID		m_xml;
     CPaintManagerUI m_pm;

@@ -65,7 +65,7 @@ void InitResource()
 				if( hGlobal != NULL ) {
 					dwSize = ::SizeofResource(CPaintManagerUI::GetResourceDll(), hResource);
 					if( dwSize > 0 ) {
-						CPaintManagerUI::SetResourceZip((LPBYTE)::LockResource(hGlobal), dwSize);
+						CPaintManagerUI::SetResourceZip((LPBYTE)::LockResource(hGlobal), dwSize, _T("323232"));
 						// 加载资源管理器
 						CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
 					}

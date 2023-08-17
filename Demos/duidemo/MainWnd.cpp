@@ -426,6 +426,19 @@ void CMainWnd::Notify(TNotifyUI& msg)
 			pFontSize->SelectItem(0);
 		}
 	}
+	else if(msg.sType == _T("menu"))
+	{
+		CMenuWnd::GetGlobalContextMenuObserver().SetMenuCheckInfo(&m_MenuInfos);
+
+		if(m_pMenu != NULL) {
+			delete m_pMenu;
+			m_pMenu = NULL;
+		}
+		m_pMenu = new CMenuWnd();
+		CDuiPoint point;
+		::GetCursorPos(&point);
+		m_pMenu->Init(NULL, _T("menu.xml"), point, &m_pm);
+	}
 
 	return WindowImplBase::Notify(msg);
 }

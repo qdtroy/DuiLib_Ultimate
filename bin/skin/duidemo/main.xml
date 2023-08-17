@@ -88,15 +88,15 @@
           <HorizontalLayout height="64" childvalign="vcenter">
             <Label text="按钮控件" textcolor="#FF111111" font="font13" width="80"/>
             <HorizontalLayout childvalign="vcenter" childpadding="12" bordersize="1,1,1,1" bordercolor="#0">
-              <Button name="button1" text="普通按钮" textcolor="#FF111111" textpadding="6,0,6,0" style="btn_style" height="40" width="0" autocalcwidth="true" richevent="true"/>
-              <Button name="button2" text="图标按钮" textcolor="#FF111111" style="btn_style" height="40" width="90" textpadding="25,0,0,0" align="center" valign="left" foreimage="size='16,16' padding='6,12' align='left,top' res='other/icon.png'" />
-              <Button name="cmdbtn" text="命令按钮(&S)" textcolor="#FF111111" style="btn_style" height="40" shortcut="S" width="120"/>
-              <Button text="文字按钮{\n}自动换行" textcolor="#FF111111" style="btn_style" height="40" width="90" wordbreak="true" textpadding="0,6,0,6"/>
-              <Button name="autobtn" text="自适应比例按钮" minw1idth="120" colorhsl="true" float="0.7,0.2,0.9,0.8" textcolor="#FF111111" bkcolor="#FFFF5555" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
+              <Button name="button1" text="普通按钮" menu="true" textcolor="#FF111111" textpadding="6,0,6,0" style="btn_style" height="40" width="0" autocalcwidth="true" richevent="true"/>
+              <Button name="button2" text="图标按钮" menu="true" textcolor="#FF111111" style="btn_style" height="40" width="90" textpadding="25,0,0,0" align="center" valign="left" foreimage="size='16,16' padding='6,12' align='left,top' res='other/icon.png'" />
+              <Button name="cmdbtn" text="命令按钮(&S)" menu="true" textcolor="#FF111111" style="btn_style" height="40" shortcut="S" width="120"/>
+              <Button name="linebtn" text="文字按钮{\n}自动换行" menu="true" textcolor="#FF111111" style="btn_style" height="40" width="90" wordbreak="true" textpadding="0,6,0,6"/>
+              <Button name="autobtn" text="自适应比例按钮" minw1idth="120" colorhsl1="true" float="0.7,0.2,0.9,0.8" textcolor="#FF111111" bkcolor="#FFFF5555" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" bordersize="1" bordercolor="#FFFF5555" borderround="30,30"/>
               <Button name="floatbtn" text="浮动按钮" colorhsl="true" float="true" pos="-20,12,-80,52" textcolor="#FF111111" bkcolor="#FFFF5555" hotbkcolor="#AAFFFF00" pushedbkcolor="#FFFF00FF" borderround="4,4"/>
 
               <Container width="64" height="64">
-                <Button name="autobtn" textcolor="#FF111111" normalimage="logo.jpg" hotimage="res='logo.jpg' fade='128'" bordercolor="#FFFF6666" bordersize="2" borderround="64,64" borderstyle="2"/>
+                <!--<Button name="autobtn" textcolor="#FF111111" normalimage="logo.jpg" hotimage="res='logo.jpg' fade='128'" bordercolor="#FFFF6666" bordersize="2" borderround="64,64" borderstyle="2"/>-->
               </Container>
 
             </HorizontalLayout>

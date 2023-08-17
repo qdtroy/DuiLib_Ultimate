@@ -1422,13 +1422,19 @@ namespace DuiLib {
 		if ((uStyle & DT_END_ELLIPSIS) != 0) {
 			stringFormat.SetTrimming(Gdiplus::StringTrimmingEllipsisCharacter);
 		}
-
+		
 		int formatFlags = 0;
 		if ((uStyle & DT_NOCLIP) != 0) {
 			formatFlags |= Gdiplus::StringFormatFlagsNoClip;
 		}
 		if ((uStyle & DT_SINGLELINE) != 0) {
 			formatFlags |= Gdiplus::StringFormatFlagsNoWrap;
+		}
+		if ((uStyle & DT_NOPREFIX) != 0) {
+			stringFormat.SetHotkeyPrefix(Gdiplus::HotkeyPrefixHide);
+		}
+		else {
+			stringFormat.SetHotkeyPrefix(Gdiplus::HotkeyPrefixShow);
 		}
 
 		stringFormat.SetFormatFlags(formatFlags);

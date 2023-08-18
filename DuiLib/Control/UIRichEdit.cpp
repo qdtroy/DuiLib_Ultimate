@@ -2073,6 +2073,11 @@ err:
 		{
 			return;
 		}
+
+		if( event.Type == UIEVENT_MOUSEENTER ) 
+		{
+			return;
+		}
 		if( event.Type == UIEVENT_BUTTONUP ) 
 		{
 			return;
@@ -2600,6 +2605,9 @@ err:
 							bWasHandled = false;
 							return 0;
 						}
+						else {
+							break;
+						}
 					}
 					break;
 				}
@@ -2609,16 +2617,18 @@ err:
 			if( dwHitResult == HITRESULT_OUTSIDE ) {
 				RECT rc;
 				m_pTwh->GetControlRect(&rc);
+
 				POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 				if( uMsg == WM_SETCURSOR ) {
 					::GetCursorPos(&pt);
 					::ScreenToClient(GetManager()->GetPaintWindow(), &pt);
 				}
 				else if( uMsg == WM_MOUSEWHEEL ) ::ScreenToClient(GetManager()->GetPaintWindow(), &pt);
+
 				if( ::PtInRect(&rc, pt) && !GetManager()->IsCaptured() ) dwHitResult = HITRESULT_HIT;
 			}
 			if( dwHitResult != HITRESULT_HIT ) return 0;
-			if( uMsg == WM_SETCURSOR ) bWasHandled = false;
+			if( uMsg == WM_SETCURSOR || uMsg == WM_MOUSEMOVE ) bWasHandled = false;
 			else if( uMsg == WM_LBUTTONDOWN || uMsg == WM_LBUTTONDBLCLK || uMsg == WM_RBUTTONDOWN ) {
 				if (!GetManager()->IsNoActivate()) ::SetFocus(GetManager()->GetPaintWindow());
 				SetFocus();

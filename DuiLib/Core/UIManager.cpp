@@ -2646,6 +2646,7 @@ namespace DuiLib {
 		}
 		else {
 			TNotifyUI *pMsg = new TNotifyUI;
+			pMsg->sVirtualWnd = Msg.sVirtualWnd;
 			pMsg->pSender = Msg.pSender;
 			pMsg->sType = Msg.sType;
 			pMsg->wParam = Msg.wParam;

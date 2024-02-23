@@ -636,7 +636,7 @@ namespace DuiLib {
 	CMenuElementUI::CMenuElementUI():
 	m_pWindow(NULL),
 		m_bDrawLine(false),
-		m_dwLineColor(DEFAULT_LINE_COLOR),
+		m_dwLineColor((DWORD)DEFAULT_LINE_COLOR),
 		m_bCheckItem(false),
 		m_bShowExplandIcon(false)
 	{

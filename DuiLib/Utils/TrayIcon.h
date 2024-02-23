@@ -14,6 +14,7 @@ namespace DuiLib
 
 	public:
 		void CreateTrayIcon( HWND _RecvHwnd, UINT _IconIDResource, LPCTSTR _ToolTipText = NULL, UINT _Message = NULL);
+		void CreateTrayIcon(HWND _RecvHwnd, LPCTSTR file, LPCTSTR _ToolTipText = NULL, UINT _Message = NULL);
 		void DeleteTrayIcon();
 		bool SetTooltipText(LPCTSTR _ToolTipText);
 		bool SetTooltipText(UINT _IDResource);

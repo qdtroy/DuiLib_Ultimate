@@ -103,6 +103,7 @@ namespace DuiLib {
 		bool bBold;
 		bool bUnderline;
 		bool bItalic;
+		bool bStrikeout;
 		TEXTMETRIC tm;
 	} TFontInfo;
 
@@ -322,14 +323,14 @@ namespace DuiLib {
 		DWORD GetDefaultSelectedBkColor() const;
 		void SetDefaultSelectedBkColor(DWORD dwColor, bool bShared = false);
 		TFontInfo* GetDefaultFontInfo();
-		void SetDefaultFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared = false);
+		void SetDefaultFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bStrikeout, bool bShared = false);
 		DWORD GetCustomFontCount(bool bShared = false) const;
 		void AddFontArray(LPCTSTR pstrPath);
-		HFONT AddFont(int id, LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared = false);
+		HFONT AddFont(int id, LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bStrikeout, bool bShared = false);
 		HFONT GetFont(int id);
-		HFONT GetFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic);
+		HFONT GetFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bStrikeout);
 		int GetFontIndex(HFONT hFont, bool bShared = false);
-		int GetFontIndex(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared = false);
+		int GetFontIndex(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bStrikeout, bool bShared = false);
 		void RemoveFont(HFONT hFont, bool bShared = false);
 		void RemoveFont(int id, bool bShared = false);
 		void RemoveAllFonts(bool bShared = false);

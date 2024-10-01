@@ -103,6 +103,7 @@ namespace DuiLib {
 					bool italic = false;
 					bool defaultfont = false;
 					bool shared = false;
+					bool strikeout = false;
 					for( int i = 0; i < nAttributes; i++ ) {
 						pstrName = node.GetAttributeName(i);
 						pstrValue = node.GetAttributeValue(i);
@@ -124,6 +125,9 @@ namespace DuiLib {
 						else if( _tcsicmp(pstrName, _T("italic")) == 0 ) {
 							italic = (_tcsicmp(pstrValue, _T("true")) == 0);
 						}
+						else if (_tcsicmp(pstrName, _T("strikeout")) == 0) {
+							strikeout = (_tcsicmp(pstrValue, _T("true")) == 0);
+						}
 						else if( _tcsicmp(pstrName, _T("default")) == 0 ) {
 							defaultfont = (_tcsicmp(pstrValue, _T("true")) == 0);
 						}
@@ -132,8 +136,8 @@ namespace DuiLib {
 						}
 					}
 					if( id >= 0 ) {
-						pManager->AddFont(id, pFontName, size, bold, underline, italic, shared);
-						if( defaultfont ) pManager->SetDefaultFont(pFontName, size, bold, underline, italic, shared);
+						pManager->AddFont(id, pFontName, size, bold, underline, italic, strikeout, shared);
+						if( defaultfont ) pManager->SetDefaultFont(pFontName, size, bold, underline, italic, strikeout, shared);
 					}
 				}
 				else if( _tcsicmp(pstrClass, _T("Default")) == 0 ) {

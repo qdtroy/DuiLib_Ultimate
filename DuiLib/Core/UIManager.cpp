@@ -2788,7 +2788,7 @@ namespace DuiLib {
 		}
 	}
 
-	void CPaintManagerUI::SetDefaultFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared)
+	void CPaintManagerUI::SetDefaultFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bStrikeout, bool bShared)
 	{
 		LOGFONT lf = { 0 };
 		::GetObject(::GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
@@ -2802,6 +2802,7 @@ namespace DuiLib {
 		if( bBold ) lf.lfWeight += FW_BOLD;
 		if( bUnderline ) lf.lfUnderline = TRUE;
 		if( bItalic ) lf.lfItalic = TRUE;
+		if( bStrikeout ) lf.lfStrikeOut = TRUE;
 
 		HFONT hFont = ::CreateFontIndirect(&lf);
 		if( hFont == NULL ) return;
@@ -2815,6 +2816,7 @@ namespace DuiLib {
 			m_SharedResInfo.m_DefaultFontInfo.bBold = bBold;
 			m_SharedResInfo.m_DefaultFontInfo.bUnderline = bUnderline;
 			m_SharedResInfo.m_DefaultFontInfo.bItalic = bItalic;
+			m_SharedResInfo.m_DefaultFontInfo.bStrikeout = bStrikeout;
 			::ZeroMemory(&m_SharedResInfo.m_DefaultFontInfo.tm, sizeof(m_SharedResInfo.m_DefaultFontInfo.tm));
 			if( m_hDcPaint ) {
 				HFONT hOldFont = (HFONT) ::SelectObject(m_hDcPaint, hFont);
@@ -2831,6 +2833,7 @@ namespace DuiLib {
 			m_ResInfo.m_DefaultFontInfo.bBold = bBold;
 			m_ResInfo.m_DefaultFontInfo.bUnderline = bUnderline;
 			m_ResInfo.m_DefaultFontInfo.bItalic = bItalic;
+			m_ResInfo.m_DefaultFontInfo.bStrikeout = bStrikeout;
 			::ZeroMemory(&m_ResInfo.m_DefaultFontInfo.tm, sizeof(m_ResInfo.m_DefaultFontInfo.tm));
 			if( m_hDcPaint ) {
 				HFONT hOldFont = (HFONT) ::SelectObject(m_hDcPaint, hFont);
@@ -2848,7 +2851,7 @@ namespace DuiLib {
 			return m_ResInfo.m_CustomFonts.GetSize();
 	}
 
-	HFONT CPaintManagerUI::AddFont(int id, LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared)
+	HFONT CPaintManagerUI::AddFont(int id, LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bStrikeout, bool bShared)
 	{
 		LOGFONT lf = { 0 };
 		::GetObject(::GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
@@ -2862,6 +2865,7 @@ namespace DuiLib {
 		if( bBold ) lf.lfWeight = FW_BOLD;
 		if( bUnderline ) lf.lfUnderline = TRUE;
 		if( bItalic ) lf.lfItalic = TRUE;
+		if( bStrikeout ) lf.lfStrikeOut = TRUE;
 		HFONT hFont = ::CreateFontIndirect(&lf);
 		if( hFont == NULL ) return NULL;
 
@@ -2874,6 +2878,7 @@ namespace DuiLib {
 		pFontInfo->bBold = bBold;
 		pFontInfo->bUnderline = bUnderline;
 		pFontInfo->bItalic = bItalic;
+		pFontInfo->bStrikeout = bStrikeout;
 		if( m_hDcPaint ) {
 			HFONT hOldFont = (HFONT) ::SelectObject(m_hDcPaint, hFont);
 			::GetTextMetrics(m_hDcPaint, &pFontInfo->tm);
@@ -3017,14 +3022,15 @@ namespace DuiLib {
 		return pFontInfo->hFont;
 	}
 
-	HFONT CPaintManagerUI::GetFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic)
+	HFONT CPaintManagerUI::GetFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bStrikeout)
 	{
 		TFontInfo* pFontInfo = NULL;
 		for( int i = 0; i< m_ResInfo.m_CustomFonts.GetSize(); i++ ) {
 			if(LPCTSTR key = m_ResInfo.m_CustomFonts.GetAt(i)) {
 				pFontInfo = static_cast<TFontInfo*>(m_ResInfo.m_CustomFonts.Find(key));
 				if (pFontInfo && pFontInfo->sFontName == pStrFontName && pFontInfo->iSize == nSize && 
-					pFontInfo->bBold == bBold && pFontInfo->bUnderline == bUnderline && pFontInfo->bItalic == bItalic) 
+					pFontInfo->bBold == bBold && pFontInfo->bUnderline == bUnderline && pFontInfo->bItalic == bItalic
+					&& pFontInfo->bStrikeout == bStrikeout)
 					return pFontInfo->hFont;
 			}
 		}
@@ -3032,7 +3038,8 @@ namespace DuiLib {
 			if(LPCTSTR key = m_SharedResInfo.m_CustomFonts.GetAt(i)) {
 				pFontInfo = static_cast<TFontInfo*>(m_SharedResInfo.m_CustomFonts.Find(key));
 				if (pFontInfo && pFontInfo->sFontName == pStrFontName && pFontInfo->iSize == nSize && 
-					pFontInfo->bBold == bBold && pFontInfo->bUnderline == bUnderline && pFontInfo->bItalic == bItalic) 
+					pFontInfo->bBold == bBold && pFontInfo->bUnderline == bUnderline && pFontInfo->bItalic == bItalic
+					&& pFontInfo->bStrikeout == bStrikeout)
 					return pFontInfo->hFont;
 			}
 		}
@@ -3065,7 +3072,7 @@ namespace DuiLib {
 		return -1;
 	}
 
-	int CPaintManagerUI::GetFontIndex(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bShared)
+	int CPaintManagerUI::GetFontIndex(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic, bool bStrikeout, bool bShared)
 	{
 		TFontInfo* pFontInfo = NULL;
 		if (bShared)
@@ -3074,7 +3081,8 @@ namespace DuiLib {
 				if(LPCTSTR key = m_SharedResInfo.m_CustomFonts.GetAt(i)) {
 					pFontInfo = static_cast<TFontInfo*>(m_SharedResInfo.m_CustomFonts.Find(key));
 					if (pFontInfo && pFontInfo->sFontName == pStrFontName && pFontInfo->iSize == nSize && 
-						pFontInfo->bBold == bBold && pFontInfo->bUnderline == bUnderline && pFontInfo->bItalic == bItalic) 
+						pFontInfo->bBold == bBold && pFontInfo->bUnderline == bUnderline && pFontInfo->bItalic == bItalic
+						&& pFontInfo->bStrikeout == bStrikeout)
 						return _ttoi(key);
 				}
 			}
@@ -3085,7 +3093,8 @@ namespace DuiLib {
 				if(LPCTSTR key = m_ResInfo.m_CustomFonts.GetAt(i)) {
 					pFontInfo = static_cast<TFontInfo*>(m_ResInfo.m_CustomFonts.Find(key));
 					if (pFontInfo && pFontInfo->sFontName == pStrFontName && pFontInfo->iSize == nSize && 
-						pFontInfo->bBold == bBold && pFontInfo->bUnderline == bUnderline && pFontInfo->bItalic == bItalic) 
+						pFontInfo->bBold == bBold && pFontInfo->bUnderline == bUnderline && pFontInfo->bItalic == bItalic
+						&& pFontInfo->bStrikeout == bStrikeout)
 						return _ttoi(key);
 				}
 			}

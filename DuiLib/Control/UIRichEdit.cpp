@@ -2478,15 +2478,19 @@ err:
 	{
 		if( _tcscmp(pstrName, _T("vscrollbar")) == 0 ) {
 			if( _tcscmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_DISABLENOSCROLL | WS_VSCROLL;
+			if(m_pTwh) m_pTwh->TxEnableScrollBar(SB_VERT, ESB_ENABLE_BOTH);
 		}
 		if( _tcscmp(pstrName, _T("autovscroll")) == 0 ) {
 			if( _tcscmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_AUTOVSCROLL;
+			if(m_pTwh) m_pTwh->TxShowScrollBar(SB_VERT, true);
 		}
 		else if( _tcscmp(pstrName, _T("hscrollbar")) == 0 ) {
 			if( _tcscmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_DISABLENOSCROLL | WS_HSCROLL;
+			if(m_pTwh) m_pTwh->TxEnableScrollBar(SB_HORZ, ESB_ENABLE_BOTH);
 		}
 		if( _tcscmp(pstrName, _T("autohscroll")) == 0 ) {
 			if( _tcscmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_AUTOHSCROLL;
+			if(m_pTwh) m_pTwh->TxShowScrollBar(SB_HORZ, true);
 		}
 		else if( _tcsicmp(pstrName, _T("multiline")) == 0 ) {
 			SetMultiLine(_tcscmp(pstrValue, _T("true")) == 0);
@@ -2507,7 +2511,10 @@ err:
 			SetRich(_tcscmp(pstrValue, _T("true")) == 0);
 		}
 		else if( _tcscmp(pstrName, _T("readonly")) == 0 ) {
-			if( _tcscmp(pstrValue, _T("true")) == 0 ) { m_lTwhStyle |= ES_READONLY; m_bReadOnly = true; }
+			if( _tcscmp(pstrValue, _T("true")) == 0 ) { 
+				m_lTwhStyle |= ES_READONLY; 
+				m_bReadOnly = true; 
+			}
 		}
 		else if( _tcscmp(pstrName, _T("password")) == 0 ) {
 			if( _tcscmp(pstrValue, _T("true")) == 0 ) m_lTwhStyle |= ES_PASSWORD;

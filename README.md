@@ -10,12 +10,12 @@
 ***
 #### **项目简介** 
 
-DuiLib_Ultimate是duilib库的增强拓展版，库修复了大量用户在使用中反馈的Bug，新增了用户需求的功能，并持续维护更新。
+DuiLib_Ultimate 是深耕 Windows 软件UI开发的利器， 以轻量化、高性能、易扩展 为核心，专为 Windows 平台打造极致桌面应用体验而生。
 更多效果例子请查看：https://github.com/qdtroy/DuiLib_Demos
 
 #### **功能简介** 
 
-1、官方原有功能；
+1、DuiLib_Ultimate是duilib库的增强拓展版，支持原有功能，修复了大量用户在使用中反馈的Bug，新增了用户需求的功能，并持续维护更新;
 
 2、增加资源管理器支持，资源管理更加方便；
 

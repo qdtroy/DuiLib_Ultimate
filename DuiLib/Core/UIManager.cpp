@@ -1125,8 +1125,7 @@ namespace DuiLib {
 							m_pRoot->FindControl(__FindControlsFromUpdate, NULL, UIFIND_VISIBLE | UIFIND_ME_FIRST | UIFIND_UPDATETEST);
 							for( int it = 0; it < m_aFoundControls.GetSize(); it++ ) {
 								pControl = static_cast<CControlUI*>(m_aFoundControls[it]);
-								if( !pControl->IsFloat() ) pControl->SetPos(pControl->GetPos(), true);
-								else pControl->SetPos(pControl->GetRelativePos(), true);
+								pControl->SetPos(pControl->GetPos(), true);
 							}
 							bNeedSizeMsg = true;
 						}

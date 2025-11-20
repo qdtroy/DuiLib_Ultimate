@@ -87,8 +87,8 @@ void CMainWnd::InitWindow()
 	pBrowser1->SetWebBrowserEventHandler(this);
 	CWebBrowserUI* pBrowser2 = static_cast<CWebBrowserUI*>(m_pm.FindControl(_T("oneclick_browser2")));
 	pBrowser2->SetWebBrowserEventHandler(this);
-	pBrowser1->NavigateUrl(_T("https://www.baidu.com"));
-	pBrowser2->NavigateUrl(_T("https://blog.csdn.net/duisharp/"));
+	pBrowser1->NavigateUrl(_T("https://www.winradar.com"));
+	pBrowser2->NavigateUrl(_T("https://www.baidu.com/s?wd=qdtroy"));
 
 	CLoadingUI* loading = static_cast<CLoadingUI*>(m_pm.FindControl(_T("loading")));
 	loading->Start();
@@ -402,6 +402,7 @@ void CMainWnd::Notify(TNotifyUI& msg)
 		if(name.CompareNoCase(_T("ex_tab")) == 0) pTabSwitch->SelectItem(2);
 		if(name.CompareNoCase(_T("ani_tab")) == 0) pTabSwitch->SelectItem(3);
 		if(name.CompareNoCase(_T("split_tab")) == 0) pTabSwitch->SelectItem(4);
+		if(name.CompareNoCase(_T("layout_tab")) == 0) pTabSwitch->SelectItem(5);
 	}
 	else if(msg.sType == _T("valuechanged"))
 	{
@@ -475,16 +476,21 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 		//	pFontSize->SetFixedXY(CDuiSize(pFontSize->GetFixedXY().cx + 5, pFontSize->GetFixedXY().cy));
 		//}
 
+		//CRichEditUI* wordedit = (CRichEditUI*)m_pm.FindControl(_T("wordedit"));
+		//if(wordedit) {
+		//	wordedit->SetAttribute(_T("autovscroll"), _T("true"));
+		//	wordedit->SetAttribute(_T("vscrollbar"), _T("true"));
+		//}
 		ShellExecute(NULL, _T("open"), _T("https://github.com/qdtroy"), NULL, NULL, SW_SHOW);
 	}
 	else if(sName.CompareNoCase(_T("button1")) == 0)
 	{
-		CEditUI* pEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("edit3")));
-		TCHAR* pstrText = (TCHAR*)pEdit->GetText().GetData();
-		if(pstrText != NULL && lstrlen(pstrText) > 0) {
-			double fEdit = _ttof(pstrText);
-			MessageBox(m_hWnd, pstrText, _T(""), 0);
-		}
+		//CEditUI* pEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("edit3")));
+		//TCHAR* pstrText = (TCHAR*)pEdit->GetText().GetData();
+		//if(pstrText != NULL && lstrlen(pstrText) > 0) {
+		//	double fEdit = _ttof(pstrText);
+		//	MessageBox(m_hWnd, pstrText, _T(""), 0);
+		//}
 	}
 	else if(sName.CompareNoCase(_T("popwnd_btn")) == 0)
 	{
@@ -569,6 +575,17 @@ void CMainWnd::OnLClick(CControlUI *pControl)
 	{
 		CMsgWnd::ShowMessageBox(m_hWnd, _T("Combo按钮点击"), _T("Combo列表项-按钮点击"));
 
+		return; 
+	}
+	else if(sName.CompareNoCase(_T("move_btn")) == 0 ) 
+	{
+		CDuiString sUserData = pControl->GetUserData();
+		CControlUI* pControl = m_pm.FindControl(sUserData);
+		if(pControl != nullptr) {
+			SIZE pt = pControl->GetFixedXY();
+			pt.cx += 20;
+			pControl->SetFixedXY(pt);
+		}
 		return; 
 	}
 }

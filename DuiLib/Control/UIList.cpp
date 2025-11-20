@@ -172,11 +172,14 @@ namespace DuiLib {
 				pListItem->SetIndex(i);
 			}
 		}
-		int idx = m_aSelItems.Find((LPVOID)m_iCurSel);
-		if(idx != -1) {
-			m_aSelItems.SetAt(idx, (LPVOID*)(m_iCurSel + 1));
+
+		if (m_iCurSel >= iIndex) {
+			int idx = m_aSelItems.Find((LPVOID)m_iCurSel);
+			if (idx != -1) {
+				m_aSelItems.SetAt(idx, (LPVOID*)(m_iCurSel + 1));
+			}
+			m_iCurSel += 1;
 		}
-		if (m_iCurSel >= iIndex) m_iCurSel += 1;
 		return true;
 	}
 
@@ -210,7 +213,16 @@ namespace DuiLib {
 
 			SelectItem(FindSelectable(iSel, false));
 		}
-		else if (iIndex < m_iCurSel) m_iCurSel -= 1;
+		else if (iIndex < m_iCurSel) {
+			m_iCurSel -= 1; 
+			for (int i = 0; i < m_aSelItems.GetSize(); ++i)
+			{
+				int sel = (int)m_aSelItems.GetAt(i);
+				if (iIndex < sel)
+					m_aSelItems.SetAt(i, (LPVOID*)(sel - 1));
+			}
+		}
+
 		return true;
 	}
 
@@ -235,7 +247,17 @@ namespace DuiLib {
 
 			SelectItem(FindSelectable(iSel, false));
 		}
-		else if (iIndex < m_iCurSel) m_iCurSel -= 1;
+		else if (iIndex < m_iCurSel) {
+			m_iCurSel -= 1;
+
+			for (int i = 0; i < m_aSelItems.GetSize(); ++i)
+			{
+				int sel = (int)m_aSelItems.GetAt(i);
+				if (iIndex < sel)
+					m_aSelItems.SetAt(i, (LPVOID*)(sel - 1));
+			}
+		}
+
 		return true;
 	}
 

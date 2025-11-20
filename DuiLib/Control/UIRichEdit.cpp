@@ -436,12 +436,18 @@ err:
 		CScrollBarUI* pVerticalScrollBar = m_re->GetVerticalScrollBar();
 		CScrollBarUI* pHorizontalScrollBar = m_re->GetHorizontalScrollBar();
 		if( fnBar == SB_VERT && pVerticalScrollBar ) {
+			dwStyle |= ES_AUTOVSCROLL;
+			pserv->OnTxPropertyBitsChange(TXTBIT_SCROLLBARCHANGE, dwStyle);
 			pVerticalScrollBar->SetVisible(fShow == TRUE);
 		}
 		else if( fnBar == SB_HORZ && pHorizontalScrollBar ) {
+			dwStyle |= ES_AUTOHSCROLL;
+			pserv->OnTxPropertyBitsChange(TXTBIT_SCROLLBARCHANGE, dwStyle);
 			pHorizontalScrollBar->SetVisible(fShow == TRUE);
 		}
 		else if( fnBar == SB_BOTH ) {
+			dwStyle |= ES_AUTOVSCROLL | ES_AUTOHSCROLL;
+			pserv->OnTxPropertyBitsChange(TXTBIT_SCROLLBARCHANGE, dwStyle);
 			if( pVerticalScrollBar ) pVerticalScrollBar->SetVisible(fShow == TRUE);
 			if( pHorizontalScrollBar ) pHorizontalScrollBar->SetVisible(fShow == TRUE);
 		}
@@ -451,14 +457,23 @@ err:
 	BOOL CTxtWinHost::TxEnableScrollBar (INT fuSBFlags, INT fuArrowflags)
 	{
 		if( fuSBFlags == SB_VERT ) {
+			dwStyle |= ES_AUTOVSCROLL | WS_VSCROLL;
+			if(pserv) pserv->OnTxPropertyBitsChange(TXTBIT_SCROLLBARCHANGE, dwStyle);
+
 			m_re->EnableScrollBar(true, m_re->GetHorizontalScrollBar() != NULL);
 			m_re->GetVerticalScrollBar()->SetVisible(fuArrowflags != ESB_DISABLE_BOTH);
 		}
 		else if( fuSBFlags == SB_HORZ ) {
+			dwStyle |= ES_AUTOHSCROLL | WS_VSCROLL;
+			if(pserv) pserv->OnTxPropertyBitsChange(TXTBIT_SCROLLBARCHANGE, dwStyle);
+
 			m_re->EnableScrollBar(m_re->GetVerticalScrollBar() != NULL, true);
 			m_re->GetHorizontalScrollBar()->SetVisible(fuArrowflags != ESB_DISABLE_BOTH);
 		}
 		else if( fuSBFlags == SB_BOTH ) {
+			dwStyle |= ES_AUTOHSCROLL | WS_VSCROLL | WS_HSCROLL | ES_AUTOHSCROLL;
+			if(pserv) pserv->OnTxPropertyBitsChange(TXTBIT_SCROLLBARCHANGE, dwStyle);
+
 			m_re->EnableScrollBar(true, true);
 			m_re->GetVerticalScrollBar()->SetVisible(fuArrowflags != ESB_DISABLE_BOTH);
 			m_re->GetHorizontalScrollBar()->SetVisible(fuArrowflags != ESB_DISABLE_BOTH);

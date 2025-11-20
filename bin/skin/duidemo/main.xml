@@ -4,11 +4,11 @@
   <Font shared="true" id="1" name="宋体" size="12" bold="false" underline="false"/>
   <Font shared="true" id="2" name="宋体" size="16" bold="false"/>
   <Font shared="true" id="3" name="宋体" size="18" bold="false"/>
-  
+
   <Default name="VScrollBar" shared="true" value="width=&quot;8&quot; showbutton1=&quot;false&quot; showbutton2=&quot;false&quot; thumbnormalimage=&quot;file='common/vscrollbar.png' source='0,60,8,100' corner='0,4,0,4'&quot; thumbhotimage=&quot;file='common/vscrollbar.png' source='8,60,16,100' corner='0,4,0,4'&quot; thumbpushedimage=&quot;file='common/vscrollbar.png' source='16,60,24,100' corner='0,4,0,4'&quot; railnormalimage=&quot;&quot; railhotimage=&quot;&quot; railpushedimage=&quot;&quot; raildisabledimage=&quot;&quot; bknormalimage=&quot;file='common/vscrollbar.png' source='0,0,8,60' corner='0,4,0,4'&quot; bkhotimage=&quot;&quot; bkpushedimage=&quot;&quot; bkdisabledimage=&quot;&quot; "/>
   <Default name="HScrollBar" shared="true" value="height=&quot;8&quot; showbutton1=&quot;false&quot; showbutton2=&quot;false&quot; thumbnormalimage=&quot;file='common/hscrollbar.png' source='0,0,32,8' corner='4,0,4,0'&quot; thumbhotimage=&quot;file='common/hscrollbar.png' source='0,8,32,16' corner='4,0,4,0'&quot; thumbpushedimage=&quot;file='common/hscrollbar.png' source='0,16,32,24' corner='4,0,4,0'&quot; railnormalimage=&quot;&quot; railhotimage=&quot;&quot; railpushedimage=&quot;&quot; raildisabledimage=&quot;&quot; bknormalimage=&quot;file='common/hscrollbar.png' source='0,0,32,8' corner='4,0,4,0'&quot; bkhotimage=&quot;&quot; bkpushedimage=&quot;&quot; bkdisabledimage=&quot;&quot; "/>
   <Default name="TreeNode" shared="true" value="height=&quot;30&quot;" />
-    
+
   <Style name="btnstyle_queding" shared="true" value="stateimage=&quot;res='common/queding.png' corner='6,6,6,6'&quot; statecount=&quot;3&quot; width=&quot;59&quot; height=&quot;23&quot; tooltip=&quot;确定&quot;"  />
   <Style name="btnstyle_quxiao" shared="true" value="stateimage=&quot;res='common/quxiao.png'&quot; statecount=&quot;3&quot; width=&quot;59&quot; height=&quot;23&quot; tooltip=&quot;取消&quot;"  />
 
@@ -30,7 +30,7 @@
   <VerticalLayout name="root" bkcolor="#FF202223">
     <HorizontalLayout name="appbar" height="64" >
       <HorizontalLayout name="apptitle" childpadding="6">
-        <Container width="64" height="64" bkimage="res='logo.jpg' rotate='45' fade='200'" />
+        <Container width="64" height="64" bkimage="res='logo.png' rotate='45' fade='200'" />
         <VerticalLayout inset="0,10,0,0" childpadding="5">
           <Label name="title_lb" height="20" autocalcwidth="true" text="duilib开源项目圈" valign="vcenter" align="left" wordbreak="false" textcolor="#FFEEEEEE" font="2" tooltip="duilib开源项目圈"/>
           <HorizontalLayout height="20" childpadding="20" >
@@ -60,6 +60,7 @@
         <Option width="98" text="拓展控件" name="ex_tab" style="colortab_style" />
         <Option width="98" text="动画控件" name="ani_tab" style="colortab_style" />
         <Option width="98" text="分割窗口" name="split_tab" style="colortab_style" />
+        <Option width="98" text="布局" name="layout_tab" style="colortab_style" />
         <Control />
       </HorizontalLayout>
 
@@ -73,7 +74,7 @@
               <Button name="qq_btn" text="问题咨询(&Q)" shortcut="Q"  style="colorbtn_style" width="120"/>
             </HorizontalLayout>
           </HorizontalLayout>
-          
+
           <Label height="1" bkimage="common/hor_line.png"/>
           <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="Label演示" cursor="hand" textcolor="#FF111111" glowsize="0" font="font13" width="80"/>
@@ -102,17 +103,17 @@
             </HorizontalLayout>
           </HorizontalLayout>
 
-          <Label height="1" bkimage="common/hor_line.png"/>          
-            <HorizontalLayout height="60" childvalign="vcenter">
-              <Label text="选择控件" textcolor="#FF111111" font="font13" width="80"/>
-              <HorizontalLayout childvalign="vcenter" childpadding="12" bordersize="1,1,1,1" bordercolor="#0">
-                <Option name="option1" text="复选框" textcolor="#FF111111" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
-                <Option name="radio1" group="radio" text="单选框" textcolor="#FF111111" textpadding="6,0,6,0" style="radio_style" width="0" autocalcwidth="true"/>
-                <Option name="radio2" group="radio" text="单选框" textcolor="#FF111111" textpadding="6,0,6,0" style="radio_style" width="0" autocalcwidth="true"/>
+          <Label height="1" bkimage="common/hor_line.png"/>
+          <HorizontalLayout height="60" childvalign="vcenter">
+            <Label text="选择控件" textcolor="#FF111111" font="font13" width="80"/>
+            <HorizontalLayout childvalign="vcenter" childpadding="12" bordersize="1,1,1,1" bordercolor="#0">
+              <Option name="option1" text="复选框" textcolor="#FF111111" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
+              <Option name="radio1" group="radio" text="单选框" textcolor="#FF111111" textpadding="6,0,6,0" style="radio_style" width="0" autocalcwidth="true"/>
+              <Option name="radio2" group="radio" text="单选框" textcolor="#FF111111" textpadding="6,0,6,0" style="radio_style" width="0" autocalcwidth="true"/>
 
-              </HorizontalLayout>
             </HorizontalLayout>
-          
+          </HorizontalLayout>
+
           <Label height="1" bkimage="common/hor_line.png"/>
           <HorizontalLayout height="60" childvalign="vcenter">
             <Label text="输入控件" textcolor="#FF111111" glowsize="0" font="font13" width="80"/>
@@ -138,7 +139,7 @@
                   <Button name="combo_closebtn" width="39" height="20" tooltip="关闭" normalimage="file='sysbtn/btn_close_normal.png'" hotimage="file='sysbtn/btn_close_highlight.png'" pushedimage="file='sysbtn/btn_close_down.png' "/>
                 </ListContainerElement>
               </Combo>
-              
+
               <Combo name="font_size" width="120" style="combo_style" textcolor="#FFFFFFFF" itemtextpadding="23,0,0,0" dropboxsize="0,600" dropbox="bordercolor=&quot;#FF666666&quot; bordersize=&quot;1&quot; bkcolor=&quot;#FF888888&quot;">
                 <ListLabelElement text="100" selected="true" height="23" />
                 <ListLabelElement text="10" height="23" bkimage="dest='4,7,20,23' res='other/icon.png'" mouse="false"/>
@@ -160,7 +161,7 @@
               </Combo>
 
               <Combo name="long_text" width="120" style="combo_style" textcolor="#FFFFFFFF" itemtextpadding="3,0,3,0" dropboxsize="0,600" dropbox="bordercolor=&quot;#FF666666&quot; bordersize=&quot;1&quot; bkcolor=&quot;#FF888888&quot; ">
-                
+
               </Combo>
             </HorizontalLayout>
           </HorizontalLayout>
@@ -259,7 +260,7 @@
                       </TreeNode>
                     </TreeNode>
                   </TreeNode>
-                  
+
                   <TreeNode text="A2" itemtextcolor="#FFFF0000" itemattr="font=&quot;3&quot;" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;">
                     <TreeNode text="B2" itemattr="font=&quot;3&quot;" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;">
                       <TreeNode text="C2" itemattr="font=&quot;3&quot;" innerstyle="folderattr=&quot;treenode_folder_style&quot; checkboxattr=&quot;treenode_checkbox_style&quot;" >
@@ -311,9 +312,9 @@
               </VerticalLayout>
             </HorizontalLayout>
           </VerticalLayout>
-          
+
         </HorizontalLayout>
-        
+
         <VerticalLayout name="ani_tab_panel" vscrollbar="true">
           <HorizontalLayout height="160" inset="0,6,0,6" >
             <Label text="滚动文字" textcolor="#FF111111" glowsize="0" font="font13" width="80"/>
@@ -337,12 +338,29 @@
           </HorizontalLayout>
 
         </VerticalLayout>
-        <VerticalLayout name="split_tab_panel" bkcolor="#FF000000">
-          <VerticalLayout inset="0,0,0,6" sepimm="true" sepheight="6" height="100" minheight="100" maxheight="300">
+        <HorizontalLayout name="split_tab_panel" bkcolor="#FF000000">
+          <HorizontalLayout inset="0,0,6,0" sepimm="true" sepwidth="6" width="500" minwidth="200" maxheight="600">
             <WebBrowser name="oneclick_browser1" homepage="about:blank" autonavi="true" delaycreate="false" />
-          </VerticalLayout>
+          </HorizontalLayout>
           <WebBrowser name="oneclick_browser2" homepage="about:blank" autonavi="true" delaycreate="false"/>
+        </HorizontalLayout>
+
+        <VerticalLayout name="layout_tab_panel" bkcolor="#FF000000">
+          <HorizontalLayout height="80" childvalign="vcenter" childpadding="2" inset="5,5,5,5">
+            <Button name="move_btn" userdata="float_parent" text="父控件移动" textcolor="#FF111111" textpadding="6,0,6,0" style="colorbtn_style" width="0" autocalcwidth="true"/>
+            <Button name="move_btn" userdata="float_child1" text="子控件移动" textcolor="#FF111111" textpadding="6,0,6,0" style="colorbtn_style" width="0" autocalcwidth="true"/>
+          </HorizontalLayout>
+
+          <VerticalLayout >
+            <VerticalLayout name="float_parent" bkcolor="#FFFF0000" float="true" width="300" height="300">
+              <VerticalLayout name="float_child1" bkcolor="#FFFFFF00" float="true" width="100" height="100">
+
+              </VerticalLayout>
+            </VerticalLayout>
+          </VerticalLayout>
+
         </VerticalLayout>
+
       
     </AnimationTabLayout>
     </VerticalLayout>

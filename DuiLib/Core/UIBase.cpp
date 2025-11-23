@@ -193,7 +193,7 @@ LDispatch:
 
 void CNotifyPump::NotifyPump(TNotifyUI& msg)
 {
-	///±éÀúĞéÄâ´°¿Ú
+	///éå†è™šæ‹Ÿçª—å£
 	if( !msg.sVirtualWnd.IsEmpty() ){
 		for( int i = 0; i< m_VirtualWndMap.GetSize(); i++ ) {
 			if( LPCTSTR key = m_VirtualWndMap.GetAt(i) ) {
@@ -207,7 +207,7 @@ void CNotifyPump::NotifyPump(TNotifyUI& msg)
 	}
 
 	///
-	//±éÀúÖ÷´°¿Ú
+	//éå†ä¸»çª—å£
 	LoopDispatch( msg );
 }
 
@@ -371,7 +371,7 @@ void CWindowWnd::CenterWindow()
 	if (hWndCenter!=NULL)
 		hWnd=hWndCenter;
 
-	// ´¦Àí¶àÏÔÊ¾Æ÷Ä£Ê½ÏÂÆÁÄ»¾ÓÖĞ
+	// å¤„ç†å¤šæ˜¾ç¤ºå™¨æ¨¡å¼ä¸‹å±å¹•å±…ä¸­
 	MONITORINFO oMonitor = {};
 	oMonitor.cbSize = sizeof(oMonitor);
 	::GetMonitorInfo(::MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST), &oMonitor);
@@ -400,14 +400,34 @@ void CWindowWnd::CenterWindow()
 void CWindowWnd::SetIcon(UINT nRes)
 {
 	HICON hIcon = (HICON)::LoadImage(CPaintManagerUI::GetInstance(), MAKEINTRESOURCE(nRes), IMAGE_ICON,
-		(::GetSystemMetrics(SM_CXICON) + 15) & ~15, (::GetSystemMetrics(SM_CYICON) + 15) & ~15,	// ·ÀÖ¹¸ßDPIÏÂÍ¼±êÄ£ºı
+		(::GetSystemMetrics(SM_CXICON) + 15) & ~15, (::GetSystemMetrics(SM_CYICON) + 15) & ~15,	// é˜²æ­¢é«˜DPIä¸‹å›¾æ ‡æ¨¡ç³Š
 		LR_DEFAULTCOLOR);
 	ASSERT(hIcon);
 	::SendMessage(m_hWnd, WM_SETICON, (WPARAM) TRUE, (LPARAM) hIcon);
 
 	hIcon = (HICON)::LoadImage(CPaintManagerUI::GetInstance(), MAKEINTRESOURCE(nRes), IMAGE_ICON,
-		(::GetSystemMetrics(SM_CXICON) + 15) & ~15, (::GetSystemMetrics(SM_CYICON) + 15) & ~15,	// ·ÀÖ¹¸ßDPIÏÂÍ¼±êÄ£ºı
+		(::GetSystemMetrics(SM_CXICON) + 15) & ~15, (::GetSystemMetrics(SM_CYICON) + 15) & ~15,	// é˜²æ­¢é«˜DPIä¸‹å›¾æ ‡æ¨¡ç³Š
 		LR_DEFAULTCOLOR);
+	ASSERT(hIcon);
+	::SendMessage(m_hWnd, WM_SETICON, (WPARAM) FALSE, (LPARAM) hIcon);
+}
+
+void CWindowWnd::SetIcon(LPCTSTR path)
+{
+	HINSTANCE instance = CPaintManagerUI::GetInstance();
+	int cx = (::GetSystemMetrics(SM_CXICON) + 15) & ~15;
+	int cy = (::GetSystemMetrics(SM_CYICON) + 15) & ~15;
+	HICON hIcon = (HICON)::LoadImage(instance, path, IMAGE_ICON,
+		cx, cy,	// é˜²æ­¢é«˜DPIä¸‹å›¾æ ‡æ¨¡ç³Š
+		LR_LOADFROMFILE);
+	ASSERT(hIcon);
+	::SendMessage(m_hWnd, WM_SETICON, (WPARAM) TRUE, (LPARAM) hIcon);
+
+	cx = (::GetSystemMetrics(SM_CXICON) + 15) & ~15;
+	cy = (::GetSystemMetrics(SM_CYICON) + 15) & ~15;
+	hIcon = (HICON)::LoadImage(instance, path, IMAGE_ICON,
+		cx, cy,	// é˜²æ­¢é«˜DPIä¸‹å›¾æ ‡æ¨¡ç³Š
+		LR_LOADFROMFILE);
 	ASSERT(hIcon);
 	::SendMessage(m_hWnd, WM_SETICON, (WPARAM) FALSE, (LPARAM) hIcon);
 }
